@@ -1,0 +1,190 @@
+#!/usr/bin/env bash
+#
+# Use rofi/zenity to change system runstate thanks to systemd.
+#
+# Note: this currently relies on associative array support in the shell.
+#
+# Inspired from i3pystatus wiki:
+# https://github.com/enkore/i3pystatus/wiki/Shutdown-Menu
+#
+# Copyright 2015 Benjamin Chrétien <chretien at lirmm dot fr>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# power-profiles-daemon implementation:
+# needs package power-profiles-daemon installed and the service running see here:
+# https://wiki.archlinux.org/title/CPU_frequency_scaling#power-profiles-daemon
+# used in i3-blocks: ~/.config/i3/i3blocks.conf together with: ~/.config/i3/scripts/ppd-status
+
+
+#######################################################################
+#                            BEGIN CONFIG                             #
+#######################################################################
+
+# Use a custom lock script
+#LOCKSCRIPT="i3lock-extra -m pixelize"
+
+# Colors: FG (foreground), BG (background), HL (highlighted)
+FG_COLOR="#bbbbbb"
+BG_COLOR="#111111"
+HLFG_COLOR="#111111"
+HLBG_COLOR="#bbbbbb"
+BORDER_COLOR="#222222"
+
+# Options not related to colors
+#ROFI_TEXT=":"
+#ROFI_OPTIONS=(-width -11 -location 0 -hide-scrollbar -bw 30 -color-window "#dd310027,#dd0310027,#dd310027" -padding 5)
+#ROFI_OPTIONS=(-width -18 -location 4 -hide-scrollbar -color-window "#cc310027,#00a0009a,#cc310027" -padding 5 -font "Sourcecode Pro Regular 10, FontAwesome 9")
+ROFI_OPTIONS=(-theme ~/.config/rofi/power-profiles.rasi)
+# Zenity options
+ZENITY_TITLE="Power Profiles"
+ZENITY_TEXT="Set Profiles:"
+ZENITY_OPTIONS=(--column= --hide-header)
+
+#######################################################################
+#                             END CONFIG                              #
+#######################################################################
+
+# Whether to ask for user's confirmation
+enable_confirmation=false
+
+# Preferred launcher if both are available
+preferred_launcher="rofi"
+
+usage="$(basename "$0") [-h] [-c] [-p name] -- display a menu for shutdown, reboot, lock etc.
+
+where:
+    -h  show this help text
+    -c  ask for user confirmation
+    -p  preferred launcher (rofi or zenity)
+
+This script depends on:
+  - systemd,
+  - i3,
+  - rofi or zenity."
+
+# Check whether the user-defined launcher is valid
+launcher_list=(rofi zenity)
+function check_launcher() {
+  if [[ ! "${launcher_list[@]}" =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    echo "Supported launchers: ${launcher_list[*]}"
+    exit 1
+  else
+    # Get array with unique elements and preferred launcher first
+    # Note: uniq expects a sorted list, so we cannot use it
+    i=1
+    launcher_list=($(for l in "$1" "${launcher_list[@]}"; do printf "%i %s\n" "$i" "$l"; let i+=1; done \
+      | sort -uk2 | sort -nk1 | cut -d' ' -f2- | tr '\n' ' '))
+  fi
+}
+
+# Parse CLI arguments
+while getopts "hcp:" option; do
+  case "${option}" in
+    h) echo "${usage}"
+       exit 0
+       ;;
+    c) enable_confirmation=true
+       ;;
+    p) preferred_launcher="${OPTARG}"
+       check_launcher "${preferred_launcher}"
+       ;;
+    *) exit 1
+       ;;
+  esac
+done
+
+# Check whether a command exists
+function command_exists() {
+  command -v "$1" &> /dev/null 2>&1
+}
+
+# systemctl required
+if ! command_exists systemctl ; then
+  exit 1
+fi
+
+# menu defined as an associative array
+typeset -A menu
+
+# Menu with keys/commands
+
+menu=(
+  [ Performance]="powerprofilesctl set performance"
+  [ Balanced]="powerprofilesctl set balanced"
+  [ Power Saver]="powerprofilesctl set power-saver"
+  [ Cancel]=""
+)
+
+menu_nrows=${#menu[@]}
+
+# Menu entries that may trigger a confirmation message
+menu_confirm="Shutdown Reboot Hibernate Suspend Halt Logout"
+
+launcher_exe=""
+launcher_options=""
+rofi_colors=""
+
+function prepare_launcher() {
+  if [[ "$1" == "rofi" ]]; then
+    rofi_colors=(-bc "${BORDER_COLOR}" -bg "${BG_COLOR}" -fg "${FG_COLOR}" \
+        -hlfg "${HLFG_COLOR}" -hlbg "${HLBG_COLOR}")
+    launcher_exe="rofi"
+    launcher_options=(-dmenu -i -lines "${menu_nrows}" -p "${ROFI_TEXT}" \
+        "${rofi_colors}" "${ROFI_OPTIONS[@]}")
+  elif [[ "$1" == "zenity" ]]; then
+    launcher_exe="zenity"
+    launcher_options=(--list --title="${ZENITY_TITLE}" --text="${ZENITY_TEXT}" \
+        "${ZENITY_OPTIONS[@]}")
+  fi
+}
+
+for l in "${launcher_list[@]}"; do
+  if command_exists "${l}" ; then
+    prepare_launcher "${l}"
+    break
+  fi
+done
+
+# No launcher available
+if [[ -z "${launcher_exe}" ]]; then
+  exit 1
+fi
+
+launcher=(${launcher_exe} "${launcher_options[@]}")
+selection="$(printf '%s\n' "${!menu[@]}" | sort | "${launcher[@]}")"
+
+function ask_confirmation() {
+  if [ "${launcher_exe}" == "rofi" ]; then
+    confirmed=$(echo -e "Yes\nNo" | rofi -dmenu -i -lines 2 -p "${selection}?" \
+      "${rofi_colors}" "${ROFI_OPTIONS[@]}")
+    [ "${confirmed}" == "Yes" ] && confirmed=0
+  elif [ "${launcher_exe}" == "zenity" ]; then
+    zenity --question --text "Are you sure you want to ${selection,,}?"
+    confirmed=$?
+  fi
+
+  if [ "${confirmed}" == 0 ]; then
+    i3-msg -q "exec --no-startup-id ${menu[${selection}]}"
+  fi
+}
+
+if [[ $? -eq 0 && ! -z ${selection} ]]; then
+  if [[ "${enable_confirmation}" = true && \
+        ${menu_confirm} =~ (^|[[:space:]])"${selection}"($|[[:space:]]) ]]; then
+    ask_confirmation
+  else
+    i3-msg -q "exec --no-startup-id ${menu[${selection}]}"
+  fi
+fi

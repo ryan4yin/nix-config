@@ -1,0 +1,106 @@
+EndeavourOS i3wm Keybindings cheat sheet:
+
+--> to update this run the following command:
+wget --backups=1 https://raw.githubusercontent.com/endeavouros-team/endeavouros-i3wm-setup/main/.config/i3/keybindings -P ~/.config/i3/
+
+All sources and updates are available at GitHub:
+https://github.com/endeavouros-team/endeavouros-i3wm-setup
+
+For reference consult our WIKI:
+https://discovery.endeavouros.com/window-tiling-managers/i3-wm/
+
+ = windows key
+
+# start alacritty
++Return 
+
+# kill focused window
++q
+
+# Application menu search by typing (fancy Rofi menu):
++d
+
+# Window switcher menu (fancy Rofi menu):
++t
+
+# fancy exit-menu on bottom right:
++Shift+e
+
+# Lock the system
+# lock with a picture or blurring the screen (options in config)
++l
+
+# reload the configuration file
++Shift+c
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
++Shift+r
+
+# keybinding in fancy rofi (automated)
+F1
+
+# full keybinding list in editor:
++F1
+
+# change window focus
++j focus left
++k focus down
++b focus up
++o focus right
+
+# alternatively, you can use the cursor keys:
++Left focus left
++Down focus down
++Up focus up
++Right focus right
+
+# move a focused window
++Shift+j move left
++Shift+k move down
++Shift+b move up
++Shift+o move right
+
+# alternatively, you can use the cursor keys:
++Shift+Left move left
++Shift+Down move down
++Shift+Up move up
++Shift+Right move right
+
+# split in horizontal orientation
++h split h
+
+# split in vertical orientation
++v split v
+
+# enter fullscreen mode for the focused container
++f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
++s layout stacking
++g layout tabbed
++e layout toggle split
+
+# toggle tiling / floating
++Shift+space floating toggle
+
+# change focus between tiling / floating windows
++space focus mode_toggle
+
+# focus the parent container
++a focus parent
+
+# focus the child container
+#+d focus child
+
+# resize floating window
++right mouse button
+
+## Multimedia Keys
+
+# Redirect sound to headphones
++p
+
+## App shortcuts
++w starts Firefox
++n starts Thunar
+ Button screenshot
