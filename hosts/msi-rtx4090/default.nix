@@ -8,7 +8,8 @@
   imports =
     [
       ../../modules/system.nix
-      ../../modules/i3.nix
+      ../../modules/hyprland.nix
+      ../../modules/nixpkgs-wayland.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -23,16 +24,25 @@
     systemd-boot.enable = true;
   };
 
-  networking.hostName = "msi-rtx4090"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking = {
+    hostName = "msi-rtx4090"; # Define your hostname.
+    wireless.enable = false;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
-  networking.defaultGateway = "192.168.5.201";
+    networkmanager.enable = true;
+    interfaces.ens18 = {
+      useDHCP = false;
+      ipv4.addresses = [ {
+        address = "192.168.5.66";
+        prefixLength = 24;
+      } ];
+    };
+    defaultGateway = "192.168.5.201";
+  };
+
 
   # for Nvidia GPU
   services.xserver.videoDrivers = ["nvidia"];

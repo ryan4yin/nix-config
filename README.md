@@ -5,13 +5,17 @@ This repository is home to the nix code that builds my systems.
 
 ## TODO
 
+- custom hyprland configs
+  - monitor resolution - 4k
+  - bar adjustment
+  - vscode run in wayland mode
+  - xwayland adjustment
+  - references
+    - https://github.com/notusknot/dotfiles-nix
+    - https://wiki.hyprland.org/Configuring/Configuring-Hyprland/
+    - https://github.com/notwidow/hyprland
 - vscode extensions - [nix-vscode-extensions](https://github.com/nix-community/nix-vscode-extensions)
 - secret management - [sops-nix](https://github.com/Mic92/sops-nix)
-- switch from i3wm to hyprland
-  - i3wm: old and stable, only support X11
-  - sway: compatible with i3wm, support Wayland. do not support Nvidia GPU officially.
-  - [hyprland](https://wiki.hyprland.org/Nix/Hyprland-on-NixOS/): project starts from 2022, support Wayland, envolving fast, good looking, support Nvidia GPU.
-
 
 ## Why Nix?
 

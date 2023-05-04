@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+## launch terminal with alt config
+
+CONFIG="$HOME/.config/hypr/foot/foot.ini"
+
+if [ "$1" == "-f" ]; then
+	foot --app-id='foot-float' --config="$CONFIG"
+elif [ "$1" == "-F" ]; then
+	foot --fullscreen --app-id='foot-full' --font="Iosevka Nerd Font:size=14" --override=pad=35x35 --config="$CONFIG"
+elif [ "$1" == "-s" ]; then
+	foot --app-id='foot-float' --config="$CONFIG" \
+	--window-size-pixels=$(slurp -b 1B1F28CC -c E06B74ff -s C778DD0D -w 2 -f "%wx%h")
+else
+	foot --config="$CONFIG"
+fi

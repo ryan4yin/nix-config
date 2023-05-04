@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+## wlogout with alt layout and style file
+
+LAYOUT="$HOME/.config/hypr/wlogout/layout"
+STYLE="$HOME/.config/hypr/wlogout/style.css"
+
+if [[ ! $(pidof wlogout) ]]; then
+	wlogout --layout ${LAYOUT} --css ${STYLE} \
+		--buttons-per-row 5 \
+		--column-spacing 50 \
+		--row-spacing 50 \
+		--margin-top 390 \
+		--margin-bottom 390 \
+		--margin-left 150 \
+		--margin-right 150
+else
+	pkill wlogout
+fi

@@ -34,7 +34,13 @@
       noto-fonts-emoji
 
       # nerdfonts
-      (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+      (nerdfonts.override { fonts = [
+        "FiraCode"
+        "JetBrainsMono" 
+        "Iosevka"
+      ];})
+
+      
     ];
 
     # use fonts specified by user rather than default ones
@@ -81,9 +87,11 @@
     git
     sysstat
     lm_sensors  # for `sensors` command
+
     # minimal screen capture tool, used by i3 blur lock to take a screenshot
     # print screen key is also bound to this tool in i3 config
     scrot
+
     neofetch
     xfce.thunar  # xfce4's file manager
     nnn          # terminal file manager
@@ -92,6 +100,7 @@
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
+
   services.power-profiles-daemon = {
     enable = true;
   };

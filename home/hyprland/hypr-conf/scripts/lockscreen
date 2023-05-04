@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+# Background Image
+IMAGE="$HOME/.config/hypr/wallpapers/lockscreen.png"
+
+# Colors
+bg='1e1e2e'		bgl='313244'		fg='d9e0ee'
+red='f38ba8'	green='a6e3a1'		yellow='f9e2af'
+blue='89b4fa'	magenta='cba6f7'	cyan='89dceb'
+alpha='00000000'
+
+# CMD
+swaylock -f \
+	\
+	`# General` \
+	--ignore-empty-password \
+	--show-failed-attempts \
+	--hide-keyboard-layout \
+	--indicator-caps-lock \
+	\
+	`# Appearance` \
+	--color ${bg}E6 \
+	`#--image ${IMAGE} --scaling fill` \
+	--font 'JetBrainsMono Nerd Font' --font-size 18 \
+	\
+	`# Backspace Key` \
+	--key-hl-color ${green} \
+	--caps-lock-key-hl-color ${blue} \
+	--bs-hl-color ${red} \
+	--caps-lock-bs-hl-color ${red} \
+	\
+	`# Indicator` \
+	--indicator-radius 120 \
+	--indicator-thickness 10 \
+	\
+	`# Inside Circle Colors` \
+	--inside-color ${alpha} \
+	--inside-clear-color ${alpha} \
+	--inside-caps-lock-color ${alpha} \
+	--inside-ver-color ${blue} \
+	--inside-wrong-color ${red} \
+	\
+	`# Layout Colors` \
+	--layout-bg-color ${cyan} \
+	--layout-border-color ${cyan} \
+	--layout-text-color ${bg} \
+	\
+	`# Line Colors` \
+	--line-color ${bg} \
+	--line-clear-color ${red} \
+	--line-caps-lock-color ${bg} \
+	--line-ver-color ${bg} \
+	--line-wrong-color ${bg} \
+	\
+	`# Ring Colors` \
+	--ring-color ${cyan} \
+	--ring-clear-color ${bg} \
+	--ring-caps-lock-color ${magenta} \
+	--ring-ver-color ${blue} \
+	--ring-wrong-color ${red} \
+	\
+	`# Separator Color` \
+	--separator-color ${bg} \
+	\
+	`# Text Colors` \
+	--text-color ${fg} \
+	--text-clear-color ${fg} \
+	--text-caps-lock-color ${fg} \
+	--text-ver-color ${bg} \
+	--text-wrong-color ${bg}

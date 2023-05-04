@@ -4,7 +4,7 @@
 
   imports = [
     ./fcitx5
-    ./i3
+    ./hyprland
     ./programs
     ./rofi
     ./shell

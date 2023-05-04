@@ -13,8 +13,10 @@
     pavucontrol
     playerctl
     pulsemixer
+
     # images
     imv
+    imagemagick
   ];
 
   programs = {

@@ -18,9 +18,12 @@
     # nix community's cache server
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     ];
   };
 
@@ -34,6 +37,11 @@
     #　follows 是　inputs 中的继承语法
     # 这里使　home-manager 的　nixpkgs 这个 inputs 与当前　flake 的　inputs.nixpkgs 保持一致，避免依赖的　nixpkgs 版本不一致导致问题
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # modern window compositor
+    hyprland.url = "github:hyprwm/Hyprland";
+    # community wayland nixpkgs
+    nixpkgs-wayland  = { url = "github:nix-community/nixpkgs-wayland"; };
 
     # vscode 插件库
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
@@ -70,6 +78,7 @@
         #
         # nix flake 的 modules 系统可将配置模块化，提升配置的可维护性
         # 默认只能传上面这四个参数，如果需要传其他参数，必须使用 specialArgs
+        specialArgs = {inherit inputs;};
         modules = [
           ./hosts/nixos-test
 
@@ -84,12 +93,20 @@
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.ryan = import ./home;
           }
+
+          ({pkgs, config, ... }: {
+            config = {
+              # use it as an overlay
+              nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
+            };
+          })
         ];
       };
 
       msi-rtx4090 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
+        specialArgs = {inherit inputs;}; 
         modules = [
           ./hosts/msi-rtx4090
 

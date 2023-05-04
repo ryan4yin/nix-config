@@ -1,0 +1,60 @@
+/** ********** Fonts ********** **/
+* {
+    font-family: "JetBrains Mono", "Iosevka Nerd Font", archcraft, sans-serif;
+    font-size: 12px;
+}
+
+#window {
+	background-color: --wofi-color0;
+	color: --wofi-color2;
+	border: 2px solid --wofi-color1;
+	border-radius: 0px;
+}
+
+#outer-box {
+	padding: 20px;
+}
+
+#input {
+	background-color: --wofi-color1;
+	border: 0px solid --wofi-color3;
+	padding: 8px 12px;
+}
+
+#scroll {
+	margin-top: 20px;
+}
+
+#inner-box {
+}
+
+#img {
+	padding-right: 8px;
+}
+
+#text {
+	color: --wofi-color2;
+}
+
+#text:selected {
+	color: --wofi-color0;
+}
+
+#entry {
+	padding: 6px;
+}
+
+#entry:selected {
+	background-color: --wofi-color3;
+	color: --wofi-color0;
+}
+
+#unselected {
+}
+
+#selected {
+}
+
+#input, #entry:selected {
+	border-radius: 4px;
+}
