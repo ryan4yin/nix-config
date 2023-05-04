@@ -16,20 +16,14 @@
 
   # Bootloader.
   boot.loader = {
-    # efi = {
-    #   canTouchEfiVariables = true;
-    #   efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
-    # };
-    grub = {
-      enable = true;
-      device = "/dev/sda";  #  "nodev"
-      efiSupport = false;
-      useOSProber = true;
-      #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
+    efi = {
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
     };
+    systemd-boot.enable = true;
   };
 
-  networking.hostName = "nixos-test"; # Define your hostname.
+  networking.hostName = "msi-rtx4090"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -39,6 +33,14 @@
   # Enable networking
   networking.networkmanager.enable = true;
   networking.defaultGateway = "192.168.5.201";
+
+  # for Nvidia GPU
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.opengl.enable = true;
+  hardware.nvidia = {
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    modesetting.enable = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

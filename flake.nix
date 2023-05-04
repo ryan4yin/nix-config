@@ -25,7 +25,7 @@
   };
 
   # 这是 flake.nix 的标准格式，inputs 是 flake 的依赖，outputs 是 flake 的输出
-  # inputs 中的每一项都被拉取、构建后，被作为参数传递给 outputs 函数 
+  # inputs 中的每一项都被拉取、构建后，被作为参数传递给 outputs 函数
   inputs = {
     # flake inputs 有很多种引用方式，应用最广泛的是 github 的引用方式
 
@@ -42,12 +42,12 @@
   # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。
   # 不过 self 是个例外，这个特殊参数指向 outputs 自身（自引用），以及 flake 根目录
   # 这里的 @ 语法将函数的参数 attribute set 取了个别名，方便在内部使用
-  outputs = inputs@{ 
+  outputs = inputs@{
       self,
       nixpkgs,
       home-manager,
       nix-vscode-extensions,
-      ... 
+      ...
   }: {
     # 名为 nixosConfigurations 的 outputs 会在执行 `nixos-rebuild switch --flake .` 时被使用
     # 默认情况下会使用与主机 hostname 同名的 nixosConfigurations，但是也可以通过 `--flake .#<name>` 来指定
@@ -62,7 +62,7 @@
         # NixOS Module 可以是一个 attribute set，也可以是一个返回 attribute set 的函数
         # 如果是函数，那么它的参数就是当前的 NixOS Module 的参数.
         # 根据 Nix Wiki 对 NixOS modules 的描述，NixOS modules 函数的参数可以有这四个（详见本仓库中的 modules 文件）：
-        # 
+        #
         #  config: The configuration of the entire system
         #  options: All option declarations refined with all definition and declaration references.
         #  pkgs: The attribute set extracted from the Nix package collection and enhanced with the nixpkgs.config option.
@@ -71,7 +71,7 @@
         # nix flake 的 modules 系统可将配置模块化，提升配置的可维护性
         # 默认只能传上面这四个参数，如果需要传其他参数，必须使用 specialArgs
         modules = [
-          ./hosts
+          ./hosts/nixos-test
 
           # home-manager 作为 nixos 的一个 module
           # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
@@ -87,8 +87,29 @@
         ];
       };
 
+      msi-rtx4090 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        modules = [
+          ./hosts/msi-rtx4090
+
+          # home-manager 作为 nixos 的一个 module
+          # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
+            home-manager.extraSpecialArgs = inputs;
+            home-manager.users.ryan = import ./home;
+          }
+        ];
+      };
+
+
       # 如果你在 x86_64-linux 平台上执行 nix build，那么默认会使用这个配置，或者也能通过 `.#<name>` 参数来指定非 default 的配置
-      # packages.x86_64-linux.default = 
+      # packages.x86_64-linux.default =
     };
   };
 }
