@@ -27,7 +27,8 @@
   # 这是 flake.nix 的标准格式，inputs 是 flake 的依赖，outputs 是 flake 的输出
   # inputs 中的每一项都被拉取、构建后，被作为参数传递给 outputs 函数 
   inputs = {
-    # 以 url 的形式指定依赖，flake 会自动拉取、构建
+    # flake inputs 有很多种引用方式，应用最广泛的是 github 的引用方式
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";      # 使用 nixos-unstable 分支
     home-manager.url = "github:nix-community/home-manager";
     #　follows 是　inputs 中的继承语法
@@ -51,7 +52,7 @@
     # 名为 nixosConfigurations 的 outputs 会在执行 `nixos-rebuild switch --flake .` 时被使用
     # 默认情况下会使用与主机 hostname 同名的 nixosConfigurations，但是也可以通过 `--flake .#<name>` 来指定
     nixosConfigurations = {
-      # hostname 为 nixos 的主机会使用这个配置
+      # hostname 为 nixos-test 的主机会使用这个配置
       # 这里使用了 nixpkgs.lib.nixosSystem 函数来构建配置，后面的 attributes set 是它的参数
       # 在 nixos 上使用此命令部署配置：`nixos-rebuild switch --flake .#nixos-test`
       nixos-test = nixpkgs.lib.nixosSystem {
