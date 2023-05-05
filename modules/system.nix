@@ -21,13 +21,13 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-  
+
 
   fonts = {
     # use fonts specified by user rather than default ones
     enableDefaultFonts = false;
     fontDir.enable = true;
-    
+
     fonts = with pkgs; [
       # icon fonts
       material-design-icons
@@ -41,10 +41,10 @@
       # nerdfonts
       (nerdfonts.override { fonts = [
         "FiraCode"
-        "JetBrainsMono" 
+        "JetBrainsMono"
         "Iosevka"
       ];})
-      
+
     ];
 
     # user defined fonts
@@ -98,6 +98,7 @@
     nnn          # terminal file manager
   ];
 
+
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -132,7 +133,7 @@
   users.users.ryan = {
     isNormalUser = true;
     description = "ryan";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
     ];
