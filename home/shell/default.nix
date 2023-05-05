@@ -11,7 +11,8 @@ in {
   ];
 
   # add environment variables
-  home.sessionVariables = {
+  # 注意不要用 home.sessionVariables 或 home.xxx.sessionVariables，这俩参数没用
+  systemd.user.sessionVariables = {
     # clean up ~
     LESSHISTFILE = cache + "/less/history";
     LESSKEY = c + "/less/lesskey";

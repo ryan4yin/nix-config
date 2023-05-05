@@ -24,9 +24,14 @@
   
 
   fonts = {
+    # use fonts specified by user rather than default ones
+    enableDefaultFonts = false;
+    fontDir.enable = true;
+    
     fonts = with pkgs; [
       # icon fonts
       material-design-icons
+      font-awesome
 
       # normal fonts
       noto-fonts
@@ -39,12 +44,8 @@
         "JetBrainsMono" 
         "Iosevka"
       ];})
-
       
     ];
-
-    # use fonts specified by user rather than default ones
-    enableDefaultFonts = false;
 
     # user defined fonts
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's

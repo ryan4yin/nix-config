@@ -97,7 +97,9 @@
           ({pkgs, config, ... }: {
             config = {
               # use it as an overlay
-              nixpkgs.overlays = [ inputs.nixpkgs-wayland.overlay ];
+              nixpkgs.overlays = [ 
+                inputs.nixpkgs-wayland.overlay
+              ];
             };
           })
         ];

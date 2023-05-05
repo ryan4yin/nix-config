@@ -7,9 +7,6 @@
 }: 
 
 {
-
-  # if use vscode in wayland, uncomment this line
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
   programs.vscode = {
     enable = true;
     userSettings = {

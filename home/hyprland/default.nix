@@ -10,7 +10,16 @@
     recursive = true;
   };
 
-	home.packages = with pkgs; [
+  # allow fontconfig to discover fonts and configurations installed through home.packages 
+  fonts.fontconfig.enable = true;
+
+	home.packages = 
+    let
+      icomoon-feather-font = pkgs.callPackage ./icomoon-feather-font.nix { };
+    in
+    with pkgs; [
+      icomoon-feather-font
+
     waybar        # for the status bar
     swaybg        # for setting the wallpaper
     swayidle      # for setting the idle timeout
@@ -35,4 +44,15 @@
     
     viewnior  # Elegant Image Viewer 
 	];
+
+  # if use vscode in wayland, uncomment those line
+  systemd.user.sessionVariables = {
+    "NIXOS_OZONE_WL" = "1";   # for vscode
+    # for hyprland with nvidia gpu, ref https://wiki.hyprland.org/Nvidia/
+    "LIBVA_DRIVER_NAME" = "nvidia";
+    "XDG_SESSION_TYPE" = "wayland";
+    "GBM_BACKEND" = "nvidia-drm";
+    "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
+    "WLR_NO_HARDWARE_CURSORS" = "1";
+  };
 }
