@@ -42,9 +42,6 @@
     hyprland.url = "github:hyprwm/Hyprland";
     # community wayland nixpkgs
     nixpkgs-wayland  = { url = "github:nix-community/nixpkgs-wayland"; };
-
-    # vscode 插件库
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。
@@ -54,7 +51,6 @@
       self,
       nixpkgs,
       home-manager,
-      nix-vscode-extensions,
       ...
   }: {
     # 名为 nixosConfigurations 的 outputs 会在执行 `nixos-rebuild switch --flake .` 时被使用

@@ -5,16 +5,6 @@ This repository is home to the nix code that builds my systems.
 
 ## TODO
 
-- custom hyprland configs
-  - monitor resolution - 4k
-  - bar adjustment
-  - vscode run in wayland mode
-  - xwayland adjustment
-  - references
-    - https://github.com/notusknot/dotfiles-nix
-    - https://wiki.hyprland.org/Configuring/Configuring-Hyprland/
-    - https://github.com/notwidow/hyprland
-- vscode extensions - [nix-vscode-extensions](https://github.com/nix-community/nix-vscode-extensions)
 - secret management - [sops-nix](https://github.com/Mic92/sops-nix)
 
 ## Why Nix?
@@ -29,4 +19,12 @@ After installed NixOS with `nix-command` & `flake` enabled, you can deploy this 
 ```bash
 sudo nixos-rebuild switch .#nixos-test
 ```
+
+## Other Interesting Dotfiles
+
+Other configurations from where I learned and copied:
+
+- https://github.com/notwidow/hyprland
+- https://github.com/notusknot/dotfiles-nix
+
 
