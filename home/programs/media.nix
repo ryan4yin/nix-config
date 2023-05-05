@@ -15,8 +15,10 @@
     pulsemixer
 
     # images
-    imv
+    viu  # terminal image viewer
+    imv  # simple image viewer
     imagemagick
+    deepin.image-editor
   ];
 
   programs = {

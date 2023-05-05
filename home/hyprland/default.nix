@@ -10,10 +10,10 @@
     recursive = true;
   };
 
-  # allow fontconfig to discover fonts and configurations installed through home.packages 
+  # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
 
-	home.packages = 
+	home.packages =
     let
       icomoon-feather-font = pkgs.callPackage ./icomoon-feather-font.nix { };
     in
@@ -41,8 +41,6 @@
     mpd      # for playing system sounds
     mpc-cli  # command-line mpd client
     ncmpcpp  # a mpd client with a UI
-    
-    viewnior  # Elegant Image Viewer 
 	];
 
   # if use vscode in wayland, uncomment those line
