@@ -33,7 +33,9 @@
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
     networkmanager.enable = true;
-    interfaces.ens18 = {
+
+    enableIPv6 = false;  # disable ipv6
+    interfaces.enp5s0 = {
       useDHCP = false;
       ipv4.addresses = [ {
         address = "192.168.5.66";
@@ -41,6 +43,10 @@
       } ];
     };
     defaultGateway = "192.168.5.201";
+    nameservers = [
+      "119.29.29.29"  # DNSPod
+      "223.5.5.5"     # AliDNS
+    ];
   };
 
 
