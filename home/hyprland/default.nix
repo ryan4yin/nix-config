@@ -9,6 +9,8 @@
     # copy the scripts directory recursively
     recursive = true;
   };
+  home.file.".config/hypr/wallpapers/lockscreen.webp".source = ../wallpapers/lockscreen.webp;
+  home.file.".config/hypr/wallpapers/wallpaper.webp".source = ../wallpapers/wallpaper.webp;
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;

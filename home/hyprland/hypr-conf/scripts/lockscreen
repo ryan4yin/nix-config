@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Background Image
-IMAGE="$HOME/.config/hypr/wallpapers/lockscreen.png"
+IMAGE="$HOME/.config/hypr/wallpapers/lockscreen.webp"
 
 # Colors
 bg='1e1e2e'		bgl='313244'		fg='d9e0ee'
