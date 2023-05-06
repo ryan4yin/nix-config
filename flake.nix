@@ -46,7 +46,7 @@
     nixpkgs-wayland  = { url = "github:nix-community/nixpkgs-wayland"; };
 
     # nixos-cn 提供了一些国内常用的程序包，如 qq wechat dingtalk 等
-    inputs.nixos-cn = {
+    nixos-cn = {
       url = "github:nixos-cn/flakes";
       # 强制 nixos-cn 和该 flake 使用相同版本的 nixpkgs
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,6 +60,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixos-cn,
       ...
   }: {
     # 名为 nixosConfigurations 的 outputs 会在执行 `nixos-rebuild switch --flake .` 时被使用

@@ -8,7 +8,7 @@
     firefox-wayland
   ];
 
-  programs = {
+  programs =
     let commandLineArgs = [ "--enable-wayland-ime" "--ozone-platform=wayland" ];
     in {
       chromium = {
@@ -20,5 +20,4 @@
         inherit commandLineArgs;
       };
     };
-  };
 }

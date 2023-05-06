@@ -1,4 +1,4 @@
-{config, ...}: let
+{config, pkgs, ...}: let
   browser = ["firefox.desktop"];
 
   # XDG MIME types
@@ -44,14 +44,5 @@ in {
       };
     };
 
-    # https://github.com/flatpak/xdg-desktop-portal
-    # enable wayland wlroots support
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-    };
   };
 }
