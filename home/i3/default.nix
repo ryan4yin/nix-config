@@ -7,7 +7,7 @@
   # 直接从当前文件夹中读取配置文件作为配置内容
 
   # wallpaper, binary file
-  home.file.".config/i3/wallpaper.webp".source = ../wallpapers/wallpaper.webp;
+  home.file.".config/i3/wallpaper.png".source = ../wallpapers/wallpaper.png;
   home.file.".config/i3/config".source = ./config;
   home.file.".config/i3/i3blocks.conf".source = ./i3blocks.conf;
   home.file.".config/i3/keybindings".source = ./keybindings;

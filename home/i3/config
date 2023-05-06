@@ -346,7 +346,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # set wallpaper
 # exec --no-startup-id sleep 2 && nitrogen --restore
-exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/i3/wallpaper.webp
+exec --no-startup-id sleep 1 && feh --bg-fill ~/.config/i3/wallpaper.png
 
 # set powersavings for display:
 exec --no-startup-id xset s 480 dpms 600 600 600
