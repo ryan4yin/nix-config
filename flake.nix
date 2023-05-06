@@ -19,11 +19,13 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://nixpkgs-wayland.cachix.org"
+      "https://nixos-cn.cachix.org"
     ];
     extra-trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "nixos-cn.cachix.org-1:L0jEaL6w7kwQOPlLoCR3ADx+E3Q8SEFEcB9Jaibl0Xg="
     ];
   };
 
@@ -42,6 +44,13 @@
     hyprland.url = "github:hyprwm/Hyprland";
     # community wayland nixpkgs
     nixpkgs-wayland  = { url = "github:nix-community/nixpkgs-wayland"; };
+
+    # nixos-cn 提供了一些国内常用的程序包，如 qq wechat dingtalk 等
+    inputs.nixos-cn = {
+      url = "github:nixos-cn/flakes";
+      # 强制 nixos-cn 和该 flake 使用相同版本的 nixpkgs
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。
@@ -119,6 +128,13 @@
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.ryan = import ./home;
           }
+
+          # 将 nixos-cn flake 提供的 registry 添加到全局 registry 列表中
+          # 可在`nixos-rebuild switch`之后通过`nix registry list`查看
+          nixos-cn.nixosModules.nixos-cn-registries
+
+          # 引入nixos-cn flake提供的NixOS模块
+          nixos-cn.nixosModules.nixos-cn
         ];
       };
 
