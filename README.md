@@ -37,4 +37,4 @@ Other configurations from where I learned and copied:
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
 - [davidak/nixos-config](https://codeberg.org/davidak/nixos-config)
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
-
+- [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)

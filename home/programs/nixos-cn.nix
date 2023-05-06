@@ -7,6 +7,7 @@
 {
 
   home.packages = with nixos-cn; [
+    qq
     wechat-uos
     netease-cloud-music
   ];

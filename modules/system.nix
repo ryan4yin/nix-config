@@ -89,8 +89,31 @@
     wget
     curl
     git
+
+    # networking tools
+    ethtool
+    iperf3
+    nmap
+    socat
+
+    # system tools
     sysstat
     lm_sensors  # for `sensors` command
+
+    # misc
+    findutils 
+    file
+    which
+    tree
+    gnused
+    gnutar
+    gawk
+    p7zip
+    xz
+    zstd
+
+    # video/audio tools
+    libva-utils
 
     # minimal screen capture tool, used by i3 blur lock to take a screenshot
     # print screen key is also bound to this tool in i3 config
@@ -133,14 +156,17 @@
       #media-session.enable = true;
     };
 
-    udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+    udev.packages = with pkgs; [ 
+      gnome.gnome-settings-daemon
+      platformio  # udev rules for platformio
+    ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ryan = {
     isNormalUser = true;
     description = "ryan";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "wireshark" ];
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
     ];

@@ -10,23 +10,74 @@
     yq-go    # https://github.com/mikefarah/yq
     htop
 
+    ## networking tools
+    wireshark
+    wireguard-tools  # manage wireguard vpn manually, via wg-quick
+
     # misc
     libnotify
     wineWowPackages.wayland
     xdg-utils
-    graphviz
 
     # productivity
     obsidian
+    hugo
 
     # IDE
     insomnia
+    jetbrains.pycharm-community
+    # jetbrains.idea-community
 
     # cloud native
     docker-compose
     kubectl
+    kubernetes-helm
+    terraform
+    pulumi
+
+    # cloud provider
+    awscli
+
+    # python
+    conda
+
+    # C
+    clang-tools
+    clang-analyzer
+    lldb
+    gnumake
+    cmake
+    autoconf
+    automake
+    bison
+    cppcheck
+    fakeroot
+    flex
+    gettext
+    groff
+    libtool
+    m4
+    patch
+    pkgconf
+    texinfo
+    binutils
 
 
+    # Golang
+    delve
+    go
+    go-outline
+    go-tools
+    go2nix
+    gomodifytags
+    gopls
+    gotests
+    impl
+
+    # Rust
+    rustup
+
+    # nodejs
     nodejs
     nodePackages.npm
     nodePackages.pnpm
@@ -36,6 +87,10 @@
     dbeaver
     mycli
     pgcli
+
+    # desktop
+    tdesktop
+    discord
   ];
 
   programs = {
@@ -65,6 +120,7 @@
     jq.enable = true;    # A lightweight and flexible command-line JSON processor
     ssh.enable = true;
     aria2.enable = true;
+    adb.enable = true;
 
     skim = {
       enable = true;
@@ -74,6 +130,11 @@
         "--preview 'exa --icons --git --color always -T -L 3 {} | head -200'"
         "--exact"
       ];
+    };
+
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
   };
 

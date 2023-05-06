@@ -3,18 +3,22 @@
   config,
   ...
 }: {
-  programs = {
-    chromium = {
-      enable = true;
-      commandLineArgs = ["--enable-features=TouchpadOverscrollHistoryNavigation"];
-      extensions = [
-        # {id = "";}  // extension id, query from chrome web store
-      ];
-    };
+  home.packages = with pkgs; [
+    # use wayland version of firefox
+    firefox-wayland
+  ];
 
-    firefox = {
-      enable = true;
-      profiles.ryan = {};
+  programs = {
+    let commandLineArgs = [ "--enable-wayland-ime" "--ozone-platform=wayland" ];
+    in {
+      chromium = {
+        enable = true;
+        inherit commandLineArgs;
+      };
+      google-chrome = {
+        enable = true;
+        inherit commandLineArgs;
+      };
     };
   };
 }

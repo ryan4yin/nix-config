@@ -43,5 +43,15 @@ in {
         XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
       };
     };
+
+    # https://github.com/flatpak/xdg-desktop-portal
+    # enable wayland wlroots support
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
   };
 }

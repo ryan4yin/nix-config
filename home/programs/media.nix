@@ -20,7 +20,17 @@
     viu  # terminal image viewer
     imv  # simple image viewer
     imagemagick
-    deepin.image-editor
+    graphviz
+
+    # creative
+    blender   # 3d modeling
+    gimp      # image editing
+    inkscape  # vector graphics
+    krita     # digital painting
+
+    # 3d printing, eletrical engineering
+    kicad
+    
   ];
 
   programs = {

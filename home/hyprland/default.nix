@@ -27,14 +27,16 @@
     swayidle      # for setting the idle timeout
     swaylock      # for locking the screen
     wl-clipboard  # for copying and pasting
+
     wf-recorder   # for screen recording
+    grim      # for taking screenshots
+    slurp     # for selecting a region to screenshot
+    # TODO replace by `flameshot gui --raw | wl-copy`
 
     xfce.xfce4-appfinder  # for the application launcher
 
     wofi      # for the application launcher
     mako      # for the notification daemon
-    grim      # for taking screenshots
-    slurp     # for selecting a region to screenshot
 
     light    # for changing the screen brightness
     yad      # for the brightness popup
@@ -48,6 +50,8 @@
   # if use vscode in wayland, uncomment those line
   systemd.user.sessionVariables = {
     "NIXOS_OZONE_WL" = "1";   # for vscode
+    "MOZ_ENABLE_WAYLAND" = "1";
+
     # for hyprland with nvidia gpu, ref https://wiki.hyprland.org/Nvidia/
     "LIBVA_DRIVER_NAME" = "nvidia";
     "XDG_SESSION_TYPE" = "wayland";
