@@ -9,7 +9,6 @@
     ripgrep
     yq-go    # https://github.com/mikefarah/yq
     htop
-    nvtop
 
     ## networking tools
     wireshark

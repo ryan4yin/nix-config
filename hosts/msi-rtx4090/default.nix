@@ -9,7 +9,6 @@
     [
       ../../modules/system.nix
       ../../modules/hyprland.nix
-      ../../modules/nixpkgs-wayland.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -51,14 +50,22 @@
 
 
   # for Nvidia GPU
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.opengl.enable = true;
+
+  services.xserver.videoDrivers = ["nvidia"];  # will install nvidia-vaapi-driver by default
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     modesetting.enable = true;
+    powerManagement.enable = true;
   };
 
-  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl = {
+    enable = true;
+    # if hardware.opengl.driSupport is enabled, mesa is installed and provides Vulkan for supported hardware. 
+    driSupport = true;
+    # needed by nvidia-docker
+    driSupport32Bit = true;
+  };
+
   virtualisation.docker = {
     enable = true;
     enableNvidia = true;

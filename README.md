@@ -5,6 +5,10 @@ This repository is home to the nix code that builds my systems.
 
 ## TODO
 
+- fix wayland related problems
+  - fcitx5 input method - currently not work in vscode, and failed to add flypy input method
+- status bar and other hyprland scripts
+  - some of them do not work
 - [sops-nix](https://github.com/Mic92/sops-nix): secret management
 - [devShell](https://github.com/numtide/devshell): manage development environments
 

@@ -34,7 +34,9 @@
   inputs = {
     # flake inputs 有很多种引用方式，应用最广泛的是 github 的引用方式
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";      # 使用 nixos-unstable 分支
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";       # 使用 nixos-unstable 分支 for nix flakes
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-22.11";    # unstable branch may be broken sometimes, use stable branch when necessary
+
     home-manager.url = "github:nix-community/home-manager";
     #　follows 是　inputs 中的继承语法
     # 这里使　home-manager 的　nixpkgs 这个 inputs 与当前　flake 的　inputs.nixpkgs 保持一致，避免依赖的　nixpkgs 版本不一致导致问题
@@ -43,7 +45,7 @@
     # modern window compositor
     hyprland.url = "github:hyprwm/Hyprland";
     # community wayland nixpkgs
-    nixpkgs-wayland  = { url = "github:nix-community/nixpkgs-wayland"; };
+    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
     # nixos-cn 提供了一些国内常用的程序包，如 qq wechat dingtalk 等
     nixos-cn = {
@@ -59,6 +61,7 @@
   outputs = inputs@{
       self,
       nixpkgs,
+      nixpkgs-stable,
       home-manager,
       nixos-cn,
       ...
@@ -84,7 +87,10 @@
         #
         # nix flake 的 modules 系统可将配置模块化，提升配置的可维护性
         # 默认只能传上面这四个参数，如果需要传其他参数，必须使用 specialArgs
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit nixos-cn;
+          inherit nixpkgs-stable;
+        }; 
         modules = [
           ./hosts/nixos-test
 
@@ -114,7 +120,10 @@
       msi-rtx4090 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        specialArgs = {inherit inputs;}; 
+        specialArgs = {
+          inherit nixos-cn;
+          inherit nixpkgs-stable;
+        }; 
         modules = [
           ./hosts/msi-rtx4090
 
@@ -129,13 +138,6 @@
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.ryan = import ./home;
           }
-
-          # 将 nixos-cn flake 提供的 registry 添加到全局 registry 列表中
-          # 可在`nixos-rebuild switch`之后通过`nix registry list`查看
-          nixos-cn.nixosModules.nixos-cn-registries
-
-          # 引入nixos-cn flake提供的NixOS模块
-          nixos-cn.nixosModules.nixos-cn
         ];
       };
 

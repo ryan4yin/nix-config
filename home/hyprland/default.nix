@@ -47,10 +47,9 @@
     ncmpcpp  # a mpd client with a UI
 	];
 
-  # if use vscode in wayland, uncomment those line
   systemd.user.sessionVariables = {
-    "NIXOS_OZONE_WL" = "1";   # for vscode
-    "MOZ_ENABLE_WAYLAND" = "1";
+    "NIXOS_OZONE_WL" = "1";  # for any ozone-based browser & electron apps to run on wayland
+    "MOZ_ENABLE_WAYLAND" = "1";  # for firefox to run on wayland
 
     # for hyprland with nvidia gpu, ref https://wiki.hyprland.org/Nvidia/
     "LIBVA_DRIVER_NAME" = "nvidia";

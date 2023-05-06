@@ -114,6 +114,11 @@
 
     # video/audio tools
     libva-utils
+    nvtop
+    vdpauinfo
+    vulkan-tools
+    glxinfo
+    glmark2
 
     # minimal screen capture tool, used by i3 blur lock to take a screenshot
     # print screen key is also bound to this tool in i3 config

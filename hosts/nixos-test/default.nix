@@ -9,7 +9,6 @@
     [
       ../../modules/system.nix
       ../../modules/hyprland.nix
-      ../../modules/nixpkgs-wayland.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix

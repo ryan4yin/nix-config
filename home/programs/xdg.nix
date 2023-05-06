@@ -21,8 +21,8 @@
     "video/*" = ["mpv.dekstop"];
     "image/*" = ["imv.desktop"];
     "application/json" = browser;
-    "application/pdf" = ["org.pwmt.zathura.desktop.desktop"];
-    "x-scheme-handler/discord" = ["discordcanary.desktop"];
+    "application/pdf" = ["org.pwmt.zathura.desktop.desktop"];  # TODO: pdf viewer
+    "x-scheme-handler/discord" = ["discord.desktop"];
     "x-scheme-handler/spotify" = ["spotify.desktop"];
     "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
   };
@@ -43,6 +43,5 @@ in {
         XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/Screenshots";
       };
     };
-
   };
 }

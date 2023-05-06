@@ -15,9 +15,12 @@
     };
 
     displayManager = {
-        defaultSession = "hyprland";
-        lightdm.enable = false;
-        gdm.enable = true;
+      defaultSession = "hyprland";
+      lightdm.enable = false;
+      gdm = {
+        enable = true;
+        wayland = true;
+      };
     };
   };
 
@@ -42,4 +45,18 @@
   services.tumbler.enable = true; # Thumbnail support for images
 
   
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr  # for wlroots based compositors
+      # xdg-desktop-portal-kde  # for kde
+      # xdg-desktop-portal-gtk  # for gtk
+    ];
+  };
+
+  # for power management
+  services.upower.enable = true;
+
 }
