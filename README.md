@@ -5,7 +5,8 @@ This repository is home to the nix code that builds my systems.
 
 ## TODO
 
-- secret management - [sops-nix](https://github.com/Mic92/sops-nix)
+- [sops-nix](https://github.com/Mic92/sops-nix): secret management
+- [devShell](https://github.com/numtide/devshell): manage development environments
 
 ## Why Nix?
 
