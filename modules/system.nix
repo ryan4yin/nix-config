@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+  # enable flakes globally
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
