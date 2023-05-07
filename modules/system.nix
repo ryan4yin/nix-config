@@ -146,7 +146,6 @@
 
     # embedded development
     minicom
-    android-tools
   ];
 
 
@@ -184,14 +183,18 @@
     udev.packages = with pkgs; [ 
       gnome.gnome-settings-daemon
       platformio  # udev rules for platformio
+      android-udev-rules
     ];
   };
+
+  # android development tools, this will install adb/fastboot and other android tools automatically
+  programs.adb.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ryan = {
     isNormalUser = true;
     description = "ryan";
-    extraGroups = [ "users" "networkmanager" "wheel" "docker" "wireshark" ];
+    extraGroups = [ "users" "networkmanager" "wheel" "docker" "wireshark" "adbusers" ];
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
     ];
