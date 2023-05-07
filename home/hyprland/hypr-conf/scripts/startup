@@ -3,21 +3,15 @@
 ## Autostart Programs
 
 # Kill already running process
-_ps=(waybar mako mpd xfce-polkit)
+_ps=(waybar mako mpd)
 for _prs in "${_ps[@]}"; do
 	if [[ $(pidof ${_prs}) ]]; then
 		killall -9 ${_prs}
 	fi
 done
 
-# Polkit agent
-/usr/lib/xfce-polkit/xfce-polkit &
-
 # Set wallpaper
 swaybg --output '*' --mode fill --image ~/.config/hypr/wallpapers/wallpaper.png &
-
-# Apply themes
-~/.config/hypr/scripts/gtkthemes &
 
 # Lauch notification daemon (mako)
 ~/.config/hypr/scripts/notifications &

@@ -9,6 +9,11 @@
     # copy the scripts directory recursively
     recursive = true;
   };
+  home.file.".config/gtk-3.0" = {
+    source = ./gtk-3.0;
+    recursive = true;
+  };
+  home.file.".gtkrc-2.0".source = ./gtkrc-2.0;
   home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
