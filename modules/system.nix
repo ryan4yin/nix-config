@@ -145,6 +145,7 @@
     xdg-user-dirs
 
     # embedded development
+    minicom
     android-tools
   ];
 
