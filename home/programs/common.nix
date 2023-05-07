@@ -116,8 +116,10 @@
     exa.enable = true;   # A modern replacement for ‘ls’
     jq.enable = true;    # A lightweight and flexible command-line JSON processor
     ssh.enable = true;
-    aria2.enable = true;
+    aria2.enable = true;  # a 
 
+    # skim provides a single executable: sk.
+    # Basically anywhere you would want to use grep, try sk instead.
     skim = {
       enable = true;
       enableZshIntegration = true;

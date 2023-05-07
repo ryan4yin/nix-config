@@ -10,6 +10,11 @@ in {
     ./terminals.nix
   ];
 
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+  };
+
   # add environment variables
   # 注意不要用 home.sessionVariables 或 home.xxx.sessionVariables，这俩参数没用
   systemd.user.sessionVariables = {

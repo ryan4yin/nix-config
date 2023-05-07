@@ -118,7 +118,7 @@
     // waybar-cpu
     "cpu": {
         "interval": 5,
-        "format": " LOAD: {usage}%",
+        "format": " LOAD: {usage}%",
     },
     // waybar-custom
     "custom/menu": {
