@@ -7,7 +7,7 @@
   pkgs-stable = import nixpkgs-stable {
     system = pkgs.system;
     config.allowUnfree = true;
-};
+  };
   in {
   home.packages = with pkgs-stable; [
     firefox-wayland

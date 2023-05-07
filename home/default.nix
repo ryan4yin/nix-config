@@ -3,7 +3,6 @@
 {
 
   imports = [
-    ./fcitx5
     ./hyprland
     ./programs
     ./rofi
