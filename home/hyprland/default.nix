@@ -15,7 +15,10 @@
   };
   home.file.".gtkrc-2.0".source = ./gtkrc-2.0;
   home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
-  home.file.".config/fcitx5/profile".source = ./fcitx5-profile;
+  home.file.".config/fcitx5" = {
+    source = ./fcitx5;
+    recursive = true;
+  };
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;

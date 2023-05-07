@@ -23,12 +23,12 @@ After installed NixOS with `nix-command` & `flake` enabled, you can deploy this 
 
 ```bash
 # deploy my test configuration
-sudo nixos-rebuild switch .#nixos-test
+sudo nixos-rebuild switch --flake .#nixos-test
 
 
 # deploy my PC's configuration
-rm -rf ~/.config/fcitx5/profile  # this file may be covered by fcitx5, so remove it first
-sudo nixos-rebuild switch .#msi-rtx4090
+rm -rf ~/.config/fcitx5/profile ~/.config/mimeapps.list  # this file may be covered by fcitx5, so remove it first
+sudo nixos-rebuild switch --flake .#msi-rtx4090
 ```
 
 ## Other Interesting Dotfiles
