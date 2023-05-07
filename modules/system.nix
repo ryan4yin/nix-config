@@ -117,6 +117,7 @@
     p7zip
     xz
     zstd
+    cifs-utils  # for mounting windows shares
 
     (python3.withPackages(ps: with ps; [
       ipython

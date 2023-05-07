@@ -7,6 +7,7 @@
 {
   imports =
     [
+      ./cifs-mount.nix
       ../../modules/system.nix
       ../../modules/hyprland.nix
       ../../modules/fcitx5
