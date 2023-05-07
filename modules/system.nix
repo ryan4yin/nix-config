@@ -187,7 +187,8 @@
     ];
   };
 
-  # android development tools, this will install adb/fastboot and other android tools automatically
+  # android development tools, this will install adb/fastboot and other android tools and udev rules
+  # see https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/programs/adb.nix
   programs.adb.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
