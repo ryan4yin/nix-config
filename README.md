@@ -27,6 +27,7 @@ sudo nixos-rebuild switch .#nixos-test
 
 
 # deploy my PC's configuration
+rm -rf ~/.config/fcitx5/profile  # this file may be covered by fcitx5, so remove it first
 sudo nixos-rebuild switch .#msi-rtx4090
 ```
 
