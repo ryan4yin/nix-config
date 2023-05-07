@@ -143,6 +143,9 @@
     xfce.thunar  # xfce4's file manager
     nnn          # terminal file manager
     xdg-user-dirs
+
+    # embedded development
+    android-tools
   ];
 
 
