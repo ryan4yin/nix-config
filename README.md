@@ -3,6 +3,10 @@
 This repository is home to the nix code that builds my systems.
 
 
+## Screenshots
+
+![](./_img/screenshot_2023-05-07-21-21.webp)
+
 ## TODO
 
 - [sops-nix](https://github.com/Mic92/sops-nix): secret management
