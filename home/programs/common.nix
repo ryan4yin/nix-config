@@ -121,12 +121,7 @@
     # Basically anywhere you would want to use grep, try sk instead.
     skim = {
       enable = true;
-      enableZshIntegration = true;
-      defaultCommand = "rg --files --hidden";
-      changeDirWidgetOptions = [
-        "--preview 'exa --icons --git --color always -T -L 3 {} | head -200'"
-        "--exact"
-      ];
+      enableBashIntegration = true;
     };
 
     direnv = {
