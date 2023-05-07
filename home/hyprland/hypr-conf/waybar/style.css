@@ -159,13 +159,6 @@ window#waybar.hidden {
 	font-size: 12px;
 }
 
-#custom-weather {
-	background-color: #cba6f7;
-	margin-right: 6px;
-	padding: 2px 8px;
-	font-size: 12px;
-}
-
 /** Common style **/
 #backlight, 
 #battery,
@@ -181,4 +174,43 @@ window#waybar.hidden {
 	border-radius: 4px;
 	margin: 6px 0px;
 	padding: 2px 8px;
+}
+
+
+
+/** ********** Weather ********** **/
+
+#custom-weather {
+	background-color: #5d388b;
+	margin-right: 6px;
+	padding: 2px 8px;
+	font-size: 12px;
+}
+
+#custom-weather.severe {
+    color: #eb937d;
+}
+
+#custom-weather.sunnyDay {
+    color: #c2ca76;
+}
+
+#custom-weather.clearNight {
+    color: #2b2b2a;
+}
+
+#custom-weather.cloudyFoggyDay, #custom-weather.cloudyFoggyNight {
+    color: #c2ddda;
+}
+
+#custom-weather.rainyDay, #custom-weather.rainyNight {
+    color: #5aaca5;
+}
+
+#custom-weather.showyIcyDay, #custom-weather.snowyIcyNight {
+    color: #d6e7e5;
+}
+
+#custom-weather.default {
+    color: #dbd9d8;
 }

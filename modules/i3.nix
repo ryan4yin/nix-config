@@ -34,7 +34,7 @@
         arandr        # screen layout manager
         dex           # autostart applications
         xbindkeys     # bind keys to commands
-        xorg.xbacklight  # control screen brightness
+        xorg.xbacklight  # control screen brightness, the same as light
         xorg.xdpyinfo      # get screen information
         sysstat       # get system information
      ];

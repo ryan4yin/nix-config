@@ -38,9 +38,6 @@
     # cloud provider
     awscli
 
-    # python
-    conda
-
     # C
     clang-tools
     clang-analyzer

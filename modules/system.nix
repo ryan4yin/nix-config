@@ -26,6 +26,7 @@
   services.printing.enable = true;
 
 
+  # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
   fonts = {
     # use fonts specified by user rather than default ones
     enableDefaultFonts = false;
@@ -47,6 +48,9 @@
         "JetBrainsMono"
         "Iosevka"
       ];})
+
+      (pkgs.callPackage ../fonts/icomoon-feather-icon-font.nix { })
+      (pkgs.callPackage ../fonts/archcraft-icon-font.nix { })
 
     ];
 
@@ -112,6 +116,14 @@
     xz
     zstd
 
+    (python3.withPackages(ps: with ps; [
+      ipython
+      pandas
+      requests
+      pyquery
+    ]))
+    conda
+
     # video/audio tools
     libva-utils
     nvtop
@@ -127,6 +139,7 @@
     neofetch
     xfce.thunar  # xfce4's file manager
     nnn          # terminal file manager
+    xdg-user-dirs
   ];
 
 
@@ -171,7 +184,7 @@
   users.users.ryan = {
     isNormalUser = true;
     description = "ryan";
-    extraGroups = [ "networkmanager" "wheel" "docker" "wireshark" ];
+    extraGroups = [ "users" "networkmanager" "wheel" "docker" "wireshark" ];
     openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
     ];

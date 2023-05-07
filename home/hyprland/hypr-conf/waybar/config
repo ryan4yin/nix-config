@@ -111,7 +111,6 @@
         "interval": 60,
         "align": 0,
         "rotate": 0,
-        //"timezone": "America/New_York",
         "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
         "format": " {:%H:%M}",
         "format-alt": " {:%a %b %d, %G}"
@@ -128,7 +127,7 @@
         "on-click": "$HOME/.config/hypr/scripts/menu",
     },
     "custom/power": {
-        "format": "襤",
+        "format": " ",
         "tooltip": false,
         "on-click": "$HOME/.config/hypr/scripts/wlogout",
     },
@@ -179,13 +178,13 @@
     },
     // weather-custom
     "custom/weather": {
-        "format": "{}",
-        "format-alt": "{alt}: {}",
+        // "format": "{}",
+        // "format-alt": "{alt}: {}",
         "format-alt-click": "click-right",
-        "interval": 1800,
+        "interval": 300,
         "return-type": "json",
-        "exec": "~/.config/hypr/scripts/weather.sh",
-        "exec-if": "ping wttr.in -c1"
+        "exec": "~/.config/hypr/scripts/weather",
+        // "on-click": "xdg-open https://weather.com/en-IN/weather/today/l/$(location_id)"
     },
     // waybar-pulseaudio
     "pulseaudio": {

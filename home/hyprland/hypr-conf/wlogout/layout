@@ -1,30 +1,36 @@
 {
-    "label" : "suspend",
-    "text" : "Suspend",
-    "action" : "~/.config/hypr/wlogout/actions --suspend",
-    "keybind" : "u"
-}
-{
-    "label" : "logout",
-    "text" : "Logout",
-    "action" : "~/.config/hypr/wlogout/actions --logout",
-    "keybind" : "e"
-}
-{
     "label" : "lock",
+    "action" : "~/.config/hypr/scripts/lockscreen",
     "text" : "Lock",
-    "action" : "~/.config/hypr/wlogout/actions --lock",
     "keybind" : "l"
 }
 {
-    "label" : "reboot",
-    "text" : "Reboot",
-    "action" : "~/.config/hypr/wlogout/actions --reboot",
-    "keybind" : "r"
+    "label" : "hibernate",
+    "action" : "systemctl hibernate",
+    "text" : "Hibernate",
+    "keybind" : "h"
+}
+{
+    "label" : "logout",
+    "action" : "loginctl terminate-user $USER",
+    "text" : "Logout",
+    "keybind" : "e"
 }
 {
     "label" : "shutdown",
+    "action" : "systemctl poweroff",
     "text" : "Shutdown",
-    "action" : "~/.config/hypr/wlogout/actions --shutdown",
     "keybind" : "s"
+}
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "Suspend",
+    "keybind" : "u"
+}
+{
+    "label" : "reboot",
+    "action" : "systemctl reboot",
+    "text" : "Reboot",
+    "keybind" : "r"
 }

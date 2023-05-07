@@ -7,11 +7,10 @@ STYLE="$HOME/.config/hypr/wlogout/style.css"
 
 if [[ ! $(pidof wlogout) ]]; then
 	wlogout --layout ${LAYOUT} --css ${STYLE} \
-		--buttons-per-row 5 \
-		--column-spacing 50 \
-		--row-spacing 50 \
-		--margin-top 390 \
-		--margin-bottom 390 \
+		--column-spacing 20 \
+		--row-spacing 20 \
+		--margin-top 200 \
+		--margin-bottom 200 \
 		--margin-left 150 \
 		--margin-right 150
 else

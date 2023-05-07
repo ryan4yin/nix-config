@@ -17,6 +17,7 @@
       # chrome wayland support was broken on nixos-unstable branch, so fallback to stable branch for now
       # https://github.com/swaywm/sway/issues/7562
       google-chrome
+      vscode
     ];
 
   # programs = {
