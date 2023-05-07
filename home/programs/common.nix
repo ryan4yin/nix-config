@@ -91,13 +91,12 @@
   ];
 
   programs = {
+    # A terminal multiplexer
     tmux = {
       enable = true;
-      clock24 = true;
-      keyMode = "vi";
-      extraConfig = "mouse on";
     };
 
+    # a cat(1) clone with syntax highlighting and Git integration.
     bat = {
       enable = true;
       config = {
