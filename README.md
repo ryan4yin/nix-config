@@ -17,7 +17,9 @@ This repository is home to the nix code that builds my systems.
 Nix allows for easy to manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
 
 
-## How to install Nix and Deploy this Flake?
+## How to Deploy this Flake?
+
+>Note: you should NOT deploy this flake directly on your machine, it contains my hardware information and personal information which is not suitable for you. You may use this repo as a reference to build your own configuration.
 
 After installed NixOS with `nix-command` & `flake` enabled, you can deploy this flake with the following command:
 
@@ -35,8 +37,8 @@ sudo nixos-rebuild switch --flake .#msi-rtx4090
 
 Other configurations from where I learned and copied:
 
-- https://github.com/notwidow/hyprland
-- https://github.com/notusknot/dotfiles-nix
+- [notwidow/hyprland](https://github.com/notwidow/hyprland): hyprland configuration
+- [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
 - [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
 - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
 - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
