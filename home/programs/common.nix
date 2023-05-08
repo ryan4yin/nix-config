@@ -88,6 +88,11 @@
     # desktop
     tdesktop
     discord
+
+    # system call monitoring
+    strace
+    ltrace  # library call monitoring
+    lsof
   ];
 
   programs = {
