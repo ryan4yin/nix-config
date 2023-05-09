@@ -85,9 +85,14 @@
     mycli
     pgcli
 
-    # desktop
-    tdesktop
+    # instant messaging
+    telegram-desktop
     discord
+    # qq & wechat are alse in the official nixpkgs
+    qq      # https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/instant-messengers/qq
+
+    # music
+    musescore
 
     # system call monitoring
     strace
