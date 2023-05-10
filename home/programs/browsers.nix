@@ -48,5 +48,9 @@
       # let vscode sync and update its configuration & extensions across devices, using github account.
       # userSettings = {};
     };
+    
+
+    # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/web-apps/code-server.nix
+    
   };
 }

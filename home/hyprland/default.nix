@@ -16,11 +16,12 @@
   home.file.".gtkrc-2.0".source = ./gtkrc-2.0;
   home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
   
- # need set fcitx5's config dir readonly, to avoid other tools overwrite it.
- home.file.".config/fcitx5" = {
-   source = ./fcitx5;
-   recursive = true;
- };
+  home.file.".config/fcitx5/profile".source = ./profile;
+  # fcitx5 每次切换输入法，就会修改 ~/.config/fcitx5/profile 文件，导致我用 hm 管理的配置被覆盖
+  # 解决方法是通过如下内置，每次 rebuild 前都先删除下 profile 文件
+  home.activation.removeExistingFcitx5Profile = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
+    rm -f "${config.xdg.configHome}/fcitx5/profile"
+  '';
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;

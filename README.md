@@ -29,7 +29,6 @@ sudo nixos-rebuild switch --flake .#nixos-test
 
 
 # deploy my PC's configuration
-rm -rf ~/.config/fcitx5/profile ~/.config/mimeapps.list  # this file may be covered by fcitx5, so remove it first
 sudo nixos-rebuild switch --flake .#msi-rtx4090
 ```
 
