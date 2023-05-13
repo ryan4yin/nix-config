@@ -3,7 +3,8 @@
 {
 
   imports = [
-    ./hyprland
+    # ./hyprland
+    ./i3
     ./programs
     ./rofi
     ./shell

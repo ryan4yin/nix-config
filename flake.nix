@@ -19,11 +19,13 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://nixpkgs-wayland.cachix.org"
+      "https://xddxdd.cachix.org"
     ];
     extra-trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "xddxdd.cachix.org-1:ay1HJyNDYmlSwj5NXQG065C8LfoqqKaTNCyzeixGjf8=" 
     ];
   };
 
@@ -34,6 +36,11 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";       # 使用 nixos-unstable 分支 for nix flakes
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-22.11";    # unstable branch may be broken sometimes, use stable branch when necessary
+    
+    # nix users repository
+    # used to install some packages not in nixpkgs
+    # e.g. wechat-uos/qqmusic/dingtalk
+    nur.url = github:nix-community/NUR;
 
     home-manager.url = "github:nix-community/home-manager";
     #　follows 是　inputs 中的继承语法
@@ -54,29 +61,50 @@
       nixpkgs,
       nixpkgs-stable,
       home-manager,
+      nur,
       ...
   }: {
-    # 名为 nixosConfigurations 的 outputs 会在执行 `nixos-rebuild switch --flake .` 时被使用
-    # 默认情况下会使用与主机 hostname 同名的 nixosConfigurations，但是也可以通过 `--flake .#<name>` 来指定
     nixosConfigurations = {
-      # hostname 为 nixos-test 的主机会使用这个配置
-      # 这里使用了 nixpkgs.lib.nixosSystem 函数来构建配置，后面的 attributes set 是它的参数
-      # 在 nixos 上使用此命令部署配置：`nixos-rebuild switch --flake .#nixos-test`
-      nixos-test = nixpkgs.lib.nixosSystem {
+      msi-rtx4090 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        # modules 中每个参数，都是一个 NixOS Module <https://nixos.org/manual/nixos/stable/index.html#sec-modularity>
-        # NixOS Module 可以是一个 attribute set，也可以是一个返回 attribute set 的函数
-        # 如果是函数，那么它的参数就是当前的 NixOS Module 的参数.
-        # 根据 Nix Wiki 对 NixOS modules 的描述，NixOS modules 函数的参数可以有这四个（详见本仓库中的 modules 文件）：
-        #
-        #  config: The configuration of the entire system
-        #  options: All option declarations refined with all definition and declaration references.
-        #  pkgs: The attribute set extracted from the Nix package collection and enhanced with the nixpkgs.config option.
-        #  modulesPath: The location of the module directory of NixOS.
-        #
-        # nix flake 的 modules 系统可将配置模块化，提升配置的可维护性
-        # 默认只能传上面这四个参数，如果需要传其他参数，必须使用 specialArgs
+        specialArgs = {
+          inherit nixpkgs-stable;
+        }; 
+        modules = [
+          ./hosts/msi-rtx4090
+
+          # home-manager 作为 nixos 的一个 module
+          # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
+            home-manager.extraSpecialArgs = inputs;
+            home-manager.users.ryan = import ./home;
+          }
+
+          ({pkgs, config, ... }: {
+            config = {
+              # use it as an overlay
+              nixpkgs.overlays = [ 
+                inputs.nixpkgs-wayland.overlay
+              ];
+            };
+          })
+
+          # This adds a nur configuration option.
+          # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
+          nur.nixosModules.nur
+          
+        ];
+      };
+
+
+      nixos-test = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {
           inherit nixpkgs-stable;
         }; 
@@ -103,32 +131,12 @@
               ];
             };
           })
+
+          # This adds a nur configuration option.
+          # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
+          nur.nixosModules.nur
         ];
       };
-
-      msi-rtx4090 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-
-        specialArgs = {
-          inherit nixpkgs-stable;
-        }; 
-        modules = [
-          ./hosts/msi-rtx4090
-
-          # home-manager 作为 nixos 的一个 module
-          # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
-            home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home;
-          }
-        ];
-      };
-
 
       # 如果你在 x86_64-linux 平台上执行 nix build，那么默认会使用这个配置，或者也能通过 `.#<name>` 参数来指定非 default 的配置
       # packages.x86_64-linux.default =

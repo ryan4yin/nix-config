@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   # hyprland configs, based on https://github.com/notwidow/hyprland

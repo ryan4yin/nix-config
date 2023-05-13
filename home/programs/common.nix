@@ -1,4 +1,7 @@
-{pkgs, ...}: {
+{pkgs, config, ...}: 
+
+
+{
   home.packages = with pkgs; [
     # archives
     zip
@@ -88,7 +91,6 @@
     # instant messaging
     telegram-desktop
     discord
-    # qq & wechat are alse in the official nixpkgs
     qq      # https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/instant-messengers/qq
 
     # music

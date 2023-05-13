@@ -9,8 +9,9 @@
     [
       ./cifs-mount.nix
       ../../modules/system.nix
-      ../../modules/hyprland.nix
+      ../../modules/i3.nix
       ../../modules/fcitx5
+      ../../modules/nur-packages.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
