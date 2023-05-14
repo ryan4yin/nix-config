@@ -134,7 +134,10 @@
       requests
       pyquery
     ]))
-    conda  # need to run `conda-install` before using `conda`
+
+    # need to run `conda-install` before using it
+    # need to run `conda-shell` before using command `conda`
+    conda
 
     # video/audio tools
     libva-utils
