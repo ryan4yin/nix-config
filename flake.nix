@@ -59,18 +59,14 @@
   outputs = inputs@{
       self,
       nixpkgs,
-      nixpkgs-stable,
       home-manager,
-      nur,
       ...
   }: {
     nixosConfigurations = {
       msi-rtx4090 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        specialArgs = {
-          inherit nixpkgs-stable;
-        }; 
+        specialArgs = inputs; 
         modules = [
           ./hosts/msi-rtx4090
 
@@ -85,29 +81,13 @@
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.ryan = import ./home;
           }
-
-          ({pkgs, config, ... }: {
-            config = {
-              # use it as an overlay
-              nixpkgs.overlays = [ 
-                inputs.nixpkgs-wayland.overlay
-              ];
-            };
-          })
-
-          # This adds a nur configuration option.
-          # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
-          nur.nixosModules.nur
-          
         ];
       };
 
 
       nixos-test = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = {
-          inherit nixpkgs-stable;
-        }; 
+        specialArgs = inputs; 
         modules = [
           ./hosts/nixos-test
 
@@ -122,19 +102,6 @@
             home-manager.extraSpecialArgs = inputs;
             home-manager.users.ryan = import ./home;
           }
-
-          ({pkgs, config, ... }: {
-            config = {
-              # use it as an overlay
-              nixpkgs.overlays = [ 
-                inputs.nixpkgs-wayland.overlay
-              ];
-            };
-          })
-
-          # This adds a nur configuration option.
-          # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
-          nur.nixosModules.nur
         ];
       };
 

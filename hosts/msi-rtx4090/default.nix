@@ -2,11 +2,26 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+
+{ config, pkgs, home-manager, nur, ... } @ args:
 
 {
   imports =
     [
+      ({pkgs, config, ... }: {
+        config = {
+          # use it as an overlay
+          nixpkgs.overlays = [ 
+            args.nixpkgs-wayland.overlay
+          ];
+        };
+      })
+
+      # This adds a nur configuration option.
+      # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
+      nur.nixosModules.nur
+
+
       ./cifs-mount.nix
       ../../modules/system.nix
       ../../modules/hyprland.nix
