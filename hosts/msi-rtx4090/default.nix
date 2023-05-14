@@ -9,7 +9,8 @@
     [
       ./cifs-mount.nix
       ../../modules/system.nix
-      ../../modules/i3.nix
+      ../../modules/hyprland.nix
+      #../../modules/i3.nix
       ../../modules/fcitx5
       ../../modules/nur-packages.nix
 
