@@ -134,7 +134,7 @@
       requests
       pyquery
     ]))
-    conda
+    conda  # need to run `conda-install` before using `conda`
 
     # video/audio tools
     libva-utils
