@@ -10,13 +10,12 @@
   };
   in {
   home.packages = with pkgs-stable; [
-    firefox-wayland
+    firefox-wayland  # firefox with wayland support
     # firefox
-
-    # use vscode in browser, as vscode's wayland ime support is broken at this time
-    code-server  # useage: just run `code-server` in terminal, then open http://localhost:8080 in browser
   ];
 
+
+  # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.
   programs = {
 
     # source code: https://github.com/nix-community/home-manager/blob/master/modules/programs/chromium.nix
@@ -52,9 +51,5 @@
       # let vscode sync and update its configuration & extensions across devices, using github account.
       # userSettings = {};
     };
-    
-
-    # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/web-apps/code-server.nix
-    
   };
 }
