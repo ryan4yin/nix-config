@@ -153,6 +153,9 @@
   sound.enable = true;
   hardware.pulseaudio.enable = false;
 
+  # https://flatpak.org/setup/NixOS
+  services.flatpak.enable = true;
+
   # security with polkit
   services.power-profiles-daemon = {
     enable = true;

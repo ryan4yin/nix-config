@@ -8,6 +8,7 @@
   environment.systemPackages = with config.nur.repos.xddxdd; [
     # packages from nur-xddxdd
     wechat-uos
-    qqmusic
   ];
+
+  # flatpack is recommended to install other apps such as netease-cloud-music/qqmusic/...
 }
