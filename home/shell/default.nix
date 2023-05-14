@@ -27,7 +27,6 @@ in rec {
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
     # set default applications
-    EDITOR = "vim";  # this variable not work, need to set environment.variables.EDITOR instead.
     BROWSER = "firefox";
     TERMINAL = "alacritty";
 

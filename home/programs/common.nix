@@ -111,6 +111,7 @@
     # modern vim
     neovim = {
       enable = true;
+      defaultEditor = true;  # set nvim as default editor
       extraConfig = ''
         set number relativenumber
       '';

@@ -157,6 +157,7 @@
     minicom
   ];
 
+  # replace default editor with vim
   environment.variables.EDITOR = "vim";
 
   # Enable sound with pipewire.
