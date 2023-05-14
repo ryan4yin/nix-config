@@ -2,7 +2,7 @@
   d = config.xdg.dataHome;
   c = config.xdg.configHome;
   cache = config.xdg.cacheHome;
-in {
+in rec {
   imports = [
     ./nushell
     ./common.nix
@@ -19,7 +19,6 @@ in {
   };
 
   # add environment variables
-  # 注意不要用 home.sessionVariables 或 home.xxx.sessionVariables，这俩参数没用
   systemd.user.sessionVariables = {
     # clean up ~
     LESSHISTFILE = cache + "/less/history";
@@ -28,7 +27,7 @@ in {
     XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
     # set default applications
-    EDITOR = "vim";
+    EDITOR = "vim";  # this variable not work, need to set environment.variables.EDITOR instead.
     BROWSER = "firefox";
     TERMINAL = "alacritty";
 
@@ -37,6 +36,8 @@ in {
 
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
   };
+
+  home.sessionVariables = systemd.user.sessionVariables;
 
   home.shellAliases = {
     k = "kubectl";

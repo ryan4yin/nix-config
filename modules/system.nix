@@ -157,6 +157,7 @@
     minicom
   ];
 
+  environment.variables.EDITOR = "vim";
 
   # Enable sound with pipewire.
   sound.enable = true;
