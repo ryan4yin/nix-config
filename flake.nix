@@ -104,9 +104,6 @@
           }
         ];
       };
-
-      # 如果你在 x86_64-linux 平台上执行 nix build，那么默认会使用这个配置，或者也能通过 `.#<name>` 参数来指定非 default 的配置
-      # packages.x86_64-linux.default =
     };
   };
 }

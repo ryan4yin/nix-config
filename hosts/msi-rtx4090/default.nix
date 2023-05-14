@@ -28,6 +28,7 @@
       #../../modules/i3.nix
       ../../modules/fcitx5
       ../../modules/nur-packages.nix
+      ../../modules/fhs-fonts.nix
 
       # Include the results of the hardware scan.
       ./hardware-configuration.nix

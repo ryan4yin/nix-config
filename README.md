@@ -33,6 +33,23 @@ sudo nixos-rebuild switch --flake .#nixos-test
 sudo nixos-rebuild switch --flake .#msi-rtx4090
 ```
 
+
+## Install Apps from Flatpak
+
+We can install apps from flathub, which has a lot of apps that are not supported well in nixpkgs.
+
+```bash
+# Add the Flathub repository
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+# install apps from flathub
+flatpak install netease-cloud-music-gtk
+
+# or you can search apps from flathub
+flatpak search <keyword>
+# search on website is also supported: https://flathub.org/
+```
+
 ## Other Interesting Dotfiles
 
 Other configurations from where I learned and copied:
