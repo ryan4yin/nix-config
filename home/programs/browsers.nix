@@ -12,6 +12,9 @@
   home.packages = with pkgs-stable; [
     firefox-wayland
     # firefox
+
+    # use vscode in browser, as vscode's wayland ime support is broken at this time
+    code-server  # useage: just run `code-server` in terminal, then open http://localhost:8080 in browser
   ];
 
   programs = {
