@@ -159,6 +159,10 @@
 
     # embedded development
     minicom
+
+    # remote desktop(rdp connect)
+    remmina
+    freerdp  # required by remmina
   ];
 
   # replace default editor with vim
