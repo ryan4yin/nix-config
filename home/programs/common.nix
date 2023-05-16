@@ -12,6 +12,9 @@
     ripgrep
     yq-go    # https://github.com/mikefarah/yq
     htop
+    iotop
+    iftop
+    nmon
 
     ## networking tools
     wireshark
@@ -100,6 +103,7 @@
     strace
     ltrace  # library call monitoring
     lsof
+    mtr
   ];
 
   programs = {
