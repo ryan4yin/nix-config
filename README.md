@@ -9,7 +9,6 @@ This repository is home to the nix code that builds my systems.
 
 ## TODO
 
-- [sops-nix](https://github.com/Mic92/sops-nix): secret management
 - make fcitx5-rime work in vscode/chrome on wayland
 - adjust the structure of this repo, make it more flexible, and can easily switch between i3, sway and hyprland.
 - migrate my private tools & wireguard configurations into nixos, make it a private flake(private github repo), and used it as flake inputs in this repo.
@@ -33,8 +32,13 @@ sudo nixos-rebuild switch --flake .#nixos-test
 
 # deploy my PC's configuration
 sudo nixos-rebuild switch --flake .#msi-rtx4090
-```
 
+# or just deploy with hostname
+sudo nixos-rebuild switch
+
+# we can also deploy using make, which is defined in Makefile
+make deploy
+```
 
 ## Install Apps from Flatpak
 

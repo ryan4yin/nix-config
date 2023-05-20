@@ -20,16 +20,18 @@
       # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
       nur.nixosModules.nur
 
-
-      ../../modules/system.nix
-      ../../modules/hyprland.nix
-      #../../modules/i3.nix
-      ../../modules/fcitx5
-      ../../modules/nur-packages.nix
-      ../../modules/fhs-fonts.nix
-
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      ../../modules/fcitx5
+      ../../modules/fhs-fonts.nix
+      ../../modules/hyprland.nix
+      #../../modules/i3.nix
+      ../../modules/nur-packages.nix
+      ../../modules/system.nix
+      ../../modules/user_group.nix
+
+      ../../secrets
     ];
 
   # Bootloader.
