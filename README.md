@@ -66,6 +66,5 @@ Other configurations from where I learned and copied:
 - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
 - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
-- [davidak/nixos-config](https://codeberg.org/davidak/nixos-config)
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
 - [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
