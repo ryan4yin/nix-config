@@ -48,12 +48,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # modern window compositor
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland.url = "github:hyprwm/Hyprland/v0.25.0";
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
     # use devenv to manage my development environment
-    devenv.url = "github:cachix/devenv/latest";
+    devenv.url = "github:cachix/devenv/v0.6.2";
   };
 
   # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。
