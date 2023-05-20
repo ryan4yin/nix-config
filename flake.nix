@@ -51,6 +51,9 @@
     hyprland.url = "github:hyprwm/Hyprland";
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+
+    # use devenv to manage my development environment
+    devenv.url = "github:cachix/devenv/latest";
   };
 
   # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。

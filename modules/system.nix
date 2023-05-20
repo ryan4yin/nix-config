@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, devenv, ... }:
 
 {
   # enable flakes globally
@@ -163,6 +163,8 @@
     # remote desktop(rdp connect)
     remmina
     freerdp  # required by remmina
+
+    devenv.packages."${pkgs.system}".devenv
   ];
 
   # replace default editor with vim
