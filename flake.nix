@@ -52,11 +52,20 @@
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
+    # generate iso/qcow2/docker/... image from nixos configuration
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # use devenv to manage my development environment
     devenv.url = "github:cachix/devenv/v0.6.2";
     
     # secrets management, lock with git commit at 2023/5/15
     agenix.url = "github:ryantm/agenix/db5637d10f797bb251b94ef9040b237f4702cde3";
+
+    # nix language server, used by vscode & neovim
+    nil.url = "github:oxalica/nil/2023-05-09";
   };
 
   # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。
@@ -111,5 +120,31 @@
         ];
       };
     };
+
+    # generate qcow2 & iso image from nixos configuration
+    #   https://github.com/nix-community/nixos-generators
+    # packages.x86_64-linux = {
+    #   qcow2 = nixos-generators.nixosGenerate {
+    #     system = "x86_64-linux";
+    #     modules = [
+    #       # you can include your own nixos configuration here, i.e.
+    #       # ./configuration.nix
+    #     ];
+    #     format = "qcow";
+        
+    #     # you can also define your own custom formats
+    #     # customFormats = { "myFormat" = <myFormatModule>; ... };
+    #     # format = "myFormat";
+    #   };
+
+    #   iso = nixos-generators.nixosGenerate {
+    #     system = "x86_64-linux";
+    #     modules = [
+    #       # you can include your own nixos configuration here, i.e.
+    #       # ./configuration.nix
+    #     ];
+    #     format = "iso";
+    #   };
+    # };
   };
 }
