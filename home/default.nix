@@ -3,6 +3,7 @@
 {
 
   imports = [
+    ./fcitx5
     ./hyprland
     # ./i3
     ./programs

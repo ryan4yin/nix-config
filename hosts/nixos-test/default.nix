@@ -5,34 +5,25 @@
 { config, pkgs, home-manager, nur, ... } @args:
 
 {
-  imports =
-    [
-      ({pkgs, config, ... }: {
-        config = {
-          # use it as an overlay
-          nixpkgs.overlays = [ 
-            args.nixpkgs-wayland.overlay
-          ];
-        };
-      })
+  imports = [
+    # This adds a nur configuration option.
+    # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
+    nur.nixosModules.nur
 
-      # This adds a nur configuration option.
-      # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
-      nur.nixosModules.nur
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+    ../../modules/fhs-fonts.nix
+    ../../modules/hyprland.nix
+    #../../modules/i3.nix
+    ../../modules/nur-packages.nix
+    ../../modules/system.nix
+    ../../modules/user_group.nix
 
-      ../../modules/fcitx5
-      ../../modules/fhs-fonts.nix
-      ../../modules/hyprland.nix
-      #../../modules/i3.nix
-      ../../modules/nur-packages.nix
-      ../../modules/system.nix
-      ../../modules/user_group.nix
+    ../../secrets
+  ];
 
-      ../../secrets
-    ];
+  nixpkgs.overlays = import ../../overlays args;
 
   # Bootloader.
   boot.loader = {
