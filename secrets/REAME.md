@@ -8,6 +8,11 @@ This directory contains my secret files, encrypt by agenix:
 - ssh key pairs for my homelab and other servers
 - ...
 
+## TODO
+
+- a better way to manage all these secrets, is to used a separate private github repository to store all these secrets, and use it as a flakes input this this repo.
+  - e.g. <https://github.com/xddxdd/nixos-config/blob/25ae3de/flake.nix#L82>
+
 ## Add or Update Secrets
 
 This job is done by `agenix` CLI tool with the `./secrets.nix` file.
