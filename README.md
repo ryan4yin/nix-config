@@ -50,6 +50,9 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # install apps from flathub
 flatpak install netease-cloud-music-gtk
 
+# install 3d printer slicer - cura
+flatpak install flathub com.ultimaker.cura
+
 # or you can search apps from flathub
 flatpak search <keyword>
 # search on website is also supported: https://flathub.org/

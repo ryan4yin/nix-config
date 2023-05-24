@@ -35,12 +35,12 @@
     # flake inputs 有很多种引用方式，应用最广泛的是 github 的引用方式
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";       # 使用 nixos-unstable 分支 for nix flakes
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-22.11";    # unstable branch may be broken sometimes, use stable branch when necessary
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";    # unstable branch may be broken sometimes, use stable branch when necessary
     
     # nix users repository
     # used to install some packages not in nixpkgs
     # e.g. wechat-uos/qqmusic/dingtalk
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
 
     home-manager.url = "github:nix-community/home-manager";
     #　follows 是　inputs 中的继承语法

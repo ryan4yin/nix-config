@@ -111,6 +111,7 @@
     iperf3
     nmap
     socat
+    ldns  # replacement of dig, it provide the command `drill`
 
     # system tools
     sysstat
