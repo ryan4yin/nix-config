@@ -50,9 +50,10 @@ Pretend you want to add a new secret file `xxx.age`, then:
   ```
 3. or you can also encrypt an existing file to `xxx.age` by command:
   ```shell
-  agenix -e ./encrypt/xxx.age < /path/to/xxx
+  cat /path/to/xxx | agenix -e ./encrypt/xxx.age
   ```
 
+the agenix use `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub` as encrypt key by default, you need to pass `--identity /path/to/key` to use a custom `/path/to/key.pub` for enctypt.
 
 ## Deploy Secrets
 
