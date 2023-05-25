@@ -24,7 +24,11 @@ in rec {
     LESSHISTFILE = cache + "/less/history";
     LESSKEY = c + "/less/lesskey";
     WINEPREFIX = d + "/wine";
-    XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
+
+    # set this variable make i3 failed to start
+    # related issue:
+    #   https://github.com/sddm/sddm/issues/871
+    # XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
     # set default applications
     BROWSER = "firefox";

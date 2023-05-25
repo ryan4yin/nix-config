@@ -2,7 +2,6 @@
   pkgs,
   nixpkgs-stable,
   config,
-  nil,
   ...
 }: let
   pkgs-stable = import nixpkgs-stable {
@@ -12,9 +11,6 @@
   in {
   home.packages = with pkgs-stable; [
     firefox-wayland  # firefox with wayland support
-    # firefox
-    
-    nil.packages."${pkgs.system}".default  # nix language server
   ];
 
 

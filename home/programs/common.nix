@@ -1,4 +1,4 @@
-{pkgs, config, ...}: 
+{pkgs, config, nil, ...}: 
 
 
 {
@@ -28,6 +28,8 @@
     # productivity
     obsidian
     hugo
+
+    nil.packages."${pkgs.system}".default  # nix language server
 
     # IDE
     insomnia

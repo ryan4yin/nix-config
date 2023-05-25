@@ -7,6 +7,10 @@
   # i3 配置，基于 https://github.com/endeavouros-team/endeavouros-i3wm-setup
   # 直接从当前文件夹中读取配置文件作为配置内容
 
+  imports = [
+    ./x11-apps.nix
+  ];
+
   # wallpaper, binary file
   home.file.".config/i3/wallpaper.png".source = ../wallpapers/wallpaper.png;
   home.file.".config/i3/config".source = ./config;
