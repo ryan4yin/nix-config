@@ -37,6 +37,13 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";       # 使用 nixos-unstable 分支 for nix flakes
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";    # unstable branch may be broken sometimes, use stable branch when necessary
     
+    # for macos
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    darwin = {
+      url = "github:lnl7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    }
+
     # nix users repository
     # used to install some packages not in nixpkgs
     # e.g. wechat-uos/qqmusic/dingtalk
@@ -74,6 +81,7 @@
   outputs = inputs@{
       self,
       nixpkgs,
+      darwin,
       home-manager,
       ...
   }: {
@@ -94,7 +102,7 @@
 
             # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home;
+            home-manager.users.ryan = import ./home/home-wayland.nix;
           }
         ];
       };
@@ -115,10 +123,31 @@
 
             # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home;
+            home-manager.users.ryan = import ./home/home-wayland.nix;
           }
         ];
       };
+    };
+
+    darwinConfigurations."harmonica" = darwin.lib.darwinSystem {
+      system = "x86_64-darwin";
+
+      specialArgs = inputs; 
+      modules = [
+        ./hosts/harmonica
+
+        # home-manager 作为 nixos 的一个 module
+        # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+
+          # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
+          home-manager.extraSpecialArgs = inputs;
+          home-manager.users.ryan = import ./home/home-darwin.nix;
+        }
+      ];
     };
 
     # generate qcow2 & iso image from nixos configuration
