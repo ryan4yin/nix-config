@@ -42,7 +42,7 @@
     darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
-    }
+    };
 
     # nix users repository
     # used to install some packages not in nixpkgs
@@ -102,7 +102,7 @@
 
             # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home/home-wayland.nix;
+            home-manager.users.ryan = import ./home/home-x11.nix;
           }
         ];
       };

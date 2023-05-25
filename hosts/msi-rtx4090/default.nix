@@ -16,8 +16,8 @@
     ./hardware-configuration.nix
 
     ../../modules/fhs-fonts.nix
-    ../../modules/hyprland.nix
-    #../../modules/i3.nix
+    # ../../modules/hyprland.nix
+    ../../modules/i3.nix
     ../../modules/nur-packages.nix
     ../../modules/system.nix
     ../../modules/user_group.nix

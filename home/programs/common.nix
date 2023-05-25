@@ -104,6 +104,9 @@
     ltrace  # library call monitoring
     lsof
     mtr
+
+    # A tool to create bootable live USB drives from ISO images
+    unetbootin
   ];
 
   programs = {

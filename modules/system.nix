@@ -220,4 +220,19 @@
   # android development tools, this will install adb/fastboot and other android tools and udev rules
   # see https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/programs/adb.nix
   programs.adb.enable = true;
+
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr  # for wlroots based compositors
+      xdg-desktop-portal-gtk  # for gtk
+      # xdg-desktop-portal-kde  # for kde
+    ];
+  };
+
+  # for power management
+  services.upower.enable = true;
 }
