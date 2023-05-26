@@ -1,9 +1,10 @@
+
+{pkgs, ...}: 
 {
-  pkgs,
-  ...
-}: {
-  # home.packages = [
-  # ];
+  # MacOS specific configuration
+  home.packages = with pkgs; [
+
+  ];
 
   programs.ssh = {
     enable = true;
@@ -27,47 +28,17 @@
         IdentitiesOnly yes
 
       Host github.com
-          # github is controlled by gluttony~
-          IdentityFile ~/.ssh/gluttony
-          # Specifies that ssh should only use the identity file explicitly configured above
-          # required to prevent sending default identity files first.
-          IdentitiesOnly yes
+        Hostname github.com
+        # github is controlled by gluttony~
+        IdentityFile ~/.ssh/harmonica
+        # Specifies that ssh should only use the identity file explicitly configured above
+        # required to prevent sending default identity files first.
+        IdentitiesOnly yes
     '';
 
     # use ssh-agent so we only need to input passphrase once
     # run `ssh-add /path/to/key` for every identity file
     # check imported keys by `ssh-add -l`
     # TODO `ssh-add` can only add keys temporary, use gnome-keyring to unlock all keys after login.
-  };
-
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-
-    userName = "Ryan Yin";
-    userEmail = "xiaoyin_c@qq.com";
-
-    extraConfig = {
-      pull = {
-        rebase = true;
-      };
-    };
-
-    # signing = {
-    #   key = "xxx";
-    #   signByDefault = true;
-    # };
-
-    delta = {
-      enable = true;
-      options = {
-        features = "side-by-side";
-      };
-    };
-  };
-
-  # GitHub CLI tool
-  programs.gh = {
-    enable = true;
   };
 }

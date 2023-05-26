@@ -36,7 +36,10 @@
         xbindkeys     # bind keys to commands
         xorg.xbacklight  # control screen brightness, the same as light
         xorg.xdpyinfo      # get screen information
+        scrot    # minimal screen capture tool, used by i3 blur lock to take a screenshot
         sysstat       # get system information
+
+        xfce.thunar  # xfce4's file manager
      ];
     };
 

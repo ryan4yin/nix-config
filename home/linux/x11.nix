@@ -2,11 +2,16 @@
 
 {
   imports = [
-    ./fcitx5
+    ../common
+
     ./i3
-    ./programs
-    ./rofi
-    ./shell
+
+    ./fcitx5
+    ./desktop
+
+    ./common/ssh.nix
+    ./common/system-tools.nix
+    ./common/xdg.nix
   ];
 
   # Home Manager needs a bit of information about you and the

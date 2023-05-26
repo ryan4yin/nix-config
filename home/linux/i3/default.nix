@@ -23,6 +23,13 @@
     executable = true;  # make all scripts executable
   };
 
+  # rofi is a application launcher and dmenu replacement
+  home.file.".config/rofi" = {
+    source = ./rofi-conf;
+    # copy the scripts directory recursively
+    recursive = true;
+  };
+
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
 

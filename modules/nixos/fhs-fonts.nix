@@ -1,7 +1,8 @@
 # copy from https://github.com/NixOS/nixpkgs/issues/119433#issuecomment-1326957279
 # mainly for flatpak
-# bindfs resolves all symlink, allowing all fonts to be accessed at /usr/share/fonts, without letting /nix into the sandbox.
-
+# bindfs resolves all symlink, 
+# allowing all fonts to be accessed at `/usr/share/fonts`
+# without letting /nix into the sandbox.
 { config, pkgs, ... }:
 
 {

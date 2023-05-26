@@ -29,6 +29,5 @@
     XMODIFIERS = "@im=fcitx";
     INPUT_METHOD = "fcitx";
     IMSETTINGS_MODULE  = "fcitx";
-    
   };
 }
