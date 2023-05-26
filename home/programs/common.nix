@@ -22,7 +22,6 @@
 
     # misc
     libnotify
-    wineWowPackages.wayland
     xdg-utils
 
     # productivity

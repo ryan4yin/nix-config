@@ -9,10 +9,12 @@
   #                        sudo ip route del default via 192.168.5.201
   nixConfig = {
     experimental-features = [ "nix-command" "flakes" ];
+
     substituters = [
       # replace official cache with a mirror located in China
       "https://mirrors.bfsu.edu.cn/nix-channels/store"
-      "https://cache.nixos.org/"
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
     ];
 
     # nix community's cache server
@@ -138,14 +140,14 @@
 
         # home-manager 作为 nixos 的一个 module
         # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
-        home-manager.nixosModules.home-manager
+        home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
           # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
           home-manager.extraSpecialArgs = inputs;
-          home-manager.users.ryan = import ./home/home-darwin.nix;
+          home-manager.users.admin = import ./home/home-darwin.nix;
         }
       ];
     };

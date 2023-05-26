@@ -11,6 +11,7 @@
   in {
   home.packages = with pkgs-stable; [
     firefox-wayland  # firefox with wayland support
+    wineWowPackages.wayland
   ];
 
 
