@@ -1,3 +1,7 @@
+"""
+  set proxy for nix-daemon to speed up downloads
+  https://github.com/NixOS/nix/issues/1472#issuecomment-1532955973
+"""
 import os
 import plistlib
 import shlex

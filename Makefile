@@ -17,8 +17,6 @@ gc:
 	sudo nix-collect-garbage --delete-older-than 14d
 
 darwin-set-proxy:
-	# set proxy for nix-daemon to speed up downloads
-	# https://github.com/NixOS/nix/issues/1472#issuecomment-1532955973
 	sudo python3 scripts/darwin_set_proxy.py
 
 darwin: darwin-set-proxy
