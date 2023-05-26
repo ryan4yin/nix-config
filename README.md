@@ -46,12 +46,11 @@ make deploy
 For MacOS, use the following commands:
 
 ```bash
-# set proxy for nix-daemon to speed up downloads
-# https://github.com/NixOS/nix/issues/1472#issuecomment-1532955973
-make darwin-set-proxy
-
-# or just deploy using make, which is defined in Makefile
+# deploy the darwin configuration(harmonicia)
 make darwin
+
+# deploy with details
+make darwin-debug
 ```
 
 ## Install Apps from Flatpak
