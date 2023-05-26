@@ -53,6 +53,10 @@
       } ];
     };
     defaultGateway = "192.168.5.201";
+    nameservers = [
+      "119.29.29.29"  # DNSPod
+      "223.5.5.5"     # AliDNS
+    ];
   };
 
   # This value determines the NixOS release from which the default

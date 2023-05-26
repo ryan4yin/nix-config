@@ -4,6 +4,10 @@
   lib,
   ...
 }: {
+  imports = [
+    ./wayland-apps.nix
+  ];
+
   # hyprland configs, based on https://github.com/notwidow/hyprland
   home.file.".config/hypr" = {
     source = ./hypr-conf;

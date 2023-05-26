@@ -11,6 +11,8 @@ This repository is home to the nix code that builds my systems.
 
 - enable disk encryption to enhance data security
 - make fcitx5-rime work in vscode/chrome on wayland
+- auto unlock with `ssh-agent` after login
+  - [People using ssh-agent, how do you unlock it on login? - reddit](https://www.reddit.com/r/NixOS/comments/lsbo9a/people_using_sshagent_how_do_you_unlock_it_on/)
 
 ## Why Nix?
 
@@ -22,7 +24,9 @@ Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out
 
 >Note: you should NOT deploy this flake directly on your machine, it contains my hardware information and personal information which is not suitable for you. You may use this repo as a reference to build your own configuration.
 
-After installed NixOS with `nix-command` & `flake` enabled, you can deploy this flake with the following command:
+After installed NixOS with `nix-command` & `flake` enabled, flow the steps below to deploy this flake.
+
+For NixOS, use the following commands:
 
 ```bash
 # deploy my test configuration
@@ -37,6 +41,17 @@ sudo nixos-rebuild switch
 
 # we can also deploy using make, which is defined in Makefile
 make deploy
+```
+
+For MacOS, use the following commands:
+
+```bash
+# set proxy for nix-daemon to speed up downloads
+# https://github.com/NixOS/nix/issues/1472#issuecomment-1532955973
+make darwin-set-proxy
+
+# or just deploy using make, which is defined in Makefile
+make darwin
 ```
 
 ## Install Apps from Flatpak

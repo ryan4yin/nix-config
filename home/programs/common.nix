@@ -1,4 +1,4 @@
-{pkgs, config, ...}: 
+{pkgs, config, nil, ...}: 
 
 
 {
@@ -22,12 +22,13 @@
 
     # misc
     libnotify
-    wineWowPackages.wayland
     xdg-utils
 
     # productivity
     obsidian
     hugo
+
+    nil.packages."${pkgs.system}".default  # nix language server
 
     # IDE
     insomnia
@@ -104,6 +105,9 @@
     ltrace  # library call monitoring
     lsof
     mtr
+
+    # A tool to create bootable live USB drives from ISO images
+    unetbootin
   ];
 
   programs = {

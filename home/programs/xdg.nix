@@ -11,7 +11,6 @@
     "application/xhtml+xml" = browser;
     "text/html" = browser;
     "x-scheme-handler/about" = browser;
-    # "x-scheme-handler/chrome" = ["chromium-browser.desktop"];
     "x-scheme-handler/ftp" = browser;
     "x-scheme-handler/http" = browser;
     "x-scheme-handler/https" = browser;
@@ -21,9 +20,8 @@
     "video/*" = ["mpv.dekstop"];
     "image/*" = ["imv.desktop"];
     "application/json" = browser;
-    "application/pdf" = ["org.pwmt.zathura.desktop.desktop"];  # TODO: pdf viewer
+    "application/pdf" = browser;  # TODO: pdf viewer
     "x-scheme-handler/discord" = ["discord.desktop"];
-    "x-scheme-handler/spotify" = ["spotify.desktop"];
     "x-scheme-handler/tg" = ["telegramdesktop.desktop"];
   };
 in {

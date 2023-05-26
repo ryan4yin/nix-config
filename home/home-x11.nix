@@ -1,11 +1,9 @@
 { config, pkgs, ... }:
 
 {
-
   imports = [
     ./fcitx5
-    ./hyprland
-    # ./i3
+    ./i3
     ./programs
     ./rofi
     ./shell

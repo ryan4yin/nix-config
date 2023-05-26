@@ -71,19 +71,4 @@
     ncmpcpp  # a mpd client with a UI
     networkmanagerapplet  # provide GUI app: nm-connection-editor 
   ];
-  
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr  # for wlroots based compositors
-      xdg-desktop-portal-gtk  # for gtk
-      # xdg-desktop-portal-kde  # for kde
-    ];
-  };
-
-  # for power management
-  services.upower.enable = true;
-
 }
