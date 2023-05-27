@@ -38,11 +38,17 @@
     "WLR_EGL_NO_MODIFIRES" = "1";
   };
 
-  # set cursor size and dpi for 4k monitor
   # this is for xwayland
+  # set dpi for 4k monitor
   xresources.properties = {
-    "Xcursor.size" = 32;
-    "Xft.dpi" = 172;
+    "Xft.dpi" = 162;
+  };
+
+  # set Xcursor.theme & Xcursor.size in ~/.Xresources automatically
+  home.pointerCursor = {
+    name = "Qogir-dark";
+    package = pkgs.qogir-theme;
+    size = 64;
   };
 
 }

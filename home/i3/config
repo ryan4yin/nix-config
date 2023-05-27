@@ -517,7 +517,8 @@ strip_workspace_numbers yes
 ## rofi bindings fancy application menu ($mod+d /F9 optional disabled)
 
 bindsym $mod+d exec rofi -modi drun -show drun \
-		-config ~/.config/rofi/rofidmenu.rasi
+		-config ~/.config/rofi/rofidmenu.rasi \
+		-dpi 162
 
 #bindsym F9 exec rofi -modi drun -show drun \
 #		-config ~/.config/rofi/rofidmenu.rasi
@@ -525,7 +526,8 @@ bindsym $mod+d exec rofi -modi drun -show drun \
 ## rofi bindings for window menu ($mod+t /F10 optional disabled)
 
 bindsym $mod+t exec rofi -show window \
-		-config ~/.config/rofi/rofidmenu.rasi
+		-config ~/.config/rofi/rofidmenu.rasi \
+		-dpi 162
 
 #bindsym F10 exec rofi -show window \
 #		-config ~/.config/rofi/rofidmenu.rasi

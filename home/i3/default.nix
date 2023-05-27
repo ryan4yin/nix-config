@@ -32,9 +32,18 @@
     "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
   };
 
-  # set cursor size and dpi for 4k monitor
+  # set dpi for 4k monitor
   xresources.properties = {
-    "Xcursor.size" = 32;
-    "Xft.dpi" = 172;
+    # dpi for Xorg's font
+    "Xft.dpi" = 162;
+    # or set a generic dpi
+    "*.dpi" = 162;
+  };
+
+  # set Xcursor.theme & Xcursor.size in ~/.Xresources automatically
+  home.pointerCursor = {
+    name = "Qogir-dark";
+    package = pkgs.qogir-theme;
+    size = 64;
   };
 }

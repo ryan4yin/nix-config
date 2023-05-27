@@ -141,11 +141,11 @@ function prepare_launcher() {
     rofi_colors=(-bc "${BORDER_COLOR}" -bg "${BG_COLOR}" -fg "${FG_COLOR}" \
         -hlfg "${HLFG_COLOR}" -hlbg "${HLBG_COLOR}")
     launcher_exe="rofi"
-    launcher_options=(-dmenu -i -lines "${menu_nrows}" -p "${ROFI_TEXT}" \
+    launcher_options=(-dpi 128 -dmenu -i -lines "${menu_nrows}" -p "${ROFI_TEXT}" \
         "${rofi_colors}" "${ROFI_OPTIONS[@]}")
   elif [[ "$1" == "zenity" ]]; then
     launcher_exe="zenity"
-    launcher_options=(--list --title="${ZENITY_TITLE}" --text="${ZENITY_TEXT}" \
+    launcher_options=(-dpi 128 --list --title="${ZENITY_TITLE}" --text="${ZENITY_TEXT}" \
         "${ZENITY_OPTIONS[@]}")
   fi
 }
