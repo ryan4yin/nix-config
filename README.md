@@ -10,9 +10,10 @@ This repository is home to the nix code that builds my systems.
 ## TODO
 
 - enable disk encryption to enhance data security
-- make fcitx5-rime work in vscode/chrome on wayland
+- make fcitx5-rime work in vscode/chrome/telegram on wayland
 - auto unlock with `ssh-agent` after login
   - [People using ssh-agent, how do you unlock it on login? - reddit](https://www.reddit.com/r/NixOS/comments/lsbo9a/people_using_sshagent_how_do_you_unlock_it_on/)
+- update scripts for i3wm, especially rofi & screenshot
 
 ## Why Nix?
 
