@@ -15,12 +15,12 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ../../modules/fhs-fonts.nix
-    # ../../modules/hyprland.nix
-    ../../modules/i3.nix
-    ../../modules/nur-packages.nix
-    ../../modules/system.nix
-    ../../modules/user_group.nix
+    ../../modules/nixos/fhs-fonts.nix
+    # ../../modules/nixos/hyprland.nix
+    ../../modules/nixos/i3.nix
+    ../../modules/nixos/gui-apps.nix
+    ../../modules/nixos/core-desktop.nix
+    ../../modules/nixos/user_group.nix
 
     ../../secrets
   ];

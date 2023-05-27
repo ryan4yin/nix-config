@@ -1,16 +1,24 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
-    ./darwin
+    ../common
+
+    ./hyprland
+
+    ./fcitx5
+    ./desktop
+
+    ./common/ssh.nix
+    ./common/system-tools.nix
+    ./common/xdg.nix
   ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "admin";
-    # set homeDirectory make build fail
-    # homeDirectory = "/Users/admin";
+    username = "ryan";
+    homeDirectory = "/home/ryan";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

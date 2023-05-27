@@ -58,10 +58,10 @@
         "Iosevka"
       ];})
 
-      (pkgs.callPackage ../fonts/icomoon-feather-icon-font.nix { })
+      (pkgs.callPackage ../../fonts/icomoon-feather-icon-font.nix { })
 
       # arch linux icon, used temporarily in waybar
-      (pkgs.callPackage ../fonts/archcraft-icon-font.nix { })
+      (pkgs.callPackage ../../fonts/archcraft-icon-font.nix { })
 
     ];
 
@@ -105,76 +105,17 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     curl
     git      # used by nix flakes
     git-lfs  # used by huggingface models
 
-    # networking tools
-    ethtool
-    iperf3
-    nmap
-    socat
-    ldns  # replacement of dig, it provide the command `drill`
-
-    # system tools
-    sysstat
-    lm_sensors  # for `sensors` command
-
-    # misc
-    findutils 
-    file
-    which
-    tree
-    gnused
-    gnutar
-    gawk
-    p7zip
-    xz
-    zstd
-    cifs-utils  # for mounting windows shares
-
-    (python3.withPackages(ps: with ps; [
-      ipython
-      pandas
-      requests
-      pyquery
-    ]))
-
-    # need to run `conda-install` before using it
-    # need to run `conda-shell` before using command `conda`
-    conda
-
-    # video/audio tools
-    libva-utils
-    nvtop
-    vdpauinfo
-    vulkan-tools
-    glxinfo
-    glmark2
-
-    # minimal screen capture tool, used by i3 blur lock to take a screenshot
-    # print screen key is also bound to this tool in i3 config
-    scrot
-
-    neofetch
-    xfce.thunar  # xfce4's file manager
-    nnn          # terminal file manager
-    xdg-user-dirs
-
-    # embedded development
-    minicom
-
-    # remote desktop(rdp connect)
-    remmina
-    freerdp  # required by remmina
-
     devenv.packages."${pkgs.system}".devenv
   ];
 
-  # replace default editor with vim
-  environment.variables.EDITOR = "vim";
+  # replace default editor with neovim
+  environment.variables.EDITOR = "nvim";
 
   # Enable sound with pipewire.
   sound.enable = true;

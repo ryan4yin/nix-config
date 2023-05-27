@@ -1,12 +1,6 @@
 {
   description = "NixOS configuration of Ryan Yin";
 
-  # flake 为了确保够纯，它不依赖系统自身的 /etc/nix/nix.conf，而是在 flake.nix 中通过 nixConfig 设置
-  # 但是为了确保安全性，flake 默认仅允许直接设置少数 nixConfig 参数，其他参数都需要在执行 nix 命令时指定 `--accept-flake-config`，否则会被忽略
-  # <https://nixos.org/manual/nix/stable/command-ref/conf-file.html>
-  # 如果有些包国内镜像下载不到，它仍然会走国外，这时候就得靠旁路由来解决了。
-  # 临时修改默认网关为旁路由:  sudo ip route add default via 192.168.5.201
-  #                        sudo ip route del default via 192.168.5.201
   nixConfig = {
     experimental-features = [ "nix-command" "flakes" ];
 
@@ -31,13 +25,17 @@
     ];
   };
 
-  # 这是 flake.nix 的标准格式，inputs 是 flake 的依赖，outputs 是 flake 的输出
-  # inputs 中的每一项都被拉取、构建后，被作为参数传递给 outputs 函数
-  inputs = {
-    # flake inputs 有很多种引用方式，应用最广泛的是 github 的引用方式
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";       # 使用 nixos-unstable 分支 for nix flakes
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";    # unstable branch may be broken sometimes, use stable branch when necessary
+  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
+  # and `outputs` function will return all the build results of the flake. 
+  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
+  inputs = {
+    # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
+    # which represents the GitHub repository URL + branch/commit-id/tag.
+
+    # Official NixOS package source, using nixos-unstable branch here
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
     
     # for macos
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
@@ -51,10 +49,14 @@
     # e.g. wechat-uos/qqmusic/dingtalk
     nur.url = "github:nix-community/NUR";
 
-    home-manager.url = "github:nix-community/home-manager";
-    #　follows 是　inputs 中的继承语法
-    # 这里使　home-manager 的　nixpkgs 这个 inputs 与当前　flake 的　inputs.nixpkgs 保持一致，避免依赖的　nixpkgs 版本不一致导致问题
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # home-manager, used for managing user configuration
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      # The `follows` keyword in inputs is used for inheritance.
+      # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
+      # to avoid problems caused by different versions of nixpkgs dependencies.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # modern window compositor
     hyprland.url = "github:hyprwm/Hyprland/v0.25.0";
@@ -77,9 +79,11 @@
     nil.url = "github:oxalica/nil/2023-05-09";
   };
 
-  # outputs 的参数都是 inputs 中定义的依赖项，可以通过它们的名称来引用。
-  # 不过 self 是个例外，这个特殊参数指向 outputs 自身（自引用），以及 flake 根目录
-  # 这里的 @ 语法将函数的参数 attribute set 取了个别名，方便在内部使用
+  # `outputs` are all the build result of the flake. 
+  # A flake can have many use cases and different types of outputs.
+  # parameters in `outputs` are defined in `inputs` and can be referenced by their names. 
+  # However, `self` is an exception, This special parameter points to the `outputs` itself (self-reference)
+  # The `@` syntax here is used to alias the attribute set of the inputs's parameter, making it convenient to use inside the function.
   outputs = inputs@{
       self,
       nixpkgs,
@@ -88,27 +92,47 @@
       ...
   }: {
     nixosConfigurations = {
+      # By default, NixOS will try to refer the nixosConfiguration with its hostname.
+      # so the system named `msi-rtx4090` will use this configuration.
+      # However, the configuration name can also be specified using `sudo nixos-rebuild switch --flake /path/to/flakes/directory#<name>`.
+      # The `nixpkgs.lib.nixosSystem` function is used to build this configuration, the following attribute set is its parameter.
+      # Run `sudo nixos-rebuild switch --flake .#msi-rtx4090` in the flake's directory to deploy this configuration on any NixOS system
       msi-rtx4090 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
 
-        specialArgs = inputs; 
+        # The Nix module system can modularize configurations, improving the maintainability of configurations.
+        #
+        # Each parameter in the `modules` is a Nix Module, and there is a partial introduction to it in the nixpkgs manual:
+        #    <https://nixos.org/manual/nixpkgs/unstable/#module-system-introduction>
+        # It is said to be partial because the documentation is not complete, only some simple introductions
+        #    (such is the current state of Nix documentation...)
+        # A Nix Module can be an attribute set, or a function that returns an attribute set.
+        # If a Module is a function, according to the Nix Wiki description, this function can have up to four parameters:
+        # 
+        #   config: The configuration of the entire system
+        #   options: All option declarations refined with all definition and declaration references.
+        #   pkgs: The attribute set extracted from the Nix package collection and enhanced with the nixpkgs.config option.
+        #   modulesPath: The location of the module directory of Nix.
+        #
+        # Only these four parameters can be passed by default.
+        # If you need to pass other parameters, you must use `specialArgs` by uncomment the following line
+        specialArgs = inputs;  # pass all inputs into all sub modules.
         modules = [
           ./hosts/msi-rtx4090
 
-          # home-manager 作为 nixos 的一个 module
-          # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
+          # make home-manager as a module of nixos
+          # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
+            # pass all inputs into home manager's all sub modules
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home/home-x11.nix;
+            home-manager.users.ryan = import ./home/linux/x11.nix;
           }
         ];
       };
-
 
       nixos-test = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -116,21 +140,19 @@
         modules = [
           ./hosts/nixos-test
 
-          # home-manager 作为 nixos 的一个 module
-          # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home/home-wayland.nix;
+            home-manager.users.ryan = import ./home/linux/wayland.nix;
           }
         ];
       };
     };
 
+    # configurations for MacOS
     darwinConfigurations."harmonica" = darwin.lib.darwinSystem {
       system = "x86_64-darwin";
 
@@ -138,16 +160,13 @@
       modules = [
         ./hosts/harmonica
 
-        # home-manager 作为 nixos 的一个 module
-        # 这样在 nixos-rebuild switch 时，home-manager 也会被自动部署，不需要额外执行 home-manager switch 命令
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-
-          # 使用 home-manager.extraSpecialArgs 自定义传递给 ./home 的参数
+          
           home-manager.extraSpecialArgs = inputs;
-          home-manager.users.admin = import ./home/home-darwin.nix;
+          home-manager.users.admin = import ./home/darwin;
         }
       ];
     };
