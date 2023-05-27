@@ -1,11 +1,8 @@
 deploy: 
-	sudo nixos-rebuild switch --flake . \
-	  --extra-experimental-features 'nix-command flakes'
+	sudo nixos-rebuild switch --flake .
 
 debug:
-	sudo nixos-rebuild switch --flake . \
-	  --show-trace --verbose \
-	  --extra-experimental-features 'nix-command flakes'
+	sudo nixos-rebuild switch --flake . --show-trace --verbose
 
 update:
 	nix flake update
