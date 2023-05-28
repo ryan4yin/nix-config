@@ -9,6 +9,7 @@
     ./fcitx5
     ./desktop
 
+    ./common/shell.nix
     ./common/ssh.nix
     ./common/system-tools.nix
     ./common/xdg.nix

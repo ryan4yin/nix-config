@@ -14,6 +14,8 @@ This repository is home to the nix code that builds my systems.
 - auto unlock with `ssh-agent` after login
   - [People using ssh-agent, how do you unlock it on login? - reddit](https://www.reddit.com/r/NixOS/comments/lsbo9a/people_using_sshagent_how_do_you_unlock_it_on/)
 - update scripts for i3wm, especially rofi & screenshot
+- fix `xdg-open`: after set `firefox.desktop` as defaultApplication, NixOS returned error `no apps installed that can open "https://baidu.com"`
+- `Xcursor.size` do not take effect in i3
 
 ## Why Nix?
 

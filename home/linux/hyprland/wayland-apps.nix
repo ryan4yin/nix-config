@@ -1,7 +1,6 @@
 {
   pkgs,
   nixpkgs-stable,
-  config,
   ...
 }: let
   pkgs-stable = import nixpkgs-stable {
@@ -9,12 +8,6 @@
     config.allowUnfree = true;
   };
   in {
-  home.packages = with pkgs-stable; [
-    firefox-wayland  # firefox with wayland support
-    wineWowPackages.wayland
-  ];
-
-
   # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.
   programs = {
 
@@ -36,6 +29,12 @@
         # enable hardware acceleration - vulkan api
         # "--enable-features=Vulkan"
       ];
+    };
+
+    firefox = {
+      enable = true;
+      enableGnomeExtensions = false;
+      package = pkgs-stable.firefox-wayland;  # firefox with wayland support
     };
 
     vscode = {

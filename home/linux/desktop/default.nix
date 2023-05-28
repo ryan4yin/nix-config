@@ -9,6 +9,10 @@
     # networking
     wireshark
 
+    # e-book viewer(.epub/.mobi/...)
+    # do not support .pdf
+    foliate
+
     # instant messaging
     telegram-desktop
     discord
