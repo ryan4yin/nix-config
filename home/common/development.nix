@@ -5,9 +5,8 @@
     nil.packages."${pkgs.system}".default  # nix language server
 
     # IDE
-    insomnia
     jetbrains.pycharm-community
-    # jetbrains.idea-community
+    jetbrains.idea-community
 
     # cloud native
     skopeo
@@ -23,7 +22,6 @@
 
     # cloud provider
     awscli
-    awscurl
     aws-iam-authenticator
     eksctl
 
@@ -71,7 +69,7 @@
     ]))
     # need to run `conda-install` before using it
     # need to run `conda-shell` before using command `conda`
-    conda
+    # conda
 
     # db related
     dbeaver

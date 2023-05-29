@@ -6,6 +6,7 @@
     ../common/alacritty.nix
     ../common/git.nix
     ../common/starship.nix
+    ../common/development.nix
     
     ./core.nix
   ];
