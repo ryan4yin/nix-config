@@ -2,11 +2,13 @@
 
 {
   imports = [
-    ../common/core.nix
+    ../common/nushell
     ../common/alacritty.nix
+    ../common/core.nix
     ../common/git.nix
-    ../common/starship.nix
     ../common/development.nix
+    ../common/media.nix
+    ../common/starship.nix
     
     ./core.nix
   ];

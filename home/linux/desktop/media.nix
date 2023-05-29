@@ -10,6 +10,7 @@
     pavucontrol
     playerctl
     pulsemixer
+    imv  # simple image viewer
 
     nvtop
 

@@ -10,7 +10,6 @@
 
     # images
     viu  # terminal image viewer
-    imv  # simple image viewer
     imagemagick
     graphviz
   ];
