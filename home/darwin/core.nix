@@ -1,9 +1,18 @@
+# Install those apps using brew, instead of nix
+# because they are not available in nixpkgs with the support of darwin
+# ==> Brew Casks
+# iglance		    jdk-mission-control		visual-studio-code
+# anki				  firefox				      iina				openinterminal-lite
+# insomnia			orbstack
+# clashx				google-chrome			  intellij-idea-ce		pycharm-ce
+# discord				google-cloud-sdk		iterm2		telegram wireshark
+
 
 {pkgs, ...}: 
 {
   # MacOS specific configuration
   home.packages = with pkgs; [
-
+    mpv
   ];
 
   programs.ssh = {

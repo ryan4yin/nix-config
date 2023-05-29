@@ -10,14 +10,22 @@
     # jetbrains.idea-community
 
     # cloud native
+    skopeo
     docker-compose
     kubectl
     kubernetes-helm
     terraform
+    # terraformer # generate terraform configs from existing cloud resources
     pulumi
+    pulumictl
+    k9s
+    # istioctl
 
     # cloud provider
     awscli
+    awscurl
+    aws-iam-authenticator
+    eksctl
 
     # DO NOT install build tools for C/C++, set it per project by devShell instead
     gnumake  # used by this repo, to simplify the deployment
@@ -69,9 +77,24 @@
     dbeaver
     mycli
     pgcli
+    mongosh
 
     # embedded development
     minicom
+
+    # other languages
+    # julia
+    zig
+    # elixir
+    # solidity
+
+    # java
+    # adoptopenjdk-openj9-bin-17
+
+    # other tools
+    k6  # load testing tool
+    mitmproxy  # http/https proxy tool
+    protobuf   # protocol buffer compiler
   ];
 
   programs = {
