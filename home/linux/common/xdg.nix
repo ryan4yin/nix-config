@@ -5,6 +5,7 @@
 {config, pkgs, ...}: 
 {
   home.packages = with pkgs; [
+    xdg-utils  # provides cli tools such as `xdg-mime` `xdg-open`
     xdg-user-dirs
   ];
 
@@ -21,7 +22,7 @@
     #  ls /etc/profiles/per-user/ryan/share/applications/
     mimeApps = {
       enable = true;
-      associations.added = 
+      defaultApplications = 
         let
           browser = ["firefox.desktop"];
         in
