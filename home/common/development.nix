@@ -76,6 +76,7 @@
     mycli
     pgcli
     mongosh
+    sqlite
 
     # embedded development
     minicom
