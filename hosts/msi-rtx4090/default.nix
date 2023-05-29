@@ -37,6 +37,7 @@
     #"zfs"
     "ntfs"
     "fat" "vfat" "exfat"
+    "cifs" # mount windows share
   ];
 
   # Bootloader.
