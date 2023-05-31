@@ -4,6 +4,9 @@
   # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
@@ -98,9 +101,6 @@
   # so that you don’t have to type in passphrases every time you make an SSH connection. 
   # Use `ssh-add` to add a key to the agent.
   programs.ssh.startAgent = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
