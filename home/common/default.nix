@@ -3,7 +3,7 @@
   imports = [
     ./nushell
 
-    ./alacritty.nix
+    ./alacritty
     ./core.nix
     ./development.nix
     ./git.nix
