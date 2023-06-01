@@ -9,10 +9,18 @@
     userName = "Ryan Yin";
     userEmail = "xiaoyin_c@qq.com";
 
+    includes = [
+      {
+        # use diffrent email & name for work
+        path = "~/mobiuspace/.gitconfig";
+        condition = "gitdir:~/mobiuspace/";
+      }
+    ];
+
     extraConfig = {
       pull = {
         rebase = true;
-      };
+      };      
     };
 
     # signing = {
