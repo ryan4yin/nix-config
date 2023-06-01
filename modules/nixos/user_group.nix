@@ -8,6 +8,7 @@
   };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ryan = {
+    home = "/home/ryan";
     isNormalUser = true;
     description = "ryan";
     extraGroups = [ "ryan" "users" "networkmanager" "wheel" "docker" "wireshark" "adbusers" ];

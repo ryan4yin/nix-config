@@ -19,7 +19,7 @@
   home = {
     username = "admin";
     # set homeDirectory make build fail
-    # homeDirectory = "/Users/admin";
+    homeDirectory = "/Users/admin";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
