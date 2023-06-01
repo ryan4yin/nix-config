@@ -40,7 +40,7 @@
     # for macos
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
     darwin = {
-      url = "github:lnl7/nix-darwin/master";
+      url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
 
@@ -51,7 +51,10 @@
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager";
+      # lock to the commit at 2023-05-20, to avoid breaking changes for darwin
+      # TODO error when using the master branch of home-manager:
+      #    Error: HOME is set to "/Users/admin" but we expect "/var/empty"
+      url = "github:nix-community/home-manager/27ef11f0218d9018ebb2948d40133df2b1de622d";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs dependencies.
