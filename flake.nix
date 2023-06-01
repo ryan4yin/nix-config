@@ -97,7 +97,7 @@
       # However, the configuration name can also be specified using `sudo nixos-rebuild switch --flake /path/to/flakes/directory#<name>`.
       # The `nixpkgs.lib.nixosSystem` function is used to build this configuration, the following attribute set is its parameter.
       # Run `sudo nixos-rebuild switch --flake .#msi-rtx4090` in the flake's directory to deploy this configuration on any NixOS system
-      msi-rtx4090 = nixpkgs.lib.nixosSystem {
+      msi-rtx4090 = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
 
         # The Nix module system can modularize configurations, improving the maintainability of configurations.
@@ -116,7 +116,14 @@
         #
         # Only these four parameters can be passed by default.
         # If you need to pass other parameters, you must use `specialArgs` by uncomment the following line
-        specialArgs = inputs;  # pass all inputs into all sub modules.
+        specialArgs = {
+          inherit inputs;
+          pkgs-stable = import inputs.nixpkgs-stable {
+            system = system;  # refer the `system` parameter form outer scope recursively
+            # To use chrome, we need to allow the installation of non-free software
+            config.allowUnfree = true;
+          };
+        };
         modules = [
           ./hosts/msi-rtx4090
 

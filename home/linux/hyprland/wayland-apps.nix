@@ -1,13 +1,10 @@
 {
   pkgs,
-  nixpkgs-stable,
+  pkgs-stable,
   ...
-}: let
-  pkgs-stable = import nixpkgs-stable {
-    system = pkgs.system;
-    config.allowUnfree = true;
-  };
-  in {
+}: 
+
+{
   # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.
   programs = {
 
