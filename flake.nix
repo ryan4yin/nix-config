@@ -117,13 +117,12 @@
         # Only these four parameters can be passed by default.
         # If you need to pass other parameters, you must use `specialArgs` by uncomment the following line
         specialArgs = {
-          inherit inputs;
           pkgs-stable = import inputs.nixpkgs-stable {
             system = system;  # refer the `system` parameter form outer scope recursively
             # To use chrome, we need to allow the installation of non-free software
             config.allowUnfree = true;
           };
-        };
+        } // inputs;
         modules = [
           ./hosts/msi-rtx4090
 
@@ -141,9 +140,14 @@
         ];
       };
 
-      nixos-test = nixpkgs.lib.nixosSystem {
+      nixos-test = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = inputs; 
+        specialArgs = {
+          pkgs-stable = import inputs.nixpkgs-stable {
+            system = system;
+            config.allowUnfree = true;
+          };
+        } // inputs;
         modules = [
           ./hosts/nixos-test
 
