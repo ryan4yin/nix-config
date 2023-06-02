@@ -17,10 +17,8 @@
     ../../modules/nixos/hyprland.nix
     # ../../modules/nixos/i3.nix
     ../../modules/nixos/gui-apps.nix
-    ../../modules/moxps/core-desktop.nix
+    ../../modules/nixos/core-desktop.nix
     ../../modules/nixos/user_group.nix
-
-    ../../secrets
   ];
 
   nixpkgs.overlays = import ../../overlays args;
@@ -68,5 +66,3 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
 }
-
-
