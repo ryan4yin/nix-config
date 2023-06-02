@@ -134,7 +134,7 @@
             home-manager.useUserPackages = true;
 
             # pass all inputs into home manager's all sub modules
-            home-manager.extraSpecialArgs = inputs;
+            home-manager.extraSpecialArgs = specialArgs;
             home-manager.users.ryan = import ./home/linux/x11.nix;
           }
         ];
@@ -156,7 +156,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs;
+            home-manager.extraSpecialArgs = specialArgs;
             home-manager.users.ryan = import ./home/linux/wayland.nix;
           }
         ];
