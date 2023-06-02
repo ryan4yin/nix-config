@@ -11,6 +11,7 @@
     ../common/media.nix
     ../common/starship.nix
     
+    ./alacritty
     ./core.nix
   ];
 

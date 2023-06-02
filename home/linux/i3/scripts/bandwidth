@@ -8,9 +8,8 @@
 iface="${BLOCK_INSTANCE}"
 iface="${IFACE:-$iface}"
 dt="${DT:-3}"
-unit="${UNIT:-MB}"
-LABEL="${LABEL:-<span font='FontAwesome'> </span>}" # down arrow up arrow
-printf_command="${PRINTF_COMMAND:-"printf \"${LABEL}%1.0f/%1.0f %s/s\\n\", rx, wx, unit;"}"
+unit="${UNIT:-Mb}"
+printf_command="${PRINTF_COMMAND:-"printf \" %-5.1f/%5.1f %s/s\\n\", rx, wx, unit;"}"
 
 function default_interface {
     ip route | awk '/^default via/ {print $5; exit}'
@@ -45,7 +44,7 @@ Options:
 \tAllowed units: Kb, KB, Mb, MB, Gb, GB, Tb, TB
 \tUnits may have optional it/its/yte/ytes on the end, e.g. Mbits, KByte
 -p\tAwk command to be called after a measurement is made. 
-\tDefault: printf \"<span font='FontAwesome'>  </span>%%-5.1f/%%5.1f %%s/s\\\\n\", rx, wx, unit;
+\tDefault: printf \"<span font='FontAwesome'>  </span>%%-5.1f/%%5.1f %%s/s\\\\n\", rx, wx, unit;
 \tExposed variables: rx, wx, tx, unit, iface
 -l\tList available interfaces in /proc/net/dev
 -h\tShow this help text

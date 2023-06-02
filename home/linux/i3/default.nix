@@ -31,7 +31,7 @@
   };
 
   # xrandr - set primary screen
-  home.file.".screenlayout/monitor.sh".source = ./dual-monitor-4k-600p.sh;
+  home.file.".screenlayout/monitor.sh".source = ./dual-monitor-4k-1080p.sh;
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
