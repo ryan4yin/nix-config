@@ -2,7 +2,6 @@
 
 This repository is home to the nix code that builds my systems.
 
-
 ## Screenshots
 
 ![](./_img/screenshot_2023-05-07-21-21.webp)
@@ -25,7 +24,7 @@ Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out
 
 ## How to Deploy this Flake?
 
->Note: you should NOT deploy this flake directly on your machine, it contains my hardware information and personal information which is not suitable for you. You may use this repo as a reference to build your own configuration.
+> Note: you should NOT deploy this flake directly on your machine, it contains my hardware information and personal information which is not suitable for you. You may use this repo as a reference to build your own configuration.
 
 After installed NixOS with `nix-command` & `flake` enabled, flow the steps below to deploy this flake.
 
@@ -77,9 +76,10 @@ flatpak search <keyword>
 
 ## Other Interesting Dotfiles
 
-Other configurations from where I learned and copied:
+Other configurations that inspired me:
 
 - [notwidow/hyprland](https://github.com/notwidow/hyprland): hyprland configuration
+- [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
 - [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
 - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
