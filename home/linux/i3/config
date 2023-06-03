@@ -354,7 +354,7 @@ client.urgent				$urgentred	$urgentred	$white		$yellowbrown	$yellowbrown
 bar {
 	font pango: Noto Sans Regular 10
 	status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	position bottom
+	position top
 	# you can add different bars for multidisplay setups on each display by using `output`
 	# output DP-2
 
