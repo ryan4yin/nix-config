@@ -356,8 +356,11 @@ bar {
 	status_command i3blocks -c ~/.config/i3/i3blocks.conf
 	position top
 	# you can add different bars for multidisplay setups on each display by using `output`
-	# output DP-2
+	output DP-2
 
+	# enable transparency for i3bar
+	i3bar_command i3bar --transparency
+	
 	# it could be that you have no primary display set: set one (xrandr --output <output> --primary)
 	# reference: https://i3wm.org/docs/userguide.html#_tray_output
 	#tray_output primary
