@@ -275,25 +275,15 @@ exec --no-startup-id xset s 480 dpms 600 600 600
 exec --no-startup-id /usr/bin/dunst
 
 
+# screenshot tool
+exec --no-startup-id flameshot
+
 # autotiling script
 # https://github.com/nwg-piotr/autotiling
 exec_always --no-startup-id autotiling
 
 # Autostart apps as you like
 exec --no-startup-id sleep 1 && Terminal
-
-###############
-# system tray #
-###############
-# if you do not use dex: exec --no-startup-id dex --autostart --environment i3
-# you need to have tray apps started manually one by one:
-
-# start blueberry app for managing bluetooth devices from tray:
-#exec --no-startup-id blueberry-tray
-
-# networkmanager-applet
-#exec --no-startup-id nm-applet
-
 
 ##################
 # floating rules #

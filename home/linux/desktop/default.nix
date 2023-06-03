@@ -21,5 +21,8 @@
     # remote desktop(rdp connect)
     remmina
     freerdp  # required by remmina
+
+    # misc
+    flameshot
   ];
 }
