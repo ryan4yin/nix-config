@@ -8,10 +8,14 @@ update:
 	nix flake update
 
 history:
-	sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
+	nix profile history --profile /nix/var/nix/profiles/system
 
 gc:
-	sudo nix-collect-garbage --delete-older-than 14d
+	# remove all generations older than 7 days
+	sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
+
+	# garbage collect all unused nix store entries older than 14 days
+	sudo nix store gc --debug
 
 darwin-set-proxy:
 	sudo python3 scripts/darwin_set_proxy.py
@@ -30,4 +34,4 @@ darwin-debug: darwin-set-proxy
 
 .PHONY: clean  
 clean:  
-	-rm -rf result
+	rm -rf result
