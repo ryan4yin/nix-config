@@ -11,6 +11,7 @@
     # cloud native
     skopeo
     docker-compose
+    dive                 # explore docker layers
     kubectl
     kubernetes-helm
     terraform
@@ -61,15 +62,12 @@
     rustup
 
     # python
-    (python3.withPackages(ps: with ps; [
+    (python310.withPackages(ps: with ps; [
       ipython
       pandas
       requests
       pyquery
     ]))
-    # need to run `conda-install` before using it
-    # need to run `conda-shell` before using command `conda`
-    # conda
 
     # db related
     dbeaver

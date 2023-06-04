@@ -37,6 +37,7 @@
     zstd
     caddy
     gnupg
+    duperemove  # find duplicate extents in files and remove them with punch_hole(btrfs)
 
     # productivity
     hugo

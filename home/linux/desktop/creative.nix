@@ -10,9 +10,11 @@
     # gimp      # image editing, I prefer using figma in browser instead of this one
     inkscape  # vector graphics
     krita     # digital painting
-    kicad     # 3d printing, eletrical engineering
     musescore # music notation
     reaper    # audio production
+
+    # this app consumes a lot of storage, so do not install it currently
+    # kicad     # 3d printing, eletrical engineering
   ];
 
   programs = {
