@@ -3,6 +3,8 @@
 
   nixConfig = {
     experimental-features = [ "nix-command" "flakes" ];
+    # Manual optimise storage: nix-store --optimise
+    auto-optimise-store = true;
 
     substituters = [
       # replace official cache with a mirror located in China
