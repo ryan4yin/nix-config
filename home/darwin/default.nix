@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ../common/alacritty
     ../common/nushell
     
     ../common/core.nix
