@@ -45,7 +45,8 @@
     nix-output-monitor
 
     # productivity
-    hugo
+    hugo  # static site generator
+    glow  # markdown previewer in terminal
   ];
 
   programs = {
