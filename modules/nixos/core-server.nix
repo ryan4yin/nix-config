@@ -1,6 +1,20 @@
 { config, pkgs, devenv, ... }:
 
 {
+  # for nix server, we do not need to keep too much generations
+  boot.loader.systemd-boot.configurationLimit = 10;
+  # boot.loader.grub.configurationLimit = 10;
+  # do garbage collection weekly to keep disk usage low
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 1w";
+  };
+
+  # Manual optimise storage: nix-store --optimise
+  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
+  auto-optimise-store = true;
+
   # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

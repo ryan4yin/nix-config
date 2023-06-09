@@ -1,11 +1,9 @@
 {
   description = "NixOS configuration of Ryan Yin";
 
+  # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
     experimental-features = [ "nix-command" "flakes" ];
-    # Manual optimise storage: nix-store --optimise
-    # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-    auto-optimise-store = true;
 
     substituters = [
       # replace official cache with a mirror located in China
