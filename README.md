@@ -74,6 +74,17 @@ flatpak search <keyword>
 # search on website is also supported: https://flathub.org/
 ```
 
+## Run unmodified binaries on NixOS
+
+> the `fhs` command is defined at [./modules/nixos/core-desktop.nix#L145](https://github.com/ryan4yin/nix-config/blob/v0.0.5/modules/nixos/core-desktop.nix#L145)
+
+```shell
+# Activating FHS drops me in a shell which looks like a "normal" Linux
+$ fhs
+(fhs) $ ls /usr/bin
+(fhs) $ ./bin/code
+```
+
 ## Other Interesting Dotfiles
 
 Other configurations that inspired me:
