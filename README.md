@@ -85,6 +85,8 @@ $ fhs
 (fhs) $ ./bin/code
 ```
 
+for other methods, check out [Different methods to run a non-nixos executable on Nixos](https://unix.stackexchange.com/questions/522822/different-methods-to-run-a-non-nixos-executable-on-nixos).
+
 ## Other Interesting Dotfiles
 
 Other configurations that inspired me:
