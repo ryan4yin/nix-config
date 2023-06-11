@@ -87,3 +87,4 @@ Other configurations that inspired me:
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
 - [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
+- [Tips&Tricks for NixOS Desktop](https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488/2)

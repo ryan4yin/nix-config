@@ -13,7 +13,7 @@
 
   # Manual optimise storage: nix-store --optimise
   # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-  auto-optimise-store = true;
+  nix.settings.auto-optimise-store = true;
 
   # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -140,6 +140,16 @@
         sha256 = "sha256:1f996x5i85zf0hpd7jx18zdqdp9nhxhf6zn83ai0njphz1dj354p";
       });
       version = "latest";
+    }))
+
+    # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!
+    (let base = pkgs.appimageTools.defaultFhsEnvArgs; in 
+    pkgs.buildFHSUserEnv (base // {
+      name = "fhs";
+      targetPkgs = pkgs: (base.targetPkgs pkgs) ++ [pkgs.pkg-config]; 
+      profile = "export FHS=1"; 
+      runScript = "bash"; 
+      extraOutputsToInstall = ["dev"];
     }))
   ];
 
