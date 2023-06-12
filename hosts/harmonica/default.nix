@@ -6,5 +6,3 @@
     ../../modules/darwin/core.nix    
   ];
 }
-
-

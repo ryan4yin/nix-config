@@ -22,6 +22,12 @@ Nix allows for easy to manage, collaborative, reproducible deployments. This mea
 
 **Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out [NixOS & Nix Flakes - A Guide for Beginners](https://thiscute.world/en/posts/nixos-and-flake-basics/)!**
 
+## Hosts
+
+- `msi-rtx3090`: my main PC, with RTX 3090 GPU, with NixOS
+- `harmonica`: my MacBook Pro 2020 13-inch, with macOS, for work
+- `nixos-test`: my test machine, with NixOS
+
 ## How to Deploy this Flake?
 
 > Note: you should NOT deploy this flake directly on your machine, it contains my hardware information and personal information which is not suitable for you. You may use this repo as a reference to build your own configuration.
