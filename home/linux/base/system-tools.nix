@@ -22,9 +22,14 @@
     lsof # list open files
 
     # system tools
-    ethtool
     sysstat
     lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+    hdparm # for disk performance, command 
+    dmidecode # a tool that reads information about your system's hardware from the BIOS according to the SMBIOS/DMI standard
+
     cifs-utils # for mounting windows shares
   ];
 
