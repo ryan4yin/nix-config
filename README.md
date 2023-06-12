@@ -10,15 +10,15 @@ This repository is home to the nix code that builds my systems.
 
 - enable disk encryption to enhance data security
 - make fcitx5-rime work in vscode/chrome/telegram on wayland
-- auto unlock with `ssh-agent` after login
+- auto-unlock with `ssh-agent` after login
   - [People using ssh-agent, how do you unlock it on login? - reddit](https://www.reddit.com/r/NixOS/comments/lsbo9a/people_using_sshagent_how_do_you_unlock_it_on/)
 - update scripts for i3wm, especially rofi & screenshot
 - fix `xdg-open`: after set `firefox.desktop` as defaultApplication, NixOS returned error `no apps installed that can open "https://baidu.com"`
-- `Xcursor.size` do not take effect in i3
+- `Xcursor.size` does not take effect in i3
 
 ## Why Nix?
 
-Nix allows for easy to manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
+Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
 
 **Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out [NixOS & Nix Flakes - A Guide for Beginners](https://thiscute.world/en/posts/nixos-and-flake-basics/)!**
 
@@ -32,7 +32,7 @@ Nix allows for easy to manage, collaborative, reproducible deployments. This mea
 
 > Note: you should NOT deploy this flake directly on your machine, it contains my hardware information and personal information which is not suitable for you. You may use this repo as a reference to build your own configuration.
 
-After installed NixOS with `nix-command` & `flake` enabled, flow the steps below to deploy this flake.
+After installing NixOS with `nix-command` & `flake` enabled, follow the steps below to deploy this flake.
 
 For NixOS, use the following commands:
 
