@@ -1,7 +1,6 @@
-{
-  pkgs,
-  config,
-  ...
+{ pkgs
+, config
+, ...
 }:
 # media - control and enjoy audio/video
 {
@@ -10,7 +9,7 @@
     pavucontrol
     playerctl
     pulsemixer
-    imv  # simple image viewer
+    imv # simple image viewer
 
     nvtop
 
@@ -24,8 +23,8 @@
   programs = {
     mpv = {
       enable = true;
-      defaultProfiles = ["gpu-hq"];
-      scripts = [pkgs.mpvScripts.mpris];
+      defaultProfiles = [ "gpu-hq" ];
+      scripts = [ pkgs.mpvScripts.mpris ];
     };
   };
 

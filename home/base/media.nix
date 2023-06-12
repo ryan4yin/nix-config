@@ -1,7 +1,6 @@
-{
-  pkgs,
-  config,
-  ...
+{ pkgs
+, config
+, ...
 }:
 # processing audio/video
 {
@@ -9,7 +8,7 @@
     ffmpeg-full
 
     # images
-    viu  # terminal image viewer
+    viu # terminal image viewer
     imagemagick
     graphviz
   ];

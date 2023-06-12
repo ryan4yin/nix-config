@@ -1,8 +1,7 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
+{ pkgs
+, config
+, lib
+, ...
 }: {
   # i3 配置，基于 https://github.com/endeavouros-team/endeavouros-i3wm-setup
   # 直接从当前文件夹中读取配置文件作为配置内容
@@ -20,7 +19,7 @@
     source = ./scripts;
     # copy the scripts directory recursively
     recursive = true;
-    executable = true;  # make all scripts executable
+    executable = true; # make all scripts executable
   };
 
   # rofi is a application launcher and dmenu replacement

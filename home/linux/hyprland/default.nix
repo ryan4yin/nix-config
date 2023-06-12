@@ -1,8 +1,7 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
+{ pkgs
+, config
+, lib
+, ...
 }: {
   imports = [
     ./wayland-apps.nix
@@ -25,8 +24,8 @@
   fonts.fontconfig.enable = true;
 
   systemd.user.sessionVariables = {
-    "NIXOS_OZONE_WL" = "1";  # for any ozone-based browser & electron apps to run on wayland
-    "MOZ_ENABLE_WAYLAND" = "1";  # for firefox to run on wayland
+    "NIXOS_OZONE_WL" = "1"; # for any ozone-based browser & electron apps to run on wayland
+    "MOZ_ENABLE_WAYLAND" = "1"; # for firefox to run on wayland
     "MOZ_WEBRENDER" = "1";
 
     # for hyprland with nvidia gpu, ref https://wiki.hyprland.org/Nvidia/

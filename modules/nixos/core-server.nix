@@ -51,15 +51,17 @@
       font-awesome
 
       # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
-      source-sans       # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
-      source-han-sans   # 思源黑体
+      source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
+      source-han-sans # 思源黑体
 
       # nerdfonts
-      (nerdfonts.override { fonts = [
-        "FiraCode"
-        "JetBrainsMono"
-        "Iosevka"
-      ];})
+      (nerdfonts.override {
+        fonts = [
+          "FiraCode"
+          "JetBrainsMono"
+          "Iosevka"
+        ];
+      })
     ];
 
     # user defined fonts
@@ -82,7 +84,7 @@
     enable = true;
     settings = {
       X11Forwarding = true;
-      PermitRootLogin = "no";         # disable root login
+      PermitRootLogin = "no"; # disable root login
       PasswordAuthentication = false; # disable password login
     };
     openFirewall = true;
@@ -95,8 +97,8 @@
     wget
     curl
     aria2
-    git      # used by nix flakes
-    git-lfs  # used by huggingface models
+    git # used by nix flakes
+    git-lfs # used by huggingface models
   ];
 
   # replace default editor with neovim

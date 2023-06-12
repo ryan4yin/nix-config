@@ -50,11 +50,13 @@
       font-awesome
 
       # nerdfonts
-      (nerdfonts.override { fonts = [
-        "FiraCode"
-        "JetBrainsMono"
-        "Iosevka"
-      ];})
+      (nerdfonts.override {
+        fonts = [
+          "FiraCode"
+          "JetBrainsMono"
+          "Iosevka"
+        ];
+      })
 
     ];
   };

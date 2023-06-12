@@ -1,9 +1,9 @@
-{config, pkgs, ...}: 
+{ config, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
     neofetch
-    nnn          # terminal file manager
+    nnn # terminal file manager
 
     # archives
     zip
@@ -12,19 +12,19 @@
     p7zip
 
     # utils
-    ripgrep  # recursively searches directories for a regex pattern
-    jq       # A lightweight and flexible command-line JSON processor
-    yq-go    # yaml processer https://github.com/mikefarah/yq
-    exa      # A modern replacement for ‘ls’
-    fzf      # A command-line fuzzy finder
+    ripgrep # recursively searches directories for a regex pattern
+    jq # A lightweight and flexible command-line JSON processor
+    yq-go # yaml processer https://github.com/mikefarah/yq
+    exa # A modern replacement for ‘ls’
+    fzf # A command-line fuzzy finder
 
     # networking tools
-    mtr   # A network diagnostic tool
+    mtr # A network diagnostic tool
     iperf3
-    ldns  # replacement of dig, it provide the command `drill`
+    ldns # replacement of dig, it provide the command `drill`
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
-    nmap  # A utility for network discovery and security auditing
+    nmap # A utility for network discovery and security auditing
 
     # misc
     cowsay
@@ -45,8 +45,8 @@
     nix-output-monitor
 
     # productivity
-    hugo  # static site generator
-    glow  # markdown previewer in terminal
+    hugo # static site generator
+    glow # markdown previewer in terminal
   ];
 
   programs = {

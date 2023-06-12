@@ -1,8 +1,7 @@
-{
-  pkgs,
-  pkgs-stable,
-  ...
-}: 
+{ pkgs
+, pkgs-stable
+, ...
+}:
 
 {
   # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.
@@ -31,7 +30,7 @@
     firefox = {
       enable = true;
       enableGnomeExtensions = false;
-      package = pkgs-stable.firefox-wayland;  # firefox with wayland support
+      package = pkgs-stable.firefox-wayland; # firefox with wayland support
     };
 
     vscode = {

@@ -31,6 +31,9 @@ darwin-debug: darwin-set-proxy
 	  --extra-experimental-features 'nix-command flakes'
 	./result/sw/bin/darwin-rebuild switch --flake . --show-trace --verbose
 
+fmt:
+	# format the nix files in this repo
+	nix fmt
 
 .PHONY: clean  
 clean:  

@@ -3,13 +3,13 @@
 {
   imports = [
     ../base/nushell
-    
+
     ../base/core.nix
     ../base/git.nix
     ../base/development.nix
     ../base/media.nix
     ../base/starship.nix
-    
+
     ./alacritty
     ./core.nix
   ];

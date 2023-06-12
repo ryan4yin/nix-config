@@ -1,8 +1,8 @@
-{config, pkgs, nil, ...}: 
+{ config, pkgs, nil, ... }:
 
 {
   home.packages = with pkgs; [
-    nil.packages."${pkgs.system}".default  # nix language server
+    nil.packages."${pkgs.system}".default # nix language server
 
     # IDE
     jetbrains.pycharm-community
@@ -11,7 +11,7 @@
     # cloud native
     skopeo
     docker-compose
-    dive                 # explore docker layers
+    dive # explore docker layers
     kubectl
     kubernetes-helm
     terraform
@@ -27,7 +27,7 @@
     eksctl
 
     # DO NOT install build tools for C/C++, set it per project by devShell instead
-    gnumake  # used by this repo, to simplify the deployment
+    gnumake # used by this repo, to simplify the deployment
     clang-tools
     clang-analyzer
     # lldb
@@ -62,7 +62,7 @@
     rustup
 
     # python
-    (python310.withPackages(ps: with ps; [
+    (python310.withPackages (ps: with ps; [
       ipython
       pandas
       requests
@@ -89,9 +89,9 @@
     # adoptopenjdk-openj9-bin-17
 
     # other tools
-    k6  # load testing tool
-    mitmproxy  # http/https proxy tool
-    protobuf   # protocol buffer compiler
+    k6 # load testing tool
+    mitmproxy # http/https proxy tool
+    protobuf # protocol buffer compiler
   ];
 
   programs = {
@@ -104,9 +104,9 @@
     };
 
     direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    enableZshIntegration = true;
+      enable = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
     };
   };
 

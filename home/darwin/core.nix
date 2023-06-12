@@ -8,7 +8,7 @@
 # google-cloud-sdk	telegram   wireshark
 
 
-{pkgs, ...}: 
+{ pkgs, ... }:
 {
   # MacOS specific configuration
   home.packages = with pkgs; [

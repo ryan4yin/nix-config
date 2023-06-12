@@ -3,6 +3,6 @@
 
 {
   imports = [
-    ../../modules/darwin/core.nix    
+    ../../modules/darwin/core.nix
   ];
 }

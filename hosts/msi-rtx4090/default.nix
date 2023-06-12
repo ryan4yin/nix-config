@@ -30,13 +30,15 @@
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # supported fil systems, so we can mount any removable disks with these filesystems
-  boot.supportedFilesystems = [ 
+  boot.supportedFilesystems = [
     "ext4"
     "btrfs"
     "xfs"
     #"zfs"
     "ntfs"
-    "fat" "vfat" "exfat"
+    "fat"
+    "vfat"
+    "exfat"
     "cifs" # mount windows share
   ];
 
@@ -51,7 +53,7 @@
 
   networking = {
     hostName = "msi-rtx4090"; # Define your hostname.
-    wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+    wireless.enable = false; # Enables wireless support via wpa_supplicant.
 
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
@@ -59,25 +61,25 @@
 
     networkmanager.enable = true;
 
-    enableIPv6 = false;  # disable ipv6
+    enableIPv6 = false; # disable ipv6
     interfaces.enp5s0 = {
       useDHCP = false;
-      ipv4.addresses = [ {
+      ipv4.addresses = [{
         address = "192.168.5.66";
         prefixLength = 24;
-      } ];
+      }];
     };
     defaultGateway = "192.168.5.201";
     nameservers = [
-      "119.29.29.29"  # DNSPod
-      "223.5.5.5"     # AliDNS
+      "119.29.29.29" # DNSPod
+      "223.5.5.5" # AliDNS
     ];
   };
 
 
   # for Nvidia GPU
 
-  services.xserver.videoDrivers = ["nvidia"];  # will install nvidia-vaapi-driver by default
+  services.xserver.videoDrivers = [ "nvidia" ]; # will install nvidia-vaapi-driver by default
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     modesetting.enable = true;

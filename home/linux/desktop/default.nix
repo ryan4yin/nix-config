@@ -16,11 +16,11 @@
     # instant messaging
     telegram-desktop
     discord
-    qq      # https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/instant-messengers/qq
-    
+    qq # https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/instant-messengers/qq
+
     # remote desktop(rdp connect)
     remmina
-    freerdp  # required by remmina
+    freerdp # required by remmina
 
     # misc
     flameshot

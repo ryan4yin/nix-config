@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 
 
 {
@@ -34,7 +34,7 @@
 
     nvidiaPatches = true;
   };
-  programs.light.enable = true;     # monitor backlight control
+  programs.light.enable = true; # monitor backlight control
 
 
   # thunar file manager(part of xfce) related options
@@ -48,29 +48,29 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    waybar        # the status bar
-    swaybg        # the wallpaper
-    swayidle      # the idle timeout
-    swaylock      # locking the screen
-    wlogout       # logout menu
-    wl-clipboard  # copying and pasting
+    waybar # the status bar
+    swaybg # the wallpaper
+    swayidle # the idle timeout
+    swaylock # locking the screen
+    wlogout # logout menu
+    wl-clipboard # copying and pasting
 
-    wf-recorder   # creen recording
-    grim      # taking screenshots
-    slurp     # selecting a region to screenshot
+    wf-recorder # creen recording
+    grim # taking screenshots
+    slurp # selecting a region to screenshot
     # TODO replace by `flameshot gui --raw | wl-copy`
 
-    wofi      # A rofi inspired launcher for wlroots compositors such as sway/hyprland
-    mako      # the notification daemon, the same as dunst
+    wofi # A rofi inspired launcher for wlroots compositors such as sway/hyprland
+    mako # the notification daemon, the same as dunst
 
-    yad      # a fork of zenity, for creating dialogs
+    yad # a fork of zenity, for creating dialogs
 
     # 用于播放系统音效
-    mpd      # for playing system sounds
-    mpc-cli  # command-line mpd client
-    ncmpcpp  # a mpd client with a UI
-    networkmanagerapplet  # provide GUI app: nm-connection-editor 
+    mpd # for playing system sounds
+    mpc-cli # command-line mpd client
+    ncmpcpp # a mpd client with a UI
+    networkmanagerapplet # provide GUI app: nm-connection-editor 
 
-    xfce.thunar  # xfce4's file manager
+    xfce.thunar # xfce4's file manager
   ];
 }
