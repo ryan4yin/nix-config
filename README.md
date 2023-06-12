@@ -95,8 +95,10 @@ for other methods, check out [Different methods to run a non-nixos executable on
 
 ## Other Interesting Dotfiles
 
-Other configurations that inspired me:
+Other dotfiles && docs that inspired me:
 
+- [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
+- [Tips&Tricks for NixOS Desktop](https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488/2)
 - [notwidow/hyprland](https://github.com/notwidow/hyprland): hyprland configuration
 - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
@@ -105,5 +107,4 @@ Other configurations that inspired me:
 - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
-- [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
-- [Tips&Tricks for NixOS Desktop](https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488/2)
+- [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
