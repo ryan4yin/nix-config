@@ -23,9 +23,9 @@
     };
 
     direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    enableZshIntegration = true;
+      enable = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
     };
   };
 

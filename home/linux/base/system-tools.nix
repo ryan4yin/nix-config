@@ -17,9 +17,9 @@
     libnotify
 
     # system call monitoring
-    strace
+    strace  # system call monitoring
     ltrace  # library call monitoring
-    lsof
+    lsof    # list open files
 
     # system tools
     ethtool
