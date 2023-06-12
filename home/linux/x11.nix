@@ -2,19 +2,19 @@
 
 {
   imports = [
-    ../common
+    ../base
 
     ./i3
 
     ./fcitx5
     ./desktop
 
-    ./common/alacritty
-    ./common/development.nix
-    ./common/shell.nix
-    ./common/ssh.nix
-    ./common/system-tools.nix
-    ./common/xdg.nix
+    ./base/alacritty
+    ./base/development.nix
+    ./base/shell.nix
+    ./base/ssh.nix
+    ./base/system-tools.nix
+    ./base/xdg.nix
   ];
 
   # Home Manager needs a bit of information about you and the

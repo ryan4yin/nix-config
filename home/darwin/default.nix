@@ -2,13 +2,13 @@
 
 {
   imports = [
-    ../common/nushell
+    ../base/nushell
     
-    ../common/core.nix
-    ../common/git.nix
-    ../common/development.nix
-    ../common/media.nix
-    ../common/starship.nix
+    ../base/core.nix
+    ../base/git.nix
+    ../base/development.nix
+    ../base/media.nix
+    ../base/starship.nix
     
     ./alacritty
     ./core.nix
