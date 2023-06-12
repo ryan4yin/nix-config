@@ -13,22 +13,6 @@
     conda
   ];
 
-  programs = {
-    # modern vim
-    neovim = {
-      enable = true;
-      extraConfig = ''
-        set number relativenumber
-      '';
-    };
-
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-      enableZshIntegration = true;
-    };
-  };
-
   # GitHub CLI tool
   programs.gh = {
     enable = true;

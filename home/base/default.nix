@@ -2,8 +2,9 @@
 {
   imports = [
     ./nushell
-    ./bash.nix
+    ./tmux
 
+    ./bash.nix
     ./core.nix
     ./development.nix
     ./git.nix

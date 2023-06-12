@@ -50,11 +50,6 @@
   ];
 
   programs = {
-    # A terminal multiplexer
-    tmux = {
-      enable = true;
-    };
-
     # a cat(1) clone with syntax highlighting and Git integration.
     bat = {
       enable = true;
