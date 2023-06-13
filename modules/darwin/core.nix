@@ -1,3 +1,5 @@
+# all the configuration options are documented here:
+#    https://daiderd.com/nix-darwin/manual/index.html#sec-options
 { pkgs, lib, ... }:
 {
   # # enable flakes globally
@@ -26,15 +28,13 @@
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
-  # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = true;
-
   # Apps
   # `home-manager` currently has issues adding them to `~/Applications`
   # Issue: https://github.com/nix-community/home-manager/issues/1341
   environment.systemPackages = with pkgs; [
     neovim
     git
+    nushell  # my custom shell
   ];
 
   environment.variables.EDITOR = "nvim";
@@ -65,5 +65,18 @@
   users.users.admin = {
     home = "/Users/admin";
     description = "admin";
+
+    # set user's default shell to nushell
+    # this may not work, to change the default shell manually, use
+    #    `chsh -s /run/current-system/sw/bin/nu`
+    shell = pkgs.nushell;
   };
+
+  # Create /etc/zshrc that loads the nix-darwin environment.
+  # this is required if you want to use darwin's default shell - zsh
+  programs.zsh.enable = true;
+  environment.shells = [
+    pkgs.zsh
+    pkgs.nushell  # my custom shell
+  ];
 }

@@ -2,16 +2,11 @@
 
 {
   imports = [
-    ../base/nushell
-
-    ../base/core.nix
-    ../base/git.nix
-    ../base/development.nix
-    ../base/media.nix
-    ../base/starship.nix
-
+    ../base
+    
     ./alacritty
     ./core.nix
+    ./nushell.nix
   ];
 
   # Home Manager needs a bit of information about you and the
