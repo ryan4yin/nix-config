@@ -1,8 +1,5 @@
-{ pkgs
-, config
-, lib
-, ...
-}: {
+{ pkgs, ...}: 
+{
   imports = [
     ./wayland-apps.nix
   ];
@@ -51,4 +48,3 @@
   };
 
 }
-

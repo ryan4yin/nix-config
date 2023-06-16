@@ -1,13 +1,16 @@
 { pkgs, ... }:
 {
   imports = [
+    ./alacritty
+  
     ./creative.nix
     ./media.nix
   ];
 
   home.packages = with pkgs; [
-    # networking
-    wireshark
+    # GUI apps
+    insomnia  # REST client
+    wireshark # network analyzer
 
     # e-book viewer(.epub/.mobi/...)
     # do not support .pdf
@@ -25,4 +28,9 @@
     # misc
     flameshot
   ];
+
+  # GitHub CLI tool
+  programs.gh = {
+    enable = true;
+  };
 }

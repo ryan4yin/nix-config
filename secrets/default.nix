@@ -1,4 +1,4 @@
-{ config, pkgs, agenix, ... }:
+{ pkgs, agenix, ... }:
 
 {
   imports = [
@@ -25,7 +25,7 @@
     group = "root";
   };
 
-  # smb-credentials is referenced in /etc/fstab, by ../hosts/msi-rtx4090/cifs-mount.nix
+  # smb-credentials is referenced in /etc/fstab, by ../hosts/ai/cifs-mount.nix
   age.secrets."smb-credentials" = {
     # wether secrets are symlinked to age.secrets.<name>.path
     symlink = true;

@@ -28,6 +28,18 @@
           # Specifies that ssh should only use the identity file explicitly configured above
           # required to prevent sending default identity files first.
           IdentitiesOnly yes
+
+      Host gtr5
+        HostName 192.168.5.172
+        Port 22
+      
+      Host um560
+        HostName 192.168.5.173
+        Port 22
+
+      Host s500plus
+        HostName 192.168.5.174
+        Port 22
     '';
 
     # use ssh-agent so we only need to input passphrase once

@@ -1,47 +1,30 @@
-{ config, pkgs, devenv, ... }:
+{ lib, pkgs, ... }:
 
 {
-  # for nix server, we do not need to keep too much generations
-  boot.loader.systemd-boot.configurationLimit = 10;
-  # boot.loader.grub.configurationLimit = 10;
-  # do garbage collection weekly to keep disk usage low
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 1w";
-  };
 
-  # Manual optimise storage: nix-store --optimise
-  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-  nix.settings.auto-optimise-store = true;
+  imports = [
+    ./core-server.nix
+  ];
 
-  # enable flakes globally
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
-  # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "zh_CN.UTF-8";
-    LC_IDENTIFICATION = "zh_CN.UTF-8";
-    LC_MEASUREMENT = "zh_CN.UTF-8";
-    LC_MONETARY = "zh_CN.UTF-8";
-    LC_NAME = "zh_CN.UTF-8";
-    LC_NUMERIC = "zh_CN.UTF-8";
-    LC_PAPER = "zh_CN.UTF-8";
-    LC_TELEPHONE = "zh_CN.UTF-8";
-    LC_TIME = "zh_CN.UTF-8";
-  };
+  # to install chrome, you need to enable unfree packages
+  nixpkgs.config.allowUnfree = lib.mkForce true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # DO NOT promote ryan to input password for `nix-store` and `nix-copy-closure`
+  security.sudo.extraRules = [
+    { users = [ "ryan" ];
+      commands = [
+        { command = "/run/current-system/sw/bin/nix-store" ;
+          options = [ "NOPASSWD" ];
+        }
+        { command = "/run/current-system/sw/bin/nix-copy-closure" ;
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
   fonts = {
@@ -95,6 +78,7 @@
     };
   };
 
+  # dconf is a low-level configuration system.
   programs.dconf.enable = true;
 
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -121,20 +105,12 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    curl
-    git # used by nix flakes
-    git-lfs # used by huggingface models
-
-    devenv.packages."${pkgs.system}".devenv
-
     # the vscode insiders is designed to run alongside the main build, 
     # with a separate code-insiders command and a different config path
     # 
     # TODO install vscode into systemPackages to avoid binary collision error temporarily
     #     has collision between vscode & vscode-insider - /lib/vscode/chrome_crashpad_handler
-    ((pkgs.vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: {
+    ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: {
       src = (builtins.fetchTarball {
         url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
         # you need to update this sha256 every time you update vscode insiders
@@ -143,22 +119,7 @@
       });
       version = "latest";
     }))
-
-    # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!
-    (
-      let base = pkgs.appimageTools.defaultFhsEnvArgs; in
-      pkgs.buildFHSUserEnv (base // {
-        name = "fhs";
-        targetPkgs = pkgs: (base.targetPkgs pkgs) ++ [ pkgs.pkg-config ];
-        profile = "export FHS=1";
-        runScript = "bash";
-        extraOutputsToInstall = [ "dev" ];
-      })
-    )
   ];
-
-  # replace default editor with neovim
-  environment.variables.EDITOR = "nvim";
 
   # PipeWire is a new low-level multimedia framework.
   # It aims to offer capture and playback for both audio and video with minimal latency.
@@ -227,7 +188,6 @@
   # see https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/programs/adb.nix
   programs.adb.enable = true;
 
-
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -252,7 +212,4 @@
   ];
   # set user's default shell system-wide
   users.defaultUserShell = pkgs.nushell;
-
-  # for power management
-  services.upower.enable = true;
 }

@@ -24,9 +24,16 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 
 ## Hosts
 
-- `msi-rtx3090`: my main PC, with RTX 3090 GPU, with NixOS
-- `harmonica`: my MacBook Pro 2020 13-inch, with macOS, for work
-- `nixos-test`: my test machine, with NixOS
+```shell
+› tree hosts
+hosts
+├── harmonica  # my MacBook Pro 2020 13-inch, with macOS, for work.
+└── idols
+    ├── ai         # my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
+    ├── aquamarine # my NixOS virtual machine with R9-5900HX(8C16T), mainly for distributed building & testing.
+    ├── kana       # yet another NixOS vm on another physical machine with R5-5625U(6C12T).
+    └── ruby       # another NixOS vm on another physical machine with R7-5825U(8C16T).
+```
 
 ## How to Deploy this Flake?
 
@@ -37,17 +44,10 @@ After installing NixOS with `nix-command` & `flake` enabled, follow the steps be
 For NixOS, use the following commands:
 
 ```bash
-# deploy my test configuration
-sudo nixos-rebuild switch --flake .#nixos-test
+# deploy one of the configuration based on the hostname
+sudo nixos-rebuild switch --flake .
 
-
-# deploy my PC's configuration
-sudo nixos-rebuild switch --flake .#msi-rtx4090
-
-# or just deploy with hostname
-sudo nixos-rebuild switch
-
-# we can also deploy using make, which is defined in Makefile
+# we can also deploy using `make`, which is defined in Makefile
 make deploy
 ```
 
@@ -92,6 +92,34 @@ $ fhs
 ```
 
 for other methods, check out [Different methods to run a non-nixos executable on Nixos](https://unix.stackexchange.com/questions/522822/different-methods-to-run-a-non-nixos-executable-on-nixos).
+
+## How to create & managage VM from this flake?
+
+use `aquamarine` as an example, we can create a virtual machine with the following command:
+
+```shell
+# 1. generate a proxmox vma image file
+nom build .#aquamarine  # `nom`(nix-output-monitor) can be replaced by the standard command `nix`
+
+# 2. upload the genereated image to proxmox server's backup directory `/var/lib/vz/dump`
+#    please replace the vma file name with the one you generated in step 1.
+scp result/vzdump-qemu-aquamarine-nixos-23.11.20230603.dd49825.vma.zst root@192.168.5.174:/var/lib/vz/dump
+
+# 3. the image we uploaded will be listed in proxmox web ui's this page: [storage 'local'] -> [backups], we can restore a vm from it via the web ui now.
+```
+
+Once the virtual machine `aquamarine` is created, we can deploy updates to it with the following commands:
+
+```shell
+# 1. add the ssh key to ssh-agent
+ssh-add ~/.ssh/ai-idols
+
+# 2. deploy the configuration to the remote host, using the ssh key we added in step 1
+#    and the username defaults to `$USER`, it's `ryan` in my case.
+nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --verbose
+```
+
+The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host, because `nixos-rebuild switch` needs root permission to deploy the configuration.
 
 ## Other Interesting Dotfiles
 

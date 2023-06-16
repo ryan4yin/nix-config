@@ -1,6 +1,6 @@
 # all the configuration options are documented here:
 #    https://daiderd.com/nix-darwin/manual/index.html#sec-options
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   # # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

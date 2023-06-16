@@ -1,16 +1,14 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
   imports = [
-    ../base
+    ../base/desktop
 
     ./i3
 
     ./fcitx5
     ./desktop
 
-    ./base/alacritty
-    ./base/development.nix
     ./base/shell.nix
     ./base/ssh.nix
     ./base/system-tools.nix

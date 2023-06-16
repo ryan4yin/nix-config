@@ -1,14 +1,15 @@
-{ config, pkgs, devenv, ... }:
+{ lib, pkgs, ... }:
 
 {
+
   # for nix server, we do not need to keep too much generations
-  boot.loader.systemd-boot.configurationLimit = 10;
+  boot.loader.systemd-boot.configurationLimit = lib.mkDefault 10;
   # boot.loader.grub.configurationLimit = 10;
   # do garbage collection weekly to keep disk usage low
   nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 1w";
+    automatic = lib.mkDefault true;
+    dates = lib.mkDefault "weekly";
+    options = lib.mkDefault "--delete-older-than 1w";
   };
 
   # Manual optimise storage: nix-store --optimise
@@ -17,9 +18,11 @@
 
   # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
+  nix.settings.trusted-users = ["ryan"];
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = lib.mkDefault false;
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
@@ -39,45 +42,10 @@
     LC_TIME = "zh_CN.UTF-8";
   };
 
-  # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
-  fonts = {
-    # use fonts specified by user rather than default ones
-    enableDefaultFonts = false;
-    fontDir.enable = true;
-
-    fonts = with pkgs; [
-      # icon fonts
-      material-design-icons
-      font-awesome
-
-      # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
-      source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
-      source-han-sans # 思源黑体
-
-      # nerdfonts
-      (nerdfonts.override {
-        fonts = [
-          "FiraCode"
-          "JetBrainsMono"
-          "Iosevka"
-        ];
-      })
-    ];
-
-    # user defined fonts
-    # the reason there's Noto Color Emoji everywhere is to override DejaVu's
-    # B&W emojis that would sometimes show instead of some Color emojis
-    fontconfig.defaultFonts = {
-      sansSerif = [ "Noto Sans" "Noto Color Emoji" ];
-      monospace = [ "JetBrainsMono Nerd Font" "Noto Color Emoji" ];
-      emoji = [ "Noto Color Emoji" ];
-    };
-  };
-
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  networking.firewall.enable = lib.mkDefault false;
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -99,10 +67,27 @@
     aria2
     git # used by nix flakes
     git-lfs # used by huggingface models
+    k9s
+
+    # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!
+    (
+      let base = pkgs.appimageTools.defaultFhsEnvArgs; in
+      pkgs.buildFHSUserEnv (base // {
+        name = "fhs";
+        targetPkgs = pkgs: (base.targetPkgs pkgs) ++ [ pkgs.pkg-config ];
+        profile = "export FHS=1";
+        runScript = "bash";
+        extraOutputsToInstall = [ "dev" ];
+      })
+    )
   ];
 
   # replace default editor with neovim
   environment.variables.EDITOR = "nvim";
+
+  virtualisation.docker = {
+    enable = true;
+  };
 
   # for power management
   services.power-profiles-daemon = {

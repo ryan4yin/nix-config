@@ -31,6 +31,27 @@ darwin-debug: darwin-set-proxy
 	  --extra-experimental-features 'nix-command flakes'
 	./result/sw/bin/darwin-rebuild switch --flake . --show-trace --verbose
 
+idols:
+	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo
+	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo
+	nixos-rebuild --flake .#kana --target-host kana --build-host kana switch --use-remote-sudo
+
+idols-debug:
+	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --show-trace --verbose
+	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo --show-trace --verbose
+	nixos-rebuild --flake .#kana --target-host kana --build-host kana switch --use-remote-sudo --show-trace --verbose
+
+idols-image:
+	# take image for idols, and upload the image to proxmox nodes.
+	nom build .#aquamarine
+	scp result/vzdump-qemu-*.vma.zst root@gtr5:/var/lib/vz/dump
+
+	nom build .#ruby
+	scp result/vzdump-qemu-*.vma.zst root@s500plus:/var/lib/vz/dump
+
+	nom build .#kana
+	scp result/vzdump-qemu-*.vma.zst root@um560:/var/lib/vz/dump
+
 fmt:
 	# format the nix files in this repo
 	nix fmt

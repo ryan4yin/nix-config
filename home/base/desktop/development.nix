@@ -1,6 +1,16 @@
-{ config, pkgs, nil, ... }:
+{  pkgs, nil, ... }:
 
 {
+  #############################################################
+  #
+  #  Basic settings for development environment
+  # 
+  #  Please avoid to install language specific packages here(globally),
+  #  instead, install them independently using dev-templates:
+  #     https://github.com/the-nix-way/dev-templates
+  #
+  #############################################################
+
   home.packages = with pkgs; [
     nil.packages."${pkgs.system}".default # nix language server
 
@@ -30,33 +40,11 @@
     gnumake # used by this repo, to simplify the deployment
     clang-tools
     clang-analyzer
-    # lldb
-    # cmake
-    # autoconf
-    # automake
-    # bison
-    # cppcheck
-    # fakeroot
-    # flex
-    # gettext
-    # groff
-    # libtool
-    # m4
-    # patch
-    # pkgconf
-    # texinfo
-    # binutils
 
     # Golang
-    delve
     go
-    go-outline
-    go-tools
-    go2nix
-    gomodifytags
+    delve
     gopls
-    gotests
-    impl
 
     # Rust
     rustup
@@ -67,6 +55,7 @@
       pandas
       requests
       pyquery
+      pyyaml
     ]))
 
     # db related
@@ -78,15 +67,6 @@
 
     # embedded development
     minicom
-
-    # other languages
-    # julia
-    zig
-    # elixir
-    # solidity
-
-    # java
-    # adoptopenjdk-openj9-bin-17
 
     # other tools
     k6 # load testing tool
@@ -117,10 +97,5 @@
       enableBashIntegration = true;
       enableNushellIntegration = true;
     };
-  };
-
-  # GitHub CLI tool
-  programs.gh = {
-    enable = true;
   };
 }

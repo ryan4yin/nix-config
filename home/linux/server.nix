@@ -2,19 +2,17 @@
 
 {
   imports = [
-    ../base/desktop
-    
-    ./alacritty
-    ./core.nix
-    ./nushell.nix
+    ../base/server
+
+    ./base/shell.nix
+    ./base/system-tools.nix
   ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "admin";
-    # set homeDirectory make build fail
-    homeDirectory = "/Users/admin";
+    username = "ryan";
+    homeDirectory = "/home/ryan";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

@@ -1,0 +1,112 @@
+{ ... }: {
+
+  ############################################
+  #
+  #  NixOS's Configuration for Remote Building / Distributed Building
+  #
+  #  Related Docs:
+  #    1. https://github.com/NixOS/nix/issues/7380
+  #    2. https://nixos.wiki/wiki/Distributed_build
+  ############################################
+
+  # set local's max-job to 0 to force remote building(disable local building)
+  # nix.settings.max-jobs = 0;
+  nix.distributedBuilds = true;
+  nix.buildMachines = 
+    let
+      sshUser = "ryan";
+      # ssh key's path on local machine
+      sshKey = "/home/ryan/.ssh/ai-idols";
+      systems = [
+        # native arch
+        "x86_64-linux"
+
+        # emulated arch using binfmt_misc and qemu-user
+        "aarch64-linux"
+        "riscv64-linux"
+      ];
+      # all available system features are poorly documentd here:
+      #  https://github.com/NixOS/nix/blob/e503ead/src/libstore/globals.hh#L673-L687
+      supportedFeatures = [
+        "benchmark"
+        "big-parallel"
+        "kvm"
+      ];
+    in
+      [
+        {
+          # some of my remote builders are running NixOS
+          # and has the same sshUser, sshKey, systems, etc.
+          inherit sshUser sshKey systems supportedFeatures;
+
+          # the hostName should be:
+          #   1. a hostname that can be resolved by DNS
+          #   2. the ip address of the remote builder
+          #   3. a host alias defined globally in /etc/ssh/ssh_config
+          hostName = "aquamarine";
+          # remote builder's max-job
+          maxJobs = 5;
+          # speedFactor's a signed integer
+          # nix seems always try to build on the machine with the highest speedFactor
+          speedFactor = 0;
+        }
+        {
+          inherit sshUser sshKey systems supportedFeatures;
+          hostName = "ruby";
+          maxJobs = 2;
+          speedFactor = 0;
+        }
+        {
+          inherit sshUser sshKey systems supportedFeatures;
+          hostName = "kana";
+          maxJobs = 1;
+          speedFactor = 0;
+        }
+      ];
+  # optional, useful when the builder has a faster internet connection than yours
+	nix.extraOptions = ''
+		builders-use-substitutes = true
+	'';
+
+  # define the host alias for remote builders
+  # this config will be written to /etc/ssh/ssh_config
+  programs.ssh.extraConfig = ''
+    Host ai
+      HostName 192.168.5.100
+      Port 22
+    
+    Host aquamarine
+      HostName 192.168.5.101
+      Port 22
+    
+    Host ruby
+      HostName 192.168.5.102
+      Port 22
+
+    Host kana
+      HostName 192.168.5.103
+      Port 22
+  '';
+
+  # define the host key for remote builders so that nix can verify all the remote builders
+  # this config will be written to /etc/ssh/ssh_known_hosts
+  programs.ssh.knownHosts = {
+    # 星野 愛久愛海, Hoshino Aquamarine
+    aquamarine = {
+      hostNames = [ "aquamarine" ];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnCQXlllHoLX5EvU+t6yP/npsmuxKt0skHVeJashizE";
+    };
+
+    # 星野 瑠美衣, Hoshino Rubii
+    ruby = {
+      hostNames = [ "ruby" ];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICoIvsorGgnYpyunNrJfZ6Nyue7wBTx6LsyMOMrpgHJ/";
+    };
+
+    # 有馬 かな, Arima Kana
+    kana = {
+      hostNames = [ "kana" ];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuoNB0OSjCFyS022e+ZQCIsb/nhkw/XcWjksqK3sh5x";
+    };
+  };
+}

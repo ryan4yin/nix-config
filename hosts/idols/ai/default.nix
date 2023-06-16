@@ -1,31 +1,22 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-
-{ config, pkgs, home-manager, nur, ... } @ args:
+{ config, ... } @ args:
 
 {
   imports = [
-    # This adds a nur configuration option.
-    # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
-    nur.nixosModules.nur
-
     ./cifs-mount.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ../../modules/nixos/fhs-fonts.nix
-    # ../../modules/nixos/hyprland.nix
-    ../../modules/nixos/i3.nix
-    ../../modules/nixos/gui-apps.nix
-    ../../modules/nixos/core-desktop.nix
-    ../../modules/nixos/user_group.nix
+    ../../../modules/nixos/fhs-fonts.nix
+    # ../../../modules/nixos/hyprland.nix
+    ../../../modules/nixos/i3.nix
+    ../../../modules/nixos/core-desktop.nix
+    ../../../modules/nixos/remote-building.nix
+    ../../../modules/nixos/user-group.nix
 
-    ../../secrets
+    ../../../secrets
   ];
 
-  nixpkgs.overlays = import ../../overlays args;
+  nixpkgs.overlays = import ../../../overlays args;
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
@@ -52,7 +43,7 @@
   };
 
   networking = {
-    hostName = "msi-rtx4090"; # Define your hostname.
+    hostName = "ai";
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
 
     # Configure network proxy if necessary
@@ -65,7 +56,7 @@
     interfaces.enp5s0 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.5.66";
+        address = "192.168.5.100";
         prefixLength = 24;
       }];
     };
@@ -76,15 +67,16 @@
     ];
   };
 
+  virtualisation.docker.storageDriver = "btrfs";
 
   # for Nvidia GPU
-
   services.xserver.videoDrivers = [ "nvidia" ]; # will install nvidia-vaapi-driver by default
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     modesetting.enable = true;
     powerManagement.enable = true;
   };
+  virtualisation.docker.enableNvidia = true;  # for nvidia-docker
 
   hardware.opengl = {
     enable = true;
@@ -92,12 +84,6 @@
     driSupport = true;
     # needed by nvidia-docker
     driSupport32Bit = true;
-  };
-
-  virtualisation.docker = {
-    enable = true;
-    enableNvidia = true;
-    storageDriver = "btrfs";
   };
 
   # This value determines the NixOS release from which the default

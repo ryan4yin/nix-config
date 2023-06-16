@@ -10,8 +10,8 @@ let
 
   # get system's ssh public key by command:
   #    cat /etc/ssh/ssh_host_ed25519_key.pub
-  msi-rtx4090 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGeXNCazqiqxn8TmbCRjA+pLWrxwenn+CFhizBMP6en root@msi-rtx4090";
-  systems = [ msi-rtx4090 ];
+  ai = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGeXNCazqiqxn8TmbCRjA+pLWrxwenn+CFhizBMP6en root@ai";
+  systems = [ ai ];
 in
 {
   "./encrypt/wg-business.conf.age".publicKeys = users ++ systems;

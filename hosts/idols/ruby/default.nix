@@ -1,27 +1,22 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+{ ... } @args:
 
-{ config, pkgs, home-manager, nur, ... } @args:
+
+#############################################################
+#
+#  Ruby - a NixOS VM running on Proxmox
+#
+#############################################################
+
 
 {
   imports = [
-    # This adds a nur configuration option.
-    # Use `config.nur.repos.<user>.<package-name>` in NixOS Module for packages from the NUR.
-    nur.nixosModules.nur
+    ../../../modules/nixos/proxmox-hardware-configuration.nix
 
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-
-    ../../modules/nixos/fhs-fonts.nix
-    ../../modules/nixos/hyprland.nix
-    # ../../modules/nixos/i3.nix
-    ../../modules/nixos/gui-apps.nix
-    ../../modules/nixos/core-desktop.nix
-    ../../modules/nixos/user_group.nix
+    ../../../modules/nixos/core-server.nix
+    ../../../modules/nixos/user-group.nix
   ];
 
-  nixpkgs.overlays = import ../../overlays args;
+  nixpkgs.overlays = import ../../../overlays args;
 
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
@@ -39,19 +34,8 @@
     "cifs" # mount windows share
   ];
 
-  # Bootloader.
-  boot.loader = {
-    grub = {
-      enable = true;
-      device = "/dev/sda"; #  "nodev"
-      efiSupport = false;
-      useOSProber = true;
-      #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-    };
-  };
-
   networking = {
-    hostName = "nixos-test"; # Define your hostname.
+    hostName = "ruby"; # Define your hostname.
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
 
     # Configure network proxy if necessary
@@ -62,7 +46,7 @@
     interfaces.ens18 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "192.168.5.48";
+        address = "192.168.5.102";
         prefixLength = 24;
       }];
     };
@@ -79,6 +63,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
