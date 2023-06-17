@@ -213,14 +213,13 @@ workspace $ws1 output DP-2
 workspace $ws6 output HDMI-0
 
 # bind program to workspace and focus to them on startup:
-assign [class="Terminal"] $ws1
+assign [class="alacritty"] $ws1
 assign [class="(?i)firefox"] $ws2
-assign [class="Thunar"] $ws3
-assign [class="thunderbird"] $ws4
+assign [class="Thunar"] $ws8
+assign [class="thunderbird"] $ws9
 assign [class="TelegramDesktop"] $ws5
 
 # automatic set focus new window if it opens on another workspace than the current:
-for_window [class=Terminal] focus
 for_window [class=(?i)firefox] focus
 for_window [class=Thunar] focus
 for_window [class=Thunderbird] focus
@@ -280,10 +279,9 @@ exec --no-startup-id flameshot
 # https://github.com/nwg-piotr/autotiling
 exec_always --no-startup-id autotiling
 
-exec --no-startup-id i3-msg "workspace $ws1; exec alacritty"
 exec --no-startup-id i3-msg "workspace $ws2; exec firefox"
 
-exec --no-startup-id ~/.config/i3/scripts/restore-idols-monitor.sh
+exec --no-startup-id sleep 1 && ~/.config/i3/scripts/restore-idols-monitor.sh
 
 ##################
 # floating rules #
