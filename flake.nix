@@ -38,9 +38,9 @@
     # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
-    # Official NixOS package source, using nixos-unstable branch here
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
+    # Official NixOS package source, using nixos's stable branch by default
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # for macos
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
@@ -93,7 +93,8 @@
     let
       x64_system = "x86_64-linux";
       x64_specialArgs = {
-        pkgs-stable = import inputs.nixpkgs-stable {
+        # use unstable branch for some packages to get the latest updates
+        pkgs-unstable = import inputs.nixpkgs-unstable {
           system = x64_system; # refer the `system` parameter form outer scope recursively
           # To use chrome, we need to allow the installation of non-free software
           config.allowUnfree = true;
