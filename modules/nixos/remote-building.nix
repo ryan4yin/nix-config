@@ -7,6 +7,7 @@
   #  Related Docs:
   #    1. https://github.com/NixOS/nix/issues/7380
   #    2. https://nixos.wiki/wiki/Distributed_build
+  #    3. https://github.com/NixOS/nix/issues/2589
   ####################################################################
 
   # set local's max-job to 0 to force remote building(disable local building)
@@ -34,6 +35,8 @@
       ];
     in
       [
+        # Nix seems always try to build on the machine remotely
+        # to make use of the local machine's high-performance CPU, do not set remote builder's maxJobs too high.
         {
           # some of my remote builders are running NixOS
           # and has the same sshUser, sshKey, systems, etc.
@@ -45,9 +48,9 @@
           #   3. a host alias defined globally in /etc/ssh/ssh_config
           hostName = "aquamarine";
           # remote builder's max-job
-          maxJobs = 4;
+          maxJobs = 2;
           # speedFactor's a signed integer
-          # nix seems always try to build on the machine with the highest speedFactor
+          # but it seems that it's not used by Nix, takes no effect
           speedFactor = 1;
         }
         {
@@ -59,7 +62,7 @@
         {
           inherit sshUser sshKey systems supportedFeatures;
           hostName = "kana";
-          maxJobs = 2;
+          maxJobs = 1;
           speedFactor = 1;
         }
       ];
