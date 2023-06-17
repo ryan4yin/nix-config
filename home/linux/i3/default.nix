@@ -18,6 +18,10 @@
     recursive = true;
     executable = true; # make all scripts executable
   };
+  home.file.".config/i3/layouts" = {
+    source = ./layouts;
+    recursive = true;
+  };
 
   # rofi is a application launcher and dmenu replacement
   home.file.".config/rofi" = {

@@ -45,7 +45,7 @@ bindsym $mod+6	workspace  $ws6
 bindsym $mod+7	workspace  $ws7
 bindsym $mod+8	workspace  $ws8
 bindsym $mod+9	workspace  $ws9
-bindsym $mod+0	workspace  $ws10
+bindsym $mod+0	workspace  $ws0
 
 # switch to workspace with numpad keys
 bindcode $mod+87 workspace 1
@@ -57,7 +57,7 @@ bindcode $mod+85 workspace 6
 bindcode $mod+79 workspace 7
 bindcode $mod+80 workspace 8
 bindcode $mod+81 workspace 9
-bindcode $mod+90 workspace 10
+bindcode $mod+90 workspace 0
 
 # move focused container to workspace
 bindsym $mod+Shift+1	move container to workspace  $ws1
@@ -69,7 +69,7 @@ bindsym $mod+Shift+6	move container to workspace  $ws6
 bindsym $mod+Shift+7	move container to workspace  $ws7
 bindsym $mod+Shift+8	move container to workspace  $ws8
 bindsym $mod+Shift+9	move container to workspace  $ws9
-bindsym $mod+Shift+0	move container to workspace  $ws10
+bindsym $mod+Shift+0	move container to workspace  $ws0
 
 # resize window (you can also use the mouse for that):
 bindsym $mod+r mode "resize"
@@ -99,12 +99,6 @@ bindsym $mod+Shift+c reload
 
 # restart i3 inplace (preserves your layout/session, can be used to update i3)
 bindsym $mod+Shift+r restart
-
-# keybinding in fancy rofi (automated):
-bindsym F1 exec ~/.config/i3/scripts/keyhint-2
-# alternative
-# keybinding list in editor:
-# bindsym $mod+F1 exec xed ~/.config/i3/keybindings
 
 # Backlight control
 bindsym XF86MonBrightnessUp exec xbacklight +10 && notify-send "Brightness - $(xbacklight -get | cut -d '.' -f 1)%"
@@ -191,22 +185,26 @@ bindsym Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot
 bindsym $mod+Shift+p exec ~/.config/i3/scripts/power-profiles
 
 
+bindsym $mod+Shift+m exec ~/.config/i3/scripts/restore-idols-monitor.sh
+
+
 ##########################################
 # configuration for workspace behaviour: #
 ##########################################
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:"
-set $ws2 "2:"
-set $ws3 "3:"
-set $ws4 "4:"
-set $ws5 "5:"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws1 "1: "
+set $ws2 "2: "
+# visual studio code
+set $ws3 "3: "
+set $ws4 "4: "
+set $ws5 "5: "
+set $ws6 "6: "
+set $ws7 "7: "
+set $ws8 "8:"
+set $ws9 "9:"
+set $ws0 "10: "
 
 # use workspaces on different displays:
 # where you have to replace VGA-0/HDMI-0 with the names for your displays
@@ -282,8 +280,10 @@ exec --no-startup-id flameshot
 # https://github.com/nwg-piotr/autotiling
 exec_always --no-startup-id autotiling
 
-# Autostart apps as you like
-exec --no-startup-id sleep 1 && Terminal
+exec --no-startup-id i3-msg "workspace $ws1; exec alacritty"
+exec --no-startup-id i3-msg "workspace $ws2; exec firefox"
+
+exec --no-startup-id ~/.config/i3/scripts/restore-idols-monitor.sh
 
 ##################
 # floating rules #
