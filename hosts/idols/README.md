@@ -11,4 +11,7 @@ When building some packages for riscv64 or aarch64, I often have no cache availa
 
 ## References
 
+![](_img/idols-famaily.webp)
+![](_img/idols-ai.webp)
+
 See [Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko) for more information.
