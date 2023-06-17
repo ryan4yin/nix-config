@@ -2,8 +2,10 @@
 
   home.file.".config/fcitx5/profile".source = ./profile;
   home.file.".config/fcitx5/profile-bak".source = ./profile; # used for backup
-  # fcitx5 每次切换输入法，就会修改 ~/.config/fcitx5/profile 文件，导致我用 hm 管理的配置被覆盖
-  # 解决方法是通过如下内置，每次 rebuild 前都先删除下 profile 文件
+
+  # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile file, 
+  # which will override my config managed by home-manager
+  # so we need to remove it before everytime we rebuild the config
   home.activation.removeExistingFcitx5Profile = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
     rm -f "${config.xdg.configHome}/fcitx5/profile"
   '';
