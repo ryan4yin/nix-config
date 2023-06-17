@@ -1,13 +1,13 @@
 { ... }: {
 
-  ############################################
+  ####################################################################
   #
   #  NixOS's Configuration for Remote Building / Distributed Building
   #
   #  Related Docs:
   #    1. https://github.com/NixOS/nix/issues/7380
   #    2. https://nixos.wiki/wiki/Distributed_build
-  ############################################
+  ####################################################################
 
   # set local's max-job to 0 to force remote building(disable local building)
   # nix.settings.max-jobs = 0;

@@ -1,6 +1,11 @@
 { lib, pkgs, ... }:
 
 {
+  ###################################################################################
+  #
+  #  NixOS's core configuration suitable for all my machines
+  #
+  ###################################################################################
 
   # for nix server, we do not need to keep too much generations
   boot.loader.systemd-boot.configurationLimit = lib.mkDefault 10;

@@ -1,7 +1,16 @@
-# all the configuration options are documented here:
-#    https://daiderd.com/nix-darwin/manual/index.html#sec-options
+
 { pkgs, ... }:
 {
+  ###################################################################################
+  #
+  #  Core configuration for nix-darwin
+  #
+  #  All the configuration options are documented here:
+  #    https://daiderd.com/nix-darwin/manual/index.html#sec-options
+  #
+  ###################################################################################
+
+
   # # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
