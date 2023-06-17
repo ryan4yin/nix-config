@@ -27,7 +27,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 ```shell
 › tree hosts
 hosts
-├── harmonica  # my MacBook Pro 2020 13-inch, with macOS, for work.
+├── harmonica  # my MacBook Pro 2020 13-inch, mainly for business.
 └── idols
     ├── ai         # my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
     ├── aquamarine # my NixOS virtual machine with R9-5900HX(8C16T), mainly for distributed building & testing.

@@ -1,5 +1,10 @@
-# My MacBook Pro - Computer for Business
-{  ... }:
+{ ... }:
+
+#############################################################
+#
+#  Harnomica - my MacBook Pro 2020 13-inch, mainly for business.
+#
+#############################################################
 
 {
   imports = [
