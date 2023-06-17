@@ -45,22 +45,22 @@
           #   3. a host alias defined globally in /etc/ssh/ssh_config
           hostName = "aquamarine";
           # remote builder's max-job
-          maxJobs = 5;
+          maxJobs = 3;
           # speedFactor's a signed integer
           # nix seems always try to build on the machine with the highest speedFactor
-          speedFactor = 0;
+          speedFactor = 1;
         }
         {
           inherit sshUser sshKey systems supportedFeatures;
           hostName = "ruby";
           maxJobs = 2;
-          speedFactor = 0;
+          speedFactor = 1;
         }
         {
           inherit sshUser sshKey systems supportedFeatures;
           hostName = "kana";
           maxJobs = 1;
-          speedFactor = 0;
+          speedFactor = 1;
         }
       ];
   # optional, useful when the builder has a faster internet connection than yours
@@ -93,19 +93,19 @@
   programs.ssh.knownHosts = {
     # 星野 愛久愛海, Hoshino Aquamarine
     aquamarine = {
-      hostNames = [ "aquamarine" ];
+      hostNames = [ "aquamarine" "192.168.5.101" ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnCQXlllHoLX5EvU+t6yP/npsmuxKt0skHVeJashizE";
     };
 
     # 星野 瑠美衣, Hoshino Rubii
     ruby = {
-      hostNames = [ "ruby" ];
+      hostNames = [ "ruby" "192.168.5.102" ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICoIvsorGgnYpyunNrJfZ6Nyue7wBTx6LsyMOMrpgHJ/";
     };
 
     # 有馬 かな, Arima Kana
     kana = {
-      hostNames = [ "kana" ];
+      hostNames = [ "kana" "192.168.5.103" ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuoNB0OSjCFyS022e+ZQCIsb/nhkw/XcWjksqK3sh5x";
     };
   };
