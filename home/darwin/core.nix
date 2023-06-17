@@ -1,16 +1,21 @@
-# Install those apps using brew, instead of nix
-# because they are not available in nixpkgs with the support of darwin
-# ==> Brew Casks
-# jdk-mission-control
-# anki				firefox			   iina		openinterminal-lite
-# insomnia			orbstack
-# clashx		google-chrome
-# google-cloud-sdk	telegram   wireshark
-
-
 { pkgs, ... }:
 {
-  # MacOS specific configuration
+
+  ##########################################################################
+  # 
+  #  MacOS specific home configuration
+  #
+  #  Install those apps using brew, instead of nix
+  #  because they are not available in nixpkgs with the support of darwin
+  #    ==> Brew Casks
+  #    jdk-mission-control
+  #    anki	   firefox  wireshark
+  #    iina    openinterminal-lite
+  #    insomnia    orbstack
+  #    clashx    google-chrome
+  #    google-cloud-sdk	telegram
+  ##########################################################################
+
   home.packages = with pkgs; [
     mpv
     discord
