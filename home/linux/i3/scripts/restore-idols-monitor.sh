@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+#######################################################
+#
+# This script restores the layout of the idols monitor.
+#
+#######################################################
+
 # load the ssh key for idols first
 ssh-add ~/.ssh/ai-idols
 
