@@ -1,3 +1,9 @@
+############################################################################
+#
+#  Nix commands related to the local machine
+#
+############################################################################
+
 deploy: 
 	sudo nixos-rebuild switch --flake .
 
@@ -17,6 +23,12 @@ gc:
 	# garbage collect all unused nix store entries
 	sudo nix store gc --debug
 
+############################################################################
+#
+#  Darwin related commands, harmonica is my macbook pro's hostname
+#
+############################################################################
+
 darwin-set-proxy:
 	sudo python3 scripts/darwin_set_proxy.py
 
@@ -31,16 +43,28 @@ darwin-debug: darwin-set-proxy
 	  --extra-experimental-features 'nix-command flakes'
 	./result/sw/bin/darwin-rebuild switch --flake . --show-trace --verbose
 
-idols:
+
+############################################################################
+#
+#  Idols, Commands related to my remote distributed building cluster
+#
+############################################################################
+
+
+add-idols-ssh-key:
+	ssh-add ~/.ssh/ai-idols
+
+idols: add-idols-ssh-key
 	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo
 	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo
 	nixos-rebuild --flake .#kana --target-host kana --build-host kana switch --use-remote-sudo
 
-idols-debug:
+idols-debug: add-idols-ssh-key
 	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --show-trace --verbose
 	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo --show-trace --verbose
 	nixos-rebuild --flake .#kana --target-host kana --build-host kana switch --use-remote-sudo --show-trace --verbose
 
+# only used once to setup the virtual machines
 idols-image:
 	# take image for idols, and upload the image to proxmox nodes.
 	nom build .#aquamarine
@@ -51,6 +75,13 @@ idols-image:
 
 	nom build .#kana
 	scp result/vzdump-qemu-*.vma.zst root@um560:/var/lib/vz/dump
+
+
+############################################################################
+#
+#  Misc, other useful commands
+#
+############################################################################
 
 fmt:
 	# format the nix files in this repo
