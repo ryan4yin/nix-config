@@ -99,7 +99,8 @@
           config.allowUnfree = true;
         };
       } // inputs;
-      ai_modules = [
+      # 星野 アイ, Hoshino Ai
+      idol_ai_modules = [
         ./hosts/idols/ai
 
         home-manager.nixosModules.home-manager
@@ -111,7 +112,8 @@
           home-manager.users.ryan = import ./home/linux/x11.nix;
         }
       ];
-      aquamarine_modules = [
+      # 星野 愛久愛海, Hoshino Akuamarin
+      idol_aquamarine_modules = [
         ./hosts/idols/aquamarine
 
         home-manager.nixosModules.home-manager
@@ -123,7 +125,8 @@
           home-manager.users.ryan = import ./home/linux/server.nix;
         }
       ];
-      ruby_modules = [
+      # 星野 瑠美衣, Hoshino Rubii
+      idol_ruby_modules = [
         ./hosts/idols/ruby
 
         home-manager.nixosModules.home-manager
@@ -135,7 +138,8 @@
           home-manager.users.ryan = import ./home/linux/server.nix;
         }
       ];
-      kana_modules = [
+      # 有馬 かな, Arima Kana
+      idol_kana_modules = [
         ./hosts/idols/kana
 
         home-manager.nixosModules.home-manager
@@ -149,27 +153,24 @@
       ];
     in {
       nixosConfigurations = let system = x64_system; specialArgs = x64_specialArgs; in {
-        # 星野 アイ, Hoshino Ai
         ai = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
-          modules = ai_modules;
+          modules = idol_ai_modules;
         };
 
-        # 星野 愛久愛海, Hoshino Aquamarine
         aquamarine = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
-          modules = aquamarine_modules;
+          modules = idol_aquamarine_modules;
         };
 
-        # 星野 瑠美衣, Hoshino Rubii
         ruby = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
-          modules = ruby_modules;
+          modules = idol_ruby_modules;
         };
 
         kana = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
-          modules = kana_modules;
+          modules = idol_kana_modules;
         };
       };
 
@@ -204,13 +205,13 @@
         # Hoshino Ai is a physical machine, so we need to generate an iso image for it.
         ai = nixos-generators.nixosGenerate {
           inherit system specialArgs;
-          modules = ai_modules;
+          modules = idol_ai_modules;
           format = "iso";
         };
         # Hoshino Aquamarine is a virtual machine running on Proxmox VE.
         aquamarine = nixos-generators.nixosGenerate {
           inherit system specialArgs;
-          modules = aquamarine_modules ++ [
+          modules = idol_aquamarine_modules ++ [
             ({config, ...}: {
               proxmox.qemuConf.name = "aquamarine-nixos-${config.system.nixos.label}";
             })
@@ -226,7 +227,7 @@
         # Hoshino Rubii is a vm too.
         ruby = nixos-generators.nixosGenerate {
           inherit system specialArgs;
-          modules = ruby_modules ++ [
+          modules = idol_ruby_modules ++ [
             ({config, ...}: {
               proxmox.qemuConf.name = "ruby-nixos-${config.system.nixos.label}";
             })
@@ -236,7 +237,7 @@
         # Kana is a vm too.
         kana = nixos-generators.nixosGenerate {
           inherit system specialArgs;
-          modules = kana_modules ++ [
+          modules = idol_kana_modules ++ [
             ({config, ...}: {
               proxmox.qemuConf.name = "kana-nixos-${config.system.nixos.label}";
             })
