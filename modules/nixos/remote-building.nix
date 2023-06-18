@@ -48,7 +48,7 @@
           #   3. a host alias defined globally in /etc/ssh/ssh_config
           hostName = "aquamarine";
           # remote builder's max-job
-          maxJobs = 2;
+          maxJobs = 3;
           # speedFactor's a signed integer
           # but it seems that it's not used by Nix, takes no effect
           speedFactor = 1;
@@ -62,7 +62,7 @@
         {
           inherit sshUser sshKey systems supportedFeatures;
           hostName = "kana";
-          maxJobs = 1;
+          maxJobs = 2;
           speedFactor = 1;
         }
       ];
