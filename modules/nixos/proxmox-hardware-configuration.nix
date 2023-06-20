@@ -9,14 +9,6 @@
 # 
 ##############################################################################
 
-let
-  bios = "seabios";
-  partitionTableType = if bios == "seabios" then "legacy" else "efi";
-  supportEfi = partitionTableType == "efi" || partitionTableType == "hybrid";
-  supportBios = partitionTableType == "legacy" || partitionTableType == "hybrid" || partitionTableType == "legacy+gpt";
-  hasBootPartition = partitionTableType == "efi" || partitionTableType == "hybrid";
-  hasNoFsPartition = partitionTableType == "hybrid" || partitionTableType == "legacy+gpt";
-in
 {
 
   # DO NOT promote ryan to input password for sudo.
@@ -37,18 +29,14 @@ in
     growPartition = true;
     kernelParams = [ "console=ttyS0" ];
     loader.grub = {
-      device = lib.mkDefault (if (hasNoFsPartition || supportBios) then
-        # Even if there is a separate no-fs partition ("/dev/disk/by-partlabel/no-fs" i.e. "/dev/vda2"),
-        # which will be used the bootloader, do not set it as loader.grub.device.
-        # GRUB installation fails, unless the whole disk is selected.
-        "/dev/vda"
-      else
-        "nodev");
-      efiSupport = lib.mkDefault supportEfi;
-      efiInstallAsRemovable = lib.mkDefault supportEfi;
+      device = "/dev/vda";
+
+      # we do not support EFI, so disable it.
+      efiSupport = false;
+      efiInstallAsRemovable = false;
     };
 
-    loader.timeout = 0;
+    loader.timeout = 3;  # wait for 3 seconds to select the boot entry
     initrd.availableKernelModules = [ "uas" "virtio_blk" "virtio_pci" ];
   };
 
@@ -57,10 +45,8 @@ in
     autoResize = true;
     fsType = "ext4";
   };
-  fileSystems."/boot" = lib.mkIf hasBootPartition {
-    device = "/dev/disk/by-label/ESP";
-    fsType = "vfat";
-  };
+  # we do not have a /boot partition, so do not mount it.
+
 
   # it alse had qemu-guest-agent installed by default.
   services.qemuGuest.enable = lib.mkDefault true;
