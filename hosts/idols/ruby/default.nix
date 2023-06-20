@@ -10,6 +10,11 @@
 
 {
   imports = [
+    {
+      # override the default nixpkgs
+      nixpkgs.pkgs = args.pkgs-unstable;
+    }
+
     ../../../modules/nixos/proxmox-hardware-configuration.nix
 
     ../../../modules/nixos/core-server.nix
