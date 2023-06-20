@@ -103,13 +103,13 @@
     # 星野 瑠美衣, Hoshino Rubii
     ruby = {
       hostNames = [ "ruby" "192.168.5.102" ];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICoIvsorGgnYpyunNrJfZ6Nyue7wBTx6LsyMOMrpgHJ/";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE7n11XxB8B3HjdyAsL3PuLVDZxWCzEOUTJAY8+goQmW";
     };
 
     # 有馬 かな, Arima Kana
     kana = {
       hostNames = [ "kana" "192.168.5.103" ];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuoNB0OSjCFyS022e+ZQCIsb/nhkw/XcWjksqK3sh5x";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ3dDLOZERP1nZfRz3zIeVDm1q2Trer+fWFVvVXrgXM1";
     };
   };
 }
