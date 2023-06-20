@@ -113,6 +113,9 @@ ssh-add ~/.ssh/ai-idols
 # 2. deploy the configuration to the remote host, using the ssh key we added in step 1
 #    and the username defaults to `$USER`, it's `ryan` in my case.
 nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --verbose
+
+# or we can replace the command above with the following command, which is defined in Makefile
+make aqua
 ```
 
 The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host, because `nixos-rebuild switch` needs root permission to deploy the configuration.

@@ -54,15 +54,27 @@ darwin-debug: darwin-set-proxy
 add-idols-ssh-key:
 	ssh-add ~/.ssh/ai-idols
 
-idols: add-idols-ssh-key
+aqua: add-idols-ssh-key
 	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo
+
+aqua-debug: add-idols-ssh-key
+	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --show-trace --verbose
+
+ruby: add-idols-ssh-key
 	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo
+
+ruby-debug: add-idols-ssh-key
+	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo --show-trace --verbose
+
+kana: add-idols-ssh-key
 	nixos-rebuild --flake .#kana --target-host kana --build-host kana switch --use-remote-sudo
 
-idols-debug: add-idols-ssh-key
-	nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --show-trace --verbose
-	nixos-rebuild --flake .#ruby --target-host ruby --build-host ruby switch --use-remote-sudo --show-trace --verbose
+kana-debug: add-idols-ssh-key
 	nixos-rebuild --flake .#kana --target-host kana --build-host kana switch --use-remote-sudo --show-trace --verbose
+
+idols: aqua ruby kana
+
+idols-debug: aqua-debug ruby-debug kana-debug
 
 # only used once to setup the virtual machines
 idols-image:
