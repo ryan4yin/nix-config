@@ -1,3 +1,9 @@
+#
+#  NOTE: Makefile's target name should not be the same as one of the file or directory in the current directory, 
+#    otherwise the target will not be executed!
+#
+
+
 ############################################################################
 #
 #  Nix commands related to the local machine

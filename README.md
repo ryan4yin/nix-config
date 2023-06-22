@@ -118,7 +118,7 @@ nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamar
 make aqua
 ```
 
-The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host, because `nixos-rebuild switch` needs root permission to deploy the configuration.
+The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host.
 
 ## Other Interesting Dotfiles
 
@@ -135,3 +135,7 @@ Other dotfiles && docs that inspired me:
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
 - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
+
+```
+
+```
