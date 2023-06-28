@@ -8,15 +8,16 @@ This repository is home to the nix code that builds my systems.
 
 ## TODO
 
-- enable disk encryption to enhance data security
-- make fcitx5-rime work in vscode/chrome/telegram on wayland
-- `Xcursor.size` does not take effect in i3
+- [ ] Enable disk encryption to enhance data security
+- [ ] `Xcursor.size` does not take effect in i3
+- [ ] update macOS's config, refer to <https://github.com/dustinlyons/nixos-config/tree/main/darwin>
+  - Nix is not well supported on macOS, I met some strange bug recently, so I would like to migrate to nix-darwin's [homebrew](https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable) on macOS.
 
 ## Why Nix?
 
 Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
 
-**Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out [NixOS & Nix Flakes - 🛠️ ❤️ An unofficial Book for Beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+**Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out [NixOS & Nix Flakes - 🛠️ ❤️ An unofficial & opinionated Book for Beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
 ## Hosts
 
