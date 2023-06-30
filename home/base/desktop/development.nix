@@ -32,7 +32,7 @@
     # istioctl
 
     # cloud provider
-    awscli
+    awscli2
     aws-iam-authenticator
     eksctl
 
