@@ -17,7 +17,8 @@
     };
   };
   programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [ 
+  environment.systemPackages = with pkgs; [
+    # Need to add [File (in the menu bar) -> Add connection] after start the first time
     virt-manager
 
     # QEMU/KVM, provides:
