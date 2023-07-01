@@ -13,7 +13,16 @@
     home = "/home/ryan";
     isNormalUser = true;
     description = "ryan";
-    extraGroups = [ "ryan" "users" "networkmanager" "wheel" "docker" "wireshark" "adbusers" ];
+    extraGroups = [ 
+      "ryan" 
+      "users"
+      "networkmanager" 
+      "wheel"
+      "docker"
+      "wireshark"
+      "adbusers"
+      "libvirtd"
+    ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDiipi59EnVbi6bK1bGrcbfEM263wgdNfbrt6VBC1rHx ryan@ai-idols"
     ];

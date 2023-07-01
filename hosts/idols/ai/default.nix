@@ -15,6 +15,7 @@
     ../../../modules/nixos/fhs-fonts.nix
     # ../../../modules/nixos/hyprland.nix
     ../../../modules/nixos/i3.nix
+    ../../../modules/nixos/libvirt.nix
     ../../../modules/nixos/core-desktop.nix
     ../../../modules/nixos/remote-building.nix
     ../../../modules/nixos/user-group.nix
