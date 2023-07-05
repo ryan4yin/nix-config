@@ -15,7 +15,7 @@ This repository is home to the nix code that builds my systems.
 
 Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
 
-**Want to know Nix in details? Looking for a beginner-friendly tutorial? Check out [NixOS & Nix Flakes - 🛠️ ❤️ An unofficial & opinionated Book for Beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+**Want to know Nix in details? Looking for a beginner-friendly tutorial or best practices? Check out [NixOS & Nix Flakes - 🛠️ ❤️ An unofficial & opinionated Book for Beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
 ## Hosts
 
@@ -75,19 +75,6 @@ flatpak search <keyword>
 # search on website is also supported: https://flathub.org/
 ```
 
-## Run unmodified binaries on NixOS
-
-> the `fhs` command is defined at [./modules/nixos/core-desktop.nix#L145](https://github.com/ryan4yin/nix-config/blob/v0.0.5/modules/nixos/core-desktop.nix#L145)
-
-```shell
-# Activating FHS drops me in a shell which looks like a "normal" Linux
-$ fhs
-(fhs) $ ls /usr/bin
-(fhs) $ ./bin/code
-```
-
-for other methods, check out [Different methods to run a non-nixos executable on Nixos](https://unix.stackexchange.com/questions/522822/different-methods-to-run-a-non-nixos-executable-on-nixos).
-
 ## How to create & managage VM from this flake?
 
 use `aquamarine` as an example, we can create a virtual machine with the following command:
@@ -118,6 +105,10 @@ make aqua
 ```
 
 The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host.
+
+## Other Tips
+
+1. alacritty - Multi-Window on macOS: `command + N`
 
 ## Other Interesting Dotfiles
 

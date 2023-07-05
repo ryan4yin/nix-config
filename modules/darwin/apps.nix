@@ -76,6 +76,7 @@
       "raycast"
       "iglance"
       "eudic"
+      "baiduinput"  # baidu input method
       # "reaper"
 
       "insomnia"
