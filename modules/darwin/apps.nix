@@ -48,6 +48,7 @@
     brews = [
       # `brew install`
       "httpie"
+      "wireguard-tools"
     ];
 
     # `brew install --cask`
@@ -59,6 +60,13 @@
 
       "telegram"
       "discord"
+      "wechat"
+      "qq"
+      "neteasemusic"
+      "qqmusic"
+      "microsoft-remote-desktop"
+      "wechatwork"
+      "tencent-meeting"
 
       # "anki"
       "clashx"
@@ -67,8 +75,9 @@
       "syncthing"
       "raycast"
       "iglance"
+      "eudic"
+      # "reaper"
 
-      "iterm2"
       "insomnia"
       "wireshark"
       "jdk-mission-control"

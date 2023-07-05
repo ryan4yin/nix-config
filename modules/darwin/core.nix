@@ -1,5 +1,5 @@
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   ###################################################################################
   #
@@ -72,10 +72,10 @@
     home = "/Users/admin";
     description = "admin";
 
-    # set user's default shell to nushell
-    # this may not work, to change the default shell manually, use
-    #    `chsh -s /run/current-system/sw/bin/nu`
-    shell = pkgs.nushell;
+    # set user's default shell back to zsh
+    #    `chsh -s /bin/zsh`
+    # DO NOT change the system's default shell to nushell! it will break some apps!
+    # It's better to change only starship/alacritty/vscode's shell to nushell!
   };
 
   # Create /etc/zshrc that loads the nix-darwin environment.
