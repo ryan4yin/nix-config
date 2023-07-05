@@ -49,6 +49,7 @@
       # `brew install`
       "httpie"
       "wireguard-tools"
+      "tailscale"
     ];
 
     # `brew install --cask`
