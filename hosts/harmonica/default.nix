@@ -9,5 +9,6 @@
 {
   imports = [
     ../../modules/darwin/core.nix
+    ../../modules/darwin/apps.nix
   ];
 }

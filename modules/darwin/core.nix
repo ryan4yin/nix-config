@@ -10,9 +10,10 @@
   #
   ###################################################################################
 
-
   # # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nix.settings.trusted-users = ["admin"];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -29,10 +30,6 @@
 
   # Add ability to used TouchID for sudo authentication
   security.pam.enableSudoTouchIdAuth = true;
-
-  # Keyboard
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.remapCapsLockToEscape = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";

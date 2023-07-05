@@ -10,8 +10,6 @@ This repository is home to the nix code that builds my systems.
 
 - [ ] Enable disk encryption to enhance data security
 - [ ] `Xcursor.size` does not take effect in i3
-- [ ] update macOS's config, refer to <https://github.com/dustinlyons/nixos-config/tree/main/darwin>
-  - Nix is not well supported on macOS, I met some strange bug recently, so I would like to migrate to nix-darwin's [homebrew](https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable) on macOS.
 
 ## Why Nix?
 
