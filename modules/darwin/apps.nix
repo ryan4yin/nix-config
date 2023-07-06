@@ -47,6 +47,9 @@
 
     brews = [
       # `brew install`
+      "wget"
+      "curl"  # no not install curl via nixpkgs, it's not working well on macOS!
+      "aria2"
       "httpie"
       "wireguard-tools"
       "tailscale"
