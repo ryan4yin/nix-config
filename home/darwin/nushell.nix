@@ -7,7 +7,7 @@
       "${config.home.homeDirectory}/.local/bin"
       "${config.home.homeDirectory}/go/bin"
       "${config.home.homeDirectory}/.nix-profile/bin"
-      "/etc/profiles/per-user/admin/bin"
+      "/etc/profiles/per-user/${config.home.username}/bin"
       "/run/current-system/sw/bin"
       "/nix/var/nix/profiles/default/bin"
 
