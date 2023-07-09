@@ -4,7 +4,7 @@
   ##################################################################################################################
   # 
   # Want to know Nix in details? Looking for a beginner-friendly tutorial?
-  # Check out [NixOS & Nix Flakes - A Guide for Beginners](https://thiscute.world/en/posts/nixos-and-flake-basics/)!
+  # Check out https://github.com/ryan4yin/nixos-and-flakes-book !
   # 
   ##################################################################################################################
 

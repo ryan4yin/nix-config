@@ -4,7 +4,9 @@ This repository is home to the nix code that builds my systems.
 
 ## Screenshots
 
-![](./_img/screenshot_2023-05-07-21-21.webp)
+![](./hosts/idols/_img/nix-distributed-building.webp)
+
+![](./hosts/idols/_img/nix-distributed-building-log.webp)
 
 ## TODO
 
@@ -22,10 +24,10 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 ```shell
 › tree hosts
 hosts
-├── harmonica  # my MacBook Pro 2020 13-inch, mainly for business.
+├── harmonica  # my MacBook Pro 2020 13-inch, for work.
 └── idols
     ├── ai         # my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
-    ├── aquamarine # my NixOS virtual machine with R9-5900HX(8C16T), mainly for distributed building & testing.
+    ├── aquamarine # my NixOS virtual machine with R9-5900HX(8C16T), for distributed building & testing.
     ├── kana       # yet another NixOS vm on another physical machine with R5-5625U(6C12T).
     └── ruby       # another NixOS vm on another physical machine with R7-5825U(8C16T).
 ```

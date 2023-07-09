@@ -73,7 +73,7 @@
 
     yad # a fork of zenity, for creating dialogs
 
-    # 用于播放系统音效
+    # audio
     mpd # for playing system sounds
     mpc-cli # command-line mpd client
     ncmpcpp # a mpd client with a UI
