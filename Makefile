@@ -29,6 +29,11 @@ gc:
 	# garbage collect all unused nix store entries
 	sudo nix store gc --debug
 
+# adjust brightness(x11)
+# usage: make bright b=0.9
+bright:
+	xrandr --output DP-2 --brightness $(b)
+
 ############################################################################
 #
 #  Darwin related commands, harmonica is my macbook pro's hostname
