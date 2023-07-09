@@ -124,6 +124,15 @@
       });
       version = "latest";
     }))
+
+    # python, some times I may need to use python with root permission.
+    (python310.withPackages (ps: with ps; [
+      ipython
+      pandas
+      requests
+      pyquery
+      pyyaml
+    ]))
   ];
 
   # PipeWire is a new low-level multimedia framework.
