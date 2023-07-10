@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./neovim
     ./nushell
     ./tmux
 

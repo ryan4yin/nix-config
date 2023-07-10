@@ -127,7 +127,4 @@ Other dotfiles && docs that inspired me:
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
 - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
-
-```
-
-```
+- [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)

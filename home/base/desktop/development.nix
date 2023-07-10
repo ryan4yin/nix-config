@@ -75,20 +75,6 @@
   ];
 
   programs = {
-    # modern vim
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = false;
-      vimAlias = true;
-
-      # enable line number, disable mouse visual mode
-      extraConfig = ''
-        set number relativenumber mouse-=a
-      '';
-
-    };
-
     direnv = {
       enable = true;
       nix-direnv.enable = true;
