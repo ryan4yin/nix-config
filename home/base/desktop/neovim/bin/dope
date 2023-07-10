@@ -1,0 +1,90 @@
+#!/usr/bin/env lua
+
+local arguments = {
+  install = true,
+  update = true,
+  clean = true,
+  doctor = true,
+  debug = true,
+  help = true,
+  modules = true,
+}
+
+local argument
+
+if #arg == 0 then
+  argument = 'install'
+else
+  if #arg > 1 and (arg[1] ~= 'debug' and arg[1] ~= 'doctor') then
+    error('passed multiple arguments.')
+  end
+
+  if not arguments[arg[1]] then
+    error('unknow argument ' .. arg[1])
+  end
+  argument = arg[1]
+
+  if arg[1] == 'debug' then
+    local modules = [[let g:disable_modules="]]
+    ---@diagnostic disable-next-line: deprecated
+    for _, k in pairs({ table.unpack(arg, 2, #arg) } or {}) do
+      modules = modules .. ',' .. 'modules/' .. k .. '/plugins'
+    end
+    modules = modules .. '"'
+    os.execute("nvim --cmd '" .. modules .. "'")
+    return
+  end
+end
+
+local handle
+handle = assert(io.popen([[nvim --clean --headless --cmd 'echo $VIMRUNTIME|q' 2>&1]], 'r'))
+if not handle then
+  return
+end
+
+local rtp = handle:read('*a')
+handle:close()
+
+-- read config path
+handle = assert(io.popen([[nvim --clean --headless --cmd 'echo stdpath("config")|q' 2>&1]], 'r'))
+local config_path = handle:read('*a')
+handle:close()
+
+-- set the poackage path
+package.path = package.path .. ';' .. rtp .. '/lua/vim/?.lua;' .. config_path .. '/lua/?.lua'
+
+if argument == 'help' then
+  local helper = require('core.helper')
+  helper.green('Dope usage')
+  local usage = {
+    { '\tinstall', '  install Plugins' },
+    { '\tupdate ', '  update Plugins' },
+    { '\tclean  ', '  clean the directories' },
+    { '\tdoctor ', '  check the plugins info' },
+    { '\tmodules', '  Show all modules' },
+    { '\tdebug  ', '  dynamic disable modules for debug' },
+    { '\thelp   ', '  show the usage of bot' },
+  }
+  for _, msg in pairs(usage) do
+    helper.write('blue')(msg[1])
+    helper.write('white')(msg[2])
+    print()
+  end
+  os.exit()
+end
+
+-- read data path
+handle = assert(io.popen([[nvim --clean --headless --cmd 'echo stdpath("data")|q' 2>&1]], 'r'))
+local data_path = handle:read('*a')
+handle:close()
+
+local cli = require('core.cli')
+
+cli.rtp = rtp
+cli.config_path = config_path
+cli.data_path = data_path
+
+-- env init
+cli:env_init()
+
+cli:meta(argument)(table.unpack(arg, 2))

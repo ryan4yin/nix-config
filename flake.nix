@@ -71,9 +71,6 @@
 
     # secrets management, lock with git commit at 2023/5/15
     agenix.url = "github:ryantm/agenix/db5637d10f797bb251b94ef9040b237f4702cde3";
-
-    # nix language server, used by vscode & neovim
-    nil.url = "github:oxalica/nil/2023-05-09";
   };
 
   # The `outputs` function will return all the build results of the flake. 

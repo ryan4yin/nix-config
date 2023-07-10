@@ -1,4 +1,4 @@
-{  pkgs, nil, ... }:
+{  pkgs, ... }:
 
 {
   #############################################################
@@ -12,12 +12,6 @@
   #############################################################
 
   home.packages = with pkgs; [
-    nil.packages."${pkgs.system}".default # nix language server
-
-    # IDE
-    jetbrains.pycharm-community
-    jetbrains.idea-community
-
     # cloud native
     skopeo
     docker-compose
@@ -38,19 +32,9 @@
 
     # DO NOT install build tools for C/C++, set it per project by devShell instead
     gnumake # used by this repo, to simplify the deployment
-    clang-tools
-    clang-analyzer
-
-    # Golang
-    go
-    delve
-    gopls
-
-    # Rust
-    rustup
 
     # python
-    (python310.withPackages (ps: with ps; [
+    (python311.withPackages (ps: with ps; [
       ipython
       pandas
       requests

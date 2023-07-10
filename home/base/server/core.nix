@@ -52,6 +52,13 @@
   ];
 
   programs = {
+    # modern vim
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
+    };
+
     # a cat(1) clone with syntax highlighting and Git integration.
     bat = {
       enable = true;
