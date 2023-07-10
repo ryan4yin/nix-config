@@ -65,6 +65,7 @@
       gopls
       pyright
       rust-analyzer
+      cargo  # rust package manager
 
       #-- tree-sitter --#
       tree-sitter

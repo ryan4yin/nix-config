@@ -18,7 +18,7 @@ package({
 })
 
 
--- 
+-- file tree sidebar
 package({
   'nvim-neo-tree/neo-tree.nvim',
   dependencies = { 
@@ -65,6 +65,14 @@ package({
         sources = {
           { source = "filesystem", display_name = " 󰉓 Files " },
           { source = "git_status", display_name = " 󰊢 Git " },
+        },
+      },
+
+      filesystem = {
+        filtered_items = {
+          visible = true, -- when true, they will just be displayed differently than normal items
+          hide_dotfiles = false,
+          hide_gitignored = false,
         },
       },
       -- Other options ...

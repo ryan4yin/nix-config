@@ -96,16 +96,6 @@ function config.nvim_lsp()
   nvim_lsp.pyright.setup({
     on_attach = on_attach(),
     capabilities = capabilities,
-    settings = {
-      python = {
-        analysis = {
-          autoSearchPaths = true,
-          diagnosticMode = "workspace",
-          useLibraryCodeForTypes = true,
-          typeCheckingMode = "off",
-        },
-      },
-    },
   })
 
   --sumneko_lua

@@ -15,22 +15,16 @@ function config.dashboard()
       shortcut = {
         { desc = ' Update', group = '@property', action = 'Lazy update', key = 'u' },
         {
-          desc = ' Files',
+          desc = ' Find Files',
           group = 'Label',
           action = 'Telescope find_files',
           key = 'f',
         },
         {
-          desc = ' Apps',
+          desc = '󱘎 File Tree',
           group = 'DiagnosticHint',
-          action = 'Telescope app',
-          key = 'a',
-        },
-        {
-          desc = ' dotfiles',
-          group = 'Number',
-          action = 'Telescope dotfiles',
-          key = 'd',
+          action = 'Neotree',
+          key = 't',
         },
       },
     },
