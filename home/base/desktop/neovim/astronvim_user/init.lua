@@ -18,7 +18,7 @@ return {
     { import = "astrocommunity.utility.noice-nvim" },
     -- Fully featured & enhanced replacement for copilot.vim
     -- <Tab> work with both auto completion in cmp and copilot
-    { import = "astrocommunity.completion.copilot-lua" },
+    { import = "astrocommunity.completion.copilot-lua-cmp" },
     { import = "astrocommunity.media.vim-wakatime" },
     { import = "astrocommunity.motion.leap-nvim" },
     { import = "astrocommunity.motion.flit-nvim" },
@@ -70,7 +70,6 @@ return {
           -- neovim
           "vim",
           "lua",
-          
           -- operation & cloud native
           "dockerfile",
           "hcl",

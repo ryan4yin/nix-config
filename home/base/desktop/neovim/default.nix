@@ -1,10 +1,37 @@
 { pkgs, astronvim, ... }:
 
-# related folders:
-# nvim's config: `~/.config/nvim`
-# astronvim's user configuration: `$XDG_CONFIG_HOME/astronvim/lua/user`
-# all plugins will be installed into(by lazy.nvim): `~/.local/share/nvim/`
-# for details: https://astronvim.com/
+###############################################################################
+#
+#  AstroNvim's configuration and all its dependencies
+#
+#  Related folders:
+#    nvim's config: `~/.config/nvim`
+#    astronvim's user configuration: `$XDG_CONFIG_HOME/astronvim/lua/user`
+#    all plugins will be installed into(by lazy.nvim): `~/.local/share/nvim/`
+#
+#  For details: https://astronvim.com/
+#
+#  Commands & shortcuts in AstroNvim
+#    Learn Neovim's Basics:         `:Tutor`
+#    Opening file explorer:         `<Space> + e`
+#    Focus Neotree to current file: `<Space> + o`
+#    Floating Terminal:	            `<Space> + tf`
+#    Horizontal Split Terminal:	    `<Space> + th`
+#    Vertical Split Terminal:	      `<Space> + tv`
+#    Opening LSP symbols:           `<Space> + lS`
+#    Toggle buffer auto formatting: `<Space> + uf`
+#
+#    Switching between windows:     `<Ctrl> + h/j/k/l`
+#    Resizing windows:              `<Ctrl> + Up/Down/Left/Right`
+#    Horizontal Split:              `\`
+#    Vertical Split:                `|`
+#    Next Buffer(Tab):              `]b`
+#    Previous Buffer(Tab):          `[b`
+#    Close Buffer:	                `<Space> + c`
+#    ......
+#    See https://astronvim.com/Basic%20Usage/walkthrough
+#
+#e#############################################################################
 {
   xdg.configFile = {
     # base config
@@ -15,10 +42,10 @@
     };
     # my cusotom astronvim config, astronvim will load it after base config
     # https://github.com/AstroNvim/AstroNvim/blob/v3.32.0/lua/astronvim/bootstrap.lua#L15-L16
-    "astronvim/lua/user/init.lua" = {
+    "astronvim/lua/user" = {
       # update AstroNvim
       onChange = "${pkgs.neovim}/bin/nvim --headless +quitall";
-      source = ./astronvim_user_init.lua;
+      source = ./astronvim_user;
     };
   };
 
@@ -103,20 +130,24 @@
       # HTML/CSS/JSON/ESLint language servers extracted from vscode
       nodePackages.vscode-langservers-extracted
 
-      #-- cloudnative
+      #-- CloudNative
       nodePackages.dockerfile-language-server-nodejs
       terraform
       terraform-ls
       jsonnet
       jsonnet-language-server
 
-      #-- others
+      #-- Others
       taplo  # TOML language server / formatter / validator
       nodePackages.yaml-language-server
 
-      # common
+      #-- Misc
       tree-sitter            # common language parser/highlighter
       nodePackages.prettier  # common code formatter
+
+      #-- Optional Requirements:
+      gdu        # disk usage analyzer, required by AstroNvim
+      ripgrep    # fast search tool, required by AstroNvim's '<leader>fw'(<leader> is space key)
     ];
   };
 
