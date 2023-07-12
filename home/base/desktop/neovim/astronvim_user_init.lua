@@ -20,6 +20,7 @@ return {
     -- Fully featured & enhanced replacement for copilot.vim
     -- <Tab> work with both auto completion in cmp and copilot
     { import = "astrocommunity.completion.copilot-lua" },
+    -- Debugging plugins
     {
       "jay-babu/mason-nvim-dap.nvim",
       config = function()
@@ -31,6 +32,7 @@ return {
         dap.configurations.go = configurations.delve
       end,
     },
+    -- File explorer(Custom configs)
     {
       "nvim-neo-tree/neo-tree.nvim",
       opts = {
@@ -41,6 +43,7 @@ return {
         },
       }
     },
+    -- Formatting & diagnostics
     {
       "jose-elias-alvarez/null-ls.nvim",
       opts = function(_, opts)
@@ -65,6 +68,7 @@ return {
         return opts
       end,
     },
+    -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
     {
       "nvim-treesitter/nvim-treesitter",
       opts = {
