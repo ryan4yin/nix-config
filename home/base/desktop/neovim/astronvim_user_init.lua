@@ -20,18 +20,37 @@ return {
     -- Fully featured & enhanced replacement for copilot.vim
     -- <Tab> work with both auto completion in cmp and copilot
     { import = "astrocommunity.completion.copilot-lua" },
-    -- Debugging plugins
-    {
-      "jay-babu/mason-nvim-dap.nvim",
-      config = function()
-        local dap = require('dap')
-        local adapters = require('mason-nvim-dap.mappings.adapters')
-        local configurations = require('mason-nvim-dap.mappings.configurations')
+    { import = "astrocommunity.media.vim-wakatime" },
+    { import = "astrocommunity.motion.leap-nvim" },
+    { import = "astrocommunity.motion.flit-nvim" },
+    { import = "astrocommunity.scrolling.nvim-scrollbar" },
+    { import = "astrocommunity.editing-support.todo-comments-nvim" },
+    -- Language Support
+    ---- Frontend & NodeJS
+    { import = "astrocommunity.pack.typescript-all-in-one" },
+    { import = "astrocommunity.pack.tailwindcss" },
+    { import = "astrocommunity.pack.html-css" },
+    { import = "astrocommunity.pack.prisma" },
+    { import = "astrocommunity.pack.vue" },
+    ---- Configuration Language
+    { import = "astrocommunity.pack.markdown" },
+    { import = "astrocommunity.pack.json" },
+    { import = "astrocommunity.pack.yaml" },
+    { import = "astrocommunity.pack.toml" },
+    ---- Backend
+    { import = "astrocommunity.pack.go" },
+    { import = "astrocommunity.pack.rust" },
+    { import = "astrocommunity.pack.python" },
+    { import = "astrocommunity.pack.java" },
+    { import = "astrocommunity.pack.nix" },
+    { import = "astrocommunity.pack.proto" },
+    { import = "astrocommunity.pack.terraform" },
+    ---- Operation & Cloud Native
+    { import = "astrocommunity.pack.bash" },
+    { import = "astrocommunity.pack.cmake" },
+    { import = "astrocommunity.pack.docker" },
+    { import = "astrocommunity.pack.lua" },
 
-        dap.adapters.delve = adapters.delve
-        dap.configurations.go = configurations.delve
-      end,
-    },
     -- File explorer(Custom configs)
     {
       "nvim-neo-tree/neo-tree.nvim",
@@ -43,65 +62,49 @@ return {
         },
       }
     },
-    -- Formatting & diagnostics
-    {
-      "jose-elias-alvarez/null-ls.nvim",
-      opts = function(_, opts)
-        local null_ls = require "null-ls"
-        -- Include code and source with diagnostics message
-        opts.diagnostics_format = "[#{c}] #{m} (#{s})"
-        opts.sources = {
-          null_ls.builtins.diagnostics.golangci_lint,
-          null_ls.builtins.diagnostics.hadolint,
-          null_ls.builtins.diagnostics.ruff,
-          null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.gofumpt.with({
-            extra_args = { "-extra" },
-          }),
-          null_ls.builtins.formatting.goimports,
-          null_ls.builtins.formatting.prettier,
-          null_ls.builtins.formatting.ruff,
-          null_ls.builtins.formatting.shfmt.with({
-            extra_args = { "-i", "2", "-ci", "-bn"},
-          }),
-        }
-        return opts
-      end,
-    },
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
     {
       "nvim-treesitter/nvim-treesitter",
       opts = {
         ensure_installed = {
-          "bash",
-          "go",
-          "gomod",
+          -- neovim
+          "vim",
+          "lua",
+          
+          -- operation & cloud native
           "hcl",
           "jsonnet",
-          "nix",
-          "python",
           "regex",
-          "rust",
           "terraform",
-          "typescript",
         },
       },
     },
   },
 
   lsp = {
+    config = {
+      -- the offset_encondings of clangd will confilicts whit null-ls
+      -- so we need to manually set it to utf-8
+      clangd = {
+        capabilities = {
+          offsetEncoding = "utf-8",
+        },
+      },
+    },
     servers = {
       "bashls",
       "clangd",   -- c/c++ language server
       "cmake",
       "cssls",
+      "dockerls",
       "eslint",
       "gopls",
       "html",
-      "jsonls",
-      "jsonnet_ls",
+      "jdtls",  -- java language server
+      "jsonls",  -- json language server
+      "jsonnet_ls",  -- jsonnet language server
       "lua_ls",
-      "pyright",
+      "pyright",  -- python language server
       "nil_ls",  -- nix language server
       "rust_analyzer",
       "sqlls",   -- sql language server
