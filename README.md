@@ -2,12 +2,6 @@
 
 This repository is home to the nix code that builds my systems.
 
-## Screenshots
-
-![](./hosts/idols/_img/nix-distributed-building.webp)
-
-![](./hosts/idols/_img/nix-distributed-building-log.webp)
-
 ## TODO
 
 - [ ] Enable disk encryption to enhance data security
@@ -18,6 +12,14 @@ This repository is home to the nix code that builds my systems.
 Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
 
 **Want to know Nix in detail? Looking for a beginner-friendly tutorial or best practices? Check out [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+
+## Screenshots
+
+![](/_img/astronvim_2023-07-13_00-39.webp)
+
+![](/_img/nix-distributed-building.webp)
+
+![](/_img/nix-distributed-building-log.webp)
 
 ## Hosts
 

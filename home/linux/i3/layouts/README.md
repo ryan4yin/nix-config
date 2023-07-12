@@ -10,6 +10,6 @@ See the [i3 user guide](https://i3wm.org/docs/layout-saving.html) for more infor
 
 the `idol-monitor.json` file contains the layout showing my nix distributed building monitor, it's a 2x2 grid of terminals running `btop`:
 
-![](/hosts/idols/_img/nix-distributed-building.webp)
+![](/_img/nix-distributed-building.webp)
 
 the layout & btop are autostarted by i3.
