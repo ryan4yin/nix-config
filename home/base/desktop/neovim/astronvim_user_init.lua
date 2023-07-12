@@ -3,65 +3,23 @@ return {
 
   options = {
     opt = {
-      cmdheight = 1, -- Always display cmd line
-      foldcolumn = "0", -- Hide foldcolumn
-      guicursor = "", -- Disable Nvim GUI cursor
-      mouse = "", -- Disable mouse support
-      number = false, -- Hide numberline
-      relativenumber = false, -- Hide relative numberline
+      cmdheight = 0, -- Do not display cmd line(use noice.nvim instead)
+      relativenumber = true, -- Show relative numberline
       signcolumn = "auto", -- Show sign column when used only
       spell = true, -- Enable spell checking
     },
   },
 
-  highlights = {
-    -- Fix Gruvbox highlight groups
-    -- https://github.com/ellisonleao/gruvbox.nvim/blob/main/lua/gruvbox/palette.lua
-    gruvbox = {
-      -- Hard-code reversed colors
-      -- https://github.com/AstroNvim/AstroNvim/issues/1147
-      StatusLine = { fg = "#ebdbb2", bg = "#504945" }, -- colors.light1 / colors.dark2
-    },
-  },
-
   plugins = {
+    "AstroNvim/astrocommunity",
     -- colorscheme - catppuccin
-    {
-      "catppuccin/nvim",
-      name = "catppuccin",
-      config = function()
-        require("catppuccin").setup {}
-      end,
-    },
-
-    -- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu. 
-    {
-      "folke/noice.nvim",
-      event = "VeryLazy",
-      opts = {
-        -- add any options here
-      },
-      dependencies = {
-        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-        "MunifTanjim/nui.nvim",
-        -- OPTIONAL:
-        --   `nvim-notify` is only needed, if you want to use the notification view.
-        --   If not available, we use `mini` as the fallback
-        "rcarriga/nvim-notify",
-        }
-    },
-
-    {
-      "rebelot/heirline.nvim",
-      opts = function(_, opts)
-        local status = require("astronvim.utils.status")
-        opts.statusline = vim.tbl_deep_extend("force", opts.statusline, {
-          -- add mode component
-          status.component.mode { mode_text = { padding = { left = 1, right = 1 } } },
-        })
-        return opts
-      end
-    },
+    { import = "astrocommunity.colorscheme.catppuccin" },
+    -- Highly experimental plugin that completely replaces
+    -- the UI for messages, cmdline and the popupmenu.
+    { import = "astrocommunity.utility.noice-nvim" },
+    -- Fully featured & enhanced replacement for copilot.vim
+    -- <Tab> work with both auto completion in cmp and copilot
+    { import = "astrocommunity.completion.copilot-lua" },
     {
       "jay-babu/mason-nvim-dap.nvim",
       config = function()
