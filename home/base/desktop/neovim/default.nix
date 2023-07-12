@@ -41,50 +41,82 @@
       extraPackages = [];
 
       # currently we use lazy.nvim as neovim's package manager, so comment this one.
-      # plugins = with pkgs.vimPlugins;[
+      plugins = with pkgs.vimPlugins;[
         # search all the plugins using https://search.nixos.org/packages
-      # ];
+        luasnip
+
+      ];
     };
   };
   home = {
     packages = with pkgs; [
-      # -- Compiler -- #
+      #-- c/c++
+      cmake
+      gnumake
       gcc # c/c++ compiler, required by nvim-treesitter!
       llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
-      zig
-      go
-      luajit
-
-      #-- LSP --#
-      nodePackages_latest.typescript
-      nodePackages_latest.typescript-language-server
-      nodePackages_latest.vscode-langservers-extracted
-      nodePackages_latest.bash-language-server
-
-      nil
-      # rnix-lsp
-      # nixd
-      
-      lua-language-server
-      gopls
-      pyright
-      rust-analyzer
-      cargo  # rust package manager
-
-      #-- tree-sitter --#
-      tree-sitter
-      
-      #-- format --#
-      stylua
-      black
-      nixpkgs-fmt
-      rustfmt
-      beautysh
-      nodePackages.prettier
-
-      #-- Debug --#
       gdb
       lldb
+
+      #-- python
+      nodePackages.pyright # python language server
+      python311Packages.black   # python formatter
+      python311Packages.ruff-lsp
+      
+      #-- rust
+      rust-analyzer
+      cargo  # rust package manager
+      rustfmt
+
+      #-- nix
+      nil
+      rnix-lsp
+      # nixd
+      statix     # Lints and suggestions for the nix programming language
+      deadnix    # Find and remove unused code in .nix source files
+      alejandra  # Nix Code Formatter
+      # nixpkgs-fmt
+
+      #-- golang
+      go
+      iferr  # generate error handling code for go
+      impl   # generate function implementation for go
+      gotools  # contains tools like: godoc, goimports, etc.
+      gopls  # go language server
+      delve  # go debugger
+
+      #-- lua
+      luajit
+      stylua
+      luajitPackages.luarocks
+      luajitPackages.luacheck
+      lua-language-server
+
+      #-- bash
+      nodePackages.bash-language-server
+      shellcheck
+      shfmt
+      
+      #-- javascript/typescript --#
+      nodePackages.typescript
+      nodePackages.typescript-language-server
+      # HTML/CSS/JSON/ESLint language servers extracted from vscode
+      nodePackages.vscode-langservers-extracted
+
+      #-- cloudnative
+      nodePackages.dockerfile-language-server-nodejs
+      terraform
+      terraform-ls
+      jsonnet
+      jsonnet-language-server
+
+      #-- others
+      taplo  # TOML language server / formatter / validator
+      nodePackages.yaml-language-server
+
+      # common
+      tree-sitter            # common language parser/highlighter
+      nodePackages.prettier  # common code formatter
     ];
   };
 

@@ -3,10 +3,9 @@ return {
 
   options = {
     opt = {
-      cmdheight = 0, -- Do not display cmd line(use noice.nvim instead)
       relativenumber = true, -- Show relative numberline
       signcolumn = "auto", -- Show sign column when used only
-      spell = true, -- Enable spell checking
+      spell = false, -- Enable spell checking
     },
   },
 
@@ -48,6 +47,7 @@ return {
     ---- Operation & Cloud Native
     { import = "astrocommunity.pack.bash" },
     { import = "astrocommunity.pack.cmake" },
+    { import = "astrocommunity.pack.cpp" },
     { import = "astrocommunity.pack.docker" },
     { import = "astrocommunity.pack.lua" },
 
@@ -72,6 +72,7 @@ return {
           "lua",
           
           -- operation & cloud native
+          "dockerfile",
           "hcl",
           "jsonnet",
           "regex",
@@ -83,7 +84,7 @@ return {
 
   lsp = {
     config = {
-      -- the offset_encondings of clangd will confilicts whit null-ls
+      -- the offset_enconding of clangd will confilicts whit null-ls
       -- so we need to manually set it to utf-8
       clangd = {
         capabilities = {
@@ -92,25 +93,9 @@ return {
       },
     },
     servers = {
-      "bashls",
-      "clangd",   -- c/c++ language server
-      "cmake",
-      "cssls",
       "dockerls",
-      "eslint",
-      "gopls",
-      "html",
-      "jdtls",  -- java language server
-      "jsonls",  -- json language server
       "jsonnet_ls",  -- jsonnet language server
-      "lua_ls",
-      "pyright",  -- python language server
-      "nil_ls",  -- nix language server
-      "rust_analyzer",
-      "sqlls",   -- sql language server
       "terraformls",
-      "tsserver",
-      "yamlls",
     },
     formatting = {
       disabled = {
