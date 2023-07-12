@@ -144,6 +144,7 @@
       #-- Misc
       tree-sitter            # common language parser/highlighter
       nodePackages.prettier  # common code formatter
+      marksman               # language server for markdown
 
       #-- Optional Requirements:
       gdu        # disk usage analyzer, required by AstroNvim
