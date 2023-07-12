@@ -45,6 +45,7 @@
     # it provides the command `nom` works just like `nix
     # with more details log output
     nix-output-monitor
+    nodePackages.node2nix
 
     # productivity
     hugo # static site generator
