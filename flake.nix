@@ -71,6 +71,9 @@
 
     # secrets management, lock with git commit at 2023/5/15
     agenix.url = "github:ryantm/agenix/db5637d10f797bb251b94ef9040b237f4702cde3";
+
+    # AstroNvim is an aesthetic and feature-rich neovim config.
+    astronvim = { url = "github:AstroNvim/AstroNvim/v3.32.0"; flake = false; };
   };
 
   # The `outputs` function will return all the build results of the flake. 

@@ -128,3 +128,4 @@ Other dotfiles && docs that inspired me:
 - [davidtwco/veritas](https://github.com/davidtwco/veritas)
 - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
 - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
+- [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.

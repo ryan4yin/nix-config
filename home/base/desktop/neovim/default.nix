@@ -1,18 +1,25 @@
-{ config, lib, inputs, pkgs, ... }:
+{ pkgs, astronvim, ... }:
 
-# references:
-#   https://github.com/nvimdev/dope
-#   https://github.com/Ruixi-rebirth/flakes/tree/main/modules/editors/nvim
-#   https://github.com/Chever-John/dotfiles/tree/master/nvim
-#
-# after apply, the first time you run nvim, it will download all configs into `.local/share/nvim`
+# related folders:
+# nvim's config: `~/.config/nvim`
+# astronvim's user configuration: `$XDG_CONFIG_HOME/astronvim/lua/user`
+# all plugins will be installed into(by lazy.nvim): `~/.local/share/nvim/`
+# for details: https://astronvim.com/
 {
-  home.file = {
-    ".config/nvim/bin".source = ./bin;
-    ".config/nvim/lua".source = ./lua;
-    ".config/nvim/snippets".source = ./snippets;
-    ".config/nvim/static".source = ./static;
-    ".config/nvim/init.lua".source = ./init.lua;
+  xdg.configFile = {
+    # base config
+    "nvim" = {
+      # update AstroNvim
+      onChange = "${pkgs.neovim}/bin/nvim --headless +quitall";
+      source = astronvim;  
+    };
+    # my cusotom astronvim config, astronvim will load it after base config
+    # https://github.com/AstroNvim/AstroNvim/blob/v3.32.0/lua/astronvim/bootstrap.lua#L15-L16
+    "astronvim/lua/user/init.lua" = {
+      # update AstroNvim
+      onChange = "${pkgs.neovim}/bin/nvim --headless +quitall";
+      source = ./astronvim_user_init.lua;
+    };
   };
 
   nixpkgs.config = {
@@ -33,12 +40,9 @@
       withNodeJs = true;
       extraPackages = [];
 
-      #-- Plugins --#
       # currently we use lazy.nvim as neovim's package manager, so comment this one.
       # plugins = with pkgs.vimPlugins;[
         # search all the plugins using https://search.nixos.org/packages
-        # catppuccin-nvim  # https://github.com/catppuccin/nvim
-        # nvim-treesitter.withAllGrammars
       # ];
     };
   };

@@ -6,31 +6,38 @@
     ./x11-apps.nix
   ];
 
-  # wallpaper, binary file
-  home.file.".config/i3/wallpaper.png".source = ../wallpapers/wallpaper.png;
-  home.file.".config/i3/config".source = ./config;
-  home.file.".config/i3/i3blocks.conf".source = ./i3blocks.conf;
-  home.file.".config/i3/keybindings".source = ./keybindings;
-  home.file.".config/i3/scripts" = {
-    source = ./scripts;
-    # copy the scripts directory recursively
-    recursive = true;
-    executable = true; # make all scripts executable
-  };
-  home.file.".config/i3/layouts" = {
-    source = ./layouts;
-    recursive = true;
-  };
+  home.file = {
+    # wallpaper, binary file
+    ".config/i3/wallpaper.png".source = ../wallpapers/wallpaper.png;
+    ".config/i3/config".source = ./config;
+    ".config/i3/i3blocks.conf".source = ./i3blocks.conf;
+    ".config/i3/keybindings".source = ./keybindings;
+    ".config/i3/scripts" = {
+      source = ./scripts;
+      # copy the scripts directory recursively
+      recursive = true;
+      executable = true; # make all scripts executable
+    };
+    ".config/i3/layouts" = {
+      source = ./layouts;
+      recursive = true;
+    };
 
-  # rofi is a application launcher and dmenu replacement
-  home.file.".config/rofi" = {
-    source = ./rofi-conf;
-    # copy the scripts directory recursively
-    recursive = true;
-  };
+    # rofi is a application launcher and dmenu replacement
+    ".config/rofi" = {
+      source = ./rofi-conf;
+      # copy the scripts directory recursively
+      recursive = true;
+    };
 
-  # xrandr - set primary screen
-  home.file.".screenlayout/monitor.sh".source = ./dual-monitor-4k-1080p.sh;
+    ".local/bin/bright" = {
+      source = ./bin/bright;
+      executable = true;
+    };
+
+    # xrandr - set primary screen
+    ".screenlayout/monitor.sh".source = ./dual-monitor-4k-1080p.sh;
+  };
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
