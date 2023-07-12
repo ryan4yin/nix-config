@@ -6,6 +6,7 @@ My Neovim config based on AstroNvim.
 
 - [ ] let Mason use the binaries installed by nix!
     - currenty some plugins(markdown/clangd/...) failed to start due to this problem.
+    - Temporary solution: `rm ~/.local/share/nvim/mason/bin/*`
 
 ## Screenshots
 
