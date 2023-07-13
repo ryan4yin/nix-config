@@ -152,12 +152,14 @@ return {
       "gopls",          -- go
       "rust_analyzer",  -- rust
       "pyright",        -- python
+      "ruff_lsp",       -- extremely fast Python linter and code transformation
       "jdtls",          -- java
       "nil_ls",         -- nix language server
       "bufls",          -- protocol buffer language server
+      "zls",            -- zig language server
       ---- Operation & Cloud Native
       "bashls",       -- bash
-      "clojure_lsp",  -- cmake
+      "cmake",        -- cmake language server
       "clangd",       -- c/c++
       "dockerls",     -- dockerfile
       "jsonnet_ls",   -- jsonnet language server

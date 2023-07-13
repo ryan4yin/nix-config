@@ -28,6 +28,8 @@
 #    Next Buffer(Tab):              `]b`
 #    Previous Buffer(Tab):          `[b`
 #    Close Buffer:	                `<Space> + c`
+#
+#    
 #    ......
 #    See https://astronvim.com/Basic%20Usage/walkthrough
 #
@@ -79,6 +81,7 @@
     packages = with pkgs; [
       #-- c/c++
       cmake
+      cmake-language-server
       gnumake
       gcc # c/c++ compiler, required by nvim-treesitter!
       llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
@@ -94,6 +97,9 @@
       rust-analyzer
       cargo  # rust package manager
       rustfmt
+  
+      #-- zig
+      zls
 
       #-- nix
       nil
@@ -102,7 +108,6 @@
       statix     # Lints and suggestions for the nix programming language
       deadnix    # Find and remove unused code in .nix source files
       alejandra  # Nix Code Formatter
-      # nixpkgs-fmt
 
       #-- golang
       go
