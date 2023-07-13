@@ -36,6 +36,7 @@ return {
     { import = "astrocommunity.pack.vue" },
     ---- Configuration Language
     { import = "astrocommunity.pack.markdown" },
+    { import = "astrocommunity.markdown-and-latex.glow-nvim" },
     { import = "astrocommunity.pack.json" },
     { import = "astrocommunity.pack.yaml" },
     { import = "astrocommunity.pack.toml" },
