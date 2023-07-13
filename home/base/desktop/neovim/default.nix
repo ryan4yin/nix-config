@@ -29,6 +29,17 @@
 #    Previous Buffer(Tab):          `[b`
 #    Close Buffer:	                `<Space> + c`
 #
+#    Format Document:               `<Space> + lf`
+#    Code Actions:                  `<Space> + la`
+#    Rename:                        `<Space> + lr`
+# 
+#    Save Session:                  `<Space> + Ss`
+#    Last Session:                  `<Space> + Sl`
+#    Delete Session:                `<Space> + Sd`
+#    Search Session:                `<Space> + Sf`
+#    Load Current Directory Session:`<Space> + S.`
+#
+#    Debugging: ...
 #    
 #    ......
 #    See https://astronvim.com/Basic%20Usage/walkthrough
