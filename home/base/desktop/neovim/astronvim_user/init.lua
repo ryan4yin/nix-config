@@ -65,6 +65,13 @@ return {
         },
       }
     },
+    {
+      "ThePrimeagen/refactoring.nvim",
+      dependencies = {
+        {"nvim-lua/plenary.nvim"},
+        {"nvim-treesitter/nvim-treesitter"}
+      }
+    },
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
     {
       "nvim-treesitter/nvim-treesitter",
@@ -99,6 +106,54 @@ return {
       opts = function(_, opts)
         opts.ensure_installed = nil
         opts.automatic_installation = false
+      end,
+    },
+    {
+      "jose-elias-alvarez/null-ls.nvim",
+      opts = function(_, opts)
+        local null_ls = require "null-ls"
+        local code_actions = null_ls.builtins.code_actions
+        local diagnostics = null_ls.builtins.diagnostics
+        local formatting = null_ls.builtins.formatting
+        local hover = null_ls.builtins.hover
+        local completion = null_ls.builtins.completion
+        -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md
+        if type(opts.sources) == "table" then
+          vim.list_extend(opts.sources, {
+            -- Common Code Actions
+            code_actions.gitsigns,
+            -- common refactoring actions based off the Refactoring book by Martin Fowler
+            code_actions.refactoring,
+            code_actions.gomodifytags,  -- Go - modify struct field tags
+            code_actions.impl,        -- Go - generate interface method stubs
+            code_actions.shellcheck,
+            code_actions.proselint,   -- English prose linter
+
+            -- Completion
+            completion.luasnip,
+
+            -- Diagnostic
+            diagnostics.actionlint,  -- GitHub Actions workflow syntax checking
+            diagnostics.buf,         -- check text in current buffer
+            diagnostics.checkmake,   -- check Makefiles
+
+            -- Formatting
+            formatting.prettier, -- js/ts/vue/css/html/json/... formatter
+            diagnostics.hadolint, -- Dockerfile linter
+            formatting.black,     -- Python formatter
+            formatting.ruff,      -- extremely fast Python linter
+            formatting.goimports,  -- Go formatter
+            formatting.shfmt,     -- Shell formatter
+            formatting.rustfmt,   -- Rust formatter
+            formatting.taplo,   -- TOML formatter
+            formatting.terraform_fmt, -- Terraform formatter
+            formatting.stylua,    -- Lua formatter
+            formatting.sqlfluff.with({  -- SQL formatter
+              extra_args = { "--dialect", "postgres" }, -- change to your dialect
+            }),
+            formatting.nginx_beautifier,  -- Nginx formatter
+          })
+        end
       end,
     },
     -- Debugger installationl

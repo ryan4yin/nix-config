@@ -83,6 +83,7 @@
       cmake
       cmake-language-server
       gnumake
+      checkmake
       gcc # c/c++ compiler, required by nvim-treesitter!
       llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
       gdb
@@ -111,6 +112,7 @@
 
       #-- golang
       go
+      gomodifytags
       iferr  # generate error handling code for go
       impl   # generate function implementation for go
       gotools  # contains tools like: godoc, goimports, etc.
@@ -118,10 +120,7 @@
       delve  # go debugger
 
       #-- lua
-      luajit
       stylua
-      luajitPackages.luarocks
-      luajitPackages.luacheck
       lua-language-server
 
       #-- bash
@@ -142,10 +141,15 @@
       terraform-ls
       jsonnet
       jsonnet-language-server
+      hadolint  # Dockerfile linter
 
       #-- Others
       taplo  # TOML language server / formatter / validator
       nodePackages.yaml-language-server
+      sqlfluff    # SQL linter
+      actionlint  # GitHub Actions linter
+      buf  # protoc plugin for linting and formatting
+      proselint  # English prose linter
 
       #-- Misc
       tree-sitter            # common language parser/highlighter
