@@ -166,13 +166,7 @@ return {
       "terraformls",  -- terraform hcl
     },
     formatting = {
-      disabled = {
-        -- use null-ls' goimports instead
-        -- https://github.com/golang/tools/pull/410
-        "gopls",
-        -- use null-ls' prettier instead
-        "tsserver",
-      },
+      disabled = {},
       format_on_save = {
         enabled = true,
         allow_filetypes = {
