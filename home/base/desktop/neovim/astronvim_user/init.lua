@@ -144,9 +144,9 @@ return {
       "volar",        -- vue language server
       ---- Configuration Language
       "marksman",     -- markdown ls
-      "json_ls",      -- json language server
+      "jsonls",      -- json language server
       "yamlls",       -- yaml language server
-      "toml",         -- toml language server
+      "taplo",         -- toml language server
       ---- Backend
       "lua_ls",         -- lua
       "gopls",          -- go
