@@ -5,7 +5,9 @@ return {
     opt = {
       relativenumber = true, -- Show relative numberline
       signcolumn = "auto", -- Show sign column when used only
-      spell = false, -- Enable spell checking
+      spell = false, -- Spell checking
+      swapfile = false, -- Swapfile
+
     },
   },
 
@@ -79,6 +81,39 @@ return {
         },
       },
     },
+
+    -- Install lsp, formmatter and others via home manager instead of Mason.nvim
+    -- LSP installations
+    {
+      "williamboman/mason-lspconfig.nvim",
+      -- ensure_installed nothing
+      opts = function(_, opts) opts.ensure_installed = {
+        "emmet_ls", -- not exist in nixpkgs, so install it via mason
+      } end,
+    },
+    -- Formatters/Linter installation
+    {
+      "jay-babu/mason-null-ls.nvim",
+      -- ensure_installed nothing
+      opts = function(_, opts) opts.ensure_installed = {} end,
+    },
+    -- Debugger installationl
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      -- overrides `require("mason-nvim-dap").setup(...)`
+      opts = function(_, opts) opts.ensure_installed = {} end,
+    },
+  },
+
+  -- Configure require("lazy").setup() options
+  lazy = {
+    defaults = { lazy = true },
+    performance = {
+      rtp = {
+        -- customize default disabled vim plugins
+        disabled_plugins = { };
+      },
+    },
   },
 
   lsp = {
@@ -91,6 +126,7 @@ return {
         },
       },
     },
+    -- enable servers that installed by home-manager instead of mason
     servers = {
       "dockerls",
       "jsonnet_ls",  -- jsonnet language server
