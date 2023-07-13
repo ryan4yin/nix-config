@@ -27,7 +27,7 @@
 #    Vertical Split:                `|`
 #    Next Buffer(Tab):              `]b`
 #    Previous Buffer(Tab):          `[b`
-#    Close Buffer:	                `<Space> + c`
+#    Close Buffer:                  `<Space> + c`
 #
 #    Format Document:               `<Space> + lf`
 #    Code Actions:                  `<Space> + la`
