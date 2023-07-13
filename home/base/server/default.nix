@@ -3,6 +3,7 @@
   imports = [
     ./nushell
     ./tmux
+    ./zellij
 
     ./bash.nix
     ./core.nix
