@@ -40,19 +40,19 @@ return {
     { import = "astrocommunity.pack.yaml" },
     { import = "astrocommunity.pack.toml" },
     ---- Backend
+    { import = "astrocommunity.pack.lua" },
     { import = "astrocommunity.pack.go" },
     { import = "astrocommunity.pack.rust" },
     { import = "astrocommunity.pack.python" },
     { import = "astrocommunity.pack.java" },
     { import = "astrocommunity.pack.nix" },
     { import = "astrocommunity.pack.proto" },
-    { import = "astrocommunity.pack.terraform" },
     ---- Operation & Cloud Native
+    { import = "astrocommunity.pack.terraform" },
     { import = "astrocommunity.pack.bash" },
     { import = "astrocommunity.pack.cmake" },
     { import = "astrocommunity.pack.cpp" },
     { import = "astrocommunity.pack.docker" },
-    { import = "astrocommunity.pack.lua" },
 
     -- File explorer(Custom configs)
     {
@@ -96,13 +96,19 @@ return {
     {
       "jay-babu/mason-null-ls.nvim",
       -- ensure_installed nothing
-      opts = function(_, opts) opts.ensure_installed = {} end,
+      opts = function(_, opts)
+        opts.ensure_installed = nil
+        opts.automatic_installation = false
+      end,
     },
     -- Debugger installationl
     {
       "jay-babu/mason-nvim-dap.nvim",
       -- overrides `require("mason-nvim-dap").setup(...)`
-      opts = function(_, opts) opts.ensure_installed = {} end,
+      opts = function(_, opts)
+        opts.ensure_installed = nil
+        opts.automatic_installation = false
+      end,
     },
   },
 
@@ -129,13 +135,37 @@ return {
     },
     -- enable servers that installed by home-manager instead of mason
     servers = {
-      "dockerls",
-      "jsonnet_ls",  -- jsonnet language server
-      "terraformls",
+      ---- Frontend & NodeJS
+      "tsserver",     -- typescript/javascript language server
+      "tailwindcss",  -- tailwindcss language server
+      "html",         -- html language server
+      "cssls",        -- css language server
+      "prismals",     -- prisma language server
+      "volar",        -- vue language server
+      ---- Configuration Language
+      "marksman",     -- markdown ls
+      "json_ls",      -- json language server
+      "yamlls",       -- yaml language server
+      "toml",         -- toml language server
+      ---- Backend
+      "lua_ls",         -- lua
+      "gopls",          -- go
+      "rust_analyzer",  -- rust
+      "pyright",        -- python
+      "jdtls",          -- java
+      "nil_ls",         -- nix language server
+      "bufls",          -- protocol buffer language server
+      ---- Operation & Cloud Native
+      "bashls",       -- bash
+      "clojure_lsp",  -- cmake
+      "clangd",       -- c/c++
+      "dockerls",     -- dockerfile
+      "jsonnet_ls",   -- jsonnet language server
+      "terraformls",  -- terraform hcl
     },
     formatting = {
       disabled = {
-        -- use null-ls' gofumpt/goimports instead
+        -- use null-ls' goimports instead
         -- https://github.com/golang/tools/pull/410
         "gopls",
         -- use null-ls' prettier instead
