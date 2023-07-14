@@ -108,7 +108,6 @@
       "firefox"
       "google-chrome"
       "visual-studio-code"
-      "visual-studio-code-insiders"
 
       # IM & audio & remote desktop & meeting
       "telegram"

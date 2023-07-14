@@ -110,21 +110,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # the vscode insiders is designed to run alongside the main build, 
-    # with a separate code-insiders command and a different config path
-    # 
-    # TODO install vscode into systemPackages to avoid binary collision error temporarily
-    #     has collision between vscode & vscode-insider - /lib/vscode/chrome_crashpad_handler
-    ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: {
-      src = (builtins.fetchTarball {
-        url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-        # you need to update this sha256 every time you update vscode insiders
-        # the latest sha256 is printed in the error message of `sudo nixos-rebuild switch`
-        sha256 = "sha256:1f996x5i85zf0hpd7jx18zdqdp9nhxhf6zn83ai0njphz1dj354p";
-      });
-      version = "latest";
-    }))
-
     # python, some times I may need to use python with root permission.
     (python310.withPackages (ps: with ps; [
       ipython
