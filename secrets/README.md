@@ -1,15 +1,15 @@
 
 # Secrets Management
 
-This directory contains my encrypted secret files managed by agenix.
+All my secrets are encryptd via agenix, and stored in a separate private GitHub repository and referenced as a flake input in this flake.
 
-All these secrets are stored in a separate private GitHub repository and referenced as a flake input of this repository.
+This directory contains this README.md, and a `default.nix` that used to decrypt all my secrets via agenix, and then I can used them in this flake.
 
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.
 
-This task is accomplished using the `agenix` CLI tool with the `./secrets.nix` file.
+This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the `./secrets.nix` file, so you need to have it installed first.
 
 Suppose you want to add a new secret file `xxx.age`. Follow these steps:
 
@@ -58,7 +58,7 @@ If you want to use a custom key located at `/path/to/key.pub` for encryption, pa
 
 > All the operations in this section should be performed in this repository.
 
-First, add the private `nix-secrets` repository and `agenix` as flake inputs:
+First, add your own private `nix-secrets` repository and `agenix` as flake inputs, and pass all the then to sub modules via `specialArgs`:
 
 ```nix
 {
@@ -124,6 +124,8 @@ Then, create `./secrets/default.nix` with the following content:
 
 From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined by the `age.identityPaths` argument. 
 It will then symlink the secrets to the path defined by the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
+
+By this way, all your secrets are still safely encrypted in `/nix/store/`, they are decrypted only when they are finally used.
 
 NOTE: By default, `age.identityPaths` is set to `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, 
 so make sure to place your decryption keys there.
