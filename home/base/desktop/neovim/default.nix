@@ -23,8 +23,8 @@
 #
 #    Switching between windows:     `<Ctrl> + h/j/k/l`
 #    Resizing windows:              `<Ctrl> + Up/Down/Left/Right`
-#            Note that on macOS, this is conflict with system's default shortcuts.
-#            You need disable them in System Preferences -> Keyboard -> Shortcuts -> Mission Control.
+#        Note that on macOS, this is conflict with system's default shortcuts.
+#        You need disable them in System Preferences -> Keyboard -> Shortcuts -> Mission Control.
 #    Horizontal Split:              `\`
 #    Vertical Split:                `|`
 #    Next Buffer(Tab):              `]b`
@@ -32,9 +32,12 @@
 #    Close Buffer:                  `<Space> + c`
 #
 #    Format Document:               `<Space> + lf`
+#    Comment Line:                  `<Space> + /`
 #    Code Actions:                  `<Space> + la`
 #    Rename:                        `<Space> + lr`
-# 
+#    Open filepath/URL at cursor:   `gc`
+#        This is a neovim builtin command
+#
 #    Save Session:                  `<Space> + Ss`
 #    Last Session:                  `<Space> + Sl`
 #    Delete Session:                `<Space> + Sd`
