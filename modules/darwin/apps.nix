@@ -48,6 +48,12 @@
         AppleInterfaceStyle = "Dark";  # dark mode
         AppleKeyboardUIMode = 3;  # Mode 3 enables full keyboard control.
         ApplePressAndHoldEnabled = true;  # enable press and hold
+
+        # If you press and hold certain keyboard keys when in a text area, the key’s character begins to repeat.
+        # This is very useful for vim users, they use `hjkl` to move cursor.
+        InitialKeyRepeat = 20;  # sets how long it takes before it starts repeating.
+        KeyRepeat = 10;  # sets how fast it repeats once it starts.
+        
         NSAutomaticCapitalizationEnabled = false;  # disable auto capitalization(自动大写)
         NSAutomaticDashSubstitutionEnabled = false;  # disable auto dash substitution(智能破折号替换)
         NSAutomaticPeriodSubstitutionEnabled = false;  # disable auto period substitution(智能句号替换)
