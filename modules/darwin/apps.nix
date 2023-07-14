@@ -182,7 +182,7 @@
       "iina"      # video player
       "openinterminal-lite"  # open current folder in terminal
       "syncthing"  # file sync
-      "raycast"   # Alfred-like tool(search and run scripts)
+      "raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       "iglance"   # beautiful system monitor
       "eudic"     # 欧路词典
       "baiduinput"  # baidu input method
