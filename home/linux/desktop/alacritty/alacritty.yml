@@ -212,7 +212,7 @@ font:
 #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
 # When set to `true`, selected text will be copied to the primary clipboard.
-#save_to_clipboard: false
+save_to_clipboard: true
 
 #cursor:
 # Cursor style
@@ -278,7 +278,7 @@ live_config_reload: true
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
-#working_directory: None
+working_directory: ~/codes/
 
 # Offer IPC using `alacritty msg` (unix only)
 #ipc_socket: true

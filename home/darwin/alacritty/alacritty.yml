@@ -70,7 +70,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.98
+  opacity: 0.90
 
   # Startup Mode (changes require restart)
   #
@@ -113,7 +113,7 @@ window:
   #   - OnlyRight
   #   - Both
   #   - None (default)
-  #option_as_alt: None
+  option_as_alt: Both
 
 scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -212,7 +212,7 @@ font:
 #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
 # When set to `true`, selected text will be copied to the primary clipboard.
-#save_to_clipboard: false
+save_to_clipboard: false
 
 #cursor:
 # Cursor style
@@ -278,7 +278,7 @@ shell:
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
-#working_directory: None
+working_directory: ~/codes/
 
 # Offer IPC using `alacritty msg` (unix only)
 #ipc_socket: true
