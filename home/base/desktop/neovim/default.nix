@@ -23,6 +23,8 @@
 #
 #    Switching between windows:     `<Ctrl> + h/j/k/l`
 #    Resizing windows:              `<Ctrl> + Up/Down/Left/Right`
+#            Note that on macOS, this is conflict with system's default shortcuts.
+#            You need disable them in System Preferences -> Keyboard -> Shortcuts -> Mission Control.
 #    Horizontal Split:              `\`
 #    Vertical Split:                `|`
 #    Next Buffer(Tab):              `]b`
