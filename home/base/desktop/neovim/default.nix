@@ -18,8 +18,10 @@
 #    Floating Terminal:	            `<Space> + tf`
 #    Horizontal Split Terminal:	    `<Space> + th`
 #    Vertical Split Terminal:	      `<Space> + tv`
+#    Open IPython REPL:             `<Space> + tp`
 #    Opening LSP symbols:           `<Space> + lS`
-#    Toggle buffer auto formatting: `<Space> + uf`
+#    Show line diagnostics:         `gl`
+#    Go to definition:              `gd`
 #
 #    Switching between windows:     `<Ctrl> + h/j/k/l`
 #    Resizing windows:              `<Ctrl> + Up/Down/Left/Right`
@@ -31,12 +33,15 @@
 #    Previous Buffer(Tab):          `[b`
 #    Close Buffer:                  `<Space> + c`
 #
+#    Toggle buffer auto formatting: `<Space> + uf`
 #    Format Document:               `<Space> + lf`
 #    Comment Line:                  `<Space> + /`
 #    Code Actions:                  `<Space> + la`
 #    Rename:                        `<Space> + lr`
 #    Open filepath/URL at cursor:   `gx`
 #        This is a neovim builtin command
+#    Find files by name(fzf):       `<Space> + ff`
+#    Grep string in files(repgrep): `<Space> + fw`
 #
 #    Save Session:                  `<Space> + Ss`
 #    Last Session:                  `<Space> + Sl`
@@ -44,7 +49,7 @@
 #    Search Session:                `<Space> + Sf`
 #    Load Current Directory Session:`<Space> + S.`
 #
-#    Debugging: ...
+#    Debugging: press `<Space> + D` to see the available bindings and options.
 #    
 #    ......
 #    See https://astronvim.com/Basic%20Usage/walkthrough
