@@ -35,7 +35,7 @@
 #    Comment Line:                  `<Space> + /`
 #    Code Actions:                  `<Space> + la`
 #    Rename:                        `<Space> + lr`
-#    Open filepath/URL at cursor:   `gc`
+#    Open filepath/URL at cursor:   `gx`
 #        This is a neovim builtin command
 #
 #    Save Session:                  `<Space> + Ss`
