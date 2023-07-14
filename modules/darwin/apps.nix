@@ -10,6 +10,14 @@
   ##########################################################################
 
   system = {
+
+    # activationScripts are executed every time you boot the system or run `nixos-rebuild`.
+    activationScripts.postUserActivation.text = ''
+      # activateSettings -u will reload the settings from the database and apply them to the current session,
+      # so we do not need to logout and login again to make the changes take effect.
+      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    '';
+
     defaults = {
       # customize dock
       dock = {
@@ -51,8 +59,10 @@
 
         # If you press and hold certain keyboard keys when in a text area, the key’s character begins to repeat.
         # This is very useful for vim users, they use `hjkl` to move cursor.
-        InitialKeyRepeat = 20;  # sets how long it takes before it starts repeating.
-        KeyRepeat = 10;  # sets how fast it repeats once it starts.
+        # sets how long it takes before it starts repeating.
+        InitialKeyRepeat = 15;  # normal minimum is 15 (225 ms), maximum is 120 (1800 ms)
+        # sets how fast it repeats once it starts. 
+        KeyRepeat = 3;  # normal minimum is 2 (30 ms), maximum is 120 (1800 ms)
         
         NSAutomaticCapitalizationEnabled = false;  # disable auto capitalization(自动大写)
         NSAutomaticDashSubstitutionEnabled = false;  # disable auto dash substitution(智能破折号替换)
@@ -61,6 +71,42 @@
         NSAutomaticSpellingCorrectionEnabled = false;  # disable auto spelling correction(自动拼写检查)
         NSNavPanelExpandedStateForSaveMode = true;  # expand save panel by default(保存文件时的路径选择/文件名输入页)
         NSNavPanelExpandedStateForSaveMode2 = true;
+      };
+
+      # customize settings that not supported by nix-darwin directly
+      CustomUserPreferences = {
+        NSGlobalDomain = {
+          # Add a context menu item for showing the Web Inspector in web views
+          WebKitDeveloperExtras = true;
+        };
+        "com.apple.finder" = {
+          ShowExternalHardDrivesOnDesktop = true;
+          ShowHardDrivesOnDesktop = true;
+          ShowMountedServersOnDesktop = true;
+          ShowRemovableMediaOnDesktop = true;
+          _FXSortFoldersFirst = true;
+          # When performing a search, search the current folder by default
+          FXDefaultSearchScope = "SCcf";
+        };
+        "com.apple.desktopservices" = {
+          # Avoid creating .DS_Store files on network or USB volumes
+          DSDontWriteNetworkStores = true;
+          DSDontWriteUSBStores = true;
+        };
+        "com.apple.screensaver" = {
+          # Require password immediately after sleep or screen saver begins
+          askForPassword = 1;
+          askForPasswordDelay = 0;
+        };
+        "com.apple.screencapture" = {
+          location = "~/Desktop";
+          type = "png";
+        };
+        "com.apple.AdLib" = {
+          allowApplePersonalizedAdvertising = false;
+        };
+        # Prevent Photos from opening automatically when devices are plugged in
+        "com.apple.ImageCapture".disableHotPlug = true;
       };
 
       loginwindow = {
