@@ -1,10 +1,11 @@
-{ ... }: {
+{ config, builtins, ... }: {
   programs.bash = {
     enable = true;
     enableCompletion = true;
     bashrcExtra = ''
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
     '';
+    # ++ (builtins.readFile config.age.secrets."alias-for-work.bash".path);
 
     shellAliases = {
       k = "kubectl";

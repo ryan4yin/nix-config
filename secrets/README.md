@@ -1,27 +1,20 @@
-# secrets management
 
-This directory contains my secret files, encrypt by agenix:
+# Secrets Management
 
-- my wireguard configuration files, which is used by `wg-quick`
-- github token, used by nix flakes to query and downloads flakes from github
-  - without this, you may reach out github api rate limit.
-- ssh key pairs for my homelab and other servers
-- ...
+This directory contains my encrypted secret files managed by agenix.
 
-## TODO
+All these secrets are stored in a separate private GitHub repository and referenced as a flake input of this repository.
 
-- a better way to manage all these secrets, is to used a separate private github repository to store all these secrets, and use it as a flakes input this this repo.
-  - e.g. <https://github.com/xddxdd/nixos-config/blob/25ae3de/flake.nix#L82>
+## Adding or Updating Secrets
 
-## Add or Update Secrets
+> All the operations in this section should be performed in my private repository: `nix-secrets`.
 
-This job is done by `agenix` CLI tool with the `./secrets.nix` file.
+This task is accomplished using the `agenix` CLI tool with the `./secrets.nix` file.
 
-Pretend you want to add a new secret file `xxx.age`, then:
+Suppose you want to add a new secret file `xxx.age`. Follow these steps:
 
-1. `cd` to this directory
-1. edit `secrets.nix`, add a new entry for `xxx.age`, which defines the
-   encryption keys and the secret file path, e.g.
+1. Navigate to your private `nix-secrets` repository.
+2. Edit `secrets.nix` and add a new entry for `xxx.age`, defining the encryption keys and the secret file path, for example:
 
 ```nix
 # This file is not imported into your NixOS configuration. It is only used for the agenix CLI.
@@ -42,32 +35,69 @@ let
   systems = [ ai ];
 in
 {
-  "./encrypt/xxx.age".publicKeys = users ++ systems;
+  "./xxx.age".publicKeys = users ++ systems;
 }
 ```
 
-2. create and edit the secret file `xxx.age` interactively by command:
+3. Create and edit the secret file `xxx.age` interactively using the following command:
 
 ```shell
-agenix -e ./encrypt/xxx.age
+agenix -e ./xxx.age
 ```
 
-3. or you can also encrypt an existing file to `xxx.age` by command:
+Alternatively, you can encrypt an existing file to `xxx.age` using the following command:
 
 ```shell
-cat /path/to/xxx | agenix -e ./encrypt/xxx.age
+cat /path/to/xxx | agenix -e ./xxx.age
 ```
 
-the agenix use `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub` as encrypt key by default, you need to pass `--identity /path/to/key` to use a custom `/path/to/key.pub` for enctypt.
+By default, agenix uses `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub` as the encryption key. 
+If you want to use a custom key located at `/path/to/key.pub` for encryption, pass `--identity /path/to/key`.
 
-## Deploy Secrets
+## Deploying Secrets
 
-This job is done by `nixos-rebuild` with the `./default.nix` file.
+> All the operations in this section should be performed in this repository.
 
-An nixos module exmaple(need to set agenix as flake inputs first...):
+First, add the private `nix-secrets` repository and `agenix` as flake inputs:
 
 ```nix
-{ config, pkgs, agenix, ... }:
+{
+  inputs = {
+    # ......
+
+    # secrets management, lock with git commit at 2023/5/15
+    agenix.url = "github:ryantm/agenix/db5637d10f797bb251b94ef9040b237f4702cde3";
+
+    # my private secrets, it's a private repository, you need to replace it with your own.
+    mysecrets = { url = "github:ryan4yin/nix-secrets"; flake = false; };
+  };
+  
+  outputs = inputs@{ self, nixpkgs, ... }: {
+    nixosConfigurations = {
+      nixos-test = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+
+        # Set all input parameters as specialArgs of all sub-modules
+        # so that we can use the `agenix` & `mysecrets` in sub-modules
+        specialArgs = inputs;
+        modules = [
+          # ......
+
+          # import & decrypt secrets in `mysecrets` in this module
+          ./secrets/default.nix
+        ];
+      };
+    };
+  };
+}
+}
+```
+
+Then, create `./secrets/default.nix` with the following content:
+
+```nix
+# import & decrypt secrets in `mysecrets` in this module
+{ config, pkgs, agenix, mysecrets, ... }:
 
 {
   imports = [
@@ -84,7 +114,7 @@ An nixos module exmaple(need to set agenix as flake inputs first...):
     # target path for decrypted file
     path = "/etc/xxx/";
     # encrypted file path
-    file = ./encrypt/xxx.age;
+    file =  "${mysecrets}/xxx.age";  # refer to ./xxx.age located in `mysecrets` repo
     mode = "0400";
     owner = "root";
     group = "root";
@@ -92,7 +122,10 @@ An nixos module exmaple(need to set agenix as flake inputs first...):
 }
 ```
 
-`nixos-rebuild` will decrypt the secrets using the private keys defined by argument `age.identityPaths`,
-And then symlink the secrets to the path defined by argument `age.secrets.<name>.path`, it defaults to `/etc/secrets`.
+From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined by the `age.identityPaths` argument. 
+It will then symlink the secrets to the path defined by the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
 
-NOTE: `age.identityPaths` it defaults to `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, so you should put your decrypt keys there. if you're deploying to the same machine as you're encrypting from, it should work out of the box.
+NOTE: By default, `age.identityPaths` is set to `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, 
+so make sure to place your decryption keys there.
+If you're deploying to the same machine from which you encrypted the secrets, it should work out of the box.
+

@@ -1,4 +1,4 @@
-{ pkgs, agenix, ... }:
+{ pkgs, agenix, mysecrets, ... }:
 
 {
   imports = [
@@ -19,7 +19,7 @@
     # target path for decrypted file
     path = "/etc/wireguard/";
     # encrypted file path
-    file = ./encrypt/wg-business.conf.age;
+    file = "${mysecrets}/wg-business.conf.age";
     mode = "0400";
     owner = "root";
     group = "root";
@@ -30,6 +30,19 @@
     # wether secrets are symlinked to age.secrets.<name>.path
     symlink = true;
     # encrypted file path
-    file = ./encrypt/smb-credentials.age;
+    file = "${mysecrets}/smb-credentials.age";
+  };
+
+  age.secrets."alias-for-work.nushell" = {
+    # wether secrets are symlinked to age.secrets.<name>.path
+    symlink = false;
+    # encrypted file path
+    file = "${mysecrets}/alias-for-work.nushell.age";
+  };
+  age.secrets."alias-for-work.bash" = {
+    # wether secrets are symlinked to age.secrets.<name>.path
+    symlink = false;
+    # encrypted file path
+    file = "${mysecrets}/alias-for-work.bash.age";
   };
 }

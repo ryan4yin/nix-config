@@ -239,6 +239,23 @@
         "type": "github"
       }
     },
+    "mysecrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1689326736,
+        "narHash": "sha256-wVfvr9bEDkuivJbdtbLC6l82QZnc2dW4Nl3ExY6/oaA=",
+        "ref": "refs/heads/main",
+        "rev": "cd37f1a4f8543b6e272809c75f84ed674ac0e4d3",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/ryan4yin/nix-secrets.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/ryan4yin/nix-secrets.git"
+      }
+    },
     "nix-eval-jobs": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -449,6 +466,7 @@
         "darwin": "darwin_2",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
+        "mysecrets": "mysecrets",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin": "nixpkgs-darwin",
