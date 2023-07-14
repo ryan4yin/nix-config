@@ -54,6 +54,25 @@ return {
     { import = "astrocommunity.pack.cmake" },
     { import = "astrocommunity.pack.cpp" },
     { import = "astrocommunity.pack.docker" },
+    ---- Nushell
+    {
+      "LhKipp/nvim-nu",
+      config = function()
+        require'nu'.setup({
+          use_lsp_features = true, -- requires https://github.com/jose-elias-alvarez/null-ls.nvim
+          -- lsp_feature: all_cmd_names is the source for the cmd name completion.
+          -- It can be
+          --  * a string, which is interpreted as a shell command and the returned list is the source for completions (requires plenary.nvim)
+          --  * a list, which is the direct source for completions (e.G. all_cmd_names = {"echo", "to csv", ...})
+          --  * a function, returning a list of strings and the return value is used as the source for completions
+          all_cmd_names = [[nu -c 'help commands | get name | str join "\n"']]
+        })
+      end,
+      dependencies = {
+        {"nvim-treesitter/nvim-treesitter"},
+        { "jose-elias-alvarez/null-ls.nvim"},
+      }
+    },
 
     -- File explorer(Custom configs)
     {
@@ -76,8 +95,9 @@ return {
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
     {
       "nvim-treesitter/nvim-treesitter",
-      opts = {
-        ensure_installed = {
+      opts = function(_, opts)
+        local utils = require "astronvim.utils";
+        opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, {
           -- neovim
           "vim",
           "lua",
@@ -87,18 +107,20 @@ return {
           "jsonnet",
           "regex",
           "terraform",
-        },
-      },
+        })
+      end,
     },
 
     -- Install lsp, formmatter and others via home manager instead of Mason.nvim
     -- LSP installations
     {
       "williamboman/mason-lspconfig.nvim",
-      -- ensure_installed nothing
-      opts = function(_, opts) opts.ensure_installed = {
-        "emmet_ls", -- not exist in nixpkgs, so install it via mason
-      } end,
+      -- overwrite ensure_installed to install lsp via home manager(except emmet_ls)
+      opts = function(_, opts)
+        opts.ensure_installed = {
+          "emmet_ls", -- not exist in nixpkgs, so install it via mason
+        }
+      end,
     },
     -- Formatters/Linter installation
     {
@@ -157,7 +179,7 @@ return {
         end
       end,
     },
-    -- Debugger installationl
+    -- Debugger installation 
     {
       "jay-babu/mason-nvim-dap.nvim",
       -- overrides `require("mason-nvim-dap").setup(...)`

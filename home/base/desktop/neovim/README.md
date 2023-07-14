@@ -1,6 +1,6 @@
 # AstroNvim
 
-My Neovim config based on AstroNvim.
+My Neovim config based on [AstroNvim](https://github.com/AstroNvim/AstroNvim).
 
 ## Screenshots
 
