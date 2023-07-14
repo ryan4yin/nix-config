@@ -6,6 +6,7 @@
     
     ./development.nix
     ./media.nix
+    ./shell.nix
   ];
 
 }

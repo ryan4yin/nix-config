@@ -1,4 +1,4 @@
-{ config, builtins, ... }: {
+{ ... }: {
   programs.nushell = {
     enable = true;
     configFile.source = ./config.nu;
@@ -8,8 +8,6 @@
     # 
     # envFile.source = ./env.nu;
     # environmentVariables = { FOO="bar"; };
-
-    # extraConfig = builtins.readFile config.age.secrets."alias-for-work.nushell".path;
 
     shellAliases = {
       k = "kubectl";
