@@ -1,7 +1,12 @@
 
 # Secrets Management
 
-All my secrets are encryptd via agenix, and stored in a separate private GitHub repository and referenced as a flake input in this flake.
+All my secrets are safely encrypted via agenix, and stored in a separate private GitHub repository and referenced as a flake input in this flake.
+
+In this way, all secrets is still encrypted when transmitted over the network and written to `/nix/store`,
+they are decrypted only when they are finally used.
+
+In addition, we further improve the security of secrets files by storing them in a separate private repository.
 
 This directory contains this README.md, and a `default.nix` that used to decrypt all my secrets via agenix, and then I can used them in this flake.
 
@@ -124,8 +129,6 @@ Then, create `./secrets/default.nix` with the following content:
 
 From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined by the `age.identityPaths` argument. 
 It will then symlink the secrets to the path defined by the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
-
-By this way, all your secrets are still safely encrypted in `/nix/store/`, they are decrypted only when they are finally used.
 
 NOTE: By default, `age.identityPaths` is set to `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, 
 so make sure to place your decryption keys there.
