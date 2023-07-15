@@ -4,10 +4,11 @@
   imports = [
     ../base/desktop
 
-    ./hyprland
-
+    ./base
     ./fcitx5
     ./desktop
+
+    ./hyprland
   ];
 
   # Home Manager needs a bit of information about you and the

@@ -4,11 +4,12 @@
   imports = [
     ../base/desktop
 
-    ./i3
-
+    ./base
     ./fcitx5
     ./desktop
-  ];
+
+    ./i3
+];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.

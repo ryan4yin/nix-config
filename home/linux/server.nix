@@ -4,7 +4,7 @@
   imports = [
     ../base/server
 
-    ./server
+    ./base
   ];
 
   # Home Manager needs a bit of information about you and the
