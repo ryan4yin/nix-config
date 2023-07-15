@@ -6,6 +6,9 @@
 #
 #############################################################
 
+let
+  name = "harnomica";
+in
 {
   imports = [
     ../../modules/darwin/core.nix
@@ -13,4 +16,8 @@
 
     ../../secrets/darwin.nix
   ];
+
+  networking.hostName = name;
+  networking.computerName = name;
+  smb.NetBIOSName = name;
 }
