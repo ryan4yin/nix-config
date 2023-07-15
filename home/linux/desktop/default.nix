@@ -4,7 +4,10 @@
     ./alacritty
   
     ./creative.nix
+    ./immutable-file.nix
     ./media.nix
+    ./ssh.nix
+    ./xdg.nix
   ];
 
   home.packages = with pkgs; [

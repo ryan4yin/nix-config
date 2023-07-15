@@ -17,6 +17,7 @@
       "original": {
         "owner": "ryantm",
         "repo": "agenix",
+        "rev": "0d8c5325fc81daf00532e3e26c6752f7bcde1143",
         "type": "github"
       }
     },
@@ -184,16 +185,16 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1683130508,
-        "narHash": "sha256-Npf48UUfywneFYGEc7NQ59xudwvw7EJjwweT4tHguIY=",
+        "lastModified": 1689160271,
+        "narHash": "sha256-mEKF6Wcx+wSF/eos/91A7LxhFLDYhSnQnLpwZF13ntg=",
         "owner": "hyprwm",
         "repo": "Hyprland",
-        "rev": "f27873a6f06dc2f87600edb890f3c38298bfb55f",
+        "rev": "5e577acf516b80173f695a458c2cc188a4d64560",
         "type": "github"
       },
       "original": {
         "owner": "hyprwm",
-        "ref": "v0.25.0",
+        "ref": "v0.27.0",
         "repo": "Hyprland",
         "type": "github"
       }

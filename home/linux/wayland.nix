@@ -8,11 +8,6 @@
 
     ./fcitx5
     ./desktop
-
-    ./base/shell.nix
-    ./base/ssh.nix
-    ./base/system-tools.nix
-    ./base/xdg.nix
   ];
 
   # Home Manager needs a bit of information about you and the

@@ -59,7 +59,7 @@
     };
 
     # modern window compositor
-    hyprland.url = "github:hyprwm/Hyprland/v0.25.0";
+    hyprland.url = "github:hyprwm/Hyprland/v0.27.0";
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
@@ -115,6 +115,7 @@
 
           home-manager.extraSpecialArgs = x64_specialArgs;
           home-manager.users.ryan = import ./home/linux/x11.nix;
+          # home-manager.users.ryan = import ./home/linux/wayland.nix;
         }
       ];
       # 星野 愛久愛海, Hoshino Akuamarin

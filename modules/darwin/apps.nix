@@ -120,8 +120,14 @@
     # but it's not supported by macOS yet.
     keyboard = {
       enableKeyMapping = true;  # enable key mapping so that we can use `option` as `control`
+
+      # NOTE: do NOT support remap capslock to both control and escape at the same time
       remapCapsLockToControl = false;  # remap caps lock to control
-      remapCapsLockToEscape  = false;  # remap caps lock to escape
+      remapCapsLockToEscape  = true;   # remap caps lock to escape
+
+      # swap left command and left alt, 
+      # so it matches common keyboard layout: `ctrl | command | alt`
+      swapLeftCommandAndLeftAlt = true;  
     };
   };
 

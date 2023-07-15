@@ -4,8 +4,7 @@
   imports = [
     ../base/server
 
-    ./base/shell.nix
-    ./base/system-tools.nix
+    ./server
   ];
 
   # Home Manager needs a bit of information about you and the

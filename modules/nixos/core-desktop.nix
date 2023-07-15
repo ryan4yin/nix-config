@@ -171,6 +171,19 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.greetd.enableGnomeKeyring = true;
 
+
+  # A key remapping daemon for linux. 
+  # https://github.com/rvaiya/keyd
+  services.keyd = {
+    enable = true;
+    settings = {
+      main = {
+        # overloads the capslock key to function as both escape (when tapped) and control (when held) 
+        capslock = "overload(control, esc)";
+      };
+    };
+  };
+
   services = {
     dbus.packages = [ pkgs.gcr ];
 
