@@ -69,8 +69,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # secrets management, lock with git commit at 2023/5/15
-    agenix.url = "github:ryantm/agenix";
+    # secrets management, lock with git commit at 2023/7/15
+    agenix.url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = { url = "github:AstroNvim/AstroNvim/v3.32.0"; flake = false; };
