@@ -19,5 +19,5 @@ in
 
   networking.hostName = name;
   networking.computerName = name;
-  smb.NetBIOSName = name;
+  system.defaults.smb.NetBIOSName = name;
 }
