@@ -11,10 +11,10 @@
   # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
     experimental-features = [ "nix-command" "flakes" ];
+    trusted-users = [ "ryan" ];
 
     substituters = [
       # replace official cache with a mirror located in China
-      "https://mirrors.bfsu.edu.cn/nix-channels/store"
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org"
     ];
@@ -70,7 +70,7 @@
     };
 
     # secrets management, lock with git commit at 2023/5/15
-    agenix.url = "github:ryantm/agenix/db5637d10f797bb251b94ef9040b237f4702cde3";
+    agenix.url = "github:ryantm/agenix";
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = { url = "github:AstroNvim/AstroNvim/v3.32.0"; flake = false; };
@@ -193,7 +193,7 @@
             home-manager.useUserPackages = true;
 
             home-manager.extraSpecialArgs = inputs;
-            home-manager.users.admin = import ./home/darwin;
+            home-manager.users.ryan = import ./home/darwin;
           }
         ];
       };

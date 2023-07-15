@@ -12,9 +12,9 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "admin";
+    username = "ryan";
     # set homeDirectory make build fail
-    homeDirectory = "/Users/admin";
+    homeDirectory = "/Users/ryan";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

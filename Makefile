@@ -44,15 +44,12 @@ darwin-set-proxy:
 	sudo python3 scripts/darwin_set_proxy.py
 
 darwin: darwin-set-proxy
-	nix build .#darwinConfigurations.harmonica.system \
-	  --extra-experimental-features 'nix-command flakes'
+	nix build .#darwinConfigurations.harmonica.system
 	./result/sw/bin/darwin-rebuild switch --flake .
 
 darwin-debug: darwin-set-proxy
-	nix build .#darwinConfigurations.harmonica.system \
-	  --show-trace --verbose \
-	  --extra-experimental-features 'nix-command flakes'
-	./result/sw/bin/darwin-rebuild switch --flake . --show-trace --verbose
+	nix build .#darwinConfigurations.harmonica.system --show-trace --verbose
+	./result/sw/bin/darwin-rebuild switch --flake .#harmonica --show-trace --verbose
 
 
 ############################################################################

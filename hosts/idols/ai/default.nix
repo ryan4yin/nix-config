@@ -20,7 +20,7 @@
     # ../../../modules/nixos/remote-building.nix
     ../../../modules/nixos/user-group.nix
 
-    ../../../secrets
+    ../../../secrets/nixos.nix
   ];
 
   nixpkgs.overlays = import ../../../overlays args;

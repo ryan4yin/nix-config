@@ -65,14 +65,14 @@
       enable = true;
       config = {
         pager = "less -FR";
-        theme = "Catppuccin-mocha";
+      #  theme = "Catppuccin-mocha";
       };
-      themes = {
-        Catppuccin-mocha = builtins.readFile (pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme";
-          hash = "sha256-qMQNJGZImmjrqzy7IiEkY5IhvPAMZpq0W6skLLsng/w=";
-        });
-      };
+      #themes = {
+       # Catppuccin-mocha = builtins.readFile (pkgs.fetchurl {
+       #   url = "https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme";
+       #   hash = "sha256-qMQNJGZImmjrqzy7IiEkY5IhvPAMZpq0W6skLLsng/w=";
+       # });
+      #};
     };
 
     # skim provides a single executable: sk.

@@ -11,6 +11,6 @@
     ../../modules/darwin/core.nix
     ../../modules/darwin/apps.nix
 
-    ../../secrets
+    ../../secrets/darwin.nix
   ];
 }

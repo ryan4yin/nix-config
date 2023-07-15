@@ -14,7 +14,7 @@
   # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  nix.settings.trusted-users = ["admin"];
+  nix.settings.trusted-users = ["ryan"];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -44,7 +44,9 @@
   security.pam.enableSudoTouchIdAuth = true;
 
   # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
+  # comment this due to the issue:
+  #   https://github.com/LnL7/nix-darwin/issues/359
+  # time.timeZone = "Asia/shanghai";
 
   # Apps
   # `home-manager` currently has issues adding them to `~/Applications`
@@ -80,9 +82,9 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.admin = {
-    home = "/Users/admin";
-    description = "admin";
+  users.users.ryan = {
+    home = "/Users/ryan";
+    description = "ryan";
 
     # set user's default shell back to zsh
     #    `chsh -s /bin/zsh`

@@ -11,7 +11,7 @@
 
   system = {
 
-    # activationScripts are executed every time you boot the system or run `nixos-rebuild`.
+    # activationScripts are executed every time you boot the system or run `nixos-rebuild` / `darwin-rebuild`.
     activationScripts.postUserActivation.text = ''
       # activateSettings -u will reload the settings from the database and apply them to the current session,
       # so we do not need to logout and login again to make the changes take effect.
@@ -125,8 +125,19 @@
     };
   };
 
+  # Homebrew Mirror
+  environment.variables = {
+    HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
+    HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
+    HOMEBREW_BREW_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git";
+    HOMEBREW_CORE_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git";
+    HOMEBREW_PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple";
+  };
+
   homebrew = {
-    enable = true;
+     # TODO Homebrew install takes a long time, 
+     # So only enable this when you make changes.
+    enable = false;
 
     onActivation = {
       autoUpdate = false;
@@ -135,8 +146,17 @@
     };
 
     # Applications to install from Mac App Store using mas.
+    # You need to install all these Apps manually first so that your apple account have records for them.
+    # otherwise Apple Store will refuse to install them.
+    # For details, see https://github.com/mas-cli/mas 
     masApps = {
       # Xcode = 497799835;
+      Wechat = 836500024;
+      QQ = 451108668;
+      WeCom = 1189898970;  # Wechat for Work
+      TecentMetting = 1484048379;
+      NeteaseCloudMusic = 944848654;
+      QQMusic = 595615424;
     };
 
     taps = [
@@ -161,7 +181,6 @@
 
     # `brew install --cask`
     casks = [
-      # broser & editor
       "firefox"
       "google-chrome"
       "visual-studio-code"
@@ -169,13 +188,9 @@
       # IM & audio & remote desktop & meeting
       "telegram"
       "discord"
-      "wechat"
-      "qq"
       "neteasemusic"
       "qqmusic"
       "microsoft-remote-desktop"
-      "wechatwork"
-      "tencent-meeting"
 
       # "anki"
       "clashx"    # proxy tool
@@ -185,7 +200,6 @@
       "raycast"   # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       "iglance"   # beautiful system monitor
       "eudic"     # 欧路词典
-      "baiduinput"  # baidu input method
       # "reaper"  # audio editor
 
       # Development
