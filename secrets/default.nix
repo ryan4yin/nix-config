@@ -1,4 +1,4 @@
-{ pkgs, agenix, mysecrets, ... }:
+{ config, pkgs, agenix, mysecrets, ... }:
 
 {
   imports = [
@@ -11,8 +11,6 @@
 
   # if you changed this key, you need to regenerate all encrypt files from the decrypt contents!
   age.identityPaths = [ "/home/ryan/.ssh/juliet-age" ];
-
-  age.secretsDir = "/run/agenix/";
 
   ############################################################################
   #
@@ -47,17 +45,24 @@
   ############################################################################
 
   age.secrets."alias-for-work.nushell" = {
-    # path = "/etc/agenix/";
     file = "${mysecrets}/alias-for-work.nushell.age";
-    mode = "0600";
-    owner = "ryan";
-    group = "ryan";
   };
   age.secrets."alias-for-work.bash" = {
-    # path = "/etc/agenix/";
     file = "${mysecrets}/alias-for-work.bash.age";
-    mode = "0600";
-    owner = "ryan";
-    group = "ryan";
+  };
+
+  environment.etc = {
+    "agenix/alias-for-work.nushell" = {
+      source = config.age.secrets."alias-for-work.nushell".path;
+      mode = "0600";
+      uid = 1000;
+      gid = 1000;
+    };
+    "agenix/alias-for-work.bash" = {
+      source = config.age.secrets."alias-for-work.bash".path;
+      mode = "0600";
+      uid = 1000;
+      gid = 1000;
+    };
   };
 }
