@@ -20,7 +20,6 @@ return {
     { import = "astrocommunity.utility.noice-nvim" },
     -- Fully featured & enhanced replacement for copilot.vim
     -- <Tab> work with both auto completion in cmp and copilot
-    { import = "astrocommunity.completion.copilot-lua-cmp" },
     { import = "astrocommunity.media.vim-wakatime" },
     { import = "astrocommunity.motion.leap-nvim" },
     { import = "astrocommunity.motion.flit-nvim" },
@@ -46,7 +45,7 @@ return {
     { import = "astrocommunity.pack.rust" },
     { import = "astrocommunity.pack.python" },
     { import = "astrocommunity.pack.java" },
-    { import = "astrocommunity.pack.nix" },
+    -- { import = "astrocommunity.pack.nix" },  -- manually add config for nix, comment this one.
     { import = "astrocommunity.pack.proto" },
     ---- Operation & Cloud Native
     { import = "astrocommunity.pack.terraform" },
@@ -54,6 +53,19 @@ return {
     { import = "astrocommunity.pack.cmake" },
     { import = "astrocommunity.pack.cpp" },
     { import = "astrocommunity.pack.docker" },
+    -- AI Assistant
+    { import = "astrocommunity.completion.copilot-lua-cmp" },
+    -- Custom copilot-lua to enable filtypes: markdown
+    {
+      "zbirenbaum/copilot.lua",
+      opts = function(_, opts)
+        opts.filetypes = {
+          yaml = true;
+          markdown = true,
+        }
+      end,
+    },
+
     ---- Nushell
     {
       "LhKipp/nvim-nu",
@@ -97,6 +109,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       opts = function(_, opts)
         local utils = require "astronvim.utils";
+        opts.indent.enable = false;
         opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, {
           -- neovim
           "vim",
@@ -107,6 +120,7 @@ return {
           "jsonnet",
           "regex",
           "terraform",
+          "nix",
         })
       end,
     },
@@ -151,6 +165,7 @@ return {
             code_actions.impl,        -- Go - generate interface method stubs
             code_actions.shellcheck,
             code_actions.proselint,   -- English prose linter
+            code_actions.statix,      -- Lints and suggestions for Nix.
 
             -- Completion
             completion.luasnip,
@@ -159,6 +174,7 @@ return {
             diagnostics.actionlint,  -- GitHub Actions workflow syntax checking
             diagnostics.buf,         -- check text in current buffer
             diagnostics.checkmake,   -- check Makefiles
+            diagnostics.deadnix,     -- Scan Nix files for dead code.
 
             -- Formatting
             formatting.prettier, -- js/ts/vue/css/html/json/... formatter
@@ -168,9 +184,10 @@ return {
             formatting.goimports,  -- Go formatter
             formatting.shfmt,     -- Shell formatter
             formatting.rustfmt,   -- Rust formatter
-            formatting.taplo,   -- TOML formatter
+            formatting.taplo,   -- TOML formatteautoindentr
             formatting.terraform_fmt, -- Terraform formatter
             formatting.stylua,    -- Lua formatter
+            formatting.alejandra, -- Nix formatter
             formatting.sqlfluff.with({  -- SQL formatter
               extra_args = { "--dialect", "postgres" }, -- change to your dialect
             }),
@@ -235,7 +252,7 @@ return {
       "nil_ls",         -- nix language server
       "bufls",          -- protocol buffer language server
       "zls",            -- zig language server
-      ---- Operation & Cloud Native
+      ---- Operation & Cloud Nativautoindente
       "bashls",       -- bash
       "cmake",        -- cmake language server
       "clangd",       -- c/c++

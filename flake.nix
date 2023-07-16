@@ -200,8 +200,10 @@
       };
 
       formatter = {
-        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-        x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.nixpkgs-fmt;
+        # format the nix code in this flake
+        # alejandra is a nix formatter with a beautiful output
+        x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+        x86_64-darwin = nixpkgs.legacyPackages.x86_64-darwin.alejandra;
       };
 
       packages.x86_64-linux = 
