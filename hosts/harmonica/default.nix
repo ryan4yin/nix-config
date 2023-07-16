@@ -2,12 +2,12 @@
 
 #############################################################
 #
-#  Harnomica - my MacBook Pro 2020 13-inch, mainly for business.
+#  Harmonica - my MacBook Pro 2020 13-inch, mainly for business.
 #
 #############################################################
 
 let
-  name = "harnomica";
+  name = "harmonica";
 in
 {
   imports = [
