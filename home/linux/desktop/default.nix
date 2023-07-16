@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
   imports = [
-    ./alacritty
-  
     ./creative.nix
     ./immutable-file.nix
     ./media.nix

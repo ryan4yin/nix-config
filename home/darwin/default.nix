@@ -4,7 +4,6 @@
   imports = [
     ../base/desktop
     
-    ./alacritty
     ./core.nix
     ./nushell.nix
   ];

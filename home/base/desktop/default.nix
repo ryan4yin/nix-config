@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./alacritty
     ../server
     ./neovim
     
