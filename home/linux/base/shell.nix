@@ -20,7 +20,6 @@ rec {
 
     # set default applications
     BROWSER = "firefox";
-    TERMINAL = "alacritty";
     TERM = "xterm-256color";
 
     # enable scrolling in git diff
