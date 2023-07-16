@@ -4,7 +4,8 @@
     theme = "Catppuccin-Mocha";
     font = {
       name = "JetBrainsMono Nerd Font";
-      size = 14;
+      # use different font size on macOS
+      size = if pkgs.stdenv.isDarwin then 14 else 13;
     };
 
     settings = {
