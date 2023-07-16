@@ -66,8 +66,9 @@
       # Point size
       size: 14
     shell:  # force nushell as default shell on macOS
-     program:  /run/current-system/sw/bin/nu
+      program:  /run/current-system/sw/bin/nu
   '' else ''
+    # holder identation
       # Point size
       size: 13
   '');
