@@ -13,9 +13,9 @@
       macos_option_as_alt = true;  # Option key acts as Alt on macOS
       scrollback_lines = 10000;
       enable_audio_bell = false;
-    } // lib.mkIf pkgs.stdenv.isDarwin {
+    } // (if pkgs.stdenv.isDarwin then {
       # macOS specific settings, force kitty to use nushell as default shell
       shell = "/run/current-system/sw/bin/nu";
-    };
+    } else {});
   };
 }
