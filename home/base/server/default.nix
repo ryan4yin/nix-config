@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./bat
     ./nushell
     ./tmux
     ./zellij

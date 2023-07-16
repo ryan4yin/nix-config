@@ -16,7 +16,7 @@
       #
       # Window opacity as a floating point number from `0.0` to `1.0`.
       # The value `0.0` is completely transparent and `1.0` is opaque.
-      opacity: 0.90
+      opacity: 0.95
     
       # Startup Mode (changes require restart)
       #

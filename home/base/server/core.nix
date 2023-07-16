@@ -60,20 +60,6 @@
       vimAlias = true;
     };
 
-    # a cat(1) clone with syntax highlighting and Git integration.
-    bat = {
-      enable = true;
-      config = {
-        pager = "less -FR";
-      #  theme = "Catppuccin-mocha";
-      };
-      #themes = {
-       # Catppuccin-mocha = builtins.readFile (pkgs.fetchurl {
-       #   url = "https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme";
-       #   hash = "sha256-qMQNJGZImmjrqzy7IiEkY5IhvPAMZpq0W6skLLsng/w=";
-       # });
-      #};
-    };
 
     # skim provides a single executable: sk.
     # Basically anywhere you would want to use grep, try sk instead.
