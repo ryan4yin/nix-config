@@ -15,7 +15,6 @@
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processer https://github.com/mikefarah/yq
-    exa # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
 
     # networking tools
@@ -60,6 +59,14 @@
       vimAlias = true;
     };
 
+    # A modern replacement for ‘ls’
+    # useful in bash/zsh prompt, not in nushell.
+    exa = {
+      enable = true;
+      enableAliases = true;
+      git = true;
+      icons = true;
+    };
 
     # skim provides a single executable: sk.
     # Basically anywhere you would want to use grep, try sk instead.
