@@ -17,5 +17,8 @@
       # macOS specific settings, force kitty to use nushell as default shell
       shell = "/run/current-system/sw/bin/nu";
     } else {});
+
+    # macOS specific settings
+    darwinLaunchOptions = [ "--start-as=fullscreen" ];
   };
 }
