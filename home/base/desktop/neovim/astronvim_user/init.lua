@@ -7,7 +7,7 @@ return {
       signcolumn = "auto", -- Show sign column when used only
       spell = false, -- Spell checking
       swapfile = false, -- Swapfile
-
+      smartindent = false; -- fix https://github.com/ryan4yin/nix-config/issues/4
     },
   },
 
