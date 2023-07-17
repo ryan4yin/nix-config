@@ -47,7 +47,8 @@
     };
   };
 
-  # activationScripts are executed every time you boot the system or run `nixos-rebuild` / `darwin-rebuild`.
+  # activationScripts are executed every time you run `nixos-rebuild` / `darwin-rebuild`.
+  # but not when you reboot the system, so currently you need to run those commands manually after reboot...
   system.activationScripts.postUserActivation.text = ''
     sudo chmod 644 /etc/agenix/alias-for-work.nushell
     sudo chmod 644 /etc/agenix/alias-for-work.bash
