@@ -53,7 +53,8 @@
 
       # customize macOS
       NSGlobalDomain = {
-        "com.apple.swipescrolldirection" = true;  # enable natural scrolling
+        # `defaults read NSGlobalDomain "xxx"`
+        "com.apple.swipescrolldirection" = true;  # enable natural scrolling(default to true)
         "com.apple.sound.beep.feedback" = 0;  # disable beep sound when pressing volume up/down key
         AppleInterfaceStyle = "Dark";  # dark mode
         AppleKeyboardUIMode = 3;  # Mode 3 enables full keyboard control.
@@ -127,9 +128,11 @@
       remapCapsLockToControl = false;  # remap caps lock to control, useful for emac users
       remapCapsLockToEscape  = true;   # remap caps lock to escape, useful for vim users
 
-      # swap left command and left alt, 
+      # swap left command and left alt 
       # so it matches common keyboard layout: `ctrl | command | alt`
-      swapLeftCommandAndLeftAlt = true;  
+      #
+      # disabled, caused only problems!
+      swapLeftCommandAndLeftAlt = false;  
     };
   };
 
@@ -142,6 +145,8 @@
     HOMEBREW_PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple";
   };
 
+
+  # homebrew need to be installed manually, see https://brew.sh
   homebrew = {
      # TODO Homebrew install takes a long time, 
      # So only enable this when you make changes.

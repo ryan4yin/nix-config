@@ -64,7 +64,7 @@
         family: JetBrainsMono Nerd Font
   '' + (if pkgs.stdenv.isDarwin then ''
       # Point size
-      size: 14
+      size: 16
     shell:  # force nushell as default shell on macOS
       program:  /run/current-system/sw/bin/nu
   '' else ''
