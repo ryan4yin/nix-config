@@ -194,6 +194,8 @@
 
     # `brew install --cask`
     casks = [
+      "squirrel"  # input method for Chinese, rime-squirrel
+
       "firefox"
       "google-chrome"
       "visual-studio-code"
