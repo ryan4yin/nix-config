@@ -6,6 +6,9 @@
   #  MacOS specific home configuration
   #
   ##########################################################################
+  programs.zsh = {
+    enable = true;
+  };
 
   programs.ssh = {
     enable = true;
