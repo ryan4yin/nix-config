@@ -32,6 +32,8 @@
   # place secrets in /etc/
   environment.etc = {
     # wireguard config used with `wg-quick up wg-business`  
+    # Fix DNS for WireGuard on macOS: https://ivans.io/wireguard-on-macos/
+    #   sudo /usr/sbin/networksetup -setdnsservers Wi-Fi "Empty"
     "wireguard/wg-business.conf" = {
       source = config.age.secrets."wg-business.conf".path;
     };
