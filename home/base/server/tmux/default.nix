@@ -6,6 +6,7 @@ in
 {
   programs.tmux = {
     enable = true;
+    shell = "${pkgs.nushell}/bin/nu";
 
     # Resize the window to the size of the smallest session for which it is the current window.
     # 
@@ -27,10 +28,8 @@ in
       {
         # https://github.com/tmux-plugins/tmux-continuum
         # Continuous saving of tmux environment. Automatic restore when tmux is started.
-        # Automatic tmux start when computer is turned on. 
         plugin = continuum;
         extraConfig = ''
-          set -g @continuum-boot 'on'
           set -g @continuum-save-interval '15'
           
           # Option to display current status of tmux continuum in tmux status line. 
