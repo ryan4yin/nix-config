@@ -1,4 +1,4 @@
-# 小鹤双拼自定义方案配置
+# Rime default settings
 # encoding: utf-8
 
 config_version: "0.38"
@@ -24,7 +24,7 @@ menu:
   page_size: 5
 
 punctuator:
-  half_shape: &half_shape
+  full_shape:  # replace full_shape with half_shape
     ',' : { commit: ， }
     '.' : { commit: 。 }
     '<' : [ 《, 〈, «, ‹ ]
@@ -53,17 +53,45 @@ punctuator:
     '_' : ——
     '+' : '+'
     '=' : '='
-    # '[' : { commit: '【' }
-    # ']' : { commit: '】' }
-    # '{' : { commit: '｛' }
-    # '}' : { commit: '｝' }
-    # 直角空格更好看，改成它
-    '[' : { commit: '「' }
-    ']' : { commit: '」' }
-    '{' : { commit: '『' }
-    '}' : { commit: '』' }
-  # 这个全宽字符非常恶心, 没啥用，老搞出全宽空格，禁用掉!
-  full_shape: *half_shape
+    '[' : [ 「, 【, 〔, ［ ]
+    ']' : [ 」, 】, 〕, ］ ]
+    '{' : [ 『, 〖, ｛ ]
+    '}' : [ 』, 〗, ｝ ]
+
+
+  half_shape:
+    ',' : { commit: ， }
+    '.' : { commit: 。 }
+    '<' : [ 《, 〈, «, ‹ ]
+    '>' : [ 》, 〉, », › ]
+    '/' : { commit: 、 }
+    '?' : { commit: ？ }
+    ';' : { commit: ； }
+    ':' : { commit: ： }
+    '''' : { pair: [ '‘', '’' ] }
+    '"' : { pair: [ '“', '”' ] }
+    '\' : { commit: 、 }
+    '|' : '|'
+    '`' : '`'
+    '~' : { commit: ～ }
+    '!' : { commit: ！ }
+    '@' : '@'
+    '#' : '#'
+    '%' : { commit: '%' }
+    '$' : { commit: "$" }
+    '^' : { commit: …… }
+    '&' : '&'
+    '*' : { commit: '*' }
+    '(' : （
+    ')' : ）
+    '-' : '-'
+    '_' : ——
+    '+' : '+'
+    '=' : '='
+    '[' : [ 「, 【, 〔, ［ ]
+    ']' : [ 」, 】, 〕, ］ ]
+    '{' : [ 『, 〖, ｛ ]
+    '}' : [ 』, 〗, ｝ ]
 
 key_binder:
   bindings:
@@ -101,7 +129,7 @@ key_binder:
     - { when: always, accept: Control+Shift+numbersign, toggle: full_shape }
     - { when: always, accept: Control+Shift+dollar, toggle: simplification }
     - { when: always, accept: Control+Shift+percent, toggle: extended_charset }
-    - { when: always, accept: Shift+space, toggle: full_shape } 
+    - { when: always, accept: Shift+space, toggle: full_shape }
     - { when: always, accept: Control+period, toggle: ascii_punct }
 
 recognizer:

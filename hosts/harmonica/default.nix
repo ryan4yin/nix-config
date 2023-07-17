@@ -1,4 +1,4 @@
-{ ... }:
+{ ... } @ args:
 
 #############################################################
 #
@@ -16,6 +16,8 @@ in
 
     ../../secrets/darwin.nix
   ];
+
+  nixpkgs.overlays = import ../../overlays args;
 
   networking.hostName = name;
   networking.computerName = name;

@@ -6,6 +6,7 @@
     
     ./core.nix
     ./nushell.nix
+    ./rime-squirrel.nix
   ];
 
   # Home Manager needs a bit of information about you and the

@@ -4,7 +4,7 @@
 schema:
   schema_id: flypy
   name: 小鹤音形
-  version: "10.9.3"
+  version: "10.9.4"
   author:
     - 方案设计：何海峰 <flypy@qq.com>
   description: |

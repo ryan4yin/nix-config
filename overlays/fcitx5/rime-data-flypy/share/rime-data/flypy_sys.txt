@@ -25,14 +25,14 @@ https://help.flypy.com/#/gn	orm
 ·	;y
 +	;u
 -	;i
-*	;o
-/	;p
+[	;o
+]	;p
 ！	;a
 ……	;s
 、	;d
 《	;g
-[	;h
-]	;j
+*	;h
+/	;j
 (	;k
 )	;l
 “	;z
@@ -73,7 +73,6 @@ https://help.flypy.com/#/gn	orm
 魅力	mwli
 极为	jiww
 按键	aj
-不懂	bd
 背景	bj
 参加	cj
 从前	cq
@@ -131,6 +130,7 @@ https://help.flypy.com/#/gn	orm
 伤害	uh
 世纪	uj
 试试	uu
+食物	uw
 这次	vc
 直到	vd
 征服	vf
@@ -338,7 +338,6 @@ https://help.flypy.com/#/gn	orm
 板上钉钉	budd
 部队	budv
 不施粉黛	bufd
-备受关注	bugv
 补救	bujq
 不胜枚举	bumj
 跋山涉水	buuu
@@ -353,7 +352,6 @@ https://help.flypy.com/#/gn	orm
 背弃	bwqi
 不外如是	bwru
 百无一用	bwyy
-百味杂陈	bwzi
 报喜不报忧	bxby
 巴西利亚	bxly
 百依百顺	bybu
@@ -383,7 +381,6 @@ https://help.flypy.com/#/gn	orm
 胆大妄为	ddww
 大跌眼镜	ddyj
 多多益善	ddyu
-第二现场	dexi
 达官贵人	dggr
 蹬踏	dgta
 电光石火	dguh
@@ -1180,7 +1177,6 @@ https://help.flypy.com/#/gn	orm
 水银	uvyb
 受制于人	uvyr
 少之又少	uvyu
-省委书记	uwuj
 顺我者昌	uwvi
 双喜临门	uxlm
 蛇蝎心肠	uxxi
@@ -1210,7 +1206,6 @@ https://help.flypy.com/#/gn	orm
 政权	vgqr
 争执	vgvi
 中规中矩	vgvj
-周公之礼	vgvl
 至高无上	vgwu
 这个月	vgy
 正义	vgyi
@@ -1307,7 +1302,6 @@ https://help.flypy.com/#/gn	orm
 无理	wuli
 忤逆	wuni
 万水千山	wuqu
-往事如烟	wury
 无事生非	wuuf
 巫山	wuuj
 午睡	wuuv
@@ -1338,7 +1332,6 @@ https://help.flypy.com/#/gn	orm
 惟有饮者留其名	wyym
 心急	xbji
 心理	xbli
-性别歧视	xbqu
 小不忍则乱大谋	xbrm
 心比天高	xbtg
 刑不上大夫	xbuf
@@ -1414,7 +1407,6 @@ https://help.flypy.com/#/gn	orm
 瞎扯	xxie
 新鲜出炉	xxil
 相形见绌	xxji
-小心谨慎	xxju
 稀稀拉拉	xxll
 寻寻觅觅	xxmm
 心心念念	xxnn
@@ -4088,7 +4080,6 @@ AA制	aav
 默契	moq
 默认	mor
 模特	mot
-模型	mox
 灭顶	mpd
 灭绝	mpj
 孟婆汤	mpt
@@ -6144,7 +6135,6 @@ AA制	aav
 新版	xbb
 信不过	xbg
 想不开	xbk
-心目	xbm
 新闻	xbw
 下次吧	xcb
 下次见	xcj
@@ -8001,7 +7991,6 @@ m³	otl	100
 指挥	vhf
 回忆	hyx
 距离	jlw
-食物	uwn
 指示	vue
 哲理	vlw
 音形	yxk
