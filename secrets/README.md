@@ -8,13 +8,19 @@ they are decrypted only when they are finally used.
 
 In addition, we further improve the security of secrets files by storing them in a separate private repository.
 
-This directory contains this README.md, and a `default.nix` that used to decrypt all my secrets via agenix, and then I can used them in this flake.
+This directory contains this README.md, and a `default.nix` that used to decrypt all my secrets via agenix, and then I can use them in this flake.
 
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.
 
-This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the `./secrets.nix` file, so you need to have it installed first.
+This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the `./secrets.nix` file, so you need to have it installed first:
+
+To use agenix temporarily, run:
+
+```bash
+nix shell nixpkgs#agenix
+```
 
 Suppose you want to add a new secret file `xxx.age`. Follow these steps:
 
@@ -56,14 +62,14 @@ Alternatively, you can encrypt an existing file to `xxx.age` using the following
 cat /path/to/xxx | agenix -e ./xxx.age
 ```
 
-By default, agenix uses `~/.ssh/id_ed25519.pub` or `~/.ssh/id_rsa.pub` as the encryption key. 
-If you want to use a custom key located at `/path/to/key.pub` for encryption, pass `--identity /path/to/key`.
+`agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, 
+so all the users and systems defined in `secrets.nix` can decrypt it with their private keys.
 
 ## Deploying Secrets
 
 > All the operations in this section should be performed in this repository.
 
-First, add your own private `nix-secrets` repository and `agenix` as flake inputs, and pass all the then to sub modules via `specialArgs`:
+First, add your own private `nix-secrets` repository and `agenix` as a flake input, and pass them to sub modules via `specialArgs`:
 
 ```nix
 {
@@ -109,8 +115,9 @@ Then, create `./secrets/default.nix` with the following content:
      agenix.nixosModules.default
   ];
 
-  environment.systemPackages = [
-    agenix.packages."${pkgs.system}".default
+  # if you changed this key, you need to regenerate all encrypt files from the decrypt contents!
+  age.identityPaths = [ 
+    "/home/ryan/.ssh/juliet-age"
   ];
 
   age.secrets."xxx" = {
@@ -127,7 +134,7 @@ Then, create `./secrets/default.nix` with the following content:
 }
 ```
 
-From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined by the `age.identityPaths` argument. 
+From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined in `age.identityPaths`. 
 It will then symlink the secrets to the path defined by the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
 
 NOTE: By default, `age.identityPaths` is set to `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`, 
