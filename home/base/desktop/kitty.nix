@@ -1,4 +1,27 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }: 
+
+###########################################################
+#
+# Kitty Configuration
+# 
+# Useful Hot Keys for macOS:
+#   1. New Tab: `command + t`
+#   2. Close Tab: `command + w`
+#   3. Switch Tab: `shift + command + [` | `shift + command + ]`
+#   4. Increase Font Size: `command + =` | `command + +`
+#   5. Decrease Font Size: `command + -` | `command + _`
+#   6. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
+#
+# Useful Hot Keys for Linux:
+#   1. New Tab: `command + t`
+#   2. Close Tab: `command + w`
+#   3. Switch Tab: `shift + command + [` | `shift + command + ]`
+#   4. Increase Font Size: `ctrl + shift + =` | `ctrl + shift + +`
+#   5. Decrease Font Size: `ctrl + shift + -` | `ctrl + shift + _`
+#   6. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
+#
+###########################################################
+{
   programs.kitty = {
     enable = true;
     theme = "Catppuccin-Mocha";

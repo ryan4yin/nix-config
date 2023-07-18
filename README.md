@@ -110,9 +110,6 @@ make aqua
 
 The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host.
 
-## Other Tips
-
-1. alacritty - Multi-Window on macOS: `command + N`
 
 ## Other Interesting Dotfiles
 
