@@ -189,6 +189,11 @@
       "aria2"  # download tool
       "httpie"  # http client
       "wireguard-tools"  # wireguard
+
+      # Usage:
+      #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
+      # 1. `sudo tailscaled install-system-daemon`
+      # 2. `tailscale up --accept-routes`
       "tailscale"   # tailscale
     ];
 
