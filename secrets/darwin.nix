@@ -52,7 +52,7 @@
   # but not when you reboot the system, so currently you need to run those commands manually after reboot...
   #
   # /etc/agenix/* will be created after the first time you run `nixos-rebuild` / `darwin-rebuild` successfully.
-  # so you may need to comment out the following lines if it's the first time you run `nixos-rebuild` / `darwin-rebuild`.
+  # so you may need to comment out the following lines if it's the first time you run `nixos-rebuild` / `darwin-rebuild` on a new system.
   system.activationScripts.postUserActivation.text = ''
     sudo chmod 644 /etc/agenix/*
   '';
