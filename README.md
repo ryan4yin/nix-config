@@ -2,17 +2,13 @@
 
 This repository is home to the nix code that builds my systems.
 
-## TODO
-
-- [ ] Enable disk encryption to enhance data security
-- [ ] `Xcursor.size` does not take effect in i3
-
 ## Why Nix?
 
 Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
 
 **Want to know Nix in detail? Looking for a beginner-friendly tutorial or best practices? Check out [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
+> If you're using macOS, you can also check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
 ## Screenshots
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
