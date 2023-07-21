@@ -181,10 +181,19 @@
       };
 
       # macOS's configuration, for work.
-      darwinConfigurations."harmonica" = darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
-
-        specialArgs = inputs;
+      darwinConfigurations."harmonica" = let
+          system = "x86_64-darwin";
+          specialArgs = {
+            # use unstable branch for some packages to get the latest updates
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              inherit system; # refer the `system` parameter form outer scope recursively
+              # To use chrome, we need to allow the installation of non-free software
+              config.allowUnfree = true;
+            };
+          } // inputs;
+      in
+      darwin.lib.darwinSystem {
+        inherit system specialArgs;
         modules = [
           ./hosts/harmonica
 
@@ -193,7 +202,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs;
+            home-manager.extraSpecialArgs = specialArgs;
             home-manager.users.ryan = import ./home/darwin;
           }
         ];

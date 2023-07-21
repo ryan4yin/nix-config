@@ -1,4 +1,4 @@
-{  pkgs, ... }:
+{  pkgs, pkgs-unstable, ... }:
 
 {
   #############################################################
@@ -12,6 +12,8 @@
   #############################################################
 
   home.packages = with pkgs; [
+    pkgs-unstable.devbox
+
     # cloud native
     skopeo
     docker-compose
