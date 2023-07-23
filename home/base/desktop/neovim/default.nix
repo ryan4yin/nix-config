@@ -11,6 +11,9 @@
 #
 #  For details: https://astronvim.com/
 #
+#  Toggle visual mode:              `v`
+#  Toggle visual block mode:        `<Ctrl> + v`  (select a block(vertically) of text)
+#
 #  Commands & shortcuts in AstroNvim
 #    Learn Neovim's Basics:         `:Tutor`
 #    Opening file explorer:         `<Space> + e`
@@ -36,6 +39,7 @@
 #    Toggle buffer auto formatting: `<Space> + uf`
 #    Format Document:               `<Space> + lf`
 #    Comment Line:                  `<Space> + /`
+#        Can be used in visual mode
 #    Code Actions:                  `<Space> + la`
 #    Rename:                        `<Space> + lr`
 #    Open filepath/URL at cursor:   `gx`
@@ -50,7 +54,35 @@
 #    Load Current Directory Session:`<Space> + S.`
 #
 #    Debugging: press `<Space> + D` to see the available bindings and options.
+#
+#    Replace in the selected area:  `:s/old/new/g`  (will show `:'<,'>s/old/new/g`)
+#    Replace in the current line:   The same as above
+#    Replace in the whole file:     `:% s/old/new/g`
+#    Replace in the specific lines:
+#        1. From the 10th line to the end of the file:     `:10,$ s/old/new/g`
+#                                                       or `:10,$ s@^@#@g`
+#        2. From the 10th line to the 20th line:           `:10,20 s/old/new/g`
+#
+#    The postfix(flgas) in the above commands:
+#        1. `g` means replace all the matched strings in the current line/file.
+#        2. `c` means ask for confirmation before replacing.
+#        3. `i` means ignore case.
+#
+#    Joining a Selection of Lines With Space:  `:join`
+#    Joining without spaces:                   `:join!`
 #    
+#    Toggle text's case:                       `~`
+#    Convert to uppercase:                     `U`
+#    Convert to lowercase:                     `u`
+#
+#    Save the selected text to a file:         `:w filename`  (will show `:'<,'>w filename`)
+#
+#    Search key pattern and Replace in Multiple Files:
+#        sed -ri "s/pattern_str/replace_str/g" $(grep "key_pattern" 'path_pattern' -rl)
+#
+#    Search file name pattern and Replace in Multiple Files:
+#        sed -ri "s/pattern_str/replace_str/g" $(find . -name "pattern")
+#
 #    ......
 #    See https://astronvim.com/Basic%20Usage/walkthrough
 #
