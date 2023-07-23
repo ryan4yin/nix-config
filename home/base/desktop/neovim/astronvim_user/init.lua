@@ -97,11 +97,21 @@ return {
         },
       }
     },
+    -- The plugin offers the `:Refactor` command to refactor code.
+    -- TODO not work yet
     {
       "ThePrimeagen/refactoring.nvim",
       dependencies = {
         {"nvim-lua/plenary.nvim"},
         {"nvim-treesitter/nvim-treesitter"}
+      }
+    },
+    -- The plugin offers the `:Spectre` command to search and replace.
+    -- TODO not work yet
+    {
+      "nvim-pack/nvim-spectre",
+      dependencies = {
+        {"nvim-lua/plenary.nvim"},
       }
     },
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
