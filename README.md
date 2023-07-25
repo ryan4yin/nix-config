@@ -11,6 +11,8 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 > If you're using macOS, you can also check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
 ## Screenshots
 
+![](./_img/hyprland_2023-07-26.webp)
+
 ![](/_img/astronvim_2023-07-13_00-39.webp)
 
 ![](/_img/nix-distributed-building.webp)
