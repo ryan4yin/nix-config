@@ -17,6 +17,13 @@
   home.file.".gtkrc-2.0".source = ./gtkrc-2.0;
   home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
 
+
+  # music player - mpd
+  home.file.".config/mpd" = {
+    source = ./mpd;
+    recursive = true;
+  };
+
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
 

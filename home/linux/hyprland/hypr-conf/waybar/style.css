@@ -78,7 +78,11 @@ tooltip label {
 #pulseaudio,
 #network,
 #battery,
-#custom-powermenu,
+#custom-powermenu {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 /* #mode { */
 /* 	margin-left: 10px; */
 /* 	background-color: rgb(248, 189, 150); */

@@ -1,4 +1,45 @@
 {
+  "position": "top",
+  "layer": "top",
+
+  "modules-left": [
+    "custom/launcher",
+    "temperature",
+    "wlr/workspaces"
+  ],
+  "modules-center": [
+    "custom/playerctl"
+  ],
+  "modules-right": [
+    "mpd",
+    "pulseaudio",
+    "backlight",
+    "memory",
+    "cpu",
+    "network",
+    "clock",
+    "custom/powermenu",
+    "tray"
+  ],
+  "wlr/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
+      "9": "",
+      "10": "〇",
+      "focused": "",
+      "default": ""
+    }
+  },
+
   "clock": {
     "interval": 60,
     "align": 0,
@@ -31,7 +72,6 @@
     },
     "tooltip": false
   },
-  "layer": "top",
   "memory": {
     "format": "\udb83\udee0 {percentage}%",
     "interval": 1,
@@ -39,37 +79,40 @@
       "warning": 85
     }
   },
-  "modules-center": [
-    "clock"
-  ],
-  "modules-left": [
-    "custom/launcher",
-    "temperature",
-    "mpd",
-    "custom/cava-internal"
-  ],
-  "modules-right": [
-    "pulseaudio",
-    "backlight",
-    "memory",
-    "cpu",
-    "network",
-    "custom/powermenu",
-    "tray"
-  ],
   "mpd": {
-    "format": "<span foreground='#bb9af7'>\uf001</span> {title}",
-    "format-disconnected": "",
-    "format-paused": "\uf001 {title}",
-    "format-stopped": "<span foreground='#bb9af7'>\uf001</span>",
-    "max-length": 25,
-    "on-click": "mpc --quiet toggle",
-    "on-click-middle": "kitty --class='ncmpcpp' ncmpcpp ",
-    "on-click-right": "mpc update; mpc ls | mpc add",
-    "on-scroll-down": "mpc --quiet next",
-    "on-scroll-up": "mpc --quiet prev",
-    "smooth-scrolling-threshold": 5,
-    "tooltip-format": "{title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%H:%M:%S})"
+      "interval": 2,
+      "unknown-tag": "N/A",
+      "format": "{stateIcon} {artist} - {title}",
+      "format-disconnected": " Disconnected",
+      "format-paused": "{stateIcon} {artist} - {title}",
+      "format-stopped": "Stopped ",
+      "state-icons": {
+          "paused": "",
+          "playing": ""
+      },
+      "tooltip-format": "MPD (connected)",
+      "tooltip-format-disconnected": "MPD (disconnected)",
+      // Commands to execute on events
+      "on-click": "mpc toggle",
+      "on-click-middle": "mpc prev",
+      "on-click-right": "mpc next",
+      "on-update": "",
+      "on-scroll-up": "mpc seek +00:00:01",
+      "on-scroll-down": "mpc seek -00:00:01",
+      "smooth-scrolling-threshold": 1
+  },
+  "custom/playerctl": {
+     "format": "{icon}  <span>{}</span>",
+     "return-type": "json",
+     "max-length": 55,
+     "exec": "playerctl -a metadata --format '{\"text\": \"  {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+     "on-click-middle": "playerctl previous",
+     "on-click": "playerctl play-pause",
+     "on-click-right": "playerctl next",
+     "format-icons": {
+       "Paused": "<span foreground='#6dd9d9'></span>",
+       "Playing": "<span foreground='#82db97'></span>"
+     }
   },
   "network": {
       "interval": 5,
@@ -79,10 +122,9 @@
       "format-linked": " {ifname} (No IP)",
       "format-disconnected": "睊 Disconnected",
       "format-disabled": "睊 Disabled",
-      "format-format": " {bandwidthUpBits} |  {bandwidthDownBits}",
-      "tooltip-alt": " {ifname} via {gwaddr}",
+      "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
+      "tooltip-format": " {ifname} via {gwaddr}",
   },
-  "position": "top",
   "pulseaudio": {
       //"format": "{volume}% {icon} {format_source}",
       "format": "{icon} {volume}%",
@@ -117,9 +159,5 @@
   "tray": {
     "icon-size": 15,
     "spacing": 5
-  },
-  "wlr/workspaces": {
-    "format": "{icon}",
-    "on-click": "activate"
   }
 }
