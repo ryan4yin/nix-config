@@ -12,6 +12,9 @@
     # format in details:
     #   https://www.ssh.com/academy/ssh/config
     extraConfig = ''
+      # a private key that is used during authentication will be added to ssh-agent if it is running
+      AddKeysToAgent yes
+
       Host 192.168.*
         # allow to securely use local SSH agent to authenticate on the remote machine.
         # It has the same effect as adding cli option `ssh -A user@host`
