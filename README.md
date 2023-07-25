@@ -112,20 +112,26 @@ make aqua
 The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host.
 
 
-## Other Interesting Dotfiles
+## References
 
-Other dotfiles && docs that inspired me:
+Other dotfiles that inspired me:
 
-- [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
-- [Tips&Tricks for NixOS Desktop](https://discourse.nixos.org/t/tips-tricks-for-nixos-desktop/28488/2)
-- [notwidow/hyprland](https://github.com/notwidow/hyprland): hyprland configuration
-- [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
-- [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
-- [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
-- [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
-- [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
-- [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
-- [davidtwco/veritas](https://github.com/davidtwco/veritas)
-- [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
-- [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
-- [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
+- Nix Flakes
+   - [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
+   - [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
+   - [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
+   - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
+   - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
+   - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
+   - [davidtwco/veritas](https://github.com/davidtwco/veritas)
+   - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
+   - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
+- Hyprland
+   - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles)
+   - [notwidow/hyprland](https://github.com/notwidow/hyprland): hyprland configuration
+- I3 Window Manager
+   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
+- Neovim/AstroNvim
+   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
+- Misc
+   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
