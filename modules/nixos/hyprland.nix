@@ -74,6 +74,8 @@
     yad # a fork of zenity, for creating dialogs
 
     # audio
+    alsa-utils  # provides amixer/alsamixer/...
+    cava  # for visualizing audio
     mpd # for playing system sounds
     mpc-cli # command-line mpd client
     ncmpcpp # a mpd client with a UI

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Script To Manage Speaker Volume For Archcraft (in Wayland).
+## Script To Manage Speaker Volume(in Wayland).
 
 iDIR="$HOME/.config/hypr/mako/icons"
 

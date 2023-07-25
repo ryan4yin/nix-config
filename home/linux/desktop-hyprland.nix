@@ -13,9 +13,12 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home = {
-    username = "ryan";
-    homeDirectory = "/home/ryan";
+  home = let
+    name = "ryan";
+  in
+  {
+    username = name;
+    homeDirectory = "/home/${name}";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

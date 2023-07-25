@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  nix.settings.trusted-users = ["ryan"];
+
   users.groups = {
     ryan = { };
     docker = { };

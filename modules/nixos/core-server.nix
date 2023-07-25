@@ -24,7 +24,6 @@
   # enable flakes globally
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   
-  nix.settings.trusted-users = ["ryan"];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = lib.mkDefault false;

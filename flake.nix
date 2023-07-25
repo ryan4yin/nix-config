@@ -11,7 +11,6 @@
   # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {
     experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "ryan" ];
 
     substituters = [
       # replace official cache with a mirror located in China
@@ -105,8 +104,9 @@
         };
       } // inputs;
       # 星野 アイ, Hoshino Ai
-      idol_ai_modules = [
+      idol_ai_modules_i3 = [
         ./hosts/idols/ai
+        ./modules/nixos/i3.nix
 
         home-manager.nixosModules.home-manager
         {
@@ -114,8 +114,20 @@
           home-manager.useUserPackages = true;
 
           home-manager.extraSpecialArgs = x64_specialArgs;
-          home-manager.users.ryan = import ./home/linux/x11.nix;
-          # home-manager.users.ryan = import ./home/linux/wayland.nix;
+          home-manager.users.ryan = import ./home/linux/desktop-i3.nix;
+        }
+      ];
+      idol_ai_modules_hyprland = [
+        ./hosts/idols/ai
+        ./modules/nixos/hyprland.nix
+
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+
+          home-manager.extraSpecialArgs = x64_specialArgs;
+          home-manager.users.ryan = import ./home/linux/desktop-hyprland.nix;
         }
       ];
       # 星野 愛久愛海, Hoshino Akuamarin
@@ -159,9 +171,13 @@
       ];
     in {
       nixosConfigurations = let system = x64_system; specialArgs = x64_specialArgs; in {
-        ai = nixpkgs.lib.nixosSystem {
+        ai_i3 = nixpkgs.lib.nixosSystem {  # ai with i3 window manager
           inherit system specialArgs;
-          modules = idol_ai_modules;
+          modules = idol_ai_modules_i3;
+        };
+        ai_hyprland = nixpkgs.lib.nixosSystem {  # ai with hyprland compositor
+          inherit system specialArgs;
+          modules = idol_ai_modules_hyprland;
         };
 
         aquamarine = nixpkgs.lib.nixosSystem {
@@ -220,9 +236,14 @@
         #   https://github.com/nix-community/nixos-generators
         let system = x64_system; specialArgs = x64_specialArgs; in  {
         # Hoshino Ai is a physical machine, so we need to generate an iso image for it.
-        ai = nixos-generators.nixosGenerate {
+        ai_i3 = nixos-generators.nixosGenerate {  # ai with i3 window manager
           inherit system specialArgs;
-          modules = idol_ai_modules;
+          modules = idol_ai_modules_i3;
+          format = "iso";
+        };
+        ai_hyprland = nixos-generators.nixosGenerate {  # ai with hyprland compositor
+          inherit system specialArgs;
+          modules = idol_ai_modules_hyprland;
           format = "iso";
         };
         # Hoshino Aquamarine is a virtual machine running on Proxmox VE.

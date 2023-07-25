@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Script To Manage Brightness For Archcraft (in Wayland).
+## Script To Manage Brightness (in Wayland).
 
 iDIR="$HOME/.config/hypr/mako/icons"
 

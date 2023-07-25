@@ -10,11 +10,17 @@
 #
 ############################################################################
 
-deploy: 
-	nixos-rebuild switch --flake . --use-remote-sudo
+i3: 
+	nixos-rebuild switch --flake .#ai_i3 --use-remote-sudo
 
-debug:
-	nixos-rebuild switch --flake . --use-remote-sudo --show-trace --verbose
+hyprland:
+	nixos-rebuild switch --flake .#ai_hyprland --use-remote-sudo
+
+debug_i3:
+	nixos-rebuild switch --flake .#ai_i3 --use-remote-sudo --show-trace --verbose
+
+debug_hyprland:
+	nixos-rebuild switch --flake .#ai_hyprland --use-remote-sudo --show-trace --verbose
 
 update:
 	nix flake update

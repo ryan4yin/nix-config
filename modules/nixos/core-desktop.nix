@@ -66,10 +66,6 @@
       })
 
       (pkgs.callPackage ../../fonts/icomoon-feather-icon-font.nix { })
-
-      # arch linux icon, used temporarily in waybar
-      (pkgs.callPackage ../../fonts/archcraft-icon-font.nix { })
-
     ];
 
     # user defined fonts
