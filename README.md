@@ -1,4 +1,18 @@
-# Nix Configuration
+<h2 align="center">:snowflake: Ryan4Yin's Nix Config :snowflake:</h2>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
+</p>
+
+<p align="center">
+	<a href="https://github.com/ryan4yin/nix-config/stargazers">
+		<img alt="Stargazers" src="https://img.shields.io/github/stars/ryan4yin/nix-config?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41"></a>
+    <a href="https://nixos.org/">
+        <img src="https://img.shields.io/badge/NixOS-23.05-informational.svg?style=for-the-badge&logo=nixos&color=F2CDCD&logoColor=D9E0EE&labelColor=302D41"></a>
+    <a href="https://github.com/ryan4yin/nixos-and-flakes-book">
+        <img src="https://img.shields.io/static/v1?label=Nix Flakes&message=learning&style=for-the-badge&logo=nixos&color=DDB6F2&logoColor=D9E0EE&labelColor=302D41"></a>
+  </a>
+</p>
 
 This repository is home to the nix code that builds my systems.
 
@@ -14,10 +28,6 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 ![](./_img/hyprland_2023-07-26.webp)
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
-
-![](/_img/nix-distributed-building.webp)
-
-![](/_img/nix-distributed-building-log.webp)
 
 ## Hosts
 
@@ -128,10 +138,12 @@ Other dotfiles that inspired me:
    - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
 - Hyprland
    - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles)
-   - [notwidow/hyprland](https://github.com/notwidow/hyprland): hyprland configuration
+   - [notwidow/hyprland](https://github.com/notwidow/hyprland)
 - I3 Window Manager
    - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim
    - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
+- Theme
+   - [catppuccin](https://github.com/catppuccin/catppuccin)
 - Misc
    - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
