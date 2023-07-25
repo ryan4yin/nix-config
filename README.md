@@ -43,7 +43,10 @@ For NixOS, use the following commands:
 sudo nixos-rebuild switch --flake .
 
 # we can also deploy using `make`, which is defined in Makefile
-make deploy
+make i3
+
+# or we can deploy with details
+make debug_i3
 ```
 
 For MacOS, use the following commands:
