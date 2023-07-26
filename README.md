@@ -23,9 +23,13 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 **Want to know Nix in detail? Looking for a beginner-friendly tutorial or best practices? Check out [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
 > If you're using macOS, you can also check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
-## Screenshots
+## Hyprland + AstroNvim
 
 ![](./_img/hyprland_2023-07-26.webp)
+
+![](./_img/hyprland_2023-07-27.webp)
+
+## I3 + AstroNvim
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
 
