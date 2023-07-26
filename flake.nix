@@ -108,48 +108,48 @@
 
     nixosSystem = import ./lib/nixosSystem.nix;
     macosSystem = import ./lib/macosSystem.nix;
-
-    # 星野 アイ, Hoshino Ai
-    idol_ai_modules_i3 = {
-      nixos-modules = [
-        ./hosts/idols/ai
-        ./modules/nixos/i3.nix
-      ];
-      home-module = import ./home/linux/desktop-i3.nix;
-    };
-    idol_ai_modules_hyprland = {
-      nixos-modules = [
-        ./hosts/idols/ai
-        ./modules/nixos/hyprland.nix
-      ];
-      home-module = import ./home/linux/desktop-hyprland.nix;
-    };
-
-    # 星野 愛久愛海, Hoshino Akuamarin
-    idol_aquamarine_modules = {
-      nixos-modules = [
-        ./hosts/idols/aquamarine
-      ];
-      home-module = import ./home/linux/server.nix;
-    };
-
-    # 星野 瑠美衣, Hoshino Rubii
-    idol_ruby_modules = {
-      nixos-modules = [
-        ./hosts/idols/ruby
-      ];
-      home-module = import ./home/linux/server.nix;
-    };
-
-    # 有馬 かな, Arima Kana
-    idol_kana_modules = {
-      nixos-modules = [
-        ./hosts/idols/kana
-      ];
-      home-module = import ./home/linux/server.nix;
-    };
   in {
     nixosConfigurations = let
+      # 星野 アイ, Hoshino Ai
+      idol_ai_modules_i3 = {
+        nixos-modules = [
+          ./hosts/idols/ai
+          ./modules/nixos/i3.nix
+        ];
+        home-module = import ./home/linux/desktop-i3.nix;
+      };
+      idol_ai_modules_hyprland = {
+        nixos-modules = [
+          ./hosts/idols/ai
+          ./modules/nixos/hyprland.nix
+        ];
+        home-module = import ./home/linux/desktop-hyprland.nix;
+      };
+
+      # 星野 愛久愛海, Hoshino Akuamarin
+      idol_aquamarine_modules = {
+        nixos-modules = [
+          ./hosts/idols/aquamarine
+        ];
+        home-module = import ./home/linux/server.nix;
+      };
+
+      # 星野 瑠美衣, Hoshino Rubii
+      idol_ruby_modules = {
+        nixos-modules = [
+          ./hosts/idols/ruby
+        ];
+        home-module = import ./home/linux/server.nix;
+      };
+
+      # 有馬 かな, Arima Kana
+      idol_kana_modules = {
+        nixos-modules = [
+          ./hosts/idols/kana
+        ];
+        home-module = import ./home/linux/server.nix;
+      };
+
       system = x64_system;
       specialArgs =
         {
@@ -198,7 +198,7 @@
       );
 
     # macOS's configuration, for work.
-    darwinConfigurations."harmonica" = let
+    darwinConfigurations = let
       system = x64_darwin;
       specialArgs =
         {
@@ -211,14 +211,17 @@
           };
         }
         // inputs;
-    in
-      macosSystem {
+      base_args = {
         inherit nix-darwin home-manager system specialArgs;
+      };
+    in {
+      harmonica = macosSystem (base_args // {
         darwin-modules = [
           ./hosts/harmonica
         ];
         home-module = import ./home/darwin;
-      };
+      });
+    };
 
     # format the nix code in this flake
     # alejandra is a nix formatter with a beautiful output
