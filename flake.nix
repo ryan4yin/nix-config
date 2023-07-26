@@ -178,9 +178,10 @@
       kana = nixosSystem (idol_kana_modules // unstable_args);
     };
 
-    # take images for idols
+    # take system images for idols
     # https://github.com/nix-community/nixos-generators
     packages."${x64_system}" =
+      # genAttrs returns an attribute set with the given keys and values(host => image).
       nixpkgs.lib.genAttrs [
         "ai_i3"
         "ai_hyprland"
