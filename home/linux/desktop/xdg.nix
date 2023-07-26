@@ -56,26 +56,16 @@
         "audio/*" = ["mpv.desktop"];
         "video/*" = ["mpv.dekstop"];
         "image/*" = ["imv.desktop"];
+        "image/gif" = ["imv.desktop"];
+        "image/jpeg" = ["imv.desktop"];
+        "image/png" = ["imv.desktop"];
+        "image/webp" = ["imv.desktop"];
       };
 
-      associations.removed = let
-        browser = ["google-chrome.desktop"];
-      in {
-        "text/html" = browser;
-        "text/xml" = browser;
-        "application/xml" = browser;
-        "application/xhtml+xml" = browser;
-        "application/xhtml_xml" = browser;
-        "application/rdf+xml" = browser;
-        "application/rss+xml" = browser;
-        "image/gif" = browser;
-        "image/jpeg" = browser;
-        "image/png" = browser;
-        "image/webp" = browser;
-        "x-scheme-handler/http" = browser;
-        "x-scheme-handler/https" = browser;
-        "application/pdf" = browser;
-      };
+      associations.removed =
+        {
+          # ......
+        };
     };
 
     userDirs = {
