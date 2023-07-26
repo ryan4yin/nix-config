@@ -99,6 +99,9 @@
     ...
   }: let
     username = "ryan";
+    userfullname = "Ryan Yin";
+    useremail = "xiaoyin_c@qq.com";
+
     x64_system = "x86_64-linux";
     x64_darwin = "x86_64-darwin";
     allSystems = [x64_system x64_darwin];
@@ -150,7 +153,7 @@
       system = x64_system;
       specialArgs =
         {
-          inherit username;
+          inherit username userfullname useremail;
           # use unstable branch for some packages to get the latest updates
           pkgs-unstable = import nixpkgs-unstable {
             system = x64_system; # refer the `system` parameter form outer scope recursively
@@ -199,6 +202,7 @@
       system = x64_darwin;
       specialArgs =
         {
+          inherit username userfullname useremail;
           # use unstable branch for some packages to get the latest updates
           pkgs-unstable = import nixpkgs-unstable {
             inherit system; # refer the `system` parameter form outer scope recursively
