@@ -1,13 +1,9 @@
-{ ... } @args:
-
-
+{...} @ args:
 #############################################################
 #
 #  Ruby - a NixOS VM running on Proxmox
 #
 #############################################################
-
-
 {
   imports = [
     {
@@ -23,9 +19,8 @@
 
   nixpkgs.overlays = import ../../../overlays args;
 
-
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" "riscv64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
   # supported fil systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
@@ -50,10 +45,12 @@
     networkmanager.enable = true;
     interfaces.ens18 = {
       useDHCP = false;
-      ipv4.addresses = [{
-        address = "192.168.5.102";
-        prefixLength = 24;
-      }];
+      ipv4.addresses = [
+        {
+          address = "192.168.5.102";
+          prefixLength = 24;
+        }
+      ];
     };
     defaultGateway = "192.168.5.201";
     nameservers = [
@@ -69,5 +66,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }

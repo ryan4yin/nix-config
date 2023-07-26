@@ -1,5 +1,4 @@
-{ pkgs, ...}: 
-{
+{pkgs, ...}: {
   imports = [
     ./wayland-apps.nix
   ];
@@ -21,7 +20,6 @@
   };
   home.file.".gtkrc-2.0".source = ./gtkrc-2.0;
   home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
-
 
   # music player - mpd
   home.file.".config/mpd" = {
@@ -58,5 +56,4 @@
     package = pkgs.qogir-theme;
     size = 64;
   };
-
 }

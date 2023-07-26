@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   ####################################################################
   #
   #  NixOS's Configuration for I3 Window Manager
@@ -8,7 +6,7 @@
   ####################################################################
 
   # i3 related options
-  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
+  environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
   services.xserver = {
     enable = true;
 
@@ -42,7 +40,7 @@
         xorg.xdpyinfo # get screen information
         scrot # minimal screen capture tool, used by i3 blur lock to take a screenshot
         sysstat # get system information
-        alsa-utils  # provides amixer/alsamixer/...
+        alsa-utils # provides amixer/alsamixer/...
 
         xfce.thunar # xfce4's file manager
       ];

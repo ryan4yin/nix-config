@@ -1,8 +1,12 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+
+  username,
+  ...
+}: {
   # mount a smb/cifs share
-  fileSystems."/home/ryan/SMB-Downloads" = {
+  fileSystems."/home/${username}/SMB-Downloads" = {
     device = "//192.168.5.194/Downloads";
     fsType = "cifs";
     options = [
@@ -10,5 +14,3 @@
     ];
   };
 }
-
-

@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   imports = [
     ./bat
     ./nushell
@@ -11,5 +10,4 @@
     ./git.nix
     ./starship.nix
   ];
-
 }

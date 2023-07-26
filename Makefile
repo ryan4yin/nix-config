@@ -13,13 +13,13 @@
 i3: 
 	nixos-rebuild switch --flake .#ai_i3 --use-remote-sudo
 
-hyprland:
+hypr:
 	nixos-rebuild switch --flake .#ai_hyprland --use-remote-sudo
 
-debug_i3:
+i3-debug:
 	nixos-rebuild switch --flake .#ai_i3 --use-remote-sudo --show-trace --verbose
 
-debug_hyprland:
+hypr-debug:
 	nixos-rebuild switch --flake .#ai_hyprland --use-remote-sudo --show-trace --verbose
 
 update:
@@ -49,11 +49,11 @@ bright:
 darwin-set-proxy:
 	sudo python3 scripts/darwin_set_proxy.py
 
-darwin: darwin-set-proxy
+ha: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system
 	./result/sw/bin/darwin-rebuild switch --flake .
 
-darwin-debug: darwin-set-proxy
+ha-debug: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system --show-trace --verbose
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica --show-trace --verbose
 

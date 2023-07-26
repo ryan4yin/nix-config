@@ -1,6 +1,8 @@
-{ lib, pkgs, ... }:
-
 {
+  lib,
+  pkgs,
+  ...
+}: {
   ###################################################################################
   #
   #  NixOS's core configuration suitable for my desktop computer
@@ -16,20 +18,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # DO NOT promote ryan to input password for `nix-store` and `nix-copy-closure`
-  security.sudo.extraRules = [
-    { users = [ "ryan" ];
-      commands = [
-        { command = "/run/current-system/sw/bin/nix-store" ;
-          options = [ "NOPASSWD" ];
-        }
-        { command = "/run/current-system/sw/bin/nix-copy-closure" ;
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
 
   # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
   fonts = {
@@ -65,17 +53,17 @@
         ];
       })
 
-      (pkgs.callPackage ../../fonts/icomoon-feather-icon-font.nix { })
+      (pkgs.callPackage ../../fonts/icomoon-feather-icon-font.nix {})
     ];
 
     # user defined fonts
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig.defaultFonts = {
-      serif = [ "Noto Serif" "Noto Color Emoji" ];
-      sansSerif = [ "Noto Sans" "Noto Color Emoji" ];
-      monospace = [ "JetBrainsMono Nerd Font" "Noto Color Emoji" ];
-      emoji = [ "Noto Color Emoji" ];
+      serif = ["Noto Serif" "Noto Color Emoji"];
+      sansSerif = ["Noto Sans" "Noto Color Emoji"];
+      monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+      emoji = ["Noto Color Emoji"];
     };
   };
 
@@ -99,7 +87,7 @@
   };
 
   # The OpenSSH agent remembers private keys for you
-  # so that you don’t have to type in passphrases every time you make an SSH connection. 
+  # so that you don’t have to type in passphrases every time you make an SSH connection.
   # Use `ssh-add` to add a key to the agent.
   programs.ssh.startAgent = true;
 
@@ -107,18 +95,19 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # python, some times I may need to use python with root permission.
-    (python310.withPackages (ps: with ps; [
-      ipython
-      pandas
-      requests
-      pyquery
-      pyyaml
-    ]))
+    (python310.withPackages (ps:
+      with ps; [
+        ipython
+        pandas
+        requests
+        pyquery
+        pyyaml
+      ]))
   ];
 
   # PipeWire is a new low-level multimedia framework.
   # It aims to offer capture and playback for both audio and video with minimal latency.
-  # It support for PulseAudio-, JACK-, ALSA- and GStreamer-based applications. 
+  # It support for PulseAudio-, JACK-, ALSA- and GStreamer-based applications.
   # PipeWire has a great bluetooth support, it can be a good alternative to PulseAudio.
   #     https://nixos.wiki/wiki/PipeWire
   services.pipewire = {
@@ -167,28 +156,27 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.greetd.enableGnomeKeyring = true;
 
-
-  # A key remapping daemon for linux. 
+  # A key remapping daemon for linux.
   # https://github.com/rvaiya/keyd
   services.keyd = {
     enable = true;
     settings = {
       main = {
-        # overloads the capslock key to function as both escape (when tapped) and control (when held) 
+        # overloads the capslock key to function as both escape (when tapped) and control (when held)
         capslock = "overload(control, esc)";
       };
     };
   };
 
   services = {
-    dbus.packages = [ pkgs.gcr ];
+    dbus.packages = [pkgs.gcr];
 
     geoclue2.enable = true;
 
     udev.packages = with pkgs; [
       gnome.gnome-settings-daemon
       platformio # udev rules for platformio
-      openocd    # required by paltformio, see https://github.com/NixOS/nixpkgs/issues/224895
+      openocd # required by paltformio, see https://github.com/NixOS/nixpkgs/issues/224895
       android-udev-rules
     ];
   };

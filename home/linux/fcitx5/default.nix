@@ -1,12 +1,16 @@
-{ pkgs, config, lib, ... }: {
-
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}: {
   home.file.".config/fcitx5/profile".source = ./profile;
   home.file.".config/fcitx5/profile-bak".source = ./profile; # used for backup
 
-  # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile file, 
+  # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile file,
   # which will override my config managed by home-manager
   # so we need to remove it before everytime we rebuild the config
-  home.activation.removeExistingFcitx5Profile = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+  home.activation.removeExistingFcitx5Profile = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
     rm -f "${config.xdg.configHome}/fcitx5/profile"
   '';
 

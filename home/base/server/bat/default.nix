@@ -1,6 +1,5 @@
-{ ... }:
-{
-    # a cat(1) clone with syntax highlighting and Git integration.
+{...}: {
+  # a cat(1) clone with syntax highlighting and Git integration.
   programs.bat = {
     enable = true;
     config = {
@@ -12,6 +11,4 @@
       Catppuccin-mocha = builtins.readFile ./Catppuccin-mocha.tmTheme;
     };
   };
-
 }
-

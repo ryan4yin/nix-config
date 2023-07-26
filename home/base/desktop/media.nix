@@ -1,6 +1,7 @@
-{ pkgs
-, config
-, ...
+{
+  pkgs,
+  config,
+  ...
 }:
 # processing audio/video
 {
@@ -8,7 +9,7 @@
     ffmpeg-full
 
     # images
-    viu # Terminal image viewer with native support for iTerm and Kitty 
+    viu # Terminal image viewer with native support for iTerm and Kitty
     imagemagick
     graphviz
   ];

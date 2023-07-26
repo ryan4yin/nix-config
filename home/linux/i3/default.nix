@@ -1,5 +1,4 @@
-{ pkgs, ...}: 
-{
+{pkgs, ...}: {
   # i3 window manager's config, based on https://github.com/endeavouros-team/endeavouros-i3wm-setup
 
   imports = [

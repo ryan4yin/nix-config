@@ -1,7 +1,8 @@
-
-{ lib, pkgs, ... }:
-
 {
+  lib,
+  pkgs,
+  ...
+}: {
   ###################################################################################
   #
   #  Enable Libvirt(QEMU/KVM), install qemu-system-riscv64/qemu-system-loongarch64/...)
@@ -11,7 +12,7 @@
   virtualisation = {
     libvirtd = {
       enable = true;
-      # hanging this option to false may cause file permission issues for existing guests. 
+      # hanging this option to false may cause file permission issues for existing guests.
       # To fix these, manually change ownership of affected files in /var/lib/libvirt/qemu to qemu-libvirtd.
       qemu.runAsRoot = true;
     };
@@ -37,11 +38,10 @@
     qemu_full
   ];
 
-  boot.kernelModules = [ "kvm-amd" "kvm-intel" ];
+  boot.kernelModules = ["kvm-amd" "kvm-intel"];
   # Enable nested virsualization, required by security containers and nested vm.
-  boot.extraModprobeConfig = "options kvm_intel nested=1";  # for intel cpu
+  boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
   # boot.extraModprobeConfig = "options kvm_amd nested=1";  # for amd cpu
-
 
   # NixOS VM should enable this:
   # services.qemuGuest = {

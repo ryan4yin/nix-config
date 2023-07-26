@@ -1,7 +1,12 @@
-
-{ config, pkgs, agenix, mysecrets, ... }:
-
 {
+  config,
+  pkgs,
+  agenix,
+  mysecrets,
+
+  username,
+  ...
+}: {
   imports = [
     agenix.nixosModules.default
   ];
@@ -11,8 +16,8 @@
   ];
 
   # if you changed this key, you need to regenerate all encrypt files from the decrypt contents!
-  age.identityPaths = [ 
-    "/home/ryan/.ssh/juliet-age"   # Linux
+  age.identityPaths = [
+    "/home/${username}/.ssh/juliet-age" # Linux
   ];
 
   # Used only by NixOS Modules
@@ -37,7 +42,7 @@
 
   # place secrets in /etc/
   environment.etc = {
-    # wireguard config used with `wg-quick up wg-business`  
+    # wireguard config used with `wg-quick up wg-business`
     "wireguard/wg-business.conf" = {
       source = config.age.secrets."wg-business.conf".path;
     };

@@ -1,15 +1,11 @@
-{ pkgs
-, ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     firefox
-    xsel  # for clipboard support in x11, required by tmux's clipboard support
+    xsel # for clipboard support in x11, required by tmux's clipboard support
   ];
-
 
   # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.
   programs = {
-
     # source code: https://github.com/nix-community/home-manager/blob/master/modules/programs/chromium.nix
     google-chrome = {
       enable = true;

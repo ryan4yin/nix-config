@@ -1,8 +1,4 @@
-{ pkgs, ... }:
-
-
-{
-
+{pkgs, ...}: {
   ##########################################################################################################
   #
   #  NixOS's Configuration for Hyprland Window Manager
@@ -13,8 +9,7 @@
   #
   ##########################################################################################################
 
-
-  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
+  environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
   services.xserver = {
     enable = true;
 
@@ -43,7 +38,6 @@
     nvidiaPatches = true;
   };
   programs.light.enable = true; # monitor backlight control
-
 
   # thunar file manager(part of xfce) related options
   programs.thunar.plugins = with pkgs.xfce; [
@@ -74,12 +68,12 @@
     yad # a fork of zenity, for creating dialogs
 
     # audio
-    alsa-utils  # provides amixer/alsamixer/...
-    cava  # for visualizing audio
+    alsa-utils # provides amixer/alsamixer/...
+    cava # for visualizing audio
     mpd # for playing system sounds
     mpc-cli # command-line mpd client
     ncmpcpp # a mpd client with a UI
-    networkmanagerapplet # provide GUI app: nm-connection-editor 
+    networkmanagerapplet # provide GUI app: nm-connection-editor
 
     xfce.thunar # xfce4's file manager
   ];

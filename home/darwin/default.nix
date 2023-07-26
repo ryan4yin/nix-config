@@ -1,9 +1,7 @@
-{ ... }:
-
-{
+{ username, ... }: {
   imports = [
     ../base/desktop
-    
+
     ./core.nix
     ./nushell.nix
     ./rime-squirrel.nix
@@ -12,9 +10,9 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "ryan";
+    username = username;
     # set homeDirectory make build fail
-    homeDirectory = "/Users/ryan";
+    homeDirectory = "/Users/${username}";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage

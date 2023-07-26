@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ./creative.nix
     ./immutable-file.nix
@@ -10,7 +9,7 @@
 
   home.packages = with pkgs; [
     # GUI apps
-    insomnia  # REST client
+    insomnia # REST client
     wireshark # network analyzer
 
     # e-book viewer(.epub/.mobi/...)

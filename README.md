@@ -58,17 +58,17 @@ sudo nixos-rebuild switch --flake .
 make i3
 
 # or we can deploy with details
-make debug_i3
+make i3-debug
 ```
 
 For MacOS, use the following commands:
 
 ```bash
 # deploy the darwin configuration(harmonicia)
-make darwin
+make ha
 
 # deploy with details
-make darwin-debug
+make ha-debug
 ```
 
 ## Install Apps from Flatpak

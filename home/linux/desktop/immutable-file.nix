@@ -1,26 +1,24 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
-
 ##############################################################################################
 #
 #  Provide a option `home.immutable-file`, it works like `home.file` but make the generated file immutable.
 #
 #  Copy from https://github.com/iosmanthus/nixos-config/blob/349917b/modules/immutable-file.nix
 #
-#  this module use the `chattr +i` to make the file immutable, `i` indicates `immutable`, 
+#  this module use the `chattr +i` to make the file immutable, `i` indicates `immutable`,
 #  it's a i-node flags only works on Linux.
-# 
+#
 #  TODO not used yet, need to test it.
-# 
+#
 ##############################################################################################
-
-with lib;
-let
+with lib; let
   cfg = config.home.immutable-file;
-  immutableFileOpts = { ... }: {
+  immutableFileOpts = {...}: {
     options = {
       src = mkOption {
         type = types.path;
@@ -44,21 +42,24 @@ let
     sudo cp $2 $1
     sudo chattr +i $1
   '';
-in
-{
+in {
   options.home.immutable-file = mkOption {
     type = with types; attrsOf (submodule immutableFileOpts);
-    default = { };
+    default = {};
   };
 
-  config = mkIf (cfg != { }) {
-    home.activation = mapAttrs'
-      (name: { src, dst }:
+  config = mkIf (cfg != {}) {
+    home.activation =
+      mapAttrs'
+      (name: {
+        src,
+        dst,
+      }:
         nameValuePair
-          "make-immutable-${name}"
-          (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            ${mkImmutableFile} ${dst} ${src}
-          ''))
+        "make-immutable-${name}"
+        (lib.hm.dag.entryAfter ["writeBoundary"] ''
+          ${mkImmutableFile} ${dst} ${src}
+        ''))
       cfg;
   };
 }

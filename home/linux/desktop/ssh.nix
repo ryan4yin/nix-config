@@ -1,6 +1,4 @@
-{ pkgs
-, ...
-}: {
+{pkgs, ...}: {
   programs.ssh = {
     enable = true;
 
@@ -35,7 +33,7 @@
       Host gtr5
         HostName 192.168.5.172
         Port 22
-      
+
       Host um560
         HostName 192.168.5.173
         Port 22
