@@ -173,9 +173,9 @@
       # ai with hyprland compositor
       ai_hyprland = nixosSystem (idol_ai_modules_hyprland // stable_args);
 
-      aquamarine = nixosSystem (idol_aquamarine_modules // unstable_args);
-      ruby = nixosSystem (idol_ruby_modules // unstable_args);
-      kana = nixosSystem (idol_kana_modules // unstable_args);
+      aquamarine = nixosSystem (idol_aquamarine_modules // stable_args);
+      ruby = nixosSystem (idol_ruby_modules // stable_args);
+      kana = nixosSystem (idol_kana_modules // stable_args);
     };
 
     # take system images for idols
