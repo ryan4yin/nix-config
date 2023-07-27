@@ -61,6 +61,9 @@
 #    Replace in the selected area:  `:s/old/new/g`  (will show `:'<,'>s/old/new/g`)
 #    Replace in the current line:   The same as above
 #    Replace in the whole file:     `:% s/old/new/g`
+#    Replace with regex:            `:% s@\vhttp://(\w+)@https://\1@gc`
+#        1. `\v` means means that in the regex pattern after it can be used without backslash escaping(similar to python's raw string).
+#        2. `\1` means the first matched group in the pattern.
 #    Replace in the specific lines:
 #        1. From the 10th line to the end of the file:     `:10,$ s/old/new/g`
 #                                                       or `:10,$ s@^@#@g`

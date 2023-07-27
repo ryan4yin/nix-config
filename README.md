@@ -23,6 +23,30 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 **Want to know Nix in detail? Looking for a beginner-friendly tutorial or best practices? Check out [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
 > If you're using macOS, you can also check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
+
+## Components
+
+| | NixOS(Wayland) | NixOS(Xorg) |
+| --------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| **Window Manager** | [Hyprland][Hyprland] | [i3][i3] |
+| **Terminal Emulator** | [Kitty][Kitty] | [Kitty][Kitty] |
+| **Bar** | [Waybar][Waybar] | [i3block][i3block] |
+| **Application Launcher** | [wofi][wofi] | [rofi][rofi] |
+| **Notification Daemon** | [Mako][Mako] | [Dunst][Dunst] |
+| **Display Manager** | [GDM][GDM] | [GDM][GDM] |
+| **network management tool** | [NetworkManager][NetworkManager] | [NetworkManager][NetworkManager] |
+| **Input method framework** | [Fcitx5][Fcitx5] | [Fcitx5][Fcitx5] |
+| **System resource monitor** | [Btop][Btop] | [Btop][Btop] |
+| **File Manager** | [thunar][thunar] | [thunar][thunar] |
+| **Shell** | [Nushell][Nushell] | [Nushell][Nushell] |
+| **Music Player** | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk] | [Netease-cloud-music-gtk][netease-cloud-music-gtk] |
+| **Media Player** | [mpv][mpv] | [mpv][mpv] |
+| **Text Editor** | [Neovim][Neovim] | [Neovim][Neovim] |
+| **Fonts** | [Nerd fonts][Nerd fonts] | [Nerd fonts][Nerd fonts] |
+| **Image Viewer** | [imv][imv] | [feh][feh] |
+| **Screenshot Software** | [grim][grim] | [flameshot](https://github.com/flameshot-org/flameshot) |
+| **Screen Recording** | [OBS][OBS] | [OBS][OBS] |
+
 ## Hyprland + AstroNvim
 
 ![](./_img/hyprland_2023-07-26.webp)
@@ -125,29 +149,57 @@ make aqua
 
 The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host.
 
-
 ## References
 
 Other dotfiles that inspired me:
 
 - Nix Flakes
-   - [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
-   - [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
-   - [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
-   - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
-   - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
-   - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
-   - [davidtwco/veritas](https://github.com/davidtwco/veritas)
-   - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
-   - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
+  - [NixOS-CN/NixOS-CN-telegram](https://github.com/NixOS-CN/NixOS-CN-telegram)
+  - [notusknot/dotfiles-nix](https://github.com/notusknot/dotfiles-nix)
+  - [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
+  - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
+  - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
+  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
+  - [davidtwco/veritas](https://github.com/davidtwco/veritas)
+  - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
+  - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
 - Hyprland
-   - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles)
-   - [notwidow/hyprland](https://github.com/notwidow/hyprland)
+  - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles)
+  - [notwidow/hyprland](https://github.com/notwidow/hyprland)
 - I3 Window Manager
-   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
+  - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim
-   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
-- Theme
-   - [catppuccin](https://github.com/catppuccin/catppuccin)
+  - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
 - Misc
-   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
+  - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
+
+[Hyprland]: https://github.com/hyprwm/Hyprland
+[i3]: https://github.com/i3/i3
+[Kitty]: https://github.com/kovidgoyal/kitty
+[Nushell]: https://github.com/nushell/nushell
+[Waybar]: https://github.com/Alexays/Waybar
+[i3block]: https://github.com/vivien/i3blocks
+[rofi]: https://github.com/davatorium/rofi
+[wofi]: https://hg.sr.ht/~scoopta/wofi
+[Dunst]: https://github.com/dunst-project/dunst
+[Fcitx5]: https://github.com/fcitx/fcitx5
+[Btop]: https://github.com/aristocratos/btop
+[mpv]: https://github.com/mpv-player/mpv
+[Neovim]: https://github.com/neovim/neovim
+[AstroNvim]: https://github.com/AstroNvim/AstroNvim
+[flameshot]: https://github.com/flameshot-org/flameshot
+[grim]: https://github.com/emersion/grim
+[feh]: https://github.com/derf/feh
+[imv]: https://sr.ht/~exec64/imv/
+[OBS]: https://obsproject.com
+[Mako]: https://github.com/emersion/mako
+[Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
+[catppuccin]: https://github.com/catppuccin/catppuccin
+[mpd]: https://github.com/MusicPlayerDaemon/MPD
+[ncmpcpp]: https://github.com/ncmpcpp/ncmpcpp
+[mpc]: https://github.com/MusicPlayerDaemon/mpc
+[Netease-cloud-music-gtk]: https://github.com/gmg137/netease-cloud-music-gtk
+[NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
+[wl-clipboard]: https://github.com/bugaevc/wl-clipboard
+[GDM]: https://wiki.archlinux.org/title/GDM
+[thunar]: https://gitlab.xfce.org/xfce/thunar
