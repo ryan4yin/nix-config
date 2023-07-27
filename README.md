@@ -38,7 +38,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Input method framework** | [Fcitx5][Fcitx5] | [Fcitx5][Fcitx5] |
 | **System resource monitor** | [Btop][Btop] | [Btop][Btop] |
 | **File Manager** | [thunar][thunar] | [thunar][thunar] |
-| **Shell** | [Nushell][Nushell] | [Nushell][Nushell] |
+| **Shell** | [Nushell][Nushell] + [Starship][Starship] | [Nushell][Nushell] + [Starship][Starship] |
 | **Music Player** | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk] | [Netease-cloud-music-gtk][netease-cloud-music-gtk] |
 | **Media Player** | [mpv][mpv] | [mpv][mpv] |
 | **Text Editor** | [Neovim][Neovim] | [Neovim][Neovim] |
@@ -177,6 +177,7 @@ Other dotfiles that inspired me:
 [i3]: https://github.com/i3/i3
 [Kitty]: https://github.com/kovidgoyal/kitty
 [Nushell]: https://github.com/nushell/nushell
+[Starship]: https://github.com/starship/starship
 [Waybar]: https://github.com/Alexays/Waybar
 [i3block]: https://github.com/vivien/i3blocks
 [rofi]: https://github.com/davatorium/rofi
