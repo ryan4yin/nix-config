@@ -1,7 +1,9 @@
 {...}: {
   imports = [
-    ./alacritty
     ../server
+
+    ./alacritty
+    ./helix
     ./neovim
 
     ./development.nix
