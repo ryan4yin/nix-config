@@ -56,7 +56,7 @@ For NixOS, use the following commands:
 
 ```bash
 # deploy one of the configuration based on the hostname
-sudo nixos-rebuild switch --flake .
+sudo nixos-rebuild switch --flake .#ai_i3
 
 # we can also deploy using `make`, which is defined in Makefile
 make i3
