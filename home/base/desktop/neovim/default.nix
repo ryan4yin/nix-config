@@ -26,6 +26,7 @@
 #    Vertical Split Terminal:	      `<Space> + tv`
 #    Open IPython REPL:             `<Space> + tp`
 #    Opening LSP symbols:           `<Space> + lS`
+#    Toggle line wrap:              `<Space> + uw`
 #    Show line diagnostics:         `gl`
 #    Go to definition:              `gd`
 #

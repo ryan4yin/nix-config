@@ -1,13 +1,13 @@
 { pkgs, lib, ... }:
 
 {
-  xdg.configFile."helix/themes/catppuccino_mocha.toml".source = ./theme_catppuccin_mocha.toml;
+  xdg.configFile."helix/themes/catppuccin_mocha.toml".source = ./theme_catppuccin_mocha.toml;
 
   programs.helix = {
     enable = true;
     package = pkgs.helix;
     settings = {
-      theme = "catppuccino_mocha";
+      theme = "catppuccin_mocha";
       editor = {
         line-number = "relative";
         lsp.display-messages = true;

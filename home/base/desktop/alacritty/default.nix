@@ -27,7 +27,7 @@
       import:
         # all alacritty themes can be found at
         #    https://github.com/alacritty/alacritty-theme
-        - ~/.config/alacritty/theme_catppuccino.yml
+        - ~/.config/alacritty/theme_catppuccin.yml
 
       window:
         # Background opacity
@@ -96,5 +96,5 @@
       ''
     );
 
-  xdg.configFile."alacritty/theme_catppuccino.yml".source = ./theme_catppuccino.yml;
+  xdg.configFile."alacritty/theme_catppuccin.yml".source = ./theme_catppuccin.yml;
 }

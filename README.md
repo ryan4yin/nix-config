@@ -26,26 +26,26 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 
 ## Components
 
-| | NixOS(Wayland) | NixOS(Xorg) |
-| --------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| **Window Manager** | [Hyprland][Hyprland] | [i3][i3] |
-| **Terminal Emulator** | [Kitty][Kitty] | [Kitty][Kitty] |
-| **Bar** | [Waybar][Waybar] | [i3block][i3block] |
-| **Application Launcher** | [wofi][wofi] | [rofi][rofi] |
-| **Notification Daemon** | [Mako][Mako] | [Dunst][Dunst] |
-| **Display Manager** | [GDM][GDM] | [GDM][GDM] |
-| **network management tool** | [NetworkManager][NetworkManager] | [NetworkManager][NetworkManager] |
-| **Input method framework** | [Fcitx5][Fcitx5] | [Fcitx5][Fcitx5] |
-| **System resource monitor** | [Btop][Btop] | [Btop][Btop] |
-| **File Manager** | [thunar][thunar] | [thunar][thunar] |
-| **Shell** | [Nushell][Nushell] + [Starship][Starship] | [Nushell][Nushell] + [Starship][Starship] |
-| **Music Player** | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk] | [Netease-cloud-music-gtk][netease-cloud-music-gtk] |
-| **Media Player** | [mpv][mpv] | [mpv][mpv] |
-| **Text Editor** | [Neovim][Neovim] | [Neovim][Neovim] |
-| **Fonts** | [Nerd fonts][Nerd fonts] | [Nerd fonts][Nerd fonts] |
-| **Image Viewer** | [imv][imv] | [feh][feh] |
-| **Screenshot Software** | [grim][grim] | [flameshot](https://github.com/flameshot-org/flameshot) |
-| **Screen Recording** | [OBS][OBS] | [OBS][OBS] |
+|                             | NixOS(Wayland)                                                                                 | NixOS(Xorg)                                             |
+| --------------------------- | :--------------------------------------------------------------------------------------------- | :------------------------------------------------------ |
+| **Window Manager**          | [Hyprland][Hyprland]                                                                           | [i3][i3]                                                |
+| **Terminal Emulator**       | [Kitty][Kitty]                                                                                 | [Kitty][Kitty]                                          |
+| **Bar**                     | [Waybar][Waybar]                                                                               | [i3block][i3block]                                      |
+| **Application Launcher**    | [wofi][wofi]                                                                                   | [rofi][rofi]                                            |
+| **Notification Daemon**     | [Mako][Mako]                                                                                   | [Dunst][Dunst]                                          |
+| **Display Manager**         | [GDM][GDM]                                                                                     | [GDM][GDM]                                              |
+| **network management tool** | [NetworkManager][NetworkManager]                                                               | [NetworkManager][NetworkManager]                        |
+| **Input method framework**  | [Fcitx5][Fcitx5]                                                                               | [Fcitx5][Fcitx5]                                        |
+| **System resource monitor** | [Btop][Btop]                                                                                   | [Btop][Btop]                                            |
+| **File Manager**            | [thunar][thunar]                                                                               | [thunar][thunar]                                        |
+| **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                      | [Nushell][Nushell] + [Starship][Starship]               |
+| **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk] | [Netease-cloud-music-gtk][netease-cloud-music-gtk]      |
+| **Media Player**            | [mpv][mpv]                                                                                     | [mpv][mpv]                                              |
+| **Text Editor**             | [Neovim][Neovim]                                                                               | [Neovim][Neovim]                                        |
+| **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                       | [Nerd fonts][Nerd fonts]                                |
+| **Image Viewer**            | [imv][imv]                                                                                     | [feh][feh]                                              |
+| **Screenshot Software**     | [grim][grim]                                                                                   | [flameshot](https://github.com/flameshot-org/flameshot) |
+| **Screen Recording**        | [OBS][OBS]                                                                                     | [OBS][OBS]                                              |
 
 ## Hyprland + AstroNvim
 
@@ -170,6 +170,8 @@ Other dotfiles that inspired me:
   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
+- Theme
+  - [catppuccin][catppuccin]
 - Misc
   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
 
