@@ -78,6 +78,8 @@ After installing NixOS with `nix-command` & `flake` enabled, follow the steps be
 
 For NixOS, use the following commands:
 
+> Need to restart the machine after switching between `wayland` and `xorg`.
+
 ```bash
 # deploy one of the configuration based on the hostname
 sudo nixos-rebuild switch --flake .#ai_i3
