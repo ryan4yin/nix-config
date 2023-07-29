@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     neofetch
-    ranger # terminal file manager(battery included, with image preview support)
+    ranger # terminal file manager(batteries included, with image preview support)
 
     # archives
     zip
