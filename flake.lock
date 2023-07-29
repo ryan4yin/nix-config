@@ -669,11 +669,11 @@
     "wallpapers": {
       "flake": false,
       "locked": {
-        "lastModified": 1690641644,
-        "narHash": "sha256-WDBM0F+dizHWPA9rNAggck+UOXwPxq0wNupin2cka+U=",
+        "lastModified": 1690648866,
+        "narHash": "sha256-e3xht5OhbMy550QPAwivh/FoSrm9KIc5gUWEEOqbzgg=",
         "owner": "ryan4yin",
         "repo": "wallpapers",
-        "rev": "01a8eeed2176793c9909b3fd8dc13f375ebe3a66",
+        "rev": "1fc7ace1530b629e7de927b7595f9ec5c416880e",
         "type": "github"
       },
       "original": {

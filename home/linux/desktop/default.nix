@@ -1,11 +1,10 @@
 {pkgs, ...}: {
   imports = [
-    ./wallpaper
-
     ./creative.nix
     ./immutable-file.nix
     ./media.nix
     ./ssh.nix
+    ./wallpaper.nix
     ./xdg.nix
   ];
 
