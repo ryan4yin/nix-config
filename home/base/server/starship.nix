@@ -1,4 +1,4 @@
-{...}: {
+{ catppuccin-starship, ...}: {
   programs.starship = {
     enable = true;
 
@@ -20,6 +20,8 @@
         format = "on [$symbol$active(\($region\))]($style) ";
         symbol = "🅶 ️";
       };
-    };
+
+      palette = "catppuccin_mocha";
+    } // builtins.fromTOML (builtins.readFile "${catppuccin-starship}/palettes/mocha.toml");
   };
 }

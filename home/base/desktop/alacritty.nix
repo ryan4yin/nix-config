@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{pkgs, catppuccin-alacritty, ...}:
 ###########################################################
 #
 # Alacritty Configuration
@@ -18,6 +18,7 @@
 #
 ###########################################################
 {
+  xdg.configFile."alacritty/theme_catppuccin.yml".source = "${catppuccin-alacritty}/catppuccin-mocha.yml";
   programs.alacritty = {
     enable = true;
   };
@@ -95,6 +96,4 @@
           size: 13
       ''
     );
-
-  xdg.configFile."alacritty/theme_catppuccin.yml".source = ./theme_catppuccin.yml;
 }

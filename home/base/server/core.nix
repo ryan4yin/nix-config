@@ -13,7 +13,6 @@
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processer https://github.com/mikefarah/yq
-    fzf # A command-line fuzzy finder
 
     # networking tools
     mtr # A network diagnostic tool
@@ -64,6 +63,27 @@
       enableAliases = true;
       git = true;
       icons = true;
+    };
+
+    # A command-line fuzzy finder
+    fzf = {
+      enable = true;
+      # https://github.com/catppuccin/fzf
+      # catppuccin-mocha
+      colors = {
+        "bg+" = "#313244"; 
+        "bg" = "#1e1e2e";
+        "spinner" = "#f5e0dc";
+        "hl" = "#f38ba8";
+        "fg" = "#cdd6f4";
+        "header" = "#f38ba8";
+        "info" = "#cba6f7";
+        "pointer" = "#f5e0dc";
+        "marker" = "#f5e0dc";
+        "fg+" = "#cdd6f4";
+        "prompt" = "#cba6f7";
+        "hl+" = "#f38ba8";
+      };
     };
 
     # skim provides a single executable: sk.

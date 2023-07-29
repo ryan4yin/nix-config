@@ -2,10 +2,14 @@
   pkgs,
   config,
   lib,
+  catppuccin-fcitx5,
   ...
 }: {
   home.file.".config/fcitx5/profile".source = ./profile;
-  home.file.".config/fcitx5/profile-bak".source = ./profile; # used for backup
+
+  # color schema
+  home.file.".local/share/fcitx5/themes".source = "${catppuccin-fcitx5}/src";
+  # home.file.".config/fcitx5/conf/classicui.conf".source = ./classicui.conf;
 
   # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile file,
   # which will override my config managed by home-manager

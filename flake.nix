@@ -8,82 +8,6 @@
   #
   ##################################################################################################################
 
-  # the nixConfig here only affects the flake itself, not the system configuration!
-  nixConfig = {
-    experimental-features = ["nix-command" "flakes"];
-
-    substituters = [
-      # replace official cache with a mirror located in China
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://cache.nixos.org"
-    ];
-
-    # nix community's cache server
-    extra-substituters = [
-      "https://nix-community.cachix.org"
-      "https://nixpkgs-wayland.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-    ];
-  };
-
-  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
-  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
-  inputs = {
-    # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
-    # which represents the GitHub repository URL + branch/commit-id/tag.
-
-    # Official NixOS package source, using nixos's stable branch by default
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # for macos
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
-    nix-darwin = {
-      url = "github:lnl7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
-    };
-
-    # home-manager, used for managing user configuration
-    home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
-      # The `follows` keyword in inputs is used for inheritance.
-      # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
-      # to avoid problems caused by different versions of nixpkgs dependencies.
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # modern window compositor
-    hyprland.url = "github:hyprwm/Hyprland/v0.27.2";
-    # community wayland nixpkgs
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-
-    # generate iso/qcow2/docker/... image from nixos configuration
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # secrets management, lock with git commit at 2023/7/15
-    agenix.url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
-
-    # AstroNvim is an aesthetic and feature-rich neovim config.
-    astronvim = {
-      url = "github:AstroNvim/AstroNvim/v3.34.0";
-      flake = false;
-    };
-
-    # my private secrets, it's a private repository, you need to replace it with your own.
-    # use ssh protocol to authenticate via ssh-agent/ssh-key, and shallow clone to save time
-    mysecrets = {
-      url = "git+ssh://git@github.com/ryan4yin/nix-secrets.git?shallow=1";
-      flake = false;
-    };
-  };
-
   # The `outputs` function will return all the build results of the flake.
   # A flake can have many use cases and different types of outputs,
   # parameters in `outputs` are defined in `inputs` and can be referenced by their names.
@@ -230,5 +154,113 @@
       system:
         nixpkgs.legacyPackages.${system}.alejandra
     );
+  };
+
+
+  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
+  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
+  inputs = {
+    # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
+    # which represents the GitHub repository URL + branch/commit-id/tag.
+
+    # Official NixOS package source, using nixos's stable branch by default
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # for macos
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    nix-darwin = {
+      url = "github:lnl7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
+
+    # home-manager, used for managing user configuration
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.05";
+      # The `follows` keyword in inputs is used for inheritance.
+      # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
+      # to avoid problems caused by different versions of nixpkgs dependencies.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # modern window compositor
+    hyprland.url = "github:hyprwm/Hyprland/v0.27.2";
+    # community wayland nixpkgs
+    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+
+    # generate iso/qcow2/docker/... image from nixos configuration
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # secrets management, lock with git commit at 2023/7/15
+    agenix.url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
+
+    # AstroNvim is an aesthetic and feature-rich neovim config.
+    astronvim = {
+      url = "github:AstroNvim/AstroNvim/v3.34.0";
+      flake = false;
+    };
+
+    # my private secrets, it's a private repository, you need to replace it with your own.
+    # use ssh protocol to authenticate via ssh-agent/ssh-key, and shallow clone to save time
+    mysecrets = {
+      url = "git+ssh://git@github.com/ryan4yin/nix-secrets.git?shallow=1";
+      flake = false;
+    };
+
+    # color scheme - catppuccin
+    catppuccin-btop = {
+      url = "github:catppuccin/btop";
+      flake = false;
+    };
+    catppuccin-fcitx5 = {
+      url = "github:catppuccin/fcitx5";
+      flake = false;
+    };
+    catppuccin-bat = {
+      url = "github:catppuccin/bat";
+      flake = false;
+    };
+    catppuccin-alacritty = {
+      url = "github:catppuccin/alacritty";
+      flake = false;
+    };
+    catppuccin-helix = {
+      url = "github:catppuccin/helix";
+      flake = false;
+    };
+    catppuccin-starship = {
+      url = "github:catppuccin/starship";
+      flake = false;
+    };
+    catppuccin-hyprland = {
+      url = "github:catppuccin/hyprland";
+      flake = false;
+    };
+  };
+
+
+  # the nixConfig here only affects the flake itself, not the system configuration!
+  nixConfig = {
+    experimental-features = ["nix-command" "flakes"];
+
+    substituters = [
+      # replace official cache with a mirror located in China
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
+    ];
+
+    # nix community's cache server
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+      "https://nixpkgs-wayland.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+    ];
   };
 }

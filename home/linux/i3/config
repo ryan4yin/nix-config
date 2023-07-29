@@ -312,25 +312,42 @@ for_window [class="urxvt"] border pixel 1
 # color settings for bar and windows #
 ######################################
 
-# Define colors variables:
-set $darkbluetrans	#08052be6
-set $darkblue		#08052b
-set $lightblue		#5294e2
-set $urgentred		#e53935
-set $white		#ffffff
-set $black		#000000
-set $purple		#e345ff
-set $darkgrey		#383c4a
-set $grey		#b0b5bd
-set $mediumgrey		#8b8b8b
-set $yellowbrown	#e1b700
+# https://github.com/catppuccin/i3/blob/main/themes/catppuccin-mocha
+set $rosewater #f5e0dc
+set $flamingo  #f2cdcd
+set $pink      #f5c2e7
+set $mauve     #cba6f7
+set $red       #f38ba8
+set $maroon    #eba0ac
+set $peach     #fab387
+set $green     #a6e3a1
+set $teal      #94e2d5
+set $sky       #89dceb
+set $sapphire  #74c7ec
+set $blue      #89b4fa
+set $lavender  #b4befe
+set $text      #cdd6f4
+set $subtext1  #bac2de
+set $subtext0  #a6adc8
+set $overlay2  #9399b2
+set $overlay1  #7f849c
+set $overlay0  #6c7086
+set $surface2  #585b70
+set $surface1  #45475a
+set $surface0  #313244
+set $base      #1e1e2e
+# use colors in the RGBA format, the last two digits are transparency
+set $base_i3bar      #1e1e2ee6
+set $mantle    #181825
+set $crust     #11111b
 
-# define colors for windows:
-#class					border		bground		text		indicator	child_border
-client.focused				$lightblue	$darkblue	$white		$mediumgrey	$mediumgrey
-client.unfocused			$darkblue	$darkblue	$grey		$darkgrey	$darkgrey
-client.focused_inactive		$darkblue	$darkblue	$grey		$black		$black
-client.urgent				$urgentred	$urgentred	$white		$yellowbrown	$yellowbrown
+# target                 title     bg    text   indicator  border
+client.focused           $red     $base $text     $rosewater $red
+client.focused_inactive  $mauve    $base $text     $rosewater $mauve
+client.unfocused         $lavender   $base $text     $rosewater $lavender
+client.urgent            $pink    $base $lavender $overlay0  $pink
+client.placeholder       $overlay0 $base $text     $overlay0  $overlay0
+client.background        $base
 
 
 ############################################
@@ -361,14 +378,14 @@ bar {
 	##strip_workspace_name no
 
 	colors {
-		separator		$purple
-		background		$darkgrey
-		statusline		$white
-		#					border			bg			txt			indicator
-		focused_workspace	$mediumgrey		$grey		$darkgrey	$purple
-		active_workspace	$lightblue		$mediumgrey	$darkgrey	$purple
-		inactive_workspace	$darkgrey		$darkgrey	$grey		$purple
-		urgent_workspace	$urgentred		$urgentred	$white		$purple
+		separator		$pink
+		background		$base_transparent
+		statusline		$lavender
+		#					          border			bg			    txt			    indicator
+		focused_workspace	  $surface2		$overlay1		$surface1	  $pink
+		active_workspace	  $peach		  $surface2	  $surface1	  $pink
+		inactive_workspace	$surface1		$surface2	  $overlay1		$pink
+		urgent_workspace	  $red		    $red	      $lavender		$pink
 	}
 }
 

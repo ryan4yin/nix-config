@@ -1,7 +1,8 @@
-{ pkgs, lib, ... }:
+{ pkgs, catppuccin-helix, ... }:
 
 {
-  xdg.configFile."helix/themes/catppuccin_mocha.toml".source = ./theme_catppuccin_mocha.toml;
+  # https://github.com/catppuccin/helix
+  xdg.configFile."helix/themes".source = "${catppuccin-helix}/themes/default";
 
   programs.helix = {
     enable = true;
@@ -10,7 +11,15 @@
       theme = "catppuccin_mocha";
       editor = {
         line-number = "relative";
+        cursorline = true;
+        color-modes = true;
         lsp.display-messages = true;
+        cursor-shape = {
+          insert = "bar";
+          normal = "block";
+          select = "underline";
+        };
+        indent-guides.render = true;
       };
       keys.normal = {
         space.space = "file_picker";

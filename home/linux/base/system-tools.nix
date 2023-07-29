@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   # Linux Only Packages, not available on Darwin
   home.packages = with pkgs; [
-    btop # replacement of htop/nmon
-    htop
     nmon
     iotop
     iftop

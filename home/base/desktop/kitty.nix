@@ -27,7 +27,7 @@
 {
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    theme = "Catppuccin-Mocha";  # kitty has catppuccin theme built-in
     font = {
       name = "JetBrainsMono Nerd Font";
       # use different font size on macOS

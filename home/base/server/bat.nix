@@ -1,4 +1,4 @@
-{...}: {
+{ catppuccin-bat, ...}: {
   # a cat(1) clone with syntax highlighting and Git integration.
   programs.bat = {
     enable = true;
@@ -8,7 +8,7 @@
     };
     themes = {
       # https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme
-      Catppuccin-mocha = builtins.readFile ./Catppuccin-mocha.tmTheme;
+      Catppuccin-mocha = builtins.readFile "${catppuccin-bat}/Catppuccin-mocha.tmTheme";
     };
   };
 }

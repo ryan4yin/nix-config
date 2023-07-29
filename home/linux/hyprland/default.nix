@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, catppuccin-hyprland, ...}: {
   imports = [
     ./wayland-apps.nix
   ];
@@ -14,12 +14,27 @@
     # copy the scripts directory recursively
     recursive = true;
   };
-  home.file.".config/gtk-3.0" = {
-    source = ./gtk-3.0;
-    recursive = true;
-  };
-  home.file.".gtkrc-2.0".source = ./gtkrc-2.0;
+  home.file.".config/hypr-themes".source = "${catppuccin-hyprland}/themes";
+
   home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
+
+  # gtk's theme settings, generate files: 
+  #   1. ~/.gtkrc-2.0
+  #   2. ~/.config/gtk-3.0/settings.ini
+  #   3. ~/.config/gtk-4.0/settings.ini
+  gtk = {
+    enable = true;
+    theme = {
+      # https://github.com/catppuccin/gtk
+      name = "Catppuccin-Macchiato-Compact-Pink-dark";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "pink" ];
+        size = "compact";
+        tweaks = [ "rimless" "black" ];
+        variant = "macchiato";
+      };
+    };
+  };
 
   # music player - mpd
   home.file.".config/mpd" = {
