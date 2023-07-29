@@ -85,12 +85,15 @@ For NixOS, use the following commands:
 ```bash
 # deploy one of the configuration based on the hostname
 sudo nixos-rebuild switch --flake .#ai_i3
+# sudo nixos-rebuild switch --flake .#ai_hyprland
 
 # we can also deploy using `make`, which is defined in Makefile
-make i3
+make i3    # deploy my pc with i3 window manager
+# make hypr  # deploy my pc with hyprland compositor
 
 # or we can deploy with details
 make i3-debug
+# make hypr-debug
 ```
 
 For MacOS, use the following commands:
