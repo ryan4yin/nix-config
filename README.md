@@ -202,4 +202,5 @@ Other dotfiles that inspired me:
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard
 [GDM]: https://wiki.archlinux.org/title/GDM
 [thunar]: https://gitlab.xfce.org/xfce/thunar
+[ranger]: https://github.com/ranger/ranger
 [Catppuccin]: https://github.com/catppuccin/catppuccin
