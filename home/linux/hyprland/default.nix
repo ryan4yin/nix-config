@@ -1,4 +1,4 @@
-{pkgs, catppuccin-hyprland, ...}: {
+{pkgs, catppuccin-hyprland, wallpaper, ...}: {
   imports = [
     ./wayland-apps.nix
   ];
@@ -16,7 +16,7 @@
   };
   home.file.".config/hypr-themes".source = "${catppuccin-hyprland}/themes";
 
-  home.file.".config/hypr/wallpapers/wallpaper.png".source = ../wallpapers/wallpaper.png;
+  home.file.".config/hypr/wallpapers/wallpaper".source = wallpaper;
 
   # gtk's theme settings, generate files: 
   #   1. ~/.gtkrc-2.0

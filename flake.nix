@@ -20,11 +20,15 @@
     nix-darwin,
     home-manager,
     nixos-generators,
+    wallpapers,
     ...
   }: let
     username = "ryan";
     userfullname = "Ryan Yin";
     useremail = "xiaoyin_c@qq.com";
+
+    # https://github.com/ryan4yin/wallpapers
+    wallpaper = "${wallpapers}/anime-girls_seagulls_smoking_nature-occupation.jpg";
 
     x64_system = "x86_64-linux";
     x64_darwin = "x86_64-darwin";
@@ -77,7 +81,7 @@
       system = x64_system;
       specialArgs =
         {
-          inherit username userfullname useremail;
+          inherit username userfullname useremail wallpaper;
           # use unstable branch for some packages to get the latest updates
           pkgs-unstable = import nixpkgs-unstable {
             system = x64_system; # refer the `system` parameter form outer scope recursively
@@ -207,6 +211,12 @@
     # use ssh protocol to authenticate via ssh-agent/ssh-key, and shallow clone to save time
     mysecrets = {
       url = "git+ssh://git@github.com/ryan4yin/nix-secrets.git?shallow=1";
+      flake = false;
+    };
+
+    # my wallpapers
+    wallpapers = {
+      url = "github:ryan4yin/wallpapers";
       flake = false;
     };
 

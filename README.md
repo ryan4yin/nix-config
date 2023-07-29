@@ -50,9 +50,9 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 
 ## Hyprland + AstroNvim
 
-![](./_img/hyprland_2023-07-26.webp)
+![](./_img/hyprland_2023-07-29_1.webp)
 
-![](./_img/hyprland_2023-07-27.webp)
+![](./_img/hyprland_2023-07-29_2.webp)
 
 ## I3 + AstroNvim
 

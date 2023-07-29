@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, wallpaper, ...}: {
   # i3 window manager's config, based on https://github.com/endeavouros-team/endeavouros-i3wm-setup
 
   imports = [
@@ -7,7 +7,7 @@
 
   home.file = {
     # wallpaper, binary file
-    ".config/i3/wallpaper.png".source = ../wallpapers/wallpaper.png;
+    ".config/i3/wallpaper".source = wallpaper;
     ".config/i3/config".source = ./config;
     ".config/i3/i3blocks.conf".source = ./i3blocks.conf;
     ".config/i3/scripts" = {
