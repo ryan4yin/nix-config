@@ -9,7 +9,7 @@
 
   # color schema
   home.file.".local/share/fcitx5/themes".source = "${catppuccin-fcitx5}/src";
-  # home.file.".config/fcitx5/conf/classicui.conf".source = ./classicui.conf;
+  home.file.".config/fcitx5/conf/classicui.conf".source = ./classicui.conf;
 
   # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile file,
   # which will override my config managed by home-manager
