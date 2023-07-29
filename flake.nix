@@ -190,6 +190,11 @@
     hyprland.url = "github:hyprwm/Hyprland/v0.27.2";
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    # anyrun - a wayland launcher
+    anyrun ={
+      url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # generate iso/qcow2/docker/... image from nixos configuration
     nixos-generators = {
@@ -265,10 +270,12 @@
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
 
+    builders-use-substitutes = true;
     substituters = [
       # replace official cache with a mirror located in China
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org"
+      "https://anyrun.cachix.org"
     ];
 
     # nix community's cache server
@@ -280,6 +287,7 @@
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
     ];
   };
 }

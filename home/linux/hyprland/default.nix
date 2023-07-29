@@ -1,5 +1,6 @@
 {pkgs, catppuccin-hyprland, ...}: {
   imports = [
+    ./anyrun.nix
     ./wayland-apps.nix
   ];
 
@@ -26,10 +27,9 @@
       # https://github.com/catppuccin/gtk
       name = "Catppuccin-Macchiato-Compact-Pink-dark";
       package = pkgs.catppuccin-gtk.override {
+        # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/data/themes/catppuccin-gtk/default.nix
         accents = [ "pink" ];
-        size = "compact";
-        tweaks = [ "rimless" "black" ];
-        variant = "macchiato";
+        variant = "mocha";
       };
     };
   };

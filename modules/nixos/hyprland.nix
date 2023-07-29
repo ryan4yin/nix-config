@@ -62,7 +62,6 @@
     slurp # selecting a region to screenshot
     # TODO replace by `flameshot gui --raw | wl-copy`
 
-    wofi # A rofi inspired launcher for wlroots compositors such as sway/hyprland
     mako # the notification daemon, the same as dunst
 
     yad # a fork of zenity, for creating dialogs

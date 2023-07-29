@@ -31,7 +31,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Window Manager**          | [Hyprland][Hyprland]                                                                           | [i3][i3]                                                |
 | **Terminal Emulator**       | [Kitty][Kitty]                                                                                 | [Kitty][Kitty]                                          |
 | **Bar**                     | [Waybar][Waybar]                                                                               | [i3block][i3block]                                      |
-| **Application Launcher**    | [wofi][wofi]                                                                                   | [rofi][rofi]                                            |
+| **Application Launcher**    | [anyrun][anyrun]                                                                                   | [rofi][rofi]                                            |
 | **Notification Daemon**     | [Mako][Mako]                                                                                   | [Dunst][Dunst]                                          |
 | **Display Manager**         | [GDM][GDM]                                                                                     | [GDM][GDM]                                              |
 | **Color Scheme**            | [Catppuccin][Catppuccin]                                                                       | [Catppuccin][Catppuccin]                                |
@@ -184,7 +184,7 @@ Other dotfiles that inspired me:
 [Waybar]: https://github.com/Alexays/Waybar
 [i3block]: https://github.com/vivien/i3blocks
 [rofi]: https://github.com/davatorium/rofi
-[wofi]: https://hg.sr.ht/~scoopta/wofi
+[anyrun]: https://github.com/Kirottu/anyrun
 [Dunst]: https://github.com/dunst-project/dunst
 [Fcitx5]: https://github.com/fcitx/fcitx5
 [Btop]: https://github.com/aristocratos/btop
