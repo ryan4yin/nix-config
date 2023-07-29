@@ -608,7 +608,8 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixpkgs-wayland": "nixpkgs-wayland"
+        "nixpkgs-wayland": "nixpkgs-wayland",
+        "wallpapers": "wallpapers"
       }
     },
     "systems": {
@@ -645,6 +646,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1690627498,
+        "narHash": "sha256-diR4OElUOWbCmTWTCLN50a8P35UM5xfBKHZPDHGFuH0=",
+        "owner": "ryan4yin",
+        "repo": "wallpapers",
+        "rev": "a5d3a181e1dc7fd120f9acf11adc85bebea610d6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "wallpapers",
         "type": "github"
       }
     },
