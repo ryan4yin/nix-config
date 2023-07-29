@@ -97,6 +97,7 @@
       # ai with hyprland compositor
       ai_hyprland = nixosSystem (idol_ai_modules_hyprland // stable_args);
 
+      # three virtual machines without desktop environment.
       aquamarine = nixosSystem (idol_aquamarine_modules // stable_args);
       ruby = nixosSystem (idol_ruby_modules // stable_args);
       kana = nixosSystem (idol_kana_modules // stable_args);
@@ -110,6 +111,7 @@
         "ai_i3"
         "ai_hyprland"
       ] (
+        # generate iso image for hosts with desktop environment
         host:
           self.nixosConfigurations.${host}.config.formats.iso
       )
@@ -118,6 +120,7 @@
         "ruby"
         "kana"
       ] (
+        # generate proxmox image for virtual machines without desktop environment
         host:
           self.nixosConfigurations.${host}.config.formats.proxmox
       );
