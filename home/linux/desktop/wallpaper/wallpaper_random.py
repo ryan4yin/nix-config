@@ -5,6 +5,8 @@ This script will randomly select a wallpaper from the wallpapers directory.
 It will skip the last wallpaper used, so that you don't get the same wallpaper.
 
 It will also set the wallpaper using `feh` for X11, or `swaybg` for Wayland.
+
+Maintainer: ryan4yin [xiaoyin_c@qq.com]
 """
 
 import os
