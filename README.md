@@ -56,7 +56,8 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 
 ## I3 + AstroNvim
 
-![](/_img/astronvim_2023-07-13_00-39.webp)
+![](./_img/i3_2023-07-29_1.webp)
+![](./_img/i3_2023-07-29_2.webp)
 
 ## Hosts
 
