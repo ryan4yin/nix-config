@@ -34,6 +34,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Application Launcher**    | [wofi][wofi]                                                                                   | [rofi][rofi]                                            |
 | **Notification Daemon**     | [Mako][Mako]                                                                                   | [Dunst][Dunst]                                          |
 | **Display Manager**         | [GDM][GDM]                                                                                     | [GDM][GDM]                                              |
+| ****Color Scheme****        | [Catppuccin][Catppuccin]                                                                       | [Catppuccin][Catppuccin]                                |
 | **network management tool** | [NetworkManager][NetworkManager]                                                               | [NetworkManager][NetworkManager]                        |
 | **Input method framework**  | [Fcitx5][Fcitx5]                                                                               | [Fcitx5][Fcitx5]                                        |
 | **System resource monitor** | [Btop][Btop]                                                                                   | [Btop][Btop]                                            |
@@ -170,8 +171,6 @@ Other dotfiles that inspired me:
   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
-- Theme
-  - [catppuccin][catppuccin]
 - Misc
   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
 
@@ -206,3 +205,4 @@ Other dotfiles that inspired me:
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard
 [GDM]: https://wiki.archlinux.org/title/GDM
 [thunar]: https://gitlab.xfce.org/xfce/thunar
+[Catppuccin]: https://github.com/catppuccin/catppuccin
