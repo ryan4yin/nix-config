@@ -17,6 +17,16 @@
 #  Toggle visual mode:              `v`
 #  Toggle visual block mode:        `<Ctrl> + v`  (select a block(vertically) of text)
 #
+#  Add at the end of Multiple line: `:normal A<text>`
+#      Note that `:normal` execute `A<text>` on each line.
+#      `A` means append text at the end of the line.
+#      You need to select the lines via visual mode first.
+#
+#  Add at the end of the visual block: `:A<text>`
+#      You need to select the block via visual block mode first.
+#      And then this command will append text at the end of the block on each line.
+#      If the position exceeds the end of the line, neovim will automatically add spaces
+#
 #  Commands & shortcuts in AstroNvim
 #    Learn Neovim's Basics:         `:Tutor`
 #    Opening file explorer:         `<Space> + e`

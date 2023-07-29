@@ -588,6 +588,22 @@
         "type": "github"
       }
     },
+    "nushell-scripts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1690554155,
+        "narHash": "sha256-gJAnMY1HtRhRyRKOi0ifbuDVaImMmQeo4yY3jxY6N6c=",
+        "owner": "nushell",
+        "repo": "nu_scripts",
+        "rev": "f4f765a9462a4d06a1e1a8eab0dc2ee4c7421fe5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nushell",
+        "repo": "nu_scripts",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -609,6 +625,7 @@
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixpkgs-wayland": "nixpkgs-wayland",
+        "nushell-scripts": "nushell-scripts",
         "wallpapers": "wallpapers"
       }
     },

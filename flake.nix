@@ -207,6 +207,12 @@
       flake = false;
     };
 
+    # useful nushell scripts, such as auto_completion
+    nushell-scripts = {
+      url = "github:nushell/nu_scripts";
+      flake = false;
+    };
+
     # my private secrets, it's a private repository, you need to replace it with your own.
     # use ssh protocol to authenticate via ssh-agent/ssh-key, and shallow clone to save time
     mysecrets = {
