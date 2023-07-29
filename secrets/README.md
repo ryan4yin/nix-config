@@ -8,7 +8,7 @@ they are decrypted only when they are finally used.
 
 In addition, we further improve the security of secrets files by storing them in a separate private repository.
 
-This directory contains this README.md, and a `default.nix` that used to decrypt all my secrets via agenix, and then I can use them in this flake.
+This directory contains this README.md, and a `nixos.nix`/`darwin.nix` that used to decrypt all my secrets via agenix, and then I can use them in this flake.
 
 ## Adding or Updating Secrets
 
