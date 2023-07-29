@@ -34,11 +34,11 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Application Launcher**    | [wofi][wofi]                                                                                   | [rofi][rofi]                                            |
 | **Notification Daemon**     | [Mako][Mako]                                                                                   | [Dunst][Dunst]                                          |
 | **Display Manager**         | [GDM][GDM]                                                                                     | [GDM][GDM]                                              |
-| ****Color Scheme****        | [Catppuccin][Catppuccin]                                                                       | [Catppuccin][Catppuccin]                                |
+| \***\*Color Scheme\*\***    | [Catppuccin][Catppuccin]                                                                       | [Catppuccin][Catppuccin]                                |
 | **network management tool** | [NetworkManager][NetworkManager]                                                               | [NetworkManager][NetworkManager]                        |
 | **Input method framework**  | [Fcitx5][Fcitx5]                                                                               | [Fcitx5][Fcitx5]                                        |
 | **System resource monitor** | [Btop][Btop]                                                                                   | [Btop][Btop]                                            |
-| **File Manager**            | [thunar][thunar]                                                                               | [thunar][thunar]                                        |
+| **File Manager**            | [ranger][ranger] + [thunar][thunar]                                                            | [ranger][ranger] + [thunar][thunar]                     |
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                      | [Nushell][Nushell] + [Starship][Starship]               |
 | **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk] | [Netease-cloud-music-gtk][netease-cloud-music-gtk]      |
 | **Media Player**            | [mpv][mpv]                                                                                     | [mpv][mpv]                                              |
