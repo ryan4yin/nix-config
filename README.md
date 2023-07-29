@@ -72,7 +72,7 @@ See [./secrets](./secrets) for details.
 
 ## How to Deploy this Flake?
 
-> :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine:exclamation: It will not succeed.** this flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols/ai/hardware-configuration.nix)) which is not suitable for your hardware, and my private secrets repository [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) that only I have access to. You may use this repo as a reference to build your own configuration.
+> :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine:exclamation: It will not succeed.** this flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols/ai/hardware-configuration.nix), [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols/ai/cifs-mount.nix), [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols/ai/default.nix#L77-L91), etc.) which is not suitable for your hardware, and my private secrets repository [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) that only I have access to. You may use this repo as a reference to build your own configuration.
 
 After installing NixOS with `nix-command` & `flake` enabled, follow the steps below to deploy this flake.
 
