@@ -20,15 +20,11 @@
     nix-darwin,
     home-manager,
     nixos-generators,
-    wallpapers,
     ...
   }: let
     username = "ryan";
     userfullname = "Ryan Yin";
     useremail = "xiaoyin_c@qq.com";
-
-    # https://github.com/ryan4yin/wallpapers
-    wallpaper = "${wallpapers}/anime-girls_seagulls_smoking_nature-occupation.jpg";
 
     x64_system = "x86_64-linux";
     x64_darwin = "x86_64-darwin";
@@ -81,7 +77,7 @@
       system = x64_system;
       specialArgs =
         {
-          inherit username userfullname useremail wallpaper;
+          inherit username userfullname useremail;
           # use unstable branch for some packages to get the latest updates
           pkgs-unstable = import nixpkgs-unstable {
             system = x64_system; # refer the `system` parameter form outer scope recursively

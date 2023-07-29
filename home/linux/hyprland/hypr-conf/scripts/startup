@@ -11,7 +11,7 @@ for _prs in "${_ps[@]}"; do
 done
 
 # Set wallpaper
-swaybg --output '*' --mode fill --image ~/.config/hypr/wallpapers/wallpaper &
+swaybg --output '*' --mode fill --image ~/.config/wallpapers/default_wallpaper &
 
 # Lauch notification daemon (mako)
 ~/.config/hypr/scripts/notifications &
