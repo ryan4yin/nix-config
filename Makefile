@@ -22,8 +22,13 @@ i3-debug:
 hypr-debug:
 	nixos-rebuild switch --flake .#ai_hyprland --use-remote-sudo --show-trace --verbose
 
-update:
+up:
 	nix flake update
+
+# Update specific input
+# usage: make upp i=wallpapers
+upp:
+	nix flake lock --update-input $(i)
 
 history:
 	nix profile history --profile /nix/var/nix/profiles/system
