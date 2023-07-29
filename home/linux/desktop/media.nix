@@ -1,6 +1,6 @@
 {
   pkgs,
-  config,
+  catppuccin-cava,
   ...
 }:
 # media - control and enjoy audio/video
@@ -15,11 +15,17 @@
     nvtop
 
     # video/audio tools
+    cava # for visualizing audio
     libva-utils
     vdpauinfo
     vulkan-tools
     glxinfo
   ];
+
+  # https://github.com/catppuccin/cava
+  home.file.".config/cava/config".text = ''
+    # custom cava config
+  '' + builtins.readFile "${catppuccin-cava}/mocha.cava";
 
   programs = {
     mpv = {

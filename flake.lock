@@ -86,6 +86,22 @@
         "type": "github"
       }
     },
+    "catppuccin-cava": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665489380,
+        "narHash": "sha256-hYC6ExtroRy2UoxGNHAzKm9MlTdJSegUWToat4VoN20=",
+        "owner": "catppuccin",
+        "repo": "cava",
+        "rev": "ad3301b50786e22e31cbf4316985827d6f05845e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "cava",
+        "type": "github"
+      }
+    },
     "catppuccin-fcitx5": {
       "flake": false,
       "locked": {
@@ -579,6 +595,7 @@
         "catppuccin-alacritty": "catppuccin-alacritty",
         "catppuccin-bat": "catppuccin-bat",
         "catppuccin-btop": "catppuccin-btop",
+        "catppuccin-cava": "catppuccin-cava",
         "catppuccin-fcitx5": "catppuccin-fcitx5",
         "catppuccin-helix": "catppuccin-helix",
         "catppuccin-hyprland": "catppuccin-hyprland",

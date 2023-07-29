@@ -239,6 +239,10 @@
       url = "github:catppuccin/hyprland";
       flake = false;
     };
+    catppuccin-cava = {
+      url = "github:catppuccin/cava";
+      flake = false;
+    };
   };
 
 
