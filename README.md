@@ -48,6 +48,8 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Screenshot Software**     | [grim][grim]                                                                                   | [flameshot](https://github.com/flameshot-org/flameshot) |
 | **Screen Recording**        | [OBS][OBS]                                                                                     | [OBS][OBS]                                              |
 
+Wallpapers: https://github.com/ryan4yin/wallpapers
+
 ## Hyprland + AstroNvim
 
 ![](./_img/hyprland_2023-07-29_1.webp)
