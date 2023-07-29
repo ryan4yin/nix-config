@@ -17,23 +17,6 @@
   };
   home.file.".config/hypr/themes".source = "${catppuccin-hyprland}/themes";
 
-  # gtk's theme settings, generate files: 
-  #   1. ~/.gtkrc-2.0
-  #   2. ~/.config/gtk-3.0/settings.ini
-  #   3. ~/.config/gtk-4.0/settings.ini
-  gtk = {
-    enable = true;
-    theme = {
-      # https://github.com/catppuccin/gtk
-      name = "Catppuccin-Macchiato-Compact-Pink-dark";
-      package = pkgs.catppuccin-gtk.override {
-        # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/data/themes/catppuccin-gtk/default.nix
-        accents = [ "pink" ];
-        variant = "mocha";
-      };
-    };
-  };
-
   # music player - mpd
   home.file.".config/mpd" = {
     source = ./mpd;
@@ -57,16 +40,4 @@
     "WLR_EGL_NO_MODIFIRES" = "1";
   };
 
-  # this is for xwayland
-  # set dpi for 4k monitor
-  xresources.properties = {
-    "Xft.dpi" = 162;
-  };
-
-  # set Xcursor.theme & Xcursor.size in ~/.Xresources automatically
-  home.pointerCursor = {
-    name = "Qogir-dark";
-    package = pkgs.qogir-theme;
-    size = 64;
-  };
 }

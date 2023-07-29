@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./creative.nix
+    ./gtk.nix
     ./immutable-file.nix
     ./media.nix
     ./ssh.nix
