@@ -44,7 +44,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Media Player**            | [mpv][mpv]                                                                                     | [mpv][mpv]                                              |
 | **Text Editor**             | [Neovim][Neovim]                                                                               | [Neovim][Neovim]                                        |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                       | [Nerd fonts][Nerd fonts]                                |
-| **Image Viewer**            | [imv][imv]                                                                                     | [feh][feh]                                              |
+| **Image Viewer**            | [imv][imv]                                                                                     | [imv][imv]                                              |
 | **Screenshot Software**     | [grim][grim]                                                                                   | [flameshot](https://github.com/flameshot-org/flameshot) |
 | **Screen Recording**        | [OBS][OBS]                                                                                     | [OBS][OBS]                                              |
 
@@ -188,7 +188,6 @@ Other dotfiles that inspired me:
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
 [flameshot]: https://github.com/flameshot-org/flameshot
 [grim]: https://github.com/emersion/grim
-[feh]: https://github.com/derf/feh
 [imv]: https://sr.ht/~exec64/imv/
 [OBS]: https://obsproject.com
 [Mako]: https://github.com/emersion/mako
