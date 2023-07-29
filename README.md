@@ -34,7 +34,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 | **Application Launcher**    | [wofi][wofi]                                                                                   | [rofi][rofi]                                            |
 | **Notification Daemon**     | [Mako][Mako]                                                                                   | [Dunst][Dunst]                                          |
 | **Display Manager**         | [GDM][GDM]                                                                                     | [GDM][GDM]                                              |
-| \***\*Color Scheme\*\***    | [Catppuccin][Catppuccin]                                                                       | [Catppuccin][Catppuccin]                                |
+| **Color Scheme**            | [Catppuccin][Catppuccin]                                                                       | [Catppuccin][Catppuccin]                                |
 | **network management tool** | [NetworkManager][NetworkManager]                                                               | [NetworkManager][NetworkManager]                        |
 | **Input method framework**  | [Fcitx5][Fcitx5]                                                                               | [Fcitx5][Fcitx5]                                        |
 | **System resource monitor** | [Btop][Btop]                                                                                   | [Btop][Btop]                                            |
