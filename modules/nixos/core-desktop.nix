@@ -102,7 +102,9 @@
         requests
         pyquery
         pyyaml
-      ]))
+      ]
+    ))
+    psmisc  # killall/pstree/prtstat/fuser/...
   ];
 
   # PipeWire is a new low-level multimedia framework.
