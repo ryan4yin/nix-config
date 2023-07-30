@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -208,5 +209,10 @@
       monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
       emoji = ["Noto Color Emoji"];
     };
+  };
+
+  environment.variables = {
+    # fix https://github.com/NixOS/nixpkgs/issues/238025
+    TZ = "${config.time.timeZone}";
   };
 }
