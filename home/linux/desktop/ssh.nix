@@ -42,10 +42,5 @@
         HostName 192.168.5.174
         Port 22
     '';
-
-    # use ssh-agent so we only need to input passphrase once
-    # run `ssh-add /path/to/key` for every identity file
-    # check imported keys by `ssh-add -l`
-    # TODO `ssh-add` can only add keys temporary, use gnome-keyring to unlock all keys after login.
   };
 }
