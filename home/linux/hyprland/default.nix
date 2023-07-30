@@ -1,13 +1,12 @@
-{pkgs, catppuccin-hyprland, ...}: {
+{pkgs, hyprland, catppuccin-hyprland, ...}: {
   imports = [
+    hyprland.homeManagerModules.default
+
     ./anyrun.nix
     ./wayland-apps.nix
   ];
 
-  # Only available on home-manager's master branch(2023/7/25)
-  # wayland.windowManager.hyprland = {
-  #   enable = true;
-  # };
+  wayland.windowManager.hyprland.enable = true;
 
   # hyprland configs, based on https://github.com/notwidow/hyprland
   home.file.".config/hypr" = {

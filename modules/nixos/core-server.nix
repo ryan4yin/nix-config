@@ -62,6 +62,13 @@
     };
     openFirewall = true;
   };
+  # for power management
+  services = {
+    power-profiles-daemon = {
+      enable = true;
+    };
+    upower.enable = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -95,10 +102,4 @@
   virtualisation.docker = {
     enable = true;
   };
-
-  # for power management
-  services.power-profiles-daemon = {
-    enable = true;
-  };
-  services.upower.enable = true;
 }

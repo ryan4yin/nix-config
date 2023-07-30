@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, hyprland, ...}: {
   ##########################################################################################################
   #
   #  NixOS's Configuration for Hyprland Window Manager
@@ -9,43 +9,53 @@
   #
   ##########################################################################################################
 
+  imports = [
+     hyprland.nixosModules.default
+  ];
+
   environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
-  services.xserver = {
-    enable = true;
+  services = {
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
+    xserver = {
+      enable = true;
 
-    desktopManager = {
-      xterm.enable = false;
-    };
+      desktopManager = {
+        xterm.enable = false;
+      };
 
-    displayManager = {
-      defaultSession = "hyprland";
-      lightdm.enable = false;
-      gdm = {
-        enable = true;
-        wayland = true;
+      displayManager = {
+        defaultSession = "hyprland";
+        lightdm.enable = false;
+        gdm = {
+          enable = true;
+          wayland = true;
+        };
       };
     };
   };
 
-  programs.hyprland = {
-    enable = true;
-
-    xwayland = {
+  programs = {
+    hyprland = {
       enable = true;
-      hidpi = true;
+    
+      xwayland = {
+        enable = true;
+        hidpi = true;
+      };
+    
+      nvidiaPatches = true;
     };
 
-    nvidiaPatches = true;
-  };
-  programs.light.enable = true; # monitor backlight control
+    # monitor backlight control
+    light.enable = true;
 
-  # thunar file manager(part of xfce) related options
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
-  ];
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
+    # thunar file manager(part of xfce) related options
+    thunar.plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
