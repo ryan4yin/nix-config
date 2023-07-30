@@ -164,13 +164,14 @@ Other dotfiles that inspired me:
   - [xddxdd/nixos-config](https://github.com/xddxdd/nixos-config)
   - [bobbbay/dotfiles](https://github.com/bobbbay/dotfiles)
   - [gytis-ivaskevicius/nixfiles](https://github.com/gytis-ivaskevicius/nixfiles)
-  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
   - [davidtwco/veritas](https://github.com/davidtwco/veritas)
   - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
   - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
-- Hyprland
+  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, anyrun, etc.
+- Hyprland(wayland)
   - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles)
   - [notwidow/hyprland](https://github.com/notwidow/hyprland)
+  - [linuxmobile/kaku](https://github.com/linuxmobile/kaku)
 - I3 Window Manager
   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim

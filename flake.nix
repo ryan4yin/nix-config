@@ -270,7 +270,6 @@
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
 
-    builders-use-substitutes = true;
     substituters = [
       # replace official cache with a mirror located in China
       "https://mirrors.ustc.edu.cn/nix-channels/store"
