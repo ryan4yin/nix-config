@@ -169,8 +169,8 @@ Other dotfiles that inspired me:
   - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
   - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, anyrun, etc.
 - Hyprland(wayland)
-  - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles)
-  - [notwidow/hyprland](https://github.com/notwidow/hyprland)
+  - [notwidow/hyprland](https://github.com/notwidow/hyprland): This is where I start my hyprland journey.
+  - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar configuration here.
   - [linuxmobile/kaku](https://github.com/linuxmobile/kaku)
 - I3 Window Manager
   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
