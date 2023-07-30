@@ -173,6 +173,7 @@ Other dotfiles that inspired me:
   - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar configuration here.
   - [linuxmobile/kaku](https://github.com/linuxmobile/kaku)
 - I3 Window Manager
+  - [endeavouros-i3wm-setup](https://github.com/endeavouros-team/endeavouros-i3wm-setup): I started using i3 here, and my i3 configuration is also based on it, but made a lot of changes.
   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
