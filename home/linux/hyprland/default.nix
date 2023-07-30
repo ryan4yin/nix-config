@@ -1,12 +1,12 @@
 {pkgs, hyprland, catppuccin-hyprland, ...}: {
   imports = [
-    hyprland.homeManagerModules.default
+    # hyprland.homeManagerModules.default
 
     ./anyrun.nix
     ./wayland-apps.nix
   ];
 
-  wayland.windowManager.hyprland.enable = true;
+  # wayland.windowManager.hyprland.enable = true;
 
   # hyprland configs, based on https://github.com/notwidow/hyprland
   home.file.".config/hypr" = {

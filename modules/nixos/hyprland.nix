@@ -10,8 +10,16 @@
   ##########################################################################################################
 
   imports = [
-     hyprland.nixosModules.default
+     # hyprland.nixosModules.default
   ];
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
+    ];
+  };
 
   environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
   services = {
