@@ -39,7 +39,7 @@
 
     settings =
       {
-        background_opacity = "0.95";
+        background_opacity = "0.93";
         macos_option_as_alt = true; # Option key acts as Alt on macOS
         scrollback_lines = 10000;
         enable_audio_bell = false;
@@ -54,6 +54,6 @@
       );
 
     # macOS specific settings
-    darwinLaunchOptions = ["--start-as=fullscreen"];
+    darwinLaunchOptions = ["--start-as=maximized"];
   };
 }

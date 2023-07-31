@@ -35,7 +35,7 @@
         #
         # Window opacity as a floating point number from `0.0` to `1.0`.
         # The value `0.0` is completely transparent and `1.0` is opaque.
-        opacity: 0.95
+        opacity: 0.93
 
         # Startup Mode (changes require restart)
         #
@@ -46,7 +46,7 @@
         #
         # Values for `startup_mode` (macOS only):
         #   - SimpleFullscreen
-        startup_mode: Windowed
+        startup_mode: Maximized
 
         # Allow terminal applications to change Alacritty's window title.
         dynamic_title: true
