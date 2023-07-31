@@ -59,6 +59,7 @@
     minicom
 
     # other tools
+    bfg-repo-cleaner  # remove large files from git history
     k6 # load testing tool
     mitmproxy # http/https proxy tool
     protobuf # protocol buffer compiler
