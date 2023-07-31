@@ -17,6 +17,7 @@
     # system call monitoring
     strace # system call monitoring
     ltrace # library call monitoring
+    bpftrace # powerful tracing tool
     lsof # list open files
 
     # system tools
