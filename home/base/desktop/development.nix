@@ -34,8 +34,9 @@
     aws-iam-authenticator
     eksctl
 
-    # DO NOT install build tools for C/C++, set it per project by devShell instead
+    # DO NOT install build tools for C/C++ and others, set it per project by devShell instead
     gnumake # used by this repo, to simplify the deployment
+    jdk17   # used to run some java based tools(.jar)
 
     # python
     (python311.withPackages (ps:

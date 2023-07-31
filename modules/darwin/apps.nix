@@ -122,6 +122,7 @@
       # Development
       "insomnia" # REST client
       "wireshark" # network analyzer
+      "temurin17"  # JDK 17
       "jdk-mission-control" # Java Mission Control
       "google-cloud-sdk" # Google Cloud SDK
     ];
