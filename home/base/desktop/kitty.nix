@@ -14,6 +14,9 @@
 #   4. Increase Font Size: `command + =` | `command + +`
 #   5. Decrease Font Size: `command + -` | `command + _`
 #   6. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
+#   7. Search in the current window(show_scrollback): `ctrl + shift + h`
+#          This will open a pager, it's defined by `scrollback_pager`, default is `less`
+#        
 #
 # Useful Hot Keys for Linux:
 #   1. New Tab: `ctrl + shift + t`
