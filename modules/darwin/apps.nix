@@ -20,6 +20,8 @@
     neovim
     git
     nushell # my custom shell
+    gnugrep  # replacee macos's grep
+    gnutar # replacee macos's tar
   ];
   environment.variables.EDITOR = "nvim";
 
@@ -42,8 +44,6 @@
 
   # homebrew need to be installed manually, see https://brew.sh
   homebrew = {
-    # TODO Homebrew install takes a long time,
-    # So only enable this when you make changes.
     enable = true;
 
     onActivation = {
