@@ -94,13 +94,13 @@ idols-debug: aqua-debug ruby-debug kana-debug
 idols-image:
 	# take image for idols, and upload the image to proxmox nodes.
 	nom build .#aquamarine
-	scp result/vzdump-qemu-*.vma.zst root@gtr5:/var/lib/vz/dump
+	scp result root@gtr5:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
 
 	nom build .#ruby
-	scp result/vzdump-qemu-*.vma.zst root@s500plus:/var/lib/vz/dump
+	scp result root@s500plus:/var/lib/vz/dump/vzdump-qemu-ruby.vma.zst
 
 	nom build .#kana
-	scp result/vzdump-qemu-*.vma.zst root@um560:/var/lib/vz/dump
+	scp result root@um560:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
 
 
 ############################################################################
