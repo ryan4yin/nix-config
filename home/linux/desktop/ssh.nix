@@ -41,6 +41,24 @@
       Host s500plus
         HostName 192.168.5.174
         Port 22
+
+      Host k8s-main
+        HostName 192.168.5.181
+        ForwardAgent yes
+        IdentityFile ~/.ssh/romantic
+        IdentitiesOnly yes
+
+      Host k8s-data1
+        HostName 192.168.5.182
+        ForwardAgent yes
+        IdentityFile ~/.ssh/romantic
+        IdentitiesOnly yes
+
+      Host k8s-data2
+        HostName 192.168.5.183
+        ForwardAgent yes
+        IdentityFile ~/.ssh/romantic
+        IdentitiesOnly yes
     '';
   };
 }
