@@ -2,8 +2,6 @@
 
 Useful for Linux(fcitx5-rime) & macOS(squirrel).
 
-## Hisotry Problems
-
 ## Linux(fcitx5-rime)
 
 1. pay attention to the `rm -rf .local/share/fcitx5/rime/`, which may contains some auto generated rime config files, which may cause flypy not the default scheme for rime
