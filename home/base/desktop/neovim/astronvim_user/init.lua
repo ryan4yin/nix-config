@@ -17,7 +17,7 @@ return {
     { import = "astrocommunity.colorscheme.catppuccin" },
     -- Highly experimental plugin that completely replaces
     -- the UI for messages, cmdline and the popupmenu.
-    { import = "astrocommunity.utility.noice-nvim" },
+    -- { import = "astrocommunity.utility.noice-nvim" },
     -- Fully featured & enhanced replacement for copilot.vim
     -- <Tab> work with both auto completion in cmp and copilot
     { import = "astrocommunity.media.vim-wakatime" },
