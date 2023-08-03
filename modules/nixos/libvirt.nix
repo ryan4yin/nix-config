@@ -19,7 +19,7 @@
   };
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [
-    # Need to add [File (in the menu bar) -> Add connection] after start the first time
+    # Need to add [File (in the menu bar) -> Add connection] when start for the first time
     virt-manager
 
     # QEMU/KVM, provides:
@@ -42,10 +42,4 @@
   # Enable nested virsualization, required by security containers and nested vm.
   boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
   # boot.extraModprobeConfig = "options kvm_amd nested=1";  # for amd cpu
-
-  # NixOS VM should enable this:
-  # services.qemuGuest = {
-  #   enable = true;
-  #   package = pkgs.qemu_kvm.ga;
-  # };
 }
