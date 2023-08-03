@@ -187,6 +187,38 @@
         "type": "github"
       }
     },
+    "catppuccin-wezterm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681259790,
+        "narHash": "sha256-McSWoZaJeK+oqdK/0vjiRxZGuLBpEB10Zg4+7p5dIGY=",
+        "owner": "catppuccin",
+        "repo": "wezterm",
+        "rev": "b1a81bae74d66eaae16457f2d8f151b5bd4fe5da",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "wezterm",
+        "type": "github"
+      }
+    },
+    "cattppuccin-k9s": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1690140445,
+        "narHash": "sha256-PtBJRBNbLkj7D2ko7ebpEjbfK9Ywjs7zbE+Y8FQVEfA=",
+        "owner": "catppuccin",
+        "repo": "k9s",
+        "rev": "516f44dd1a6680357cb30d96f7e656b653aa5059",
+        "type": "github"
+      },
+      "original": {
+        "owner": "catppuccin",
+        "repo": "k9s",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -659,6 +691,8 @@
         "catppuccin-helix": "catppuccin-helix",
         "catppuccin-hyprland": "catppuccin-hyprland",
         "catppuccin-starship": "catppuccin-starship",
+        "catppuccin-wezterm": "catppuccin-wezterm",
+        "cattppuccin-k9s": "cattppuccin-k9s",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "mysecrets": "mysecrets",

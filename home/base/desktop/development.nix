@@ -16,24 +16,6 @@
   home.packages = with pkgs; [
     pkgs-unstable.devbox
 
-    # cloud native
-    skopeo
-    docker-compose
-    dive # explore docker layers
-    kubectl
-    kubernetes-helm
-    terraform
-    # terraformer # generate terraform configs from existing cloud resources
-    pulumi
-    pulumictl
-    k9s
-    # istioctl
-
-    # cloud provider
-    awscli2
-    aws-iam-authenticator
-    eksctl
-
     # DO NOT install build tools for C/C++ and others, set it per project by devShell instead
     gnumake # used by this repo, to simplify the deployment
     jdk17   # used to run some java based tools(.jar)

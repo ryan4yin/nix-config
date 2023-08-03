@@ -247,6 +247,10 @@
       url = "github:catppuccin/alacritty";
       flake = false;
     };
+    catppuccin-wezterm = {
+      url = "github:catppuccin/wezterm";
+      flake = false;
+    };
     catppuccin-helix = {
       url = "github:catppuccin/helix";
       flake = false;
@@ -261,6 +265,10 @@
     };
     catppuccin-cava = {
       url = "github:catppuccin/cava";
+      flake = false;
+    };
+    cattppuccin-k9s = {
+      url = "github:catppuccin/k9s";
       flake = false;
     };
   };
