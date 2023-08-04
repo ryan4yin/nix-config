@@ -140,7 +140,7 @@
         }
         // inputs;
       base_args = {
-        inherit nix-darwin home-manager system specialArgs;
+        inherit nix-darwin home-manager system specialArgs nixpkgs;
       };
     in {
       harmonica = macosSystem (base_args // {
