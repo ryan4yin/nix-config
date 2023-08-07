@@ -187,7 +187,7 @@
     };
 
     # modern window compositor
-    hyprland.url = "github:hyprwm/Hyprland/v0.27.2";
+    hyprland.url = "github:hyprwm/Hyprland/v0.28.0";
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     # anyrun - a wayland launcher
@@ -207,7 +207,7 @@
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = {
-      url = "github:AstroNvim/AstroNvim/v3.34.5";
+      url = "github:AstroNvim/AstroNvim/v3.35.0";
       flake = false;
     };
 
