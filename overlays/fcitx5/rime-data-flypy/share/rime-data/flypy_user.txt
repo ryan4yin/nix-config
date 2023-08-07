@@ -19,7 +19,7 @@
 Δ	delt
 
 # 补充缺失单字
-矽 xiux
+矽	xiux
 
 # 全码词
 杯子	bwzi
