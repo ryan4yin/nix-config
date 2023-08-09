@@ -1,6 +1,8 @@
 { username, ... }: {
   imports = [
     ../base/desktop
+    
+    ./proxychains
 
     ./core.nix
     ./nushell.nix
