@@ -54,10 +54,15 @@
     #   signByDefault = true;
     # };
 
+    # A syntax-highlighting pager in Rust(2019 ~ Now)
     delta = {
       enable = true;
       options = {
-        features = "side-by-side";
+        diff-so-fancy = true;
+        line-numbers = true;
+        true-color = "always";
+        # features => named groups of settings, used to keep related settings organized
+        # features = "";
       };
     };
 
@@ -71,8 +76,17 @@
       cm = "commit -m";  # commit via `git cm <message>`
       ca = "commit -am";  # commit all changes via `git ca <message>`
       dc = "diff --cached";
+
       amend = "commit --amend -m";  # amend commit message via `git amend <message>`
       unstage = "reset HEAD --";  # unstage file via `git unstage <file>`
+      merged = "branch --merged";  # list merged(into HEAD) branches via `git merged`
+      unmerged = "branch --no-merged";  # list unmerged(into HEAD) branches via `git unmerged`
+      nonexist = "remote prune origin --dry-run";  # list non-exist(remote) branches via `git nonexist`
+
+      # delete merged branches except master & dev & staging
+      delmerged = "! git branch --merged | grep -v '(^\*|main|master|dev|staging)' | xargs git branch -d";
+      # delete non-exist(remote) branches
+      delnonexist = "remote prune origin";
 
       # aliases for submodule
       update = "submodule update --init --recursive";
