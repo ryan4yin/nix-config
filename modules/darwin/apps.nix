@@ -92,6 +92,7 @@
 
       # https://github.com/rgcr/m-cli
       "m-cli" #  Swiss Army Knife for macOS
+      "proxychains-ng"
     ];
 
     # `brew install --cask`
