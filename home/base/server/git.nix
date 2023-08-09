@@ -68,11 +68,11 @@
       st = "status";
       ls = "log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate";
       ll = "log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat";
-      cm = "commit -m";
-      ca = "commit -am";
+      cm = "commit -m";  # commit via `git cm <message>`
+      ca = "commit -am";  # commit all changes via `git ca <message>`
       dc = "diff --cached";
-      amend = "commit --amend -m";
-      unstage = "reset HEAD --";
+      amend = "commit --amend -m";  # amend commit message via `git amend <message>`
+      unstage = "reset HEAD --";  # unstage file via `git unstage <file>`
 
       # aliases for submodule
       update = "submodule update --init --recursive";
