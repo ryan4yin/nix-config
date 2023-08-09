@@ -72,6 +72,7 @@
       ca = "commit -am";
       dc = "diff --cached";
       amend = "commit --amend -m";
+      unstage = "reset HEAD --";
 
       # aliases for submodule
       update = "submodule update --init --recursive";
