@@ -84,7 +84,8 @@
       nonexist = "remote prune origin --dry-run";  # list non-exist(remote) branches via `git nonexist`
 
       # delete merged branches except master & dev & staging
-      delmerged = "! git branch --merged | grep -v '(^\*|main|master|dev|staging)' | xargs git branch -d";
+      #  `!` indicates it's a shell script, not a git subcommand
+      delmerged = ''! git branch --merged | egrep -v "(^\*|main|master|dev|staging)" | xargs git branch -d'';
       # delete non-exist(remote) branches
       delnonexist = "remote prune origin";
 
