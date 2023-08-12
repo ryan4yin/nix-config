@@ -9,11 +9,6 @@
     unzip
     p7zip
 
-    # utils
-    ripgrep # recursively searches directories for a regex pattern
-    jq # A lightweight and flexible command-line JSON processor
-    yq-go # yaml processer https://github.com/mikefarah/yq
-
     # networking tools
     mtr # A network diagnostic tool
     iperf3
@@ -24,15 +19,26 @@
     nmap # A utility for network discovery and security auditing
     ipcalc # it is a calculator for the IPv4/v6 addresses
 
+
+    # Text Processing
+    # Docs: https://github.com/learnbyexample/Command-line-text-processing
+    gnugrep  # GNU grep, provides `grep`/`egrep`/`fgrep`
+    gnused  # GNU sed, very powerful(mainly for replacing text in files)
+    gawk   # GNU awk, a pattern scanning and processing language
+    ripgrep # recursively searches directories for a regex pattern
+    ast-grep  # A fast and polyglot tool for code searching, linting, rewriting at large scale
+    sad  # CLI search and replace, with diff preview
+    delta  # A viewer for git and diff output
+    jq # A lightweight and flexible command-line JSON processor
+    yq-go # yaml processer https://github.com/mikefarah/yq
+
     # misc
     tldr
     cowsay
     file
     which
     tree
-    gnused
     gnutar
-    gawk
     zstd
     caddy
     gnupg
