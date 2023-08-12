@@ -61,6 +61,10 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 ![](./_img/i3_2023-07-29_1.webp)
 ![](./_img/i3_2023-07-29_2.webp)
 
+## Neovim
+
+See [./home/base/desktop/neovim/README.md](./home/base/desktop/neovim/README.md) for details.
+
 ## Hosts
 
 See [./hosts](./hosts) for details.
