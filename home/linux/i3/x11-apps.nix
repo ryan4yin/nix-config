@@ -17,17 +17,5 @@
       # commandLineArgs = [
       # ];
     };
-
-    vscode = {
-      enable = true;
-      # use the stable version
-      # package = pkgs.vscode.override {
-      #   commandLineArgs = [
-      #   ];
-      # };
-
-      # let vscode sync and update its configuration & extensions across devices, using github account.
-      # userSettings = {};
-    };
   };
 }
