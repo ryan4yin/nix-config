@@ -64,9 +64,9 @@ For more details, visit the [AstroNvim website](https://astronvim.com/).
 ## Splitting and Buffers
 
 | Action                | Shortcut      |
-| --------------------- | ------------- | --- |
+| --------------------- | ------------- |
 | Horizontal Split      | `\`           |
-| Vertical Split        | `             | `   |
+| Vertical Split        | `\|`          |
 | Next Buffer (Tab)     | `]b`          |
 | Previous Buffer (Tab) | `[b`          |
 | Close Buffer          | `<Space> + c` |
