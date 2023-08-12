@@ -57,24 +57,24 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 
 1. It enhaces the default search and jump behavior of neovim.(search with prefix `/`)
 
-| Action            | Shortcut                                                                         |
-| ----------------- | -------------------------------------------------------------------------------- |
-| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)      |
-| Treesitter Search | `yR`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
+| Action            | Shortcut                                                                               |
+| ----------------- | -------------------------------------------------------------------------------------- |
+| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)            |
+| Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(arround your matches, all the surrounding Treesitter nodes will be labeled)  |
+| Remote Flash      | `yr`, `dr`, `cr`, `vr`, `ctrl+v+r`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
 
 ## Text Manipulation
 
 - Add at the end of multiple lines: `:normal A<text>`
-  - Execute `A<text>` on each line
-  - visual mode(v)
-  - `A` appends text at the end of each line
 
-- Add at the end of visual block: `:A<text>`
+  - Execublock: `:A<text>`
+
   - visual block mode(ctrl + v)
   - Append text at the end of each line in the selected block
   - If position exceeds line end, neovim adds spaces automatically
 
-- Delete the last char of multiple lines: `:normal $x`
+- Delete the last char of multivle lines: `:normal $x`
+
   - Execute `$x` on each line
   - visual mode(v)
   - `$` moves cursor to the end of line
