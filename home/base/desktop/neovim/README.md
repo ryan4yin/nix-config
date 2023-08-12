@@ -1,24 +1,23 @@
 # AstroNvim Configuration and Shortcuts
 
 My Neovim config based on [AstroNvim](https://github.com/AstroNvim/AstroNvim).
+For more details, visit the [AstroNvim website](https://astronvim.com/).
 
-This document outlines various shortcuts and commands for efficient usage.
-
-## Screenshots
-
-![](/_img/astronvim_2023-07-13_00-39.webp)
-![](/_img/hyprland_2023-07-29_2.webp)
+This document outlines neovim's configuration structure and various shortcuts/commands for efficient usage.
 
 ## Configuration Structure
 
 | Description                                       | Standard Location                           | My Location                                                               |
 | ------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
-| Nvim's config                                     | `~/.config/nvim`                            | astronvim's github repository, referenced as a flake input in this flake. |
+| Neovim's config                                   | `~/.config/nvim`                            | AstroNvim's github repository, referenced as a flake input in this flake. |
 | AstroNvim's user configuration                    | `$XDG_CONFIG_HOME/astronvim/lua/user`       | [./astronvim_user/](./astronvim_user/)                                    |
 | Plugins installation directory (lazy.nvim)        | `~/.local/share/nvim/`                      | The same as standard location, generated and managed by lazy.nvim.        |
 | LSP servers, DAP servers, linters, and formatters | `~/.local/share/nvim/mason/`(by mason.nvim) | [./default.nix](./default.nix), installed by nix.                         |
 
-For more details, visit the [AstroNvim website](https://astronvim.com/).
+## Screenshots
+
+![](/_img/astronvim_2023-07-13_00-39.webp)
+![](/_img/hyprland_2023-07-29_2.webp)
 
 ## Visual Modes
 
