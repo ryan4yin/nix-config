@@ -26,6 +26,17 @@ This document outlines neovim's configuration structure and various shortcuts/co
 | Toggle visual mode       | `v`                                      |
 | Toggle visual block mode | `<Ctrl> + v` (select a block vertically) |
 
+## Incremental Selection
+
+Provided by nvim-treesitter.
+
+| Action            | Shortcut |
+| ----------------- | -------- |
+| init selection    | `gnn`    |
+| node incremental  | `grn`    |
+| scope incremental | `grc`    |
+| node decremental  | `grm`    |
+
 ## Text Manipulation
 
 - Add at the end of multiple lines: `:normal A<text>`

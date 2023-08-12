@@ -162,6 +162,9 @@ return {
     -- Undo tree
     { "debugloop/telescope-undo.nvim", },
 
+    -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
+    { "chrisgrieser/nvim-spider", lazy = true },
+
     -- Install lsp, formmatter and others via home manager instead of Mason.nvim
     -- LSP installations
     {
