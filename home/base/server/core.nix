@@ -26,9 +26,11 @@
     gnused  # GNU sed, very powerful(mainly for replacing text in files)
     gawk   # GNU awk, a pattern scanning and processing language
     ripgrep # recursively searches directories for a regex pattern
-    ast-grep  # A fast and polyglot tool for code searching, linting, rewriting at large scale
-    sad  # CLI search and replace, with diff preview
+    sad  # CLI search and replace, with diff preview, really useful!!!
     delta  # A viewer for git and diff output
+    # A fast and polyglot tool for code searching, linting, rewriting at large scale
+    # supported languages: only some mainstream languages currently(do not support nix/nginx/yaml/toml/...)
+    ast-grep
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processer https://github.com/mikefarah/yq
 
