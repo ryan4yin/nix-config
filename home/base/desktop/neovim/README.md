@@ -14,6 +14,20 @@ This document outlines neovim's configuration structure and various shortcuts/co
 | Plugins installation directory (lazy.nvim)        | `~/.local/share/nvim/`                      | The same as standard location, generated and managed by lazy.nvim.        |
 | LSP servers, DAP servers, linters, and formatters | `~/.local/share/nvim/mason/`(by mason.nvim) | [./default.nix](./default.nix), installed by nix.                         |
 
+## Update/Clean Plugins
+
+Note that lazy.nvim will not automatically update plugins, so you need to update them manually.
+
+```bash
+:Lazy update
+```
+
+Remove all unused plugins:
+
+```bash
+:Lazy clean
+```
+
 ## Screenshots
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
