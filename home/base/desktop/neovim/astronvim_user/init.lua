@@ -272,6 +272,28 @@ return {
         end
     },
 
+    -- Flash enhances the built-in search/jump functionality.
+    {
+      "folke/flash.nvim",
+      event = "VeryLazy",
+      vscode = true,
+      ---@type Flash.Config
+      opts = {},
+      -- stylua: ignore
+      keys = {
+        -- Normal, Visual, or Operator-pending modes
+        { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+        -- confict with nvim-surround's keys
+        { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+        -- command: yr
+        { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+        -- command: yR
+        { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+        -- <ctrl + s>, Command-line mode(prefix: `:`)
+        { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      },
+    },
+
     {
       'nvim-telescope/telescope.nvim', branch = '0.1.x',
       dependencies = { 'nvim-lua/plenary.nvim' },

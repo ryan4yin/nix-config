@@ -10,7 +10,7 @@ require("telescope").load_extension("yank_history")
 require("telescope").load_extension("undo")
 
 return {
-  -- first key is the mode
+  -- normal mode
   n = {
     -- second key is the lefthand side of the map
     -- mappings seen under group name "Buffer"
@@ -48,10 +48,12 @@ return {
     ["gP" ] = {  "<cmd>lua require('goto-preview').close_all_win()<CR>", desc="close_all_win" },
     ["gpr"] = { "<cmd>lua require('goto-preview').goto_preview_references()<CR>", desc="goto_preview_references" },
   },
+  -- Visual mode
   v = {
     -- search and replace globally
     ['<leader>sw'] =  {'<esc><cmd>lua require("spectre").open_visual()<CR>', desc = "Search current word" },
   },
+  -- visual mode(what's the difference between v and x???)
   x = {
     -- refactoring
     ["<leader>ri"] = { function() require('refactoring').refactor('Inline Variable') end, desc = "Inverse of extract variable" },
@@ -63,9 +65,5 @@ return {
     -- yank_history
     ["p"] = {"<Plug>(YankyPutAfter)", desc="YankyPutAfter" },
     ["P"] = {"<Plug>(YankyPutBefore)", desc="YankyPutBefore" },
-  },
-  t = {
-    -- setting a mapping to false will disable it
-    -- ["<esc>"] = false,
   },
 }

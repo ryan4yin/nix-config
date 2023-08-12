@@ -44,24 +44,48 @@ Remove all unused plugins:
 
 Provided by nvim-treesitter.
 
-| Action            | Shortcut |
-| ----------------- | -------- |
-| init selection    | `<Ctrl-space>`    |
-| node incremental  | `<Ctrl-space>`    |
-| scope incremental | `<Alt-Space>`    |
+| Action            | Shortcut       |
+| ----------------- | -------------- |
+| init selection    | `<Ctrl-space>` |
+| node incremental  | `<Ctrl-space>` |
+| scope incremental | `<Alt-Space>`  |
 | node decremental  | `Backspace`    |
+
+## Search and Jump
+
+Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligent search and jump plugin.
+
+1. It enhaces the default search and jump behavior of neovim.(search with prefix `/`)
+
+| Action            | Shortcut                                                                         |
+| ----------------- | -------------------------------------------------------------------------------- |
+| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)      |
+| Treesitter Search | `yR`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
 
 ## Text Manipulation
 
 - Add at the end of multiple lines: `:normal A<text>`
-
   - Execute `A<text>` on each line
+  - visual mode(v)
   - `A` appends text at the end of each line
-  - Select lines using visual mode first
 
 - Add at the end of visual block: `:A<text>`
-  - Append text at the end of each line in the selected block(visual block mode)
+  - visual block mode(ctrl + v)
+  - Append text at the end of each line in the selected block
   - If position exceeds line end, neovim adds spaces automatically
+
+- Delete the last char of multiple lines: `:normal $x`
+  - Execute `$x` on each line
+  - visual mode(v)
+  - `$` moves cursor to the end of line
+  - `x` deletes the character under the cursor
+
+- Delete the last word of multiple lines: `:normal $bD`
+  - Execute `$bD` on each line
+  - visual mode(v)
+  - `$` moves cursor to the end of line
+  - `b` moves cursor to the beginning of the last word
+  - `D` deletes from cursor to the end of line
 
 ## Commands & Shortcuts
 
