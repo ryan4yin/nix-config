@@ -61,7 +61,7 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 | ----------------- | -------------------------------------------------------------------------------------- |
 | Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)            |
 | Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(arround your matches, all the surrounding Treesitter nodes will be labeled)  |
-| Remote Flash      | `yr`, `dr`, `cr`, `vr`, `ctrl+v+r`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
+| Remote Flash      | `yr`, `dr`, `cr`, (arround your matches, all the surrounding Treesitter nodes will be labeled) |
 
 ## Text Manipulation
 
