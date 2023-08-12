@@ -85,6 +85,10 @@
 #        2. `c` means ask for confirmation before replacing.
 #        3. `i` means ignore case.
 #
+#    Seach and replace globally: 
+#        1. Open Spectre search and replace panel: `<Space> + ss` 
+#        2. search and replace in command line: `find -name "*.nix" | sad '<pattern>' '<replacement>' | delta`
+#
 #    Joining a Selection of Lines With Space:  `:join`
 #    Joining without spaces:                   `:join!`
 #
@@ -93,12 +97,6 @@
 #    Convert to lowercase:                     `u`
 #
 #    Save the selected text to a file:         `:w filename`  (will show `:'<,'>w filename`)
-#
-#    Search key pattern and Replace in Multiple Files:
-#        sed -ri "s/pattern_str/replace_str/g" $(grep "key_pattern" 'path_pattern' -rl)
-#
-#    Search file name pattern and Replace in Multiple Files:
-#        sed -ri "s/pattern_str/replace_str/g" $(find . -name "pattern")
 #
 #    ......
 #    See https://astronvim.com/Basic%20Usage/walkthrough

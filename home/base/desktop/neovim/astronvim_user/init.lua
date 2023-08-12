@@ -99,8 +99,7 @@ return {
         },
       }
     },
-    -- The plugin offers the `:Refactor` command to refactor code.
-    -- TODO not work yet
+    -- The plugin offers the alibity to refactor code.
     {
       "ThePrimeagen/refactoring.nvim",
       dependencies = {
@@ -108,8 +107,7 @@ return {
         {"nvim-treesitter/nvim-treesitter"}
       }
     },
-    -- The plugin offers the `:Spectre` command to search and replace.
-    -- TODO not work yet
+    -- The plugin offers the abilibty to search and replace.
     {
       "nvim-pack/nvim-spectre",
       dependencies = {
