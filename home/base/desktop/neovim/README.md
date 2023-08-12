@@ -2,17 +2,19 @@
 
 My Neovim config based on [AstroNvim](https://github.com/AstroNvim/AstroNvim).
 
-This document outlines the configuration and dependencies of AstroNvim, along with various shortcuts and commands for efficient usage.
+This document outlines various shortcuts and commands for efficient usage.
 
 ## Screenshots
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
 
-## Related Folders
+## Configuration Structure
 
-- Nvim's config: `~/.config/nvim`
-- AstroNvim's user configuration: `$XDG_CONFIG_HOME/astronvim/lua/user`
-- Plugins installation directory (by lazy.nvim): `~/.local/share/nvim/`
+| Description                                | Standard Location                     | My Location                                                               |
+| ------------------------------------------ | ------------------------------------- | ------------------------------------------------------------------------- |
+| Nvim's config                              | `~/.config/nvim`                      | astronvim's github repository, referenced as a flake input in this flake. |
+| AstroNvim's user configuration             | `$XDG_CONFIG_HOME/astronvim/lua/user` | [./astronvim_user/](./astronvim_user/)                                    |
+| Plugins installation directory (lazy.nvim) | `~/.local/share/nvim/`                | The same as standard location, generated and managed by lazy.nvim.        |
 
 For more details, visit the [AstroNvim website](https://astronvim.com/).
 
