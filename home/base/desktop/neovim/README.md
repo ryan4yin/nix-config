@@ -11,11 +11,12 @@ This document outlines various shortcuts and commands for efficient usage.
 
 ## Configuration Structure
 
-| Description                                | Standard Location                     | My Location                                                               |
-| ------------------------------------------ | ------------------------------------- | ------------------------------------------------------------------------- |
-| Nvim's config                              | `~/.config/nvim`                      | astronvim's github repository, referenced as a flake input in this flake. |
-| AstroNvim's user configuration             | `$XDG_CONFIG_HOME/astronvim/lua/user` | [./astronvim_user/](./astronvim_user/)                                    |
-| Plugins installation directory (lazy.nvim) | `~/.local/share/nvim/`                | The same as standard location, generated and managed by lazy.nvim.        |
+| Description                                       | Standard Location                           | My Location                                                               |
+| ------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
+| Nvim's config                                     | `~/.config/nvim`                            | astronvim's github repository, referenced as a flake input in this flake. |
+| AstroNvim's user configuration                    | `$XDG_CONFIG_HOME/astronvim/lua/user`       | [./astronvim_user/](./astronvim_user/)                                    |
+| Plugins installation directory (lazy.nvim)        | `~/.local/share/nvim/`                      | The same as standard location, generated and managed by lazy.nvim.        |
+| LSP servers, DAP servers, linters, and formatters | `~/.local/share/nvim/mason/`(by mason.nvim) | [./default.nix](./default.nix), installed by nix.                         |
 
 For more details, visit the [AstroNvim website](https://astronvim.com/).
 
@@ -127,10 +128,10 @@ The postfix(flags) in the above commands:
 
 ## Search and Replace Globally
 
-| Description                           | Shortcut                                                         |
-| ------------------------------------- | ---------------------------------------------------------------- |
-| Open spectre.nvim search and replace panel | `<Space> + ss`                                                   |
-| Search and replace in command line(need install `sad` first)    | `find -name "*.nix" \| sad '<pattern>' '<replacement>' \| delta` |
+| Description                                                  | Shortcut                                                         |
+| ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| Open spectre.nvim search and replace panel                   | `<Space> + ss`                                                   |
+| Search and replace in command line(need install `sad` first) | `find -name "*.nix" \| sad '<pattern>' '<replacement>' \| delta` |
 
 ## Surrounding Characters
 
@@ -172,4 +173,3 @@ For more detailed information and advanced usage, refer to:
 1. [AstroNvim walkthrough](https://astronvim.com/Basic%20Usage/walkthrough)
 2. [./astronvim_user/mapping.lua](./astronvim_user/mappings.lua)
 3. All the plugins' documentations
-
