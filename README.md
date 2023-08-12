@@ -63,7 +63,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## Neovim
 
-See [./home/base/desktop/neovim/README.md](./home/base/desktop/neovim/README.md) for details.
+See [./home/base/desktop/neovim](./home/base/desktop/neovim) for details.
 
 ## Hosts
 
