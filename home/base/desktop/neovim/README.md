@@ -7,6 +7,7 @@ This document outlines various shortcuts and commands for efficient usage.
 ## Screenshots
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
+![](/img/hyprland_2023-07-29_2.webp)
 
 ## Configuration Structure
 
@@ -128,8 +129,8 @@ The postfix(flags) in the above commands:
 
 | Description                           | Shortcut                                                         |
 | ------------------------------------- | ---------------------------------------------------------------- |
-| Open Spectre search and replace panel | `<Space> + ss`                                                   |
-| Search and replace in command line    | `find -name "*.nix" \| sad '<pattern>' '<replacement>' \| delta` |
+| Open spectre.nvim search and replace panel | `<Space> + ss`                                                   |
+| Search and replace in command line(need install `sad` first)    | `find -name "*.nix" \| sad '<pattern>' '<replacement>' \| delta` |
 
 ## Surrounding Characters
 
@@ -169,4 +170,6 @@ The postfix(flags) in the above commands:
 For more detailed information and advanced usage, refer to:
 
 1. [AstroNvim walkthrough](https://astronvim.com/Basic%20Usage/walkthrough)
-2. [./astronvim_user/mapping.lua`](./astronvim_user/mappings.lua)
+2. [./astronvim_user/mapping.lua](./astronvim_user/mappings.lua)
+3. All the plugins' documentations
+
