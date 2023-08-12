@@ -7,7 +7,7 @@ This document outlines various shortcuts and commands for efficient usage.
 ## Screenshots
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)
-![](/img/hyprland_2023-07-29_2.webp)
+![](/_img/hyprland_2023-07-29_2.webp)
 
 ## Configuration Structure
 
