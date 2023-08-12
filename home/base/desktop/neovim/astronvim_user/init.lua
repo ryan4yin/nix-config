@@ -66,24 +66,40 @@ return {
       end,
     },
 
-    ---- Nushell
+    -- Enhanced matchparen.vim plugin for Neovim to highlight the outer pair.
     {
-      "LhKipp/nvim-nu",
+      "utilyre/sentiment.nvim",
+      version = "*",
+      event = "VeryLazy", -- keep for lazy loading
+      opts = {
+        -- config
+      },
+      init = function()
+        -- `matchparen.vim` needs to be disabled manually in case of lazy loading
+        vim.g.loaded_matchparen = 1
+      end,
+    },
+
+    -- joining blocks of code into oneline, or splitting one line into multiple lines.
+    {
+      'Wansmer/treesj',
+      keys = { '<space>m', '<space>j', '<space>s' },
+      dependencies = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
-        require'nu'.setup({
-          use_lsp_features = true, -- requires https://github.com/jose-elias-alvarez/null-ls.nvim
-          -- lsp_feature: all_cmd_names is the source for the cmd name completion.
-          -- It can be
-          --  * a string, which is interpreted as a shell command and the returned list is the source for completions (requires plenary.nvim)
-          --  * a list, which is the direct source for completions (e.G. all_cmd_names = {"echo", "to csv", ...})
-          --  * a function, returning a list of strings and the return value is used as the source for completions
-          all_cmd_names = [[nu -c 'help commands | get name | str join "\n"']]
+        require('treesj').setup({--[[ your config ]]})
+      end,
+    },
+
+    -- clipboard history manager
+    {
+      "gbprod/yanky.nvim",
+      config = function()
+        require("yanky").setup({
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
         })
       end,
-      dependencies = {
-        {"nvim-treesitter/nvim-treesitter"},
-        { "jose-elias-alvarez/null-ls.nvim"},
-      }
     },
 
     -- File explorer(Custom configs)
@@ -134,6 +150,17 @@ return {
         })
       end,
     },
+
+    -- implementation/definition preview
+    {
+      'rmagatti/goto-preview',
+      config = function()
+        require('goto-preview').setup {}
+      end
+    },
+
+    -- Undo tree
+    { "debugloop/telescope-undo.nvim", },
 
     -- Install lsp, formmatter and others via home manager instead of Mason.nvim
     -- LSP installations
@@ -214,6 +241,18 @@ return {
         opts.ensure_installed = nil
         opts.automatic_installation = false
       end,
+    },
+
+    -- Fast and feature-rich surround actions
+    {
+        "kylechui/nvim-surround",
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        event = "VeryLazy",
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
     },
   },
 

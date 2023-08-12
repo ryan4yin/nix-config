@@ -35,10 +35,11 @@
 #    Horizontal Split Terminal:	    `<Space> + th`
 #    Vertical Split Terminal:	      `<Space> + tv`
 #    Open IPython REPL:             `<Space> + tp`
-#    Opening LSP symbols:           `<Space> + lS`
 #    Toggle line wrap:              `<Space> + uw`
 #    Show line diagnostics:         `gl`
+#    Show function/variable info:   `K`
 #    Go to definition:              `gd`
+#    References of a symbol:        `gr`
 #
 #    Switching between windows:     `<Ctrl> + h/j/k/l`
 #    Resizing windows:              `<Ctrl> + Up/Down/Left/Right`
@@ -52,10 +53,11 @@
 #
 #    Toggle buffer auto formatting: `<Space> + uf`
 #    Format Document:               `<Space> + lf`
-#    Comment Line:                  `<Space> + /`
-#        Can be used in visual mode
 #    Code Actions:                  `<Space> + la`
 #    Rename:                        `<Space> + lr`
+#    Opening LSP symbols:           `<Space> + lS`
+#    Comment Line:                  `<Space> + /`
+#        Can be used in visual mode
 #    Open filepath/URL at cursor:   `gx`
 #        This is a neovim builtin command
 #    Find files by name(fzf):       `<Space> + ff`
@@ -89,17 +91,26 @@
 #        1. Open Spectre search and replace panel: `<Space> + ss` 
 #        2. search and replace in command line: `find -name "*.nix" | sad '<pattern>' '<replacement>' | delta`
 #
+#    Add surrounding characters:               `ysiw'`  (will add `'` around the word under cursor)
+#    Delete surrounding characters:            `ds'`    (will delete `'` around the word under cursor)
+#    Change surrounding characters:            `cs'"`   (will change `'` to `"` around the word under cursor)
+#
 #    Joining a Selection of Lines With Space:  `:join`
 #    Joining without spaces:                   `:join!`
+#    Join with lsp intellegence(treesj):           `<Space> + j`
+#    Splitting a Line into Multiple Lines(treesj): `<Space> + s`
 #
 #    Toggle text's case:                       `~`
 #    Convert to uppercase:                     `U`
 #    Convert to lowercase:                     `u`
 #
 #    Save the selected text to a file:         `:w filename`  (will show `:'<,'>w filename`)
+#    Show all Yank History:                    `:<Space> + yh`
+#    Show undo history:                        `:<Space> + uh`
 #
 #    ......
 #    See https://astronvim.com/Basic%20Usage/walkthrough
+#    And ./astronvim_user/mapping.lua
 #
 #e#############################################################################
 {
