@@ -46,10 +46,10 @@ Provided by nvim-treesitter.
 
 | Action            | Shortcut |
 | ----------------- | -------- |
-| init selection    | `gnn`    |
-| node incremental  | `grn`    |
-| scope incremental | `grc`    |
-| node decremental  | `grm`    |
+| init selection    | `<Ctrl-space>`    |
+| node incremental  | `<Ctrl-space>`    |
+| scope incremental | `<Alt-Space>`    |
+| node decremental  | `Backspace`    |
 
 ## Text Manipulation
 

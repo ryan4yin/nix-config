@@ -130,12 +130,26 @@ return {
         {"nvim-lua/plenary.nvim"},
       }
     },
+
+    -- full signature help, docs and completion for the nvim lua API.
+    { "folke/neodev.nvim", opts = {} },
+
+    { "RRethy/vim-illuminate", config = function() end },
+
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
     {
       "nvim-treesitter/nvim-treesitter",
       opts = function(_, opts)
         local utils = require "astronvim.utils";
-        opts.indent.enable = false;
+        opts.incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<C-space>",  -- Ctrl + Space
+            node_incremental = "<C-space>",
+            scope_incremental = "<A-space>",  -- Alt + Space
+            node_decremental = "<bs>",  -- Backspace
+          },
+        }
         opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, {
           -- neovim
           "vim",
