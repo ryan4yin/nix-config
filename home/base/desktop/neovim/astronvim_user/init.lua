@@ -35,7 +35,6 @@ return {
     { import = "astrocommunity.pack.vue" },
     ---- Configuration Language
     { import = "astrocommunity.pack.markdown" },
-    { import = "astrocommunity.markdown-and-latex.glow-nvim" },
     { import = "astrocommunity.pack.json" },
     { import = "astrocommunity.pack.yaml" },
     { import = "astrocommunity.pack.toml" },
@@ -62,6 +61,19 @@ return {
         opts.filetypes = {
           yaml = true;
           markdown = true,
+        }
+      end,
+    },
+
+    -- markdown preview
+    {
+      '0x00-ketsu/markdown-preview.nvim',
+      ft = {'md', 'markdown', 'mkd', 'mkdn', 'mdwn', 'mdown', 'mdtxt', 'mdtext', 'rmd', 'wiki'},
+      config = function()
+        require('markdown-preview').setup {
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the setup section below
         }
       end,
     },
