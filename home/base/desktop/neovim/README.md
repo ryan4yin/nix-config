@@ -57,11 +57,11 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 
 1. It enhaces the default search and jump behavior of neovim.(search with prefix `/`)
 
-| Action            | Shortcut                                                                               |
-| ----------------- | -------------------------------------------------------------------------------------- |
-| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)            |
-| Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(arround your matches, all the surrounding Treesitter nodes will be labeled)  |
-| Remote Flash      | `yr`, `dr`, `cr`, (arround your matches, all the surrounding Treesitter nodes will be labeled) |
+| Action            | Shortcut                                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------------------------- |
+| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)                                   |
+| Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
+| Remote Flash      | `yr`, `dr`, `cr`, (arround your matches, all the surrounding Treesitter nodes will be labeled)                |
 
 ## Text Manipulation
 
@@ -183,11 +183,16 @@ The postfix(flags) in the above commands:
 
 ## Surrounding Characters
 
-| Action                        | Shortcut | Description                                    |
-| ----------------------------- | -------- | ---------------------------------------------- |
-| Add surrounding characters    | `ysiw'`  | Add `'` around the word under cursor           |
-| Delete surrounding characters | `ds'`    | Delete `'` around the word under cursor        |
-| Change surrounding characters | `cs'"`   | Change `'` to `"` around the word under cursor |
+Provided by mini.surround plugin.
+
+- Prefix `gz`
+
+| Action                         | Shortcut | Description                                     |
+| ------------------------------ | -------- | ----------------------------------------------- |
+| Add surrounding characters     | `gzaiw'` | Add `'` around the word under cursor            |
+| Delete surrounding characters  | `gzd'`   | Delete `'` around the word under cursor         |
+| Replace surrounding characters | `gzr'"`  | Replace `'` by `"` around the word under cursor |
+| Highlight surrounding          | `gzh'`   | Highlight `'` around the word under cursor      |
 
 ## Text Manipulation
 

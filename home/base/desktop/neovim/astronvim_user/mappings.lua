@@ -35,8 +35,6 @@ return {
 
     -- yank_history
     ["<leader>yh"] = { function() require("telescope").extensions.yank_history.yank_history() end, desc = "Preview Yank History" },
-    ["p"] = {"<Plug>(YankyPutAfter)", desc="YankyPutAfter" },
-    ["P"] = {"<Plug>(YankyPutBefore)", desc="YankyPutBefore" },
 
     -- undo history
     ["<leader>uh"] = {"<cmd>Telescope undo<cr>", desc="Telescope undo" },
@@ -61,9 +59,5 @@ return {
     ["<leader>rf"] = { function() require('refactoring').refactor('Extract Function To File') end, desc = "Extract Function To File" },
     ["<leader>rv"] = { function() require('refactoring').refactor('Extract Variable') end, desc = "Extracts occurrences of a selected expression to its own variable" },
     ["<leader>rr"] = { function() require('telescope').extensions.refactoring.refactors() end, desc = "Prompt for a refactor to apply" },
-
-    -- yank_history
-    ["p"] = {"<Plug>(YankyPutAfter)", desc="YankyPutAfter" },
-    ["P"] = {"<Plug>(YankyPutBefore)", desc="YankyPutBefore" },
   },
 }

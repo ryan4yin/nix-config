@@ -26,6 +26,8 @@ return {
     { import = "astrocommunity.scrolling.nvim-scrollbar" },
     { import = "astrocommunity.editing-support.auto-save-nvim" },
     { import = "astrocommunity.editing-support.todo-comments-nvim" },
+    -- clipboard history manager
+    { import = "astrocommunity.editing-support.yanky-nvim" },
     -- Language Support
     ---- Frontend & NodeJS
     { import = "astrocommunity.pack.typescript-all-in-one" },
@@ -52,6 +54,14 @@ return {
     { import = "astrocommunity.pack.cmake" },
     { import = "astrocommunity.pack.cpp" },
     { import = "astrocommunity.pack.docker" },
+    -- Motion
+    { import = "astrocommunity.motion.mini-surround" },
+    -- https://github.com/echasnovski/mini.ai
+    { import = "astrocommunity.motion.mini-ai" },
+    { import = "astrocommunity.motion.flash-nvim" },
+    { "folke/flash.nvim", vscode = false },
+    -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
+    { import = "astrocommunity.motion.nvim-spider" },
     -- AI Assistant
     { import = "astrocommunity.completion.copilot-lua-cmp" },
     -- Custom copilot-lua to enable filtypes: markdown
@@ -78,6 +88,44 @@ return {
       end,
     },
 
+    -- clipboard manager
+    {
+      "gbprod/yanky.nvim",
+      opts = function()
+        local mapping = require "yanky.telescope.mapping"
+        local mappings = mapping.get_defaults()
+        mappings.i["<c-p>"] = nil
+        return {
+          highlight = { timer = 200 },
+          picker = {
+            telescope = {
+              use_default_mappings = false,
+              mappings = mappings,
+            },
+          },
+        }
+      end,
+      keys = {
+        { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank text" },
+        { "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after cursor" },
+        { "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before cursor" },
+        { "gp", "<Plug>(YankyGPutAfter)", mode = { "n", "x" }, desc = "Put yanked text after selection" },
+        { "gP", "<Plug>(YankyGPutBefore)", mode = { "n", "x" }, desc = "Put yanked text before selection" },
+        { "[y", "<Plug>(YankyCycleForward)", desc = "Cycle forward through yank history" },
+        { "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle backward through yank history" },
+        { "]p", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
+        { "[p", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+        { "]P", "<Plug>(YankyPutIndentAfterLinewise)", desc = "Put indented after cursor (linewise)" },
+        { "[P", "<Plug>(YankyPutIndentBeforeLinewise)", desc = "Put indented before cursor (linewise)" },
+        { ">p", "<Plug>(YankyPutIndentAfterShiftRight)", desc = "Put and indent right" },
+        { "<p", "<Plug>(YankyPutIndentAfterShiftLeft)", desc = "Put and indent left" },
+        { ">P", "<Plug>(YankyPutIndentBeforeShiftRight)", desc = "Put before and indent right" },
+        { "<P", "<Plug>(YankyPutIndentBeforeShiftLeft)", desc = "Put before and indent left" },
+        { "=p", "<Plug>(YankyPutAfterFilter)", desc = "Put after applying a filter" },
+        { "=P", "<Plug>(YankyPutBeforeFilter)", desc = "Put before applying a filter" },
+      },
+    },
+    
     -- Enhanced matchparen.vim plugin for Neovim to highlight the outer pair.
     {
       "utilyre/sentiment.nvim",
@@ -99,18 +147,6 @@ return {
       dependencies = { 'nvim-treesitter/nvim-treesitter' },
       config = function()
         require('treesj').setup({--[[ your config ]]})
-      end,
-    },
-
-    -- clipboard history manager
-    {
-      "gbprod/yanky.nvim",
-      config = function()
-        require("yanky").setup({
-          -- your configuration comes here
-          -- or leave it empty to use the default settings
-          -- refer to the configuration section below
-        })
       end,
     },
 
@@ -187,9 +223,6 @@ return {
 
     -- Undo tree
     { "debugloop/telescope-undo.nvim", },
-
-    -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
-    { "chrisgrieser/nvim-spider", lazy = true },
 
     -- Install lsp, formmatter and others via home manager instead of Mason.nvim
     -- LSP installations
@@ -270,40 +303,6 @@ return {
         opts.ensure_installed = nil
         opts.automatic_installation = false
       end,
-    },
-
-    -- Fast and feature-rich surround actions
-    {
-        "kylechui/nvim-surround",
-        version = "*", -- Use for stability; omit to use `main` branch for the latest features
-        event = "VeryLazy",
-        config = function()
-            require("nvim-surround").setup({
-                -- Configuration here, or leave empty to use defaults
-            })
-        end
-    },
-
-    -- Flash enhances the built-in search/jump functionality.
-    {
-      "folke/flash.nvim",
-      event = "VeryLazy",
-      vscode = true,
-      ---@type Flash.Config
-      opts = {},
-      -- stylua: ignore
-      keys = {
-        -- Normal, Visual, or Operator-pending modes
-        { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-        -- confict with nvim-surround's keys
-        { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-        -- command: yr
-        { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-        -- command: yR
-        { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-        -- <ctrl + s>, Command-line mode(prefix: `:`)
-        { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-      },
     },
 
     {
