@@ -43,6 +43,10 @@
         else 13;
     };
 
+    keybindings = {
+      "ctrl+shift+m" = "toggle_maximized";
+    };
+
     settings =
       {
         background_opacity = "0.93";
