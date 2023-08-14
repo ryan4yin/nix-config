@@ -9,6 +9,8 @@
 #
 # Wezterm Configuration
 #
+# Default Keybindings: https://wezfurlong.org/wezterm/config/default-keys.html
+#
 ###########################################################
 {
   # wezterm has catppuccin theme built-in,
