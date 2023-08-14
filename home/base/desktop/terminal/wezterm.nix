@@ -46,6 +46,10 @@
           window:set_config_overrides(overrides)
         end)
 
+        wezterm.on('toggle-maximize', function(window, pane)
+          window:maximize()
+        end)
+
         -- This is where you actually apply your config choices
         config.color_scheme = "Catppuccin Mocha"
         config.font = wezterm.font("JetBrains Mono")
@@ -59,6 +63,11 @@
             key = 'B',
             mods = 'CTRL',
             action = wezterm.action.EmitEvent 'toggle-opacity',
+          },
+          {
+            key = 'M',
+            mods = 'CTRL',
+            action = wezterm.action.EmitEvent 'toggle-maximize',
           },
         }
 
