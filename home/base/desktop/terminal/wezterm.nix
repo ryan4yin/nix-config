@@ -16,7 +16,7 @@
   # xdg.configFile."wezterm/colors".source = "${catppuccin-wezterm}/dist";
 
   programs.wezterm = {
-    enable = false;
+    enable = true;
     package = pkgs-unstable.wezterm;
 
     extraConfig = 
