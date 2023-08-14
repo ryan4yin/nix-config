@@ -74,6 +74,7 @@
     swaylock # locking the screen
     wlogout # logout menu
     wl-clipboard # copying and pasting
+    hyprpicker  # color picker
 
     wf-recorder # creen recording
     grim # taking screenshots

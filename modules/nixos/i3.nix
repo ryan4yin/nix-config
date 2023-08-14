@@ -35,6 +35,8 @@
           i3-gaps # i3 with gaps
           picom # transparency and shadows
           feh # set wallpaper
+          xcolor  # color picker
+
           acpi # battery information
           arandr # screen layout manager
           dex # autostart applications
