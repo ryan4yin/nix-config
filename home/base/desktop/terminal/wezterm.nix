@@ -36,12 +36,31 @@
           config = wezterm.config_builder()
         end
         
+        wezterm.on('toggle-opacity', function(window, pane)
+          local overrides = window:get_config_overrides() or {}
+          if not overrides.window_background_opacity then
+            overrides.window_background_opacity = 0.93
+          else
+            overrides.window_background_opacity = nil
+          end
+          window:set_config_overrides(overrides)
+        end)
+
         -- This is where you actually apply your config choices
         config.color_scheme = "Catppuccin Mocha"
         config.font = wezterm.font("JetBrains Mono")
         config.hide_tab_bar_if_only_one_tab = true
         config.scrollback_lines = 10000
         config.enable_scroll_bar = true
+        
+        config.keys = {
+          -- toggle opacity(CTRL + SHIFT + B)
+          {
+            key = 'B',
+            mods = 'CTRL',
+            action = wezterm.action.EmitEvent 'toggle-opacity',
+          },
+        }
 
         config.font_size = ${fontsize}
       '' + (if pkgs.stdenv.isDarwin then ''
