@@ -54,7 +54,7 @@
 
         -- This is where you actually apply your config choices
         config.color_scheme = "Catppuccin Mocha"
-        config.font = wezterm.font("JetBrains Mono")
+        config.font = wezterm.font("JetBrainsMono Nerd Font")
         config.hide_tab_bar_if_only_one_tab = true
         config.scrollback_lines = 10000
         config.enable_scroll_bar = true
