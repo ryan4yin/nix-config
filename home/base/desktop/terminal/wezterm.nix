@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  pkgs-unstable,
   catppuccin-wezterm,
   ...
 }:
@@ -16,6 +17,7 @@
 
   programs.wezterm = {
     enable = false;
+    package = pkgs-unstable.wezterm;
 
     extraConfig = 
       let

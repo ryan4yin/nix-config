@@ -10,19 +10,12 @@
 #e#############################################################################
 {
   xdg.configFile = {
-    # base config
-    "nvim" = {
-      # update AstroNvim
-      onChange = "${pkgs.neovim}/bin/nvim --headless +quitall";
-      source = astronvim;
-    };
+    # astronvim's config
+    "nvim".source = astronvim;
+
     # my cusotom astronvim config, astronvim will load it after base config
     # https://github.com/AstroNvim/AstroNvim/blob/v3.32.0/lua/astronvim/bootstrap.lua#L15-L16
-    "astronvim/lua/user" = {
-      # update AstroNvim
-      onChange = "${pkgs.neovim}/bin/nvim --headless +quitall";
-      source = ./astronvim_user;
-    };
+    "astronvim/lua/user".source = ./astronvim_user;
   };
 
   nixpkgs.config = {
@@ -41,7 +34,7 @@
 
       withPython3 = true;
       withNodeJs = true;
-      extraPackages = [];
+      extraPackages = with pkgs; [];
 
       # currently we use lazy.nvim as neovim's package manager, so comment this one.
       plugins = with pkgs.vimPlugins; [
