@@ -6,6 +6,10 @@
    2. `aquamarine`: My NixOS virtual machine with R9-5900HX(8C16T), for distributed building & testing.
    3. `kana`: Yet another NixOS vm on another physical machine with R5-5625U(6C12T).
    4. `ruby`: Another NixOS vm on another physical machine with R7-5825U(8C16T).
+3. `rolling_girls`: My RISCV64 hosts.
+   1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 8GB RAM + 32G eMMC + 64G SD Card.
+   2. `yukina`: Lichee Pi 4A(Internal Test Version), TH1520(4xC910@2.0G), 8GB RAM + 8G eMMC + 128G SD Card.
+   3. `chiaya`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
 
 # idols - Oshi no Ko
 
