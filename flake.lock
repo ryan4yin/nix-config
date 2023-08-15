@@ -520,11 +520,11 @@
         "thead-kernel": "thead-kernel"
       },
       "locked": {
-        "lastModified": 1692112611,
-        "narHash": "sha256-dJMd6drX1EISxlrPOdl50cHS2PKkDaEgpq8f3b3wVnA=",
+        "lastModified": 1692124930,
+        "narHash": "sha256-lBYxOv/6b3F5QM+vTUqjHDjsUTG8TfieXuPHQni+2qo=",
         "owner": "ryan4yin",
         "repo": "nixos-licheepi4a",
-        "rev": "d7775148caf626c19fea91c52c5d95140f60e917",
+        "rev": "ce55a53f2605916e1818ab51282555a596866278",
         "type": "github"
       },
       "original": {
