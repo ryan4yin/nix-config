@@ -32,75 +32,98 @@
 
     nixosSystem = import ./lib/nixosSystem.nix;
     macosSystem = import ./lib/macosSystem.nix;
+    colemnaSystem = import ./lib/colmenaSystem.nix;
+
+    # 星野 アイ, Hoshino Ai
+    idol_ai_modules_i3 = {
+      nixos-modules = [
+        ./hosts/idols/ai
+        ./modules/nixos/i3.nix
+      ];
+      home-module = import ./home/linux/desktop-i3.nix;
+    };
+    idol_ai_modules_hyprland = {
+      nixos-modules = [
+        ./hosts/idols/ai
+        ./modules/nixos/hyprland.nix
+      ];
+      home-module = import ./home/linux/desktop-hyprland.nix;
+    };
+
+    # 星野 愛久愛海, Hoshino Akuamarin
+    idol_aquamarine_modules = {
+      nixos-modules = [
+        ./hosts/idols/aquamarine
+      ];
+      home-module = import ./home/linux/server.nix;
+    };
+    idol_aquamarine_tags = ["dist-build"];
+
+    # 星野 瑠美衣, Hoshino Rubii
+    idol_ruby_modules = {
+      nixos-modules = [
+        ./hosts/idols/ruby
+      ];
+      home-module = import ./home/linux/server.nix;
+    };
+    idol_ruby_tags = ["dist-build"];
+
+    # 有馬 かな, Arima Kana
+    idol_kana_modules = {
+      nixos-modules = [
+        ./hosts/idols/kana
+      ];
+      home-module = import ./home/linux/server.nix;
+    };
+    idol_kana_tags = ["dist-build"];
+
+    x64_specialArgs =
+      {
+        inherit username userfullname useremail;
+        # use unstable branch for some packages to get the latest updates
+        pkgs-unstable = import nixpkgs-unstable {
+          system = x64_system; # refer the `system` parameter form outer scope recursively
+          # To use chrome, we need to allow the installation of non-free software
+          config.allowUnfree = true;
+        };
+      }
+      // inputs;
   in {
     nixosConfigurations = let
-      # 星野 アイ, Hoshino Ai
-      idol_ai_modules_i3 = {
-        nixos-modules = [
-          ./hosts/idols/ai
-          ./modules/nixos/i3.nix
-        ];
-        home-module = import ./home/linux/desktop-i3.nix;
-      };
-      idol_ai_modules_hyprland = {
-        nixos-modules = [
-          ./hosts/idols/ai
-          ./modules/nixos/hyprland.nix
-        ];
-        home-module = import ./home/linux/desktop-hyprland.nix;
-      };
-
-      # 星野 愛久愛海, Hoshino Akuamarin
-      idol_aquamarine_modules = {
-        nixos-modules = [
-          ./hosts/idols/aquamarine
-        ];
-        home-module = import ./home/linux/server.nix;
-      };
-
-      # 星野 瑠美衣, Hoshino Rubii
-      idol_ruby_modules = {
-        nixos-modules = [
-          ./hosts/idols/ruby
-        ];
-        home-module = import ./home/linux/server.nix;
-      };
-
-      # 有馬 かな, Arima Kana
-      idol_kana_modules = {
-        nixos-modules = [
-          ./hosts/idols/kana
-        ];
-        home-module = import ./home/linux/server.nix;
-      };
-
-      system = x64_system;
-      specialArgs =
-        {
-          inherit username userfullname useremail;
-          # use unstable branch for some packages to get the latest updates
-          pkgs-unstable = import nixpkgs-unstable {
-            system = x64_system; # refer the `system` parameter form outer scope recursively
-            # To use chrome, we need to allow the installation of non-free software
-            config.allowUnfree = true;
-          };
-        }
-        // inputs;
       base_args = {
-        inherit home-manager nixos-generators system specialArgs;
+        inherit home-manager nixos-generators;
+        nixpkgs = nixpkgs;  # or nixpkgs-unstable
+        system = x64_system;
+        specialArgs = x64_specialArgs;
       };
-      stable_args = base_args // {inherit nixpkgs;};
-      unstable_args = base_args // {nixpkgs = nixpkgs-unstable;};
     in {
       # ai with i3 window manager
-      ai_i3 = nixosSystem (idol_ai_modules_i3 // stable_args);
+      ai_i3 = nixosSystem (idol_ai_modules_i3 // base_args);
       # ai with hyprland compositor
-      ai_hyprland = nixosSystem (idol_ai_modules_hyprland // stable_args);
+      ai_hyprland = nixosSystem (idol_ai_modules_hyprland // base_args);
 
       # three virtual machines without desktop environment.
-      aquamarine = nixosSystem (idol_aquamarine_modules // stable_args);
-      ruby = nixosSystem (idol_ruby_modules // stable_args);
-      kana = nixosSystem (idol_kana_modules // stable_args);
+      aquamarine = nixosSystem (idol_aquamarine_modules // base_args);
+      ruby = nixosSystem (idol_ruby_modules // base_args);
+      kana = nixosSystem (idol_kana_modules // base_args);
+    };
+
+    # colmena - remote deployment via SSH
+    colmena = let
+      base_args = {
+        inherit home-manager;
+        nixpkgs = nixpkgs;  # or nixpkgs-unstable
+        specialArgs = x64_specialArgs;
+      };
+    in {
+      meta = {
+        nixpkgs = import nixpkgs { system = x64_system; };
+        specialArgs = x64_specialArgs;
+      };
+
+      aquamarine = colemnaSystem (idol_aquamarine_modules // base_args // { host_tags = idol_aquamarine_tags; });
+      ruby = colemnaSystem (idol_ruby_modules // base_args // { host_tags = idol_ruby_tags; });
+      kana = colemnaSystem (idol_kana_modules // base_args // { host_tags = idol_kana_tags; });
     };
 
     # take system images for idols

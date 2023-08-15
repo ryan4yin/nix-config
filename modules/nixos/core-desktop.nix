@@ -39,6 +39,7 @@
       ]
     ))
     psmisc  # killall/pstree/prtstat/fuser/...
+    colmena  # nixos's remote deployment tool
   ];
 
   programs = {

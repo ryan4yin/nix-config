@@ -148,15 +148,12 @@ Once the virtual machine `aquamarine` is created, we can deploy updates to it wi
 # 1. add the ssh key to ssh-agent
 ssh-add ~/.ssh/ai-idols
 
-# 2. deploy the configuration to the remote host, using the ssh key we added in step 1
-#    and the username defaults to `$USER`, it's `ryan` in my case.
-nixos-rebuild --flake .#aquamarine --target-host aquamarine --build-host aquamarine switch --use-remote-sudo --verbose
-
-# or we can replace the command above with the following command, which is defined in Makefile
-make aqua
+# 2. deploy the configuration to all the remote host with tag `@dist-build`
+# using the ssh key we added in step 1
+colmena apply --on '@dist-build' --show-trace
 ```
 
-The commands above will build & deploy the configuration to `aquamarine`, the build process will be executed on `aquamarine` too, and the `--use-remote-sudo` option indicates that we will use `sudo` on the remote host.
+If you're not familiar with remote deployment, please read this tutorial first: [Remote Deployment - NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment)
 
 ## References
 
