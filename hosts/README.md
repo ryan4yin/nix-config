@@ -30,8 +30,12 @@ My All RISCV64 hosts.
 
 ## References
 
+[Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko):
+
 ![](/_img/idols-famaily.webp)
 ![](/_img/idols-ai.webp)
 
-- [Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko) for more information.
-- [The Rolling Girls【ローリング☆ガールズ】 - Wikipedia](https://en.wikipedia.org/wiki/The_Rolling_Girls)
+[The Rolling Girls【ローリング☆ガールズ】 - Wikipedia](https://en.wikipedia.org/wiki/The_Rolling_Girls):
+
+![](/_img/rolling.webp)
+
