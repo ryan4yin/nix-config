@@ -22,10 +22,16 @@ When building some packages for riscv64 or aarch64, I often have no cache availa
 
 ![](/_img/nix-distributed-building-log.webp)
 
+## rolling girls
+
+My All RISCV64 hosts.
+
+![](/_img/nixos-riscv-cluster.webp)
+
 ## References
 
 ![](/_img/idols-famaily.webp)
 ![](/_img/idols-ai.webp)
 
-See [Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko) for more information.
-
+- [Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko) for more information.
+- [The Rolling Girls【ローリング☆ガールズ】 - Wikipedia](https://en.wikipedia.org/wiki/The_Rolling_Girls)
