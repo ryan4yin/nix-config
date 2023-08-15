@@ -20,6 +20,7 @@
     nix-darwin,
     home-manager,
     nixos-generators,
+    nixos-licheepi4a,
     ...
   }: let
     username = "ryan";
@@ -28,6 +29,7 @@
 
     x64_system = "x86_64-linux";
     x64_darwin = "x86_64-darwin";
+    riscv64_system = "riscv64-linux";
     allSystems = [x64_system x64_darwin];
 
     nixosSystem = import ./lib/nixosSystem.nix;
@@ -77,6 +79,24 @@
     };
     idol_kana_tags = ["dist-build"];
 
+    # 森友 望未, Moritomo Nozomi
+    rolling_nozomi_modules = {
+      nixos-modules = [
+        ./hosts/rolling_girls/nozomi
+      ];
+      # home-module = import ./home/linux/server-riscv64.nix;
+    };
+    rolling_nozomi_tags = ["riscv"];
+
+    # 小坂 結季奈, Kosaka Yukina
+    rolling_yukina_modules = {
+      nixos-modules = [
+        ./hosts/rolling_girls/yukina
+      ];
+      # home-module = import ./home/linux/server-riscv64.nix;
+    };
+    rolling_yukina_tags = ["riscv"];
+
     x64_specialArgs =
       {
         inherit username userfullname useremail;
@@ -110,20 +130,47 @@
 
     # colmena - remote deployment via SSH
     colmena = let
-      base_args = {
+      x64_base_args = {
         inherit home-manager;
         nixpkgs = nixpkgs;  # or nixpkgs-unstable
         specialArgs = x64_specialArgs;
+      };
+
+      # using the same nixpkgs as nixos-licheepi4a to utilize the cross-compilation cache.
+      lpi4a_pkgs = import nixos-licheepi4a.inputs.nixpkgs { system = x64_system; };
+      lpi4a_specialArgs = {
+        inherit username userfullname useremail;
+        pkgsKernel = nixos-licheepi4a.packages.${x64_system}.pkgsKernelCross;
+      } // inputs;
+      lpi4a_base_args = {
+        inherit home-manager;
+        nixpkgs = nixos-licheepi4a.inputs.nixpkgs;  # or nixpkgs-unstable
+        specialArgs = lpi4a_specialArgs;
+        targetUser = "root";
       };
     in {
       meta = {
         nixpkgs = import nixpkgs { system = x64_system; };
         specialArgs = x64_specialArgs;
+
+        nodeSpecialArgs = {
+          nozomi = lpi4a_specialArgs;
+          # yukina = lpi4a_specialArgs;
+        };
+        nodeNixpkgs = {
+          nozomi = lpi4a_pkgs;
+          # yukina = lpi4a_pkgs;
+        };
       };
 
-      aquamarine = colemnaSystem (idol_aquamarine_modules // base_args // { host_tags = idol_aquamarine_tags; });
-      ruby = colemnaSystem (idol_ruby_modules // base_args // { host_tags = idol_ruby_tags; });
-      kana = colemnaSystem (idol_kana_modules // base_args // { host_tags = idol_kana_tags; });
+      # proxmox virtual machines(x86_64)
+      aquamarine = colemnaSystem (idol_aquamarine_modules // x64_base_args // { host_tags = idol_aquamarine_tags; });
+      ruby = colemnaSystem (idol_ruby_modules // x64_base_args // { host_tags = idol_ruby_tags; });
+      kana = colemnaSystem (idol_kana_modules // x64_base_args // { host_tags = idol_kana_tags; });
+
+      # riscv64 SBCs
+      nozomi = colemnaSystem (rolling_nozomi_modules // lpi4a_base_args // { host_tags = rolling_nozomi_tags; });
+      # yukina = colemnaSystem (rolling_yukina_modules // lpi4a_base_args // { host_tags = rolling_yukina_tags; });
     };
 
     # take system images for idols
@@ -252,6 +299,8 @@
       url = "github:ryan4yin/wallpapers";
       flake = false;
     };
+
+    nixos-licheepi4a.url = "github:ryan4yin/nixos-licheepi4a";
 
     # color scheme - catppuccin
     catppuccin-btop = {

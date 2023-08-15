@@ -68,7 +68,10 @@ add-idols-ssh-key:
 	ssh-add ~/.ssh/ai-idols
 
 idols: add-idols-ssh-key
-	colmena apply --on '@dist-build' --show-trace
+	colmena apply --on '@dist-build'
+
+idols-debug: add-idols-ssh-key
+	colmena apply --on '@dist-build' --verbose --show-trace
 
 # only used once to setup the virtual machines
 idols-image:
@@ -81,6 +84,12 @@ idols-image:
 
 	nom build .#kana
 	scp result root@um560:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
+
+roll: add-idols-ssh-key
+	colmena apply --on '@riscv' 
+
+roll-debug: add-idols-ssh-key
+	colmena apply --on '@dist-build' --verbose --show-trace
 
 
 ############################################################################

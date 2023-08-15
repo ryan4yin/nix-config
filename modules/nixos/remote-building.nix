@@ -73,6 +73,7 @@
   # define the host alias for remote builders
   # this config will be written to /etc/ssh/ssh_config
   programs.ssh.extraConfig = ''
+    # idols
     Host ai
       HostName 192.168.5.100
       Port 22
@@ -87,6 +88,19 @@
 
     Host kana
       HostName 192.168.5.103
+      Port 22
+
+    # rolling girls
+    Host nozomi
+      HostName 192.168.5.104
+      Port 22
+
+    Host yukina
+      HostName 192.168.5.105
+      Port 22
+
+    Host chiaya
+      HostName 192.168.5.106
       Port 22
   '';
 
