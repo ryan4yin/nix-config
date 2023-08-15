@@ -37,5 +37,5 @@ My All RISCV64 hosts.
 
 [The Rolling Girls【ローリング☆ガールズ】 - Wikipedia](https://en.wikipedia.org/wiki/The_Rolling_Girls):
 
-![](/_img/rolling.webp)
+![](/_img/rolling_girls.webp)
 
