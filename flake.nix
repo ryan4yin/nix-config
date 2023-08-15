@@ -59,7 +59,7 @@
       ];
       home-module = import ./home/linux/server.nix;
     };
-    idol_aquamarine_tags = ["dist-build"];
+    idol_aquamarine_tags = ["dist-build" "aqua"];
 
     # 星野 瑠美衣, Hoshino Rubii
     idol_ruby_modules = {
@@ -68,7 +68,7 @@
       ];
       home-module = import ./home/linux/server.nix;
     };
-    idol_ruby_tags = ["dist-build"];
+    idol_ruby_tags = ["dist-build" "ruby"];
 
     # 有馬 かな, Arima Kana
     idol_kana_modules = {
@@ -77,7 +77,7 @@
       ];
       home-module = import ./home/linux/server.nix;
     };
-    idol_kana_tags = ["dist-build"];
+    idol_kana_tags = ["dist-build" "kana"];
 
     # 森友 望未, Moritomo Nozomi
     rolling_nozomi_modules = {
@@ -86,7 +86,7 @@
       ];
       # home-module = import ./home/linux/server-riscv64.nix;
     };
-    rolling_nozomi_tags = ["riscv"];
+    rolling_nozomi_tags = ["riscv" "nozomi"];
 
     # 小坂 結季奈, Kosaka Yukina
     rolling_yukina_modules = {
@@ -95,7 +95,7 @@
       ];
       # home-module = import ./home/linux/server-riscv64.nix;
     };
-    rolling_yukina_tags = ["riscv"];
+    rolling_yukina_tags = ["riscv" "yukina"];
 
     x64_specialArgs =
       {
@@ -155,11 +155,11 @@
 
         nodeSpecialArgs = {
           nozomi = lpi4a_specialArgs;
-          # yukina = lpi4a_specialArgs;
+          yukina = lpi4a_specialArgs;
         };
         nodeNixpkgs = {
           nozomi = lpi4a_pkgs;
-          # yukina = lpi4a_pkgs;
+          yukina = lpi4a_pkgs;
         };
       };
 
@@ -170,7 +170,7 @@
 
       # riscv64 SBCs
       nozomi = colemnaSystem (rolling_nozomi_modules // lpi4a_base_args // { host_tags = rolling_nozomi_tags; });
-      # yukina = colemnaSystem (rolling_yukina_modules // lpi4a_base_args // { host_tags = rolling_yukina_tags; });
+      yukina = colemnaSystem (rolling_yukina_modules // lpi4a_base_args // { host_tags = rolling_yukina_tags; });
     };
 
     # take system images for idols

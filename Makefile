@@ -70,6 +70,15 @@ add-idols-ssh-key:
 idols: add-idols-ssh-key
 	colmena apply --on '@dist-build'
 
+aqua:
+	colmena apply --on '@aqua'
+
+ruby:
+	colmena apply --on '@ruby'
+
+kana:
+	colmena apply --on '@kana'
+
 idols-debug: add-idols-ssh-key
 	colmena apply --on '@dist-build' --verbose --show-trace
 
@@ -91,6 +100,11 @@ roll: add-idols-ssh-key
 roll-debug: add-idols-ssh-key
 	colmena apply --on '@dist-build' --verbose --show-trace
 
+nozomi:
+	colmena apply --on '@nozomi'
+
+yukina:
+	colmena apply --on '@yukina'
 
 ############################################################################
 #
