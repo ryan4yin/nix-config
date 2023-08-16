@@ -121,7 +121,7 @@ Then, create `./secrets/default.nix` with the following content:
   ];
 
   age.secrets."xxx" = {
-    # wether secrets are symlinked to age.secrets.<name>.path
+    # whether secrets are symlinked to age.secrets.<name>.path
     symlink = true;
     # target path for decrypted file
     path = "/etc/xxx/";
