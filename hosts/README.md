@@ -43,3 +43,6 @@ My All RISCV64 hosts.
 ![](/_img/rolling_girls.webp)
 
 [List of Twelve Kingdoms characters](https://en.wikipedia.org/wiki/List_of_Twelve_Kingdoms_characters)
+
+![](/_img/12kingdoms-1.webp)
+![](/_img/12kingdoms-Youko-Rakushun.webp)
