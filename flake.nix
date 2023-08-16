@@ -21,6 +21,7 @@
     home-manager,
     nixos-generators,
     nixos-licheepi4a,
+    nixos-rk3588,
     ...
   }: let
     username = "ryan";
@@ -30,7 +31,8 @@
     x64_system = "x86_64-linux";
     x64_darwin = "x86_64-darwin";
     riscv64_system = "riscv64-linux";
-    allSystems = [x64_system x64_darwin];
+    aarch64_system = "aarch64-linux";
+    allSystems = [x64_system x64_darwin riscv64_system aarch64_system];
 
     nixosSystem = import ./lib/nixosSystem.nix;
     macosSystem = import ./lib/macosSystem.nix;
@@ -97,6 +99,15 @@
     };
     rolling_yukina_tags = ["riscv" "yukina"];
 
+    # 大木 鈴, Ōki Suzu
+    _12kingdoms_suzu_modules = {
+      nixos-modules = [
+        ./hosts/12kingdoms/suzu
+      ];
+      # home-module = import ./home/linux/server.nix;
+    };
+    _12kingdoms_suzu_tags = ["aarch" "suzu"];
+
     x64_specialArgs =
       {
         inherit username userfullname useremail;
@@ -112,7 +123,7 @@
     nixosConfigurations = let
       base_args = {
         inherit home-manager nixos-generators;
-        nixpkgs = nixpkgs;  # or nixpkgs-unstable
+        nixpkgs = nixpkgs; # or nixpkgs-unstable
         system = x64_system;
         specialArgs = x64_specialArgs;
       };
@@ -130,47 +141,76 @@
 
     # colmena - remote deployment via SSH
     colmena = let
+      # x86_64 related
       x64_base_args = {
         inherit home-manager;
-        nixpkgs = nixpkgs;  # or nixpkgs-unstable
+        nixpkgs = nixpkgs; # or nixpkgs-unstable
         specialArgs = x64_specialArgs;
       };
 
+      # riscv64 related
       # using the same nixpkgs as nixos-licheepi4a to utilize the cross-compilation cache.
-      lpi4a_pkgs = import nixos-licheepi4a.inputs.nixpkgs { system = x64_system; };
-      lpi4a_specialArgs = {
-        inherit username userfullname useremail;
-        pkgsKernel = nixos-licheepi4a.packages.${x64_system}.pkgsKernelCross;
-      } // inputs;
+      lpi4a_pkgs = import nixos-licheepi4a.inputs.nixpkgs {system = x64_system;};
+      lpi4a_specialArgs =
+        {
+          inherit username userfullname useremail;
+          pkgsKernel = nixos-licheepi4a.packages.${x64_system}.pkgsKernelCross;
+        }
+        // inputs;
       lpi4a_base_args = {
         inherit home-manager;
-        nixpkgs = nixos-licheepi4a.inputs.nixpkgs;  # or nixpkgs-unstable
+        nixpkgs = nixos-licheepi4a.inputs.nixpkgs; # or nixpkgs-unstable
         specialArgs = lpi4a_specialArgs;
+        targetUser = "root";
+      };
+
+      # aarch64 related
+      # using the same nixpkgs as nixos-rk3588 to utilize the cross-compilation cache.
+      rk3588_pkgs = import nixos-rk3588.inputs.nixpkgs {system = x64_system;};
+      rk3588_specialArgs =
+        {
+          inherit username userfullname useremail;
+        }
+        // nixos-rk3588.inputs;
+      rk3588_base_args = {
+        inherit home-manager;
+        nixpkgs = nixos-rk3588.inputs.nixpkgs; # or nixpkgs-unstable
+        specialArgs = rk3588_specialArgs;
         targetUser = "root";
       };
     in {
       meta = {
-        nixpkgs = import nixpkgs { system = x64_system; };
+        nixpkgs = import nixpkgs {system = x64_system;};
         specialArgs = x64_specialArgs;
 
         nodeSpecialArgs = {
+          # riscv64 SBCs
           nozomi = lpi4a_specialArgs;
           yukina = lpi4a_specialArgs;
+
+          # aarch64 SBCs
+          suzu = rk3588_specialArgs;
         };
         nodeNixpkgs = {
           nozomi = lpi4a_pkgs;
           yukina = lpi4a_pkgs;
+
+          # aarch64 SBCs
+          suzu = rk3588_pkgs;
         };
       };
 
       # proxmox virtual machines(x86_64)
-      aquamarine = colemnaSystem (idol_aquamarine_modules // x64_base_args // { host_tags = idol_aquamarine_tags; });
-      ruby = colemnaSystem (idol_ruby_modules // x64_base_args // { host_tags = idol_ruby_tags; });
-      kana = colemnaSystem (idol_kana_modules // x64_base_args // { host_tags = idol_kana_tags; });
+      aquamarine = colemnaSystem (idol_aquamarine_modules // x64_base_args // {host_tags = idol_aquamarine_tags;});
+      ruby = colemnaSystem (idol_ruby_modules // x64_base_args // {host_tags = idol_ruby_tags;});
+      kana = colemnaSystem (idol_kana_modules // x64_base_args // {host_tags = idol_kana_tags;});
 
       # riscv64 SBCs
-      nozomi = colemnaSystem (rolling_nozomi_modules // lpi4a_base_args // { host_tags = rolling_nozomi_tags; });
-      yukina = colemnaSystem (rolling_yukina_modules // lpi4a_base_args // { host_tags = rolling_yukina_tags; });
+      nozomi = colemnaSystem (rolling_nozomi_modules // lpi4a_base_args // {host_tags = rolling_nozomi_tags;});
+      yukina = colemnaSystem (rolling_yukina_modules // lpi4a_base_args // {host_tags = rolling_yukina_tags;});
+
+      # aarch64 SBCs
+      suzu = colemnaSystem (_12kingdoms_suzu_modules // rk3588_base_args // {host_tags = _12kingdoms_suzu_tags;});
     };
 
     # take system images for idols
@@ -213,12 +253,13 @@
         inherit nix-darwin home-manager system specialArgs nixpkgs;
       };
     in {
-      harmonica = macosSystem (base_args // {
-        darwin-modules = [
-          ./hosts/harmonica
-        ];
-        home-module = import ./home/darwin;
-      });
+      harmonica = macosSystem (base_args
+        // {
+          darwin-modules = [
+            ./hosts/harmonica
+          ];
+          home-module = import ./home/darwin;
+        });
     };
 
     # format the nix code in this flake
@@ -228,7 +269,6 @@
         nixpkgs.legacyPackages.${system}.alejandra
     );
   };
-
 
   # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
   # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
@@ -261,7 +301,7 @@
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     # anyrun - a wayland launcher
-    anyrun ={
+    anyrun = {
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -300,7 +340,12 @@
       flake = false;
     };
 
+    # riscv64 SBCs
     nixos-licheepi4a.url = "github:ryan4yin/nixos-licheepi4a";
+    # nixos-jh7110.url = "github:ryan4yin/nixos-jh7110";
+
+    # aarch64 SBCs
+    nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
 
     # color scheme - catppuccin
     catppuccin-btop = {
@@ -344,7 +389,6 @@
       flake = false;
     };
   };
-
 
   # the nixConfig here only affects the flake itself, not the system configuration!
   nixConfig = {

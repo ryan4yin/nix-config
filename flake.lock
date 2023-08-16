@@ -421,6 +421,23 @@
         "type": "github"
       }
     },
+    "mesa-panfork": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1670633863,
+        "narHash": "sha256-4eZHMiYS+sRDHNBtLZTA8ELZnLns7yT3USU5YQswxQ0=",
+        "owner": "panfork",
+        "repo": "mesa",
+        "rev": "120202c675749c5ef81ae4c8cdc30019b4de08f4",
+        "type": "gitlab"
+      },
+      "original": {
+        "owner": "panfork",
+        "ref": "csf",
+        "repo": "mesa",
+        "type": "gitlab"
+      }
+    },
     "mysecrets": {
       "flake": false,
       "locked": {
@@ -461,7 +478,7 @@
     "nix-eval-jobs": {
       "inputs": {
         "flake-parts": "flake-parts_2",
-        "nixpkgs": "nixpkgs_5",
+        "nixpkgs": "nixpkgs_6",
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
@@ -533,6 +550,25 @@
         "type": "github"
       }
     },
+    "nixos-rk3588": {
+      "inputs": {
+        "mesa-panfork": "mesa-panfork",
+        "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1692208784,
+        "narHash": "sha256-3AetKtb1oz1vJ7ZTy78v642Bwz/NxPahNCVN9eqO8rU=",
+        "owner": "ryan4yin",
+        "repo": "nixos-rk3588",
+        "rev": "db96e4436b369a3b7e52e285347bed2bec6337b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "nixos-rk3588",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1677676435,
@@ -601,7 +637,7 @@
         "flake-compat": "flake-compat",
         "lib-aggregate": "lib-aggregate",
         "nix-eval-jobs": "nix-eval-jobs",
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_7",
         "nixpkgs_sirula": "nixpkgs_sirula"
       },
       "locked": {
@@ -652,6 +688,22 @@
     },
     "nixpkgs_4": {
       "locked": {
+        "lastModified": 1691486536,
+        "narHash": "sha256-W2jYTn6rNiJEpjXkOiZxNltgxxwgeZE5cQ967NgsrHU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "8fa39adf946a4470610b38fd7aff0a73ad4356c3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-23.05-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
         "lastModified": 1691693223,
         "narHash": "sha256-9t8ZY1XNAsWqxAJmXgg+GXqF5chORMVnBT6PSHaRV3I=",
         "owner": "nixos",
@@ -666,7 +718,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_6": {
       "locked": {
         "lastModified": 1691629382,
         "narHash": "sha256-6bil2OX12qy2CD6dLDxSTKRu6aUKRZfT/Qw3pg1050Q=",
@@ -682,7 +734,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_6": {
+    "nixpkgs_7": {
       "locked": {
         "lastModified": 1691654369,
         "narHash": "sha256-gSILTEx1jRaJjwZxRlnu3ZwMn1FVNk80qlwiCX8kmpo=",
@@ -751,7 +803,8 @@
         "nix-darwin": "nix-darwin",
         "nixos-generators": "nixos-generators",
         "nixos-licheepi4a": "nixos-licheepi4a",
-        "nixpkgs": "nixpkgs_4",
+        "nixos-rk3588": "nixos-rk3588",
+        "nixpkgs": "nixpkgs_5",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixpkgs-wayland": "nixpkgs-wayland",

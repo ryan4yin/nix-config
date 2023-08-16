@@ -102,6 +102,10 @@
     Host chiaya
       HostName 192.168.5.106
       Port 22
+
+    Host suzu
+      HostName 192.168.5.107
+      Port 22
   '';
 
   # define the host key for remote builders so that nix can verify all the remote builders
