@@ -94,6 +94,13 @@ idols-image:
 	nom build .#kana
 	scp result root@um560:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
 
+
+############################################################################
+#
+#	RISC-V related commands
+#		
+############################################################################
+
 roll: add-idols-ssh-key
 	colmena apply --on '@riscv' 
 
@@ -105,6 +112,21 @@ nozomi:
 
 yukina:
 	colmena apply --on '@yukina'
+
+############################################################################
+#
+# Aarch64 related commands
+#
+############################################################################
+
+aarch:
+	colmena apply --on '@aarch'
+
+suzu:
+	colmena apply --on '@suzu'
+
+suzu-debug:
+	colmena apply --on '@suzu' --verbose --show-trace
 
 ############################################################################
 #
