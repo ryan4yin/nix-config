@@ -30,14 +30,4 @@
       fcitx5-gtk # gtk im module
     ];
   };
-
-  systemd.user.sessionVariables = {
-    # copy from  https://github.com/nix-community/home-manager/blob/master/modules/i18n/input-method/fcitx5.nix
-    GLFW_IM_MODULE = "fcitx";
-    GTK_IM_MODULE = "fcitx";
-    QT_IM_MODULE = "fcitx";
-    XMODIFIERS = "@im=fcitx";
-    INPUT_METHOD = "fcitx";
-    IMSETTINGS_MODULE = "fcitx";
-  };
 }
