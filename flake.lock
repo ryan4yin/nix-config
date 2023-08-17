@@ -750,6 +750,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_8": {
+      "locked": {
+        "lastModified": 1692221125,
+        "narHash": "sha256-nKUDlbLL8/WW3Fpx9Y0sY+LliTqU3/GexvHU9BdA8Qk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "214c9de8159b25f3cdc8374a80794d4d5787b4cf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_sirula": {
       "locked": {
         "lastModified": 1682879489,
@@ -763,6 +779,24 @@
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "da45bf6ec7bbcc5d1e14d3795c025199f28e0de0",
+        "type": "github"
+      }
+    },
+    "nur-ryan4yin": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_8"
+      },
+      "locked": {
+        "lastModified": 1692278646,
+        "narHash": "sha256-NkCUUzBiTVYP49KEa6IhYGcamaLSYlcSBTNJbNznJCM=",
+        "owner": "ryan4yin",
+        "repo": "nur-packages",
+        "rev": "1f16929bbe8545242be36d79f6bd5628e50569ea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "nur-packages",
         "type": "github"
       }
     },
@@ -808,6 +842,7 @@
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixpkgs-wayland": "nixpkgs-wayland",
+        "nur-ryan4yin": "nur-ryan4yin",
         "nushell-scripts": "nushell-scripts",
         "wallpapers": "wallpapers"
       }

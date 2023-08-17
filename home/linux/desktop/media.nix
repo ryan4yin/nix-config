@@ -1,6 +1,7 @@
 {
   pkgs,
   catppuccin-cava,
+  nur-ryan4yin,
   ...
 }:
 # media - control and enjoy audio/video
@@ -20,6 +21,8 @@
     vdpauinfo
     vulkan-tools
     glxinfo
+
+    nur-ryan4yin.packages.${pkgs.system}.yazi  # terminal file manager
   ];
 
   # https://github.com/catppuccin/cava

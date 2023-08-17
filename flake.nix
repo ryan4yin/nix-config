@@ -315,6 +315,8 @@
     # secrets management, lock with git commit at 2023/7/15
     agenix.url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
 
+    ########################  Some non-flake repositories  #########################################
+
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = {
       url = "github:AstroNvim/AstroNvim/v3.36.0";
@@ -326,6 +328,8 @@
       url = "github:nushell/nu_scripts";
       flake = false;
     };
+
+    ########################  My own repositories  #########################################
 
     # my private secrets, it's a private repository, you need to replace it with your own.
     # use ssh protocol to authenticate via ssh-agent/ssh-key, and shallow clone to save time
@@ -340,12 +344,19 @@
       flake = false;
     };
 
+    nur-ryan4yin = {
+      url = "github:ryan4yin/nur-packages";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # riscv64 SBCs
     nixos-licheepi4a.url = "github:ryan4yin/nixos-licheepi4a";
     # nixos-jh7110.url = "github:ryan4yin/nixos-jh7110";
 
     # aarch64 SBCs
     nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
+
+    ########################  Color Schemes  #########################################
 
     # color scheme - catppuccin
     catppuccin-btop = {
@@ -395,6 +406,8 @@
     experimental-features = ["nix-command" "flakes"];
 
     substituters = [
+      # my own cache server
+      "https://ryan4yin.cachix.org"
       # replace official cache with a mirror located in China
       "https://mirrors.ustc.edu.cn/nix-channels/store"
       "https://cache.nixos.org"
@@ -408,6 +421,7 @@
       "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
+      "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
