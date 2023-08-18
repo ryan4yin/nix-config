@@ -32,7 +32,19 @@
   # Set static IP address / gateway / DNS servers.
   networking = {
     hostName = "yukina"; # Define your hostname.
-    wireless.enable = false;
+    wireless = {
+      # https://wiki.archlinux.org/title/wpa_supplicant
+      enable = true;
+      # The path to the file containing the WPA passphrase.
+      # secrets are not supported well on riscv64, I nned to create this file manually.
+      # Format: "PSK_WEMEET_PRIVATE_WIFI=your_password"
+      environmentFile = "/etc/wpa_supplicant.env";
+      # The network definitions to automatically connect to when wpa_supplicant is running. 
+      networks = {
+        # read WPAPSK from environmentFile
+        "shadow_light_ryan".psk = "@PSK_WEMEET_PRIVATE_WIFI@";
+      };
+    };
 
     # Failed to enable firewall due to the following error:
     #   firewall-start[2300]: iptables: Failed to initialize nft: Protocol not supported
@@ -48,8 +60,8 @@
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-    # LPI4A's first ethernet interface
-    interfaces.end0 = {
+    # LPI4A's wireless interface
+    interfaces.wlan0 = {
       useDHCP = false;
       ipv4.addresses = [
         {
@@ -58,6 +70,16 @@
         }
       ];
     };
+    # LPI4A's first ethernet interface
+    # interfaces.end0 = {
+    #   useDHCP = false;
+    #   ipv4.addresses = [
+    #     {
+    #       address = "192.168.5.105";
+    #       prefixLength = 24;
+    #     }
+    #   ];
+    # };
     # LPI4A's second ethernet interface
     # interfaces.end1 = {
     #   useDHCP = false;
