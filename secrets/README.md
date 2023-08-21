@@ -101,7 +101,6 @@ First, add your own private `nix-secrets` repository and `agenix` as a flake inp
     };
   };
 }
-}
 ```
 
 Then, create `./secrets/default.nix` with the following content:
