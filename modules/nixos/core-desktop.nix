@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgs-unstable,
   ...
 }: {
   ###################################################################################
@@ -40,6 +41,7 @@
     ))
     psmisc  # killall/pstree/prtstat/fuser/...
     colmena  # nixos's remote deployment tool
+    pulseaudio  # provides `pactl`, which is required by some apps(e.g. sonic-pi)
   ];
 
   programs = {
@@ -73,15 +75,13 @@
   #     https://nixos.wiki/wiki/PipeWire
   services.pipewire = {
     enable = true;
+    package = pkgs-unstable.pipewire;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    # jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
   };
   # rtkit is optional but recommended
   security.rtkit.enable = true;
