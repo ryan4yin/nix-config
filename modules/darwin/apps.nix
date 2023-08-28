@@ -123,6 +123,7 @@
       "iglance" # beautiful system monitor
       "eudic" # 欧路词典
       # "reaper"  # audio editor
+      "sonic-pi" # music programming
 
       # Development
       "insomnia" # REST client
