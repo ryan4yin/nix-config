@@ -11,6 +11,12 @@
 
     # this app consumes a lot of storage, so do not install it currently
     # kicad     # 3d printing, eletrical engineering
+
+    # fpga
+    pkgs-unstable.python311Packages.apycula  # gowin fpga
+    pkgs-unstable.yosys   # fpga synthesis
+    pkgs-unstable.nextpnr  # fpga place and route
+    pkgs-unstable.openfpgaloader  # fpga programming
   ];
 
   programs = {

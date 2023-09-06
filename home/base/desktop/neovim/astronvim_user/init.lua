@@ -264,9 +264,6 @@ return {
             code_actions.proselint,   -- English prose linter
             code_actions.statix,      -- Lints and suggestions for Nix.
 
-            -- Completion
-            completion.luasnip,
-
             -- Diagnostic
             diagnostics.actionlint,  -- GitHub Actions workflow syntax checking
             diagnostics.buf,         -- check text in current buffer
@@ -289,6 +286,7 @@ return {
               extra_args = { "--dialect", "postgres" }, -- change to your dialect
             }),
             formatting.nginx_beautifier,  -- Nginx formatter
+            null_ls.builtins.formatting.verible_verilog_format, -- Verilog formatter
           })
         end
       end,
@@ -361,6 +359,7 @@ return {
     },
   },
 
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   lsp = {
     config = {
       -- the offset_enconding of clangd will confilicts whit null-ls
@@ -395,6 +394,8 @@ return {
       "nil_ls",         -- nix language server
       "bufls",          -- protocol buffer language server
       "zls",            -- zig language server
+      ---- HDL
+      "verible",      -- verilog language server
       ---- Operation & Cloud Nativautoindente
       "bashls",       -- bash
       "cmake",        -- cmake language server

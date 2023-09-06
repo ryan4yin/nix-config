@@ -37,10 +37,9 @@
       extraPackages = with pkgs; [];
 
       # currently we use lazy.nvim as neovim's package manager, so comment this one.
-      plugins = with pkgs.vimPlugins; [
-        # search all the plugins using https://search.nixos.org/packages
-        luasnip
-      ];
+      # plugins = with pkgs.vimPlugins; [
+      #   # search all the plugins using https://search.nixos.org/packages
+      # ];
     };
   };
   home = {
@@ -100,6 +99,9 @@
       # HTML/CSS/JSON/ESLint language servers extracted from vscode
       nodePackages.vscode-langservers-extracted
       nodePackages."@tailwindcss/language-server"
+
+      #-- verilog / systemverilog
+      verible
 
       #-- CloudNative
       nodePackages.dockerfile-language-server-nodejs
