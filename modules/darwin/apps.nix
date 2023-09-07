@@ -44,7 +44,7 @@
 
   # homebrew need to be installed manually, see https://brew.sh
   homebrew = {
-    enable = true;
+    enable = false;
 
     onActivation = {
       autoUpdate = false;
