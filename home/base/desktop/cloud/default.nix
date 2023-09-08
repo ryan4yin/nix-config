@@ -15,6 +15,9 @@
     awscli2
     aws-iam-authenticator
     eksctl
+
+    # aliyun
+    aliyun-cli
    ];
 
   programs = {
