@@ -1,4 +1,9 @@
-{pkgs, pkgs-unstable,  ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  nur-ryan4yin,
+  ...
+}: {
   home.packages = with pkgs; [
     # creative
     # blender   # 3d modeling
@@ -13,10 +18,11 @@
     # kicad     # 3d printing, eletrical engineering
 
     # fpga
-    pkgs-unstable.python311Packages.apycula  # gowin fpga
-    pkgs-unstable.yosys   # fpga synthesis
-    pkgs-unstable.nextpnr  # fpga place and route
-    pkgs-unstable.openfpgaloader  # fpga programming
+    pkgs-unstable.python311Packages.apycula # gowin fpga
+    pkgs-unstable.yosys # fpga synthesis
+    pkgs-unstable.nextpnr # fpga place and route
+    pkgs-unstable.openfpgaloader # fpga programming
+    nur-ryan4yin.packages.${pkgs.system}.gowin-eda-edu-ide  # app: `gowin-env` => `gw_ide` / `gw_pack` / ...
   ];
 
   programs = {

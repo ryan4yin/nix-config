@@ -787,11 +787,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1692285327,
-        "narHash": "sha256-aiOlR0LvP8ddfHhynh+exbL1mXZZW+sIWIZ2c8kKjro=",
+        "lastModified": 1694182944,
+        "narHash": "sha256-UQTvzzrRO8XJk7HjWJK/fSXgHB+tSXjgFIrtK58vOy8=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "d76db9b8cf483b8920045a91f4b5bf7f6a3186e0",
+        "rev": "1edb32575636d19483442ec18b342ea515575f0e",
         "type": "github"
       },
       "original": {
