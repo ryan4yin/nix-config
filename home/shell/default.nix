@@ -16,7 +16,6 @@ in {
     LESSHISTFILE = cache + "/less/history";
     LESSKEY = c + "/less/lesskey";
     WINEPREFIX = d + "/wine";
-    XAUTHORITY = "$XDG_RUNTIME_DIR/Xauthority";
 
     # set default applications
     EDITOR = "vim";
