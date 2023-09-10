@@ -36,7 +36,7 @@
 
     nixosSystem = import ./lib/nixosSystem.nix;
     macosSystem = import ./lib/macosSystem.nix;
-    colemnaSystem = import ./lib/colmenaSystem.nix;
+    colmenaSystem = import ./lib/colmenaSystem.nix;
 
     # 星野 アイ, Hoshino Ai
     idol_ai_modules_i3 = {
@@ -201,16 +201,16 @@
       };
 
       # proxmox virtual machines(x86_64)
-      aquamarine = colemnaSystem (idol_aquamarine_modules // x64_base_args // {host_tags = idol_aquamarine_tags;});
-      ruby = colemnaSystem (idol_ruby_modules // x64_base_args // {host_tags = idol_ruby_tags;});
-      kana = colemnaSystem (idol_kana_modules // x64_base_args // {host_tags = idol_kana_tags;});
+      aquamarine = colmenaSystem (idol_aquamarine_modules // x64_base_args // {host_tags = idol_aquamarine_tags;});
+      ruby = colmenaSystem (idol_ruby_modules // x64_base_args // {host_tags = idol_ruby_tags;});
+      kana = colmenaSystem (idol_kana_modules // x64_base_args // {host_tags = idol_kana_tags;});
 
       # riscv64 SBCs
-      nozomi = colemnaSystem (rolling_nozomi_modules // lpi4a_base_args // {host_tags = rolling_nozomi_tags;});
-      yukina = colemnaSystem (rolling_yukina_modules // lpi4a_base_args // {host_tags = rolling_yukina_tags;});
+      nozomi = colmenaSystem (rolling_nozomi_modules // lpi4a_base_args // {host_tags = rolling_nozomi_tags;});
+      yukina = colmenaSystem (rolling_yukina_modules // lpi4a_base_args // {host_tags = rolling_yukina_tags;});
 
       # aarch64 SBCs
-      suzu = colemnaSystem (_12kingdoms_suzu_modules // rk3588_base_args // {host_tags = _12kingdoms_suzu_tags;});
+      suzu = colmenaSystem (_12kingdoms_suzu_modules // rk3588_base_args // {host_tags = _12kingdoms_suzu_tags;});
     };
 
     # take system images for idols

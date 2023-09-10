@@ -1,4 +1,4 @@
-# colemena - Remote Deployment via SSH
+# colmena - Remote Deployment via SSH
 {
   nixpkgs,
   home-manager,
