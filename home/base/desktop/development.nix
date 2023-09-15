@@ -20,6 +20,9 @@
     gnumake # used by this repo, to simplify the deployment
     jdk17   # used to run some java based tools(.jar)
 
+    # scheme related
+    guile
+
     # python
     (python311.withPackages (ps:
       with ps; [
