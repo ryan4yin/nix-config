@@ -140,3 +140,8 @@ NOTE: By default, `age.identityPaths` is set to `~/.ssh/id_ed25519` and `~/.ssh/
 so make sure to place your decryption keys there.
 If you're deploying to the same machine from which you encrypted the secrets, it should work out of the box.
 
+## Other Replacements
+
+- [ragenix](https://github.com/yaxitech/ragenix): A Rust reimplementation of agenix.
+
+
