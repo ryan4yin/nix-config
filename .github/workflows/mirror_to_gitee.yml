@@ -15,7 +15,7 @@ jobs:
         shell: bash
         env:
           INPUT_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_GITEE_MIRROR }}
-          INPUT_TARGET_REPO_URL: git@gitee.com:ryan_yin/knowledge.git
+          INPUT_TARGET_REPO_URL: git@gitee.com:ryan_yin/nix-config.git
         run: |
           set -eu
 
