@@ -1,0 +1,29 @@
+name: Mirror this repo to Gitee
+on:
+  workflow_dispatch: {}
+  push: {}
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Mirror repo to Gitee
+        id: mirror-to-gitee
+        shell: bash
+        env:
+          INPUT_SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_GITEE_MIRROR }}
+          INPUT_TARGET_REPO_URL: git@gitee.com:ryan_yin/knowledge.git
+        run: |
+          set -eu
+
+          mkdir -p ~/.ssh
+          echo "$INPUT_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          export GIT_SSH_COMMAND="ssh -v -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+          git remote add mirror "$INPUT_TARGET_REPO_URL"
+          git push --tags --force --prune mirror "refs/remotes/origin/*:refs/heads/*"
+
