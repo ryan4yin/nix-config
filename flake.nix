@@ -325,7 +325,7 @@
 
     # useful nushell scripts, such as auto_completion
     nushell-scripts = {
-      url = "github:nushell/nu_scripts";
+      url = "github:nushell/nu_scripts/459b8c9d4fcb6b6200165593707e454411c23750";
       flake = false;
     };
 
