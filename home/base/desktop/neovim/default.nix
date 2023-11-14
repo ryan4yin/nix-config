@@ -53,7 +53,7 @@
         gcc # c/c++ compiler, required by nvim-treesitter!
         llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
         gdb
-        lldb
+        # lldb  # TODO - fix python3.11's package conflict - six.py
 
         #-- python
         nodePackages.pyright # python language server

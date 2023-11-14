@@ -36,6 +36,7 @@
     "cifs" # mount windows share
   ];
 
+  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
   # Bootloader.
   boot.loader = {
     efi = {
@@ -43,6 +44,7 @@
       efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
     };
     systemd-boot.enable = true;
+
   };
 
   networking = {
@@ -78,7 +80,7 @@
   services.xserver.videoDrivers = ["nvidia"]; # will install nvidia-vaapi-driver by default
   hardware.nvidia = {
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     # Modesetting is needed for most Wayland compositors
     modesetting.enable = true;
