@@ -29,16 +29,12 @@
   boot.extraModulePackages = [ ];
 
   boot.initrd = {
-    # encrypted-nixos is the root filesystem of nixos
-    # it's unlocked by a keyfile or passphrase.
-    # the root filesystem's unlock method is implemented in initrd(initramfs)
-    # since /boot is another separat partition, we can use LUKS2 + argon2 for best security,
-    # and do not need to take care of grub2's compatibility with luks.
+    # unlocked luks devices via a keyfile or prompt a passphrase.
     luks.devices."crypted-nixos" = {
-      device = "/dev/disk/by-uuid/a31454b6-e2ad-4175-8013-70cfdcbfeaac";
+      device = "/dev/nvme0n1p2";
       # the keyfile(or device partition) that should be used as the decryption key for the encrypted device.
       # if not specified, you will be prompted for a passphrase instead.
-      #keyFile = "/keyfile.bin";
+      #keyFile = "/root-part.key";
 
       # whether to allow TRIM requests to the underlying device.
       # it's less secure, but faster.
@@ -47,12 +43,8 @@
 
     luks.devices."crypted-boot" = {
       device = "/dev/nvme0n1p3";
-      # the keyfile(or device partition) that should be used as the decryption key for the encrypted device.
-      # if not specified, you will be prompted for a passphrase instead.
-      #keyFile = "/keyfile.bin";
+      #keyFile = "/boot-part.key";
 
-      # whether to allow TRIM requests to the underlying device.
-      # it's less secure, but faster.
       # boot partition do not require fast speed, so we disable it.
       allowDiscards = false;
     };
@@ -62,7 +54,7 @@
     secrets = {
       # Format:
       #   file-path inside initrd  =  the source path it should be copied from.
-      # "/keyfile.bin" = "/etc/secrets/initrd/keyfile.bin";
+      # "/boot-part.key" = "/etc/secrets/initrd/boot-part.key";
     };
   };
 
