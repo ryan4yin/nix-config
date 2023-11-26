@@ -11,7 +11,7 @@
   # Use the EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
   # depending on how you configured your disk mounts, change this to /boot or /boot/efi.
-  boot.loader.efi.efiSysMountPoint = "/boot";
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.grub = {
     enable = true;
     device = "nodev";
@@ -20,19 +20,13 @@
     # if you use an encrypted /boot partition, you should enable this option.
     # grub 2.12-rc1 support only luks1 and luks2+pbkdf2,
     # so the /boot partition can only use those two luks encrypt format.
-    # enableCryptodisk = true;
+    enableCryptodisk = true;
   };
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/836b93a9-324f-45e6-ac1d-964becd7520c";
-      fsType = "btrfs";
-      options = [ "subvol=@root" ];
-    };
 
   boot.initrd = {
     # encrypted-nixos is the root filesystem of nixos
@@ -50,6 +44,19 @@
       # it's less secure, but faster.
       allowDiscards = true;
     };
+
+    luks.devices."crypted-boot" = {
+      device = "/dev/nvme0n1p3";
+      # the keyfile(or device partition) that should be used as the decryption key for the encrypted device.
+      # if not specified, you will be prompted for a passphrase instead.
+      #keyFile = "/keyfile.bin";
+
+      # whether to allow TRIM requests to the underlying device.
+      # it's less secure, but faster.
+      # boot partition do not require fast speed, so we disable it.
+      allowDiscards = false;
+    };
+
     # secrets to append to the initrd.
     # the initrd is located in /boot partition, so only enabled this options when you encryped /boot partition!
     secrets = {
@@ -58,6 +65,13 @@
       # "/keyfile.bin" = "/etc/secrets/initrd/keyfile.bin";
     };
   };
+
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/836b93a9-324f-45e6-ac1d-964becd7520c";
+      fsType = "btrfs";
+      options = [ "subvol=@root" ];
+    };
 
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/836b93a9-324f-45e6-ac1d-964becd7520c";
@@ -78,7 +92,12 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/B63C-4887";
+    { device = "/dev/mapper/crypted-boot";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot/efi" =
+    { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
 
