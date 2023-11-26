@@ -29,7 +29,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    gparted
+    parted
     ventoy
     # python, some times I may need to use python with root permission.
     (python310.withPackages (ps:
