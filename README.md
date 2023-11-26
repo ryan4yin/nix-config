@@ -78,11 +78,19 @@ See [./secrets](./secrets) for details.
 
 > :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine:exclamation: It will not succeed.** this flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols/ai/hardware-configuration.nix), [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols/ai/cifs-mount.nix), [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols/ai/default.nix#L77-L91), etc.) which is not suitable for your hardware, and my private secrets repository [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) that only I have access to. You may use this repo as a reference to build your own configuration.
 
-After installing NixOS with `nix-command` & `flake` enabled, follow the steps below to deploy this flake.
+For MacOS:
 
-For NixOS, use the following commands:
+```bash
+# deploy the darwin configuration(harmonicia)
+make ha
 
-> Need to restart the machine after switching between `wayland` and `xorg`.
+# deploy with details
+make ha-debug
+```
+
+For NixOS:
+
+> Need to restart the machine when switching between `wayland` and `xorg`.
 
 ```bash
 # deploy one of the configuration based on the hostname
@@ -98,15 +106,7 @@ make i3-debug
 # make hypr-debug
 ```
 
-For MacOS, use the following commands:
-
-```bash
-# deploy the darwin configuration(harmonicia)
-make ha
-
-# deploy with details
-make ha-debug
-```
+To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [ryan4yin/nix-config/nixos-install](https://github.com/ryan4yin/nix-config/tree/nixos-install)
 
 ## Install Apps from Flatpak
 
