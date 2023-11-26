@@ -277,11 +277,13 @@
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
     # Official NixOS package source, using nixos's stable branch by default
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # for macos
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
@@ -289,7 +291,8 @@
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
+      # url = "github:nix-community/home-manager/release-23.05";
+      url = "github:nix-community/home-manager/master";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs dependencies.
@@ -297,7 +300,7 @@
     };
 
     # modern window compositor
-    hyprland.url = "github:hyprwm/Hyprland/v0.28.0";
+    hyprland.url = "github:hyprwm/Hyprland/v0.32.3";
     # community wayland nixpkgs
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     # anyrun - a wayland launcher
@@ -319,13 +322,13 @@
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = {
-      url = "github:AstroNvim/AstroNvim/v3.36.0";
+      url = "github:AstroNvim/AstroNvim/v3.37.12";
       flake = false;
     };
 
     # useful nushell scripts, such as auto_completion
     nushell-scripts = {
-      url = "github:nushell/nu_scripts/459b8c9d4fcb6b6200165593707e454411c23750";
+      url = "github:nushell/nu_scripts/main";
       flake = false;
     };
 

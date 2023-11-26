@@ -2,7 +2,7 @@
   # nix-darwin do not set PATH for nushell! so we need to do it manually
   # this is a workaround to add nix's PATH to nushell
   programs.nushell.extraConfig = ''
-    let-env PATH = ([
+    $env.PATH = ([
       "${config.home.homeDirectory}/bin"
       "${config.home.homeDirectory}/.local/bin"
       "${config.home.homeDirectory}/go/bin"

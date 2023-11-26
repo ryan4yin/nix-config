@@ -4,7 +4,7 @@
     configFile.source = ./config.nu;
 
     extraConfig = ''
-      let-env PATH = ([
+      $env.PATH = ([
         "${config.home.homeDirectory}/bin"
         "${config.home.homeDirectory}/.local/bin"
         "${config.home.homeDirectory}/go/bin"
