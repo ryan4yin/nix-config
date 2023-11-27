@@ -151,10 +151,14 @@
 
   # Fonts
   fonts = {
-    # use fonts specified by user rather than default ones
+    # will be removed after this PR is merged:
+    #   https://github.com/LnL7/nix-darwin/pull/754
     fontDir.enable = true;
 
-    packages = with pkgs; [
+    # will change to `fonts.packages` after this PR is merged:
+    #   https://github.com/LnL7/nix-darwin/pull/754
+    fonts = with pkgs; [
+    # packages = with pkgs; [
       # icon fonts
       material-design-icons
       font-awesome

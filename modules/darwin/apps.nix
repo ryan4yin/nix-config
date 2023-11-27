@@ -44,7 +44,7 @@
 
   # homebrew need to be installed manually, see https://brew.sh
   homebrew = {
-    enable = false;
+    enable = true;
 
     onActivation = {
       autoUpdate = false;
@@ -83,6 +83,7 @@
       "aria2" # download tool
       "httpie" # http client
       "wireguard-tools" # wireguard
+      "mitmproxy"
 
       # Usage:
       #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
@@ -97,10 +98,17 @@
       # commands like `gsed` `gtar` are required by some tools
       "gnu-sed"
       "gnu-tar"
+
+      # misc that nix do not have cache for.
+      "git-trim"
+      "terraform"
+      "terraformer"
     ];
 
     # `brew install --cask`
     casks = [
+      "wezterm"
+
       "squirrel" # input method for Chinese, rime-squirrel
 
       "firefox"

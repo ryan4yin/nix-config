@@ -1,8 +1,5 @@
 {
-  lib,
   pkgs,
-  pkgs-unstable,
-  catppuccin-wezterm,
   ...
 }:
 ###########################################################
@@ -15,11 +12,14 @@
 {
   # wezterm has catppuccin theme built-in,
   # it's not necessary to install it separately.
-  # xdg.configFile."wezterm/colors".source = "${catppuccin-wezterm}/dist";
 
   programs.wezterm = {
     enable = true;
-    package = pkgs-unstable.wezterm;
+    package = if pkgs.stdenv.isDarwin
+      then
+        pkgs.hello  # install wezterm via homebrew on macOS to avoid compilation, dummy package here.
+      else
+        pkgs.wezterm;
 
     extraConfig = 
       let

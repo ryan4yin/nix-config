@@ -1,6 +1,14 @@
 {pkgs, ...}: {
   # Linux Only Packages, not available on Darwin
   home.packages = with pkgs; [
+    # Automatically trims your branches whose tracking remote refs are merged or gone
+    # It's really useful when you work on a project for a long time.
+    git-trim
+
+    # cloud tools that nix do not have cache for.
+    terraform
+    terraformer # generate terraform configs from existing cloud resources
+
     nmon
     iotop
     iftop

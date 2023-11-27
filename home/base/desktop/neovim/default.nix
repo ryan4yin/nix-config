@@ -103,7 +103,7 @@
 
         #-- CloudNative
         nodePackages.dockerfile-language-server-nodejs
-        terraform
+        # terraform  # install via brew on macOS
         terraform-ls
         jsonnet
         jsonnet-language-server

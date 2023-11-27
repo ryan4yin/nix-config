@@ -1,12 +1,9 @@
 {
   pkgs,
-  pkgs-unstable,
   ...
 }: {
   home.packages = with pkgs; [
     # general tools
-    terraform
-    pkgs-unstable.terraformer # generate terraform configs from existing cloud resources
     pulumi
     pulumictl
     # istioctl
