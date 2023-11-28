@@ -77,10 +77,22 @@
       options = [ "subvol=@home" "compress-force=zstd:1" ];
     };
 
+  # mount swap subvolume in readonly mode.
   fileSystems."/swap" =
     { device = "/dev/disk/by-uuid/836b93a9-324f-45e6-ac1d-964becd7520c";
       fsType = "btrfs";
-      options = [ "subvol=@swap" ];
+      options = [ "subvol=@swap" "ro" ];
+    };
+
+  # remount swapfile in read-write mode
+  fileSystems."/swap/swapfile" =
+    { 
+      # the swapfile is located in /swap subvolume, so we need to mount /swap first.
+      depends = [ "/swap"];
+      
+      device = "/swap/swapfile";
+      fsType = "none";
+      options = [ "bind" "rw" ];
     };
 
   fileSystems."/boot" =
