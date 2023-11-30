@@ -12,6 +12,7 @@
     awscli2
     aws-iam-authenticator
     eksctl
+    istioctl
 
     # aliyun
     aliyun-cli
