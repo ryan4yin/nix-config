@@ -49,7 +49,15 @@
 
           -- This is where you actually apply your config choices
           config.color_scheme = "Catppuccin Mocha"
-          config.font = wezterm.font("JetBrainsMono Nerd Font")
+          config.font = wezterm.font_with_fallback {
+            "JetBrainsMono Nerd Font",
+            "FiraCode Nerd Font",
+
+            -- To avoid 'Chinese characters displayed as variant (Japanese) glyphs'
+            "Source Han Sans SC",
+            "Source Han Sans TC"
+          }
+
           config.hide_tab_bar_if_only_one_tab = true
           config.scrollback_lines = 10000
           config.enable_scroll_bar = true
