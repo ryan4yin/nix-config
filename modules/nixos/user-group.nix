@@ -10,6 +10,14 @@
     "${username}" = {};
     docker = {};
     wireshark = {};
+
+    # for android platform tools's udev rules
+    adbusers ={};
+    dialout = {};
+    # for openocd (embedded system development)
+    plugdev = {};
+    # misc
+    uinput = {};
   };
 
   users.users."${username}" = {
