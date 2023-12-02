@@ -28,6 +28,7 @@
       "/etc/NetworkManager/system-connections"
       "/etc/ssh"
       "/etc/nix/inputs"
+      "/etc/secureboot"  # lanzaboote - secure boot
 
       # my files
       "/etc/agenix/"

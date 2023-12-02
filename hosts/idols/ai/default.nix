@@ -1,4 +1,4 @@
-{ pkgs, ...} @ args:
+{lanzaboote, ...} @ args:
 #############################################################
 #
 #  Ai - my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
@@ -11,6 +11,7 @@
     ./hardware-configuration.nix
 
     ./impermanence.nix
+    ./secureboot.nix
 
     # ../../../modules/nixos/fhs-fonts.nix
     ../../../modules/nixos/libvirt.nix
