@@ -81,7 +81,7 @@
   #     https://nixos.wiki/wiki/PipeWire
   services.pipewire = {
     enable = true;
-    package = pkgs-unstable.pipewire;
+    # package = pkgs-unstable.pipewire;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
