@@ -277,13 +277,12 @@
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
     # Official NixOS package source, using nixos's stable branch by default
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # for macos
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
@@ -291,13 +290,16 @@
 
     # home-manager, used for managing user configuration
     home-manager = {
-      # url = "github:nix-community/home-manager/release-23.11";
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/release-23.11";
+      # url = "github:nix-community/home-manager/master";
+
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs dependencies.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    impermanence.url = "github:nix-community/impermanence";
 
     # modern window compositor
     hyprland.url = "github:hyprwm/Hyprland/v0.32.3";
