@@ -1,8 +1,11 @@
-{impermanence, pkgs, ...}: {
+{
+  impermanence,
+  pkgs,
+  ...
+}: {
   imports = [
     impermanence.nixosModules.impermanence
   ];
-
 
   environment.systemPackages = [
     # `sudo ncdu -x /`
@@ -28,9 +31,8 @@
       "/etc/NetworkManager/system-connections"
       "/etc/ssh"
       "/etc/nix/inputs"
-      "/etc/secureboot"  # lanzaboote - secure boot
-
-      # my files
+      "/etc/secureboot" # lanzaboote - secure boot
+      # my secrets
       "/etc/agenix/"
 
       "/var/log"
@@ -77,17 +79,33 @@
           mode = "0700";
         }
 
-        ".bash_history"
-        ".cache"
-        ".config"
-        ".local"
+        # misc
+        ".config/pulse"
+        ".pki"
+
+        # remote desktop
+        ".config/remmina"
+        ".config/freerdp"
+
+        # browsers
         ".mozilla"
+        ".config/google-chrome"
+
+        # neovim / remmina / flatpak / ...
+        ".local/share"
+        ".local/state"
+
+        # language package managers
         ".npm"
+        "go"
+
+        # neovim plugins(wakatime & copilot)
         ".wakatime"
+        ".config/github-copilot"
       ];
       files = [
         ".wakatime.cfg"
-        ".wakatime.bdb"
+        ".config/nushell/history.txt"
       ];
     };
   };
