@@ -125,7 +125,7 @@
     printing.enable = true;
 
     # https://flatpak.org/setup/NixOS
-    flatpak.enable = true;
+    flatpak.enable = false;
 
     dbus.packages = [pkgs.gcr];
     geoclue2.enable = true;

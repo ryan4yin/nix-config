@@ -109,25 +109,6 @@ make i3-debug
 
 To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [ryan4yin/nix-config/nixos-install](https://github.com/ryan4yin/nix-config/tree/nixos-install)
 
-## Install Apps from Flatpak
-
-We can install apps from flathub, which has a lot of apps that are not supported well in nixpkgs.
-
-```bash
-# Add the Flathub repository
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-# install apps from flathub
-flatpak install netease-cloud-music-gtk
-
-# install 3d printer slicer - cura
-flatpak install flathub com.ultimaker.cura
-
-# or you can search apps from flathub
-flatpak search <keyword>
-# search on website is also supported: https://flathub.org/
-```
-
 ## How to create & managage VM from this flake?
 
 use `aquamarine` as an example, we can create a virtual machine with the following command:
