@@ -30,6 +30,7 @@
     # misc
     flameshot
     mitmproxy # http/https proxy tool
+    ventoy    # multi-boot usb creator
   ];
 
   # GitHub CLI tool
