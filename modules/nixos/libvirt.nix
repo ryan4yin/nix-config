@@ -38,8 +38,13 @@
     qemu_full
   ];
 
-  boot.kernelModules = ["kvm-amd" "kvm-intel"];
+  boot.kernelModules = ["kvm-amd" "kvm-intel" "vfio-pci"];
   # Enable nested virsualization, required by security containers and nested vm.
   boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
   # boot.extraModprobeConfig = "options kvm_amd nested=1";  # for amd cpu
+
+  virtualisation = {
+    waydroid.enable = true;
+    lxd.enable = true;
+  };
 }
