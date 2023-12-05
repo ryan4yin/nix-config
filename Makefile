@@ -52,11 +52,14 @@ darwin-set-proxy:
 ha: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system
 	./result/sw/bin/darwin-rebuild switch --flake .
+	sleep 3
+	sudo chmod 644 /etc/agenix/alias-for-work.*
 
 ha-debug: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system --show-trace --verbose
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica --show-trace --verbose
-
+	sleep 3
+	sudo chmod 644 /etc/agenix/alias-for-work.*
 
 ############################################################################
 #
