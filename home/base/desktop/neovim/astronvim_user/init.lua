@@ -82,27 +82,10 @@ return {
 
     {
       "0x00-ketsu/autosave.nvim",
-      -- autosave.nvim should be loaded immediately.
-      -- it enable itself in the `config` function.
-      lazy = false,
-      -- config is executed when the plugin loads.
-      config = function()
-        require("autosave").setup({
-          enable = true,
-          prompt_style = 'notify',
-          prompt_message = function()
-            return "Auto saved at " .. vim.fn.strftime("%H:%M:%S")
-          end,
-          events = { "InsertLeave", "TextChanged" },
-          conditions = {
-            exists = true,
-            modifiable = true,
-            filename_is_not = {},
-            filetype_is_not = {},
-          },
-          write_all_buffers = false,
-          debounce_delay = 135,
-        })
+      -- lazy-loading on events
+      event = { "InsertLeave", "TextChanged" },
+      opts = function(_, opts)
+        opts.prompt_style = "notify" -- or stdout
       end,
     },
 
