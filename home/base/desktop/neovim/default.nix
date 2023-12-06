@@ -155,8 +155,10 @@
       in
         nvim_extra
         ++ [
-          # NOTE: shells installed by Nix will ignore the `PATH` env passed by parent process,
-          #   so to access the packages we installed here in neovim's shell session(`:terminal`),
+          # NOTE: shells installed by nix-darwin will ignore the `PATH` env passed by parent process,
+          #   it's likely a bug of nix-darwin, `PATH` passing on NixOS works fine.
+          #
+          #   So to access the packages we installed here in neovim's shell session(`:terminal`),
           #   we have to create a shell wrapper with the packages in `PATH` env.
           (pkgs.runCommand "nvim-shell" rec {
               nativeBuildInputs =
