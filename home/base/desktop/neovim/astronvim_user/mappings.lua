@@ -17,7 +17,12 @@ return {
     ["<leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
     -- quick save
     ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
-    ["<leader>tp"] = { function() utils.toggle_term_cmd("ipython") end, desc = "ToggleTerm python" },
+
+    -- Terminal
+    -- NOTE: https://neovim.io/doc/user/builtin.html#jobstart()
+    --   1. If {cmd} is a List it runs directly (no 'shell')
+    --   2. If {cmd} is a String it runs in the 'shell'
+    ["<leader>tp"] = { function() utils.toggle_term_cmd({ cmd = "ipython" }) end, desc = "ToggleTerm python" },
 
     -- search and replace globally
     ['<leader>ss'] = {'<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre" },

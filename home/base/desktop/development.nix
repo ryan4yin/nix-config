@@ -15,7 +15,7 @@
   #############################################################
 
   home.packages = with pkgs; [
-    (python311.withPackages (
+    (python3.withPackages (
       ps:
         with ps; [
           ipython
