@@ -16,8 +16,9 @@
 
     # aliyun
     aliyun-cli
-   ];
-
-  programs = {
-  };
+   ] ++ (if pkgs.stdenv.isLinux then [
+     # cloud tools that nix do not have cache for.
+     terraform
+     terraformer # generate terraform configs from existing cloud resources
+   ] else []);
 }

@@ -31,16 +31,8 @@
   environment.systemPackages = with pkgs; [
     parted
     ventoy
-    # python, some times I may need to use python with root permission.
-    (python310.withPackages (ps:
-      with ps; [
-        ipython
-        pandas
-        requests
-        pyquery
-        pyyaml
-      ]
-    ))
+    gnumake
+
     psmisc  # killall/pstree/prtstat/fuser/...
     colmena  # nixos's remote deployment tool
     pulseaudio  # provides `pactl`, which is required by some apps(e.g. sonic-pi)

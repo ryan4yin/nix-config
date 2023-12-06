@@ -34,6 +34,7 @@
   ];
 
   # Homebrew Mirror
+  # NOTE: is only useful when you run `brew install` manually! (not via nix-darwin)
   environment.variables = {
     HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
     HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
@@ -136,7 +137,6 @@
       # Development
       "insomnia" # REST client
       "wireshark" # network analyzer
-      "temurin17"  # JDK 17
       "jdk-mission-control" # Java Mission Control
       "google-cloud-sdk" # Google Cloud SDK
     ];
