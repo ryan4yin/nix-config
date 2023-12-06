@@ -73,16 +73,36 @@ return {
     },
 
     {
-      "0x00-ketsu/autosave.nvim",
+      "akinsho/toggleterm.nvim",
       opts = function(_, opts)
+        -- custom shell with all neovim's exra packags accessible
+        opts.shell = "nvim-nushell"
       end,
     },
 
     {
-      "akinsho/toggleterm.nvim",
-      opts = function(_, opts)
-        -- custom shell with all neovim's exra packags accessible
-        opts.shell = "nvim-nushell";
+      "0x00-ketsu/autosave.nvim",
+      -- autosave.nvim should be loaded immediately.
+      -- it enable itself in the `config` function.
+      lazy = false,
+      -- config is executed when the plugin loads.
+      config = function()
+        require("autosave").setup({
+          enable = true,
+          prompt_style = 'notify',
+          prompt_message = function()
+            return "Auto saved at " .. vim.fn.strftime("%H:%M:%S")
+          end,
+          events = { "InsertLeave", "TextChanged" },
+          conditions = {
+            exists = true,
+            modifiable = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+          },
+          write_all_buffers = false,
+          debounce_delay = 135,
+        })
       end,
     },
 
@@ -117,11 +137,36 @@ return {
         }
       end,
       keys = {
-        { "y",  "<Plug>(YankyYank)",                      mode = { "n", "x" },                           desc = "Yank text" },
-        { "p",  "<Plug>(YankyPutAfter)",                  mode = { "n", "x" },                           desc = "Put yanked text after cursor" },
-        { "P",  "<Plug>(YankyPutBefore)",                 mode = { "n", "x" },                           desc = "Put yanked text before cursor" },
-        { "gp", "<Plug>(YankyGPutAfter)",                 mode = { "n", "x" },                           desc = "Put yanked text after selection" },
-        { "gP", "<Plug>(YankyGPutBefore)",                mode = { "n", "x" },                           desc = "Put yanked text before selection" },
+        {
+          "y",
+          "<Plug>(YankyYank)",
+          mode = { "n", "x" },
+          desc = "Yank text",
+        },
+        {
+          "p",
+          "<Plug>(YankyPutAfter)",
+          mode = { "n", "x" },
+          desc = "Put yanked text after cursor",
+        },
+        {
+          "P",
+          "<Plug>(YankyPutBefore)",
+          mode = { "n", "x" },
+          desc = "Put yanked text before cursor",
+        },
+        {
+          "gp",
+          "<Plug>(YankyGPutAfter)",
+          mode = { "n", "x" },
+          desc = "Put yanked text after selection",
+        },
+        {
+          "gP",
+          "<Plug>(YankyGPutBefore)",
+          mode = { "n", "x" },
+          desc = "Put yanked text before selection",
+        },
         { "[y", "<Plug>(YankyCycleForward)",              desc = "Cycle forward through yank history" },
         { "]y", "<Plug>(YankyCycleBackward)",             desc = "Cycle backward through yank history" },
         { "]p", "<Plug>(YankyPutIndentAfterLinewise)",    desc = "Put indented after cursor (linewise)" },

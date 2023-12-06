@@ -39,8 +39,9 @@
     yazi = {
       enable = true;
       package = pkgs-unstable.yazi;
-      enableNushellIntegration = true;
       enableBashIntegration = true;
+      # TODO: nushellIntegration is broken on release-23.11, wait for master's fix to be released
+      enableNushellIntegration = false;
     };
   };
 
