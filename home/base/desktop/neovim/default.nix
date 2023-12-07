@@ -38,143 +38,119 @@
       # ];
 
       # Extra packages only available to nvim(won't pollute the global home environment)
-      extraPackages = with pkgs; let
-        nvim_extra =
-          [
-            #-- c/c++
-            cmake
-            cmake-language-server
-            gnumake
-            checkmake
-            gcc # c/c++ compiler, required by nvim-treesitter!
-            llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
-            gdb
-            lldb
+      extraPackages = with pkgs;
+        [
+          #-- c/c++
+          cmake
+          cmake-language-server
+          gnumake
+          checkmake
+          gcc # c/c++ compiler, required by nvim-treesitter!
+          llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
+          gdb
+          lldb
 
-            #-- python
-            nodePackages.pyright # python language server
-            python3Packages.black # python formatter
-            python3Packages.ruff-lsp
-            (python3.withPackages (
-              ps:
-                with ps; [
-                  pynvim # Python client and plugin host for Nvim
+          #-- python
+          nodePackages.pyright # python language server
+          python3Packages.black # python formatter
+          python3Packages.ruff-lsp
+          (python3.withPackages (
+            ps:
+              with ps; [
+                pynvim # Python client and plugin host for Nvim
 
-                  ipython
-                  pandas
-                  requests
-                  pyquery
-                  pyyaml
-                ]
-            ))
+                ipython
+                pandas
+                requests
+                pyquery
+                pyyaml
+              ]
+          ))
 
-            #-- rust
-            rust-analyzer
-            cargo # rust package manager
-            rustfmt
+          #-- rust
+          rust-analyzer
+          cargo # rust package manager
+          rustfmt
 
-            #-- zig
-            zls
+          #-- zig
+          zls
 
-            #-- nix
-            nil
-            rnix-lsp
-            # nixd
-            statix # Lints and suggestions for the nix programming language
-            deadnix # Find and remove unused code in .nix source files
-            alejandra # Nix Code Formatter
+          #-- nix
+          nil
+          rnix-lsp
+          # nixd
+          statix # Lints and suggestions for the nix programming language
+          deadnix # Find and remove unused code in .nix source files
+          alejandra # Nix Code Formatter
 
-            #-- golang
-            go
-            gomodifytags
-            iferr # generate error handling code for go
-            impl # generate function implementation for go
-            gotools # contains tools like: godoc, goimports, etc.
-            gopls # go language server
-            delve # go debugger
+          #-- golang
+          go
+          gomodifytags
+          iferr # generate error handling code for go
+          impl # generate function implementation for go
+          gotools # contains tools like: godoc, goimports, etc.
+          gopls # go language server
+          delve # go debugger
 
-            # -- java
-            jdk17
-            gradle
-            maven
-            spring-boot-cli
+          # -- java
+          jdk17
+          gradle
+          maven
+          spring-boot-cli
 
-            #-- lua
-            stylua
-            lua-language-server
+          #-- lua
+          stylua
+          lua-language-server
 
-            #-- bash
-            nodePackages.bash-language-server
-            shellcheck
-            shfmt
+          #-- bash
+          nodePackages.bash-language-server
+          shellcheck
+          shfmt
 
-            #-- javascript/typescript --#
-            nodePackages.nodejs
-            nodePackages.typescript
-            nodePackages.typescript-language-server
-            # HTML/CSS/JSON/ESLint language servers extracted from vscode
-            nodePackages.vscode-langservers-extracted
-            nodePackages."@tailwindcss/language-server"
+          #-- javascript/typescript --#
+          nodePackages.nodejs
+          nodePackages.typescript
+          nodePackages.typescript-language-server
+          # HTML/CSS/JSON/ESLint language servers extracted from vscode
+          nodePackages.vscode-langservers-extracted
+          nodePackages."@tailwindcss/language-server"
 
-            #-- CloudNative
-            nodePackages.dockerfile-language-server-nodejs
-            # terraform  # install via brew on macOS
-            terraform-ls
-            jsonnet
-            jsonnet-language-server
-            hadolint # Dockerfile linter
+          #-- CloudNative
+          nodePackages.dockerfile-language-server-nodejs
+          # terraform  # install via brew on macOS
+          terraform-ls
+          jsonnet
+          jsonnet-language-server
+          hadolint # Dockerfile linter
 
-            #-- Others
-            taplo # TOML language server / formatter / validator
-            nodePackages.yaml-language-server
-            sqlfluff # SQL linter
-            actionlint # GitHub Actions linter
-            buf # protoc plugin for linting and formatting
-            proselint # English prose linter
-            guile # scheme language
+          #-- Others
+          taplo # TOML language server / formatter / validator
+          nodePackages.yaml-language-server
+          sqlfluff # SQL linter
+          actionlint # GitHub Actions linter
+          buf # protoc plugin for linting and formatting
+          proselint # English prose linter
+          guile # scheme language
 
-            #-- Misc
-            tree-sitter # common language parser/highlighter
-            nodePackages.prettier # common code formatter
-            marksman # language server for markdown
-            glow # markdown previewer
-            fzf
+          #-- Misc
+          tree-sitter # common language parser/highlighter
+          nodePackages.prettier # common code formatter
+          marksman # language server for markdown
+          glow # markdown previewer
+          fzf
 
-            #-- Optional Requirements:
-            gdu # disk usage analyzer, required by AstroNvim
-            ripgrep # fast search tool, required by AstroNvim's '<leader>fw'(<leader> is space key)
+          #-- Optional Requirements:
+          gdu # disk usage analyzer, required by AstroNvim
+          ripgrep # fast search tool, required by AstroNvim's '<leader>fw'(<leader> is space key)
+        ]
+        ++ (
+          if pkgs.stdenv.isDarwin
+          then []
+          else [
+            #-- verilog / systemverilog
+            verible
           ]
-          ++ (
-            if pkgs.stdenv.isDarwin
-            then []
-            else [
-              #-- verilog / systemverilog
-              verible
-            ]
-          );
-      in
-        nvim_extra
-        ++ [
-          # NOTE: shells installed by nix-darwin will ignore the `PATH` env passed by parent process,
-          #   it's likely a bug of nix-darwin, `PATH` passing on NixOS works fine.
-          #
-          #   So to access the packages we installed here in neovim's shell session(`:terminal`),
-          #   we have to create a shell wrapper with the packages in `PATH` env.
-          (pkgs.runCommand "nvim-shell" rec {
-              nativeBuildInputs =
-                nvim_extra
-                ++ [
-                  pkgs.nushell
-                  pkgs.bash
-                ];
-              PATH = lib.makeBinPath nativeBuildInputs;
-            } ''
-              mkdir -p $out/bin
-
-              ln -s ${pkgs.nushell}/bin/nu $out/bin/nvim-nushell
-              ln -s ${pkgs.bash}/bin/bash $out/bin/nvim-bash
-            '')
-        ];
+        );
     };
   };
 }

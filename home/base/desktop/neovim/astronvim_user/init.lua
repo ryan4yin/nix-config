@@ -73,14 +73,6 @@ return {
     },
 
     {
-      "akinsho/toggleterm.nvim",
-      opts = function(_, opts)
-        -- custom shell with all neovim's exra packags accessible
-        opts.shell = "nvim-nushell"
-      end,
-    },
-
-    {
       "0x00-ketsu/autosave.nvim",
       -- lazy-loading on events
       event = { "InsertLeave", "TextChanged" },
