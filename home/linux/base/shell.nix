@@ -17,7 +17,6 @@ in rec {
 
     # set default applications
     BROWSER = "firefox";
-    TERM = "xterm-256color";
 
     # enable scrolling in git diff
     DELTA_PAGER = "less -R";

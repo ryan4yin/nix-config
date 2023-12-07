@@ -17,12 +17,17 @@ in {
     # tmux-sensible overwrites default tmux shortcuts, makes them more sane.
     sensibleOnTop = true;
 
-    # extraConfig =  builtins.readFile ./tmux.conf;
+    # https://github.com/sxyazi/yazi/wiki/Image-preview-within-tmux
+    extraConfig =  builtins.readFile ''
+      set -g allow-passthrough on
+
+      set -ga update-environment TERM
+      set -ga update-environment TERM_PROGRAM
+    '';
     # keyMode = "vi";  # default is emacs
 
     baseIndex = 1; # start index from 1
     escapeTime = 0; # do not wait for escape key
-    terminal = "xterm-256color";
 
     plugins = with plugins; [
       draculaTheme # theme
