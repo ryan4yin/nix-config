@@ -5,7 +5,6 @@
     ./proxychains
 
     ./core.nix
-    ./nushell.nix
     ./rime-squirrel.nix
   ];
 

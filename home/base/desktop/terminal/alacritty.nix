@@ -83,14 +83,22 @@
           # If the bold italic family is not specified, it will fall back to the
           # value specified for the normal font.
           family: JetBrainsMono Nerd Font
+      shell:
+        #  To resolve issues:
+        #    1. https://github.com/ryan4yin/nix-config/issues/26
+        #    2. https://github.com/ryan4yin/nix-config/issues/8
+        #  Spawn a nushell in login mode via `bash`
+        program: ${pkgs.bash}/bin/bash
+        args:
+          - --login
+          - -c
+          - 'nu --login --interactive'
     ''
     + (
       if pkgs.stdenv.isDarwin
       then ''
           # Point size
           size: 14
-        shell:  # force nushell as default shell on macOS
-          program:  /run/current-system/sw/bin/nu
       ''
       else ''
         # holder identation

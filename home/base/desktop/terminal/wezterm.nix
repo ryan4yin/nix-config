@@ -75,18 +75,14 @@
               action = wezterm.action.EmitEvent 'toggle-maximize',
             },
           }
-
           config.font_size = ${fontsize}
-        ''
-        + (
-          if pkgs.stdenv.isDarwin
-          then ''
-            -- Spawn a fish shell in login mod
-            config.default_prog = { '/run/current-system/sw/bin/nu', '-l' }
-          ''
-          else ""
-        )
-        + ''
+
+          -- To resolve issues:
+          --   1. https://github.com/ryan4yin/nix-config/issues/26
+          --   2. https://github.com/ryan4yin/nix-config/issues/8
+          -- Spawn a nushell in login mode via `bash`
+          config.default_prog = { '${pkgs.bash}/bin/bash', '--login', '-c', 'nu --login --interactive' }
+
           return config
         '';
     }
