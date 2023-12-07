@@ -10,9 +10,15 @@
   # wezterm has catppuccin theme built-in,
   # it's not necessary to install it separately.
 
+  # we can add wezterm as a flake input once this PR is merged:
+  #    https://github.com/wez/wezterm/pull/3547
+
   programs.wezterm =
     {
       enable = true;
+
+      # TODO: Fix: https://github.com/wez/wezterm/issues/4483
+      # package = pkgs.wezterm.override { };
 
       extraConfig = let
         fontsize =
