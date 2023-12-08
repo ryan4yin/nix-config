@@ -5,7 +5,7 @@
 3. alacritty: Standby terminal.
 
 
-## 'xterm-kitty': unknown terminal type when `ssh` into a remote host
+## 'xterm-kitty': unknown terminal type when `ssh` into a remote host or `sudo xxx`
 
 > https://sw.kovidgoyal.net/kitty/faq/#i-get-errors-about-the-terminal-being-unknown-or-opening-the-terminal-failing-or-functional-keys-like-arrow-keys-don-t-work
 
@@ -18,6 +18,22 @@ But when you `ssh` into a remote host, the remote host is very likely to not hav
 ```
 'xterm-kitty': unknown terminal type
 ```
+
+Or when you `sudo xxx`, `sudo` won't preserve the `TERM` variable, it will be reset to root's default `TERM` value, which is `xterm` or `xterm-256color` in most linux distributions, so you will get this error:
+
+```
+'xterm-256color': unknown terminal type
+```
+
+or 
+
+```
+Error opening terminal: xterm-kitty.
+```
+
+NixOS preserve the `TERMINFO` and `TERMINFO_DIRS` environment variables, for `root` and the `wheel` group: [nixpkgs/nixos/modules/config/terminfo.nix](https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/config/terminfo.nix#L18)
+
+For nix-darwin, take a look at <https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues>
 
 ### Solutions
 

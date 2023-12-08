@@ -47,7 +47,8 @@ gc:
 ############################################################################
 
 darwin-set-proxy:
-	sudo python3 scripts/darwin_set_proxy.py
+	echo "skip setting proxy, use global proxy instead"
+	# sudo python3 scripts/darwin_set_proxy.py
 
 ha: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system

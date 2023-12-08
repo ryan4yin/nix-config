@@ -43,6 +43,9 @@
   };
   users.users.root.initialHashedPassword = "$7$CU..../....X6uvZYnFD.i1CqqFFNl4./$4vgqzIPyw5XBr0aCDFbY/UIRRJr7h5SMGoQ/ZvX3FP2";
 
+  # fix for `sudo xxx` in kitty/wezterm and other modern terminal emulators
+  security.sudo.keepTerminfo = true;
+
   # DO NOT promote the specified user to input password for `nix-store` and `nix-copy-closure`
   security.sudo.extraRules = [
     {

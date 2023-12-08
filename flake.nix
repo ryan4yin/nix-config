@@ -416,12 +416,13 @@
       # status: https://mirrors.ustc.edu.cn/status/
       # "https://mirrors.ustc.edu.cn/nix-channels/store"
 
-      # my own cache server
+      # fallback to official cache server if the above mirrors are not available
+      "https://cache.nixos.org"
+
+      # fallback to other non-official cache server
       "https://ryan4yin.cachix.org"
       "https://anyrun.cachix.org"
       "https://hyprland.cachix.org"
-      
-      "https://cache.nixos.org"
     ];
 
     # nix community's cache server
