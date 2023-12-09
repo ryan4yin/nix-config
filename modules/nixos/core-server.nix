@@ -16,6 +16,10 @@
   # for nix server, we do not need to keep too much generations
   boot.loader.systemd-boot.configurationLimit = lib.mkDefault 10;
 
+  # Manual optimise storage: nix-store --optimise
+  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
+  nix.settings.auto-optimise-store = true;
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
