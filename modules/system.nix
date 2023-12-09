@@ -5,21 +5,20 @@
 }: let
   username = "ryan";
 in {
-
   # ============================= User related =============================
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ryan = {
     isNormalUser = true;
     description = "ryan";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
     ];
   };
-    # given the users in this list the right to specify additional substituters via:
-    #    1. `nixConfig.substituers` in `flake.nix`
-    #    2. command line args `--options substituers http://xxx`
+  # given the users in this list the right to specify additional substituters via:
+  #    1. `nixConfig.substituers` in `flake.nix`
+  #    2. command line args `--options substituers http://xxx`
   nix.settings.trusted-users = [username];
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
@@ -51,7 +50,7 @@ in {
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = lib.mkDefault false;
+  nixpkgs.config.allowUnfree = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
@@ -75,7 +74,7 @@ in {
   services.printing.enable = true;
 
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       # icon fonts
       material-design-icons
 
@@ -89,7 +88,7 @@ in {
     ];
 
     # use fonts specified by user rather than default ones
-    enableDefaultFonts = false;
+    enableDefaultPackages = false;
 
     # user defined fonts
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's

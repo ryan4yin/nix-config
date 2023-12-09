@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  catppuccin-bat,
+  ...
+}: {
   home.packages = with pkgs; [
     # archives
     zip
@@ -7,7 +12,7 @@
 
     # utils
     ripgrep
-    yq-go    # https://github.com/mikefarah/yq
+    yq-go # https://github.com/mikefarah/yq
     htop
 
     # misc
@@ -25,7 +30,6 @@
     # cloud native
     docker-compose
     kubectl
-
 
     nodejs
     nodePackages.npm
@@ -50,19 +54,20 @@
       enable = true;
       config = {
         pager = "less -FR";
-        theme = "Catppuccin-mocha";
+        theme = "catppuccin-mocha";
       };
       themes = {
-        Catppuccin-mocha = builtins.readFile (pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme";
-          hash = "sha256-qMQNJGZImmjrqzy7IiEkY5IhvPAMZpq0W6skLLsng/w=";
-        });
+        # https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme
+        catppuccin-mocha = {
+          src = catppuccin-bat;
+          file = "Catppuccin-mocha.tmTheme";
+        };
       };
     };
 
-    btop.enable = true;  # replacement of htop/nmon
-    exa.enable = true;   # A modern replacement for ‘ls’
-    jq.enable = true;    # A lightweight and flexible command-line JSON processor
+    btop.enable = true; # replacement of htop/nmon
+    eza.enable = true; # A modern replacement for ‘ls’
+    jq.enable = true; # A lightweight and flexible command-line JSON processor
     ssh.enable = true;
     aria2.enable = true;
 
