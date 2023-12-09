@@ -1,7 +1,9 @@
 {
   imports = [
-    ./apps.nix
+    ../common.nix
     ./nix-core.nix
+
+    ./apps.nix
     ./system.nix
   ];
 }

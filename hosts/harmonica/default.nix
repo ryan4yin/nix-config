@@ -29,6 +29,4 @@ in {
     # DO NOT change the system's default shell to nushell! it will break some apps!
     # It's better to change only starship/alacritty/vscode's shell to nushell!
   };
-
-  nix.settings.trusted-users = [username];
 }
