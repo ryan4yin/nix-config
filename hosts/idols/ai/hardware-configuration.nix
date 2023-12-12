@@ -70,6 +70,7 @@
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
     options = ["subvol=@persistent" "compress-force=zstd:1"];
+    # impermanence's data is required for booting.
     neededForBoot = true;
   };
 

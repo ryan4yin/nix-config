@@ -309,7 +309,7 @@
     # modern window compositor
     hyprland.url = "github:hyprwm/Hyprland/v0.32.3";
     # community wayland nixpkgs
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     # anyrun - a wayland launcher
     anyrun = {
       url = "github:Kirottu/anyrun";
@@ -411,19 +411,19 @@
   nixConfig = {
     # substituers will be appended to the default substituters when fetching packages
     extra-substituters = [
+      "https://nix-community.cachix.org"
       # my own cache server
       "https://ryan4yin.cachix.org"
       "https://anyrun.cachix.org"
       "https://hyprland.cachix.org"
-      "https://nix-community.cachix.org"
-      "https://nixpkgs-wayland.cachix.org"
+      # "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
       "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     ];
   };
 }
