@@ -41,6 +41,9 @@
     # embedded development
     minicom
 
+    # ai related
+    python311Packages.huggingface-hub # huggingface-cli
+
     # misc
     pkgs-unstable.devbox
     glow # markdown previewer

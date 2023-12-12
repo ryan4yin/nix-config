@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   username,
   ...
@@ -29,11 +30,23 @@
   };
 
   # do garbage collection weekly to keep disk usage low
-  nix.gc = {
-    automatic = lib.mkDefault true;
-    dates = lib.mkDefault "weekly";
-    options = lib.mkDefault "--delete-older-than 7d";
-  };
+  nix.gc =
+    {
+      automatic = lib.mkDefault true;
+      options = lib.mkDefault "--delete-older-than 7d";
+    }
+    // (
+      if pkgs.stdenv.isLinux
+      then {
+        dates = lib.mkDefault "weekly";
+      }
+      else {
+        # nix-darwin
+        interval = {
+          Hour = 24;
+        };
+      }
+    );
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = lib.mkDefault false;

@@ -47,19 +47,19 @@ gc:
 ############################################################################
 
 darwin-set-proxy:
-	echo "skip setting proxy, use global proxy instead"
-	# sudo python3 scripts/darwin_set_proxy.py
+	sudo python3 scripts/darwin_set_proxy.py
+	sleep 1
 
 ha: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system
 	./result/sw/bin/darwin-rebuild switch --flake .
-	sleep 3
+	sleep 1
 	sudo chmod 644 /etc/agenix/alias-for-work.*
 
 ha-debug: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system --show-trace --verbose
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica --show-trace --verbose
-	sleep 3
+	sleep 1
 	sudo chmod 644 /etc/agenix/alias-for-work.*
 
 ############################################################################
