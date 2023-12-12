@@ -51,7 +51,8 @@
     ];
   };
 
-  virtualisation.docker.storageDriver = "btrfs";
+  # conflict with feature: containerd-snapshotter
+  # virtualisation.docker.storageDriver = "btrfs";
 
   # for Nvidia GPU
   services.xserver.videoDrivers = ["nvidia"]; # will install nvidia-vaapi-driver by default
