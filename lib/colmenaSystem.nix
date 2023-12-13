@@ -23,9 +23,7 @@ in
         {
           # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
           nix.registry.nixpkgs.flake = nixpkgs;
-          # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
-          environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-          nix.nixPath = ["/etc/nix/inputs"];
+          nix.channel.enable = false;  # disable nix-channel, we use flakes instead.
         }
       ] ++ (if (home-module != null) then [
         home-manager.nixosModules.home-manager

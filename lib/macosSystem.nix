@@ -14,14 +14,15 @@ in
     modules =
       darwin-modules
       ++ [
-        {
+        ({lib, ...}: {
           # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
           nix.registry.nixpkgs.flake = nixpkgs;
 
-          # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
           environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-          nix.nixPath = ["/etc/nix/inputs"];
-        }
+          # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
+          # discard all the default paths, and only use the one from this flake.
+          nix.nixPath = lib.mkForce ["/etc/nix/inputs"];
+        })
 
         home-manager.darwinModules.home-manager
         {
