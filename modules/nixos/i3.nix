@@ -5,22 +5,38 @@
   #
   ####################################################################
 
+  programs = {
+    # thunar file manager(part of xfce) related options
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
+  };
+
   # i3 related options
-  environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
   services = {
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
     xserver = {
       enable = true;
 
+      # Configure keymap in X11
+      xkb.layout = "us";
+
       desktopManager = {
         xterm.enable = false;
       };
 
       displayManager = {
+        lightdm.enable = true;
+        autoLogin = {
+          enable = true;
+          user = "ryan";
+        };
         defaultSession = "none+i3";
-        lightdm.enable = false;
-        gdm.enable = true;
       };
 
       windowManager.i3 = {
@@ -35,7 +51,7 @@
           i3-gaps # i3 with gaps
           picom # transparency and shadows
           feh # set wallpaper
-          xcolor  # color picker
+          xcolor # color picker
 
           acpi # battery information
           arandr # screen layout manager
@@ -46,20 +62,8 @@
           scrot # minimal screen capture tool, used by i3 blur lock to take a screenshot
           sysstat # get system information
           alsa-utils # provides amixer/alsamixer/...
-
-          xfce.thunar # xfce4's file manager
         ];
       };
-
-      # Configure keymap in X11
-      layout = "us";
-      xkbVariant = "";
     };
   };
-
-  # thunar file manager(part of xfce) related options
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
-  ];
 }

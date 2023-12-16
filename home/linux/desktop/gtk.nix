@@ -3,12 +3,16 @@
   config,
   ...
 }: {
+  # If your themes for mouse cursor, icons or windows don’t load correctly,
+  # try setting them with home.pointerCursor and gtk.theme, 
+  # which enable a bunch of compatibility options that should make the themes load in all situations.
+
   home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 24;
-    gtk.enable = true;
-    x11.enable = true;
   };
 
   # set dpi for 4k monitor
@@ -27,8 +31,9 @@
     enable = true;
 
     font = {
-      name = "Roboto";
-      package = pkgs.roboto;
+      name = "Noto Sans";
+      package = pkgs.noto-fonts;
+      size = 11;
     };
 
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";

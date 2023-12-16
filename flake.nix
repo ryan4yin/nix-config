@@ -306,7 +306,6 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
-    # modern window compositor
     hyprland.url = "github:hyprwm/Hyprland/v0.33.1";
     # community wayland nixpkgs
     # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";

@@ -1,23 +1,25 @@
-{pkgs, hyprland, catppuccin-hyprland, ...}: {
+{
+  catppuccin-hyprland,
+  ...
+}: {
   imports = [
-    # hyprland.homeManagerModules.default
-
     ./anyrun.nix
     ./wayland-apps.nix
   ];
 
-  # wayland.windowManager.hyprland.enable = true;
-
   # hyprland configs, based on https://github.com/notwidow/hyprland
-  home.file.".config/hypr" = {
+  xdg.configFile."hypr" = {
     source = ./hypr-conf;
-    # copy the scripts directory recursively
     recursive = true;
   };
-  home.file.".config/hypr/themes".source = "${catppuccin-hyprland}/themes";
+
+  xdg.configFile."hypr/themes" = {
+    source = "${catppuccin-hyprland}/themes";
+    recursive = true;
+  };
 
   # music player - mpd
-  home.file.".config/mpd" = {
+  xdg.configFile."mpd" = {
     source = ./mpd;
     recursive = true;
   };
@@ -38,5 +40,4 @@
     "WLR_NO_HARDWARE_CURSORS" = "1";
     "WLR_EGL_NO_MODIFIRES" = "1";
   };
-
 }

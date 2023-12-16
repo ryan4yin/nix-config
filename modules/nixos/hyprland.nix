@@ -1,17 +1,11 @@
 {pkgs, hyprland, ...}: {
   ##########################################################################################################
   #
-  #  NixOS's Configuration for Hyprland Window Manager
+  #  NixOS's Configuration for Wayland based Window Manager
   #
-  #    i3wm: old and stable, only support X11
-  #    sway: compatible with i3wm, support Wayland. do not support Nvidia GPU officially.
   #    hyprland: project starts from 2022, support Wayland, envolving fast, good looking, support Nvidia GPU.
   #
   ##########################################################################################################
-
-  imports = [
-     # hyprland.nixosModules.default
-  ];
 
   xdg.portal = {
     enable = true;
@@ -46,22 +40,21 @@
   programs = {
     hyprland = {
       enable = true;
-    
-      xwayland = {
-        enable = true;
+      package = hyprland.packages.${pkgs.system}.hyprland.override {
+        enableXWayland = true; # whether to enable XWayland
+        legacyRenderer = false; # whether to use the legacy renderer (for old GPUs)
+        withSystemd = true; # whether to build with systemd support
       };
-    
-      enableNvidiaPatches = true;
     };
 
-    # monitor backlight control
-    light.enable = true;
-
     # thunar file manager(part of xfce) related options
-    thunar.plugins = with pkgs.xfce; [
-      thunar-archive-plugin
-      thunar-volman
-    ];
+    thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -73,7 +66,7 @@
     swaylock # locking the screen
     wlogout # logout menu
     wl-clipboard # copying and pasting
-    hyprpicker  # color picker
+    hyprpicker # color picker
 
     wf-recorder # creen recording
     grim # taking screenshots
@@ -90,8 +83,6 @@
     mpc-cli # command-line mpd client
     ncmpcpp # a mpd client with a UI
     networkmanagerapplet # provide GUI app: nm-connection-editor
-
-    xfce.thunar # xfce4's file manager
   ];
 
   # fix https://github.com/ryan4yin/nix-config/issues/10
