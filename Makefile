@@ -33,12 +33,18 @@ upp:
 history:
 	nix profile history --profile /nix/var/nix/profiles/system
 
+repl:
+	nix repl -f flake:nixpkgs
+
+eye:
+	systemctl --user start gammastep.service
+
 gc:
 	# remove all generations older than 7 days
 	sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
 
 	# garbage collect all unused nix store entries
-	sudo nix store gc --debug
+	# sudo nix store gc --debug
 
 ############################################################################
 #

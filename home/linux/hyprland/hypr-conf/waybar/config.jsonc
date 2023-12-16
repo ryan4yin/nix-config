@@ -5,6 +5,7 @@
   "modules-left": [
     "custom/launcher",
     "temperature",
+    "backlight",
     "wlr/workspaces"
   ],
   "modules-center": [
@@ -13,11 +14,11 @@
   "modules-right": [
     "mpd",
     "pulseaudio",
-    "backlight",
     "memory",
     "cpu",
     "network",
     "clock",
+    "idle_inhibitor",
     "custom/powermenu",
     "tray"
   ],
@@ -50,7 +51,9 @@
   },
   "cpu": {
     "format": "\udb80\udf5b {usage}%",
-    "interval": 1
+    "interval": 1,
+    "on-click-middle": "kitty btop",
+    "on-click-right": "kitty btop"
   },
   "custom/launcher": {
     "format": "\uf313 ",
@@ -122,8 +125,10 @@
       "format-linked": " {ifname} (No IP)",
       "format-disconnected": "睊 Disconnected",
       "format-disabled": "睊 Disabled",
-      "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
+      "format-alt": " {bandwidthUpBytes} |  {bandwidthDownBytes}",
       "tooltip-format": " {ifname} via {gwaddr}",
+      "on-click-middle": "nm-connection-editor",
+      "on-click-right": "kitty nmtui"
   },
   "pulseaudio": {
       //"format": "{volume}% {icon} {format_source}",
@@ -155,6 +160,20 @@
   "temperature": {
     "format": "\uf2c9 {temperatureC}\u00b0C",
     "tooltip": false
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
   },
   "tray": {
     "icon-size": 15,

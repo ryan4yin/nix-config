@@ -307,7 +307,7 @@
     impermanence.url = "github:nix-community/impermanence";
 
     # modern window compositor
-    hyprland.url = "github:hyprwm/Hyprland/v0.32.3";
+    hyprland.url = "github:hyprwm/Hyprland/v0.33.1";
     # community wayland nixpkgs
     # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     # anyrun - a wayland launcher
@@ -329,7 +329,7 @@
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = {
-      url = "github:AstroNvim/AstroNvim/v3.39.0";
+      url = "github:AstroNvim/AstroNvim/v3.40.3";
       flake = false;
     };
 

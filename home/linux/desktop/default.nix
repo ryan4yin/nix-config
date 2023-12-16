@@ -7,6 +7,7 @@
     ./ssh.nix
     ./wallpaper.nix
     ./xdg.nix
+    ./eye-protection.nix
   ];
 
   home.packages = with pkgs; [
