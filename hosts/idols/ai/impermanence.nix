@@ -43,7 +43,7 @@
       "/var/log"
       "/var/lib"
 
-      # created by modules/nixos/fhs-fonts.nix
+      # created by modules/nixos/misc/fhs-fonts.nix
       # for flatpak apps
       # "/usr/share/fonts"
       # "/usr/share/icons"

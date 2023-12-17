@@ -5,31 +5,25 @@
   #
   ####################################################################
 
-  programs = {
-    # thunar file manager(part of xfce) related options
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
-    };
-  };
+  imports = [
+    ./base/i18n.nix
+    ./base/misc.nix
+    ./base/networking.nix
+    ./base/remote-building.nix
+    ./base/user-group.nix
+    ./base/visualisation.nix
+
+    ./desktop
+    ../base.nix
+  ];
 
   # i3 related options
   services = {
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
+
     xserver = {
       enable = true;
-
-      # Configure keymap in X11
-      xkb.layout = "us";
-
-      desktopManager = {
-        xterm.enable = false;
-      };
-
       displayManager = {
         lightdm.enable = true;
         autoLogin = {
@@ -38,6 +32,8 @@
         };
         defaultSession = "none+i3";
       };
+      # Configure keymap in X11
+      xkb.layout = "us";
 
       windowManager.i3 = {
         enable = true;

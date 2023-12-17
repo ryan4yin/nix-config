@@ -4,7 +4,7 @@
   fetchgit,
 }:
 stdenvNoCC.mkDerivation rec {
-  pname = "icomoon-feather-font";
+  pname = "icomoon-feather-icon-font";
   version = "2023-05-06";
 
   # 参考 https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=ttf-icomoon-feather

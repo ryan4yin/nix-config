@@ -1,4 +1,4 @@
-{pkgs, hyprland, ...}: {
+{pkgs, ...}: {
   ##########################################################################################################
   #
   #  NixOS's Configuration for Wayland based Window Manager
@@ -6,6 +6,18 @@
   #    hyprland: project starts from 2022, support Wayland, envolving fast, good looking, support Nvidia GPU.
   #
   ##########################################################################################################
+
+  imports = [
+    ./base/i18n.nix
+    ./base/misc.nix
+    ./base/networking.nix
+    ./base/remote-building.nix
+    ./base/user-group.nix
+    ./base/visualisation.nix
+
+    ./desktop
+    ../base.nix
+  ];
 
   xdg.portal = {
     enable = true;
@@ -15,45 +27,18 @@
     ];
   };
 
-  environment.pathsToLink = ["/libexec"]; # links /libexec from derivations to /run/current-system/sw
   services = {
-    gvfs.enable = true; # Mount, trash, and other functionalities
-    tumbler.enable = true; # Thumbnail support for images
-    xserver = {
+    xserver.enable = false;
+    # https://wiki.archlinux.org/title/Greetd
+    greetd = {
       enable = true;
-
-      desktopManager = {
-        xterm.enable = false;
-      };
-
-      displayManager = {
-        defaultSession = "hyprland";
-        lightdm.enable = false;
-        gdm = {
-          enable = true;
-          wayland = true;
+      settings = {
+        default_session = {
+           user = "ryan";  # Hyprland is installed only for user ryan via home-manager!
+           command = "Hyprland";  # start Hyprland directly without a login manager
+           # command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";  # start Hyprland with a TUI login manager
         };
       };
-    };
-  };
-
-  programs = {
-    hyprland = {
-      enable = true;
-      package = hyprland.packages.${pkgs.system}.hyprland.override {
-        enableXWayland = true; # whether to enable XWayland
-        legacyRenderer = false; # whether to use the legacy renderer (for old GPUs)
-        withSystemd = true; # whether to build with systemd support
-      };
-    };
-
-    # thunar file manager(part of xfce) related options
-    thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-      ];
     };
   };
 

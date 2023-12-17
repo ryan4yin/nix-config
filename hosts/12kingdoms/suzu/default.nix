@@ -20,9 +20,7 @@
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
     (nixos-rk3588 + "/modules/boards/orangepi5.nix")
 
-    # core-riscv64 only the core packages, it's suitable for aarch64 too.
-    ../../../modules/nixos/core-riscv64.nix
-    ../../../modules/nixos/user-group.nix
+    ../../../modules/nixos/server-riscv64.nix
   ];
 
   users.users.root.openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;

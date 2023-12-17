@@ -1,13 +1,14 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   ###################################################################################
   #
-  #  Enable Libvirt(QEMU/KVM), install qemu-system-riscv64/qemu-system-loongarch64/...)
+  #  Visualisation - Libvirt(QEMU/KVM) / Docker / LXD / WayDroid
   #
   ###################################################################################
+
+  boot.kernelModules = ["kvm-amd" "kvm-intel" "vfio-pci"];
+  # Enable nested virsualization, required by security containers and nested vm.
+  boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
+  # boot.extraModprobeConfig = "options kvm_amd nested=1";  # for amd cpu
 
   virtualisation = {
     libvirtd = {
@@ -16,8 +17,10 @@
       # To fix these, manually change ownership of affected files in /var/lib/libvirt/qemu to qemu-libvirtd.
       qemu.runAsRoot = true;
     };
+    waydroid.enable = true;
+    lxd.enable = true;
   };
-  programs.dconf.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Need to add [File (in the menu bar) -> Add connection] when start for the first time
     virt-manager
@@ -37,14 +40,4 @@
     #   ......
     qemu_full
   ];
-
-  boot.kernelModules = ["kvm-amd" "kvm-intel" "vfio-pci"];
-  # Enable nested virsualization, required by security containers and nested vm.
-  boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
-  # boot.extraModprobeConfig = "options kvm_amd nested=1";  # for amd cpu
-
-  virtualisation = {
-    waydroid.enable = true;
-    lxd.enable = true;
-  };
 }

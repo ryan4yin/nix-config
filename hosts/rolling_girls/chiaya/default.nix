@@ -22,8 +22,7 @@
 
     # TODO
 
-    ../../../modules/nixos/core-riscv64.nix
-    ../../../modules/nixos/user-group.nix
+    ../../../modules/nixos/server-riscv64.nix
   ];
 
   users.users.root.openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;

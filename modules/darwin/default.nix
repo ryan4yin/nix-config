@@ -1,6 +1,6 @@
 {
   imports = [
-    ../common.nix
+    ../base.nix
     ./nix-core.nix
 
     ./apps.nix

@@ -8,8 +8,7 @@
   imports = [
     ../../../modules/nixos/proxmox-hardware-configuration.nix
 
-    ../../../modules/nixos/core-server.nix
-    ../../../modules/nixos/user-group.nix
+    ../../../modules/nixos/server.nix
   ];
 
   nixpkgs.overlays = import ../../../overlays args;
