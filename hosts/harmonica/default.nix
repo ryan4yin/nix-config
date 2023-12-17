@@ -1,4 +1,4 @@
-{ username, ... } @ args:
+{username, ...} @ args:
 #############################################################
 #
 #  Harmonica - my MacBook Pro 2020 13-inch, mainly for business.

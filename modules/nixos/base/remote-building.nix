@@ -1,5 +1,4 @@
-{ username, ... }:
-{
+{username, ...}: {
   ####################################################################
   #
   #  NixOS's Configuration for Remote Building / Distributed Building

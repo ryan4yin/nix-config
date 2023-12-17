@@ -1,4 +1,8 @@
-{config, nushell-scripts, ...}: let
+{
+  config,
+  nushell-scripts,
+  ...
+}: let
   d = config.xdg.dataHome;
   c = config.xdg.configHome;
   cache = config.xdg.cacheHome;

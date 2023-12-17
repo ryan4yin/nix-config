@@ -13,7 +13,7 @@
     strace # system call monitoring
     ltrace # library call monitoring
     bpftrace # powerful tracing tool
-    tcpdump  # network sniffer
+    tcpdump # network sniffer
     lsof # list open files
 
     # system tools

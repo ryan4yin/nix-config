@@ -1,4 +1,4 @@
-{ pkgs, ...}: {
+{pkgs, ...}: {
   # i3 window manager's config, based on https://github.com/endeavouros-team/endeavouros-i3wm-setup
 
   imports = [
@@ -43,5 +43,4 @@
     "GBM_BACKEND" = "nvidia-drm";
     "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
   };
-
 }

@@ -34,9 +34,9 @@
       enable = true;
       settings = {
         default_session = {
-           user = "ryan";  # Hyprland is installed only for user ryan via home-manager!
-           command = "Hyprland";  # start Hyprland directly without a login manager
-           # command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";  # start Hyprland with a TUI login manager
+          user = "ryan"; # Hyprland is installed only for user ryan via home-manager!
+          command = "Hyprland"; # start Hyprland directly without a login manager
+          # command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";  # start Hyprland with a TUI login manager
         };
       };
     };

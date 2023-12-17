@@ -1,4 +1,8 @@
-{pkgs, config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   ##########################################################################
   #
   #  Install all apps and packages here.
@@ -20,12 +24,12 @@
     neovim
     git
     nushell # my custom shell
-    gnugrep  # replacee macos's grep
+    gnugrep # replacee macos's grep
     gnutar # replacee macos's tar
   ];
   environment.variables = {
     # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
-    TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ [ "/usr/share/terminfo" ];
+    TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ ["/usr/share/terminfo"];
 
     EDITOR = "nvim";
   };

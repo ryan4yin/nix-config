@@ -18,7 +18,7 @@
   #   https://github.com/NixOS/nixpkgs/issues/118655
   security.sudo.extraRules = [
     {
-      users = [ username ];
+      users = [username];
       commands = [
         {
           command = "ALL";

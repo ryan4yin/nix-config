@@ -19,15 +19,14 @@
     nmap # A utility for network discovery and security auditing
     ipcalc # it is a calculator for the IPv4/v6 addresses
 
-
     # Text Processing
     # Docs: https://github.com/learnbyexample/Command-line-text-processing
-    gnugrep  # GNU grep, provides `grep`/`egrep`/`fgrep`
-    gnused  # GNU sed, very powerful(mainly for replacing text in files)
-    gawk   # GNU awk, a pattern scanning and processing language
+    gnugrep # GNU grep, provides `grep`/`egrep`/`fgrep`
+    gnused # GNU sed, very powerful(mainly for replacing text in files)
+    gawk # GNU awk, a pattern scanning and processing language
     ripgrep # recursively searches directories for a regex pattern
-    sad  # CLI search and replace, with diff preview, really useful!!!
-    delta  # A viewer for git and diff output
+    sad # CLI search and replace, with diff preview, really useful!!!
+    delta # A viewer for git and diff output
     # A fast and polyglot tool for code searching, linting, rewriting at large scale
     # supported languages: only some mainstream languages currently(do not support nix/nginx/yaml/toml/...)
     ast-grep
@@ -80,7 +79,7 @@
       # https://github.com/catppuccin/fzf
       # catppuccin-mocha
       colors = {
-        "bg+" = "#313244"; 
+        "bg+" = "#313244";
         "bg" = "#1e1e2e";
         "spinner" = "#f5e0dc";
         "hl" = "#f38ba8";

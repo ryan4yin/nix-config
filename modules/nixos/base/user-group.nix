@@ -1,6 +1,4 @@
-{ username, ... }: 
-
-{
+{username, ...}: {
   # Don't allow mutation of users outside the config.
   users.mutableUsers = false;
 
@@ -9,7 +7,7 @@
     docker = {};
     wireshark = {};
     # for android platform tools's udev rules
-    adbusers ={};
+    adbusers = {};
     dialout = {};
     # for openocd (embedded system development)
     plugdev = {};

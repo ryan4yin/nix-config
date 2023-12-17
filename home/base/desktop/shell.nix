@@ -1,4 +1,4 @@
-{ nushell-scripts, ...}: {
+{nushell-scripts, ...}: {
   programs.bash = {
     # load the alias file for work
     bashrcExtra = ''

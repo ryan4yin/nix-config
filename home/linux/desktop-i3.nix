@@ -1,4 +1,4 @@
-{ username, ... }: {
+{username, ...}: {
   imports = [
     ../base/desktop
 

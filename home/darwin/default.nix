@@ -1,7 +1,7 @@
-{ username, ... }: {
+{username, ...}: {
   imports = [
     ../base/desktop
-    
+
     ./proxychains
 
     ./core.nix

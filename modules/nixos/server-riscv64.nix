@@ -1,5 +1,4 @@
 {pkgs, ...}: {
-
   # =========================================================================
   #      Base NixOS Configuration
   # =========================================================================
@@ -27,12 +26,12 @@
     neovim
 
     # networking
-    mtr      # A network diagnostic tool
-    iperf3   # A tool for measuring TCP and UDP bandwidth performance
-    nmap     # A utility for network discovery and security auditing
-    ldns     # replacement of dig, it provide the command `drill`
-    socat    # replacement of openbsd-netcat
-    tcpdump  # A powerful command-line packet analyzer
+    mtr # A network diagnostic tool
+    iperf3 # A tool for measuring TCP and UDP bandwidth performance
+    nmap # A utility for network discovery and security auditing
+    ldns # replacement of dig, it provide the command `drill`
+    socat # replacement of openbsd-netcat
+    tcpdump # A powerful command-line packet analyzer
 
     # archives
     zip
@@ -66,7 +65,7 @@
     enable = true;
     settings = {
       X11Forwarding = true;
-      PermitRootLogin = "prohibit-password";  # disable root login with password
+      PermitRootLogin = "prohibit-password"; # disable root login with password
       PasswordAuthentication = false; # disable password login
     };
     openFirewall = true;

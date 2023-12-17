@@ -3,7 +3,6 @@
   pkgs,
   agenix,
   mysecrets,
-
   username,
   ...
 }: {

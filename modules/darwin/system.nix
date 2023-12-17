@@ -24,10 +24,10 @@
 
       # customize dock
       dock = {
-        autohide = true;  # automatically hide and show the dock
+        autohide = true; # automatically hide and show the dock
         show-recents = false; # do not show recent apps in dock
-        # do not automatically rearrange spaces based on most recent use. 
-        mru-spaces = false; 
+        # do not automatically rearrange spaces based on most recent use.
+        mru-spaces = false;
 
         # customize Hot Corners(触发角, 鼠标移动到屏幕角落时触发的动作)
         wvous-tl-corner = 2; # top-left - Mission Control
@@ -158,7 +158,7 @@
     # will change to `fonts.packages` after this PR is merged:
     #   https://github.com/LnL7/nix-darwin/pull/754
     fonts = with pkgs; [
-    # packages = with pkgs; [
+      # packages = with pkgs; [
       # icon fonts
       material-design-icons
       font-awesome

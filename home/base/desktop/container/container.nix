@@ -7,7 +7,7 @@
     skopeo
     docker-compose
     dive # explore docker layers
-   ];
+  ];
 
   programs = {
   };

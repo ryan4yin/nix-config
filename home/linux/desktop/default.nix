@@ -27,7 +27,7 @@
 
     # misc
     flameshot
-    ventoy    # multi-boot usb creator
+    ventoy # multi-boot usb creator
   ];
 
   # GitHub CLI tool

@@ -1,6 +1,8 @@
-{ pkgs, anyrun, ... }:
-
 {
+  pkgs,
+  anyrun,
+  ...
+}: {
   imports = [
     anyrun.homeManagerModules.default
   ];
@@ -83,5 +85,4 @@
       }
     '';
   };
-
 }

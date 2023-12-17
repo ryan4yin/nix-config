@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   # Adjust the color temperature(& brightness) of your screen according to
   # your surroundings. This may help your eyes hurt less if you are
   # working in front of the screen at night.
@@ -18,7 +22,7 @@
     # https://gitlab.com/chinstrap/gammastep/-/blob/master/gammastep.conf.sample?ref_type=heads
     settings = {
       general = {
-        fade = "1";  # gradually apply the new screen temperature/brightness over a couple of seconds.
+        fade = "1"; # gradually apply the new screen temperature/brightness over a couple of seconds.
         # it is a fake brightness adjustment obtained by manipulating the gamma ramps,
         # which means that it does not reduce the backlight　of the screen.
         # Preferably only use it if your normal backlight adjustment is too coarse-grained.

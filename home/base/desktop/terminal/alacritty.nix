@@ -1,4 +1,8 @@
-{pkgs, catppuccin-alacritty, ...}:
+{
+  pkgs,
+  catppuccin-alacritty,
+  ...
+}:
 ###########################################################
 #
 # Alacritty Configuration
@@ -97,8 +101,8 @@
     + (
       if pkgs.stdenv.isDarwin
       then ''
-          # Point size
-          size: 14
+        # Point size
+        size: 14
       ''
       else ''
         # holder identation
