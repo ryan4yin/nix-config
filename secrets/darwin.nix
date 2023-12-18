@@ -22,14 +22,19 @@
   age.secrets = {
     "wg-business.conf" = {
       file = "${mysecrets}/wg-business.conf.age";
+      owner = username;
     };
 
     # alias-for-work
     "alias-for-work.nushell" = {
       file = "${mysecrets}/alias-for-work.nushell.age";
+      mode = "0600";
+      owner = username;
     };
     "alias-for-work.bash" = {
       file = "${mysecrets}/alias-for-work.bash.age";
+      mode = "0600";
+      owner = username;
     };
   };
 
@@ -52,34 +57,10 @@
     };
   };
 
-  # activationScripts are executed every time you run `nixos-rebuild` / `darwin-rebuild`.
+  # both the original file and the symlink should be readable and executable by the user
+  #
+  # activationScripts are executed every time you run `nixos-rebuild` / `darwin-rebuild` or boot your system
   system.activationScripts.postActivation.text = ''
-    chmod 644 /etc/agenix/*
-  '';
-  # When you eboot the system, only these scripts will be executed:
-  #    https://github.com/LnL7/nix-darwin/blob/4eb1c549a9d4/modules/services/activate-system/default.nix6
-  # So we need to add the following line to the script:
-  launchd.daemons.activate-system.script = ''
-    set -e
-    set -o pipefail
-    export PATH="${pkgs.gnugrep}/bin:${pkgs.coreutils}/bin:@out@/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-
-    systemConfig=$(cat ${config.system.profile}/systemConfig)
-
-    # Make this configuration the current configuration.
-    # The readlink is there to ensure that when $systemConfig = /system
-    # (which is a symlink to the store), /run/current-system is still
-    # used as a garbage collection root.
-    ln -sfn $(cat ${config.system.profile}/systemConfig) /run/current-system
-
-    # Prevent the current configuration from being garbage-collected.
-    ln -sfn /run/current-system /nix/var/nix/gcroots/current-system
-
-    ${config.system.activationScripts.etcChecks.text}
-    ${config.system.activationScripts.etc.text}
-    ${config.system.activationScripts.keyboard.text}
-
-    # The following line is added by me
-    ${config.system.activationScripts.postActivation.text}
+    sudo chown ${username} /etc/agenix/*
   '';
 }
