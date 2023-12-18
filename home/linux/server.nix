@@ -8,7 +8,7 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = username;
+    inherit username;
     homeDirectory = "/home/${username}";
 
     # This value determines the Home Manager release that your

@@ -13,292 +13,286 @@
   # parameters in `outputs` are defined in `inputs` and can be referenced by their names.
   # However, `self` is an exception, this special parameter points to the `outputs` itself (self-reference)
   # The `@` syntax here is used to alias the attribute set of the inputs's parameter, making it convenient to use inside the function.
-  outputs =
-    inputs @ { self
-    , nixpkgs
-    , nixpkgs-unstable
-    , pre-commit-hooks
-    , nix-darwin
-    , home-manager
-    , nixos-generators
-    , nixos-licheepi4a
-    , nixos-rk3588
-    , ...
-    }:
-    let
-      username = "ryan";
-      userfullname = "Ryan Yin";
-      useremail = "xiaoyin_c@qq.com";
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    pre-commit-hooks,
+    nix-darwin,
+    home-manager,
+    nixos-generators,
+    nixos-licheepi4a,
+    nixos-rk3588,
+    ...
+  }: let
+    username = "ryan";
+    userfullname = "Ryan Yin";
+    useremail = "xiaoyin_c@qq.com";
 
-      x64_system = "x86_64-linux";
-      x64_darwin = "x86_64-darwin";
-      riscv64_system = "riscv64-linux";
-      aarch64_system = "aarch64-linux";
-      allSystems = [ x64_system x64_darwin riscv64_system aarch64_system ];
+    x64_system = "x86_64-linux";
+    x64_darwin = "x86_64-darwin";
+    riscv64_system = "riscv64-linux";
+    aarch64_system = "aarch64-linux";
+    allSystems = [x64_system x64_darwin riscv64_system aarch64_system];
 
-      nixosSystem = import ./lib/nixosSystem.nix;
-      macosSystem = import ./lib/macosSystem.nix;
-      colmenaSystem = import ./lib/colmenaSystem.nix;
+    nixosSystem = import ./lib/nixosSystem.nix;
+    macosSystem = import ./lib/macosSystem.nix;
+    colmenaSystem = import ./lib/colmenaSystem.nix;
 
-      # 星野 アイ, Hoshino Ai
-      idol_ai_modules_i3 = {
-        nixos-modules = [
-          ./hosts/idols/ai
-          ./modules/nixos/i3.nix
-        ];
-        home-module = import ./home/linux/desktop-i3.nix;
+    # 星野 アイ, Hoshino Ai
+    idol_ai_modules_i3 = {
+      nixos-modules = [
+        ./hosts/idols/ai
+        ./modules/nixos/i3.nix
+      ];
+      home-module = import ./home/linux/desktop-i3.nix;
+    };
+    idol_ai_modules_hyprland = {
+      nixos-modules = [
+        ./hosts/idols/ai
+        ./modules/nixos/hyprland.nix
+      ];
+      home-module = import ./home/linux/desktop-hyprland.nix;
+    };
+
+    # 星野 愛久愛海, Hoshino Akuamarin
+    idol_aquamarine_modules = {
+      nixos-modules = [
+        ./hosts/idols/aquamarine
+      ];
+      home-module = import ./home/linux/server.nix;
+    };
+    idol_aquamarine_tags = ["dist-build" "aqua"];
+
+    # 星野 瑠美衣, Hoshino Rubii
+    idol_ruby_modules = {
+      nixos-modules = [
+        ./hosts/idols/ruby
+      ];
+      home-module = import ./home/linux/server.nix;
+    };
+    idol_ruby_tags = ["dist-build" "ruby"];
+
+    # 有馬 かな, Arima Kana
+    idol_kana_modules = {
+      nixos-modules = [
+        ./hosts/idols/kana
+      ];
+      home-module = import ./home/linux/server.nix;
+    };
+    idol_kana_tags = ["dist-build" "kana"];
+
+    # 森友 望未, Moritomo Nozomi
+    rolling_nozomi_modules = {
+      nixos-modules = [
+        ./hosts/rolling_girls/nozomi
+      ];
+      # home-module = import ./home/linux/server-riscv64.nix;
+    };
+    rolling_nozomi_tags = ["riscv" "nozomi"];
+
+    # 小坂 結季奈, Kosaka Yukina
+    rolling_yukina_modules = {
+      nixos-modules = [
+        ./hosts/rolling_girls/yukina
+      ];
+      # home-module = import ./home/linux/server-riscv64.nix;
+    };
+    rolling_yukina_tags = ["riscv" "yukina"];
+
+    # 大木 鈴, Ōki Suzu
+    _12kingdoms_suzu_modules = {
+      nixos-modules = [
+        ./hosts/12kingdoms/suzu
+      ];
+      # home-module = import ./home/linux/server.nix;
+    };
+    _12kingdoms_suzu_tags = ["aarch" "suzu"];
+
+    x64_specialArgs =
+      {
+        inherit username userfullname useremail;
+        # use unstable branch for some packages to get the latest updates
+        pkgs-unstable = import nixpkgs-unstable {
+          system = x64_system; # refer the `system` parameter form outer scope recursively
+          # To use chrome, we need to allow the installation of non-free software
+          config.allowUnfree = true;
+        };
+      }
+      // inputs;
+  in {
+    nixosConfigurations = let
+      base_args = {
+        inherit home-manager nixos-generators;
+        nixpkgs = nixpkgs; # or nixpkgs-unstable
+        system = x64_system;
+        specialArgs = x64_specialArgs;
       };
-      idol_ai_modules_hyprland = {
-        nixos-modules = [
-          ./hosts/idols/ai
-          ./modules/nixos/hyprland.nix
-        ];
-        home-module = import ./home/linux/desktop-hyprland.nix;
+    in {
+      # ai with i3 window manager
+      ai_i3 = nixosSystem (idol_ai_modules_i3 // base_args);
+      # ai with hyprland compositor
+      ai_hyprland = nixosSystem (idol_ai_modules_hyprland // base_args);
+
+      # three virtual machines without desktop environment.
+      aquamarine = nixosSystem (idol_aquamarine_modules // base_args);
+      ruby = nixosSystem (idol_ruby_modules // base_args);
+      kana = nixosSystem (idol_kana_modules // base_args);
+    };
+
+    # colmena - remote deployment via SSH
+    colmena = let
+      # x86_64 related
+      x64_base_args = {
+        inherit home-manager;
+        nixpkgs = nixpkgs; # or nixpkgs-unstable
+        specialArgs = x64_specialArgs;
       };
 
-      # 星野 愛久愛海, Hoshino Akuamarin
-      idol_aquamarine_modules = {
-        nixos-modules = [
-          ./hosts/idols/aquamarine
-        ];
-        home-module = import ./home/linux/server.nix;
+      # riscv64 related
+      # using the same nixpkgs as nixos-licheepi4a to utilize the cross-compilation cache.
+      lpi4a_pkgs = import nixos-licheepi4a.inputs.nixpkgs {system = x64_system;};
+      lpi4a_specialArgs =
+        {
+          inherit username userfullname useremail;
+          pkgsKernel = nixos-licheepi4a.packages.${x64_system}.pkgsKernelCross;
+        }
+        // inputs;
+      lpi4a_base_args = {
+        inherit home-manager;
+        nixpkgs = nixos-licheepi4a.inputs.nixpkgs; # or nixpkgs-unstable
+        specialArgs = lpi4a_specialArgs;
+        targetUser = "root";
       };
-      idol_aquamarine_tags = [ "dist-build" "aqua" ];
 
-      # 星野 瑠美衣, Hoshino Rubii
-      idol_ruby_modules = {
-        nixos-modules = [
-          ./hosts/idols/ruby
-        ];
-        home-module = import ./home/linux/server.nix;
+      # aarch64 related
+      # using the same nixpkgs as nixos-rk3588 to utilize the cross-compilation cache.
+      rk3588_pkgs = import nixos-rk3588.inputs.nixpkgs {system = x64_system;};
+      rk3588_specialArgs =
+        {
+          inherit username userfullname useremail;
+        }
+        // nixos-rk3588.inputs;
+      rk3588_base_args = {
+        inherit home-manager;
+        nixpkgs = nixos-rk3588.inputs.nixpkgs; # or nixpkgs-unstable
+        specialArgs = rk3588_specialArgs;
+        targetUser = "root";
       };
-      idol_ruby_tags = [ "dist-build" "ruby" ];
+    in {
+      meta = {
+        nixpkgs = import nixpkgs {system = x64_system;};
+        specialArgs = x64_specialArgs;
 
-      # 有馬 かな, Arima Kana
-      idol_kana_modules = {
-        nixos-modules = [
-          ./hosts/idols/kana
-        ];
-        home-module = import ./home/linux/server.nix;
+        nodeSpecialArgs = {
+          # riscv64 SBCs
+          nozomi = lpi4a_specialArgs;
+          yukina = lpi4a_specialArgs;
+
+          # aarch64 SBCs
+          suzu = rk3588_specialArgs;
+        };
+        nodeNixpkgs = {
+          nozomi = lpi4a_pkgs;
+          yukina = lpi4a_pkgs;
+
+          # aarch64 SBCs
+          suzu = rk3588_pkgs;
+        };
       };
-      idol_kana_tags = [ "dist-build" "kana" ];
 
-      # 森友 望未, Moritomo Nozomi
-      rolling_nozomi_modules = {
-        nixos-modules = [
-          ./hosts/rolling_girls/nozomi
-        ];
-        # home-module = import ./home/linux/server-riscv64.nix;
-      };
-      rolling_nozomi_tags = [ "riscv" "nozomi" ];
+      # proxmox virtual machines(x86_64)
+      aquamarine = colmenaSystem (idol_aquamarine_modules // x64_base_args // {host_tags = idol_aquamarine_tags;});
+      ruby = colmenaSystem (idol_ruby_modules // x64_base_args // {host_tags = idol_ruby_tags;});
+      kana = colmenaSystem (idol_kana_modules // x64_base_args // {host_tags = idol_kana_tags;});
 
-      # 小坂 結季奈, Kosaka Yukina
-      rolling_yukina_modules = {
-        nixos-modules = [
-          ./hosts/rolling_girls/yukina
-        ];
-        # home-module = import ./home/linux/server-riscv64.nix;
-      };
-      rolling_yukina_tags = [ "riscv" "yukina" ];
+      # riscv64 SBCs
+      nozomi = colmenaSystem (rolling_nozomi_modules // lpi4a_base_args // {host_tags = rolling_nozomi_tags;});
+      yukina = colmenaSystem (rolling_yukina_modules // lpi4a_base_args // {host_tags = rolling_yukina_tags;});
 
-      # 大木 鈴, Ōki Suzu
-      _12kingdoms_suzu_modules = {
-        nixos-modules = [
-          ./hosts/12kingdoms/suzu
-        ];
-        # home-module = import ./home/linux/server.nix;
-      };
-      _12kingdoms_suzu_tags = [ "aarch" "suzu" ];
+      # aarch64 SBCs
+      suzu = colmenaSystem (_12kingdoms_suzu_modules // rk3588_base_args // {host_tags = _12kingdoms_suzu_tags;});
+    };
 
-      x64_specialArgs =
+    # take system images for idols
+    # https://github.com/nix-community/nixos-generators
+    packages."${x64_system}" =
+      # genAttrs returns an attribute set with the given keys and values(host => image).
+      nixpkgs.lib.genAttrs [
+        "ai_i3"
+        "ai_hyprland"
+      ]
+      (
+        # generate iso image for hosts with desktop environment
+        host:
+          self.nixosConfigurations.${host}.config.formats.iso
+      )
+      // nixpkgs.lib.genAttrs [
+        "aquamarine"
+        "ruby"
+        "kana"
+      ]
+      (
+        # generate proxmox image for virtual machines without desktop environment
+        host:
+          self.nixosConfigurations.${host}.config.formats.proxmox
+      );
+
+    # macOS's configuration, for work.
+    darwinConfigurations = let
+      system = x64_darwin;
+      specialArgs =
         {
           inherit username userfullname useremail;
           # use unstable branch for some packages to get the latest updates
           pkgs-unstable = import nixpkgs-unstable {
-            system = x64_system; # refer the `system` parameter form outer scope recursively
+            inherit system; # refer the `system` parameter form outer scope recursively
             # To use chrome, we need to allow the installation of non-free software
             config.allowUnfree = true;
           };
         }
         // inputs;
-    in
-    {
-      nixosConfigurations =
-        let
-          base_args = {
-            inherit home-manager nixos-generators;
-            nixpkgs = nixpkgs; # or nixpkgs-unstable
-            system = x64_system;
-            specialArgs = x64_specialArgs;
-          };
-        in
-        {
-          # ai with i3 window manager
-          ai_i3 = nixosSystem (idol_ai_modules_i3 // base_args);
-          # ai with hyprland compositor
-          ai_hyprland = nixosSystem (idol_ai_modules_hyprland // base_args);
-
-          # three virtual machines without desktop environment.
-          aquamarine = nixosSystem (idol_aquamarine_modules // base_args);
-          ruby = nixosSystem (idol_ruby_modules // base_args);
-          kana = nixosSystem (idol_kana_modules // base_args);
-        };
-
-      # colmena - remote deployment via SSH
-      colmena =
-        let
-          # x86_64 related
-          x64_base_args = {
-            inherit home-manager;
-            nixpkgs = nixpkgs; # or nixpkgs-unstable
-            specialArgs = x64_specialArgs;
-          };
-
-          # riscv64 related
-          # using the same nixpkgs as nixos-licheepi4a to utilize the cross-compilation cache.
-          lpi4a_pkgs = import nixos-licheepi4a.inputs.nixpkgs { system = x64_system; };
-          lpi4a_specialArgs =
-            {
-              inherit username userfullname useremail;
-              pkgsKernel = nixos-licheepi4a.packages.${x64_system}.pkgsKernelCross;
-            }
-            // inputs;
-          lpi4a_base_args = {
-            inherit home-manager;
-            nixpkgs = nixos-licheepi4a.inputs.nixpkgs; # or nixpkgs-unstable
-            specialArgs = lpi4a_specialArgs;
-            targetUser = "root";
-          };
-
-          # aarch64 related
-          # using the same nixpkgs as nixos-rk3588 to utilize the cross-compilation cache.
-          rk3588_pkgs = import nixos-rk3588.inputs.nixpkgs { system = x64_system; };
-          rk3588_specialArgs =
-            {
-              inherit username userfullname useremail;
-            }
-            // nixos-rk3588.inputs;
-          rk3588_base_args = {
-            inherit home-manager;
-            nixpkgs = nixos-rk3588.inputs.nixpkgs; # or nixpkgs-unstable
-            specialArgs = rk3588_specialArgs;
-            targetUser = "root";
-          };
-        in
-        {
-          meta = {
-            nixpkgs = import nixpkgs { system = x64_system; };
-            specialArgs = x64_specialArgs;
-
-            nodeSpecialArgs = {
-              # riscv64 SBCs
-              nozomi = lpi4a_specialArgs;
-              yukina = lpi4a_specialArgs;
-
-              # aarch64 SBCs
-              suzu = rk3588_specialArgs;
-            };
-            nodeNixpkgs = {
-              nozomi = lpi4a_pkgs;
-              yukina = lpi4a_pkgs;
-
-              # aarch64 SBCs
-              suzu = rk3588_pkgs;
-            };
-          };
-
-          # proxmox virtual machines(x86_64)
-          aquamarine = colmenaSystem (idol_aquamarine_modules // x64_base_args // { host_tags = idol_aquamarine_tags; });
-          ruby = colmenaSystem (idol_ruby_modules // x64_base_args // { host_tags = idol_ruby_tags; });
-          kana = colmenaSystem (idol_kana_modules // x64_base_args // { host_tags = idol_kana_tags; });
-
-          # riscv64 SBCs
-          nozomi = colmenaSystem (rolling_nozomi_modules // lpi4a_base_args // { host_tags = rolling_nozomi_tags; });
-          yukina = colmenaSystem (rolling_yukina_modules // lpi4a_base_args // { host_tags = rolling_yukina_tags; });
-
-          # aarch64 SBCs
-          suzu = colmenaSystem (_12kingdoms_suzu_modules // rk3588_base_args // { host_tags = _12kingdoms_suzu_tags; });
-        };
-
-      # take system images for idols
-      # https://github.com/nix-community/nixos-generators
-      packages."${x64_system}" =
-        # genAttrs returns an attribute set with the given keys and values(host => image).
-        nixpkgs.lib.genAttrs [
-          "ai_i3"
-          "ai_hyprland"
-        ]
-          (
-            # generate iso image for hosts with desktop environment
-            host:
-            self.nixosConfigurations.${host}.config.formats.iso
-          )
-        // nixpkgs.lib.genAttrs [
-          "aquamarine"
-          "ruby"
-          "kana"
-        ]
-          (
-            # generate proxmox image for virtual machines without desktop environment
-            host:
-            self.nixosConfigurations.${host}.config.formats.proxmox
-          );
-
-      # macOS's configuration, for work.
-      darwinConfigurations =
-        let
-          system = x64_darwin;
-          specialArgs =
-            {
-              inherit username userfullname useremail;
-              # use unstable branch for some packages to get the latest updates
-              pkgs-unstable = import nixpkgs-unstable {
-                inherit system; # refer the `system` parameter form outer scope recursively
-                # To use chrome, we need to allow the installation of non-free software
-                config.allowUnfree = true;
-              };
-            }
-            // inputs;
-          base_args = {
-            inherit nix-darwin home-manager system specialArgs nixpkgs;
-          };
-        in
-        {
-          harmonica = macosSystem (base_args
-            // {
-            darwin-modules = [
-              ./hosts/harmonica
-            ];
-            home-module = import ./home/darwin;
-          });
-        };
-
-      # format the nix code in this flake
-      # alejandra is a nix formatter with a beautiful output
-      formatter = nixpkgs.lib.genAttrs allSystems (
-        system:
-        nixpkgs.legacyPackages.${system}.alejandra
-      );
-
-      # pre-commit hooks for nix code
-      checks = nixpkgs.lib.genAttrs allSystems (
-        system: {
-          pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-            hooks = {
-              alejandra.enable = true;
-            };
-          };
-        }
-      );
-      devShells = nixpkgs.lib.genAttrs allSystems (
-        system: {
-          default = nixpkgs.legacyPackages.${system}.mkShell {
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
-          };
-        }
-      );
+      base_args = {
+        inherit nix-darwin home-manager system specialArgs nixpkgs;
+      };
+    in {
+      harmonica = macosSystem (base_args
+        // {
+          darwin-modules = [
+            ./hosts/harmonica
+          ];
+          home-module = import ./home/darwin;
+        });
     };
+
+    # format the nix code in this flake
+    # alejandra is a nix formatter with a beautiful output
+    formatter = nixpkgs.lib.genAttrs allSystems (
+      system:
+        nixpkgs.legacyPackages.${system}.alejandra
+    );
+
+    # pre-commit hooks for nix code
+    checks = nixpkgs.lib.genAttrs allSystems (
+      system: {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            alejandra.enable = true; # formatter
+            deadnix.enable = true; # detect unused variable bindings in `*.nix`
+            statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
+          };
+        };
+      }
+    );
+    devShells = nixpkgs.lib.genAttrs allSystems (
+      system: {
+        default = nixpkgs.legacyPackages.${system}.mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
+        };
+      }
+    );
+  };
 
   # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
   # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.

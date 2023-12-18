@@ -7,7 +7,7 @@
   darwin-modules,
   home-module,
 }: let
-  username = specialArgs.username;
+  inherit (specialArgs) username;
 in
   nix-darwin.lib.darwinSystem {
     inherit system specialArgs;

@@ -8,7 +8,7 @@
   host_tags,
   targetUser ? specialArgs.username,
 }: let
-  username = specialArgs.username;
+  inherit (specialArgs) username;
 in
   {
     name,
@@ -16,8 +16,8 @@ in
     ...
   }: {
     deployment = {
+      inherit targetUser;
       targetHost = name; # hostName or IP address
-      targetUser = targetUser;
       tags = host_tags;
     };
 

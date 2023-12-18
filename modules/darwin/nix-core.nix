@@ -16,14 +16,13 @@
   nixpkgs.config.allowUnfree = true;
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = false;
+  #
   # Use this instead of services.nix-daemon.enable if you
   # don't wan't the daemon service to be managed for you.
-  # nix.useDaemon = true;
+  nix.useDaemon = true;
 
   nix.package = pkgs.nix;
-
-  programs.nix-index.enable = true;
 
   # Disable auto-optimise-store because of this issue:
   #   https://github.com/NixOS/nix/issues/7273
