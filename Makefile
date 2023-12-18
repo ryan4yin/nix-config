@@ -61,6 +61,9 @@ ha: darwin-set-proxy
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica
 	sleep 1
 
+ha-rollback:
+	./result/sw/bin/darwin-rebuild rollback
+
 ha-debug: darwin-set-proxy
 	nom build .#darwinConfigurations.harmonica.system --show-trace --verbose
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica --show-trace --verbose
