@@ -30,7 +30,7 @@ stdenvNoCC.mkDerivation rec {
   meta = with lib; {
     homepage = "https://github.com/feathericons/feather";
     description = "Icomoon feather font";
-    version = version;
+    inherit version;
     longDescription = ''
       Feather is a collection of simply beautiful open source icons.
       Each icon is designed on a 24x24 grid with an emphasis on simplicity, consistency, and flexibility.

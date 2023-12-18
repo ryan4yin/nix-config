@@ -7,7 +7,7 @@
   nixos-modules,
   home-module,
 }: let
-  username = specialArgs.username;
+  inherit (specialArgs) username;
 in
   nixpkgs.lib.nixosSystem {
     inherit system specialArgs;

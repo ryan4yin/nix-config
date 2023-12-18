@@ -17,6 +17,7 @@
     self,
     nixpkgs,
     nixpkgs-unstable,
+    nixpkgs-darwin,
     pre-commit-hooks,
     nix-darwin,
     home-manager,
@@ -124,7 +125,7 @@
     nixosConfigurations = let
       base_args = {
         inherit home-manager nixos-generators;
-        nixpkgs = nixpkgs; # or nixpkgs-unstable
+        inherit nixpkgs; # or nixpkgs-unstable
         system = x64_system;
         specialArgs = x64_specialArgs;
       };
@@ -145,7 +146,7 @@
       # x86_64 related
       x64_base_args = {
         inherit home-manager;
-        nixpkgs = nixpkgs; # or nixpkgs-unstable
+        inherit nixpkgs; # or nixpkgs-unstable
         specialArgs = x64_specialArgs;
       };
 
@@ -160,7 +161,7 @@
         // inputs;
       lpi4a_base_args = {
         inherit home-manager;
-        nixpkgs = nixos-licheepi4a.inputs.nixpkgs; # or nixpkgs-unstable
+        inherit (nixos-licheepi4a.inputs) nixpkgs; # or nixpkgs-unstable
         specialArgs = lpi4a_specialArgs;
         targetUser = "root";
       };
@@ -175,7 +176,7 @@
         // nixos-rk3588.inputs;
       rk3588_base_args = {
         inherit home-manager;
-        nixpkgs = nixos-rk3588.inputs.nixpkgs; # or nixpkgs-unstable
+        inherit (nixos-rk3588.inputs) nixpkgs; # or nixpkgs-unstable
         specialArgs = rk3588_specialArgs;
         targetUser = "root";
       };
@@ -253,7 +254,8 @@
         }
         // inputs;
       base_args = {
-        inherit nix-darwin home-manager system specialArgs nixpkgs;
+        inherit nix-darwin home-manager system specialArgs;
+        nixpkgs = nixpkgs-darwin;
       };
     in {
       harmonica = macosSystem (base_args
@@ -306,7 +308,10 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # add git hooks to format nix code before commit
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for macos
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
@@ -333,7 +338,11 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
-    hyprland.url = "github:hyprwm/Hyprland/v0.33.1";
+    hyprland = {
+      url = "github:hyprwm/Hyprland/v0.33.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # community wayland nixpkgs
     # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     # anyrun - a wayland launcher
@@ -349,7 +358,10 @@
     };
 
     # secrets management, lock with git commit at 2023/7/15
-    agenix.url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
+    agenix = {
+      url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ########################  Some non-flake repositories  #########################################
 

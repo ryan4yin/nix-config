@@ -1,4 +1,4 @@
-{...} @ args:
+args:
 #############################################################
 #
 #  Aquamarine - A NixOS VM running on Proxmox

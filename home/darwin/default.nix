@@ -11,7 +11,7 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = username;
+    inherit username;
     # set homeDirectory make build fail
     homeDirectory = "/Users/${username}";
 
