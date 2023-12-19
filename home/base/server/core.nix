@@ -57,18 +57,11 @@
   ];
 
   programs = {
-    # modern vim
-    neovim = {
-      enable = true;
-      defaultEditor = true;
-      vimAlias = true;
-    };
-
     # A modern replacement for ‘ls’
     # useful in bash/zsh prompt, not in nushell.
     eza = {
       enable = true;
-      enableAliases = true;
+      enableAliases = false;  # do not enable aliases in nushell!
       git = true;
       icons = true;
     };

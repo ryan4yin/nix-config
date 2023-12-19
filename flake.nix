@@ -281,7 +281,7 @@
           src = ./.;
           hooks = {
             alejandra.enable = true; # formatter
-            deadnix.enable = true; # detect unused variable bindings in `*.nix`
+            # deadnix.enable = true; # detect unused variable bindings in `*.nix`
             statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
           };
         };
@@ -446,6 +446,8 @@
   };
 
   # the nixConfig here only affects the flake itself, not the system configuration!
+  # for more information, see:
+  #     https://nixos-and-flakes.thiscute.world/nixos-with-flakes/add-custom-cache-servers
   nixConfig = {
     # substituers will be appended to the default substituters when fetching packages
     extra-substituters = [
