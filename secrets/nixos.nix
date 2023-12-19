@@ -58,11 +58,11 @@
     # So we need to make then readable by the user
     "agenix/alias-for-work.nushell" = {
       source = config.age.secrets."alias-for-work.nushell".path;
-      mode = "0644";  # both the original file and the symlink should be readable and executable by the user
+      mode = "0644"; # both the original file and the symlink should be readable and executable by the user
     };
     "agenix/alias-for-work.bash" = {
       source = config.age.secrets."alias-for-work.bash".path;
-      mode = "0644";  # both the original file and the symlink should be readable and executable by the user
+      mode = "0644"; # both the original file and the symlink should be readable and executable by the user
     };
   };
 }

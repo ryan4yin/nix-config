@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   ###################################################################################
   #
   #  NixOS's core configuration suitable for all my machines

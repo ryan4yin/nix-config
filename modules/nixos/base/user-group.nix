@@ -1,4 +1,4 @@
-{username, ...}: {
+{username, config, ...}: {
   # Don't allow mutation of users outside the config.
   users.mutableUsers = false;
 
@@ -37,10 +37,10 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII7PTkP3ixXTZlrJNSHnXgkmHNT+QslFi9wNYXOpVwGB ryan@harmonica"
     ];
   };
-  users.users.root.initialHashedPassword = "$7$CU..../....X6uvZYnFD.i1CqqFFNl4./$4vgqzIPyw5XBr0aCDFbY/UIRRJr7h5SMGoQ/ZvX3FP2";
-
-  # fix for `sudo xxx` in kitty/wezterm and other modern terminal emulators
-  security.sudo.keepTerminfo = true;
+  users.users.root = {
+    initialHashedPassword = "$7$CU..../....X6uvZYnFD.i1CqqFFNl4./$4vgqzIPyw5XBr0aCDFbY/UIRRJr7h5SMGoQ/ZvX3FP2";
+    openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;
+  };
 
   # DO NOT promote the specified user to input password for `nix-store` and `nix-copy-closure`
   security.sudo.extraRules = [

@@ -11,16 +11,9 @@
 #############################################################
 {
   imports = [
-    {
-      nixpkgs.crossSystem = {
-        config = "aarch64-unknown-linux-gnu";
-      };
-    }
 
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
     (nixos-rk3588 + "/modules/boards/orangepi5.nix")
-
-    ../../../modules/nixos/server-riscv64.nix
   ];
 
   users.users.root.openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;

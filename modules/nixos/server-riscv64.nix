@@ -3,20 +3,13 @@
   #      Base NixOS Configuration
   # =========================================================================
 
-  # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
+  imports = [
+    ./base/i18n.nix
+    ./base/misc.nix
+    ./base/user-group.nix
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  nix.settings = {
-    # Manual optimise storage: nix-store --optimise
-    # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-    auto-optimise-store = true;
-    builders-use-substitutes = true;
-    # enable flakes globally
-    experimental-features = ["nix-command" "flakes"];
-  };
+    ../base.nix
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -50,9 +43,6 @@
     tmux
     docker-compose
   ];
-
-  # replace default editor with neovim
-  environment.variables.EDITOR = "nvim";
 
   virtualisation.docker = {
     enable = true;

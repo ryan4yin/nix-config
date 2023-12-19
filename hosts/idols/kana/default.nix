@@ -1,18 +1,9 @@
-args:
 #############################################################
 #
 #  Kana - a NixOS VM running on Proxmox
 #
 #############################################################
 {
-  imports = [
-    ../../../modules/nixos/proxmox-hardware-configuration.nix
-
-    ../../../modules/nixos/server.nix
-  ];
-
-  nixpkgs.overlays = import ../../../overlays args;
-
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
   # supported fil systems, so we can mount any removable disks with these filesystems
