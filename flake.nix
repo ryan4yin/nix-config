@@ -140,10 +140,12 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # secrets management, lock with git commit at 0.14.0
+    # secrets management
     agenix = {
-      url = "github:ryantm/agenix/54693c91d923fecb4cf04c4535e3d84f8dec7919";
+      # lock with git commit at 0.14.0
+      # url = "github:ryantm/agenix/54693c91d923fecb4cf04c4535e3d84f8dec7919";
+      # replaced with a type-safe reimplementation to get a better error message and less bugs.
+      url = "github:ryan4yin/ragenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -144,5 +144,5 @@ If you're deploying to the same machine from which you encrypted the secrets, it
 
 - [ragenix](https://github.com/yaxitech/ragenix): A Rust reimplementation of agenix.
   - agenix is mainly written in bash, and it's error message is quite obscure, a little typo may cause some errors no one can understand.
-  - with a type-safe language like Rust, we can get a better error message and a better user experience, and less bugs.
+  - with a type-safe language like Rust, we can get a better error message and less bugs.
 
