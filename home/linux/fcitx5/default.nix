@@ -1,22 +1,18 @@
 {
   pkgs,
-  config,
-  lib,
   catppuccin-fcitx5,
   ...
 }: {
-  home.file.".config/fcitx5/profile".source = ./profile;
+  home.file.".config/fcitx5/profile" = {
+    source = ./profile;
+    # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile,
+    # so we need to force replace it in every rebuild to avoid file conflict.
+    force = true;
+  };
 
   # color schema
   home.file.".local/share/fcitx5/themes".source = "${catppuccin-fcitx5}/src";
   home.file.".config/fcitx5/conf/classicui.conf".source = ./classicui.conf;
-
-  # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile file,
-  # which will override my config managed by home-manager
-  # so we need to remove it before everytime we rebuild the config
-  home.activation.removeExistingFcitx5Profile = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
-    rm -f "${config.xdg.configHome}/fcitx5/profile"
-  '';
 
   i18n.inputMethod = {
     enabled = "fcitx5";
