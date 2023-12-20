@@ -56,18 +56,25 @@ darwin-set-proxy:
 	sudo python3 scripts/darwin_set_proxy.py
 	sleep 1
 
+darwin-rollback:
+	./result/sw/bin/darwin-rebuild rollback
+
 ha: darwin-set-proxy
 	nix build .#darwinConfigurations.harmonica.system
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica
-	sleep 1
-
-ha-rollback:
-	./result/sw/bin/darwin-rebuild rollback
 
 ha-debug: darwin-set-proxy
 	nom build .#darwinConfigurations.harmonica.system --show-trace --verbose
 	./result/sw/bin/darwin-rebuild switch --flake .#harmonica --show-trace --verbose
-	sleep 1
+
+fe: darwin-set-proxy
+	nix build .#darwinConfigurations.fern.system
+	./result/sw/bin/darwin-rebuild switch --flake .#fern
+
+fe-debug: darwin-set-proxy
+	nom build .#darwinConfigurations.fern.system --show-trace --verbose
+	./result/sw/bin/darwin-rebuild switch --flake .#fern --show-trace --verbose
+
 
 ############################################################################
 #

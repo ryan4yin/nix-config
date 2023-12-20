@@ -99,4 +99,14 @@
     ];
     home-module = import ../home/darwin;
   };
+  darwin_fern_modules = {
+    darwin-modules = [
+      ../hosts/fern
+
+      ../modules/darwin
+      ../secrets/darwin.nix
+    ];
+    home-module = import ../home/darwin;
+  };
+
 }
