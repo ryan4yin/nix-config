@@ -1,6 +1,6 @@
 {
   pkgs,
-  catppuccin-alacritty,
+  nur-ryan4yin,
   ...
 }:
 ###########################################################
@@ -24,7 +24,7 @@
 #
 ###########################################################
 {
-  xdg.configFile."alacritty/theme_catppuccin.yml".source = "${catppuccin-alacritty}/catppuccin-mocha.yml";
+  xdg.configFile."alacritty/theme_catppuccin.yml".source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-alacritty}/catppuccin-mocha.yml";
   programs.alacritty = {
     enable = true;
   };

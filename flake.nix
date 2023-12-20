@@ -69,16 +69,11 @@
   nixConfig = {
     # substituers will be appended to the default substituters when fetching packages
     extra-substituters = [
-      "https://nix-community.cachix.org"
-      # my own cache server
-      "https://ryan4yin.cachix.org"
       "https://anyrun.cachix.org"
       "https://hyprland.cachix.org"
       # "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
       "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
@@ -146,9 +141,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # secrets management, lock with git commit at 2023/7/15
+    # secrets management, lock with git commit at 0.14.0
     agenix = {
-      url = "github:ryantm/agenix/0d8c5325fc81daf00532e3e26c6752f7bcde1143";
+      url = "github:ryantm/agenix/54693c91d923fecb4cf04c4535e3d84f8dec7919";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -192,45 +187,5 @@
 
     # aarch64 SBCs
     nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
-
-    ########################  Color Schemes  #########################################
-
-    # color scheme - catppuccin
-    catppuccin-btop = {
-      url = "github:catppuccin/btop";
-      flake = false;
-    };
-    catppuccin-fcitx5 = {
-      url = "github:catppuccin/fcitx5";
-      flake = false;
-    };
-    catppuccin-bat = {
-      url = "github:catppuccin/bat";
-      flake = false;
-    };
-    catppuccin-alacritty = {
-      url = "github:catppuccin/alacritty";
-      flake = false;
-    };
-    catppuccin-helix = {
-      url = "github:catppuccin/helix";
-      flake = false;
-    };
-    catppuccin-starship = {
-      url = "github:catppuccin/starship";
-      flake = false;
-    };
-    catppuccin-hyprland = {
-      url = "github:catppuccin/hyprland";
-      flake = false;
-    };
-    catppuccin-cava = {
-      url = "github:catppuccin/cava";
-      flake = false;
-    };
-    cattppuccin-k9s = {
-      url = "github:catppuccin/k9s";
-      flake = false;
-    };
   };
 }

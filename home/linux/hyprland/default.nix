@@ -2,7 +2,7 @@
   lib,
   pkgs,
   hyprland,
-  catppuccin-hyprland,
+  nur-ryan4yin,
   ...
 }: {
   imports = [
@@ -40,7 +40,7 @@
     recursive = true;
   };
   xdg.configFile."hypr/themes" = {
-    source = "${catppuccin-hyprland}/themes";
+    source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes";
     recursive = true;
   };
 
