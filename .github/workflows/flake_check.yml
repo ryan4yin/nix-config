@@ -20,8 +20,4 @@ jobs:
 
       - name: Run Nix Flake Check
         run: |
-          output=$(nix flake check 2>&1)
-          echo "$output"
-          if echo "$output" | grep -q -i error; then
-            exit 1
-          fi
+          nix flake check
