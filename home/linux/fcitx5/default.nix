@@ -1,6 +1,6 @@
 {
   pkgs,
-  catppuccin-fcitx5,
+  nur-ryan4yin,
   ...
 }: {
   home.file.".config/fcitx5/profile" = {
@@ -11,7 +11,7 @@
   };
 
   # color schema
-  home.file.".local/share/fcitx5/themes".source = "${catppuccin-fcitx5}/src";
+  home.file.".local/share/fcitx5/themes".source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-fcitx5}/src";
   home.file.".config/fcitx5/conf/classicui.conf".source = ./classicui.conf;
 
   i18n.inputMethod = {
