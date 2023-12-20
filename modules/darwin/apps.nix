@@ -133,7 +133,7 @@
       "microsoft-remote-desktop"
 
       # "anki"
-      "clashx" # proxy tool
+      "shadowsocksx-ng" # proxy tool
       "iina" # video player
       "openinterminal-lite" # open current folder in terminal
       "syncthing" # file sync
