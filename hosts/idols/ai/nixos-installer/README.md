@@ -1,6 +1,6 @@
 # Nix Environment for Deploying my NixOS Configuration
 
-This flake prepares a Nix environment for setting my desktop [../hosts/idols/ai](../hosts/idols/ai/)(on main flake) up on a new machine.
+This flake prepares a Nix environment for setting my desktop [/hosts/idols/ai](/hosts/idols/ai/)(on main flake) up on a new machine.
 
 TODOs:
 
@@ -8,7 +8,7 @@ TODOs:
 
 ## Why an extra flake is needed?
 
-The configuration of the main flake, [../flake.nix](../flake.nix), is heavy, and it takes time to debug & deploy.
+The configuration of the main flake, [/flake.nix](/flake.nix), is heavy, and it takes time to debug & deploy.
 This simplified flake is tiny and can be deployed very quickly, it helps me to:
 
 1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the `main` flake.
