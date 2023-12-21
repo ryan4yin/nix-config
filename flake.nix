@@ -54,6 +54,10 @@
       devShells = forEachSystem (
         system: {
           default = nixpkgs.legacyPackages.${system}.mkShell {
+            packages = [
+              # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
+              nixpkgs.legacyPackages.${system}.bashInteractive
+            ];
             name = "dots";
             shellHook = ''
               ${self.checks.${system}.pre-commit-check.shellHook}
