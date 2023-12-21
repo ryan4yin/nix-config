@@ -18,14 +18,20 @@
     }
     // inputs;
 
-  allSystemSpecialArgs = with constants; {
-    x64_system_specialArgs = specialArgsForSystem x64_system;
-    aarch64_system_specialArgs = specialArgsForSystem aarch64_system;
-    riscv64_system_specialArgs = specialArgsForSystem riscv64_system;
-
-    x64_darwin_specialArgs = specialArgsForSystem x64_darwin;
-    aarch64_darwin_specialArgs = specialArgsForSystem aarch64_darwin;
-  };
+  allSystemSpecialArgs = builtins.listToAttrs (
+    map
+    (attr: {
+      name = attr + "_specialArgs";
+      value = specialArgsForSystem constants.${attr};
+    })
+    [
+      "x64_system"
+      "aarch64_system"
+      "riscv64_system"
+      "x64_darwin"
+      "aarch64_darwin"
+    ]
+  );
 
   args = lib.attrsets.mergeAttrsList [
     inputs

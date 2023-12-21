@@ -1,5 +1,6 @@
 args:
 with args; let
+  lib = nixpkgs.lib;
   nixosSystem = import ../lib/nixosSystem.nix;
 
   base_args = {
@@ -23,25 +24,28 @@ in {
 
   # take system images for idols
   # https://github.com/nix-community/nixos-generators
-  packages."${x64_system}" =
-    # genAttrs returns an attribute set with the given keys and values(host => image).
-    nixpkgs.lib.genAttrs [
-      "ai_i3"
-      "ai_hyprland"
-    ]
+  packages."${x64_system}" = lib.attrsets.mergeAttrsList [
     (
+      # lib.genAttrs [ "foo" "bar" ] (name: "x_" + name)
+      #   => { foo = "x_foo"; bar = "x_bar"; }
+      nixpkgs.lib.genAttrs
+      [
+        "ai_i3"
+        "ai_hyprland"
+      ]
       # generate iso image for hosts with desktop environment
-      host:
-        self.nixosConfigurations.${host}.config.formats.iso
+      (host: self.nixosConfigurations.${host}.config.formats.iso)
     )
-    // nixpkgs.lib.genAttrs [
-      "aquamarine"
-      "ruby"
-      "kana"
-    ]
+
     (
+      nixpkgs.lib.genAttrs
+      [
+        "aquamarine"
+        "ruby"
+        "kana"
+      ]
       # generate proxmox image for virtual machines without desktop environment
-      host:
-        self.nixosConfigurations.${host}.config.formats.proxmox
-    );
+      (host: self.nixosConfigurations.${host}.config.formats.proxmox)
+    )
+  ];
 }
