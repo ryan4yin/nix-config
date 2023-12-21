@@ -1,7 +1,7 @@
 {username, ...} @ args:
 #############################################################
 #
-#  Harmonica - my MacBook Pro 2020 13-inch, mainly for personal use
+#  Harmonica - MacBook Pro 2020 13-inch i5 16G, mainly for personal use
 #
 #############################################################
 let

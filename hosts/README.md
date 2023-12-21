@@ -1,6 +1,8 @@
 # Hosts
 
-1. `harmonica`: My MacBook Pro 2020 13-inch, for work.
+1. macOS
+   1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
+   1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
 2. `idols`
    1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
    2. `aquamarine`: My NixOS virtual machine with R9-5900HX(8C16T), for distributed building & testing.
