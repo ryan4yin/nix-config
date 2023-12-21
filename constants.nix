@@ -14,5 +14,6 @@ in systemAttrs // {
   userfullname = "Ryan Yin";
   useremail = "xiaoyin_c@qq.com";
 
+  inherit systemAttrs;
   allSystems = builtins.attrValues systemAttrs;
 }
