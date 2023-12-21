@@ -3,8 +3,8 @@ with args; let
   macosSystem = import ../lib/macosSystem.nix;
   x64_args = {
     inherit nix-darwin home-manager;
-    system = x64_darwin;
-    specialArgs = x64_darwin_specialArgs;
+    system = allSystemAttrs.x64_darwin;
+    specialArgs = allSystemSpecialArgs.x64_darwin;
     nixpkgs = nixpkgs-darwin;
   };
   aarch64_args = {
@@ -13,7 +13,6 @@ with args; let
     specialArgs = aarch64_darwin_specialArgs;
     nixpkgs = nixpkgs-darwin;
   };
-
 in {
   # macOS's configuration
   darwinConfigurations = {

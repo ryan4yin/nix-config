@@ -1,12 +1,13 @@
 args:
-with args; let
+with args;
+with allSystemAttrs; let
   lib = nixpkgs.lib;
   colmenaSystem = import ../lib/colmenaSystem.nix;
   # x86_64 related
   x64_base_args = {
     inherit home-manager;
     inherit nixpkgs; # or nixpkgs-unstable
-    specialArgs = x64_system_specialArgs;
+    specialArgs = allSystemSpecialArgs.x64_system;
   };
 
   # riscv64 related
@@ -44,7 +45,8 @@ in {
   colmena = {
     meta = {
       nixpkgs = import nixpkgs {system = x64_system;};
-      specialArgs = x64_system_specialArgs;
+      specialArgs = allSystemSpecialArgs.x64_system;
+
 
       nodeSpecialArgs = {
         # riscv64 SBCs

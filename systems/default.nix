@@ -18,21 +18,16 @@
     }
     // inputs;
 
-  # mapAttrs'
-  # (name: value: nameValuePair ("foo_" + name) ("bar-" + value))
-  # { x = "a"; y = "b"; }
-  #   => { foo_x = "bar-a"; foo_y = "bar-b"; }
-  allSystemSpecialArgs = with lib.attrsets;
-    mapAttrs'
-    (name: value: nameValuePair (name + "_specialArgs") (specialArgsForSystem value))
-    constants.systemAttrs;
+  allSystemSpecialArgs =
+    lib.attrsets.mapAttrs
+    (name: value: specialArgsForSystem value)
+    constants.allSystemAttrs;
 
   args = lib.attrsets.mergeAttrsList [
     inputs
     constants
     vars
-    allSystemSpecialArgs
-    {inherit self;}
+    {inherit self allSystemSpecialArgs;}
   ];
 in
   lib.attrsets.mergeAttrsList [

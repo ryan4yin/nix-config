@@ -1,5 +1,6 @@
 args:
-with args; let
+with args;
+with allSystemAttrs; let
   lib = nixpkgs.lib;
   nixosSystem = import ../lib/nixosSystem.nix;
 
@@ -7,7 +8,7 @@ with args; let
     inherit home-manager nixos-generators;
     inherit nixpkgs; # or nixpkgs-unstable
     system = x64_system;
-    specialArgs = x64_system_specialArgs;
+    specialArgs = allSystemSpecialArgs.x64_system;
   };
 in {
   nixosConfigurations = {
