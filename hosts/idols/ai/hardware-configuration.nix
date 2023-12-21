@@ -26,6 +26,8 @@
   boot.kernelModules = ["kvm-intel"];
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
   boot.extraModulePackages = [];
+  # clear /tmp on boot to get a stateless /tmp directory.
+  boot.tmp.cleanOnBoot = true;
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
@@ -80,6 +82,12 @@
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
     options = ["subvol=@snapshots" "compress-force=zstd:1"];
+  };
+
+  fileSystems."/tmp" = {
+    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+    fsType = "btrfs";
+    options = ["subvol=@tmp" "compress-force=zstd:1"];
   };
 
   # mount swap subvolume in readonly mode.

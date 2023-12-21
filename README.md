@@ -107,7 +107,7 @@ make i3-debug
 # make hypr-debug
 ```
 
-To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [ryan4yin/nix-config/nixos-install](https://github.com/ryan4yin/nix-config/tree/nixos-install)
+To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [./hosts/idols/ai/nixos-installer/](./hosts/idols/ai/nixos-installer/)
 
 ## How to create & managage VM from this flake?
 

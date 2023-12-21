@@ -45,6 +45,12 @@
       mode = "0600";
       owner = username;
     };
+
+    "nix-access-tokens" = {
+      file = "${mysecrets}/nix-access-tokens.age";
+      mode = "0600";
+      owner = username;
+    };
   };
 
   # place secrets in /etc/
