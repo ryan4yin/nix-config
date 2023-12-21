@@ -4,9 +4,6 @@
   username,
   ...
 }: {
-  nix.extraOptions = ''
-    !include ${config.age.secrets.nix-access-tokens.path}
-  '';
   nix.settings = {
     # enable flakes globally
     experimental-features = ["nix-command" "flakes"];

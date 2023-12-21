@@ -3,7 +3,7 @@
   username,
   nixos-rk3588,
   ...
-} @ args:
+}:
 #############################################################
 #
 #  Aquamarine - A NixOS VM running on Proxmox
@@ -11,9 +11,8 @@
 #############################################################
 {
   imports = [
-
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
-    (nixos-rk3588 + "/modules/boards/orangepi5.nix")
+    nixos-rk3588.nixosModules.orangepi5
   ];
 
   users.users.root.openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;

@@ -29,11 +29,12 @@ with allSystemAttrs; let
   # aarch64 related
   # using the same nixpkgs as nixos-rk3588 to utilize the cross-compilation cache.
   rk3588_pkgs = import nixos-rk3588.inputs.nixpkgs {system = x64_system;};
-  rk3588_specialArgs =
-    {
-      inherit username userfullname useremail;
-    }
-    // nixos-rk3588.inputs;
+  rk3588_specialArgs = {
+    inherit username userfullname useremail;
+    inherit (nixos-rk3588.inputs) nixpkgs;
+    # Provide rk3588 inputs as special argument
+    rk3588 = nixos-rk3588.inputs;
+  };
   rk3588_base_args = {
     inherit home-manager;
     inherit (nixos-rk3588.inputs) nixpkgs; # or nixpkgs-unstable
@@ -46,7 +47,6 @@ in {
     meta = {
       nixpkgs = import nixpkgs {system = x64_system;};
       specialArgs = allSystemSpecialArgs.x64_system;
-
 
       nodeSpecialArgs = {
         # riscv64 SBCs

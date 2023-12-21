@@ -1,4 +1,9 @@
+{ config, ...}:
 {
+  nix.extraOptions = ''
+    !include ${config.age.secrets.nix-access-tokens.path}
+  '';
+
   # security with polkit
   services.power-profiles-daemon = {
     enable = true;
