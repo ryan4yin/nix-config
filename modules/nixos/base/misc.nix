@@ -28,7 +28,8 @@
   nix.settings.auto-optimise-store = true;
 
   # Enable in-memory compressed devices and swap space provided by the zram kernel module.
-  # By enable this, we can store more data in memory instead of fallback to disk-based swap devices directly, and thus improve I/O performance.
+  # By enable this, we can store more data in memory instead of fallback to disk-based swap devices directly, 
+  # and thus improve I/O performance when we have a lot of memory.
   zramSwap = {
     enable = true;
     # one of "lzo", "lz4", "zstd"
