@@ -20,14 +20,9 @@ pl = plistlib.loads(NIX_DAEMON_PLIST.read_bytes())
 pl["EnvironmentVariables"]["HTTP_PROXY"] = HTTP_PROXY
 pl["EnvironmentVariables"]["HTTPS_PROXY"] = HTTP_PROXY
 
-# Homebrew Mirror
-pl["EnvironmentVariables"].update({
-  "HOMEBREW_API_DOMAIN": "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api",
-  "HOMEBREW_BOTTLE_DOMAIN": "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles",
-  "HOMEBREW_BREW_GIT_REMOTE": "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git",
-  "HOMEBREW_CORE_GIT_REMOTE": "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git",
-  "HOMEBREW_PIP_INDEX_URL": "https://pypi.tuna.tsinghua.edu.cn/simple",
-})
+# remove http proxy
+# pl["EnvironmentVariables"].pop("HTTP_PROXY", None)
+# pl["EnvironmentVariables"].pop("HTTPS_PROXY", None)
 
 os.chmod(NIX_DAEMON_PLIST, 0o644)
 NIX_DAEMON_PLIST.write_bytes(plistlib.dumps(pl))

@@ -1,19 +1,33 @@
 {
-  pkgs,
   config,
+  lib,
+  pkgs,
   ...
-}: {
-  ##########################################################################
-  #
-  #  Install all apps and packages here.
-  #
-  #  NOTE: Your can find all available options in:
-  #    https://daiderd.com/nix-darwin/manual/index.html
-  #
-  # TODO Fell free to modify this file to fit your needs.
-  #
-  ##########################################################################
-
+}:
+##########################################################################
+#
+#  Install all apps and packages here.
+#
+#  NOTE: Your can find all available options in:
+#    https://daiderd.com/nix-darwin/manual/index.html
+#
+# TODO Fell free to modify this file to fit your needs.
+#
+##########################################################################
+let
+  # Homebrew Mirror
+  # NOTE: is only useful when you run `brew install` manually! (not via nix-darwin)
+  homebrew_mirror_env = {
+    HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
+    HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
+    HOMEBREW_BREW_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git";
+    HOMEBREW_CORE_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git";
+    HOMEBREW_PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple";
+    # local HTTP PROXY
+    HTTP_PROXY = "http://127.0.0.1:7890";
+    HTTPS_PROXY = "http://127.0.0.1:7890";
+  };
+in {
   # Install packages from nix's official package repository.
   #
   # The packages installed here are available to all users, and are reproducible across machines, and are rollbackable.
@@ -27,12 +41,24 @@
     gnugrep # replacee macos's grep
     gnutar # replacee macos's tar
   ];
-  environment.variables = {
-    # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
-    TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ ["/usr/share/terminfo"];
+  environment.variables =
+    {
+      # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
+      TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ ["/usr/share/terminfo"];
 
-    EDITOR = "nvim";
-  };
+      EDITOR = "nvim";
+    }
+    # Set variables for you to manually install homebrew packages.
+    // homebrew_mirror_env;
+
+  # Set environment variables for nix-darwin before run `brew bundle`.
+  system.activationScripts.homebrew.text = let
+    env_script = lib.attrsets.foldlAttrs (acc: name: value: acc + "\nexport ${name}=${value}") "" homebrew_mirror_env;
+   in
+    lib.mkBefore ''
+      echo >&2 '${env_script}'
+      ${env_script}
+    '';
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   # this is required if you want to use darwin's default shell - zsh
@@ -42,19 +68,10 @@
     pkgs.nushell # my custom shell
   ];
 
-  # Homebrew Mirror
-  # NOTE: is only useful when you run `brew install` manually! (not via nix-darwin)
-  environment.variables = {
-    HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
-    HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
-    HOMEBREW_BREW_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git";
-    HOMEBREW_CORE_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git";
-    HOMEBREW_PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple";
-  };
-
   # homebrew need to be installed manually, see https://brew.sh
+  # https://github.com/LnL7/nix-darwin/blob/master/modules/homebrew.nix
   homebrew = {
-    enable = false;
+    enable = true;
 
     onActivation = {
       autoUpdate = false;
@@ -83,7 +100,6 @@
       "homebrew/cask-versions"
 
       "hashicorp/tap"
-      "pulumi/tap"
     ];
 
     brews = [
@@ -135,10 +151,9 @@
       # "anki"
       "shadowsocksx-ng" # proxy tool
       "iina" # video player
-      "openinterminal-lite" # open current folder in terminal
       "syncthing" # file sync
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
-      "iglance" # beautiful system monitor
+      "stats" # beautiful system status monitor in menu bar
       "eudic" # 欧路词典
       # "reaper"  # audio editor
       "sonic-pi" # music programming

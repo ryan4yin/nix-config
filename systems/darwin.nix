@@ -15,7 +15,7 @@ with args; let
   };
 
 in {
-  # macOS's configuration, for work.
+  # macOS's configuration
   darwinConfigurations = {
     harmonica =
       macosSystem (x64_args

@@ -59,7 +59,10 @@
         # `defaults read NSGlobalDomain "xxx"`
         "com.apple.swipescrolldirection" = true; # enable natural scrolling(default to true)
         "com.apple.sound.beep.feedback" = 0; # disable beep sound when pressing volume up/down key
+
+        # Appearance
         AppleInterfaceStyle = "Dark"; # dark mode
+
         AppleKeyboardUIMode = 3; # Mode 3 enables full keyboard control.
         ApplePressAndHoldEnabled = true; # enable press and hold
 
@@ -129,6 +132,9 @@
     # keyboard settings is not very useful on macOS
     # the most important thing is to remap option key to alt key globally,
     # but it's not supported by macOS yet.
+    #
+    # To avoid conflicts with neovim, disable ctrl + up/down/left/right to switch spaces in:
+    #   [System Preferences] -> [Keyboard] -> [Keyboard Shortcuts] -> [Mission Control]
     keyboard = {
       enableKeyMapping = true; # enable key mapping so that we can use `option` as `control`
 
