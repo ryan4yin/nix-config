@@ -23,9 +23,11 @@ let
     HOMEBREW_BREW_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git";
     HOMEBREW_CORE_GIT_REMOTE = "https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git";
     HOMEBREW_PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple";
-    # local HTTP PROXY
-    HTTP_PROXY = "http://127.0.0.1:7890";
-    HTTPS_PROXY = "http://127.0.0.1:7890";
+  };
+
+  local_proxy_env = {
+    # HTTP_PROXY = "http://127.0.0.1:7890";
+    # HTTPS_PROXY = "http://127.0.0.1:7890";
   };
 in {
   # Install packages from nix's official package repository.
@@ -53,8 +55,12 @@ in {
 
   # Set environment variables for nix-darwin before run `brew bundle`.
   system.activationScripts.homebrew.text = let
-    env_script = lib.attrsets.foldlAttrs (acc: name: value: acc + "\nexport ${name}=${value}") "" homebrew_mirror_env;
-   in
+    env_script =
+      lib.attrsets.foldlAttrs
+      (acc: name: value: acc + "\nexport ${name}=${value}")
+      ""
+      (homebrew_mirror_env // local_proxy_env);
+  in
     lib.mkBefore ''
       echo >&2 '${env_script}'
       ${env_script}
@@ -158,7 +164,7 @@ in {
       "sonic-pi" # music programming
 
       # Development
-      "mitmproxy"  # HTTP/HTTPS traffic inspector
+      "mitmproxy" # HTTP/HTTPS traffic inspector
       "insomnia" # REST client
       "wireshark" # network analyzer
       "jdk-mission-control" # Java Mission Control
