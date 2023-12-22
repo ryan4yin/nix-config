@@ -109,7 +109,6 @@ in {
       "aria2" # download tool
       "httpie" # http client
       "wireguard-tools" # wireguard
-      "mitmproxy"
 
       # Usage:
       #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
@@ -159,6 +158,7 @@ in {
       "sonic-pi" # music programming
 
       # Development
+      "mitmproxy"  # HTTP/HTTPS traffic inspector
       "insomnia" # REST client
       "wireshark" # network analyzer
       "jdk-mission-control" # Java Mission Control
