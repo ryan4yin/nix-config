@@ -3,7 +3,7 @@
   inputs,
   constants,
 }: let
-  lib = inputs.nixpkgs.lib;
+  inherit (inputs.nixpkgs) lib;
   vars = import ./vars.nix;
 
   specialArgsForSystem = system:
@@ -20,7 +20,7 @@
 
   allSystemSpecialArgs =
     lib.attrsets.mapAttrs
-    (name: value: specialArgsForSystem value)
+    (name: specialArgsForSystem)
     constants.allSystemAttrs;
 
   args = lib.attrsets.mergeAttrsList [

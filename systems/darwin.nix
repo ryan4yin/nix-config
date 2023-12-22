@@ -1,7 +1,7 @@
 args:
 with args;
 with allSystemAttrs; let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs) lib;
   macosSystem = import ../lib/macosSystem.nix;
   base_args = {
     inherit nix-darwin home-manager;

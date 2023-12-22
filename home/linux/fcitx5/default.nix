@@ -3,16 +3,17 @@
   nur-ryan4yin,
   ...
 }: {
-  home.file.".config/fcitx5/profile" = {
-    source = ./profile;
-    # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile,
-    # so we need to force replace it in every rebuild to avoid file conflict.
-    force = true;
-  };
-
-  # color schema
   home.file.".local/share/fcitx5/themes".source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-fcitx5}/src";
-  home.file.".config/fcitx5/conf/classicui.conf".source = ./classicui.conf;
+
+  xdg.configFile = {
+    "fcitx5/profile" = {
+      source = ./profile;
+      # every time fcitx5 switch input method, it will modify ~/.config/fcitx5/profile,
+      # so we need to force replace it in every rebuild to avoid file conflict.
+      force = true;
+    };
+    "fcitx5/conf/classicui.conf".source = ./classicui.conf;
+  };
 
   i18n.inputMethod = {
     enabled = "fcitx5";

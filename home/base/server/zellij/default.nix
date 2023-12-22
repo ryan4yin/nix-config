@@ -3,5 +3,5 @@ _: {
     enable = true;
   };
 
-  home.file.".config/zellij/config.kdl".source = ./config.kdl;
+  xdg.configFile."zellij/config.kdl".source = ./config.kdl;
 }

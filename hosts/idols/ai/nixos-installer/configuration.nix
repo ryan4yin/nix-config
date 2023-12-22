@@ -1,9 +1,8 @@
-{...}: {
-  networking.hostName = "ai";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-  networking.defaultGateway = "192.168.5.201";
-
+_: {
+  networking = {
+    hostName = "ai";
+    defaultGateway = "192.168.5.201";
+    networkmanager.enable = true;
+  };
   system.stateVersion = "23.11";
 }

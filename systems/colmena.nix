@@ -1,7 +1,7 @@
 args:
 with args;
 with allSystemAttrs; let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs) lib;
   colmenaSystem = import ../lib/colmenaSystem.nix;
   # x86_64 related
   x64_base_args = {

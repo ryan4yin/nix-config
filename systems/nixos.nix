@@ -1,7 +1,7 @@
 args:
 with args;
 with allSystemAttrs; let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs) lib;
   nixosSystem = import ../lib/nixosSystem.nix;
 
   base_args = {

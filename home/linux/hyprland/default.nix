@@ -23,31 +23,33 @@
   };
 
   # hyprland configs, based on https://github.com/notwidow/hyprland
-  xdg.configFile."hypr/mako" = {
-    source = ./hypr-conf/mako;
-    recursive = true;
-  };
-  xdg.configFile."hypr/scripts" = {
-    source = ./hypr-conf/scripts;
-    recursive = true;
-  };
-  xdg.configFile."hypr/waybar" = {
-    source = ./hypr-conf/waybar;
-    recursive = true;
-  };
-  xdg.configFile."hypr/wlogout" = {
-    source = ./hypr-conf/wlogout;
-    recursive = true;
-  };
-  xdg.configFile."hypr/themes" = {
-    source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes";
-    recursive = true;
-  };
+  xdg.configFile = {
+    "hypr/mako" = {
+      source = ./hypr-conf/mako;
+      recursive = true;
+    };
+    "hypr/scripts" = {
+      source = ./hypr-conf/scripts;
+      recursive = true;
+    };
+    "hypr/waybar" = {
+      source = ./hypr-conf/waybar;
+      recursive = true;
+    };
+    "hypr/wlogout" = {
+      source = ./hypr-conf/wlogout;
+      recursive = true;
+    };
+    "hypr/themes" = {
+      source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes";
+      recursive = true;
+    };
 
-  # music player - mpd
-  xdg.configFile."mpd" = {
-    source = ./mpd;
-    recursive = true;
+    # music player - mpd
+    "mpd" = {
+      source = ./mpd;
+      recursive = true;
+    };
   };
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
