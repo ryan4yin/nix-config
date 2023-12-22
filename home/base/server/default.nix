@@ -1,10 +1,9 @@
 {...}: {
   imports = [
-    ./nushell
+    ./shells
     ./tmux
     ./zellij
 
-    ./bash.nix
     ./bat.nix
     ./btop.nix
     ./core.nix
