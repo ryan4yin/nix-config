@@ -11,5 +11,6 @@
     ./helix.nix
     ./media.nix
     ./shell.nix
+    ./yazi.nix
   ];
 }
