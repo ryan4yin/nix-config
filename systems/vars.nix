@@ -1,30 +1,30 @@
-{
+rec {
   # 星野 アイ, Hoshino Ai
+  __idol_ai_base_nixos_modules = [
+    ../hosts/idols/ai
+    ../secrets/nixos.nix
+    ../modules/nixos/desktop.nix
+  ];
+  __idol_ai_base_home_modules = [
+    ../home/linux/desktop.nix
+  ];
+
   idol_ai_modules_i3 = {
-    nixos-modules = [
-      ../hosts/idols/ai
-      ../secrets/nixos.nix
-      ../modules/nixos/xorg.nix
-    ];
-    home-module = {
-      imports = [
-        ../home/linux/desktop.nix
-        ../home/linux/i3
-      ];
-    };
+    nixos-modules =
+      [{modules.desktop.xorg.enable = true;}]
+      ++ __idol_ai_base_nixos_modules;
+    home-module.imports =
+      [{modules.desktop.i3.enable = true;}]
+      ++ __idol_ai_base_home_modules;
   };
+
   idol_ai_modules_hyprland = {
-    nixos-modules = [
-      ../hosts/idols/ai
-      ../secrets/nixos.nix
-      ../modules/nixos/wayland.nix
-    ];
-    home-module = {
-      imports = [
-        ../home/linux/desktop.nix
-        ../home/linux/hyprland
-      ];
-    };
+    nixos-modules =
+      [{modules.desktop.wayland.enable = true;}]
+      ++ __idol_ai_base_nixos_modules;
+    home-module.imports =
+      [{modules.desktop.hyprland.enable = true;}]
+      ++ __idol_ai_base_home_modules;
   };
 
   # 星野 愛久愛海, Hoshino Akuamarin

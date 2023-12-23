@@ -1,7 +1,7 @@
 args:
 with args;
+with mylib;
 with allSystemAttrs; let
-  colmenaSystem = import ../lib/colmenaSystem.nix;
   # x86_64 related
   x64_base_args = {
     inherit home-manager;
@@ -65,36 +65,36 @@ in {
     };
 
     # proxmox virtual machines(x86_64)
-    aquamarine = colmenaSystem (libAttrs.mergeAttrsList [
+    aquamarine = colmenaSystem (attrs.mergeAttrsList [
       x64_base_args
       idol_aquamarine_modules
       {host_tags = idol_aquamarine_tags;}
     ]);
-    ruby = colmenaSystem (libAttrs.mergeAttrsList [
+    ruby = colmenaSystem (attrs.mergeAttrsList [
       x64_base_args
       idol_ruby_modules
       {host_tags = idol_ruby_tags;}
     ]);
-    kana = colmenaSystem (libAttrs.mergeAttrsList [
+    kana = colmenaSystem (attrs.mergeAttrsList [
       x64_base_args
       idol_kana_modules
       {host_tags = idol_kana_tags;}
     ]);
 
     # riscv64 SBCs
-    nozomi = colmenaSystem (libAttrs.mergeAttrsList [
+    nozomi = colmenaSystem (attrs.mergeAttrsList [
       lpi4a_base_args
       rolling_nozomi_modules
       {host_tags = rolling_nozomi_tags;}
     ]);
-    yukina = colmenaSystem (libAttrs.mergeAttrsList [
+    yukina = colmenaSystem (attrs.mergeAttrsList [
       lpi4a_base_args
       rolling_yukina_modules
       {host_tags = rolling_yukina_tags;}
     ]);
 
     # aarch64 SBCs
-    suzu = colmenaSystem (libAttrs.mergeAttrsList [
+    suzu = colmenaSystem (attrs.mergeAttrsList [
       rk3588_base_args
       _12kingdoms_suzu_modules
       {host_tags = _12kingdoms_suzu_tags;}

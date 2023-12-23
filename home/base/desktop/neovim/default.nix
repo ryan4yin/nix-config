@@ -11,7 +11,10 @@
 {
   xdg.configFile = {
     # astronvim's config
-    "nvim".source = astronvim;
+    "nvim" = {
+      source = astronvim;
+      force = true;
+    };
 
     # my custom astronvim config, astronvim will load it after base config
     # https://github.com/AstroNvim/AstroNvim/blob/v3.32.0/lua/astronvim/bootstrap.lua#L15-L16

@@ -1,6 +1,3 @@
-{...}: {
-  imports = [
-    ./container.nix
-    ./kubernetes.nix
-  ];
+{mylib, ...}: {
+  imports = mylib.scanPaths ./.;
 }

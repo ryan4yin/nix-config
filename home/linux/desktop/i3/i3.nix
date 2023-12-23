@@ -1,11 +1,6 @@
 _: {
   # i3 window manager's config, based on https://github.com/endeavouros-team/endeavouros-i3wm-setup
 
-  imports = [
-    ./packages.nix
-    ./x11-apps.nix
-  ];
-
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
   # so that gammastep/wallpaper-switcher's user service can be start correctly!
@@ -14,7 +9,7 @@ _: {
     enable = true;
     windowManager.i3 = {
       enable = true;
-      extraConfig = builtins.readFile ./config;
+      extraConfig = builtins.readFile ./i3-config;
     };
     # Path, relative to HOME, where Home Manager should write the X session script.
     # and NixOS will use it to start xorg session when system boot up

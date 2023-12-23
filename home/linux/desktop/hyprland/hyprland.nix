@@ -1,16 +1,10 @@
 {
-  lib,
   pkgs,
+  lib,
   hyprland,
   nur-ryan4yin,
   ...
 }: {
-  imports = [
-    ./anyrun.nix
-    ./wayland-apps.nix
-    ./packages.nix
-  ];
-
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
   # so that gammastep/wallpaper-switcher's user service can be start correctly!
