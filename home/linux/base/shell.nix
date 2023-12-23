@@ -1,8 +1,12 @@
-{config, ...}: let
+
+{config, username, ...}: let
   d = config.xdg.dataHome;
   c = config.xdg.configHome;
   cache = config.xdg.cacheHome;
 in rec {
+  
+  home.homeDirectory = "/home/${username}";
+
   # add environment variables
   systemd.user.sessionVariables = {
     # clean up ~
