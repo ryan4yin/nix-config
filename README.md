@@ -161,6 +161,7 @@ Other dotfiles that inspired me:
   - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, anyrun, etc.
 - Modularized NixOS Configuration
   - [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
+  - [viperML/dotfiles](https://github.com/viperML/dotfiles)
 - Hyprland(wayland)
   - [notwidow/hyprland](https://github.com/notwidow/hyprland): This is where I start my hyprland journey.
   - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar configuration here.

@@ -36,9 +36,6 @@ history:
 repl:
 	nix repl -f flake:nixpkgs
 
-eye:
-	systemctl --user start gammastep.service
-
 gc:
 	# remove all generations older than 7 days
 	sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
@@ -156,6 +153,3 @@ fmt:
 	# format the nix files in this repo
 	nix fmt
 
-.PHONY: clean  
-clean:  
-	rm -rf result

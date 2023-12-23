@@ -952,11 +952,11 @@
     "wallpapers": {
       "flake": false,
       "locked": {
-        "lastModified": 1694759298,
-        "narHash": "sha256-eSDBX6aA7zxodUq3MmV99JS0vr+aUwbEuLPoKnU5kHg=",
+        "lastModified": 1703310017,
+        "narHash": "sha256-SL3PIDa4BNz2rDZ/9KwnJCAfhelIoqpLtQ/FSYgfusI=",
         "owner": "ryan4yin",
         "repo": "wallpapers",
-        "rev": "f59f49a44042d2c669e18da07e652e00c431e9e9",
+        "rev": "20dea02ee2c0bb74dadcc3d4ec5efe78d00520dc",
         "type": "github"
       },
       "original": {

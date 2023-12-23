@@ -4,7 +4,7 @@
     nixos-modules = [
       ../hosts/idols/ai
       ../secrets/nixos.nix
-      ../modules/nixos/i3.nix
+      ../modules/nixos/xorg.nix
     ];
     home-module = import ../home/linux/desktop-i3.nix;
   };
@@ -12,7 +12,7 @@
     nixos-modules = [
       ../hosts/idols/ai
       ../secrets/nixos.nix
-      ../modules/nixos/hyprland.nix
+      ../modules/nixos/wayland.nix
     ];
     home-module = import ../home/linux/desktop-hyprland.nix;
   };
