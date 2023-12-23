@@ -1,7 +1,6 @@
 args:
 with args;
 with allSystemAttrs; let
-  inherit (nixpkgs) lib;
   nixosSystem = import ../lib/nixosSystem.nix;
 
   base_args = {
@@ -25,11 +24,9 @@ in {
 
   # take system images for idols
   # https://github.com/nix-community/nixos-generators
-  packages."${x64_system}" = lib.attrsets.mergeAttrsList [
+  packages."${x64_system}" = libAttrs.mergeAttrsList [
     (
-      # lib.genAttrs [ "foo" "bar" ] (name: "x_" + name)
-      #   => { foo = "x_foo"; bar = "x_bar"; }
-      nixpkgs.lib.genAttrs
+      libAttrs.listToAttrs
       [
         "ai_i3"
         "ai_hyprland"
@@ -39,7 +36,7 @@ in {
     )
 
     (
-      nixpkgs.lib.genAttrs
+      libAttrs.listToAttrs
       [
         "aquamarine"
         "ruby"

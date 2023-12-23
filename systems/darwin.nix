@@ -1,7 +1,6 @@
 args:
 with args;
 with allSystemAttrs; let
-  inherit (nixpkgs) lib;
   macosSystem = import ../lib/macosSystem.nix;
   base_args = {
     inherit nix-darwin home-manager;
@@ -11,7 +10,7 @@ in {
   # macOS's configuration
   darwinConfigurations = {
     harmonica = macosSystem (
-      lib.attrsets.mergeAttrsList [
+      libAttrs.mergeAttrsList [
         base_args
         darwin_harmonica_modules
         {
@@ -22,7 +21,7 @@ in {
     );
 
     fern = macosSystem (
-      lib.attrsets.mergeAttrsList [
+      libAttrs.mergeAttrsList [
         base_args
         darwin_fern_modules
         {

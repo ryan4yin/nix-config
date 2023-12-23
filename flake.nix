@@ -21,7 +21,7 @@
   }: let
     constants = import ./constants.nix;
 
-    # FYI: `lib.genAttrs [ "foo" "bar" ] (name: "x_" + name)` => `{ foo = "x_foo"; bar = "x_bar"; }`
+    # `lib.genAttrs [ "foo" "bar" ] (name: "x_" + name)` => `{ foo = "x_foo"; bar = "x_bar"; }`
     forEachSystem = func: (nixpkgs.lib.genAttrs constants.allSystems func);
 
     allSystemConfigurations = import ./systems {inherit self inputs constants;};
