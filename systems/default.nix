@@ -4,7 +4,7 @@
   constants,
 }: let
   inherit (inputs.nixpkgs) lib;
-  mylib = import ../lib { inherit lib; };
+  mylib = import ../lib {inherit lib;};
   vars = import ./vars.nix;
 
   specialArgsForSystem = system:
