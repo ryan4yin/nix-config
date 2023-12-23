@@ -36,10 +36,7 @@
       "adbusers"
       "libvirtd"
     ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDiipi59EnVbi6bK1bGrcbfEM263wgdNfbrt6VBC1rHx ryan@ai-idols"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII7PTkP3ixXTZlrJNSHnXgkmHNT+QslFi9wNYXOpVwGB ryan@harmonica"
-    ];
+
   };
   users.users.root = {
     initialHashedPassword = "$7$CU..../....X6uvZYnFD.i1CqqFFNl4./$4vgqzIPyw5XBr0aCDFbY/UIRRJr7h5SMGoQ/ZvX3FP2";

@@ -1,9 +1,11 @@
-{
-  config,
-  lib,
-  username,
-  ...
-}: {
+{username, ...}: {
+  users.users.${username} = {
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDiipi59EnVbi6bK1bGrcbfEM263wgdNfbrt6VBC1rHx ryan@ai-idols"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII7PTkP3ixXTZlrJNSHnXgkmHNT+QslFi9wNYXOpVwGB ryan@harmonica"
+    ];
+  };
+
   nix.settings = {
     # enable flakes globally
     experimental-features = ["nix-command" "flakes"];
