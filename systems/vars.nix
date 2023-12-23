@@ -6,7 +6,12 @@
       ../secrets/nixos.nix
       ../modules/nixos/xorg.nix
     ];
-    home-module = import ../home/linux/desktop-i3.nix;
+    home-module = {
+      imports = [
+        ../home/linux/desktop.nix
+        ../home/linux/i3
+      ];
+    };
   };
   idol_ai_modules_hyprland = {
     nixos-modules = [
@@ -14,7 +19,12 @@
       ../secrets/nixos.nix
       ../modules/nixos/wayland.nix
     ];
-    home-module = import ../home/linux/desktop-hyprland.nix;
+    home-module = {
+      imports = [
+        ../home/linux/desktop.nix
+        ../home/linux/hyprland
+      ];
+    };
   };
 
   # 星野 愛久愛海, Hoshino Akuamarin
@@ -59,7 +69,7 @@
       # cross-compilation this flake.
       {nixpkgs.crossSystem.system = "riscv64-linux";}
     ];
-    # home-module = import ../home/linux/server-riscv64.nix;
+    # home-module = import ../home/linux/server.nix;
   };
   rolling_nozomi_tags = ["riscv" "nozomi"];
 
@@ -72,7 +82,7 @@
       # cross-compilation this flake.
       {nixpkgs.crossSystem.system = "riscv64-linux";}
     ];
-    # home-module = import ../home/linux/server-riscv64.nix;
+    # home-module = import ../home/linux/server.nix;
   };
   rolling_yukina_tags = ["riscv" "yukina"];
 
@@ -108,5 +118,4 @@
     ];
     home-module = import ../home/darwin;
   };
-
 }
