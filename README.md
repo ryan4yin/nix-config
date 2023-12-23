@@ -16,13 +16,15 @@
 
 This repository is home to the nix code that builds my systems.
 
-## Why Nix?
+## Why NixOS & Flakes?
 
-Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works forever. If someone else shares their configuration, anyone can make use of it.
+Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works (almost) forever. If someone else shares their configuration, anyone can make use of it(if you really understand what you're copying/refering now).
 
-**Want to know Nix in detail? Looking for a beginner-friendly tutorial or best practices? Check out [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
 
-> If you're using macOS, you can also check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
+**Want to know NixOS & Flaks in detail? Looking for a beginner-friendly tutorial or best practices? You don't have to go through the pain I've experienced again! Check out  my [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+
+> If you're using macOS, check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
 
 ## Components
 
@@ -79,17 +81,9 @@ See [./secrets](./secrets) for details.
 
 > :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine:exclamation: It will not succeed.** this flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols/ai/hardware-configuration.nix), [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols/ai/cifs-mount.nix), [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols/ai/default.nix#L77-L91), etc.) which is not suitable for your hardware, and my private secrets repository [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) that only I have access to. You may use this repo as a reference to build your own configuration.
 
-For MacOS:
-
-```bash
-# deploy the darwin configuration(harmonicia)
-make ha
-
-# deploy with details
-make ha-debug
-```
-
 For NixOS:
+
+> To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [./hosts/idols/ai/nixos-installer/](./hosts/idols/ai/nixos-installer/)
 
 > Need to restart the machine when switching between `wayland` and `xorg`.
 
@@ -107,7 +101,21 @@ make i3-debug
 # make hypr-debug
 ```
 
-To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [./hosts/idols/ai/nixos-installer/](./hosts/idols/ai/nixos-installer/)
+For macOS:
+
+```bash
+# deploy harmonicia's configuration(macOS Intel)
+make ha
+
+# deploy fern's configuration(Apple Silicon)
+make fe
+
+# deploy with details
+make ha-debug
+# make fe
+```
+
+> [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg) (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
 
 ## How to create & managage VM from this flake?
 
