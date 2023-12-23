@@ -1,30 +1,58 @@
-rec {
-  # 星野 アイ, Hoshino Ai
-  __idol_ai_base_nixos_modules = [
-    ../hosts/idols/ai
-    ../secrets/nixos.nix
-    ../modules/nixos/desktop.nix
-  ];
-  __idol_ai_base_home_modules = [
-    ../home/linux/desktop.nix
-  ];
+let
+  _dekstop_bass_modules = {
+    nixos-modules = [
+      ../secrets/nixos.nix
+      ../modules/nixos/desktop.nix
+    ];
+    home-module.imports = [
+      ../home/linux/desktop.nix
+    ];
+  };
 
+  desktop_i3_modules = {
+    nixos-modules =
+      [
+        {modules.desktop.xorg.enable = true;}
+      ]
+      ++ _dekstop_bass_modules.nixos-modules;
+    home-module.imports =
+      [
+        ../home/linux/desktop.nix
+        {modules.desktop.i3.enable = true;}
+      ]
+      ++ _dekstop_bass_modules.home-module.imports;
+  };
+  desktop_hyprland_modules = {
+    nixos-modules =
+      [
+        {modules.desktop.wayland.enable = true;}
+      ]
+      ++ _dekstop_bass_modules.nixos-modules;
+    home-module.imports =
+      [
+        ../home/linux/desktop.nix
+        {modules.desktop.hyprland.enable = true;}
+      ]
+      ++ _dekstop_bass_modules.home-module.imports;
+  };
+in rec {
+  # 星野 アイ, Hoshino Ai
   idol_ai_modules_i3 = {
     nixos-modules =
-      [{modules.desktop.xorg.enable = true;}]
-      ++ __idol_ai_base_nixos_modules;
-    home-module.imports =
-      [{modules.desktop.i3.enable = true;}]
-      ++ __idol_ai_base_home_modules;
+      [
+        ../hosts/idols/ai
+      ]
+      ++ desktop_i3_modules.nixos-modules;
+    home-module = desktop_i3_modules.home-module;
   };
 
   idol_ai_modules_hyprland = {
     nixos-modules =
-      [{modules.desktop.wayland.enable = true;}]
-      ++ __idol_ai_base_nixos_modules;
-    home-module.imports =
-      [{modules.desktop.hyprland.enable = true;}]
-      ++ __idol_ai_base_home_modules;
+      [
+        ../hosts/idols/ai
+      ]
+      ++ desktop_hyprland_modules.nixos-modules;
+    home-module = desktop_hyprland_modules.home-module;
   };
 
   # 星野 愛久愛海, Hoshino Akuamarin
@@ -98,6 +126,25 @@ rec {
     # home-module = import ../home/linux/server.nix;
   };
   _12kingdoms_suzu_tags = ["aarch" "suzu"];
+
+  # Shoukei (祥瓊, Shōkei)
+  _12kingdoms_shoukei_modules_i3 = {
+    nixos-modules =
+      [
+        ../hosts/12kingdoms/shoukei
+      ]
+      ++ desktop_i3_modules.nixos-modules;
+    home-module = desktop_i3_modules.home-module;
+  };
+
+  _12kingdoms_shoukei_modules_hyprland = {
+    nixos-modules =
+      [
+        ../hosts/12kingdoms/shoukei
+      ]
+      ++ desktop_hyprland_modules.nixos-modules;
+    home-module = desktop_hyprland_modules.home-module;
+  };
 
   # darwin systems
   darwin_harmonica_modules = {

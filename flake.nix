@@ -95,18 +95,13 @@
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # add git hooks to format nix code before commit
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # for macos
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -150,6 +145,12 @@
       url = "github:ryantm/agenix/54693c91d923fecb4cf04c4535e3d84f8dec7919";
       # replaced with a type-safe reimplementation to get a better error message and less bugs.
       # url = "github:ryan4yin/ragenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # add git hooks to format nix code before commit
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -83,7 +83,7 @@ See [./secrets](./secrets) for details.
 
 For NixOS:
 
-> To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [./hosts/idols/ai/nixos-installer/](./hosts/idols/ai/nixos-installer/)
+> To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [./nixos-installer/](./nixos-installer/)
 
 > Need to restart the machine when switching between `wayland` and `xorg`.
 

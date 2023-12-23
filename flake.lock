@@ -533,6 +533,22 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1702453208,
+        "narHash": "sha256-0wRi9SposfE2wHqjuKt8WO2izKB/ASDOV91URunIqgo=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "7763c6fd1f299cb9361ff2abf755ed9619ef01d6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixos-licheepi4a": {
       "inputs": {
         "nixpkgs": "nixpkgs",
@@ -836,6 +852,7 @@
         "mysecrets": "mysecrets",
         "nix-darwin": "nix-darwin",
         "nixos-generators": "nixos-generators",
+        "nixos-hardware": "nixos-hardware",
         "nixos-licheepi4a": "nixos-licheepi4a",
         "nixos-rk3588": "nixos-rk3588",
         "nixpkgs": "nixpkgs_3",
