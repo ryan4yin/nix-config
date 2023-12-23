@@ -4,13 +4,13 @@
   constants,
 }: let
   inherit (inputs.nixpkgs) lib;
-  libAttrs = import ../lib/attrs.nix {inherit lib;};
+  mylib = import ../lib { inherit lib; };
   vars = import ./vars.nix;
 
   specialArgsForSystem = system:
     {
       inherit (constants) username userfullname useremail;
-      inherit libAttrs;
+      inherit mylib;
       # use unstable branch for some packages to get the latest updates
       pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system; # refer the `system` parameter form outer scope recursively
@@ -21,18 +21,18 @@
     // inputs;
 
   allSystemSpecialArgs =
-    libAttrs.mapAttrs
+    mylib.attrs.mapAttrs
     (_: specialArgsForSystem)
     constants.allSystemAttrs;
 
-  args = libAttrs.mergeAttrsList [
+  args = mylib.attrs.mergeAttrsList [
     inputs
     constants
     vars
-    {inherit self lib libAttrs allSystemSpecialArgs;}
+    {inherit self lib mylib allSystemSpecialArgs;}
   ];
 in
-  libAttrs.mergeAttrsList [
+  mylib.attrs.mergeAttrsList [
     (import ./nixos.nix args)
     (import ./darwin.nix args)
     (import ./colmena.nix args)

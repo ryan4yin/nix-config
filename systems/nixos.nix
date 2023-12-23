@@ -1,8 +1,7 @@
 args:
 with args;
+with mylib;
 with allSystemAttrs; let
-  nixosSystem = import ../lib/nixosSystem.nix;
-
   base_args = {
     inherit home-manager nixos-generators;
     inherit nixpkgs; # or nixpkgs-unstable
@@ -24,9 +23,9 @@ in {
 
   # take system images for idols
   # https://github.com/nix-community/nixos-generators
-  packages."${x64_system}" = libAttrs.mergeAttrsList [
+  packages."${x64_system}" = attrs.mergeAttrsList [
     (
-      libAttrs.listToAttrs
+      attrs.listToAttrs
       [
         "ai_i3"
         "ai_hyprland"
@@ -36,7 +35,7 @@ in {
     )
 
     (
-      libAttrs.listToAttrs
+      attrs.listToAttrs
       [
         "aquamarine"
         "ruby"

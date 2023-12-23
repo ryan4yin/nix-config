@@ -32,7 +32,4 @@
     ];
     builders-use-substitutes = true;
   };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = lib.mkDefault false;
 }
