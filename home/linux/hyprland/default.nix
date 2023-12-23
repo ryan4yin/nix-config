@@ -8,6 +8,7 @@
   imports = [
     ./anyrun.nix
     ./wayland-apps.nix
+    ./packages.nix
   ];
 
   # NOTE:
