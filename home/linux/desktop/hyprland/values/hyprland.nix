@@ -13,6 +13,14 @@
     enable = true;
     settings = {
       source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf";
+      env = [
+        "NIXOS_OZONE_WL,1" # for any ozone-based browser & electron apps to run on wayland
+        "MOZ_ENABLE_WAYLAND,1" # for firefox to run on wayland
+        "MOZ_WEBRENDER,1"
+        # misc
+        "_JAVA_AWT_WM_NONREPARENTING,1"
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+      ];
     };
     package = hyprland.packages.${pkgs.system}.hyprland;
     extraConfig = builtins.readFile ../conf/hyprland.conf;
@@ -55,13 +63,4 @@
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
-
-  systemd.user.sessionVariables = {
-    NIXOS_OZONE_WL = "1"; # for any ozone-based browser & electron apps to run on wayland
-    MOZ_ENABLE_WAYLAND = "1"; # for firefox to run on wayland
-    MOZ_WEBRENDER = "1";
-    # misc
-    _JAVA_AWT_WM_NONREPARENTING = "1";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-  };
 }
