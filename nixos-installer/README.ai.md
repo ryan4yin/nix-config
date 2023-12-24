@@ -12,7 +12,7 @@ The configuration of the main flake, [/flake.nix](/flake.nix), is heavy, and it 
 This simplified flake is tiny and can be deployed very quickly, it helps me to:
 
 1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the `main` flake.
-2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence, Secure Boot, TMP2, Encryption, etc.
+2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence, Secure Boot, TPM2, Encryption, etc.
 
 ## Steps to Deploying the `main` flake
 
@@ -47,22 +47,24 @@ And the boot flow is:
 Partitioning the disk:
 
 ```bash
+# NOTE: `cat README.ai.md | grep part-1 > part-1.sh` to generate this script
+
 # Create a GPT partition table
-parted /dev/nvme0n1 -- mklabel gpt
+parted /dev/nvme0n1 -- mklabel gpt  # part-1
 
 # NixOS by default uses the ESP (EFI system partition) as its /boot partition
 # Create a 512MB EFI system partition
-parted /dev/nvme0n1 -- mkpart ESP fat32 2MB 629MB
+parted /dev/nvme0n1 -- mkpart ESP fat32 2MB 629MB  # part-1
 
 # set the boot flag on the ESP partition
 # Format:
 #    set partition flag state
-parted /dev/nvme0n1 -- set 1 esp on
+parted /dev/nvme0n1 -- set 1 esp on  # part-1
 
 # Create the root partition using the rest of the disk
 # Format: 
 #   mkpart [part-type name fs-type] start end
-parted /dev/nvme0n1 -- mkpart primary 630MB 100% 
+parted /dev/nvme0n1 -- mkpart primary 630MB 100%  # part-1
 
 # show disk status
 lsblk
@@ -75,6 +77,7 @@ lsblk
 # show cryptsetup's compiled in defualts
 cryptsetup --help
 
+# NOTE: `cat shoukei.md | grep luks > luks.sh` to generate this script
 # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
 cryptsetup luksFormat --type luks2 --pbkdf argon2id --cipher aes-xts-plain64 --key-size 512 --hash sha512 /dev/nvme0n1p2
 
@@ -91,22 +94,21 @@ lsblk
 Formatting the root partition:
 
 ```bash
-mkfs.fat -F 32 -n ESP /dev/nvme0n1p1
+# NOTE: `cat shoukei.md | grep create-btrfs > btrfs.sh` to generate this script
+mkfs.fat -F 32 -n ESP /dev/nvme0n1p1  # create-btrfs
 # format the root partition with btrfs and label it
-mkfs.btrfs -L crypted-nixos /dev/mapper/crypted-nixos 
+mkfs.btrfs -L crypted-nixos /dev/mapper/crypted-nixos   # create-btrfs
 
 # mount the root partition and create subvolumes
-mount /dev/mapper/crypted-nixos /mnt
-btrfs subvolume create /mnt/@nix
-btrfs subvolume create /mnt/@tmp
-btrfs subvolume create /mnt/@swap
-btrfs subvolume create /mnt/@persistent
-btrfs subvolume create /mnt/@snapshots
-umount /mnt
+mount /dev/mapper/crypted-nixos /mnt  # create-btrfs
+btrfs subvolume create /mnt/@nix  # create-btrfs
+btrfs subvolume create /mnt/@tmp  # create-btrfs
+btrfs subvolume create /mnt/@swap  # create-btrfs
+btrfs subvolume create /mnt/@persistent  # create-btrfs
+btrfs subvolume create /mnt/@snapshots  # create-btrfs
+umount /mnt  # create-btrfs
 
-# Use tmpfs for root - stateless
-mount -t tmpfs tmpfs /mnt
-
+# NOTE: `cat shoukei.md | grep mount-1 > mount-1.sh` to generate this script
 # Remount the root partition with the subvolumes you just created
 # 
 # Enable zstd compression to:
@@ -114,18 +116,18 @@ mount -t tmpfs tmpfs /mnt
 #     1. Extend the life of the SSD.
 #     2. improve the performance of disks with low IOPS / RW throughput, such as HDD and SATA SSD.
 #   2. Save the disk space.
-mkdir /mnt/{nix,tmp,swap,persistent,snapshots,boot}
-mount -o compress-force=zstd:1,noatime,subvol=@nix /dev/mapper/crypted-nixos /mnt/nix
-mount -o compress-force=zstd:1,subvol=@tmp /dev/mapper/crypted-nixos /mnt/tmp
-mount -o subvol=@swap /dev/mapper/crypted-nixos /mnt/swap
-mount -o compress-force=zstd:1,noatime,subvol=@persistent /dev/mapper/crypted-nixos /mnt/persistent
-mount -o compress-force=zstd:1,noatime,subvol=@snapshots /dev/mapper/crypted-nixos /mnt/snapshots
-mount /dev/nvme0n1p1 /mnt/boot
+mkdir /mnt/{nix,tmp,swap,persistent,snapshots,boot}  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@nix /dev/mapper/crypted-nixos /mnt/nix  # mount-1
+mount -o compress-force=zstd:1,subvol=@tmp /dev/mapper/crypted-nixos /mnt/tmp  # mount-1
+mount -o subvol=@swap /dev/mapper/crypted-nixos /mnt/swap  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@persistent /dev/mapper/crypted-nixos /mnt/persistent  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@snapshots /dev/mapper/crypted-nixos /mnt/snapshots  # mount-1
+mount /dev/nvme0n1p1 /mnt/boot  # mount-1
 
 # create a swapfile on btrfs file system
 # This command will disable CoW / compression on the swap subvolume and then create a swapfile.
 # because the linux kernel requires that swapfile must not be compressed or have copy-on-write(CoW) enabled.
-btrfs filesystem mkswapfile --size 96g --uuid clear /mnt/swap/swapfile
+btrfs filesystem mkswapfile --size 96g --uuid clear /mnt/swap/swapfile  # mount-1
 
 # check whether the swap subvolume has CoW disabled
 # the output of `lsattr` for the swap subvolume should be:
@@ -134,7 +136,7 @@ btrfs filesystem mkswapfile --size 96g --uuid clear /mnt/swap/swapfile
 lsattr /mnt/swap
 
 # mount the swapfile as swap area
-swapon swapfile
+swapon /mnt/swap/swapfile  # mount-1
 ```
 
 Now, the disk status should be:
@@ -183,22 +185,25 @@ vim .
 Then, Install NixOS:
 
 ```bash
-cd ~/nix-config
+cd ~/nix-config/hosts/idols/ai/nixos-installer
 
 # run this command if you're retrying to run nixos-install
 rm -rf /mnt/etc
 
 # install nixos
 # NOTE: the root password you set here will be discarded when reboot
-nixos-install --root /mnt --flake .#ai --no-root-password
+nixos-install --root /mnt --flake .#ai --no-root-password --show-trace # instlall-1
 
 # if you want to use a cache mirror, run this command instead
 # replace the mirror url with your own
-nixos-install --root /mnt --flake .#ai --no-root-password --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store"
+nixos-install --root /mnt --flake .#ai --no-root-password --show-trace --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store"  # install-2
 
 # enter into the installed system, check password & users
+# `su ryan` => `sudo -i` => enter ryan's password => successfully login
+# if login failed, check the password you set in install-1, and try again
 nixos-enter
 
+# NOTE: DO NOT skip this step!!!
 # copy the essential files into /persistent
 # otherwise the / will be cleared and data will lost
 ## NOTE: impermanence just create links from / to /persistent
@@ -211,13 +216,21 @@ mv /etc/ssh /persistent/etc/
 rm -f /mnt/etc/nixos
 rm ~/nix-config/hosts/idols/ai/hardware-configuration-new.nix
 
+# NOTE: `cat shoukei.md | grep git-1 > git-1.sh` to generate this script
 # commit the changes after installing nixos successfully
-git config --global user.email "ryan4yin@linux.com"
-git config --global user.name "Ryan Yin"
+git config --global user.email "ryan4yin@linux.com"   # git-1
+git config --global user.name "Ryan Yin"              # git-1
 git commit -am "feat: update hardware-configuration"
 
 # copy our configuration to the installed file system
 cp -r ../nix-config /mnt/etc/nixos
+
+# sync the disk, unmount the partitions, and close the encrypted device
+sync
+swapoff /mnt/swap/swapfile
+umount -R /mnt
+cryptsetup close /dev/mapper/crypted-nixos
+reboot
 ```
 
 And then reboot.

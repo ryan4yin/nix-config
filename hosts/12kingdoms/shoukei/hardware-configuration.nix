@@ -12,27 +12,25 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  hardware.firmware = [
+    (import ./brcm-firmware { inherit pkgs;})
+  ];
+
+  boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage" "sd_mod"];
+  boot.initrd.kernelModules = [];
+  boot.kernelModules = ["kvm-intel"];
+  boot.extraModulePackages = [];
+
   # Use the EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
   # depending on how you configured your disk mounts, change this to /boot or /boot/efi.
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.systemd-boot.enable = true;
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
-
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
-  boot.extraModulePackages = [];
-  # clear /tmp on boot to get a stateless /tmp directory.
-  boot.tmp.cleanOnBoot = true;
-
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
   # supported fil systems, so we can mount any removable disks with these filesystems
-  boot.supportedFilesystems = [
+  boot.supportedFilesystems = lib.mkForce [
     "ext4"
     "btrfs"
     "xfs"
@@ -42,10 +40,12 @@
     "cifs" # mount windows share
   ];
 
+  # clear /tmp on boot to get a stateless /tmp directory.
+  boot.tmp.cleanOnBoot = true;
   boot.initrd = {
     # unlocked luks devices via a keyfile or prompt a passphrase.
     luks.devices."crypted-nixos" = {
-      device = "/dev/nvme0n1p2";
+      device = "/dev/nvme0n1p4";
       # the keyfile(or device partition) that should be used as the decryption key for the encrypted device.
       # if not specified, you will be prompted for a passphrase instead.
       #keyFile = "/root-part.key";
@@ -65,35 +65,40 @@
     options = ["relatime" "mode=755"];
   };
 
+  fileSystems."/boot" = {
+    device = "/dev/nvme0n1p1";
+    fsType = "vfat";
+  };
+
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
     fsType = "btrfs";
     options = ["subvol=@nix" "noatime" "compress-force=zstd:1"];
   };
 
-  fileSystems."/persistent" = {
-    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+  fileSystems."/tmp" = {
+    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
     fsType = "btrfs";
-    options = ["subvol=@persistent" "compress-force=zstd:1"];
+    options = ["subvol=@tmp" "noatime" "compress-force=zstd:1"];
+  };
+
+  fileSystems."/persistent" = {
+    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
+    fsType = "btrfs";
+    options = ["subvol=@persistent" "noatime" "compress-force=zstd:1"];
     # impermanence's data is required for booting.
     neededForBoot = true;
   };
 
   fileSystems."/snapshots" = {
-    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
     fsType = "btrfs";
-    options = ["subvol=@snapshots" "compress-force=zstd:1"];
-  };
-
-  fileSystems."/tmp" = {
-    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
-    fsType = "btrfs";
-    options = ["subvol=@tmp" "compress-force=zstd:1"];
+    options = ["subvol=@snapshots" "noatime" "compress-force=zstd:1"];
   };
 
   # mount swap subvolume in readonly mode.
   fileSystems."/swap" = {
-    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
     fsType = "btrfs";
     options = ["subvol=@swap" "ro"];
   };
@@ -108,11 +113,6 @@
     options = ["bind" "rw"];
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/nvme0n1p1";
-    fsType = "vfat";
-  };
-
   swapDevices = [
     {device = "/swap/swapfile";}
   ];
@@ -122,10 +122,9 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp230s0f1u1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp229s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

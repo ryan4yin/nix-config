@@ -1,36 +1,36 @@
 {
-  nixos-rk3588,
+  pkgs,
+  nixos-hardware,
   ...
-}:
+} @ args:
 #############################################################
 #
-#  Aquamarine - A NixOS VM running on Proxmox
+#  Shoukei - NixOS running on Macbook Pro 2020 I5 16G
+#   https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
 #
 #############################################################
 {
   imports = [
-    # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
-    nixos-rk3588.nixosModules.orangepi5
+    nixos-hardware.nixosModules.apple-t2
+    {hardware.apple-t2.enableAppleSetOsLoader = true;}
+
+    ./hardware-configuration.nix
+    ./impermanence.nix
   ];
 
   networking = {
-    hostName = "suzu"; # Define your hostname.
-    wireless.enable = false; # Enables wireless support via wpa_supplicant.
-    networkmanager.enable = false;
+    hostName = "shoukei"; # Define your hostname.
+    # configures the network interface(include wireless) via `nmcli` & `nmtui`
+    networkmanager.enable = true;
 
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-    interfaces.end1 = {
-      useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.5.107";
-          prefixLength = 24;
-        }
-      ];
-    };
+    # Configure network proxy if necessary
+    # proxy.default = "http://user:password@proxy:port/";
+    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
     defaultGateway = "192.168.5.201";
     nameservers = [
       "119.29.29.29" # DNSPod
