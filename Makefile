@@ -14,7 +14,7 @@ i3:
 	nixos-rebuild switch --flake .#ai_i3 --use-remote-sudo
 
 s-i3:
-	nixos-rebuild switch --flake .#shoekei_i3 --use-remote-sudo
+	nixos-rebuild switch --flake .#shoukei_i3 --use-remote-sudo
 
 hypr:
 	nixos-rebuild switch --flake .#ai_hyprland --use-remote-sudo

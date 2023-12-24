@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     firefox
-    xsel # for clipboard support in x11, required by tmux's clipboard support
   ];
 
   # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.

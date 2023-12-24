@@ -7,8 +7,8 @@ in rec {
   
   home.homeDirectory = "/home/${username}";
 
-  # add environment variables
-  systemd.user.sessionVariables = {
+  # environment variables that always set at login
+  home.sessionVariables = {
     # clean up ~
     LESSHISTFILE = cache + "/less/history";
     LESSKEY = c + "/less/lesskey";
@@ -25,6 +25,4 @@ in rec {
     # enable scrolling in git diff
     DELTA_PAGER = "less -R";
   };
-
-  home.sessionVariables = systemd.user.sessionVariables;
 }

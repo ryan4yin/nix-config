@@ -11,9 +11,19 @@
   # they are all depending on hyprland/i3's user graphical-session
   wayland.windowManager.hyprland = {
     enable = true;
+    settings = {
+      source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf";
+      env = [
+        "NIXOS_OZONE_WL,1" # for any ozone-based browser & electron apps to run on wayland
+        "MOZ_ENABLE_WAYLAND,1" # for firefox to run on wayland
+        "MOZ_WEBRENDER,1"
+        # misc
+        "_JAVA_AWT_WM_NONREPARENTING,1"
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+      ];
+    };
     package = hyprland.packages.${pkgs.system}.hyprland;
-    settings = lib.mkForce {};
-    extraConfig = builtins.readFile ./hypr-conf/hyprland.conf;
+    extraConfig = builtins.readFile ../conf/hyprland.conf;
     # gammastep/wallpaper-switcher need this to be enabled.
     systemd.enable = true;
   };
@@ -28,47 +38,29 @@
   # hyprland configs, based on https://github.com/notwidow/hyprland
   xdg.configFile = {
     "hypr/mako" = {
-      source = ./hypr-conf/mako;
+      source = ../conf/mako;
       recursive = true;
     };
     "hypr/scripts" = {
-      source = ./hypr-conf/scripts;
+      source = ../conf/scripts;
       recursive = true;
     };
     "hypr/waybar" = {
-      source = ./hypr-conf/waybar;
+      source = ../conf/waybar;
       recursive = true;
     };
     "hypr/wlogout" = {
-      source = ./hypr-conf/wlogout;
-      recursive = true;
-    };
-    "hypr/themes" = {
-      source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes";
+      source = ../conf/wlogout;
       recursive = true;
     };
 
     # music player - mpd
     "mpd" = {
-      source = ./mpd;
+      source = ../conf/mpd;
       recursive = true;
     };
   };
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
   fonts.fontconfig.enable = true;
-
-  systemd.user.sessionVariables = {
-    "NIXOS_OZONE_WL" = "1"; # for any ozone-based browser & electron apps to run on wayland
-    "MOZ_ENABLE_WAYLAND" = "1"; # for firefox to run on wayland
-    "MOZ_WEBRENDER" = "1";
-
-    # for hyprland with nvidia gpu, ref https://wiki.hyprland.org/Nvidia/
-    "LIBVA_DRIVER_NAME" = "nvidia";
-    "XDG_SESSION_TYPE" = "wayland";
-    "GBM_BACKEND" = "nvidia-drm";
-    "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
-    "WLR_NO_HARDWARE_CURSORS" = "1";
-    "WLR_EGL_NO_MODIFIRES" = "1";
-  };
 }
