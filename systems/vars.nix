@@ -45,7 +45,10 @@ in {
       ../modules/nixos/server.nix
       ../modules/nixos/proxmox-hardware-configuration.nix
     ];
-    home-module = import ../home/linux/server.nix;
+    home-module.imports = [
+      ../hosts/idols/aquamarine/home.nix
+      ../home/linux/server.nix
+    ];
   };
   idol_aquamarine_tags = ["dist-build" "aqua"];
 
@@ -56,7 +59,10 @@ in {
       ../modules/nixos/server.nix
       ../modules/nixos/proxmox-hardware-configuration.nix
     ];
-    home-module = import ../home/linux/server.nix;
+    home-module.imports = [
+      ../hosts/idols/ruby/home.nix
+      ../home/linux/server.nix
+    ];
   };
   idol_ruby_tags = ["dist-build" "ruby"];
 
@@ -67,7 +73,10 @@ in {
       ../modules/nixos/server.nix
       ../modules/nixos/proxmox-hardware-configuration.nix
     ];
-    home-module = import ../home/linux/server.nix;
+    home-module.imports = [
+      ../hosts/idols/kana/home.nix
+      ../home/linux/server.nix
+    ];
   };
   idol_kana_tags = ["dist-build" "kana"];
 
@@ -80,7 +89,7 @@ in {
       # cross-compilation this flake.
       {nixpkgs.crossSystem.system = "riscv64-linux";}
     ];
-    # home-module = import ../home/linux/server.nix;
+    # home-module.imports = [];
   };
   rolling_nozomi_tags = ["riscv" "nozomi"];
 
@@ -93,7 +102,7 @@ in {
       # cross-compilation this flake.
       {nixpkgs.crossSystem.system = "riscv64-linux";}
     ];
-    # home-module = import ../home/linux/server.nix;
+    # home-module.imports = [];
   };
   rolling_yukina_tags = ["riscv" "yukina"];
 
@@ -106,7 +115,7 @@ in {
       # cross-compilation this flake.
       {nixpkgs.crossSystem.config = "aarch64-unknown-linux-gnu";}
     ];
-    # home-module = import ../home/linux/server.nix;
+    # home-module.imports = [];
   };
   _12kingdoms_suzu_tags = ["aarch" "suzu"];
 
@@ -149,7 +158,10 @@ in {
       ../modules/darwin
       ../secrets/darwin.nix
     ];
-    home-module = import ../home/darwin;
+    home-module.imports = [
+      ../hosts/harmonica/home.nix
+      ../home/darwin
+    ];
   };
   darwin_fern_modules = {
     darwin-modules = [
@@ -158,6 +170,9 @@ in {
       ../modules/darwin
       ../secrets/darwin.nix
     ];
-    home-module = import ../home/darwin;
+    home-module.imports = [
+      ../hosts/fern/home.nix
+      ../home/darwin
+    ];
   };
 }

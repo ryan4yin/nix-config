@@ -2,7 +2,7 @@
   users.users.${username} = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDiipi59EnVbi6bK1bGrcbfEM263wgdNfbrt6VBC1rHx ryan@ai-idols"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII7PTkP3ixXTZlrJNSHnXgkmHNT+QslFi9wNYXOpVwGB ryan@harmonica"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMSfp/hvegbK04HykWvoY1EbDW+vXu1AlCjVivWE2ZeR ryan@shoukei"
     ];
   };
 

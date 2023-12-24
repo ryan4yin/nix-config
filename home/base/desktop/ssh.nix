@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   programs.ssh = {
     enable = true;
 
@@ -22,13 +22,6 @@
         # Specifies that ssh should only use the identity file explicitly configured above
         # required to prevent sending default identity files first.
         IdentitiesOnly yes
-
-      Host github.com
-          # github is controlled by gluttony~
-          IdentityFile ~/.ssh/gluttony
-          # Specifies that ssh should only use the identity file explicitly configured above
-          # required to prevent sending default identity files first.
-          IdentitiesOnly yes
 
       Host gtr5
         HostName 192.168.5.172
