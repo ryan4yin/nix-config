@@ -12,7 +12,8 @@
 {
   imports = [
     nixos-hardware.nixosModules.apple-t2
-    {hardware.apple-t2.enableAppleSetOsLoader = true;}
+    ./apple-set-os-loader.nix
+    {hardware.myapple-t2.enableAppleSetOsLoader = true;}
 
     ./hardware-configuration.nix
     ./impermanence.nix
