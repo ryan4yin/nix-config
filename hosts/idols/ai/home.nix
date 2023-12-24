@@ -1,6 +1,6 @@
 {
   modules.desktop.hyprland = {
-    nvidia = false;
+    nvidia = true;
     settings = {
       # Configure your Display resolution, offset, scale and Monitors here, use `hyprctl monitors` to get the info.
       #   highres:      get the best possible resolution
@@ -12,7 +12,7 @@
   };
 
   modules.desktop.i3 = {
-    nvidia = false;
+    nvidia = true;
   };
 
   programs.ssh = {

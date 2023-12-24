@@ -19,6 +19,7 @@ in {
       ++ desktop_base_modules.nixos-modules;
     home-module.imports =
       [
+        ../hosts/idols/ai/home.nix
         {modules.desktop.i3.enable = true;}
       ]
       ++ desktop_base_modules.home-module.imports;
@@ -33,6 +34,7 @@ in {
       ++ desktop_base_modules.nixos-modules;
     home-module.imports =
       [
+        ../hosts/idols/ai/home.nix
         {modules.desktop.hyprland.enable = true;}
       ]
       ++ desktop_base_modules.home-module.imports;
