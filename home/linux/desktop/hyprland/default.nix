@@ -10,6 +10,7 @@ with lib; let
 in {
   imports = [
     anyrun.homeManagerModules.default
+    ./nvidia.nix
   ];
 
   options.modules.desktop.hyprland = {

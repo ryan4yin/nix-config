@@ -7,6 +7,10 @@
 with lib; let
   cfg = config.modules.desktop.i3;
 in {
+  imports = [
+    ./nvidia.nix
+  ];
+
   options.modules.desktop.i3 = {
     enable = mkEnableOption "i3 window manager";
   };

@@ -1,5 +1,5 @@
 let
-  _dekstop_bass_modules = {
+  desktop_base_modules = {
     nixos-modules = [
       ../secrets/nixos.nix
       ../modules/nixos/desktop.nix
@@ -8,51 +8,34 @@ let
       ../home/linux/desktop.nix
     ];
   };
-
-  desktop_i3_modules = {
-    nixos-modules =
-      [
-        {modules.desktop.xorg.enable = true;}
-      ]
-      ++ _dekstop_bass_modules.nixos-modules;
-    home-module.imports =
-      [
-        ../home/linux/desktop.nix
-        {modules.desktop.i3.enable = true;}
-      ]
-      ++ _dekstop_bass_modules.home-module.imports;
-  };
-  desktop_hyprland_modules = {
-    nixos-modules =
-      [
-        {modules.desktop.wayland.enable = true;}
-      ]
-      ++ _dekstop_bass_modules.nixos-modules;
-    home-module.imports =
-      [
-        ../home/linux/desktop.nix
-        {modules.desktop.hyprland.enable = true;}
-      ]
-      ++ _dekstop_bass_modules.home-module.imports;
-  };
-in rec {
+in {
   # 星野 アイ, Hoshino Ai
   idol_ai_modules_i3 = {
     nixos-modules =
       [
         ../hosts/idols/ai
+        {modules.desktop.xorg.enable = true;}
       ]
-      ++ desktop_i3_modules.nixos-modules;
-    home-module = desktop_i3_modules.home-module;
+      ++ desktop_base_modules.nixos-modules;
+    home-module.imports =
+      [
+        {modules.desktop.i3.enable = true;}
+      ]
+      ++ desktop_base_modules.home-module.imports;
   };
 
   idol_ai_modules_hyprland = {
     nixos-modules =
       [
         ../hosts/idols/ai
+        {modules.desktop.wayland.enable = true;}
       ]
-      ++ desktop_hyprland_modules.nixos-modules;
-    home-module = desktop_hyprland_modules.home-module;
+      ++ desktop_base_modules.nixos-modules;
+    home-module.imports =
+      [
+        {modules.desktop.hyprland.enable = true;}
+      ]
+      ++ desktop_base_modules.home-module.imports;
   };
 
   # 星野 愛久愛海, Hoshino Akuamarin
@@ -132,18 +115,30 @@ in rec {
     nixos-modules =
       [
         ../hosts/12kingdoms/shoukei
+        {modules.desktop.xorg.enable = true;}
       ]
-      ++ desktop_i3_modules.nixos-modules;
-    home-module = desktop_i3_modules.home-module;
+      ++ desktop_base_modules.nixos-modules;
+    home-module.imports =
+      [
+        ../hosts/12kingdoms/shoukei/home.nix
+        {modules.desktop.i3.enable = true;}
+      ]
+      ++ desktop_base_modules.home-module.imports;
   };
 
   _12kingdoms_shoukei_modules_hyprland = {
     nixos-modules =
       [
         ../hosts/12kingdoms/shoukei
+        {modules.desktop.wayland.enable = true;}
       ]
-      ++ desktop_hyprland_modules.nixos-modules;
-    home-module = desktop_hyprland_modules.home-module;
+      ++ desktop_base_modules.nixos-modules;
+    home-module.imports =
+      [
+        ../hosts/12kingdoms/shoukei/home.nix
+        {modules.desktop.hyprland.enable = true;}
+      ]
+      ++ desktop_base_modules.home-module.imports;
   };
 
   # darwin systems
