@@ -10,6 +10,7 @@
     picom # transparency and shadows
     feh # set wallpaper
     xcolor # color picker
+    xsel # for clipboard support in x11, required by tmux's clipboard support
 
     acpi # battery information
     arandr # screen layout manager

@@ -16,7 +16,7 @@ in {
     ai_hyprland = nixosSystem (idol_ai_modules_hyprland // base_args);
 
     # shoukei
-    shoukei_ie = nixosSystem (_12kingdoms_shoukei_modules_i3 // base_args);
+    shoukei_i3 = nixosSystem (_12kingdoms_shoukei_modules_i3 // base_args);
     shoukei_hyprland = nixosSystem (_12kingdoms_shoukei_modules_hyprland // base_args);
 
     # three virtual machines without desktop environment.

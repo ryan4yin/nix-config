@@ -9,7 +9,7 @@ _: {
     enable = true;
     windowManager.i3 = {
       enable = true;
-      extraConfig = builtins.readFile ./i3-config;
+      extraConfig = builtins.readFile ../conf/i3-config;
     };
     # Path, relative to HOME, where Home Manager should write the X session script.
     # and NixOS will use it to start xorg session when system boot up
@@ -17,20 +17,20 @@ _: {
   };
 
   xdg.configFile = {
-    "i3/i3blocks.conf".source = ./i3blocks.conf;
+    "i3/i3blocks.conf".source = ../conf/i3blocks.conf;
     "i3/scripts" = {
-      source = ./scripts;
+      source = ../conf/scripts;
       # copy the scripts directory recursively
       recursive = true;
       executable = true; # make all scripts executable
     };
     "i3/layouts" = {
-      source = ./layouts;
+      source = ../conf/layouts;
       recursive = true;
     };
     # rofi is a application launcher and dmenu replacement
     "rofi" = {
-      source = ./rofi-conf;
+      source = ../conf/rofi;
       # copy the scripts directory recursively
       recursive = true;
     };
@@ -38,16 +38,16 @@ _: {
 
   home.file = {
     ".local/bin/bright" = {
-      source = ./bin/bright;
+      source = ../bin/bright;
       executable = true;
     };
     ".local/bin/logout" = {
-      source = ./bin/logout;
+      source = ../bin/logout;
       executable = true;
     };
 
     # xrandr - set primary screen
-    ".screenlayout/monitor.sh".source = ./dual-monitor-4k-1080p.sh;
+    ".screenlayout/monitor.sh".source = ../conf/dual-monitor-4k-1080p.sh;
   };
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
