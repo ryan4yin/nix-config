@@ -36,9 +36,10 @@
       vimAlias = true;
 
       # currently we use lazy.nvim as neovim's package manager, so comment this one.
-      # plugins = with pkgs.vimPlugins; [
-      #   # search all the plugins using https://search.nixos.org/packages
-      # ];
+      plugins = with pkgs.vimPlugins; [
+        # search all the plugins using https://search.nixos.org/packages
+        telescope-fzf-native-nvim
+      ];
 
       # Extra packages only available to nvim(won't pollute the global home environment)
       extraPackages = with pkgs;
