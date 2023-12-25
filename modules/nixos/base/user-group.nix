@@ -25,7 +25,6 @@
     initialHashedPassword = "$7$CU..../....Sdl/JRH..9eIvZ6mE/52r.$xeR6lyvTcVVKt28Owcoc/vPOOECcYSiq1xjw/QCz2t0";
     home = "/home/${username}";
     isNormalUser = true;
-    description = username;
     extraGroups = [
       username
       "users"
