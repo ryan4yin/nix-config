@@ -10,7 +10,7 @@
 # Useful Hot Keys for macOS:
 #   1. New Tab: `command + t`
 #   2. Close Tab: `command + w`
-#   3. Switch Tab: `shift + command + [` | `shift + command + ]`
+#   3. Switch Tab: `command + shift + [` | `command + shift + ]`
 #   4. Increase Font Size: `command + =` | `command + +`
 #   5. Decrease Font Size: `command + -` | `command + _`
 #   6. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
