@@ -14,6 +14,7 @@
   "modules-right": [
     "mpd",
     "pulseaudio",
+    "battery", 
     "memory",
     "cpu",
     "network",
@@ -178,5 +179,29 @@
   "tray": {
     "icon-size": 15,
     "spacing": 5
-  }
+  },
+  "battery": {
+    "bat": "BAT0",
+    "adapter": "ADP0",
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "max-length": 20,
+    "format": "{icon} {capacity}%",
+    "format-warning": "{icon} {capacity}%",
+    "format-critical": "{icon} {capacity}%",
+    "format-charging": "<span font-family='Font Awesome 6 Free'></span> {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-full": " {capacity}%",
+    "format-icons": [
+      " ",
+      " ",
+      " ",
+      " ",
+      " "
+    ]
+  },
 }

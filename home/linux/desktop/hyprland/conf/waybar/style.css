@@ -97,9 +97,28 @@ tooltip label {
 #clock {
   color: rgb(217, 224, 238);
 }
-/* #idle_inhibitor {
-                 color: rgb(221, 182, 242);
-               }*/
+
+#idle_inhibitor {
+  color: rgb(221, 182, 242);
+  padding-right: 8px;
+}
+#battery {
+  min-width: 55px;
+  color: rgb(126, 186, 244);;
+}
+#battery.charging,
+#battery.full,
+#battery.plugged {
+  color: #26a65b;
+}
+#battery.critical:not(.charging) {
+  color: #f53c3c;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
 #custom-wall {
   color: #33ccff;
 }
