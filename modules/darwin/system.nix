@@ -10,7 +10,7 @@
 #   1. To avoid conflicts with neovim, disable ctrl + up/down/left/right to switch spaces in:
 #     [System Preferences] -> [Keyboard] -> [Keyboard Shortcuts] -> [Mission Control]
 #   2. Disable use Caps Lock as 中/英 switch in:
-#     [System Preferences] -> [Keyboard] -> [Input Sources] -> [Edit] -> [Use 中/英 key to switch to and from ABC] -> [Disble]
+#     [System Preferences] -> [Keyboard] -> [Input Sources] -> [Edit] -> [Use 中/英 key to switch ] -> [Disble]
 ###################################################################################
 {
   # Add ability to used TouchID for sudo authentication
@@ -36,9 +36,9 @@
 
         # customize Hot Corners(触发角, 鼠标移动到屏幕角落时触发的动作)
         wvous-tl-corner = 2; # top-left - Mission Control
-        wvous-tr-corner = 13; # top-right - Lock Screen
+        wvous-tr-corner = 4; # top-right - Desktop
         wvous-bl-corner = 3; # bottom-left - Application Windows
-        wvous-br-corner = 4; # bottom-right - Desktop
+        wvous-br-corner = 13; # bottom-right - Lock Screen
       };
 
       # customize finder
