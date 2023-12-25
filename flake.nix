@@ -154,11 +154,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nuenv.url = "github:DeterminateSystems/nuenv";
+
     ########################  Some non-flake repositories  #########################################
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
     astronvim = {
       url = "github:AstroNvim/AstroNvim/v3.40.3";
+      flake = false;
+    };
+
+    polybar-themes = {
+      url = "github:adi1090x/polybar-themes";
       flake = false;
     };
 

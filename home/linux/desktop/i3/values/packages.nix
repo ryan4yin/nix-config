@@ -1,12 +1,15 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
+    # required by https://github.com/adi1090x/polybar-themes
     rofi # application launcher, the same as dmenu
+    polybar # status bar
+    pywal # generate color scheme from wallpaper
+    calc
+    networkmanager_dmenu # network manager
+
     dunst # notification daemon
-    i3blocks # status bar
     i3lock # default i3 screen locker
     xautolock # lock screen after some time
-    i3status # provide information to i3bar
-    i3-gaps # i3 with gaps
     picom # transparency and shadows
     feh # set wallpaper
     xcolor # color picker

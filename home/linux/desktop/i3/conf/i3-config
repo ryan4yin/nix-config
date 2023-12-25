@@ -5,8 +5,7 @@
 # config starts here: #
 #######################
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
+# Font for window titles.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango: Noto Sans Regular 10
@@ -84,9 +83,6 @@ bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+q kill
-
-# exit-menu
-bindsym $mod+Shift+e exec ~/.config/i3/scripts/powermenu
 
 # Lock the system
 # lock with a picture:
@@ -181,9 +177,6 @@ bindsym $mod+w exec /usr/bin/firefox
 bindsym $mod+n exec /usr/bin/thunar
 bindsym Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
 
-# Power Profiles menu switcher (rofi)
-bindsym $mod+Shift+p exec ~/.config/i3/scripts/power-profiles
-
 
 bindsym $mod+Shift+m exec ~/.config/i3/scripts/restore-idols-monitor.sh
 
@@ -270,7 +263,6 @@ exec --no-startup-id xset s 480 dpms 600 600 600
 #exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id /usr/bin/dunst
 
-
 # screenshot tool
 exec --no-startup-id flameshot
 
@@ -279,8 +271,6 @@ exec --no-startup-id flameshot
 exec_always --no-startup-id autotiling
 
 exec --no-startup-id i3-msg "workspace $ws2; exec firefox"
-
-exec --no-startup-id sleep 1 && ~/.config/i3/scripts/restore-idols-monitor.sh
 
 ##################
 # floating rules #
@@ -306,9 +296,8 @@ for_window [class="urxvt"] border pixel 1
 # set position of floating window
 #for_window [class=".*"] move position center
 
-
 ######################################
-# color settings for bar and windows #
+# color settings for windows         #
 ######################################
 
 # https://github.com/catppuccin/i3/blob/main/themes/catppuccin-mocha
@@ -336,7 +325,6 @@ set $surface1  #45475a
 set $surface0  #313244
 set $base      #1e1e2e
 # use colors in the RGBA format, the last two digits are transparency
-set $base_i3bar      #1e1e2ee6
 set $mantle    #181825
 set $crust     #11111b
 
@@ -348,40 +336,8 @@ client.urgent            $pink    $base $lavender $overlay0  $pink
 client.placeholder       $overlay0 $base $text     $overlay0  $overlay0
 client.background        $base
 
-
-############################################
-# bar settings (input comes from i3blocks) #
-############################################
-
-# Start i3bar to display a workspace bar
-# (plus the system information i3status finds out, if available)
-bar {
-	font pango: Noto Sans Regular 10
-	status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	position top
-
-	# it could be that you have no primary display set: set one (xrandr --output <output> --primary)
-	# reference: https://i3wm.org/docs/userguide.html#_tray_output
-	tray_output primary
-	tray_padding 0
-
-	# When strip_workspace_numbers is set to yes,
-	# any workspace that has a name of the form
-	# “[n][:][NAME]” will display only the name.
-	strip_workspace_numbers yes
-	##strip_workspace_name no
-
-	colors {
-		separator		$pink
-		background		$base_transparent
-		statusline		$lavender
-		#					          border			bg			    txt			    indicator
-		focused_workspace	  $surface2		$overlay1		$surface1	  $pink
-		active_workspace	  $peach		  $surface2	  $surface1	  $pink
-		inactive_workspace	$surface1		$surface2	  $overlay1		$pink
-		urgent_workspace	  $red		    $red	      $lavender		$pink
-	}
-}
+# Start Polybar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh --shapes
 
 #####################################
 # Application menu handled by rofi: #

@@ -1,4 +1,15 @@
-{username, userfullname, ...}: {
+{
+  username,
+  userfullname,
+  nuenv,
+  ...
+} @ args: {
+  nixpkgs.overlays =
+    [
+      nuenv.overlays.default
+    ]
+    ++ (import ../overlays args);
+
   users.users.${username} = {
     description = userfullname;
     openssh.authorizedKeys.keys = [

@@ -32,9 +32,6 @@
           "Iosevka"
         ];
       })
-
-      # added by my custom overlays, custom icon font for hyprland/i3's tray/bar
-      icomoon-feather-icon-font
     ];
 
     # user defined fonts

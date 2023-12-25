@@ -2,7 +2,6 @@
 
 1. kitty: My main terminal emulator.
 2. wezterm: My secondary terminal emulator.
-3. alacritty: Standby terminal.
 
 
 ## 'xterm-kitty': unknown terminal type when `ssh` into a remote host or `sudo xxx`

@@ -1,6 +1,4 @@
-_: {
-  # i3 window manager's config, based on https://github.com/endeavouros-team/endeavouros-i3wm-setup
-
+{pkgs, ...}: {
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
   # so that gammastep/wallpaper-switcher's user service can be start correctly!
@@ -17,32 +15,28 @@ _: {
   };
 
   xdg.configFile = {
-    "i3/i3blocks.conf".source = ../conf/i3blocks.conf;
     "i3/scripts" = {
       source = ../conf/scripts;
       # copy the scripts directory recursively
       recursive = true;
       executable = true; # make all scripts executable
     };
-    "i3/layouts" = {
-      source = ../conf/layouts;
-      recursive = true;
-    };
-    # rofi is a application launcher and dmenu replacement
-    "rofi" = {
-      source = ../conf/rofi;
-      # copy the scripts directory recursively
-      recursive = true;
-    };
   };
 
   home.file = {
-    ".local/bin/bright" = {
-      source = ../bin/bright;
+    ".config/polybar" = {
+      source = "${pkgs.polybar-themes-simple}/themes";
+      recursive = true;
       executable = true;
     };
-    ".local/bin/logout" = {
-      source = ../bin/logout;
+    ".local/share/fonts" = {
+      source = "${pkgs.polybar-themes-simple}/fonts";
+      recursive = true;
+    };
+
+    ".local/bin" = {
+      source = ../bin;
+      recursive = true;
       executable = true;
     };
 
