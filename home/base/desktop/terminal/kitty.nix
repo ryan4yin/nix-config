@@ -14,9 +14,9 @@
 #   4. Increase Font Size: `command + =` | `command + +`
 #   5. Decrease Font Size: `command + -` | `command + _`
 #   6. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
-#   7. Search in the current window(show_scrollback): `ctrl + shift + h`
+#   7. Search/Select in the current window(show_scrollback): `ctrl + shift + f`
 #          This will open a pager, it's defined by `scrollback_pager`, default is `less`
-#
+#          https://sw.kovidgoyal.net/kitty/overview/#the-scrollback-buffer
 #
 # Useful Hot Keys for Linux:
 #   1. New Tab: `ctrl + shift + t`
@@ -45,6 +45,17 @@
 
     keybindings = {
       "ctrl+shift+m" = "toggle_maximized";
+      "ctrl+shift+f" = "show_scrollback"; # search in the current window
+      "cmd+f" = "show_scrollback";
+      # Switch to tab 1-8
+      "ctrl+alt+1" = "goto_tab 1";
+      "ctrl+alt+2" = "goto_tab 2";
+      "ctrl+alt+3" = "goto_tab 3";
+      "ctrl+alt+4" = "goto_tab 4";
+      "ctrl+alt+5" = "goto_tab 5";
+      "ctrl+alt+6" = "goto_tab 6";
+      "ctrl+alt+7" = "goto_tab 7";
+      "ctrl+alt+8" = "goto_tab 8";
     };
 
     settings = {
@@ -58,6 +69,13 @@
       #    2. https://github.com/ryan4yin/nix-config/issues/8
       #  Spawn a nushell in login mode via `bash`
       shell = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";
+      # for selecting/searching in the current window
+      # https://github.com/kovidgoyal/kitty/issues/719
+      scrollback_pager = ''$SHELL -c 'nvim -u NONE -R -M -u ${./kitty_pager.lua} -c "lua kitty_pager(INPUT_LINE_NUMBER, CURSOR_LINE, CURSOR_COLUMN)" -' '';
+      # for active tab
+      active_tab_title_template = "{fmt.fg.green}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}:{title}";
+      # for inactive tab
+      tab_title_template = "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}:{title}";
     };
 
     # macOS specific settings

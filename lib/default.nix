@@ -6,13 +6,15 @@
   scanPaths = path:
     builtins.map
     (f: (path + "/${f}"))
-    (builtins.filter # find all overlay files in the current directory
-      
-      (
-        f:
-          f
-          != "default.nix" # ignore default.nix
-          && f != "README.md" # ignore README.md
-      )
-      (builtins.attrNames (builtins.readDir path)));
+    (builtins.attrNames
+      (lib.attrsets.filterAttrs
+        (
+          path: _type:
+            (_type == "directory")  # include directories
+            || (
+              (path != "default.nix") # ignore default.nix
+              && (lib.strings.hasSuffix ".nix" path) # include .nix files
+            )
+        )
+        (builtins.readDir path)));
 }

@@ -4,7 +4,6 @@
       # general tools
       pulumi
       pulumictl
-      # istioctl
 
       # aws
       awscli2
