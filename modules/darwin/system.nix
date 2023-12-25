@@ -6,6 +6,11 @@
 #  All the configuration options are documented here:
 #    https://daiderd.com/nix-darwin/manual/index.html#sec-options
 #
+# NOTE: Some options are not supported by nix-darwin directly, manually set them:
+#   1. To avoid conflicts with neovim, disable ctrl + up/down/left/right to switch spaces in:
+#     [System Preferences] -> [Keyboard] -> [Keyboard Shortcuts] -> [Mission Control]
+#   2. Disable use Caps Lock as 中/英 switch in:
+#     [System Preferences] -> [Keyboard] -> [Input Sources] -> [Edit] -> [Use 中/英 key to switch to and from ABC] -> [Disble]
 ###################################################################################
 {
   # Add ability to used TouchID for sudo authentication
@@ -133,9 +138,6 @@
     # keyboard settings is not very useful on macOS
     # the most important thing is to remap option key to alt key globally,
     # but it's not supported by macOS yet.
-    #
-    # To avoid conflicts with neovim, disable ctrl + up/down/left/right to switch spaces in:
-    #   [System Preferences] -> [Keyboard] -> [Keyboard Shortcuts] -> [Mission Control]
     keyboard = {
       enableKeyMapping = true; # enable key mapping so that we can use `option` as `control`
 
