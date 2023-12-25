@@ -6,11 +6,11 @@
 }: {
   # add user's shell into /etc/shells
   environment.shells = with pkgs; [
-    bash
-    nushell
+    bashInteractive
+    nushellFull
   ];
   # set user's default shell system-wide
-  users.defaultUserShell = pkgs.nushell;
+  users.defaultUserShell = pkgs.nushellFull;
 
   # fix for `sudo xxx` in kitty/wezterm and other modern terminal emulators
   security.sudo.keepTerminfo = true;

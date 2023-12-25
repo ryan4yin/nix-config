@@ -735,23 +735,6 @@
         "type": "github"
       }
     },
-    "nushell-scripts": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1702558950,
-        "narHash": "sha256-pai3qeD2hmpx2r/lDfGpUY3mkl0gRN6j72gplz9DQD4=",
-        "owner": "nushell",
-        "repo": "nu_scripts",
-        "rev": "6f1c0dfef203fa07449718b76d31580e8458c8b7",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nushell",
-        "ref": "main",
-        "repo": "nu_scripts",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -859,7 +842,6 @@
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nur-ryan4yin": "nur-ryan4yin",
-        "nushell-scripts": "nushell-scripts",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "wallpapers": "wallpapers"
       }

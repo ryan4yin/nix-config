@@ -70,7 +70,7 @@ in {
   programs.zsh.enable = true;
   environment.shells = [
     pkgs.zsh
-    pkgs.nushell # my custom shell
+    pkgs.nushellFull # my custom shell
   ];
 
   # homebrew need to be installed manually, see https://brew.sh

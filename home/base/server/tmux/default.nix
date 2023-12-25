@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.tmux = {
     enable = true;
-    shell = "${pkgs.nushell}/bin/nu";
+    shell = "${pkgs.nushellFull}/bin/nu";
 
     # Resize the window to the size of the smallest session for which it is the current window.
     #

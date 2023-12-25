@@ -1,4 +1,4 @@
-{nushell-scripts, ...}: {
+{pkgs, ...}: {
   programs.bash = {
     # load the alias file for work
     bashrcExtra = ''
@@ -19,13 +19,13 @@
     # https://github.com/nushell/nushell/issues/8214
     extraConfig = ''
       source /etc/agenix/alias-for-work.nushell
-      use ${nushell-scripts}/custom-completions/git/git-completions.nu *
-      use ${nushell-scripts}/custom-completions/glow/glow-completions.nu *
-      use ${nushell-scripts}/custom-completions/make/make-completions.nu *
-      use ${nushell-scripts}/custom-completions/nix/nix-completions.nu *
-      use ${nushell-scripts}/custom-completions/man/man-completions.nu *
-      use ${nushell-scripts}/custom-completions/cargo/cargo-completions.nu *
-      use ${nushell-scripts}/custom-completions/zellij/zellij-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/git/git-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/glow/glow-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/make/make-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/nix/nix-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/man/man-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/cargo/cargo-completions.nu *
+      use ${pkgs.nu_scripts}/custom-completions/zellij/zellij-completions.nu *
     '';
   };
 }

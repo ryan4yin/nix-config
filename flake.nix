@@ -162,12 +162,6 @@
       flake = false;
     };
 
-    # useful nushell scripts, such as auto_completion
-    nushell-scripts = {
-      url = "github:nushell/nu_scripts/main";
-      flake = false;
-    };
-
     ########################  My own repositories  #########################################
 
     # my private secrets, it's a private repository, you need to replace it with your own.
