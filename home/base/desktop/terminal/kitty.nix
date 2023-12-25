@@ -43,19 +43,20 @@
         else 13;
     };
 
+    # consistent with wezterm
     keybindings = {
       "ctrl+shift+m" = "toggle_maximized";
       "ctrl+shift+f" = "show_scrollback"; # search in the current window
       "cmd+f" = "show_scrollback";
-      # Switch to tab 1-8
-      "ctrl+alt+1" = "goto_tab 1";
-      "ctrl+alt+2" = "goto_tab 2";
-      "ctrl+alt+3" = "goto_tab 3";
-      "ctrl+alt+4" = "goto_tab 4";
-      "ctrl+alt+5" = "goto_tab 5";
-      "ctrl+alt+6" = "goto_tab 6";
-      "ctrl+alt+7" = "goto_tab 7";
-      "ctrl+alt+8" = "goto_tab 8";
+      # Switch to tab 1-8(consistent with wezterm)
+      "ctrl+shift+1" = "goto_tab 1";
+      "ctrl+shift+2" = "goto_tab 2";
+      "ctrl+shift+3" = "goto_tab 3";
+      "ctrl+shift+4" = "goto_tab 4";
+      "ctrl+shift+5" = "goto_tab 5";
+      "ctrl+shift+6" = "goto_tab 6";
+      "ctrl+shift+7" = "goto_tab 7";
+      "ctrl+shift+8" = "goto_tab 8";
     };
 
     settings = {
