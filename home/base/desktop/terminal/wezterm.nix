@@ -105,7 +105,7 @@
       if pkgs.stdenv.isDarwin
       then {
         # install wezterm via homebrew on macOS to avoid compilation, dummy package here.
-        package = pkgs.hello;
+        # package = pkgs.hello;
         enableBashIntegration = false;
         enableZshIntegration = false;
       }

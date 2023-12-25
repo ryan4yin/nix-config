@@ -137,7 +137,7 @@ in {
 
     # `brew install --cask`
     casks = [
-      "wezterm"
+      # "wezterm"  # use this one if nixpkgs's wezterm broken
 
       "squirrel" # input method for Chinese, rime-squirrel
 
