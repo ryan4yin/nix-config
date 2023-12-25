@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{polybar-themes, ...}: {
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
   # so that gammastep/wallpaper-switcher's user service can be start correctly!
@@ -25,12 +25,12 @@
 
   home.file = {
     ".config/polybar" = {
-      source = "${pkgs.polybar-themes-simple}/themes";
+      source = ../conf/polybar;
       recursive = true;
       executable = true;
     };
     ".local/share/fonts" = {
-      source = "${pkgs.polybar-themes-simple}/fonts";
+      source = "${polybar-themes}/fonts";
       recursive = true;
     };
 
