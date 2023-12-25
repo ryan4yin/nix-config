@@ -1,4 +1,4 @@
-# Nix Environment for Deploying my NixOS Configuration
+# Nix Environment Setup for Host: Idols - Ai
 
 This flake prepares a Nix environment for setting my desktop [/hosts/idols/ai](/hosts/idols/ai/)(on main flake) up on a new machine.
 

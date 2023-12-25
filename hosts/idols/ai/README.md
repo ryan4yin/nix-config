@@ -1,5 +1,11 @@
 # Host - AI
 
+Related:
+
+- [/nixos-installer/README.shoukei.md](/nixos-installer/README.ai.md)
+
+## Info
+
 disk status & mountpoints:
 
 ```bash

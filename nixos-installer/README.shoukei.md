@@ -1,4 +1,4 @@
-# Nix Environment for Deploying my NixOS Configuration
+# Nix Environment Setup for Host: Shoukei
 
 > https://wiki.t2linux.org/distributions/nixos/installation/
 
