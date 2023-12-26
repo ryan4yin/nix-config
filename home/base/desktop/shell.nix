@@ -1,9 +1,6 @@
-{pkgs-unstable, ...}: 
-
-let
+{pkgs-unstable, ...}: let
   nu_scripts = pkgs-unstable.nu_scripts;
-in
-{
+in {
   programs.bash = {
     # load the alias file for work
     bashrcExtra = ''
