@@ -133,7 +133,6 @@
           actionlint # GitHub Actions linter
           buf # protoc plugin for linting and formatting
           proselint # English prose linter
-          guile # scheme language
 
           #-- Misc
           tree-sitter # common language parser/highlighter

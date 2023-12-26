@@ -30,7 +30,7 @@
       cargo # rust package manager
       go
       jdk17
-      guile # scheme language
+      racket-minimal # scheme language(racket cli only tools)
 
       # db related
       dbeaver
