@@ -1,4 +1,4 @@
-# AstroNvim Configuration and Shortcuts
+# Neovim Editor
 
 My Neovim config based on [AstroNvim](https://github.com/AstroNvim/AstroNvim).
 For more details, visit the [AstroNvim website](https://astronvim.com/).
