@@ -44,20 +44,32 @@
     };
 
     # consistent with wezterm
-    keybindings = {
-      "ctrl+shift+m" = "toggle_maximized";
-      "ctrl+shift+f" = "show_scrollback"; # search in the current window
-      "cmd+f" = "show_scrollback";
-      # Switch to tab 1-8(consistent with wezterm)
-      "ctrl+shift+1" = "goto_tab 1";
-      "ctrl+shift+2" = "goto_tab 2";
-      "ctrl+shift+3" = "goto_tab 3";
-      "ctrl+shift+4" = "goto_tab 4";
-      "ctrl+shift+5" = "goto_tab 5";
-      "ctrl+shift+6" = "goto_tab 6";
-      "ctrl+shift+7" = "goto_tab 7";
-      "ctrl+shift+8" = "goto_tab 8";
-    };
+    keybindings =
+      {
+        "ctrl+shift+m" = "toggle_maximized";
+        "ctrl+shift+f" = "show_scrollback"; # search in the current window
+        "cmd+f" = "show_scrollback";
+        # Switch to tab 1-8(consistent with wezterm)
+        "ctrl+shift+1" = "goto_tab 1";
+        "ctrl+shift+2" = "goto_tab 2";
+        "ctrl+shift+3" = "goto_tab 3";
+        "ctrl+shift+4" = "goto_tab 4";
+        "ctrl+shift+5" = "goto_tab 5";
+        "ctrl+shift+6" = "goto_tab 6";
+        "ctrl+shift+7" = "goto_tab 7";
+        "ctrl+shift+8" = "goto_tab 8";
+      }
+      // (lib.mkIf pkgs.stdenv.isDarwin {
+        # Switch to tab 1-8(consistent with wezterm)
+        "cmd+1" = "goto_tab 1";
+        "cmd+2" = "goto_tab 2";
+        "cmd+3" = "goto_tab 3";
+        "cmd+4" = "goto_tab 4";
+        "cmd+5" = "goto_tab 5";
+        "cmd+6" = "goto_tab 6";
+        "cmd+7" = "goto_tab 7";
+        "cmd+8" = "goto_tab 8";
+      });
 
     settings = {
       background_opacity = "0.93";
@@ -74,9 +86,9 @@
       # https://github.com/kovidgoyal/kitty/issues/719
       scrollback_pager = ''$SHELL -c 'nvim -u NONE -R -M -u ${./kitty_pager.lua} -c "lua kitty_pager(INPUT_LINE_NUMBER, CURSOR_LINE, CURSOR_COLUMN)" -' '';
       # for active tab
-      active_tab_title_template = "{fmt.fg.green}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}:{title}";
+      active_tab_title_template = "{index}:{title}";
       # for inactive tab
-      tab_title_template = "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index}:{title}";
+      tab_title_template = "{index}:{title}";
     };
 
     # macOS specific settings
