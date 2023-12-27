@@ -35,15 +35,16 @@ Remove all unused plugins:
 
 ## Terminal Related
 
-I used to use the following instructions frequently, but now **I switched my daily terminal environment to zellij**, 
+I used to use Neovim's terminal related shortcuts frequently, but now **I switched my daily terminal environment to zellij**,
 which provides a more powerful and stable terminal experience, so I don't use neovim's terminal feature anymore.
 
-| Action                        | Shortcut       |
-| ----------------------------- | -------------- |
-| Floating Terminal             | `<Space> + tf` |
-| Horizontal Split Terminal     | `<Space> + th` |
-| Vertical Split Terminal       | `<Space> + tv` |
-| Open IPython REPL             | `<Space> + tp` |
+So here is zellij's terminal shortcuts I use frequently now:
+
+| Action                    | Zellij's Shortcut  |
+| ------------------------- | ------------------ |
+| Floating Terminal         | `Ctrl + <p> + <w>` |
+| Horizontal Split Terminal | `Ctrl + <p> + <d>` |
+| Vertical Split Terminal   | `Ctrl + <p> + <n>` |
 
 ## Visual Modes
 
