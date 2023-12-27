@@ -8,10 +8,10 @@ return {
       spell = false,      -- Spell checking
       swapfile = false,   -- Swapfile
       smartindent = false, -- fix https://github.com/ryan4yin/nix-config/issues/4
-      title = true;  -- Set the title of window to `filename [+=-] (path) - NVIM`
+      title = true,       -- Set the title of window to `filename [+=-] (path) - NVIM`
       -- The percentage of 'columns' to use for the title
       -- When the title is longer, only the end of the path name is shown.
-      titlelen = 20;
+      titlelen = 20,
     },
   },
 
@@ -60,6 +60,8 @@ return {
     -- https://github.com/echasnovski/mini.ai
     { import = "astrocommunity.motion.mini-ai" },
     { import = "astrocommunity.motion.flash-nvim" },
+    -- diable toggleterm.nvim, zellij's terminal is far better than neovim's one
+    { "akinsho/toggleterm.nvim",                                   enabled = false },
     { "folke/flash.nvim",                                          vscode = false },
     -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
     { import = "astrocommunity.motion.nvim-spider" },
