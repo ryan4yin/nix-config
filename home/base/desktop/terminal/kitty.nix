@@ -59,7 +59,7 @@
         "ctrl+shift+7" = "goto_tab 7";
         "ctrl+shift+8" = "goto_tab 8";
       }
-      // (lib.mkIf pkgs.stdenv.isDarwin {
+      // (if pkgs.stdenv.isDarwin then {
         # Switch to tab 1-8(consistent with wezterm)
         "cmd+1" = "goto_tab 1";
         "cmd+2" = "goto_tab 2";
@@ -69,7 +69,7 @@
         "cmd+6" = "goto_tab 6";
         "cmd+7" = "goto_tab 7";
         "cmd+8" = "goto_tab 8";
-      });
+      } else {});
 
     settings = {
       background_opacity = "0.93";
