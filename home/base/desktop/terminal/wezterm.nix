@@ -3,15 +3,10 @@
 #
 # Wezterm Configuration
 #
-# Useful Hot Keys for Linux:
-#   1. New Tab: `ctrl + shift + t`
-#   2. Close Tab: `ctrl + shift + q`
-#   3. Switch Tab: `super + shift + right` | `super + shift + left`
-#   4. Increase Font Size: `ctrl + shift + =` | `ctrl + shift + +`
-#   5. Decrease Font Size: `ctrl + shift + -` | `ctrl + shift + _`
-#   6. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
-#   7. Copy Mode(vim like): `Ctrl + Shift + x`
-#   8. Search Mode: `Ctrl + Shift + f`
+# Useful Hot Keys for Linux(replace `ctrl + shift` with `cmd` on macOS)):
+#   1. Increase Font Size: `ctrl + shift + =` | `ctrl + shift + +`
+#   2. Decrease Font Size: `ctrl + shift + -` | `ctrl + shift + _`
+#   3. And Other common shortcuts such as Copy, Paste, Cursor Move, etc.
 #
 # Default Keybindings: https://wezfurlong.org/wezterm/config/default-keys.html
 #

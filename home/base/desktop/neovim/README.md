@@ -33,6 +33,18 @@ Remove all unused plugins:
 ![](/_img/astronvim_2023-07-13_00-39.webp)
 ![](/_img/hyprland_2023-07-29_2.webp)
 
+## Terminal Related
+
+I used to use the following instructions frequently, but now **I switched my daily terminal environment to zellij**, 
+which provides a more powerful and stable terminal experience, so I don't use neovim's terminal feature anymore.
+
+| Action                        | Shortcut       |
+| ----------------------------- | -------------- |
+| Floating Terminal             | `<Space> + tf` |
+| Horizontal Split Terminal     | `<Space> + th` |
+| Vertical Split Terminal       | `<Space> + tv` |
+| Open IPython REPL             | `<Space> + tp` |
+
 ## Visual Modes
 
 | Action                   | Shortcut                                 |
@@ -94,10 +106,6 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 | Learn Neovim's Basics         | `:Tutor`       |
 | Open file explorer            | `<Space> + e`  |
 | Focus Neotree to current file | `<Space> + o`  |
-| Floating Terminal             | `<Space> + tf` |
-| Horizontal Split Terminal     | `<Space> + th` |
-| Vertical Split Terminal       | `<Space> + tv` |
-| Open IPython REPL             | `<Space> + tp` |
 | Toggle line wrap              | `<Space> + uw` |
 | Show line diagnostics         | `gl`           |
 | Show function/variable info   | `K`            |

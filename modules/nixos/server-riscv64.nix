@@ -40,7 +40,7 @@
     tree
     gnused
     gawk
-    tmux
+    zellij
     docker-compose
   ];
 

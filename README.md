@@ -22,7 +22,7 @@ Nix allows for easy-to-manage, collaborative, reproducible deployments. This mea
 
 As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
 
-**Want to know NixOS & Flaks in detail? Looking for a beginner-friendly tutorial or best practices? You don't have to go through the pain I've experienced again! Check out  my [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+**Want to know NixOS & Flaks in detail? Looking for a beginner-friendly tutorial or best practices? You don't have to go through the pain I've experienced again! Check out my [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
 > If you're using macOS, check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
 
@@ -31,8 +31,8 @@ As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https
 |                             | NixOS(Wayland)                                                                                                    | NixOS(Xorg)                                                                                                       |
 | --------------------------- | :---------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
 | **Window Manager**          | [Hyprland][Hyprland]                                                                                              | [i3][i3]                                                                                                          |
-| **Terminal Emulator**       | [Kitty][Kitty]                                                                                                    | [Kitty][Kitty]                                                                                                    |
-| **Bar**                     | [Waybar][Waybar]                                                                                                  | [i3block][i3block]                                                                                                |
+| **Terminal Emulator**       | [Zellij][Zellij] + [Kitty][Kitty]                                                                                 | [Zellij][Zellij] + [Kitty][Kitty]                                                                                 |
+| **Bar**                     | [Waybar][Waybar]                                                                                                  | [polybar][polybar]                                                                                                |
 | **Application Launcher**    | [anyrun][anyrun]                                                                                                  | [rofi][rofi]                                                                                                      |
 | **Notification Daemon**     | [Mako][Mako]                                                                                                      | [Dunst][Dunst]                                                                                                    |
 | **Display Manager**         | [GDM][GDM]                                                                                                        | [GDM][GDM]                                                                                                        |
@@ -40,7 +40,7 @@ As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https
 | **network management tool** | [NetworkManager][NetworkManager]                                                                                  | [NetworkManager][NetworkManager]                                                                                  |
 | **Input method framework**  | [Fcitx5][Fcitx5]                                                                                                  | [Fcitx5][Fcitx5]                                                                                                  |
 | **System resource monitor** | [Btop][Btop]                                                                                                      | [Btop][Btop]                                                                                                      |
-| **File Manager**            | [ranger][ranger] + [thunar][thunar]                                                                               | [ranger][ranger] + [thunar][thunar]                                                                               |
+| **File Manager**            | [yazi][yazi] + [thunar][thunar]                                                                                   | [yazi][yazi] + [thunar][thunar]                                                                                   |
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                         | [Nushell][Nushell] + [Starship][Starship]                                                                         |
 | **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk]                    | [Netease-cloud-music-gtk][netease-cloud-music-gtk]                                                                |
 | **Media Player**            | [mpv][mpv]                                                                                                        | [mpv][mpv]                                                                                                        |
@@ -180,13 +180,14 @@ Other dotfiles that inspired me:
 [Nushell]: https://github.com/nushell/nushell
 [Starship]: https://github.com/starship/starship
 [Waybar]: https://github.com/Alexays/Waybar
-[i3block]: https://github.com/vivien/i3blocks
+[polybar]: https://github.com/polybar/polybar
 [rofi]: https://github.com/davatorium/rofi
 [anyrun]: https://github.com/Kirottu/anyrun
 [Dunst]: https://github.com/dunst-project/dunst
 [Fcitx5]: https://github.com/fcitx/fcitx5
 [Btop]: https://github.com/aristocratos/btop
 [mpv]: https://github.com/mpv-player/mpv
+[Zellij]: https://github.com/zellij-org/zellij
 [Neovim]: https://github.com/neovim/neovim
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
 [flameshot]: https://github.com/flameshot-org/flameshot
@@ -204,7 +205,7 @@ Other dotfiles that inspired me:
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard
 [GDM]: https://wiki.archlinux.org/title/GDM
 [thunar]: https://gitlab.xfce.org/xfce/thunar
-[ranger]: https://github.com/ranger/ranger
+[yazi]: https://github.com/sxyazi/yazi
 [Catppuccin]: https://github.com/catppuccin/catppuccin
 [Btrfs]: https://btrfs.readthedocs.io
 [LUKS]: https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system

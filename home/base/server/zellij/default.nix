@@ -16,7 +16,8 @@ in {
         ^zellij
       }
 
-      # auto exit the shell session when zellij exit
+      # Auto exit the shell session when zellij exit
+      $env.ZELLIJ_AUTO_EXIT = "true" # enable auto exit
       if "ZELLIJ_AUTO_EXIT" in $env and $env.ZELLIJ_AUTO_EXIT == "true" {
         exit
       }

@@ -1,6 +1,10 @@
 {pkgs, ...}: {
-  # TODO vscode & chrome both have wayland support, but they don't work with fcitx5, need to fix it.
   programs = {
+    # a wayland only terminal emulator
+    foot = {
+      enable = true;
+    };
+
     # source code: https://github.com/nix-community/home-manager/blob/master/modules/programs/chromium.nix
     google-chrome = {
       enable = true;

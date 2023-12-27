@@ -1,8 +1,21 @@
 # Termianl Emulators
 
-1. kitty: My main terminal emulator.
-2. wezterm: My secondary terminal emulator.
+I used to spend a lot of time on terminal emulators, to make them match my taste, 
+but now I found that it's not worth it, **Zellij can provide a user-friendly and unified user experience for all terminal emulators! without any pain**!
 
+Currently, I only use the most basic features of terminal emulators, such as true color, graphics protocol, etc.
+Other features such as tabs, scrollback buffer, select/search/copy, etc, are all provided by zellij!
+
+My current terminal emulators are:
+
+1. kitty: My main terminal emulator.
+    1. to select/copy a large mount of text, We should do some tricks via kitty's `scrollback_pager` with neovim, it's really painful: <https://github.com/kovidgoyal/kitty/issues/719>
+2. wezterm: My secondary terminal emulator.
+    1. its search ability is very basic, and it's not easy to use.
+    1. its scrollback buffer's copy mode is very like vim, which is nice, but zellij's even better, it can use neovim as its default scrollback buffer's editor without any pain!
+3. foot: a fast, lightweight and minimalistic Wayland terminal emulator.
+    1. foot only do the things a terminal emulator should do, no more, no less.
+    1. It's really suitable for tiling window manager or zellij users!
 
 ## 'xterm-kitty': unknown terminal type when `ssh` into a remote host or `sudo xxx`
 
