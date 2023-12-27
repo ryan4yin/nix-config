@@ -11,9 +11,9 @@ in {
     # auto start zellij
     if not "ZELLIJ" in $env {
       if "ZELLIJ_AUTO_ATTACH" in $env and $env.ZELLIJ_AUTO_ATTACH == "true" {
-        zellij attach -c
+        ^zellij attach -c
       } else {
-        zellij
+        ^zellij
       }
 
       # auto exit the shell session when zellij exit
