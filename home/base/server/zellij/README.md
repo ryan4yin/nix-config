@@ -27,3 +27,13 @@ As for some Editor such as Neovim, its intergrated terminal is really useful, bu
 Zellij overcomes these problems, and provides a unified user experience for all terminal emulators!
 
 Teminal emulators should only be responsible for displaying characters.
+
+## Passthrough mode(Lock Mode)
+
+`Ctrl + g` lock the outer zellij interface, and all keys will be sent to the focused pane.
+
+It's extremely useful when you want to:
+
+1. Use zellij locally for daily work, and use a remote zellij via ssh to do some work on the remote server.
+1. To avoid the key conflicts between zellij and the program running in the terminal, such as vim, tmux, etc.
+
