@@ -25,6 +25,12 @@
       owner = username;
     };
 
+    "ssh-key-romantic" = {
+      file = "${mysecrets}/ssh-key-romantic.age";
+      mode = "0600";
+      owner = username;
+    };
+
     # alias-for-work
     "alias-for-work.nushell" = {
       file = "${mysecrets}/alias-for-work.nushell.age";
@@ -50,6 +56,10 @@
     # Fix DNS for WireGuard on macOS: https://github.com/ryan4yin/nix-config/issues/5
     "wireguard/wg-business.conf" = {
       source = config.age.secrets."wg-business.conf".path;
+    };
+
+   "agenix/ssh-key-romantic" = {
+      source = config.age.secrets."ssh-key-romantic".path;
     };
 
     # The following secrets are used by home-manager modules

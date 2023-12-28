@@ -34,6 +34,12 @@
       owner = username;
     };
 
+    "ssh-key-romantic" = {
+      file = "${mysecrets}/ssh-key-romantic.age";
+      mode = "0600";
+      owner = username;
+    };
+
     # alias-for-work
     "alias-for-work.nushell" = {
       file = "${mysecrets}/alias-for-work.nushell.age";
@@ -58,6 +64,12 @@
     # wireguard config used with `wg-quick up wg-business`
     "wireguard/wg-business.conf" = {
       source = config.age.secrets."wg-business.conf".path;
+    };
+
+   "agenix/ssh-key-romantic" = {
+      source = config.age.secrets."ssh-key-romantic".path;
+      mode = "0600";
+      user = username;
     };
 
     # The following secrets are used by home-manager modules

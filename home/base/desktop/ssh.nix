@@ -1,4 +1,6 @@
-_: {
+{mysecrets, ...}: {
+  home.file.".ssh/romantic.pub".source = "${mysecrets}/public/romantic.pub";
+
   programs.ssh = {
     enable = true;
 
@@ -18,7 +20,7 @@ _: {
         # It has the same effect as adding cli option `ssh -A user@host`
         ForwardAgent yes
         # romantic holds my homelab~
-        IdentityFile ~/.ssh/romantic
+        IdentityFile /etc/agenix/ssh-key-romantic
         # Specifies that ssh should only use the identity file explicitly configured above
         # required to prevent sending default identity files first.
         IdentitiesOnly yes
@@ -38,20 +40,14 @@ _: {
       Host k8s-main
         HostName 192.168.5.181
         ForwardAgent yes
-        IdentityFile ~/.ssh/romantic
-        IdentitiesOnly yes
 
       Host k8s-data1
         HostName 192.168.5.182
         ForwardAgent yes
-        IdentityFile ~/.ssh/romantic
-        IdentitiesOnly yes
 
       Host k8s-data2
         HostName 192.168.5.183
         ForwardAgent yes
-        IdentityFile ~/.ssh/romantic
-        IdentitiesOnly yes
     '';
   };
 }
