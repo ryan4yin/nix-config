@@ -5,13 +5,21 @@
 }: {
   # refer to https://codeberg.org/dnkl/foot/src/branch/master/foot.ini
   xdg.configFile."foot/foot.ini".text =
-    (builtins.readFile "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-foot}/catppuccin-mocha.conf")
-    + ''
-      term=foot
-      font=JetBrainsMono Nerd Font:size=13
+    ''
+      [main]
       dpi-aware=yes
+      font=JetBrainsMono Nerd Font:size=13
       shell=${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'
-    '';
+      term=foot
+      initial-window-size-pixels=3840x2160
+      initial-window-mode=windowed
+      pad=0x0                             # optionally append 'center'
+      resize-delay-ms=10
+
+      [mouse]
+      hide-when-typing=yes
+    ''
+    + (builtins.readFile "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-foot}/catppuccin-mocha.conf");
 
   programs = {
     # a wayland only terminal emulator
@@ -24,7 +32,7 @@
       # Advantages to run foot in server mode including reduced memory footprint and startup time.
       # The downside is a performance penalty. If one window is very busy with, for example, producing output,
       # then other windows will suffer. Also, should the server process crash, all windows will be gone.
-      server.enable = false;
+      server.enable = true;
     };
 
     # source code: https://github.com/nix-community/home-manager/blob/master/modules/programs/chromium.nix

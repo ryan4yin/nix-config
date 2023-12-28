@@ -263,7 +263,6 @@ return {
           "gitignore",
           "gitcommit",
           "latex",
-          "pip_requirements",
           "sql",
         })
       end,
