@@ -1,4 +1,9 @@
-{pkgs-unstable, nur-ryan4yin, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  nur-ryan4yin,
+  ...
+}: {
   # terminal file manager
   programs.yazi = {
     enable = true;
@@ -9,5 +14,5 @@
     enableNushellIntegration = false;
   };
 
-  xgd.configFile."yazi/theme.toml".source = "${nur-ryan4yin.cattppuccin-yazi}/mocha.toml";
+  xdg.configFile."yazi/theme.toml".source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-yazi}/mocha.toml";
 }
