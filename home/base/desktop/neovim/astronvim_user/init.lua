@@ -41,20 +41,21 @@ return {
     { import = "astrocommunity.pack.json" },
     { import = "astrocommunity.pack.yaml" },
     { import = "astrocommunity.pack.toml" },
-    ---- Backend
+    ---- Backend / System
     { import = "astrocommunity.pack.lua" },
     { import = "astrocommunity.pack.go" },
     { import = "astrocommunity.pack.rust" },
     { import = "astrocommunity.pack.python" },
     { import = "astrocommunity.pack.java" },
+    { import = "astrocommunity.pack.cmake" },
+    { import = "astrocommunity.pack.cpp" },
     -- { import = "astrocommunity.pack.nix" },  -- manually add config for nix, comment this one.
     { import = "astrocommunity.pack.proto" },
     ---- Operation & Cloud Native
     { import = "astrocommunity.pack.terraform" },
     { import = "astrocommunity.pack.bash" },
-    { import = "astrocommunity.pack.cmake" },
-    { import = "astrocommunity.pack.cpp" },
     { import = "astrocommunity.pack.docker" },
+    { import = "astrocommunity.pack.helm" },
     -- Motion
     { import = "astrocommunity.motion.mini-surround" },
     -- https://github.com/echasnovski/mini.ai
@@ -84,6 +85,15 @@ return {
       event = { "InsertLeave", "TextChanged" },
       opts = function(_, opts)
         opts.prompt_style = "stdout" -- notify or stdout
+      end,
+    },
+
+    -- Provide a comparable s-expression editing experience in Neovim to that provided by Emacs.
+    -- https://github.com/julienvincent/nvim-paredit
+    {
+      "julienvincent/nvim-paredit",
+      config = function()
+        require("nvim-paredit").setup()
       end,
     },
 
@@ -247,6 +257,14 @@ return {
           "regex",
           "terraform",
           "nix",
+          "csv",
+          -- other programming language
+          "diff",
+          "gitignore",
+          "gitcommit",
+          "latex",
+          "pip_requirements",
+          "sql",
         })
       end,
     },
