@@ -40,7 +40,7 @@ As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https
 | **network management tool** | [NetworkManager][NetworkManager]                                                                                  | [NetworkManager][NetworkManager]                                                                                  |
 | **Input method framework**  | [Fcitx5][Fcitx5]                                                                                                  | [Fcitx5][Fcitx5]                                                                                                  |
 | **System resource monitor** | [Btop][Btop]                                                                                                      | [Btop][Btop]                                                                                                      |
-| **File Manager**            | [yazi][yazi] + [thunar][thunar]                                                                                   | [yazi][yazi] + [thunar][thunar]                                                                                   |
+| **File Manager**            | [Yazi][Yazi] + [thunar][thunar]                                                                                   | [Yazi][Yazi] + [thunar][thunar]                                                                                   |
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                         | [Nushell][Nushell] + [Starship][Starship]                                                                         |
 | **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk]                    | [Netease-cloud-music-gtk][netease-cloud-music-gtk]                                                                |
 | **Media Player**            | [mpv][mpv]                                                                                                        | [mpv][mpv]                                                                                                        |
@@ -205,7 +205,7 @@ Other dotfiles that inspired me:
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard
 [GDM]: https://wiki.archlinux.org/title/GDM
 [thunar]: https://gitlab.xfce.org/xfce/thunar
-[yazi]: https://github.com/sxyazi/yazi
+[Yazi]: https://github.com/sxyazi/yazi
 [Catppuccin]: https://github.com/catppuccin/catppuccin
 [Btrfs]: https://btrfs.readthedocs.io
 [LUKS]: https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system
