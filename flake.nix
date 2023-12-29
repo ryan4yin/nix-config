@@ -155,6 +155,7 @@
     };
 
     nuenv.url = "github:DeterminateSystems/nuenv";
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
 
     ########################  Some non-flake repositories  #########################################
 

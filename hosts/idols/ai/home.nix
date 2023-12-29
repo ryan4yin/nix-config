@@ -10,7 +10,7 @@
       monitor = "DP-2,highres,auto,1.5,bitdepth,10";
     };
   };
-
+  modules.desktop.emacs.enable = true;
   modules.desktop.i3 = {
     nvidia = true;
   };
