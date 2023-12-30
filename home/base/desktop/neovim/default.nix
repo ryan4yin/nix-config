@@ -8,7 +8,12 @@
 #  AstroNvim's configuration and all its dependencies(lsp, formatter, etc.)
 #
 #e#############################################################################
-{
+let
+  shellAliases = {
+    v = "nvim";
+    vdiff = "nvim -d";
+  };
+in {
   xdg.configFile = {
     # astronvim's config
     "nvim" = {
@@ -20,6 +25,9 @@
     # https://github.com/AstroNvim/AstroNvim/blob/v3.32.0/lua/astronvim/bootstrap.lua#L15-L16
     "astronvim/lua/user".source = ./astronvim_user;
   };
+
+  home.shellAliases = shellAliases;
+  programs.nushell.shellAliases = shellAliases;
 
   nixpkgs.config = {
     programs.npm.npmrc = ''

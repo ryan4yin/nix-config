@@ -4,7 +4,7 @@
 #
 # Emacs Tutorials:
 #  1. Official: <https://www.gnu.org/software/emacs/tour/index.html>
-#  2. Doom Emacs: <https://github.com/doomemacs/doomemacs/blob/master/docs/index.org> 
+#  2. Doom Emacs: <https://github.com/doomemacs/doomemacs/blob/master/docs/index.org>
 #
 {
   config,
@@ -18,6 +18,11 @@ with lib; let
   envExtra = ''
     export PATH="$XDG_CONFIG_HOME/emacs/bin:$PATH"
   '';
+  shellAliases = {
+    e = "emacs";
+    ediff = ''emacs -nw --eval "(ediff-files \"$1\" \"$2\")"'';
+    eman = ''emacs -nw --eval "(switch-to-buffer (man \"$1\"))"'';
+  };
 in {
   options.modules.editors.emacs = {
     enable = mkEnableOption "Emacs Editor";
@@ -58,6 +63,9 @@ in {
 
     programs.bash.bashrcExtra = envExtra;
     programs.zsh.envExtra = envExtra;
+    home.shellAliases = shellAliases;
+    programs.nushell.shellAliases = shellAliases;
+
     # allow fontconfig to discover fonts and configurations installed through `home.packages`
     fonts.fontconfig.enable = true;
 
