@@ -2,11 +2,13 @@
   username,
   userfullname,
   nuenv,
+  emacs-overlay,
   ...
 } @ args: {
   nixpkgs.overlays =
     [
       nuenv.overlays.default
+      emacs-overlay.overlay
     ]
     ++ (import ../overlays args);
 
