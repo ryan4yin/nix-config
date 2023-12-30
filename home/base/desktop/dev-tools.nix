@@ -16,22 +16,6 @@
 
   home.packages = with pkgs;
     [
-      (python3.withPackages (
-        ps:
-          with ps; [
-            ipython
-            pandas
-            requests
-            pyquery
-            pyyaml
-          ]
-      ))
-
-      cargo # rust package manager
-      go
-      jdk17
-      racket-minimal # scheme language(racket cli only tools)
-
       # db related
       dbeaver
       mycli
@@ -50,7 +34,6 @@
       glow # markdown previewer
       fzf
       gdu # disk usage analyzer, required by AstroNvim
-      ripgrep # fast search tool, required by AstroNvim's '<leader>fw'(<leader> is space key)
       bfg-repo-cleaner # remove large files from git history
       k6 # load testing tool
       protobuf # protocol buffer compiler

@@ -25,7 +25,6 @@
     gnumake
     just  # a command runner like make, but simpler
     gawk # GNU awk, a pattern scanning and processing language
-    (ripgrep.override {withPCRE2 = true;}) # recursively searches directories for a regex pattern
     sad # CLI search and replace, with diff preview, really useful!!!
     delta # A viewer for git and diff output
     # A fast and polyglot tool for code searching, linting, rewriting at large scale
