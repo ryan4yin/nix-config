@@ -28,13 +28,12 @@ in {
       use ${nu_scripts}/share/nu_scripts/custom-completions/make/make-completions.nu *
       use ${nu_scripts}/share/nu_scripts/custom-completions/man/man-completions.nu *
       use ${nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/pnpm/pnpm-completions.nu *
       use ${nu_scripts}/share/nu_scripts/custom-completions/cargo/cargo-completions.nu *
       use ${nu_scripts}/share/nu_scripts/custom-completions/zellij/zellij-completions.nu *
       # alias
-      use ${nu_scripts}/share/nu_scriptsaliases/git/git-aliases.nu *
+      use ${nu_scripts}/share/nu_scripts/aliases/git/git-aliases.nu *
       use ${nu_scripts}/share/nu_scripts/aliases/eza/eza-aliases.nu *
-      use ${nu_scripts}/share/nu_scripts/aliases/bat/bat-aliases.nu *
+      # use ${nu_scripts}/share/nu_scripts/aliases/bat/bat-aliases.nu *
     '';
   };
 }
