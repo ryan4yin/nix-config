@@ -1,10 +1,16 @@
 # ==============================================
-# based on doomemacs's auther's config:
+# Based on doomemacs's auther's config:
 #   https://github.com/hlissner/dotfiles/blob/master/modules/editors/emacs.nix
+#
+# Emacs Tutorials:
+#  1. Official: <https://www.gnu.org/software/emacs/tour/index.html>
+#  2. Doom Emacs: <https://github.com/doomemacs/doomemacs/blob/master/docs/index.org> 
+#
 {
   config,
   lib,
   pkgs,
+  doomemacs,
   ...
 }:
 with lib; let
@@ -17,10 +23,6 @@ in {
     enable = mkEnableOption "Emacs Editor";
     doom = {
       enable = mkEnableOption "Doom Emacs";
-      repoUrl = mkOption {
-        type = types.str;
-        default = "https://github.com/doomemacs/doomemacs";
-      };
     };
   };
 
@@ -63,10 +65,7 @@ in {
 
     home.activation = mkIf cfg.doom.enable {
       installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        if [ ! -d "${config.xdg.configHome}/emacs" ]; then
-           echo "Installing Doom Emacs..."
-           ${pkgs.git}/bin/git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "${config.xdg.configHome}/emacs"
-        fi
+        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
       '';
     };
   };
