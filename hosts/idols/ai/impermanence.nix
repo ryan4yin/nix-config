@@ -92,6 +92,7 @@
         # remote desktop
         ".config/remmina"
         ".config/freerdp"
+        ".config/emacs"  # doom-emacs
 
         # browsers
         ".mozilla"

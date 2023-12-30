@@ -62,7 +62,7 @@ in {
     xdg.configFile."doom".source = ./doom;
 
     home.activation = mkIf cfg.doom.enable {
-      installDoomEmacs = lib.hm.dag.entryBefore ["checkLinkTargets"] ''
+      installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         if [ ! -d "${config.xdg.configHome}/emacs" ]; then
            echo "Installing Doom Emacs..."
            ${pkgs.git}/bin/git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "${config.xdg.configHome}/emacs"
