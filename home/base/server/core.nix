@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     neofetch
-    ranger # terminal file manager(batteries included, with image preview support)
 
     # archives
     zip
@@ -23,6 +22,8 @@
     # Docs: https://github.com/learnbyexample/Command-line-text-processing
     gnugrep # GNU grep, provides `grep`/`egrep`/`fgrep`
     gnused # GNU sed, very powerful(mainly for replacing text in files)
+    gnumake
+    just  # a command runner like make, but simpler
     gawk # GNU awk, a pattern scanning and processing language
     (ripgrep.override {withPCRE2 = true;}) # recursively searches directories for a regex pattern
     sad # CLI search and replace, with diff preview, really useful!!!

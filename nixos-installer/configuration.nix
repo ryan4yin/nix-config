@@ -9,6 +9,7 @@
     git
     gnumake
     wget
+    just # a command runner(replacement of gnumake in some cases)
     curl
     nix-output-monitor
   ];

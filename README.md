@@ -18,7 +18,7 @@ This repository is home to the nix code that builds my systems.
 
 ## Why NixOS & Flakes?
 
-Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works (almost) forever. If someone else shares their configuration, anyone can make use of it(if you really understand what you're copying/refering now).
+Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works (almost) forever. If someone else shares their configuration, anyone can just use of it(if you really understand what you're copying/refering now).
 
 As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
 
@@ -92,27 +92,27 @@ For NixOS:
 sudo nixos-rebuild switch --flake .#ai_i3
 # sudo nixos-rebuild switch --flake .#ai_hyprland
 
-# we can also deploy using `make`, which is defined in Makefile
-make i3    # deploy my pc with i3 window manager
-# make hypr  # deploy my pc with hyprland compositor
+# deploy via `just`(a command runner with similar syntax to make) & Justfile
+just i3    # deploy my pc with i3 window manager
+# just hypr  # deploy my pc with hyprland compositor
 
 # or we can deploy with details
-make i3-debug
-# make hypr-debug
+just i3-debug
+# just hypr-debug
 ```
 
 For macOS:
 
 ```bash
 # deploy harmonicia's configuration(macOS Intel)
-make ha
+just ha
 
 # deploy fern's configuration(Apple Silicon)
-make fe
+just fe
 
 # deploy with details
-make ha-debug
-# make fe
+just ha-debug
+# just fe
 ```
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg) (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
