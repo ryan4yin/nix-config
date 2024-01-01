@@ -37,7 +37,11 @@ in {
       binutils # native-comp needs 'as', provided by this
       # 28.2 + native-comp
       ((emacsPackagesFor emacs-unstable-nox).emacsWithPackages
-        (epkgs: [epkgs.vterm]))
+        (epkgs: [
+          epkgs.vterm
+          epkgs.rime
+          epkgs.meow
+        ]))
       emacs-all-the-icons-fonts
 
       ## Doom dependencies
