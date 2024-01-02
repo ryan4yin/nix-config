@@ -37,10 +37,8 @@ in {
       ((emacsPackagesFor emacs-unstable-nox).emacsWithPackages
         (epkgs: [
           epkgs.vterm
-          # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/applications/editors/emacs/elisp-packages/melpa-packages.nix#L488-L498
-          # failed to build on macOS Apple Silicon
-          (if pkgs.stdenv.isLinux then epkgs.rime else nil)
         ]))
+      librime
       emacs-all-the-icons-fonts
 
       ## Doom dependencies

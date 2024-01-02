@@ -16,8 +16,7 @@
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
-       ;; failed to build emacs-rime on macOS
-       (:if IS-LINUX (chinese +rime) chinese)
+       chinese             ; TODO: use (chinese +rime)
        ;;japanese
        ;;layout            ; auie,ctsrnm is the superior home row
 
