@@ -58,7 +58,7 @@
       source = config.age.secrets."wg-business.conf".path;
     };
 
-   "agenix/ssh-key-romantic" = {
+    "agenix/ssh-key-romantic" = {
       source = config.age.secrets."ssh-key-romantic".path;
     };
 

@@ -23,7 +23,7 @@
     gnugrep # GNU grep, provides `grep`/`egrep`/`fgrep`
     gnused # GNU sed, very powerful(mainly for replacing text in files)
     gnumake
-    just  # a command runner like make, but simpler
+    just # a command runner like make, but simpler
     gawk # GNU awk, a pattern scanning and processing language
     sad # CLI search and replace, with diff preview, really useful!!!
     delta # A viewer for git and diff output

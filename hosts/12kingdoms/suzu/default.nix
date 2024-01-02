@@ -1,7 +1,4 @@
-{
-  nixos-rk3588,
-  ...
-}:
+{nixos-rk3588, ...}:
 #############################################################
 #
 #  Aquamarine - A NixOS VM running on Proxmox

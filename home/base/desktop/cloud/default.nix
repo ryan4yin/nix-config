@@ -4,7 +4,7 @@
       # general tools
       pulumi
       pulumictl
-      packer  # machine image builder
+      packer # machine image builder
 
       # aws
       awscli2

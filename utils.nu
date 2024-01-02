@@ -8,9 +8,7 @@ export def nixos-switch [
         nixos-rebuild switch --use-remote-sudo --flake $".#($name)" --show-trace --verbose
     } else {
         nixos-rebuild switch --use-remote-sudo --flake $".#($name)"
-        }
-
-
+    }
 }
 
 

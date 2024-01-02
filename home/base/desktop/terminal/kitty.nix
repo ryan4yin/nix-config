@@ -30,11 +30,10 @@
     };
 
     # consistent with wezterm
-    keybindings =
-      {
-        "ctrl+shift+m" = "toggle_maximized";
-        "ctrl+shift+f" = "show_scrollback"; # search in the current window
-      };
+    keybindings = {
+      "ctrl+shift+m" = "toggle_maximized";
+      "ctrl+shift+f" = "show_scrollback"; # search in the current window
+    };
 
     settings = {
       background_opacity = "0.93";

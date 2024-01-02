@@ -40,7 +40,7 @@
           # nixos-hardware.nixosModules.apple-t2
           ({pkgs, ...}: {
             networking.hostName = "shoukei";
-            boot.kernelPackages = pkgs.linuxPackages_latest;  # Use latest kernel for the initial installation.
+            boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest kernel for the initial installation.
             # hardware.apple-t2.enableAppleSetOsLoader = true;
           })
 

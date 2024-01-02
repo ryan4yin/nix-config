@@ -13,7 +13,7 @@
   ];
 
   hardware.firmware = [
-    (import ./brcm-firmware { inherit pkgs;})
+    (import ./brcm-firmware {inherit pkgs;})
   ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage" "sd_mod"];

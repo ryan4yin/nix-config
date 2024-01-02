@@ -95,7 +95,7 @@
 
         # doom-emacs
         ".config/emacs"
-        "org"  #  org files
+        "org" #  org files
 
         # browsers
         ".mozilla"
