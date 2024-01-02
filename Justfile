@@ -114,11 +114,11 @@ idols-image:
 ############################################################################
 #
 #  RISC-V related commands
-#    
+#
 ############################################################################
 
 roll: idols-ssh-key
-  colmena apply --on '@riscv' 
+  colmena apply --on '@riscv'
 
 roll-debug: idols-ssh-key
   colmena apply --on '@dist-build' --verbose --show-trace
@@ -160,4 +160,3 @@ test-nvim:
 
 test-nvim-clean:
   rm -rf $"($env.HOME)/.config/astronvim/lua"
-

@@ -7,6 +7,11 @@
   - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
   - <https://github.com/meow-edit/meow>
 
+Emacs daemon:
+
+- <https://github.com/nix-community/home-manager/blob/master/modules/services/emacs.nix>
+- <https://github.com/LnL7/nix-darwin/blob/1a41453cba42a3a1af2fff003be455ddbd75386c/modules/services/emacs.nix>
+
 ## Install or Update
 
 After deploying this nix flake, run the following command to install or update emacs:
