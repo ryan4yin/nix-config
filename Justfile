@@ -59,11 +59,11 @@ gc:
 ############################################################################
 
 darwin-prefix := "./result/sw/bin/darwin-rebuild"
-darwin-switch := "{{darwin-prefix}} switch --flake"
+darwin-switch := darwin-prefix + " switch --flake"
 
 darwin-set-proxy:
   sudo python3 scripts/darwin_set_proxy.py
-  sleep 1
+  sleep 1sec
 
 darwin-rollback:
   {{darwin-prefix}} rollback
