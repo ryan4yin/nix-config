@@ -82,12 +82,18 @@
               ("<tab>" . 'copilot-accept-completion)
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  (copilot-mode +1))
 
 (use-package super-save
   :ensure t
   :config
-  (super-save-mode +1)
-  (setq super-save-auto-save-when-idle t)
-  (setq super-save-all-buffers t)
-  (setq super-save-delete-trailing-whitespace t))
+  (super-save-mode +1))
+
+(setq super-save-auto-save-when-idle t)
+(setq super-save-all-buffers t)
+(setq super-save-delete-trailing-whitespace t)
+
+(use-package wakatime-mode
+  :ensure t)

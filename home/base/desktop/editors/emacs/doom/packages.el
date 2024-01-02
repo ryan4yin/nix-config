@@ -11,6 +11,10 @@
 (package! super-save
   :recipe (:host github :repo "bbatsov/super-save" :files ("*.el" "dist")))
 
+(package! wakatime-mode
+  :recipe (:host github :repo "wakatime/wakatime-mode" :files ("*.el" "dist")))
+
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 
