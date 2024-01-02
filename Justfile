@@ -9,26 +9,24 @@ set shell := ["nu", "-c"]
 #
 ############################################################################
 
-nixos-switch := "nixos-rebuild switch --use-remote-sudo --flake"
-debug-args := "--show-trace --verbose"
+i3 mode="default":
+  use utils.nu *; \
+  nixos-switch .#ai_i3 {{mode}}
 
-i3:
-  {{nixos-switch}} .#ai_i3
+hypr mode="default":
+  use utils.nu *; \
+  nixos-switch .#ai_hyprland {{mode}}
 
-hypr:
-	{{nixos-switch}} .#ai_hyprland
 
-s-i3:
-	{{nixos-switch}} .#shoukei_i3
+s-i3 mode="default":
+  use utils.nu *; \
+  nixos-switch .#shoukei_i3 {{mode}}
 
-s-hypr:
-	{{nixos-switch}} .#shoukei_hyprland
 
-i3-debug:
-	{{nixos-switch}} .#ai_i3 {{debug-args}}
+s-hypr mode="default":
+  use utils.nu *; \
+  nixos-switch .#shoukei_hyprland {{mode}}
 
-hypr-debug:
-	{{nixos-switch}} .#ai_hyprland {{debug-args}}
 
 up:
   nix flake update
@@ -58,31 +56,22 @@ gc:
 #
 ############################################################################
 
-darwin-prefix := "./result/sw/bin/darwin-rebuild"
-darwin-switch := darwin-prefix + " switch --flake"
-
 darwin-set-proxy:
   sudo python3 scripts/darwin_set_proxy.py
   sleep 1sec
 
 darwin-rollback:
-  {{darwin-prefix}} rollback
+  rollback
 
-ha: darwin-set-proxy
-  nix build .#darwinConfigurations.harmonica.system
-  {{darwin-switch}} .#harmonica
+ha mode="default": darwin-set-proxy
+  use utils.nu *; \
+  darwin-build "harmonica" {{mode}}; \
+  darwin-switch "harmonica" {{mode}}
 
-ha-debug: darwin-set-proxy
-  nom build .#darwinConfigurations.harmonica.system {{debug-args}}
-  {{darwin-switch}} .#harmonica {{debug-args}}
-
-fe: darwin-set-proxy
-  nix build .#darwinConfigurations.fern.system
-  {{darwin-switch}} .#fern
-
-fe-debug: darwin-set-proxy
-  nom build .#darwinConfigurations.fern.system {{debug-args}}
-  {{darwin-switch}} .#fern {{debug-args}}
+fe mode="default":
+  use utils.nu *; \
+  darwin-build "fern" {{mode}}; \
+  darwin-switch "fern" {{mode}}
 
 ############################################################################
 #

@@ -97,7 +97,7 @@ just i3    # deploy my pc with i3 window manager
 # just hypr  # deploy my pc with hyprland compositor
 
 # or we can deploy with details
-just i3-debug
+just i3 debug
 # just hypr-debug
 ```
 
@@ -111,8 +111,8 @@ just ha
 just fe
 
 # deploy with details
-just ha-debug
-# just fe
+just ha debug
+# just fe debug
 ```
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg) (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
