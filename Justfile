@@ -61,14 +61,15 @@ darwin-set-proxy:
   sleep 1sec
 
 darwin-rollback:
-  rollback
+  use utils.nu *; \
+  darwin-rollback
 
 ha mode="default": darwin-set-proxy
   use utils.nu *; \
   darwin-build "harmonica" {{mode}}; \
   darwin-switch "harmonica" {{mode}}
 
-fe mode="default":
+fe mode="default": darwin-set-proxy
   use utils.nu *; \
   darwin-build "fern" {{mode}}; \
   darwin-switch "fern" {{mode}}

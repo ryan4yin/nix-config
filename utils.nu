@@ -45,6 +45,6 @@ export def darwin-switch [
 
 export def darwin-rollback [] {
     with-env { PATH : ($env.PATH | prepend darwin_dir) } {
-        darwin-rebuild rollback
+        darwin-rebuild --rollback
     }
 }
