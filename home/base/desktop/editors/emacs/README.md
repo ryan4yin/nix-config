@@ -65,6 +65,7 @@ The same as neovim/vim:
 | --------------------- | ----------------- |
 | Next Buffer (Tab)     | `]b`              |
 | Previous Buffer (Tab) | `[b`              |
+| Buffer List           | `<Space> + ,`     |
 | Save all buffers(Tab) | `<Space> + b + S` |
 
 ## Editing and Formatting
