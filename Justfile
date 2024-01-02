@@ -11,21 +11,21 @@ set shell := ["nu", "-c"]
 
 i3 mode="default":
   use utils.nu *; \
-  nixos-switch .#ai_i3 {{mode}}
+  nixos-switch ai_i3 {{mode}}
 
 hypr mode="default":
   use utils.nu *; \
-  nixos-switch .#ai_hyprland {{mode}}
+  nixos-switch ai_hyprland {{mode}}
 
 
 s-i3 mode="default":
   use utils.nu *; \
-  nixos-switch .#shoukei_i3 {{mode}}
+  nixos-switch shoukei_i3 {{mode}}
 
 
 s-hypr mode="default":
   use utils.nu *; \
-  nixos-switch .#shoukei_hyprland {{mode}}
+  nixos-switch shoukei_hyprland {{mode}}
 
 
 up:
