@@ -1,4 +1,4 @@
-_: {
+{
   programs.ssh = {
     enable = true;
     extraConfig = ''
@@ -10,5 +10,10 @@ _: {
         # required to prevent sending default identity files first.
         IdentitiesOnly yes
     '';
+  };
+
+  modules.editors.emacs = {
+    enable = true;
+    doom.enable = true;
   };
 }

@@ -16,7 +16,7 @@
 with lib; let
   cfg = config.modules.editors.emacs;
   envExtra = ''
-    export PATH="$XDG_CONFIG_HOME/emacs/bin:$PATH"
+    export PATH="${config.xdg.cacheHome}/emacs/bin:$PATH"
   '';
   shellAliases = {
     e = "emacs";
@@ -34,13 +34,9 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       ## Emacs itself
-      binutils # native-comp needs 'as', provided by this
-      # 28.2 + native-comp
       ((emacsPackagesFor emacs-unstable-nox).emacsWithPackages
         (epkgs: [
           epkgs.vterm
-          epkgs.rime
-          epkgs.meow
         ]))
       emacs-all-the-icons-fonts
 

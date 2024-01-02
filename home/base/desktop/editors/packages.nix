@@ -84,6 +84,10 @@
       jsonnet-language-server
       hadolint # Dockerfile linter
 
+      # -- Scheme
+      guile
+      racket-minimal
+
       #-- Others
       taplo # TOML language server / formatter / validator
       nodePackages.yaml-language-server
