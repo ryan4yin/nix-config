@@ -11,9 +11,10 @@
 The Language Server Protocol (LSP) is an open, JSON-RPC-based protocol for use between source code editors or integrated development environments (IDEs) and servers that provide programming language-specific features like:
 
 - **code completion**
-- **syntax highlighting**
 - **marking of warnings and errors**
 - **refactoring routines**
+- syntax highlighting (use Tree-sitter instead)
+- code formatting (use a dedicated formatter instead)
 
 The goal of the protocol is to allow programming language support to be implemented and distributed independently of any given editor or IDE.
 
@@ -34,17 +35,30 @@ It is used by many editors and IDEs to provide:
 - **indentation**
 - **creating foldable code regions**
 - **Incremental selection**
-- **refactoring**
-    - such as join/split lines.
+- **simple refactoring in a single file**
+    - such as join/split lines, structural editing, cursor motion, etc.
 
-**Treesitter does, however, have limited knowledge of your code**, and it is not aware of the semantics of your code. For example, it does not know does a function/variable really exist, or what is the type/return-type of a variable. This is where LSP comes in.
+**Treesitter process each file independently**, and it is not aware of the semantics of your code.
+For example, it does not know does a function/variable really exist, or what is the type/return-type of a variable. This is where LSP comes in.
 
-**The LSP server parses the code much more deeply and it not only parses a single file but your whole project**. So, the LSP server will know whether a function/variable does exist with the same type/return-type. If it does not, it will mark it as an error. 
+The LSP server parses the code much more deeply and it **not only parses a single file but your whole project**.
+So, the LSP server will know whether a function/variable does exist with the same type/return-type. If it does not, it will mark it as an error. 
 
 **LSP does understand the code semantically, while Treesitter only cares about correct syntax**.
 
-### LSP vs Tree-sitter
+#### LSP vs Tree-sitter
 
 - Tree-sitter: lightweight, fast, but limited knowledge of your code. mainly used for **syntax highlighting, indentation, and folding/refactoring in a single file**.
 - LSP: heavy and slow on large projects, but it has a deep understanding of your code. mainly used for **code completion, refactoring in the projects, errors/warnings, and other semantic-aware features**.
+
+### Formatter vs Linter
+
+Linting is distinct from Formatting because:
+
+1. **formatting** only restructures how code appears.
+    1. `prettier` is a popular formatter.
+1. **linting** analyzes how the code runs and detects errors, it may also suggest improvements such as replace `var` with `let` or `const`.
+
+Formatters and Linters process each file independently, they do not need to know about other files in the project.
+
 

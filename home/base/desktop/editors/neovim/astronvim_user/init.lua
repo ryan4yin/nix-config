@@ -89,13 +89,15 @@ return {
     },
 
     -- Provide a comparable s-expression editing experience in Neovim to that provided by Emacs.
+    -- Do not support scheme.
     -- https://github.com/julienvincent/nvim-paredit
-    {
-      "julienvincent/nvim-paredit",
-      config = function()
-        require("nvim-paredit").setup()
-      end,
-    },
+    -- {
+    --   "julienvincent/nvim-paredit",
+    --   ft = { "scm" },
+    --   config = function()
+    --     require("nvim-paredit").setup()
+    --   end,
+    -- },
 
     -- markdown preview
     {
