@@ -465,6 +465,7 @@ return {
       "dockerls",   -- dockerfile
       "jsonnet_ls", -- jsonnet language server
       "terraformls", -- terraform hcl
+      "nushell",    -- nushell language server
     },
     formatting = {
       disabled = {},
@@ -475,6 +476,7 @@ return {
           "jsonnet",
           "rust",
           "terraform",
+          "nu",
         },
       },
     },
