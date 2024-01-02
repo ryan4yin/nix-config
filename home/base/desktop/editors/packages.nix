@@ -74,6 +74,7 @@
       # HTML/CSS/JSON/ESLint language servers extracted from vscode
       nodePackages.vscode-langservers-extracted
       nodePackages."@tailwindcss/language-server"
+      emmet-ls
 
       #-- CloudNative
       nodePackages.dockerfile-language-server-nodejs

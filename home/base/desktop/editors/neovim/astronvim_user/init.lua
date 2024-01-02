@@ -283,22 +283,34 @@ return {
     -- LSP installations
     {
       "williamboman/mason-lspconfig.nvim",
-      -- overwrite ensure_installed to install lsp via home manager(except emmet_ls)
-      opts = function(_, opts)
-        opts.ensure_installed = {
-          "emmet_ls", -- not exist in nixpkgs, so install it via mason
-        }
-      end,
-    },
-    -- Formatters/Linter installation
-    {
-      "jay-babu/mason-null-ls.nvim",
+      -- mason is unusable on NixOS, disable it.
       -- ensure_installed nothing
       opts = function(_, opts)
         opts.ensure_installed = nil
         opts.automatic_installation = false
       end,
     },
+    -- Formatters/Linter installation
+    {
+      "jay-babu/mason-null-ls.nvim",
+      -- mason is unusable on NixOS, disable it.
+      -- ensure_installed nothing
+      opts = function(_, opts)
+        opts.ensure_installed = nil
+        opts.automatic_installation = false
+      end,
+    },
+    -- Debugger installation
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      -- mason is unusable on NixOS, disable it.
+      -- ensure_installed nothing
+      opts = function(_, opts)
+        opts.ensure_installed = nil
+        opts.automatic_installation = false
+      end,
+    },
+
     {
       "jose-elias-alvarez/null-ls.nvim",
       opts = function(_, opts)
@@ -346,15 +358,6 @@ return {
             null_ls.builtins.formatting.verible_verilog_format, -- Verilog formatter
           })
         end
-      end,
-    },
-    -- Debugger installation
-    {
-      "jay-babu/mason-nvim-dap.nvim",
-      -- overrides `require("mason-nvim-dap").setup(...)`
-      opts = function(_, opts)
-        opts.ensure_installed = nil
-        opts.automatic_installation = false
       end,
     },
 
