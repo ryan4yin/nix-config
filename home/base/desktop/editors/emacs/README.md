@@ -1,11 +1,11 @@
 # Emacs Editor
 
 - Framework: <https://github.com/doomemacs/doomemacs>
-    - key bindings: <https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el>
+  - key bindings: <https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el>
 - Chinese(rime) support: <https://github.com/DogLooksGood/emacs-rime>
 - modal editing:
-    - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
-    - <https://github.com/meow-edit/meow>
+  - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
+  - <https://github.com/meow-edit/meow>
 
 ## Install or Update
 
@@ -14,6 +14,7 @@ After deploying this nix flake, run the following command to install or update e
 ```bash
 doom sync
 ```
+
 ## Terminal Related
 
 zellij provides a more powerful and stable terminal experience, so here is zellij's terminal shortcuts I use frequently now:
@@ -23,6 +24,7 @@ zellij provides a more powerful and stable terminal experience, so here is zelli
 | Floating Terminal         | `Ctrl + <p> + <w>` |
 | Horizontal Split Terminal | `Ctrl + <p> + <d>` |
 | Vertical Split Terminal   | `Ctrl + <p> + <n>` |
+| Open file tree sidebar    | `SPC + o + p`      |
 
 ## Visual Modes
 
@@ -59,28 +61,34 @@ The same as neovim/vim:
 
 ## Splitting and Buffers
 
-| Action                | Shortcut      |
-| --------------------- | ------------- |
-| Next Buffer (Tab)     | `]b`          |
-| Previous Buffer (Tab) | `[b`          |
-| Save all buffers(Tab) |  `<Space> + b + S` |
+| Action                | Shortcut          |
+| --------------------- | ----------------- |
+| Next Buffer (Tab)     | `]b`              |
+| Previous Buffer (Tab) | `[b`              |
+| Save all buffers(Tab) | `<Space> + b + S` |
 
 ## Editing and Formatting
 
-| Action                                                | Shortcut       |
-| ----------------------------------------------------- | -------------- |
-| Format Document                                       | `<Space> + cf` |
-| Code Actions                                          | `<Space> + ca` |
-| Rename                                                | `<Space> + cr` |
-| Opening LSP symbols                                   | `<Space> + cS` |
-| Comment Line(support multiple lines)                  | `<Space> + /`  |
-| Open filepath/URL at cursor                           | `gf`           |
-| Find files by keyword in path                         | `<Space> + <Space>` |
-| Grep string in files (vertico + ripgrep)              | `<Space> + sd` |
+| Action                                   | Shortcut            |
+| ---------------------------------------- | ------------------- |
+| Format Document                          | `<Space> + cf`      |
+| Code Actions                             | `<Space> + ca`      |
+| Rename                                   | `<Space> + cr`      |
+| Opening LSP symbols                      | `<Space> + cS`      |
+| Comment Line(support multiple lines)     | `<Space> + /`       |
+| Open filepath/URL at cursor              | `gf`                |
+| Find files by keyword in path            | `<Space> + <Space>` |
+| Grep string in files (vertico + ripgrep) | `<Space> + sd`      |
+
+## Text Manipulation
+
+| Action                             |     |
+| ---------------------------------- | --- |
+| Join Selection of Lines With Space | `J` |
 
 ## Search & replace
 
-``` bash
+```bash
 SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 ```
 
@@ -88,5 +96,5 @@ SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 1. `foo`: the keyword to search
 1. `C-; E`: exports what you’re looking at into a new buffer in grep-mode
 1. `C-c C-p` to run wgrep-change-to-wgrep-mode to make the search results writable.
-1. `:%s/foo/bar/g RET`: replace in the current buffer(just like neovim/vim) 
+1. `:%s/foo/bar/g RET`: replace in the current buffer(just like neovim/vim)
 1. `Z Z`: to write all the changes to their respective files
