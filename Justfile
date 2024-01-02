@@ -154,3 +154,10 @@ fmt:
   # format the nix files in this repo
   nix fmt
 
+test-nvim:
+  use utils.nu *; \
+  make-editable $"($env.HOME)/.config/astronvim/lua"
+
+test-nvim-clean:
+  rm -rf $"($env.HOME)/.config/astronvim/lua"
+

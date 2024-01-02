@@ -43,6 +43,7 @@
     zstd
     caddy
     gnupg
+    rsync
 
     # nix related
     #

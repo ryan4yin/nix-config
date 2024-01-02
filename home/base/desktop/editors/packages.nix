@@ -91,7 +91,6 @@
       actionlint # GitHub Actions linter
       buf # protoc plugin for linting and formatting
       proselint # English prose linter
-      racket-minimal # scheme language(racket cli only tools)
 
       #-- Misc
       tree-sitter # common language parser/highlighter

@@ -8,7 +8,20 @@ export def nixos-switch [
         nixos-rebuild switch --use-remote-sudo --flake $".#($name)" --show-trace --verbose
     } else {
         nixos-rebuild switch --use-remote-sudo --flake $".#($name)"
-    }
+        }
+
+
+}
+
+
+# ====================== Misc =============================
+
+export def make-editable [
+    path: string
+] {
+    let tmpdir = (mktemp -d)
+    rsync -avz --copy-links $"($path)/" $tmpdir
+    rsync -avz --copy-links --chmod=D2755,F744 $"($tmpdir)/" $path
 }
 
 

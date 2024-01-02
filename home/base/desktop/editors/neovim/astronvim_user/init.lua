@@ -17,6 +17,14 @@ return {
 
   plugins = {
     "AstroNvim/astrocommunity",
+    -- Motion
+    { import = "astrocommunity.motion.mini-surround" },
+    -- https://github.com/echasnovski/mini.ai
+    { import = "astrocommunity.motion.mini-ai" },
+    { import = "astrocommunity.motion.flash-nvim" },
+    -- diable toggleterm.nvim, zellij's terminal is far better than neovim's one
+    { "akinsho/toggleterm.nvim",                                   enabled = false },
+    { "folke/flash.nvim",                                          vscode = false },
     -- colorscheme - catppuccin
     { import = "astrocommunity.colorscheme.catppuccin" },
     -- Highly experimental plugin that completely replaces
@@ -51,19 +59,67 @@ return {
     { import = "astrocommunity.pack.cpp" },
     -- { import = "astrocommunity.pack.nix" },  -- manually add config for nix, comment this one.
     { import = "astrocommunity.pack.proto" },
+
     ---- Operation & Cloud Native
     { import = "astrocommunity.pack.terraform" },
     { import = "astrocommunity.pack.bash" },
     { import = "astrocommunity.pack.docker" },
     { import = "astrocommunity.pack.helm" },
-    -- Motion
-    { import = "astrocommunity.motion.mini-surround" },
-    -- https://github.com/echasnovski/mini.ai
-    { import = "astrocommunity.motion.mini-ai" },
-    { import = "astrocommunity.motion.flash-nvim" },
-    -- diable toggleterm.nvim, zellij's terminal is far better than neovim's one
-    { "akinsho/toggleterm.nvim",                                   enabled = false },
-    { "folke/flash.nvim",                                          vscode = false },
+
+    -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = function(_, opts)
+        local utils = require("astronvim.utils")
+        opts.incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<C-space>", -- Ctrl + Space
+            node_incremental = "<C-space>",
+            scope_incremental = "<A-space>", -- Alt + Space
+            node_decremental = "<bs>", -- Backspace
+          },
+        }
+        opts.ignore_install = { "gotmpl" }
+        opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, {
+          -- neovim
+          "vim",
+          "lua",
+          -- operation & cloud native
+          "dockerfile",
+          "hcl",
+          "jsonnet",
+          "regex",
+          "terraform",
+          "nix",
+          "csv",
+          -- other programming language
+          "diff",
+          "gitignore",
+          "gitcommit",
+          "latex",
+          "sql",
+          -- customized languages:
+          "scheme",
+        })
+
+        -- add support for scheme
+        local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+        parser_config.scheme = {
+          install_info = {
+            url = "https://github.com/6cdh/tree-sitter-scheme", -- local path or git repo
+            files = { "src/parser.c" },
+            -- optional entries:
+            branch = "main",                  -- default branch in case of git repo if different from master
+            generate_requires_npm = false,    -- if stand-alone parser without npm dependencies
+            requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+          },
+        }
+        -- use scheme parser for filetypes: scm
+        vim.treesitter.language.register("scheme", "scm")
+      end,
+    },
+
     -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
     { import = "astrocommunity.motion.nvim-spider" },
     -- AI Assistant
@@ -87,17 +143,6 @@ return {
         opts.prompt_style = "stdout" -- notify or stdout
       end,
     },
-
-    -- Provide a comparable s-expression editing experience in Neovim to that provided by Emacs.
-    -- Do not support scheme.
-    -- https://github.com/julienvincent/nvim-paredit
-    -- {
-    --   "julienvincent/nvim-paredit",
-    --   ft = { "scm" },
-    --   config = function()
-    --     require("nvim-paredit").setup()
-    --   end,
-    -- },
 
     -- markdown preview
     {
@@ -231,45 +276,8 @@ return {
 
     -- full signature help, docs and completion for the nvim lua API.
     { "folke/neodev.nvim",     opts = {} },
-
+    -- automatically highlighting other uses of the word under the cursor using either LSP, Tree-sitter, or regex matching.
     { "RRethy/vim-illuminate", config = function() end },
-
-    -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
-    {
-      "nvim-treesitter/nvim-treesitter",
-      opts = function(_, opts)
-        local utils = require("astronvim.utils")
-        opts.incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<C-space>", -- Ctrl + Space
-            node_incremental = "<C-space>",
-            scope_incremental = "<A-space>", -- Alt + Space
-            node_decremental = "<bs>", -- Backspace
-          },
-        }
-        opts.ensure_installed = utils.list_insert_unique(opts.ensure_installed, {
-          -- neovim
-          "vim",
-          "lua",
-          -- operation & cloud native
-          "dockerfile",
-          "hcl",
-          "jsonnet",
-          "regex",
-          "terraform",
-          "nix",
-          "csv",
-          -- other programming language
-          "diff",
-          "gitignore",
-          "gitcommit",
-          "latex",
-          "sql",
-        })
-      end,
-    },
-
     -- implementation/definition preview
     {
       "rmagatti/goto-preview",
@@ -342,22 +350,23 @@ return {
             diagnostics.deadnix, -- Scan Nix files for dead code.
 
             -- Formatting
-            formatting.prettier,                          -- js/ts/vue/css/html/json/... formatter
-            diagnostics.hadolint,                         -- Dockerfile linter
-            formatting.black,                             -- Python formatter
-            formatting.ruff,                              -- extremely fast Python linter
-            formatting.goimports,                         -- Go formatter
-            formatting.shfmt,                             -- Shell formatter
-            formatting.rustfmt,                           -- Rust formatter
-            formatting.taplo,                             -- TOML formatteautoindentr
-            formatting.terraform_fmt,                     -- Terraform formatter
-            formatting.stylua,                            -- Lua formatter
-            formatting.alejandra,                         -- Nix formatter
-            formatting.sqlfluff.with({                    -- SQL formatter
-              extra_args = { "--dialect", "postgres" },   -- change to your dialect
+            formatting.prettier,                 -- js/ts/vue/css/html/json/... formatter
+            diagnostics.hadolint,                -- Dockerfile linter
+            formatting.black,                    -- Python formatter
+            formatting.ruff,                     -- extremely fast Python linter
+            formatting.goimports,                -- Go formatter
+            formatting.shfmt,                    -- Shell formatter
+            formatting.rustfmt,                  -- Rust formatter
+            formatting.taplo,                    -- TOML formatteautoindentr
+            formatting.terraform_fmt,            -- Terraform formatter
+            formatting.stylua,                   -- Lua formatter
+            formatting.alejandra,                -- Nix formatter
+            formatting.sqlfluff.with({           -- SQL formatter
+              extra_args = { "--dialect", "postgres" }, -- change to your dialect
             }),
-            formatting.nginx_beautifier,                  -- Nginx formatter
-            null_ls.builtins.formatting.verible_verilog_format, -- Verilog formatter
+            formatting.nginx_beautifier,         -- Nginx formatter
+            formatting.verible_verilog_format,   -- Verilog formatter
+            formatting.emacs_scheme_mode,        -- using emacs in batch mode to format scheme files.
           })
         end
       end,
