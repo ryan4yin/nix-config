@@ -155,7 +155,6 @@
     };
 
     nuenv.url = "github:DeterminateSystems/nuenv";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     ########################  Some non-flake repositories  #########################################
 

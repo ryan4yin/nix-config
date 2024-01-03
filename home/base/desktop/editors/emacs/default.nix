@@ -75,27 +75,27 @@ in {
       };
     }
 
-    (mkIf pkgs.stdenv.isLinux {
+    (mkIf pkgs.stdenv.isLinux (
+    let emacsPkg = pkgs.emacs29-pgtk; in
+    {
+      home.packages = [emacsPkg];
       services.emacs = {
         enable = true;
-        package = with pkgs; ((emacsPackagesFor emacs-unstable-pgtk).emacsWithPackages (epkgs: [
-          epkgs.vterm
-        ]));
+        package = emacsPkg;
         client.enable = true;
         startWithUserSession = true;
       };
-    })
+    }))
 
-    (mkIf pkgs.stdenv.isDarwin {
+    (mkIf pkgs.stdenv.isDarwin (
+    let emacsPkg = pkgs.emacs29-macport; in
+    {
+      home.packages = [emacsPkg];
       launchd.enable = true;
       launchd.agents.emacs = {
         enable = true;
         config = {
-          ProgramArguments = with pkgs; let
-            emacsPkg = (emacsPackagesFor emacs-unstable).emacsWithPackages (epkgs: [
-              epkgs.vterm
-            ]);
-          in [
+          ProgramArguments = [
             "${pkgs.bash}/bin/bash"
             "-l"
             "-c"
@@ -107,6 +107,6 @@ in {
           KeepAlive = true;
         };
       };
-    })
+    }))
   ]);
 }
