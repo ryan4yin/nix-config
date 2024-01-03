@@ -1,7 +1,9 @@
 # Emacs Editor
 
 - Framework: <https://github.com/doomemacs/doomemacs>
-  - key bindings: <https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el>
+  - key bindings:
+    - source code: <https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el>
+    - docs: <https://github.com/doomemacs/doomemacs/blob/master/modules/editor/evil/README.org>
 - Chinese(rime) support: <https://github.com/DogLooksGood/emacs-rime>
 - modal editing:
   - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
@@ -81,7 +83,8 @@ The same as neovim/vim:
 | Code Actions                             | `<Space> + ca`      |
 | Rename                                   | `<Space> + cr`      |
 | Opening LSP symbols                      | `<Space> + cS`      |
-| Comment Line(support multiple lines)     | `<Space> + /`       |
+| (Un)Comment the selected context         | `gc`                |
+| (Un)Comment the current line             | `gcc`               |
 | Open filepath/URL at cursor              | `gf`                |
 | Find files by keyword in path            | `<Space> + <Space>` |
 | Grep string in files (vertico + ripgrep) | `<Space> + sd`      |
