@@ -167,3 +167,16 @@ test-emacs:
 
 test-emacs-clean:
   rm -rf $"($env.HOME)/.config/doom/"
+
+emacs-plist-path := "~/Library/LaunchAgents/org.nix-community.home.emacs.plist"
+
+reload-emacs-cmd := if os() == "macos" {
+    "launchctl unload " + emacs-plist-path
+    + "\n"
+    + "launchctl load " + emacs-plist-path
+  } else {
+    "systemctl --user restart emacs.service"
+  }
+
+reload-emacs:
+  {{reload-emacs-cmd}}

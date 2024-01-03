@@ -13,11 +13,6 @@
 - Emacs Wiki: <https://www.emacswiki.org/emacs/SiteMap>
 - Awesome Emacs: <https://github.com/emacs-tw/awesome-emacs#lsp-client>
 
-Emacs daemon:
-
-- <https://github.com/nix-community/home-manager/blob/master/modules/services/emacs.nix>
-- <https://github.com/LnL7/nix-darwin/blob/1a41453cba42a3a1af2fff003be455ddbd75386c/modules/services/emacs.nix>
-
 ## Install or Update
 
 After deploying this nix flake, run the following command to install or update emacs:

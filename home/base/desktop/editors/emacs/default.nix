@@ -19,9 +19,9 @@ with lib; let
     export PATH="${config.xdg.configHome}/emacs/bin:$PATH"
   '';
   shellAliases = {
-    e = "emacs";
-    ediff = ''emacs -nw --eval "(ediff-files \"$1\" \"$2\")"'';
-    eman = ''emacs -nw --eval "(switch-to-buffer (man \"$1\"))"'';
+    e = "emacsclient -c";
+    ediff = ''emacsclient -c -nw --eval "(ediff-files \"$1\" \"$2\")"'';
+    eman = ''emacsclient -c -nw --eval "(switch-to-buffer (man \"$1\"))"'';
   };
 in {
   options.modules.editors.emacs = {
@@ -31,51 +31,82 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      ## Emacs itself
-      ((emacsPackagesFor emacs-unstable-nox).emacsWithPackages
-        (epkgs: [
+  config = mkIf cfg.enable (mkMerge [
+    {
+      home.packages = with pkgs; [
+        librime
+        emacs-all-the-icons-fonts
+
+        ## Doom dependencies
+        git
+        (ripgrep.override {withPCRE2 = true;})
+        gnutls # for TLS connectivity
+
+        ## Optional dependencies
+        fd # faster projectile indexing
+        imagemagick # for image-dired
+        zstd # for undo-fu-session/undo-tree compression
+
+        ## Module dependencies
+        # :checkers spell
+        (aspellWithDicts (ds: with ds; [en en-computers en-science]))
+        # :tools editorconfig
+        editorconfig-core-c # per-project style config
+        # :tools lookup & :lang org +roam
+        sqlite
+        # :lang latex & :lang org (latex previews)
+        texlive.combined.scheme-medium
+      ];
+
+      programs.bash.bashrcExtra = envExtra;
+      programs.zsh.envExtra = envExtra;
+      home.shellAliases = shellAliases;
+      programs.nushell.shellAliases = shellAliases;
+
+      # allow fontconfig to discover fonts and configurations installed through `home.packages`
+      fonts.fontconfig.enable = true;
+
+      xdg.configFile."doom".source = ./doom;
+
+      home.activation = mkIf cfg.doom.enable {
+        installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+          ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
+        '';
+      };
+    }
+
+    (mkIf pkgs.stdenv.isLinux {
+      services.emacs = {
+        enable = true;
+        package = with pkgs; ((emacsPackagesFor emacs-unstable-pgtk).emacsWithPackages (epkgs: [
           epkgs.vterm
-        ]))
-      librime
-      emacs-all-the-icons-fonts
+        ]));
+        client.enable = true;
+        startWithUserSession = true;
+      };
+    })
 
-      ## Doom dependencies
-      git
-      (ripgrep.override {withPCRE2 = true;})
-      gnutls # for TLS connectivity
-
-      ## Optional dependencies
-      fd # faster projectile indexing
-      imagemagick # for image-dired
-      zstd # for undo-fu-session/undo-tree compression
-
-      ## Module dependencies
-      # :checkers spell
-      (aspellWithDicts (ds: with ds; [en en-computers en-science]))
-      # :tools editorconfig
-      editorconfig-core-c # per-project style config
-      # :tools lookup & :lang org +roam
-      sqlite
-      # :lang latex & :lang org (latex previews)
-      texlive.combined.scheme-medium
-    ];
-
-    programs.bash.bashrcExtra = envExtra;
-    programs.zsh.envExtra = envExtra;
-    home.shellAliases = shellAliases;
-    programs.nushell.shellAliases = shellAliases;
-
-    # allow fontconfig to discover fonts and configurations installed through `home.packages`
-    fonts.fontconfig.enable = true;
-
-    xdg.configFile."doom".source = ./doom;
-
-    home.activation = mkIf cfg.doom.enable {
-      installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
-      '';
-    };
-  };
+    (mkIf pkgs.stdenv.isDarwin {
+      launchd.enable = true;
+      launchd.agents.emacs = {
+        enable = true;
+        config = {
+          ProgramArguments = with pkgs; let
+            emacsPkg = (emacsPackagesFor emacs-unstable).emacsWithPackages (epkgs: [
+              epkgs.vterm
+            ]);
+          in [
+            "${pkgs.bash}/bin/bash"
+            "-l"
+            "-c"
+            "${emacsPkg}/bin/emacs --fg-daemon"
+          ];
+          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.stderr.log";
+          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.stdout.log";
+          RunAtLoad = true;
+          KeepAlive = true;
+        };
+      };
+    })
+  ]);
 }
