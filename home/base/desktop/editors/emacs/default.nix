@@ -76,13 +76,12 @@ in {
     }
 
     (mkIf pkgs.stdenv.isLinux (
-    let emacsPkg = pkgs.emacs29-pgtk; in
+    let emacsPkg = pkgs.emacs29-nox; in
     {
       home.packages = [emacsPkg];
       services.emacs = {
         enable = true;
         package = emacsPkg;
-        client.enable = true;
         startWithUserSession = true;
       };
     }))
