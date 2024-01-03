@@ -118,6 +118,8 @@
   (setq +tree-sitter-hl-enabled-modes t))
 
 ;; fix: https://github.com/jrblevin/markdown-mode/issues/380
+;; even add this one, editing a large markdown table is still very slow.
+;; so avoid editing large markdown file in emacs, use neovim instead...
 (after! markdown-mode
   (global-font-lock-mode 0))
 

@@ -44,7 +44,7 @@ As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                         | [Nushell][Nushell] + [Starship][Starship]                                                                         |
 | **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk]                    | [Netease-cloud-music-gtk][netease-cloud-music-gtk]                                                                |
 | **Media Player**            | [mpv][mpv]                                                                                                        | [mpv][mpv]                                                                                                        |
-| **Text Editor**             | [Neovim][Neovim]                                                                                                  | [Neovim][Neovim]                                                                                                  |
+| **Text Editor**             | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                         | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                         |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                          | [Nerd fonts][Nerd fonts]                                                                                          |
 | **Image Viewer**            | [imv][imv]                                                                                                        | [imv][imv]                                                                                                        |
 | **Screenshot Software**     | [grim][grim]                                                                                                      | [flameshot](https://github.com/flameshot-org/flameshot)                                                           |
@@ -67,7 +67,11 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## Neovim
 
-See [./home/base/desktop/neovim](./home/base/desktop/neovim) for details.
+See [./home/base/desktop/editors/neovim/](./home/base/desktop/editors/neovim/) for details.
+
+## Emacs
+
+See [./home/base/desktop/editors/emacs/](./home/base/desktop/editors/emacs/) for details.
 
 ## Hosts
 
@@ -190,6 +194,7 @@ Other dotfiles that inspired me:
 [Zellij]: https://github.com/zellij-org/zellij
 [Neovim]: https://github.com/neovim/neovim
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
+[DoomEmacs]: https://github.com/doomemacs/doomemacs
 [flameshot]: https://github.com/flameshot-org/flameshot
 [grim]: https://github.com/emersion/grim
 [imv]: https://sr.ht/~exec64/imv/
