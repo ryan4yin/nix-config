@@ -88,6 +88,8 @@ The same as neovim/vim:
 | Rename                                   | `<Space> + cr`      |
 | Opening LSP symbols                      | `<Space> + cS`      |
 | Show all LSP Errors                      | `<Space> + c + x/X` |
+| Jump to Definition                       |  `gd` |
+| Jump to References                       |  `gD` |
 | (Un)Comment the selected context         | `gc`                |
 | (Un)Comment the current line             | `gcc`               |
 | Open filepath/URL at cursor              | `gf`                |
