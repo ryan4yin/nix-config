@@ -36,7 +36,15 @@
 ;; https://github.com/catppuccin/emacs/
 (setq doom-theme 'catppuccin)
 (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'frappe
-(catppuccin-reload)
+;; make emacs transparent(do not works on terminal)
+(set-frame-parameter nil 'alpha-background 70)
+(add-to-list 'default-frame-alist '(alpha-background . 70))
+
+;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+;;(set-frame-parameter (selected-frame) 'alpha <both>)
+(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.

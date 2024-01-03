@@ -8,6 +8,7 @@
 - modal editing:
   - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
   - <https://github.com/meow-edit/meow>
+- Emacs Wiki: <https://www.emacswiki.org/emacs/SiteMap>
 
 Emacs daemon:
 
@@ -32,6 +33,7 @@ zellij provides a more powerful and stable terminal experience, so here is zelli
 | Horizontal Split Terminal | `Ctrl + <p> + <d>` |
 | Vertical Split Terminal   | `Ctrl + <p> + <n>` |
 | Open file tree sidebar    | `SPC + o + p`      |
+| Exit                      | `M-x C-c`          |
 
 ## Visual Modes
 
@@ -68,12 +70,14 @@ The same as neovim/vim:
 
 ## Splitting and Buffers
 
-| Action                | Shortcut          |
-| --------------------- | ----------------- |
-| Next Buffer (Tab)     | `]b`              |
-| Previous Buffer (Tab) | `[b`              |
-| Buffer List           | `<Space> + ,`     |
-| Save all buffers(Tab) | `<Space> + b + S` |
+| Action                  | Shortcut          |
+| ----------------------- | ----------------- |
+| Next Buffer (Tab)       | `]b`              |
+| Previous Buffer (Tab)   | `[b`              |
+| Buffer List             | `<Space> + ,`     |
+| Save all buffers(Tab)   | `<Space> + b + S` |
+| Kill the current buffer | `<Space> + b + k` |
+| Kill all buffers        | `<Space> + b + K` |
 
 ## Editing and Formatting
 
@@ -83,6 +87,7 @@ The same as neovim/vim:
 | Code Actions                             | `<Space> + ca`      |
 | Rename                                   | `<Space> + cr`      |
 | Opening LSP symbols                      | `<Space> + cS`      |
+| Show all LSP Errors                      | `<Space> + c + x/X` |
 | (Un)Comment the selected context         | `gc`                |
 | (Un)Comment the current line             | `gcc`               |
 | Open filepath/URL at cursor              | `gf`                |
