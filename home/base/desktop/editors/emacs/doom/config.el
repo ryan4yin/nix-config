@@ -35,7 +35,7 @@
 ;; (setq doom-theme 'doom-one)
 ;; https://github.com/catppuccin/emacs/
 (setq doom-theme 'catppuccin)
-(setq catppuccin-flavor 'frappe) ;; 'frappe, 'latte, 'macchiato, or 'mocha
+(setq catppuccin-flavor 'mocha) ;; 'frappe, 'latte, 'macchiato, or 'mocha
 ;; make emacs transparent(do not works on terminal)
 ;; (set-frame-parameter nil 'alpha-background 70)
 ;; (add-to-list 'default-frame-alist '(alpha-background . 70))
