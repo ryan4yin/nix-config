@@ -8,7 +8,9 @@
 - modal editing:
   - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
   - <https://github.com/meow-edit/meow>
+- LSP Client: <https://github.com/manateelazycat/lsp-bridge>
 - Emacs Wiki: <https://www.emacswiki.org/emacs/SiteMap>
+- Awesome Emacs: <https://github.com/emacs-tw/awesome-emacs#lsp-client>
 
 Emacs daemon:
 
@@ -22,6 +24,14 @@ After deploying this nix flake, run the following command to install or update e
 ```bash
 doom sync
 ```
+
+when in doubt, run `doom sync`!
+
+## Why emacs?
+
+1. Explore the unknown, just for fun!
+2. Better support for Lisp-like Languages.
+3. Org Mode
 
 ## Terminal Related
 

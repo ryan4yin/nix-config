@@ -14,7 +14,7 @@
   "modules-right": [
     "mpd",
     "pulseaudio",
-    "battery", 
+    "battery",
     "memory",
     "cpu",
     "network",

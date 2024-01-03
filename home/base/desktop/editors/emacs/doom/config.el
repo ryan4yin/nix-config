@@ -37,13 +37,13 @@
 (setq doom-theme 'catppuccin)
 (setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'frappe
 ;; make emacs transparent(do not works on terminal)
-(set-frame-parameter nil 'alpha-background 70)
-(add-to-list 'default-frame-alist '(alpha-background . 70))
+;; (set-frame-parameter nil 'alpha-background 70)
+;; (add-to-list 'default-frame-alist '(alpha-background . 70))
 
 ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
 ;;(set-frame-parameter (selected-frame) 'alpha <both>)
-(set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-(add-to-list 'default-frame-alist '(alpha . (85 . 50)))
+;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
+;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
 
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -105,9 +105,14 @@
   :config
   (super-save-mode +1))
 
-(setq super-save-auto-save-when-idle t)
-(setq super-save-all-buffers t)
-(setq super-save-delete-trailing-whitespace t)
+(after! super-save
+  (setq super-save-auto-save-when-idle t)
+  (setq super-save-all-buffers t)
+  (setq super-save-delete-trailing-whitespace t))
 
 (use-package wakatime-mode
   :ensure t)
+
+;; fully enable tree-sitter highlighting
+(after! tree-sitter
+  (setq +tree-sitter-hl-enabled-modes t))
