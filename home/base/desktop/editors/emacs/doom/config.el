@@ -117,6 +117,10 @@
 (after! tree-sitter
   (setq +tree-sitter-hl-enabled-modes t))
 
+;; fix: https://github.com/jrblevin/markdown-mode/issues/380
+(after! markdown-mode
+  (global-font-lock-mode 0))
+
 ;; fix yaml highlighting for catppuccin theme
 ;; https://github.com/catppuccin/emacs/issues/55
 (add-hook 'yaml-mode-hook
