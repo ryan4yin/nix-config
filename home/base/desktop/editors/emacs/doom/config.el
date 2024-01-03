@@ -35,7 +35,7 @@
 ;; (setq doom-theme 'doom-one)
 ;; https://github.com/catppuccin/emacs/
 (setq doom-theme 'catppuccin)
-(setq catppuccin-flavor 'mocha) ;; or 'latte, 'macchiato, or 'frappe
+(setq catppuccin-flavor 'frappe) ;; 'frappe, 'latte, 'macchiato, or 'mocha
 ;; make emacs transparent(do not works on terminal)
 ;; (set-frame-parameter nil 'alpha-background 70)
 ;; (add-to-list 'default-frame-alist '(alpha-background . 70))
@@ -116,3 +116,10 @@
 ;; fully enable tree-sitter highlighting
 (after! tree-sitter
   (setq +tree-sitter-hl-enabled-modes t))
+
+;; fix yaml highlighting for catppuccin theme
+;; https://github.com/catppuccin/emacs/issues/55
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (face-remap-add-relative 'font-lock-variable-name-face
+                                     (list :foreground (catppuccin-get-color 'blue)))))
