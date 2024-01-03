@@ -155,8 +155,15 @@ fmt:
   nix fmt
 
 test-nvim:
-  use utils.nu *; \
-  make-editable $"($env.HOME)/.config/astronvim/lua"
+  rm -rf $"($env.HOME)/.config/astronvim/lua/user"
+  rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/neovim/astronvim_user/ $"($env.HOME)/.config/astronvim/lua/user"
 
 test-nvim-clean:
-  rm -rf $"($env.HOME)/.config/astronvim/lua"
+  rm -rf $"($env.HOME)/.config/astronvim/lua/user"
+
+test-emacs:
+  rm -rf $"($env.HOME)/.config/doom"
+  rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/emacs/doom/ $"($env.HOME)/.config/doom"
+
+test-emacs-clean:
+  rm -rf $"($env.HOME)/.config/doom/"
