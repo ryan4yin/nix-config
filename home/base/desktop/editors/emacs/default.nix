@@ -64,7 +64,10 @@ in {
       # allow fontconfig to discover fonts and configurations installed through `home.packages`
       fonts.fontconfig.enable = true;
 
-      xdg.configFile."doom".source = ./doom;
+      xdg.configFile."doom" = {
+        source = ./doom;
+        force = true;
+      };
 
       home.activation = mkIf cfg.doom.enable {
         installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
