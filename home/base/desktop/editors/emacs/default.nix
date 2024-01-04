@@ -19,9 +19,7 @@ with lib; let
     export PATH="${config.xdg.configHome}/emacs/bin:$PATH"
   '';
   shellAliases = {
-    e = "emacsclient -c";
-    ediff = ''emacsclient -c -nw --eval "(ediff-files \"$1\" \"$2\")"'';
-    eman = ''emacsclient -c -nw --eval "(switch-to-buffer (man \"$1\"))"'';
+    e = "emacsclient --create-frame --tty";
   };
 in {
   options.modules.editors.emacs = {
@@ -87,7 +85,7 @@ in {
     }))
 
     (mkIf pkgs.stdenv.isDarwin (
-    let emacsPkg = pkgs.emacs29-macport; in
+    let emacsPkg = pkgs.emacs29-nox; in
     {
       home.packages = [emacsPkg];
       launchd.enable = true;
