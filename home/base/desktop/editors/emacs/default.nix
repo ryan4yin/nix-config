@@ -74,7 +74,8 @@ in {
     }
 
     (mkIf pkgs.stdenv.isLinux (
-    let emacsPkg = pkgs.emacs29-nox; in
+    # Do not use emacs-nox here, which makes the mouse wheel work abnormally
+    let emacsPkg = pkgs.emacs29; in
     {
       home.packages = [emacsPkg];
       services.emacs = {
@@ -85,7 +86,7 @@ in {
     }))
 
     (mkIf pkgs.stdenv.isDarwin (
-    let emacsPkg = pkgs.emacs29-nox; in
+    let emacsPkg = pkgs.emacs29; in
     {
       home.packages = [emacsPkg];
       launchd.enable = true;
