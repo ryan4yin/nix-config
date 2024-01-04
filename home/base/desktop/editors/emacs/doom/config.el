@@ -35,18 +35,13 @@
 ;; other doom's official themes:
 ;;   https://github.com/doomemacs/themes
 (setq doom-theme 'doom-one)
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
 (setq warning-minimum-level :error)
-
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
-
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -81,42 +76,40 @@
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :hook
+  (prog-mode . copilot-mode)
+  :bind
+  (:map copilot-completion-map
+        ("<tab>" . 'copilot-accept-completion)
+        ("TAB" . 'copilot-accept-completion)
+        ("C-TAB" . 'copilot-accept-completion-by-word)
+        ("C-<tab>" . 'copilot-accept-completion-by-word))
   :config
   (copilot-mode +1))
-
 (use-package super-save
   :ensure t
   :config
   (super-save-mode +1))
-
 (after! super-save
   (setq super-save-auto-save-when-idle t)
   (setq super-save-all-buffers t)
   (setq super-save-delete-trailing-whitespace t))
-
 (use-package wakatime-mode
   :ensure t)
-
 ;; fully enable tree-sitter highlighting
 (after! tree-sitter
   (setq +tree-sitter-hl-enabled-modes t))
-
 ;; fix: https://github.com/jrblevin/markdown-mode/issues/380
 ;; even add this one, editing a large markdown table is still very slow.
 ;; so avoid editing large markdown file in emacs, use neovim instead...
 (after! markdown-mode
   (global-font-lock-mode 0))
-
 ;; use alejandra to format nix files
 (use-package lsp-nix
   :ensure lsp-mode
-  :after (lsp-mode)
+  :after
+  (lsp-mode)
   :demand t
   :custom
-  (lsp-nix-nil-formatter ["alejandra"]))
+  (lsp-nix-nil-formatter
+   ["alejandra"]))
