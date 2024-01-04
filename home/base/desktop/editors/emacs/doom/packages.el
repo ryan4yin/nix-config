@@ -16,6 +16,10 @@
   :recipe
   (:host github :repo "wakatime/wakatime-mode" :files
          ("*.el" "dist")))
+(package! nushell-mode :recipe
+  (:host github :repo "mrkkrp/nushell-mode"))
+(package! evil-smartparens)
+
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 

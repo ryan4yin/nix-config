@@ -13,6 +13,8 @@
 ;;
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
+
+
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
        chinese        ; TODO: use (chinese +rime)
@@ -58,10 +60,9 @@
        fold                             ; (nigh) universal code folding
        (format +onsave)
                                         ; automated prettiness
-       ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
-       ;;parinfer          ; turn lisp into python, sort of
+       ;; parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets   ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent

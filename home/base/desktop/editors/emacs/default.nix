@@ -31,9 +31,14 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      home.packages = with pkgs; [
-        librime
+      home.packages = with pkgs;
+        let
+          epkgs = emacsPackages;
+        in
+        [
         emacs-all-the-icons-fonts
+        epkgs.parinfer-rust-mode
+        epkgs.rime
 
         ## Doom dependencies
         git

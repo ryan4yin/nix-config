@@ -104,6 +104,7 @@
 ;; so avoid editing large markdown file in emacs, use neovim instead...
 (after! markdown-mode
   (global-font-lock-mode 0))
+
 ;; use alejandra to format nix files
 (use-package lsp-nix
   :ensure lsp-mode
@@ -113,3 +114,10 @@
   :custom
   (lsp-nix-nil-formatter
    ["alejandra"]))
+(use-package nushell-mode
+  :config
+  (setq nushell-enable-auto-indent 1))
+
+;; enable evil-smartparens
+(after! smartparens
+  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))

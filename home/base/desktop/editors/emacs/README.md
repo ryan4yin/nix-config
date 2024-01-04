@@ -31,10 +31,12 @@ when in doubt, run `doom sync`!
 
 ## Structured editing of S-expression data
 
-- [ParEdit](https://www.emacswiki.org/emacs/ParEdit)
-- [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy)
-- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer)
-- Formatting: `M-x pp-buffer`
+> https://wikemacs.org/wiki/Lisp_editing
+
+- [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy): too complex
+- [evil-smartparens](https://github.com/expez/evil-smartparens)
+- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): It helps to keep both indentation and parens balanced and it introduces to more advanced features similar to Paredit
+  - works not well with some other completion plugins.
 
 ## Terminal Related
 
