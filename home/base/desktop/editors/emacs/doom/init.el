@@ -59,7 +59,7 @@
        (format +onsave)
                                         ; automated prettiness
        ;;lispy             ; vim for lisp, for people who don't like vim
-       ;;multiple-cursors  ; editing in many places at once
+       multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -89,7 +89,7 @@
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
-       ;; debugger          ; FIXME stepping through code, to help you add bugs
+       ;;debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        (docker +lsp)
        editorconfig      ; let someone else argue about tabs vs spaces
@@ -105,7 +105,6 @@
        ;;prodigy           ; FIXME managing external services & code builders
        (terraform +lsp)
                                         ; infrastructure as code
-       ;;tmux              ; an API for interacting with tmux
        tree-sitter                    ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 

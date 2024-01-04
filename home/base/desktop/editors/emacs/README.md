@@ -29,6 +29,13 @@ when in doubt, run `doom sync`!
 2. Better support for Lisp-like Languages.
 3. Org Mode
 
+## Structured editing of S-expression data
+
+- [ParEdit](https://www.emacswiki.org/emacs/ParEdit)
+- [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy)
+- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer)
+- Formatting: `M-x pp-buffer`
+
 ## Terminal Related
 
 zellij provides a more powerful and stable terminal experience, so here is zellij's terminal shortcuts I use frequently now:
@@ -87,20 +94,23 @@ The same as neovim/vim:
 
 ## Editing and Formatting
 
-| Action                                   | Shortcut            |
-| ---------------------------------------- | ------------------- |
-| Format Document                          | `<Space> + cf`      |
-| Code Actions                             | `<Space> + ca`      |
-| Rename                                   | `<Space> + cr`      |
-| Opening LSP symbols                      | `<Space> + cS`      |
-| Show all LSP Errors                      | `<Space> + c + x/X` |
-| Jump to Definition                       |  `gd` |
-| Jump to References                       |  `gD` |
-| (Un)Comment the selected context         | `gc`                |
-| (Un)Comment the current line             | `gcc`               |
-| Open filepath/URL at cursor              | `gf`                |
-| Find files by keyword in path            | `<Space> + <Space>` |
-| Grep string in files (vertico + ripgrep) | `<Space> + sd`      |
+| Action                                     | Shortcut            |
+| ------------------------------------------ | ------------------- |
+| Format Document                            | `<Space> + cf`      |
+| Code Actions                               | `<Space> + ca`      |
+| Rename                                     | `<Space> + cr`      |
+| Opening LSP symbols                        | `<Space> + cS`      |
+| Show all LSP Errors                        | `<Space> + c + x/X` |
+| Show infinite undo history(really useful!) | `<Space> + s + u`   |
+| Fold the current code block                | `zc`                |
+| Unfold the current code block              | `zo`                |
+| Jump to Definition                         | `gd`                |
+| Jump to References                         | `gD`                |
+| (Un)Comment the selected context           | `gc`                |
+| (Un)Comment the current line               | `gcc`               |
+| Open filepath/URL at cursor                | `gf`                |
+| Find files by keyword in path              | `<Space> + <Space>` |
+| Grep string in files (vertico + ripgrep)   | `<Space> + sd`      |
 
 ## Text Manipulation
 
