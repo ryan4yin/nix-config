@@ -123,6 +123,14 @@
 (after! markdown-mode
   (global-font-lock-mode 0))
 
+;; use alejandra to format nix files
+(use-package lsp-nix
+  :ensure lsp-mode
+  :after (lsp-mode)
+  :demand t
+  :custom
+  (lsp-nix-nil-formatter ["alejandra"]))
+
 ;; fix yaml highlighting for catppuccin theme
 ;; https://github.com/catppuccin/emacs/issues/55
 (add-hook 'yaml-mode-hook

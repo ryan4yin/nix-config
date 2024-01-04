@@ -74,7 +74,7 @@ in {
     }
 
     (mkIf pkgs.stdenv.isLinux (
-    # Do not use emacs-nox here, which makes the mouse wheel work abnormally
+    # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
     let emacsPkg = pkgs.emacs29; in
     {
       home.packages = [emacsPkg];
@@ -86,6 +86,7 @@ in {
     }))
 
     (mkIf pkgs.stdenv.isDarwin (
+    # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
     let emacsPkg = pkgs.emacs29; in
     {
       home.packages = [emacsPkg];
