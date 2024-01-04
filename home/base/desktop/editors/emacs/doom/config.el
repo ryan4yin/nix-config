@@ -32,19 +32,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-one)
-;; https://github.com/catppuccin/emacs/
-(setq doom-theme 'catppuccin)
-(setq catppuccin-flavor 'mocha) ;; 'frappe, 'latte, 'macchiato, or 'mocha
-;; make emacs transparent(do not works on terminal)
-;; (set-frame-parameter nil 'alpha-background 70)
-;; (add-to-list 'default-frame-alist '(alpha-background . 70))
-
-;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
-;;(set-frame-parameter (selected-frame) 'alpha <both>)
-;; (set-frame-parameter (selected-frame) 'alpha '(85 . 50))
-;; (add-to-list 'default-frame-alist '(alpha . (85 . 50)))
-
+;; other doom's official themes:
+;;   https://github.com/doomemacs/themes
+(setq doom-theme 'doom-one)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -130,10 +120,3 @@
   :demand t
   :custom
   (lsp-nix-nil-formatter ["alejandra"]))
-
-;; fix yaml highlighting for catppuccin theme
-;; https://github.com/catppuccin/emacs/issues/55
-(add-hook 'yaml-mode-hook
-          (lambda ()
-            (face-remap-add-relative 'font-lock-variable-name-face
-                                     (list :foreground (catppuccin-get-color 'blue)))))

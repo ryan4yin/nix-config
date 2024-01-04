@@ -14,8 +14,6 @@
 (package! wakatime-mode
   :recipe (:host github :repo "wakatime/wakatime-mode" :files ("*.el" "dist")))
 
-(package! catppuccin-theme)
-
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)
 
