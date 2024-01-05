@@ -119,6 +119,11 @@ return {
         vim.treesitter.language.register("scheme", "scm")
       end,
     },
+    {
+      "eraserhd/parinfer-rust",
+      build = "cargo build --release",
+      ft = { "scm", "scheme" },
+    },
 
     -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
     { import = "astrocommunity.motion.nvim-spider" },
