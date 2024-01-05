@@ -15,7 +15,6 @@
   };
   modules.editors.emacs = {
     enable = true;
-    doom.enable = true;
   };
 
   programs.ssh = {

@@ -21,23 +21,18 @@ with lib; let
   shellAliases = {
     e = "emacsclient --create-frame --tty";
   };
+  librime-dir = "${config.xdg.dataHome}/librime/";
+  parinfer-rust-lib-dir = "${config.xdg.dataHome}/parinfer-rust/";
 in {
   options.modules.editors.emacs = {
     enable = mkEnableOption "Emacs Editor";
-    doom = {
-      enable = mkEnableOption "Doom Emacs";
-    };
   };
 
   config = mkIf cfg.enable (mkMerge [
     {
-      home.packages = with pkgs;
-        let
-          epkgs = emacsPackages;
-        in
-        [
+      home.packages = with pkgs; [
         emacs-all-the-icons-fonts
-        # epkgs.parinfer-rust-mode
+
         # epkgs.rime
 
         ## Doom dependencies
@@ -74,46 +69,55 @@ in {
         force = true;
       };
 
-      home.activation = mkIf cfg.doom.enable {
-        installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
-          ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
-        '';
-      };
+      home.activation.installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
+
+        # librime for emacs-rime
+        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${pkgs.librime}/ ${librime-dir}
+
+        # libparinfer_rust for emacs' parinfer-rust-mode
+        mkdir -p ${parinfer-rust-lib-dir}
+        cp ${pkgs.vimPlugins.parinfer-rust}/lib/libparinfer_rust.* ${parinfer-rust-lib-dir}/parinfer-rust.so
+      '';
     }
 
     (mkIf pkgs.stdenv.isLinux (
-    # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
-    let emacsPkg = pkgs.emacs29; in
-    {
-      home.packages = [emacsPkg];
-      services.emacs = {
-        enable = true;
-        package = emacsPkg;
-        startWithUserSession = true;
-      };
-    }))
+      # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
+      let
+        emacsPkg = pkgs.emacs29;
+      in {
+        home.packages = [emacsPkg];
+        services.emacs = {
+          enable = true;
+          package = emacsPkg;
+          startWithUserSession = true;
+        };
+      }
+    ))
 
     (mkIf pkgs.stdenv.isDarwin (
-    # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
-    let emacsPkg = pkgs.emacs29; in
-    {
-      home.packages = [emacsPkg];
-      launchd.enable = true;
-      launchd.agents.emacs = {
-        enable = true;
-        config = {
-          ProgramArguments = [
-            "${pkgs.bash}/bin/bash"
-            "-l"
-            "-c"
-            "${emacsPkg}/bin/emacs --fg-daemon"
-          ];
-          StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.stderr.log";
-          StandardOutPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.stdout.log";
-          RunAtLoad = true;
-          KeepAlive = true;
+      # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
+      let
+        emacsPkg = pkgs.emacs29;
+      in {
+        home.packages = [emacsPkg];
+        launchd.enable = true;
+        launchd.agents.emacs = {
+          enable = true;
+          config = {
+            ProgramArguments = [
+              "${pkgs.bash}/bin/bash"
+              "-l"
+              "-c"
+              "${emacsPkg}/bin/emacs --fg-daemon"
+            ];
+            StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.stderr.log";
+            StandardOutPath = "${config.home.homeDirectory}/Library/Logs/emacs-daemon.stdout.log";
+            RunAtLoad = true;
+            KeepAlive = true;
+          };
         };
-      };
-    }))
+      }
+    ))
   ]);
 }

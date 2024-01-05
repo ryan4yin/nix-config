@@ -162,12 +162,9 @@ test-nvim:
 test-nvim-clean:
   rm -rf $"($env.HOME)/.config/astronvim/lua/user"
 
-test-emacs:
-  rm -rf $"($env.HOME)/.config/doom"
-  rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/emacs/doom/ $"($env.HOME)/.config/doom"
-
-test-emacs-clean:
-  rm -rf $"($env.HOME)/.config/doom/"
+# =================================================
+# Emacs related commands
+# =================================================
 
 emacs-plist-path := "~/Library/LaunchAgents/org.nix-community.home.emacs.plist"
 
@@ -181,5 +178,19 @@ reload-emacs-cmd := if os() == "macos" {
     + "systemctl --user status emacs.service"
   }
 
+test-emacs:
+  rm -rf $"($env.HOME)/.config/doom"
+  rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/emacs/doom/ $"($env.HOME)/.config/doom"
+  doom sync
+  doom purge
+  doom clean
+  doom sync
+  {{reload-emacs-cmd}}
+  tail -f $"($env.HOME)//Library/Logs/emacs-daemon.stderr.log"
+
 reload-emacs:
   {{reload-emacs-cmd}}
+
+test-emacs-clean:
+  rm -rf $"($env.HOME)/.config/doom/"
+

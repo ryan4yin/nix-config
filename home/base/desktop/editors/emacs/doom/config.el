@@ -74,28 +74,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; accept completion from copilot and fallback to company
-(use-package! copilot
-  :hook
-  (prog-mode . copilot-mode)
-  :bind
-  (:map copilot-completion-map
-        ("<tab>" . 'copilot-accept-completion)
-        ("TAB" . 'copilot-accept-completion)
-        ("C-TAB" . 'copilot-accept-completion-by-word)
-        ("C-<tab>" . 'copilot-accept-completion-by-word))
-  :config
-  (copilot-mode +1))
-(use-package super-save
-  :ensure t
-  :config
-  (super-save-mode +1))
-(after! super-save
-  (setq super-save-auto-save-when-idle t)
-  (setq super-save-all-buffers t)
-  (setq super-save-delete-trailing-whitespace t))
-(use-package wakatime-mode
-  :ensure t)
+(use-package! wakatime-mode :ensure t)
 ;; fully enable tree-sitter highlighting
 (after! tree-sitter
   (setq +tree-sitter-hl-enabled-modes t))
@@ -106,7 +85,7 @@
   (global-font-lock-mode 0))
 
 ;; use alejandra to format nix files
-(use-package lsp-nix
+(use-package! lsp-nix
   :ensure lsp-mode
   :after
   (lsp-mode)
@@ -114,14 +93,50 @@
   :custom
   (lsp-nix-nil-formatter
    ["alejandra"]))
-(use-package nushell-mode
+(use-package! nushell-mode
   :config
   (setq nushell-enable-auto-indent 1))
 
-;; https://github.com/doomemacs/doomemacs/issues/4374
-(use-package! smartparens
-  :init (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
-  :hook ((clojure-mode . smartparens-strict-mode)
-         (scheme-mode . smartparens-strict-mode)
-         (lisp-mode . smartparens-strict-mode)
-         (emacs-lisp-mode . smartparens-strict-mode)))
+;; emacs-rime
+(use-package! rime
+  :custom
+  (default-input-method "rime")
+  (rime-librime-root "~/.local/share/librime"))
+
+;; use parinfer for lisp editing
+(use-package! parinfer-rust-mode
+  :hook ((emacs-lisp-mode
+          clojure-mode
+          scheme-mode
+          lisp-mode
+          racket-mode
+          fennel-mode
+          hy-mode) . parinfer-rust-mode)
+  :init
+  ;; parinfer-rust library do not provide a apple silicon binary.
+  ;; fix: https://github.com/doomemacs/doomemacs/issues/6163
+  (setq parinfer-rust-auto-download 0)
+  ;; we need to download it manually and put it in this path
+  (setq parinfer-rust-library "~/.local/share/parinfer-rust/parinfer-rust.so")
+  :config
+  (map! :map parinfer-rust-mode-map
+        :localleader
+        "p" #'parinfer-rust-switch-mode
+        "P" #'parinfer-rust-toggle-disable))
+
+;; disable smatparens-mode here to void conflict with parinfer
+;; https://discourse.doomemacs.org/t/disable-smartparens-or-parenthesis-completion/134
+(add-hook 'clojure-mode-hook        #'turn-off-smartparens-mode)
+(add-hook 'scheme-mode-hook         #'turn-off-smartparens-mode)
+(add-hook 'lisp-mode-hook           #'turn-off-smartparens-mode)
+(add-hook 'racket-mode-hook         #'turn-off-smartparens-mode)
+(add-hook 'fennel-mode-hook         #'turn-off-smartparens-mode)
+(add-hook 'hy-mode-hook             #'turn-off-smartparens-mode)
+
+
+
+
+
+
+
+

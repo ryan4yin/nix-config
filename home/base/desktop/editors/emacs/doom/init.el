@@ -17,7 +17,7 @@
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
-       chinese        ; TODO: use (chinese +rime)
+       chinese
        ;;japanese
        ;;layout            ; auie,ctsrnm is the superior home row
 
@@ -61,8 +61,8 @@
        (format +onsave)
                                         ; automated prettiness
        ;; multiple-cursors  ; editing in many places at once
-       objed             ; text object editing for the innocent
-       ;; parinfer          ; turn lisp into python, sort of
+       ;; objed             ; text object editing for the innocent
+       parinfer          ; turn lisp into python, sort of, conflict with copilot/objed/smartparens
        ;;rotate-text       ; cycle region at point between text candidates
        snippets   ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
