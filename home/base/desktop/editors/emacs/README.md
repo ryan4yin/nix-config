@@ -30,16 +30,7 @@ when in doubt, run `doom sync`!
 ## Why emacs?
 
 1. Explore the unknown, just for fun!
-2. Better support for Lisp-like Languages.
 3. Org Mode
-
-## Structured editing of S-expression data
-
-> https://wikemacs.org/wiki/Lisp_editing
-
-- [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy): too complex.
-- [evil-smartparens](https://github.com/expez/evil-smartparens): simple and useful.
-- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): morden, simple, elegant and useful, but works not well with some other completion plugins...
 
 ## Cheetsheet
 
