@@ -1,64 +1,147 @@
 # Editors
 
-## Glossary
+My editors:
 
-### LSP - Language Server Protocol
+1. Neovim
+2. Emacs
+3. Helix
 
-> https://en.wikipedia.org/wiki/Language_Server_Protocol
+And `Zellij` for a smooth and stable terminal experience.
 
-> https://langserver.org/
+## Tutorial
 
-The Language Server Protocol (LSP) is an open, JSON-RPC-based protocol for use between source code editors or integrated development environments (IDEs) and servers that provide programming language-specific features like:
+Type `:tutor`(`:Tutor` in Neovim) to learn the basics usage of vim/neovim.
 
-- **code completion**
-- **marking of warnings and errors**
-- **refactoring routines**
-- syntax highlighting (use Tree-sitter instead)
-- code formatting (use a dedicated formatter instead)
+## VIM's Cheetsheet
 
-The goal of the protocol is to allow programming language support to be implemented and distributed independently of any given editor or IDE.
+Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in both Emacs-Evil, Neovim & vim.
 
-LSP was originally developed for Microsoft Visual Studio Code and is now an open standard.
-In the early 2020s LSP quickly became a "norm" for language intelligence tools providers.
+### Terminal Related
 
-### Tree-sitter
+I mainly use Zellij for terminal related operations, here is its terminal shortcuts I use frequently now:
 
-> https://tree-sitter.github.io/tree-sitter/
+| Action                    | Zellij's Shortcut |
+| ------------------------- | ----------------- |
+| Floating Terminal         | `Ctrl + p + w`    |
+| Horizontal Split Terminal | `Ctrl + p + d`    |
+| Vertical Split Terminal   | `Ctrl + p + n`    |
 
-> https://www.reddit.com/r/neovim/comments/1109wgr/treesitter_vs_lsp_differences_ans_overlap/
- 
-Tree-sitter is a parser generator tool and an **incremental parsing** library. It can build a concrete syntax tree for a source file and efficiently update the syntax tree as the source file is edited.
+### File Management
 
-It is used by many editors and IDEs to provide:
+| Action                            |                                              |
+| --------------------------------- | -------------------------------------------- |
+| Save selected text to a file      | `:w filename` (Will show `:'<,'>w filename`) |
+| Save and close the current buffer | `:wq`                                        |
+| Save all buffers                  | `:wa`                                        |
+| Save and close all buffers        | `:wqa`                                       |
 
-- **syntax highlighting**
-- **indentation**
-- **creating foldable code regions**
-- **Incremental selection**
-- **simple refactoring in a single file**
-    - such as join/split lines, structural editing, cursor motion, etc.
+### Text Manipulation
 
-**Treesitter process each file independently**, and it is not aware of the semantics of your code.
-For example, it does not know does a function/variable really exist, or what is the type/return-type of a variable. This is where LSP comes in.
+Basics:
 
-The LSP server parses the code much more deeply and it **not only parses a single file but your whole project**.
-So, the LSP server will know whether a function/variable does exist with the same type/return-type. If it does not, it will mark it as an error. 
+| Action                              |                                |
+| ----------------------------------- | ------------------------------ |
+| Move to the start/end of the buffer | `gg`/`G`                       |
+| Move the line number 5              | `5G`                           |
+| Move left/down/up/right             | h/j/k/l or `5h`/`5j`/`5k`/`5l` |
+| Delete the current character        | `x`                            |
+| Delete the selection                | `d`                            |
+| Undo the last change                | `u`                            |
+| Redo the last change                | `Ctrl + r`                     |
 
-**LSP does understand the code semantically, while Treesitter only cares about correct syntax**.
+Convert Text Cases:
 
-#### LSP vs Tree-sitter
+| Toggle text's case | `~` |
+| Convert to uppercase | `U` |
+| Convert to lowercase | `u` |
 
-- Tree-sitter: lightweight, fast, but limited knowledge of your code. mainly used for **syntax highlighting, indentation, and folding/refactoring in a single file**.
-- LSP: heavy and slow on large projects, but it has a deep understanding of your code. mainly used for **code completion, refactoring in the projects, errors/warnings, and other semantic-aware features**.
+Misc:
 
-### Formatter vs Linter
+| Action                        | Shortcut                                 |
+| ----------------------------- | ---------------------------------------- |
+| Toggle visual mode            | `v` (lower case v)                       |
+| Select the current line       | `V` (upper case v)                       |
+| Toggle visual block mode      | `<Ctrl> + v` (select a block vertically) |
+| Fold the current code block   | `zc`                                     |
+| Unfold the current code block | `zo`                                     |
+| Jump to Definition            | `gd`                                     |
+| Jump to References            | `gD`                                     |
+| (Un)Comment the current line  | `gcc`                                    |
 
-Linting is distinct from Formatting because:
+| Action                                                                    |                |
+| ------------------------------------------------------------------------- | -------------- |
+| Join Selection of Lines With Space                                        | `:join` or `J` |
+| Join without spaces                                                       | `:join!`       |
+| Move to the start/end of the line                                         | `0` / `$`      |
+| Enter Insert mode at the start/end of the line                            | `I` / `A`      |
+| Delete from the cursor to the end of the line                             | `D`            |
+| Delete from the cursor to the end of the line, and then enter insert mode | `C`            |
 
-1. **formatting** only restructures how code appears.
-    1. `prettier` is a popular formatter.
-1. **linting** analyzes how the code runs and detects errors, it may also suggest improvements such as replace `var` with `let` or `const`.
+Advance Techs:
 
-Formatters and Linters process each file independently, they do not need to know about other files in the project.
+- Add at the end of multiple lines: `:normal A<text>`
 
+  - Execublock: `:A<text>`
+  - visual block mode(ctrl + v)
+  - Append text at the end of each line in the selected block
+  - If position exceeds line end, neovim adds spaces automatically
 
+- Delete the last char of multivle lines: `:normal $x`
+
+  - Execute `$x` on each line
+  - visual mode(v)
+  - `$` moves cursor to the end of line
+  - `x` deletes the character under the cursor
+
+- Delete the last word of multiple lines: `:normal $bD`
+  - Execute `$bD` on each line
+  - visual mode(v)
+  - `$` moves cursor to the end of line
+  - `b` moves cursor to the beginning of the last word
+
+### Search
+
+| Action                                                | Command   |
+| ----------------------------------------------------- | --------- |
+| Search forward/backword for a pattern                 | `/` / `?` |
+| Repeat the last search in the same/opposite direction | `n` / `N` |
+
+### Find and Replace
+
+| Action                   | Command                             |
+| ------------------------ | ----------------------------------- |
+| Replace in selected area | `:s/old/new/g`                      |
+| Replace in current line  | Same as above                       |
+| Replace in whole file    | `:% s/old/new/g`                    |
+| Replace with regex       | `:% s@\vhttp://(\w+)@https://\1@gc` |
+
+1. `\v` means means that in the regex pattern after it can be used without backslash escaping(similar to python's raw string).
+2. `\1` means the first matched group in the pattern.
+
+### Replace in the specific lines
+
+| Action                                    | Command                                |
+| ----------------------------------------- | -------------------------------------- |
+| From the 10th line to the end of the file | `:10,$ s/old/new/g` or `:10,$ s@^@#@g` |
+| From the 10th line to the 20th line       | `:10,20 s/old/new/g`                   |
+
+The postfix(flags) in the above commands:
+
+1. `g` means replace all the matched strings in the current line/file.
+2. `c` means ask for confirmation before replacing.
+3. `i` means ignore case.
+
+### Buffers, Windows and Tabs
+
+- A buffer is the in-memory text of a file.
+- A window is a viewport on a buffer.
+- A tab page is a collection of windows.
+
+| Action                              | Command                         |
+| ----------------------------------- | ------------------------------- |
+| Show all buffers                    | `:ls`                           |
+| show next/previous buffer           | `]b`/`[b` or `:bnext` / `bprev` |
+| Split the window horizontally       | `:sp`                           |
+| Split the window horizontally       | `:vsp`                          |
+| New Tab(New Workspace in DoomEmacs) | `:tabnew`                       |
+| Next/Previews Tab                   | `gt`/`gT`                       |

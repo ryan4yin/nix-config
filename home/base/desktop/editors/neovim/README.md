@@ -33,27 +33,11 @@ Remove all unused plugins:
 ![](/_img/astronvim_2023-07-13_00-39.webp)
 ![](/_img/hyprland_2023-07-29_2.webp)
 
-## Terminal Related
+## Cheetsheet
 
-I used to use Neovim's terminal related shortcuts frequently, but now **I switched my daily terminal environment to zellij**,
-which provides a more powerful and stable terminal experience, so I don't use neovim's terminal feature anymore.
+Here is the cheetsheet related to my Neovim configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
 
-So here is zellij's terminal shortcuts I use frequently now:
-
-| Action                    | Zellij's Shortcut  |
-| ------------------------- | ------------------ |
-| Floating Terminal         | `Ctrl + <p> + <w>` |
-| Horizontal Split Terminal | `Ctrl + <p> + <d>` |
-| Vertical Split Terminal   | `Ctrl + <p> + <n>` |
-
-## Visual Modes
-
-| Action                   | Shortcut                                 |
-| ------------------------ | ---------------------------------------- |
-| Toggle visual mode       | `v`                                      |
-| Toggle visual block mode | `<Ctrl> + v` (select a block vertically) |
-
-## Incremental Selection
+### Incremental Selection
 
 Provided by nvim-treesitter.
 
@@ -64,7 +48,7 @@ Provided by nvim-treesitter.
 | scope incremental | `<Alt-Space>`  |
 | node decremental  | `Backspace`    |
 
-## Search and Jump
+### Search and Jump
 
 Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligent search and jump plugin.
 
@@ -76,61 +60,34 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 | Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
 | Remote Flash      | `yr`, `dr`, `cr`, (arround your matches, all the surrounding Treesitter nodes will be labeled)                |
 
-## Text Manipulation
-
-- Add at the end of multiple lines: `:normal A<text>`
-
-  - Execublock: `:A<text>`
-
-  - visual block mode(ctrl + v)
-  - Append text at the end of each line in the selected block
-  - If position exceeds line end, neovim adds spaces automatically
-
-- Delete the last char of multivle lines: `:normal $x`
-
-  - Execute `$x` on each line
-  - visual mode(v)
-  - `$` moves cursor to the end of line
-  - `x` deletes the character under the cursor
-
-- Delete the last word of multiple lines: `:normal $bD`
-  - Execute `$bD` on each line
-  - visual mode(v)
-  - `$` moves cursor to the end of line
-  - `b` moves cursor to the beginning of the last word
-  - `D` deletes from cursor to the end of line
-
-## Commands & Shortcuts
+### Commands & Shortcuts
 
 | Action                        | Shortcut       |
 | ----------------------------- | -------------- |
-| Learn Neovim's Basics         | `:Tutor`       |
 | Open file explorer            | `<Space> + e`  |
 | Focus Neotree to current file | `<Space> + o`  |
 | Toggle line wrap              | `<Space> + uw` |
 | Show line diagnostics         | `gl`           |
 | Show function/variable info   | `K`            |
-| Go to definition              | `gd`           |
 | References of a symbol        | `gr`           |
 
-## Window Navigation
+### Window Navigation
 
 - Switch between windows: `<Ctrl> + h/j/k/l`
 - Resize windows: `<Ctrl> + Up/Down/Left/Right`
   - Note: On macOS, conflicts with system shortcuts
   - Disable in System Preferences -> Keyboard -> Shortcuts -> Mission Control
 
-## Splitting and Buffers
+### Splitting and Buffers
 
-| Action                | Shortcut      |
+|
+| Action | Shortcut |
 | --------------------- | ------------- |
-| Horizontal Split      | `\`           |
-| Vertical Split        | `\|`          |
-| Next Buffer (Tab)     | `]b`          |
-| Previous Buffer (Tab) | `[b`          |
-| Close Buffer          | `<Space> + c` |
+| Horizontal Split | `\` |
+| Vertical Split | `\|` |
+| Close Buffer | `<Space> + c` |
 
-## Editing and Formatting
+### Editing and Formatting
 
 | Action                                                | Shortcut       |
 | ----------------------------------------------------- | -------------- |
@@ -144,7 +101,7 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 | Find files by name (fzf)                              | `<Space> + ff` |
 | Grep string in files (ripgrep)                        | `<Space> + fw` |
 
-## Sessions
+### Sessions
 
 | Action                         | Shortcut       |
 | ------------------------------ | -------------- |
@@ -154,43 +111,18 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 | Search Session                 | `<Space> + Sf` |
 | Load Current Directory Session | `<Space> + S.` |
 
-## Debugging
+### Debugging
 
 Press `<Space> + D` to view available bindings and options.
 
-## Find and Replace
-
-| Action                   | Command                             |
-| ------------------------ | ----------------------------------- |
-| Replace in selected area | `:s/old/new/g`                      |
-| Replace in current line  | Same as above                       |
-| Replace in whole file    | `:% s/old/new/g`                    |
-| Replace with regex       | `:% s@\vhttp://(\w+)@https://\1@gc` |
-
-1. `\v` means means that in the regex pattern after it can be used without backslash escaping(similar to python's raw string).
-2. `\1` means the first matched group in the pattern.
-
-## Replace in the specific lines
-
-| Action                                    | Command                                |
-| ----------------------------------------- | -------------------------------------- |
-| From the 10th line to the end of the file | `:10,$ s/old/new/g` or `:10,$ s@^@#@g` |
-| From the 10th line to the 20th line       | `:10,20 s/old/new/g`                   |
-
-The postfix(flags) in the above commands:
-
-1. `g` means replace all the matched strings in the current line/file.
-2. `c` means ask for confirmation before replacing.
-3. `i` means ignore case.
-
-## Search and Replace Globally
+### Search and Replace Globally
 
 | Description                                                  | Shortcut                                                         |
 | ------------------------------------------------------------ | ---------------------------------------------------------------- |
 | Open spectre.nvim search and replace panel                   | `<Space> + ss`                                                   |
 | Search and replace in command line(need install `sad` first) | `find -name "*.nix" \| sad '<pattern>' '<replacement>' \| delta` |
 
-## Surrounding Characters
+### Surrounding Characters
 
 Provided by mini.surround plugin.
 
@@ -203,30 +135,19 @@ Provided by mini.surround plugin.
 | Replace surrounding characters | `gzr'"`  | Replace `'` by `"` around the word under cursor |
 | Highlight surrounding          | `gzh'`   | Highlight `'` around the word under cursor      |
 
-## Text Manipulation
+### Text Manipulation
 
 | Action                                 |               |
 | -------------------------------------- | ------------- |
-| Join Selection of Lines With Space     | `:join`       |
-| Join without spaces                    | `:join!`      |
 | Join with LSP intelligence(treesj)     | `<Space> + j` |
 | Split Line into Multiple Lines(treesj) | `<Space> + s` |
 
-## Convert Text Case
+### Miscellaneous
 
-| Action               |     |
-| -------------------- | --- |
-| Toggle text's case   | `~` |
-| Convert to uppercase | `U` |
-| Convert to lowercase | `u` |
-
-## Miscellaneous
-
-| Action                       |                                              |
-| ---------------------------- | -------------------------------------------- |
-| Save selected text to a file | `:w filename` (Will show `:'<,'>w filename`) |
-| Show all Yank History        | `:<Space> + yh`                              |
-| Show undo history            | `:<Space> + uh`                              |
+| Action                |                 |
+| --------------------- | --------------- |
+| Show all Yank History | `:<Space> + yh` |
+| Show undo history     | `:<Space> + uh` |
 
 ## Additional Resources
 

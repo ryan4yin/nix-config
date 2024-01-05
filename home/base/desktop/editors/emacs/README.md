@@ -23,6 +23,10 @@ doom sync
 
 when in doubt, run `doom sync`!
 
+## Notes
+
+1. we can run any emacs command via `M-x`(Alt + x).
+
 ## Why emacs?
 
 1. Explore the unknown, just for fun!
@@ -37,79 +41,68 @@ when in doubt, run `doom sync`!
 - [evil-smartparens](https://github.com/expez/evil-smartparens): simple and useful.
 - [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): simple and useful, but works not well with some other completion plugins.
 
-## Terminal Related
+## Cheetsheet
 
-zellij provides a more powerful and stable terminal experience, so here is zellij's terminal shortcuts I use frequently now:
+Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
 
-| Action                    | Zellij's Shortcut  |
-| ------------------------- | ------------------ |
-| Floating Terminal         | `Ctrl + <p> + <w>` |
-| Horizontal Split Terminal | `Ctrl + <p> + <d>` |
-| Vertical Split Terminal   | `Ctrl + <p> + <n>` |
-| Open file tree sidebar    | `SPC + o + p`      |
-| Exit                      | `M-x C-c`          |
+### Terminal Related
 
-## Visual Modes
+| Action                 | Shortcut      |
+| ---------------------- | ------------- |
+| Open file tree sidebar | `SPC + o + p` |
+| Exit                   | `M-x C-c`     |
 
-The same as neovim/vim:
-
-| Action                   | Shortcut                                 |
-| ------------------------ | ---------------------------------------- |
-| Toggle visual mode       | `v`                                      |
-| Toggle visual block mode | `<Ctrl> + v` (select a block vertically) |
-
-## Text Manipulation
-
-- Add at the end of multiple lines: `:normal A<text>`
-
-  - Execublock: `:A<text>`
-
-  - visual block mode(ctrl + v)
-  - Append text at the end of each line in the selected block
-  - If position exceeds line end, neovim adds spaces automatically
-
-- Delete the last char of multivle lines: `:normal $x`
-
-  - Execute `$x` on each line
-  - visual mode(v)
-  - `$` moves cursor to the end of line
-  - `x` deletes the character under the cursor
-
-- Delete the last word of multiple lines: `:normal $bD`
-  - Execute `$bD` on each line
-  - visual mode(v)
-  - `$` moves cursor to the end of line
-  - `b` moves cursor to the beginning of the last word
-- `D` deletes from cursor to the end of line
-
-## Window Navigation
+### Window Navigation
 
 | Action                                     | Shortcut                                                              |
 | ------------------------------------------ | --------------------------------------------------------------------- |
-| split a window vertically and horizontally | `SPC w v/s`                                                           |
-| move to a window in a specific direction   | `Ctrl-w + h/j/k/l`                                                    |
-| move a window to a specific direction      | `Ctrl-w + H/J/K/L`                                                    |
-| move to the next window                    | `SPC w w`                                                             |
-| Resize Treemacs's window                   | `M - >` & `M - <`                                                     |
+| Split a window vertically and horizontally | `SPC w v/s`                                                           |
+| Move to a window in a specific direction   | `Ctrl-w + h/j/k/l`                                                    |
+| Move a window to a specific direction      | `Ctrl-w + H/J/K/L`                                                    |
+| Move to the next window                    | `SPC w w`                                                             |
 | Close the current window                   | `SPC w q`                                                             |
-| rebalance all windows                      | `SPC w =`                                                             |
-| set window's width(columns)                | `80 SPC w \|` (the Vertical line is escaped due to markdown's limits) |
-| set window's height                        | `30 SPC w _ `                                                         |
+| Rebalance all windows                      | `SPC w =`                                                             |
+| Set window's width(columns)                | `80 SPC w \|` (the Vertical line is escaped due to markdown's limits) |
+| Set window's height                        | `30 SPC w _ `                                                         |
 
+### File Tree
 
+- treemacs: <https://github.com/Alexander-Miller/treemacs/blob/master/src/elisp/treemacs-mode.el>
+- treemacs-evil: <https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-evil.el>
 
-## Splitting and Buffers
+| Action                                | Shortcut  |
+| ------------------------------------- | --------- |
+| Resize Treemacs's window              | `>` & `<` |
+| Extra Wide Window                     | `W`       |
+| Rename                                | `R`       |
+| Delete File/Direcoty                  | `d`       |
+| New File                              | `cf`      |
+| New Directory                         | `cd`      |
+| Go to parent                          | `u`       |
+| Run shell command in for current node | `!`       |
+| Refresh file tree                     | `gr`      |
+| Copy project-path into pasteboard     | `yp`      |
+| Copy absolute-path into pasteboard    | `ya`      |
+| Copy relative-path into pasteboard    | `yr`      |
+| Copy file to another location         | `yf`      |
+| Move file to another location         | `m`       |
+| quit                                  | `q`       |
+
+And bookmarks:
+
+- Add bookmarks in treemacs: `b`
+- Show Bookmark List: `SPC s m`
+
+### Splitting and Buffers
 
 | Action                  | Shortcut          |
 | ----------------------- | ----------------- |
-| Next Buffer (Tab)       | `]b`              |
-| Previous Buffer (Tab)   | `[b`              |
 | Buffer List             | `<Space> + ,`     |
 | Save all buffers(Tab)   | `<Space> + b + S` |
 | Kill the current buffer | `<Space> + b + k` |
 | Kill all buffers        | `<Space> + b + K` |
 
-## Editing and Formatting
+### Editing and Formatting
 
 | Action                                     | Shortcut            |
 | ------------------------------------------ | ------------------- |
@@ -119,23 +112,11 @@ The same as neovim/vim:
 | Opening LSP symbols                        | `<Space> + cS`      |
 | Show all LSP Errors                        | `<Space> + c + x/X` |
 | Show infinite undo history(really useful!) | `<Space> + s + u`   |
-| Fold the current code block                | `zc`                |
-| Unfold the current code block              | `zo`                |
-| Jump to Definition                         | `gd`                |
-| Jump to References                         | `gD`                |
-| (Un)Comment the selected context           | `gc`                |
-| (Un)Comment the current line               | `gcc`               |
 | Open filepath/URL at cursor                | `gf`                |
 | Find files by keyword in path              | `<Space> + <Space>` |
 | Grep string in files (vertico + ripgrep)   | `<Space> + sd`      |
 
-## Text Manipulation
-
-| Action                             |     |
-| ---------------------------------- | --- |
-| Join Selection of Lines With Space | `J` |
-
-## Search & replace
+### Search & replace
 
 ```bash
 SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
@@ -147,3 +128,25 @@ SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 1. `C-c C-p` to run wgrep-change-to-wgrep-mode to make the search results writable.
 1. `:%s/foo/bar/g RET`: replace in the current buffer(just like neovim/vim)
 1. `Z Z`: to write all the changes to their respective files
+
+### Projects
+
+> easily switch between projects without exit emacs!
+
+| Action                     |               |
+| -------------------------- | ------------- |
+| Switch between projects    | `SPC + p + p` |
+| Browse the current project | `SPC + p + .` |
+| Add new project            | `SPC + p + a` |
+
+### Workspaces
+
+> Very useful when run emacs in daemon/client modes
+
+| Action                      |                             |
+| --------------------------- | --------------------------- |
+| Switch between workspaces   | `M-1/2/3/...`(Alt-1/2/3/..) |
+| New Workspace               | `SPC + TAB + n`             |
+| New Named Workspace         | `SPC + TAB + N`             |
+| Delete Workspace            | `SPC + TAB + d`             |
+| Display Workspaces bar blow | `SPC + TAB + TAB`           |
