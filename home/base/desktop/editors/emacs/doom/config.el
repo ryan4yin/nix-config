@@ -118,6 +118,10 @@
   :config
   (setq nushell-enable-auto-indent 1))
 
-;; enable evil-smartparens
-(after! smartparens
-  (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+;; https://github.com/doomemacs/doomemacs/issues/4374
+(use-package! smartparens
+  :init (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+  :hook ((clojure-mode . smartparens-strict-mode)
+         (scheme-mode . smartparens-strict-mode)
+         (lisp-mode . smartparens-strict-mode)
+         (emacs-lisp-mode . smartparens-strict-mode)))
