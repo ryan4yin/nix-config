@@ -37,8 +37,8 @@ in {
         in
         [
         emacs-all-the-icons-fonts
-        epkgs.parinfer-rust-mode
-        epkgs.rime
+        # epkgs.parinfer-rust-mode
+        # epkgs.rime
 
         ## Doom dependencies
         git
