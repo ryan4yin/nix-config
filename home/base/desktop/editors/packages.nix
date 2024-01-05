@@ -84,9 +84,10 @@
       jsonnet-language-server
       hadolint # Dockerfile linter
 
-      # -- Scheme
+      # -- Lisp like Languages
       guile
       racket-minimal
+      fnlfmt  # fennel
 
       #-- Others
       taplo # TOML language server / formatter / validator

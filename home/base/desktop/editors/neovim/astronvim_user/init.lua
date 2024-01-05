@@ -99,6 +99,10 @@ return {
           "gitcommit",
           "latex",
           "sql",
+          -- Lisp like
+          "fennel",
+          "clojure",
+          "commonlisp",
           -- customized languages:
           "scheme",
         })
@@ -123,6 +127,38 @@ return {
       "eraserhd/parinfer-rust",
       build = "cargo build --release",
       ft = { "scm", "scheme" },
+    },
+    { "Olical/nfnl", ft = "fennel" },
+    {
+      "Olical/conjure",
+      ft = { "clojure", "fennel", "python", "scheme" }, -- etc
+      -- [Optional] cmp-conjure for cmp
+      dependencies = {
+        {
+          "PaterJason/cmp-conjure",
+          config = function()
+            local cmp = require("cmp")
+            local config = cmp.get_config()
+            table.insert(config.sources, {
+              name = "buffer",
+              option = {
+                sources = {
+                  { name = "conjure" },
+                },
+              },
+            })
+            cmp.setup(config)
+          end,
+        },
+      },
+      config = function(_, opts)
+        require("conjure.main").main()
+        require("conjure.mapping")["on-filetype"]()
+      end,
+      init = function()
+        -- Set configuration options here
+        vim.g["conjure#debug"] = true
+      end,
     },
 
     -- Lua implementation of CamelCaseMotion, with extra consideration of punctuation.
@@ -372,6 +408,7 @@ return {
             formatting.nginx_beautifier,         -- Nginx formatter
             formatting.verible_verilog_format,   -- Verilog formatter
             formatting.emacs_scheme_mode,        -- using emacs in batch mode to format scheme files.
+            formatting.fnlfmt,                   -- Format Fennel code
           })
         end
       end,
