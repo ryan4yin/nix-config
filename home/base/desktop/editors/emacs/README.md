@@ -37,9 +37,9 @@ when in doubt, run `doom sync`!
 
 > https://wikemacs.org/wiki/Lisp_editing
 
-- [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy): too complex
+- [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy): too complex.
 - [evil-smartparens](https://github.com/expez/evil-smartparens): simple and useful.
-- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): simple and useful, but works not well with some other completion plugins.
+- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): morden, simple, elegant and useful, but works not well with some other completion plugins...
 
 ## Cheetsheet
 
