@@ -12,18 +12,26 @@
 
       #-- python
       nodePackages.pyright # python language server
-      python3Packages.black # python formatter
-      python3Packages.ruff-lsp
       (python310.withPackages (
         ps:
           with ps; [
-            pynvim # Python client and plugin host for Nvim
+            ruff-lsp
+            black # python formatter
 
             ipython
             pandas
             requests
             pyquery
             pyyaml
+
+           ## emacs's lsp-bridge dependenciesge
+            epc
+            orjson
+            sexpdata
+            six
+            setuptools
+            paramiko
+            rapidfuzz
           ]
       ))
 

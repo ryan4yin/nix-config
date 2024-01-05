@@ -21,8 +21,8 @@ with lib; let
   shellAliases = {
     e = "emacsclient --create-frame --tty";
   };
-  librime-dir = "${config.xdg.dataHome}/librime/";
-  parinfer-rust-lib-dir = "${config.xdg.dataHome}/parinfer-rust/";
+  librime-dir = "${config.xdg.dataHome}/librime";
+  parinfer-rust-lib-dir = "${config.xdg.dataHome}/parinfer-rust";
 in {
   options.modules.editors.emacs = {
     enable = mkEnableOption "Emacs Editor";
@@ -31,10 +31,6 @@ in {
   config = mkIf cfg.enable (mkMerge [
     {
       home.packages = with pkgs; [
-        emacs-all-the-icons-fonts
-
-        # epkgs.rime
-
         ## Doom dependencies
         git
         (ripgrep.override {withPCRE2 = true;})
@@ -73,11 +69,11 @@ in {
         ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
 
         # librime for emacs-rime
-        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${pkgs.librime}/ ${librime-dir}
+        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${pkgs.librime}/ ${librime-dir}/
 
         # libparinfer_rust for emacs' parinfer-rust-mode
         mkdir -p ${parinfer-rust-lib-dir}
-        cp ${pkgs.vimPlugins.parinfer-rust}/lib/libparinfer_rust.* ${parinfer-rust-lib-dir}/parinfer-rust.so
+        ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744  ${pkgs.vimPlugins.parinfer-rust}/lib/libparinfer_rust.* ${parinfer-rust-lib-dir}/parinfer-rust.so
       '';
     }
 

@@ -172,6 +172,8 @@ reload-emacs-cmd := if os() == "macos" {
     "launchctl unload " + emacs-plist-path
     + "\n"
     + "launchctl load " + emacs-plist-path
+    + "\n"
+    + "tail -f ~/Library/Logs/emacs-daemon.stderr.log"
   } else {
     "systemctl --user restart emacs.service"
     + "\n"
@@ -186,7 +188,6 @@ test-emacs:
   doom clean
   doom sync
   {{reload-emacs-cmd}}
-  tail -f $"($env.HOME)//Library/Logs/emacs-daemon.stderr.log"
 
 reload-emacs:
   {{reload-emacs-cmd}}

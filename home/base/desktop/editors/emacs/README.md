@@ -30,7 +30,7 @@ when in doubt, run `doom sync`!
 ## Why emacs?
 
 1. Explore the unknown, just for fun!
-3. Org Mode
+2. Org Mode
 
 ## Cheetsheet
 
@@ -41,6 +41,8 @@ Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common
 | Action                 | Shortcut      |
 | ---------------------- | ------------- |
 | Open file tree sidebar | `SPC + o + p` |
+| Popup Terminal         | `SPC + o + t` |
+| Open Terminal          | `SPC + o + T` |
 | Exit                   | `M-x C-c`     |
 
 ### Window Navigation
