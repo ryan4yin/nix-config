@@ -34,9 +34,8 @@ when in doubt, run `doom sync`!
 > https://wikemacs.org/wiki/Lisp_editing
 
 - [lispy](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/lispy): too complex
-- [evil-smartparens](https://github.com/expez/evil-smartparens)
-- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): It helps to keep both indentation and parens balanced and it introduces to more advanced features similar to Paredit
-  - works not well with some other completion plugins.
+- [evil-smartparens](https://github.com/expez/evil-smartparens): simple and useful.
+- [parinfer](https://github.com/doomemacs/doomemacs/tree/master/modules/editor/parinfer): simple and useful, but works not well with some other completion plugins.
 
 ## Terminal Related
 
@@ -81,7 +80,23 @@ The same as neovim/vim:
   - visual mode(v)
   - `$` moves cursor to the end of line
   - `b` moves cursor to the beginning of the last word
-  - `D` deletes from cursor to the end of line
+- `D` deletes from cursor to the end of line
+
+## Window Navigation
+
+| Action                                     | Shortcut                                                              |
+| ------------------------------------------ | --------------------------------------------------------------------- |
+| split a window vertically and horizontally | `SPC w v/s`                                                           |
+| move to a window in a specific direction   | `Ctrl-w + h/j/k/l`                                                    |
+| move a window to a specific direction      | `Ctrl-w + H/J/K/L`                                                    |
+| move to the next window                    | `SPC w w`                                                             |
+| Resize Treemacs's window                   | `M - >` & `M - <`                                                     |
+| Close the current window                   | `SPC w q`                                                             |
+| rebalance all windows                      | `SPC w =`                                                             |
+| set window's width(columns)                | `80 SPC w \|` (the Vertical line is escaped due to markdown's limits) |
+| set window's height                        | `30 SPC w _ `                                                         |
+
+
 
 ## Splitting and Buffers
 
