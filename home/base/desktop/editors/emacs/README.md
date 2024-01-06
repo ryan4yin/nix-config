@@ -36,13 +36,15 @@ when in doubt, run `doom sync`!
 
 Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
 
-### Terminal Related
+### Basics
+
+> Terminal(vterm) is useful in GUI mode, I use Zellij instead in terminal mode.
 
 | Action                 | Shortcut      |
 | ---------------------- | ------------- |
-| Open file tree sidebar | `SPC + o + p` |
-| Popup Terminal         | `SPC + o + t` |
+| Popup Terminal(vterm)  | `SPC + o + t` |
 | Open Terminal          | `SPC + o + T` |
+| Open file tree sidebar | `SPC + o + p` |
 | Exit                   | `M-x C-c`     |
 
 ### Window Navigation
@@ -108,6 +110,10 @@ And bookmarks:
 | Open filepath/URL at cursor                | `gf`                |
 | Find files by keyword in path              | `<Space> + <Space>` |
 | Grep string in files (vertico + ripgrep)   | `<Space> + sd`      |
+
+### Image Preview(GUI mode only)
+
+Use `-`, `+` to resize the image, `r` to rotate the image.
 
 ### Search & replace
 

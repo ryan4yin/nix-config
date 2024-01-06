@@ -21,10 +21,10 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15 :weight 'light)
-      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 16)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 17 :weight 'light)
+      doom-variable-pitch-font (font-spec :family "DejaVu Sans" :size 18)
       doom-symbol-font (font-spec :family "JuliaMono")
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 26))
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 28))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -76,13 +76,13 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(use-package! nerd-icons
-  ;; :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
-  )
+(use-package! nerd-icons)
+;; :custom
+;; The Nerd Font you want to use in GUI
+;; "Symbols Nerd Font Mono" is the default and is recommended
+;; but you can use any other Nerd Font if you want
+;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+
 
 (use-package! lsp-bridge
   :config

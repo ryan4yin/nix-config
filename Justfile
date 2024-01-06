@@ -183,8 +183,8 @@ reload-emacs-cmd := if os() == "macos" {
 emacs-test:
   rm -rf $"($env.HOME)/.config/doom"
   rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/emacs/doom/ $"($env.HOME)/.config/doom"
-  doom sync
   doom clean
+  doom sync
 
 emacs-clean:
   rm -rf $"($env.HOME)/.config/doom/"
@@ -195,4 +195,5 @@ emacs-purge:
   doom sync
 
 emacs-reload:
+  doom sync
   {{reload-emacs-cmd}}
