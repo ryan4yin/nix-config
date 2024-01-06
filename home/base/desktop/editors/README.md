@@ -14,6 +14,8 @@ Type `:tutor`(`:Tutor` in Neovim) to learn the basics usage of vim/neovim.
 
 ## VIM's Cheetsheet
 
+> Here only record my commonly used keyboard keys, to see a more comprehensive cheetsheet: <https://github.com/rtorr/vim-cheat-sheet>
+
 Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in both Emacs-Evil, Neovim & vim.
 
 ### Terminal Related
@@ -39,15 +41,16 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 
 Basics:
 
-| Action                              |                                |
-| ----------------------------------- | ------------------------------ |
-| Move to the start/end of the buffer | `gg`/`G`                       |
-| Move the line number 5              | `5G`                           |
-| Move left/down/up/right             | h/j/k/l or `5h`/`5j`/`5k`/`5l` |
-| Delete the current character        | `x`                            |
-| Delete the selection                | `d`                            |
-| Undo the last change                | `u`                            |
-| Redo the last change                | `Ctrl + r`                     |
+| Action                                              |                                |
+| --------------------------------------------------- | ------------------------------ |
+| Move to the start/end of the buffer                 | `gg`/`G`                       |
+| Move the line number 5                              | `5gg` / `5G`                   |
+| Move left/down/up/right                             | h/j/k/l or `5h`/`5j`/`5k`/`5l` |
+| Move to the matchpairs, default to `()`, `{}`, `[]` | `%`                            |
+| Delete the current character                        | `x`                            |
+| Delete the selection                                | `d`                            |
+| Undo the last change                                | `u`                            |
+| Redo the last change                                | `Ctrl + r`                     |
 
 Convert Text Cases:
 
@@ -137,11 +140,11 @@ The postfix(flags) in the above commands:
 - A window is a viewport on a buffer.
 - A tab page is a collection of windows.
 
-| Action                              | Command                         |
-| ----------------------------------- | ------------------------------- |
-| Show all buffers                    | `:ls`                           |
-| show next/previous buffer           | `]b`/`[b` or `:bnext` / `bprev` |
-| Split the window horizontally       | `:sp`                           |
-| Split the window horizontally       | `:vsp`                          |
-| New Tab(New Workspace in DoomEmacs) | `:tabnew`                       |
-| Next/Previews Tab                   | `gt`/`gT`                       |
+| Action                              | Command                             |
+| ----------------------------------- | ----------------------------------- |
+| Show all buffers                    | `:ls`                               |
+| show next/previous buffer           | `]b`/`[b` or `:bn[ext]` / `bp[rev]` |
+| Split the window horizontally       | `:sp[lit]`                               |
+| Split the window horizontally       | `:vs[plit]`                              |
+| New Tab(New Workspace in DoomEmacs) | `:tabnew`                           |
+| Next/Previews Tab                   | `gt`/`gT`                           |
