@@ -65,7 +65,7 @@ darwin-rollback:
   use utils.nu *; \
   darwin-rollback
 
-ha mode="default": darwin-set-proxy
+ha mode="default":
   use utils.nu *; \
   darwin-build "harmonica" {{mode}}; \
   darwin-switch "harmonica" {{mode}}
