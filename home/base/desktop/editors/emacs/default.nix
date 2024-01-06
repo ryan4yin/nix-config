@@ -89,6 +89,10 @@ in {
         services.emacs = {
           enable = true;
           package = emacsPkg;
+          client = {
+            enable = true;
+            arguments = [" --create-frame"];
+          };
           startWithUserSession = true;
         };
       }
