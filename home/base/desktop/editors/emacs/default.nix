@@ -78,9 +78,11 @@ in {
     }
 
     (mkIf pkgs.stdenv.isLinux (
-      # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
       let
-        emacsPkg = pkgs.emacs29;
+        # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
+        # pgtk (pure gtk) build add native support for wayland.
+        # https://www.gnu.org/savannah-checkouts/gnu/emacs/emacs.html#Releases
+        emacsPkg = pkgs.emacs29-pgtk;
       in {
         home.packages = [emacsPkg];
         services.emacs = {
@@ -92,9 +94,10 @@ in {
     ))
 
     (mkIf pkgs.stdenv.isDarwin (
-      # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
       let
-        emacsPkg = pkgs.emacs29;
+        # macport adds some native features based on GNU Emacs 29
+        # https://bitbucket.org/mituharu/emacs-mac/src/master/README-mac
+        emacsPkg = pkgs.emacs29-macport;
       in {
         home.packages = [emacsPkg];
         launchd.enable = true;
