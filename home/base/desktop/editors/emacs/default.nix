@@ -42,6 +42,9 @@ in {
         imagemagick # for image-dired
         zstd # for undo-fu-session/undo-tree compression
 
+        # go-mode
+        gocode
+
         ## Module dependencies
         # :checkers spell
         (aspellWithDicts (ds: with ds; [en en-computers en-science]))

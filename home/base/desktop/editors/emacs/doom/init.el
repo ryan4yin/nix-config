@@ -138,7 +138,7 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       ;; (go +tree-sitter)  ;; disable go-mode, use lsp-bridge instead
+       (go +tree-sitter)  ;; disable go-mode, use lsp-bridge instead
                                         ; the hipster dialect
        ;;(graphql)    ; Give queries a REST
        ;;(haskell)    ; a language that's lazier than I am
