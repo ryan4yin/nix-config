@@ -66,6 +66,15 @@ return {
     { import = "astrocommunity.pack.docker" },
     { import = "astrocommunity.pack.helm" },
 
+    -- colorscheme
+    {
+      "catppuccin/nvim",
+      name = "catppuccin",
+      opts = function(_, opts)
+        opts.flavour = "mocha"              -- latte, frappe, macchiato, mocha
+        opts.transparent_background = false -- disables setting the background color.
+      end,
+    },
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
     {
       "nvim-treesitter/nvim-treesitter",
