@@ -167,6 +167,14 @@ Provided by mini.surround plugin.
 | Show all Yank History | `:<Space> + yh` |
 | Show undo history     | `:<Space> + uh` |
 
+## Conjure (REPL)
+
+TODO
+
+## Fennel Language(Lisp)
+
+> https://fennel-lang.org/see
+
 ## Additional Resources
 
 For more detailed information and advanced usage, refer to:
