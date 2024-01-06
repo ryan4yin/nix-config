@@ -1,0 +1,10 @@
+{
+  "name": "nil",
+  "languageId": "nix",
+  "command": ["nil"],
+  "settings": {
+    "nil": {
+      "formatting": { "command": ["alejandra"] }
+    }
+  }
+}

@@ -22,8 +22,8 @@ with lib; let
     e = "emacsclient --create-frame"; # gui
     et = "emacsclient --create-frame --tty"; # termimal
   };
-  librime-dir = "${config.xdg.dataHome}/librime";
-  parinfer-rust-lib-dir = "${config.xdg.dataHome}/parinfer-rust";
+  librime-dir = "${config.xdg.dataHome}/emacs/librime";
+  parinfer-rust-lib-dir = "${config.xdg.dataHome}/emacs/parinfer-rust";
 in {
   options.modules.editors.emacs = {
     enable = mkEnableOption "Emacs Editor";
@@ -69,10 +69,16 @@ in {
         force = true;
       };
 
+      xdg.configFile."emacs/lsp-bridge-user-langserver" = {
+        source = ./lsp-bridge-user-langserver;
+        force = true;
+      };
+
       home.activation.installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
 
         # librime for emacs-rime
+        mkdir -p ${librime-dir}
         ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${pkgs.librime}/ ${librime-dir}/
 
         # libparinfer_rust for emacs' parinfer-rust-mode

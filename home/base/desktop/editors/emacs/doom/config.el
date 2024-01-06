@@ -90,7 +90,10 @@
 
 (use-package! lsp-bridge
   :config
-  (setq lsp-bridge-enable-log nil)
+  (setq lsp-bridge-enable-log nil)  ;; disabled for performance
+  ;; for user's custom langserver file
+  (setq lsp-bridge-user-langserver-dir "~/.config/emacs/lsp-bridge-user-langserver")
+  (setq lsp-bridge-enable-auto-format-code 1)
   (global-lsp-bridge-mode))
 
 (use-package! wakatime-mode :ensure t)
@@ -104,14 +107,14 @@
   (global-font-lock-mode 0))
 
 ;; use alejandra to format nix files
-(use-package! lsp-nix
-  :ensure lsp-mode
-  :after
-  (lsp-mode)
-  :demand t
-  :custom
-  (lsp-nix-nil-formatter
-   ["alejandra"]))
+;; (use-package! lsp-nix
+;;   :ensure lsp-mode
+;;   :after
+;;   (lsp-mode)
+;;   :demand t
+;;   :custom
+;;   (lsp-nix-nil-formatter
+;;    ["alejandra"]))
 (use-package! nushell-mode
   :config
   (setq nushell-enable-auto-indent 1))
@@ -120,7 +123,7 @@
 (use-package! rime
   :custom
   (default-input-method "rime")
-  (rime-librime-root "~/.local/share/librime"))
+  (rime-librime-root "~/.local/share/emacs/librime"))
 
 ;; use parinfer for lisp editing
 (use-package! parinfer-rust-mode
@@ -136,7 +139,7 @@
   ;; fix: https://github.com/doomemacs/doomemacs/issues/6163
   (setq parinfer-rust-auto-download 0)
   ;; we need to download it manually and put it in this path
-  (setq parinfer-rust-library "~/.local/share/parinfer-rust/parinfer-rust.so")
+  (setq parinfer-rust-library "~/.local/share/emacs/parinfer-rust/parinfer-rust.so")
   :config
   (map! :map parinfer-rust-mode-map
         :localleader
