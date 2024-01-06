@@ -20,7 +20,7 @@
 
   programs.wezterm =
     {
-      enable = true;
+      enable = false;  # disable
 
       # TODO: Fix: https://github.com/wez/wezterm/issues/4483
       # package = pkgs.wezterm.override { };
