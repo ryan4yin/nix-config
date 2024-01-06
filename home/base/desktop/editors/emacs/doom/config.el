@@ -46,6 +46,9 @@
 ;; other doom's official themes:
 ;;   https://github.com/doomemacs/themes
 (setq doom-theme 'doom-dracula) ;; doom-one doom-dracula doom-nord
+;; Transparent Background
+(set-frame-parameter nil 'alpha-background 93) ; For current frame
+(add-to-list 'default-frame-alist '(alpha-background . 93)); For all new frames henceforth
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
