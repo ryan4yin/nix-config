@@ -31,7 +31,7 @@
 (defun init-cjk-fonts()
   (dolist (charset '(kana han cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
-      charset (font-spec :family "Source Han Sans SC"))))
+                      charset (font-spec :family "Source Han Sans SC"))))
 (add-hook 'after-setting-font-hook 'init-cjk-fonts)
 
 
@@ -45,7 +45,7 @@
 ;; `load-theme' function. This is the default:
 ;; other doom's official themes:
 ;;   https://github.com/doomemacs/themes
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dracula) ;; doom-one doom-dracula doom-nord
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
@@ -148,11 +148,4 @@
 (add-hook 'racket-mode-hook         #'turn-off-smartparens-mode)
 (add-hook 'fennel-mode-hook         #'turn-off-smartparens-mode)
 (add-hook 'hy-mode-hook             #'turn-off-smartparens-mode)
-
-
-
-
-
-
-
 
