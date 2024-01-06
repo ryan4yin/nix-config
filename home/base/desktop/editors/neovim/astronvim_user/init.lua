@@ -25,8 +25,6 @@ return {
     -- diable toggleterm.nvim, zellij's terminal is far better than neovim's one
     { "akinsho/toggleterm.nvim",                                   enabled = false },
     { "folke/flash.nvim",                                          vscode = false },
-    -- colorscheme - catppuccin
-    { import = "astrocommunity.colorscheme.catppuccin" },
     -- Highly experimental plugin that completely replaces
     -- the UI for messages, cmdline and the popupmenu.
     -- { import = "astrocommunity.utility.noice-nvim" },
@@ -67,12 +65,13 @@ return {
     { import = "astrocommunity.pack.helm" },
 
     -- colorscheme
+    { import = "astrocommunity.colorscheme.catppuccin" },
     {
       "catppuccin/nvim",
       name = "catppuccin",
       opts = function(_, opts)
         opts.flavour = "mocha"              -- latte, frappe, macchiato, mocha
-        opts.transparent_background = false -- disables setting the background color.
+        opts.transparent_background = true -- setting the background color.
       end,
     },
     -- Language Parser for syntax highlighting / indentation / folding / Incremental selection
