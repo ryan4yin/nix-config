@@ -26,7 +26,7 @@
             pyquery
             pyyaml
 
-           ## emacs's lsp-bridge dependenciesge
+            ## emacs's lsp-bridge dependenciesge
             epc
             orjson
             sexpdata
@@ -97,7 +97,7 @@
       # -- Lisp like Languages
       guile
       racket-minimal
-      fnlfmt  # fennel
+      fnlfmt # fennel
 
       #-- Others
       taplo # TOML language server / formatter / validator
