@@ -8,6 +8,11 @@
 4. A top-level tutorial for Emacs(Chinese): <https://nyk.ma/tags/emacs/>
 5. A Beginner's Guide to Emacs(Chinese): <https://github.com/emacs-tw/emacs-101-beginner-survival-guide>
 
+## Screenshot
+
+
+![](/_img/emacs-2024-01-07.webp)
+
 ## Usefull Links
 
 - Framework: <https://github.com/doomemacs/doomemacs>

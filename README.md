@@ -54,11 +54,13 @@ As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
 
-## Hyprland + AstroNvim
+## Hyprland + AstroNvim + DoomEmacs
 
 ![](./_img/hyprland_2023-07-29_1.webp)
 
 ![](./_img/hyprland_2023-07-29_2.webp)
+
+![](./_img/emacs-2024-01-07.webp)
 
 ## I3 + AstroNvim
 
