@@ -96,6 +96,20 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; fix vterm's color
+(set-face-attribute 'vterm-color-default nil :foreground fg)                            
+(set-face-attribute 'vterm-color-black nil   :background base0   :foreground base0)     
+(set-face-attribute 'vterm-color-red nil     :background red     :foreground red)       
+(set-face-attribute 'vterm-color-green nil   :background green   :foreground green)     
+(set-face-attribute 'vterm-color-yellow nil  :background yellow  :foreground yellow)    
+(set-face-attribute 'vterm-color-blue nil    :background blue    :foreground blue)      
+(set-face-attribute 'vterm-color-magenta nil :background magenta :foreground magenta)   
+(set-face-attribute 'vterm-color-cyan nil    :background cyan    :foreground cyan)      
+(set-face-attribute 'vterm-color-white nil   :background base8   :foreground base8)     
+
+(after! vterm
+  (setq vterm-shell "nu")) ; use nushell by defualt
+
 (use-package! lsp-bridge
   :config
   (setq lsp-bridge-enable-log nil)  ;; disabled for performance

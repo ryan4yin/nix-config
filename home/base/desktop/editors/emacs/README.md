@@ -10,7 +10,6 @@
 
 ## Screenshot
 
-
 ![](/_img/emacs-2024-01-07.webp)
 
 ## Usefull Links
@@ -27,7 +26,6 @@
 - modal editing:
   - <https://github.com/emacs-evil/evil>: evil mode, enabled by default in doom-emacs.
   - <https://github.com/meow-edit/meow>
-
 
 ## Install or Update
 
@@ -61,14 +59,14 @@ Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common
 
 > Terminal(vterm) is useful in GUI mode, I use Zellij instead in terminal mode.
 
-> We can run any emacs command via `M-x`(Alt + x).
-
-| Action                 | Shortcut      |
-| ---------------------- | ------------- |
-| Popup Terminal(vterm)  | `SPC + o + t` |
-| Open Terminal          | `SPC + o + T` |
-| Open file tree sidebar | `SPC + o + p` |
-| Exit                   | `M-x C-c`     |
+| Action                 | Shortcut                                          |
+| ---------------------- | ------------------------------------------------- |
+| Popup Terminal(vterm)  | `SPC + o + t`                                     |
+| Open Terminal          | `SPC + o + T`                                     |
+| Open file tree sidebar | `SPC + o + p`                                     |
+| Exit                   | `M-x C-c`                                         |
+| Execute Command        | `M-x`(hold on `Alt`/`option`, and then press `x`) |
+| Eval Lisp Code         | `M-:`(hold on `Alt`/`option`, and then press `:`) |
 
 ### Window Navigation
 
