@@ -234,7 +234,7 @@ chown -R ryan:ryan ~/nix-config
 cd ~/nix-config
 
 # deploy the configuration
-make s-hypr
+just s-hypr
 ```
 
 Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols/ai/secureboot.nix)
