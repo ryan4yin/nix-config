@@ -1,0 +1,3 @@
+# https://github.com/github-linguist/linguist/blob/master/docs/overrides.md
+
+home/linux/desktop/i3/conf/polybar/** linguist-vendored
