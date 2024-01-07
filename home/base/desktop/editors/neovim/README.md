@@ -28,6 +28,18 @@ Remove all unused plugins:
 :Lazy clean
 ```
 
+## Testing
+
+> via `Justfile` located at the root of this repo.
+
+```bash
+# testing
+just nvim-test
+
+# clear test data
+just nvim-clear
+```
+
 ## Screenshots
 
 ![](/_img/astronvim_2023-07-13_00-39.webp)

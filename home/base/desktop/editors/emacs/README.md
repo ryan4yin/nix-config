@@ -23,6 +23,20 @@ doom sync
 
 when in doubt, run `doom sync`!
 
+## Testing
+
+> via `Justfile` located at the root of this repo.
+
+```bash
+# testing
+just emacs-test
+jsut emacs-purge
+just emacs-reload
+
+# clear test data
+just emacs-clear
+```
+
 ## Notes
 
 1. we can run any emacs command via `M-x`(Alt + x).
