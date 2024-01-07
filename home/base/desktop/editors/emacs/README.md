@@ -18,6 +18,7 @@
 1. Explore the unknown, just for fun!
 2. Org Mode
 3. Lisp Coding
+4. A top-level tutorial for Emacs(Chinese): <https://nyk.ma/tags/emacs/>
 
 ## Install or Update
 
