@@ -9,7 +9,7 @@
       llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clanvimPlugins.nvim-treesitter-parsers.vuegd
       lldb
       # c/c++ compiler, required by nvim-treesitter!
-      # gcc has to be installed after clang, so that `cc` will be gcc instead of clang(on macOS)
+      # to avoid conflicts, you can comment clang-unwrapped first to compile all nvim-treesitter-parsers.
       gcc
 
       #-- python
