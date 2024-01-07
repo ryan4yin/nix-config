@@ -106,7 +106,6 @@ in {
     };
 
     taps = [
-      "homebrew/cask"
       "homebrew/cask-fonts"
       "homebrew/services"
       "homebrew/cask-versions"
@@ -155,8 +154,6 @@ in {
       # IM & audio & remote desktop & meeting
       "telegram"
       "discord"
-      "neteasemusic"
-      "qqmusic"
       "microsoft-remote-desktop"
 
       # "anki"
