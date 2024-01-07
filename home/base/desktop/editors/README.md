@@ -14,7 +14,7 @@ Type `:tutor`(`:Tutor` in Neovim) to learn the basics usage of vim/neovim.
 
 ## VIM's Cheetsheet
 
-> Here only record my commonly used keyboard keys, to see a more comprehensive cheetsheet: <https://github.com/rtorr/vim-cheat-sheet>
+> Here only record my commonly used keyboard keys, to see **a more comprehensive cheetsheet**: <https://github.com/rtorr/vim-cheat-sheet>
 
 Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in both Emacs-Evil, Neovim & vim.
 

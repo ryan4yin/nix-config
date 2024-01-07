@@ -5,6 +5,11 @@ For more details, visit the [AstroNvim website](https://astronvim.com/).
 
 This document outlines neovim's configuration structure and various shortcuts/commands for efficient usage.
 
+## Screenshots
+
+![](/_img/astronvim_2023-07-13_00-39.webp)
+![](/_img/hyprland_2023-07-29_2.webp)
+
 ## Configuration Structure
 
 | Description                                       | Standard Location                           | My Location                                                               |
@@ -39,11 +44,6 @@ just nvim-test
 # clear test data
 just nvim-clear
 ```
-
-## Screenshots
-
-![](/_img/astronvim_2023-07-13_00-39.webp)
-![](/_img/hyprland_2023-07-29_2.webp)
 
 ## Cheetsheet
 

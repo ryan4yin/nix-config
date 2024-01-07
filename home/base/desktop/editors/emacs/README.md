@@ -13,6 +13,12 @@
 - Emacs Wiki: <https://www.emacswiki.org/emacs/SiteMap>
 - Awesome Emacs: <https://github.com/emacs-tw/awesome-emacs#lsp-client>
 
+## Why emacs?
+
+1. Explore the unknown, just for fun!
+2. Org Mode
+3. Lisp Coding
+
 ## Install or Update
 
 After deploying this nix flake, run the following command to install or update emacs:
@@ -37,15 +43,6 @@ just emacs-reload
 just emacs-clear
 ```
 
-## Notes
-
-1. we can run any emacs command via `M-x`(Alt + x).
-
-## Why emacs?
-
-1. Explore the unknown, just for fun!
-2. Org Mode
-
 ## Cheetsheet
 
 Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
@@ -53,6 +50,8 @@ Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common
 ### Basics
 
 > Terminal(vterm) is useful in GUI mode, I use Zellij instead in terminal mode.
+
+> We can run any emacs command via `M-x`(Alt + x).
 
 | Action                 | Shortcut      |
 | ---------------------- | ------------- |
