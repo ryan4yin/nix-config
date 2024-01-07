@@ -6,9 +6,11 @@
       cmake-language-server
       gnumake
       checkmake
-      gcc # c/c++ compiler, required by nvim-treesitter!
-      llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clangd
+      llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clanvimPlugins.nvim-treesitter-parsers.vuegd
       lldb
+      # c/c++ compiler, required by nvim-treesitter!
+      # gcc has to be installed after clang, so that `cc` will be gcc instead of clang(on macOS)
+      gcc
 
       #-- python
       nodePackages.pyright # python language server
