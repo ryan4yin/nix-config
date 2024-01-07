@@ -19,6 +19,7 @@
 2. Org Mode
 3. Lisp Coding
 4. A top-level tutorial for Emacs(Chinese): <https://nyk.ma/tags/emacs/>
+5. A Beginner's Guide to Emacs(Chinese): <https://github.com/emacs-tw/emacs-101-beginner-survival-guide>
 
 ## Install or Update
 
