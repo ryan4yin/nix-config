@@ -77,6 +77,10 @@
   #
   # activationScripts are executed every time you run `nixos-rebuild` / `darwin-rebuild` or boot your system
   system.activationScripts.postActivation.text = ''
-    sudo chown ${username} /etc/agenix/*
+    ${pkgs.nushell}/bin/nu -c '
+      if (ls /etc/agenix/ | length) > 0 {
+        sudo chown ${username} /etc/agenix/*
+      }
+    '
   '';
 }
