@@ -21,7 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 18 :weight 'normal)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 18)
       doom-variable-pitch-font (font-spec :family "DejaVu Sans")
       doom-symbol-font (font-spec :family "Symbols Nerd Font Mono")
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 28))
