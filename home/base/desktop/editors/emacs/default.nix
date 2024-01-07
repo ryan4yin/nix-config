@@ -24,6 +24,9 @@ with lib; let
   };
   librime-dir = "${config.xdg.dataHome}/emacs/librime";
   parinfer-rust-lib-dir = "${config.xdg.dataHome}/emacs/parinfer-rust";
+  myEmacsPackagesFor = emacs: ((pkgs.emacsPackagesFor emacs).emacsWithPackages (epkgs: [
+    epkgs.vterm
+  ]));
 in {
   options.modules.editors.emacs = {
     enable = mkEnableOption "Emacs Editor";
@@ -92,7 +95,7 @@ in {
         # Do not use emacs-nox here, which makes the mouse wheel work abnormally in terminal mode.
         # pgtk (pure gtk) build add native support for wayland.
         # https://www.gnu.org/savannah-checkouts/gnu/emacs/emacs.html#Releases
-        emacsPkg = (pkgs.emacsPackagesFor pkgs.emacs29-pgtk).emacsWithPackages (epkgs: [epkgs.vterm]);
+        emacsPkg = myEmacsPackagesFor pkgs.emacs29-pgtk;
       in {
         home.packages = [emacsPkg];
         services.emacs = {
@@ -111,7 +114,7 @@ in {
       let
         # macport adds some native features based on GNU Emacs 29
         # https://bitbucket.org/mituharu/emacs-mac/src/master/README-mac
-        emacsPkg = (pkgs.emacsPackagesFor pkgs.emacs29-macport).emacsWithPackages (epkgs: [epkgs.vterm]);
+        emacsPkg = myEmacsPackagesFor pkgs.emacs29-macport;
       in {
         home.packages = [emacsPkg];
         launchd.enable = true;
