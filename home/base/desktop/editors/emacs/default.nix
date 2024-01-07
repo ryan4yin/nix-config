@@ -114,7 +114,7 @@ in {
       let
         # macport adds some native features based on GNU Emacs 29
         # https://bitbucket.org/mituharu/emacs-mac/src/master/README-mac
-        emacsPkg = myEmacsPackagesFor pkgs.emacs29-macport;
+        emacsPkg = myEmacsPackagesFor pkgs.emacs29;
       in {
         home.packages = [emacsPkg];
         launchd.enable = true;
