@@ -32,12 +32,6 @@ in {
   home.shellAliases = shellAliases;
   programs.nushell.shellAliases = shellAliases;
 
-  nixpkgs.config = {
-    programs.npm.npmrc = ''
-      prefix = ''${HOME}/.npm-global
-    '';
-  };
-
   programs = {
     neovim = {
       enable = true;

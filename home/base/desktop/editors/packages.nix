@@ -1,4 +1,10 @@
 {pkgs, ...}: {
+  nixpkgs.config = {
+    programs.npm.npmrc = ''
+      prefix = ''${HOME}/.npm-global
+    '';
+  };
+
   home.packages = with pkgs;
     [
       #-- c/c++
