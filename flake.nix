@@ -52,11 +52,16 @@
         }
       );
       devShells = forEachSystem (
-        system: {
-          default = nixpkgs.legacyPackages.${system}.mkShell {
-            packages = [
+        system: 
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            packages = with pkgs;[ 
               # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
-              nixpkgs.legacyPackages.${system}.bashInteractive
+              bashInteractive
+              # fix `cc` replaced by clang, which causes nvim-treesitter compilation error
+              gcc
             ];
             name = "dots";
             shellHook = ''

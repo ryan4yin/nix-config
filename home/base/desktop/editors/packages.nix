@@ -6,11 +6,12 @@
       cmake-language-server
       gnumake
       checkmake
-      llvmPackages.clang-unwrapped # c/c++ tools with clang-tools such as clanvimPlugins.nvim-treesitter-parsers.vuegd
-      lldb
       # c/c++ compiler, required by nvim-treesitter!
-      # to avoid conflicts, you can comment clang-unwrapped first to compile all nvim-treesitter-parsers.
       gcc
+      # c/c++ tools with clang-tools, the unwrapped version won't 
+      # add alias like `cc` and `c++`, so that it won't conflict with gcc
+      llvmPackages.clang-unwrapped
+      lldb
 
       #-- python
       nodePackages.pyright # python language server
