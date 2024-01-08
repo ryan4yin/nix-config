@@ -64,6 +64,7 @@ Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common
 | Popup Terminal(vterm)  | `SPC + o + t`                                     |
 | Open Terminal          | `SPC + o + T`                                     |
 | Open file tree sidebar | `SPC + o + p`                                     |
+| Frame fullscreen       | `SPC + t + F`                                     |
 | Exit                   | `M-x C-c`                                         |
 | Execute Command        | `M-x`(hold on `Alt`/`option`, and then press `x`) |
 | Eval Lisp Code         | `M-:`(hold on `Alt`/`option`, and then press `:`) |
