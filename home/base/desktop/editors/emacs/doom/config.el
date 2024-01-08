@@ -96,17 +96,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; fix vterm's color
-(set-face-attribute 'vterm-color-default nil :foreground fg)                            
-(set-face-attribute 'vterm-color-black nil   :background base0   :foreground base0)     
-(set-face-attribute 'vterm-color-red nil     :background red     :foreground red)       
-(set-face-attribute 'vterm-color-green nil   :background green   :foreground green)     
-(set-face-attribute 'vterm-color-yellow nil  :background yellow  :foreground yellow)    
-(set-face-attribute 'vterm-color-blue nil    :background blue    :foreground blue)      
-(set-face-attribute 'vterm-color-magenta nil :background magenta :foreground magenta)   
-(set-face-attribute 'vterm-color-cyan nil    :background cyan    :foreground cyan)      
-(set-face-attribute 'vterm-color-white nil   :background base8   :foreground base8)     
-
 (after! vterm
   (setq vterm-shell "nu")) ; use nushell by defualt
 
@@ -122,11 +111,13 @@
 ;; fully enable tree-sitter highlighting
 (after! tree-sitter
   (setq +tree-sitter-hl-enabled-modes t))
+
 ;; fix: https://github.com/jrblevin/markdown-mode/issues/380
 ;; even add this one, editing a large markdown table is still very slow.
 ;; so avoid editing large markdown file in emacs, use neovim instead...
-(after! markdown-mode
-  (global-font-lock-mode 0))
+;; and this setting make vterm's color theme not work!
+;; (after! markdown-mode
+;;   (global-font-lock-mode 0))
 
 ;; use alejandra to format nix files
 ;; (use-package! lsp-nix
@@ -176,4 +167,5 @@
 (add-hook 'racket-mode-hook         #'turn-off-smartparens-mode)
 (add-hook 'fennel-mode-hook         #'turn-off-smartparens-mode)
 (add-hook 'hy-mode-hook             #'turn-off-smartparens-mode)
+
 
