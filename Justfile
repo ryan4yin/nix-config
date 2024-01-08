@@ -155,6 +155,9 @@ fmt:
   # format the nix files in this repo
   nix fmt
 
+path:
+   $env.PATH | split row ":"
+
 nvim-test:
   rm -rf $"($env.HOME)/.config/astronvim/lua/user"
   rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/neovim/astronvim_user/ $"($env.HOME)/.config/astronvim/lua/user"
