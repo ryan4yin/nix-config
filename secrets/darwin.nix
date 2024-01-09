@@ -31,6 +31,12 @@
       owner = username;
     };
 
+    "ryan4yin-gpg-subkeys.priv" = {
+      file = "${mysecrets}/ryan4yin-gpg-subkeys.priv.age";
+      mode = "0000";
+      owner = "root";
+    };
+
     # alias-for-work
     "alias-for-work.nushell" = {
       file = "${mysecrets}/alias-for-work.nushell.age";
@@ -60,6 +66,10 @@
 
     "agenix/ssh-key-romantic" = {
       source = config.age.secrets."ssh-key-romantic".path;
+    };
+
+    "agenix/ryan4yin-gpg-subkeys.priv" = {
+      source = config.age.secrets."ryan4yin-gpg-subkeys.priv".path;
     };
 
     # The following secrets are used by home-manager modules
