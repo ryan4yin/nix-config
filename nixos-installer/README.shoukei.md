@@ -1,8 +1,10 @@
-# Nix Environment Setup for Host: Shoukei
+# Nix Environment Setup for Host: 12Kingdoms - Shoukei
 
 > https://wiki.t2linux.org/distributions/nixos/installation/
 
 > https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
+
+This flake prepares a Nix environment for setting my desktop [/hosts/12kingdoms/shoukei](/hosts/12kingdoms/shoukei)(in main flake) up on a new machine.
 
 ## Steps to Deploying
 

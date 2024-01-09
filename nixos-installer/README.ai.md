@@ -1,10 +1,10 @@
 # Nix Environment Setup for Host: Idols - Ai
 
-This flake prepares a Nix environment for setting my desktop [/hosts/idols/ai](/hosts/idols/ai/)(on main flake) up on a new machine.
+This flake prepares a Nix environment for setting my desktop [/hosts/idols/ai](/hosts/idols/ai/)(in main flake) up on a new machine.
 
 TODOs:
 
-- [ ] dcalarative disk partitioning with [disko](https://github.com/nix-community/disko)
+- [ ] declarative disk partitioning with [disko](https://github.com/nix-community/disko)
 
 ## Why an extra flake is needed?
 
@@ -14,7 +14,7 @@ This simplified flake is tiny and can be deployed very quickly, it helps me to:
 1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the `main` flake.
 2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence, Secure Boot, TPM2, Encryption, etc.
 
-## Steps to Deploying the `main` flake
+## Steps to Deploying this flake
 
 First, create a USB install medium from NixOS's official ISO image and boot from it.
 
