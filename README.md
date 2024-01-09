@@ -110,8 +110,12 @@ just i3 debug
 For macOS:
 
 ```bash
-# deploy harmonicia's configuration(macOS Intel)
+# deploy harmonica's configuration(macOS Intel)
 just ha
+
+# If you are deploying for the first time,
+# enter a shell with essential packages available
+# nix shell nixpkgs#just nixpkgs#git
 
 # deploy fern's configuration(Apple Silicon)
 just fe
