@@ -1,5 +1,6 @@
-
 # Secrets Management
+
+> For Website/App's passwords, see [/home/base/desktop/password-store](/home/base/desktop/password-store/README.md) for more details.
 
 All my secrets are safely encrypted via agenix, and stored in a separate private GitHub repository and referenced as a flake input in this flake.
 

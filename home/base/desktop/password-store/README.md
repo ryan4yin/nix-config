@@ -5,7 +5,6 @@
 - <https://github.com/gopasspw/gopass>: reimplement in go, with more features.
 - Clients
   - Android: <https://github.com/android-password-store/Android-Password-Store>
-  - Chrome: <https://github.com/browserpass/browserpass-extension>
-  - Firefox: <https://github.com/passff/passff#readme>
+  - Brosers(Chrome/Firefox): <https://github.com/browserpass/browserpass-extension>
 
-TODO
+
