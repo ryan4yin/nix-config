@@ -73,24 +73,21 @@ Please select what kind of key you want:
    (9) ECC (sign and encrypt) *default*
   (10) ECC (sign only)
   (14) Existing key from card
-Your selection? 
+Your selection? 9
 Please select which elliptic curve you want:
    (1) Curve 25519 *default*
    (4) NIST P-384
    (6) Brainpool P-256
-Your selection? 
+Your selection? 1
 Please specify how long the key should be valid.
          0 = key does not expire
       <n>  = key expires in n days
       <n>w = key expires in n weeks
       <n>m = key expires in n months
       <n>y = key expires in n years
-Key is valid for? (0) 
-Key expires at 一  1/29 13:50:14 2024 CST
-Is this correct? (y/N) 
-Key is valid for? (0) 
+Key is valid for? (0) 20y
 Key expires at 一  1/ 4 13:50:31 2044 CST
-Is this correct? (y/N) 
+Is this correct? (y/N) y
 
 GnuPG needs to construct a user ID to identify your key.
 
@@ -100,7 +97,7 @@ Comment:
 You selected this USER-ID:
     "Ryan Yin (For Work) <ryan4yin@linux.com>"
 
-Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? 
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
 We need to generate a lot of random bytes. It is a good idea to perform
 some other action (type on the keyboard, move the mouse, utilize the
 disks) during the prime generation; this gives the random number
@@ -324,6 +321,8 @@ ssb  ed25519/5469C4FACC81B60F
 gpg> save
 ```
 
+Check the secret keys and public keys we generated:
+
 ```bash
 › gpg --list-secret-keys --with-subkey-fingerprint
 [keyboxd]
@@ -337,6 +336,9 @@ ssb   ed25519 2024-01-09 [S] [expires: 2044-01-04]
       DF64002A822948B17783BBB1A42813E03A10F504
 ssb   ed25519 2024-01-09 [A] [expires: 2044-01-04]
       65E2C6C1C3559362ABB7047C5469C4FACC81B60F
+
+› gpg --list-public-keys
+...
 ```
  
 ### 4. Backup & Restore
@@ -344,7 +346,7 @@ ssb   ed25519 2024-01-09 [A] [expires: 2044-01-04]
 Export Public Keys(Both Primary Key & Sub Keys):
 
 ```bash
-gpg --armor --export ryan4yin@linux.com > public-key.pub
+gpg --armor --export ryan4yin@linux.com > ryan4yin-gpg-keys.pub
 ```
 
 Export Primary Key(The exported key is still encrypted by your passphrase):
@@ -355,18 +357,59 @@ Export Primary Key(The exported key is still encrypted by your passphrase):
 > because GnuPG need to convert the secret key's format from its internal protection format to the one specified by the OpenPGP protocol.
 
 ```bash
-gpg --armor --export-secret-keys ryan4yin@linux.com C8D84EBC5F82494F432ACEF042E49B284C30A0DA! > ryan4yin-primary-key.sec
+# replace the key ID with your own sec key's ID
+gpg --armor --export-secret-keys C8D84EBC5F82494F432ACEF042E49B284C30A0DA! > ryan4yin-primary-key.priv
 ```
 
-Export Sub Keys one by one(The exported key is still encrypted by your passphrase):
+Export Sub Keys one by one(The exported keys is still encrypted by your passphrase):
 
 ```bash
-gpg --armor --export-secret-subkeys
+gpg --armor --export-secret-subkeys > ryan4yin-gpg-subkeys.priv
 ```
 
 Your can import the exported Private Key via `gpg --import <keyfile>` to restore it.
 
 As for Public Keys, please import your publicKeys via Home Manager's `programs.gpg.publicKeys` option, DO NOT import it manually(via `gpg --import <keyfile>`).
+
+To ensure security, delete the master key and revoke the certificate immediately after the backup is completed:
+
+```bash
+# delete the primary key and all its sub keys
+gpg --delete-secret-keys ryan4yin@linux.com
+
+# delete the revocation certificate
+rm ~/.gnupg/openpgp-revocs.d/C8D84EBC5F82494F432ACEF042E49B284C30A0DA.rev
+
+# import our subkeys back
+gpg --import ryan4yin-gpg-subkeys.priv
+```
+
+Now check the secret keys and public keys again:
+
+> A `#` at the end of the key ID means that the key is not available, because we have deleted it.
+
+```bash
+› gpg --list-secret-keys --keyid-format=long
+/home/ryan/.gnupg/pubring.kbx
+-----------------------------
+sec#  ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2044-01-04]
+      Key fingerprint = E267 943C 33AD C5AF 3D76  4D96 D1C5 FFA3 118A 41FC
+uid                 [ unknown] Ryan Yin (Personal) <ryan4yin@linux.com>
+ssb   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2044-01-04]
+ssb   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2044-01-04]
+ssb   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2044-01-04]
+
+
+› gpg --list-public-keys --keyid-format=long
+/home/ryan/.gnupg/pubring.kbx
+-----------------------------
+pub   ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2044-01-04]
+      Key fingerprint = E267 943C 33AD C5AF 3D76  4D96 D1C5 FFA3 118A 41FC
+uid                 [ unknown] Ryan Yin (Personal) <ryan4yin@linux.com>
+sub   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2044-01-04]
+sub   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2044-01-04]
+sub   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2044-01-04]
+```
 
 ### 5. Signing & Verification
 
@@ -436,6 +479,94 @@ But in OpenPGP:
 In summary, **there is no good way to distribute public keys and revoke them in OpenPGP**, which is a big problem.
 
 Currently, You have to distribute your public key or revocation certificate via your blog, github profile, or somewhere else, and others has to check it and run `gpg --import` to import your public key or revocation certificate manually.
+
+Anyway, let's try to revoke a keypair:
+
+```bash
+› gpg --list-keys
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+/home/ryan/.gnupg/pubring.kbx
+-----------------------------
+pub   ed25519/0x55859965C2742B4B 2024-01-09 [SC]
+      Key fingerprint = A2CD 07BD 9631 44CB 2725  5A6B 5585 9965 C274 2B4B
+uid                   [ultimate] test <test@test.t>
+sub   cv25519/0x9E78E897B6490D6B 2024-01-09 [E]
+
+# encrypt some file before revoke the keypair
+› gpg -aer test@test.t README.md > README.md.asc
+
+# try to decrypt the file, it should works
+› gpg -d README.md.asc
+gpg: encrypted with cv25519 key, ID 0x9E78E897B6490D6B, created 2024-01-09
+      "test <test@test.t>"
+# ......
+
+# take a look at the revocation certificate
+› cat gpg-test-revoke.rev
+This is a revocation certificate for the OpenPGP key:
+
+pub   ed25519/0x55859965C2742B4B 2024-01-09 [S]
+      Key fingerprint = A2CD 07BD 9631 44CB 2725  5A6B 5585 9965 C274 2B4B
+uid                            test <test@test.t>
+
+A revocation certificate is a kind of "kill switch" to publicly
+declare that a key shall not anymore be used.  It is not possible
+to retract such a revocation certificate once it has been published.
+
+Use it to revoke this key in case of a compromise or loss of
+the secret key.  However, if the secret key is still accessible,
+it is better to generate a new revocation certificate and give
+a reason for the revocation.  For details see the description of
+of the gpg command "--generate-revocation" in the GnuPG manual.
+
+To avoid an accidental use of this file, a colon has been inserted
+before the 5 dashes below.  Remove this colon with a text editor
+before importing and publishing this revocation certificate.
+
+:-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: This is a revocation certificate
+
+iHgEIBYKACAWIQSizQe9ljFEyyclWmtVhZllwnQrSwUCZZ1T9wIdAAAKCRBVhZll
+wnQrS2LVAQCegRF1qPqY/OCS5QCz8G0ra0XgPYlQYo9pSOjHgfY39AD+Psin2/6t
+STuJCp+gru6OtbTCu8Y2LugQeDh7UicM7Ak=
+=Xfs6
+-----END PGP PUBLIC KEY BLOCK-----
+```
+
+As the revocation certificate says, we need to remove the first colon(`:`) before the 5 dashes(`-----BEGIN PGP PUBLIC KEY BLOCK-----`), then import it:
+
+```bash
+› gpg --import gpg-test-revoke.rev
+gpg: key 0x55859965C2742B4B: "test <test@test.t>" revocation certificate imported
+gpg: Total number processed: 1
+gpg:    new key revocations: 1
+gpg: no ultimately trusted keys found
+
+› gpg --list-secret-keys --keyid-format=long
+/home/ryan/.gnupg/pubring.kbx
+-----------------------------
+sec   ed25519/55859965C2742B4B 2024-01-09 [SC] [revoked: 2024-01-09]
+      Key fingerprint = A2CD 07BD 9631 44CB 2725  5A6B 5585 9965 C274 2B4B
+uid                 [ revoked] test <test@test.t>
+
+
+# try to decrypt the file, it still works, but will indicate that the key is revoked.
+› gpg -d README.md.asc
+gpg: encrypted with cv25519 key, ID 0x9E78E897B6490D6B, created 2024-01-09
+      "test <test@test.t>"
+gpg: Note: key has been revoked
+gpg: reason for revocation: No reason specified
+# ......
+
+# try to encrypt some file via the revoked key, it will fail.
+› gpg -aer 9E78E897B6490D6B README.md
+gpg: 9E78E897B6490D6B: skipped: Unusable public key
+gpg: README.md: encryption failed: Unusable public key
+```
+
+But if you delete the `trustdb.gpg` and `pubring.kbx`, then import the revoked public key again, it will be valid and usable again... which is very dangerous.
 
 ## References
 

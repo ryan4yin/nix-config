@@ -371,16 +371,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1704099619,
-        "narHash": "sha256-QRVMkdxLmv+aKGjcgeEg31xtJEIsYq4i1Kbyw5EPS6g=",
+        "lastModified": 1704498488,
+        "narHash": "sha256-yINKdShHrtjdiJhov+q0s3Y3B830ujRoSbHduUNyKag=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7e398b3d76bc1503171b1364c9d4a07ac06f3851",
+        "rev": "51e44a13acea71b36245e8bd8c7db53e0a3e61ee",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-23.11",
+        "ref": "master",
         "repo": "home-manager",
         "type": "github"
       }
@@ -497,10 +497,10 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1703697935,
-        "narHash": "sha256-tRwFFk6ICMlVAv8Ko4MV7FObX/cSeiZis2FcIFlw8uQ=",
+        "lastModified": 1704808668,
+        "narHash": "sha256-9UICPzSeb95Euz609Av0G1TIAht6YGR1Ll9AOez+ZqA=",
         "ref": "refs/heads/main",
-        "rev": "a5143705420a687ad535fdcff4765ee409d6e494",
+        "rev": "1848f43b60092ef3d50ca17ed60389a11771d380",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/ryan4yin/nix-secrets.git"

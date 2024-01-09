@@ -1,4 +1,4 @@
-{pkgs, config, ...}: {
+{pkgs, config, mysecrets, ...}: {
   programs.gpg = {
     enable = true;
     homedir = "${config.home.homeDirectory}/.gnupg";
@@ -15,10 +15,21 @@
     mutableKeys = true;
     publicKeys = [
       # https://www.gnupg.org/gph/en/manual/x334.html
-      # { source = ./xxx.key, trust = 3}
+      { source = "${mysecrets}/public/ryan4yin-gpg-keys.pub"; trust = 5; }  # ultimate trust, my own keys.
     ];
     settings = {
       
     };
+  };
+
+  home.packages = with pkgs; [
+    pinentry-curses
+  ];
+  services.gpg-agent = {
+    enable = true;
+    pinentryFlavor =  "curses";
+    enableSshSupport = false;
+    grabKeyboardAndMouse = true;
+    enableScDaemon = false; # enable Smartcard daemon for the GnuPG system 
   };
 }
