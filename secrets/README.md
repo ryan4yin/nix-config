@@ -10,12 +10,6 @@ In addition, we further improve the security of secrets files by storing them in
 
 This directory contains this README.md, and a `nixos.nix`/`darwin.nix` that used to decrypt all my secrets via agenix, and then I can use them in this flake.
 
-## TODO
-
-- [ ] Add password management via zx2c4's pass:
-    - [awesome-password-store](https://github.com/tijn/awesome-password-store)
-    - [zx2c4-pass - github topics](https://github.com/topics/zx2c4-pass)
-
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.
