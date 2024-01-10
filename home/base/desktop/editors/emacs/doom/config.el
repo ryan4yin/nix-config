@@ -168,4 +168,14 @@
 (add-hook 'fennel-mode-hook         #'turn-off-smartparens-mode)
 (add-hook 'hy-mode-hook             #'turn-off-smartparens-mode)
 
+;; auto-save
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1)
+  (setq super-save-auto-save-when-idle t)
+  (setq auto-save-default nil))
+
+;; save on find-file
+(add-to-list 'super-save-hook-triggers 'find-file-hook)
 
