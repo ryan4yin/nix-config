@@ -51,9 +51,6 @@ Basics:
 | Delete the selection                                | `d`                            |
 | Undo the last change                                | `u`                            |
 | Redo the last change                                | `Ctrl + r`                     |
-
-Convert Text Cases:
-
 | Toggle text's case | `~` |
 | Convert to uppercase | `U` |
 | Convert to lowercase | `u` |
