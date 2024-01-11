@@ -48,7 +48,7 @@ jsut emacs-purge
 just emacs-reload
 
 # clear test data
-just emacs-clear
+just emacs-clean
 ```
 
 ## Cheetsheet
