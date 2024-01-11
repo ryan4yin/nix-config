@@ -2,7 +2,7 @@
 
 Related:
 
-- [/nixos-installer/README.shoukei.md](/nixos-installer/README.ai.md)
+- [/nixos-installer/README.md](/nixos-installer/README.md)
 
 ## Info
 

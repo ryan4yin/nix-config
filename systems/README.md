@@ -8,3 +8,4 @@ As the configuration was constantly updated, my `flake.nix` gradually became blo
 - `nixos.nix`: My NixOS desktops & servers.
 
 
+  * [ ] 

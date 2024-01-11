@@ -2,6 +2,10 @@
 
 This flake prepares a Nix environment for setting my desktop [/hosts/idols/ai](/hosts/idols/ai/)(in main flake) up on a new machine.
 
+Other docs:
+
+- README for [/hosts/12kingdoms/shoukei](/hosts/12kingdoms/shoukei): [./README.shoukei.md](./README.shoukei.md)
+
 TODOs:
 
 - [ ] declarative disk partitioning with [disko](https://github.com/nix-community/disko)
@@ -47,7 +51,7 @@ And the boot flow is:
 Partitioning the disk:
 
 ```bash
-# NOTE: `cat README.ai.md | grep part-1 > part-1.sh` to generate this script
+# NOTE: `cat README.md | grep part-1 > part-1.sh` to generate this script
 
 # Create a GPT partition table
 parted /dev/nvme0n1 -- mklabel gpt  # part-1
