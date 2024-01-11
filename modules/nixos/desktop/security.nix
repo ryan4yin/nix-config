@@ -14,7 +14,7 @@
 
   # gpg agent with pinentry
   programs.gnupg.agent = {
-    eanble = true;
+    enable = true;
     pinentryFlavor =  "curses";
     enableSSHSupport = false;
   };
