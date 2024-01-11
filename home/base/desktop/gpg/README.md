@@ -162,7 +162,7 @@ The **best practice** is:
 
 1. Generate a primary key with strong cryptography arguments(such as ECC + Curve 25519).
 2. Then generate 3 sub keys with `E`, `S` and `A` usage flag respectively.
-3. **The Primary Key is extremely important**, Backup the primary key to somewhere absolutely safe(such as two encryptd USB drivers, keep them in different places), and then **delte it from your computer immediately**.
+3. **The Primary Key is extremely important**, Backup the primary key to somewhere absolutely safe(such as two encryptd USB drivers, keep them in different places), and then **delete it from your computer immediately**.
 4. The sub key is also important, but you can generate a new one and replace it easily. You can backup it to somewhere else, and import it to another machine to use your keypair.
 5. Backup your Primary key's revocation certificate to somewhere safe, it's the last way to rescure your safety if your primary key is compromised!
   1. It's a big problem if your revocation certificate is compromised, but not the bigest one. because it's only used to revoke your keypair, your data is still safe. But you should generate a new keypair and revoke the old one immediately.
