@@ -106,6 +106,7 @@ mkfs.btrfs -L crypted-nixos /dev/mapper/crypted-nixos   # create-btrfs
 # mount the root partition and create subvolumes
 mount /dev/mapper/crypted-nixos /mnt  # create-btrfs
 btrfs subvolume create /mnt/@nix  # create-btrfs
+btrfs subvolume create /mnt/@guix  # create-btrfs
 btrfs subvolume create /mnt/@tmp  # create-btrfs
 btrfs subvolume create /mnt/@swap  # create-btrfs
 btrfs subvolume create /mnt/@persistent  # create-btrfs
@@ -122,6 +123,7 @@ umount /mnt  # create-btrfs
 #   2. Save the disk space.
 mkdir /mnt/{nix,tmp,swap,persistent,snapshots,boot}  # mount-1
 mount -o compress-force=zstd:1,noatime,subvol=@nix /dev/mapper/crypted-nixos /mnt/nix  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@guix /dev/mapper/crypted-nixos /mnt/gnu  # mount-1
 mount -o compress-force=zstd:1,subvol=@tmp /dev/mapper/crypted-nixos /mnt/tmp  # mount-1
 mount -o subvol=@swap /dev/mapper/crypted-nixos /mnt/swap  # mount-1
 mount -o compress-force=zstd:1,noatime,subvol=@persistent /dev/mapper/crypted-nixos /mnt/persistent  # mount-1

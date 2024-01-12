@@ -52,12 +52,11 @@
         }
       );
       devShells = forEachSystem (
-        system: 
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
+        system: let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in {
           default = pkgs.mkShell {
-            packages = with pkgs;[ 
+            packages = with pkgs; [
               # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
               bashInteractive
               # fix `cc` replaced by clang, which causes nvim-treesitter compilation error
@@ -101,8 +100,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # for macos
-    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
