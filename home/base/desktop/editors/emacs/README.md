@@ -61,6 +61,8 @@ just emacs-clean
   - https://github.com/jrblevin/markdown-mode/issues/380
 - I use git command frequently, but doomemacs only autoupdates status of git diff / treemacs when using magit.
   - I have to learn magit to avoid this issue...
+- GitHub's orgmode support is not well, Markdown is better for GitHub.
+    - Use markdown for repo's README.md, and use orgmode for my personal notes and docs only.
 
 ## Cheetsheet
 
