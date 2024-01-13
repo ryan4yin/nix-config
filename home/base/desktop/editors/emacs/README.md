@@ -53,10 +53,14 @@ just emacs-clean
 
 ## Limits
 
-
+- It's too slow to start up and install(compile/build) packages.
+  - I have to use emacs in daemon/client mode to avoid this issue.
+- It's too large in size, not suitable for servers.
+  - So vim/neovim is still the best choice for servers.
 - Emacs's markdown-mode works not well with tables, see:
   - https://github.com/jrblevin/markdown-mode/issues/380
-
+- I use git command frequently, but doomemacs only autoupdates status of git diff / treemacs when using magit.
+  - I have to learn magit to avoid this issue...
 
 ## Cheetsheet
 
