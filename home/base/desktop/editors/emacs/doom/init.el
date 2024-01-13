@@ -61,7 +61,7 @@
        (format +onsave)
                                         ; automated prettiness
        ;; multiple-cursors  ; editing in many places at once
-       ;; objed             ; text object editing for the innocent
+       ;; objed             ; text object editing for the innocent, conflict with parinfer
        parinfer          ; turn lisp into python, sort of, conflict with copilot/objed/smartparens
        ;;rotate-text       ; cycle region at point between text candidates
        snippets   ; my elves. They type so I don't have to
@@ -98,7 +98,7 @@
        (eval +overlay)
                                         ; run code, run (also, repls)
        lookup                   ; navigate your code and its documentation
-       ;; lsp    ; lsp-mode, conflict with lsp-bridge
+       lsp    ; lsp-mode, conflict with lsp-bridge
        magit                    ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -117,7 +117,7 @@
        :lang
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
-       (cc +tree-sitter)
+       (cc +lsp +tree-sitter)
                                         ; C > C++ == 1
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
@@ -138,17 +138,17 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       (go +tree-sitter)  ;; disable go-mode, use lsp-bridge instead
+       (go +lsp +tree-sitter)  ;; disable go-mode, use lsp-bridge instead
                                         ; the hipster dialect
        ;;(graphql)    ; Give queries a REST
        ;;(haskell)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
-       (json +tree-sitter)
+       (json +lsp +tree-sitter)
                                         ; At least it ain't XML
-       (java +tree-sitter)
+       (java +lsp +tree-sitter)
                                         ; the poster child for carpal tunnel syndrome
-       (javascript +tree-sitter)
+       (javascript +lsp +tree-sitter)
                                         ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
@@ -156,19 +156,19 @@
                                         ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
-       (lua +tree-sitter)
+       (lua +lsp +tree-sitter)
                                         ; one-based indices? one-based indices
        (markdown +grip)
                                         ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
-       (nix +tree-sitter)
+       (nix +lsp +tree-sitter)
                                         ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +pandoc +present +roam2 +hugo +pretty)              ; organize your plain life in plain text
+       (org +pandoc +hugo +jupyter)  ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       (python +tree-sitter +pyright)
+       (python +lsp +tree-sitter +pyright)
                                         ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        racket           ; a DSL for DSLs
@@ -176,20 +176,20 @@
        ;;rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (rust +tree-sitter)
+       (rust +lsp +tree-sitter)
                                         ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        (scheme +guile)
                                         ; a fully conniving family of lisps
-       (sh +tree-sitter)
+       (sh +lsp +tree-sitter)
                                         ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       (web +tree-sitter)
+       (web +lsp +tree-sitter)
                                         ; support for various web languages, including HTML5, CSS, SASS/SCSS, Pug/Jade/Slim, and more
-       (yaml +tree-sitter)
+       (yaml +lsp +tree-sitter)
                                         ; JSON, but readable
        ;;zig               ; C, but simpler
 

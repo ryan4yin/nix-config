@@ -72,11 +72,6 @@ in {
         force = true;
       };
 
-      xdg.configFile."emacs/lsp-bridge-user-langserver" = {
-        source = ./lsp-bridge-user-langserver;
-        force = true;
-      };
-
       home.activation.installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
         ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${doomemacs}/ ${config.xdg.configHome}/emacs/
 

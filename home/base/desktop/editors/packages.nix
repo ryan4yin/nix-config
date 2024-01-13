@@ -14,7 +14,7 @@
       checkmake
       # c/c++ compiler, required by nvim-treesitter!
       gcc
-      # c/c++ tools with clang-tools, the unwrapped version won't 
+      # c/c++ tools with clang-tools, the unwrapped version won't
       # add alias like `cc` and `c++`, so that it won't conflict with gcc
       llvmPackages.clang-unwrapped
       lldb
@@ -27,6 +27,7 @@
             ruff-lsp
             black # python formatter
 
+            jupyter
             ipython
             pandas
             requests
@@ -120,6 +121,7 @@
       marksman # language server for markdown
       glow # markdown previewer
       fzf
+      pandoc # document converter
 
       #-- Optional Requirements:
       gdu # disk usage analyzer, required by AstroNvim

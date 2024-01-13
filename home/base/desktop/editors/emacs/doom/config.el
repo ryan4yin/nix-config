@@ -96,41 +96,21 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(after! vterm
-  (setq vterm-shell "nu")) ; use nushell by defualt
-
-(use-package! lsp-bridge
-  :config
-  (setq lsp-bridge-enable-log nil)  ;; disabled for performance
-  ;; for user's custom langserver file
-  (setq lsp-bridge-user-langserver-dir "~/.config/emacs/lsp-bridge-user-langserver")
-  (setq lsp-bridge-enable-auto-format-code 1)
-  (global-lsp-bridge-mode))
-
-(use-package! wakatime-mode :ensure t)
-;; fully enable tree-sitter highlighting
-(after! tree-sitter
-  (setq +tree-sitter-hl-enabled-modes t))
-
-;; fix: https://github.com/jrblevin/markdown-mode/issues/380
-;; even add this one, editing a large markdown table is still very slow.
-;; so avoid editing large markdown file in emacs, use neovim instead...
-;; and this setting make vterm's color theme not work!
-;; (after! markdown-mode
-;;   (global-font-lock-mode 0))
-
 ;; use alejandra to format nix files
-;; (use-package! lsp-nix
-;;   :ensure lsp-mode
-;;   :after
-;;   (lsp-mode)
-;;   :demand t
-;;   :custom
-;;   (lsp-nix-nil-formatter
-;;    ["alejandra"]))
+(use-package! lsp-nix
+  :ensure lsp-mode
+  :after
+  (lsp-mode)
+  :demand t
+  :custom
+  (lsp-nix-nil-formatter
+   ["alejandra"]))
+
 (use-package! nushell-mode
   :config
   (setq nushell-enable-auto-indent 1))
+(after! vterm
+  (setq vterm-shell "nu")) ; use nushell by defualt
 
 ;; emacs-rime
 (use-package! rime
@@ -179,3 +159,16 @@
 ;; save on find-file
 (add-to-list 'super-save-hook-triggers 'find-file-hook)
 
+(use-package! copilot
+  :hook
+  (prog-mode . copilot-mode)
+  :bind
+  (:map copilot-completion-map
+        ("<tab>" . 'copilot-accept-completion)
+        ("TAB" . 'copilot-accept-completion)
+        ("C-TAB" . 'copilot-accept-completion-by-word)
+        ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  (copilot-mode +1))
+
+(use-package! wakatime-mode :ensure t)

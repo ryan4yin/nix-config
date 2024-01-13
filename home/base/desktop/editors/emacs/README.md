@@ -51,6 +51,13 @@ just emacs-reload
 just emacs-clean
 ```
 
+## Limits
+
+
+- Emacs's markdown-mode works not well with tables, see:
+  - https://github.com/jrblevin/markdown-mode/issues/380
+
+
 ## Cheetsheet
 
 Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
