@@ -52,12 +52,11 @@
         }
       );
       devShells = forEachSystem (
-        system: 
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
+        system: let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in {
           default = pkgs.mkShell {
-            packages = with pkgs;[ 
+            packages = with pkgs; [
               # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
               bashInteractive
               # fix `cc` replaced by clang, which causes nvim-treesitter compilation error
@@ -96,8 +95,8 @@
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
     # Official NixOS package source, using nixos's stable branch by default
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # for macos

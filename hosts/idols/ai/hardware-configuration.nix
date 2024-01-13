@@ -71,6 +71,13 @@
     options = ["subvol=@nix" "noatime" "compress-force=zstd:1"];
   };
 
+  # for guix store, which use `/gnu/store` as its store directory.
+  fileSystems."/gnu" = {
+    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+    fsType = "btrfs";
+    options = ["subvol=@guix" "noatime" "compress-force=zstd:1"];
+  };
+
   fileSystems."/persistent" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
