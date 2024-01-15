@@ -27,7 +27,7 @@ Type `:tutor`(`:Tutor` in Neovim) to learn the basics usage of vim/neovim.
 
 ## VIM's Cheetsheet
 
-> Here only record my commonly used keys, to see **a more comprehensive cheetsheet**: <https://github.com/rtorr/vim-cheat-sheet>
+> Here only record my commonly used keys, to see **a more comprehensive cheetsheet**: <https://vimhelp.org/quickref.txt.html>
 
 Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in both Emacs-Evil, Neovim & vim.
 
@@ -44,7 +44,9 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 
 ### File Management
 
-> <https://neovim.io/doc/user/usr_22.html#usr_22.txt>
+> <https://neovim.io/doc/user/usr_22.html>
+
+> <https://vimhelp.org/editing.txt.html>
 
 | Action                            |                                                  |
 | --------------------------------- | ------------------------------------------------ |
@@ -55,29 +57,48 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 | Edit a file                       | `:e filename`(or `:e <TAB>` to show a file list) |
 | Browse the file list              | `:Ex` or `:e .`                                  |
 
+### Motion
+
+> https://vimhelp.org/motion.txt.html
+
+| Action                                              | Command                                  |
+| --------------------------------------------------- | ---------------------------------------- |
+| Move to the start/end of the buffer                 | `gg`/`G`                                 |
+| Move the line number 5                              | `5gg` / `5G`                             |
+| Move left/down/up/right                             | h/j/k/l or `5h`/`5j`/`5k`/`5l`           |
+| Move to the matchpairs, default to `()`, `{}`, `[]` | `%`                                      |
+| Move to the start/end of the line                   | `0` / `$`                                |
+| Move a sentence forward/backward                    | `(` / `)`                                |
+| Move a paragraph forward/backward                   | `{` / `}`                                |
+| Move a section forward/backward                     | `[[` / `]]`                              |
+| Jump to various positions                           | `'` + some other keys(neovim has prompt) |
+
+Text Objects:
+
+- **sentence**: text ending at a '.', '!' or '?' followed by either the end of a line, or by a space or tab.
+- **paragraph**: text ending at a blank line.
+- **section**: text starting with a section header and ending at the start of the next section header (or at the end of the file). - The "`]]`" and "`[[`" commands stop at the '`{`' in the first column. This is
+  useful to find the start of a function in a C/Go/Java/... program.
+
 ### Text Manipulation
 
 Basics:
 
-| Action                                              |                                |
-| --------------------------------------------------- | ------------------------------ |
-| Move to the start/end of the buffer                 | `gg`/`G`                       |
-| Move the line number 5                              | `5gg` / `5G`                   |
-| Move left/down/up/right                             | h/j/k/l or `5h`/`5j`/`5k`/`5l` |
-| Move to the matchpairs, default to `()`, `{}`, `[]` | `%`                            |
-| Delete the current character                        | `x`                            |
-| Paste the copied text                               | `p`                            |
-| Delete the selection                                | `d`                            |
-| Undo the last word                                  | `CTRL-w`(in insert mode)       |
-| Undo the last line                                  | `CTRL-u`(in insert mode)       |
-| Undo the last change                                | `u`                            |
-| Redo the last change                                | `Ctrl + r`                     |
-| Inserts the text of the previous insert             | `Ctrl + a`                     |
-| Repeat the last command                             | `.`                            |
-| Toggle text's case                                  | `~`                            |
-| Convert to uppercase                                | `U` (visual mode)              |
-| Convert to lowercase                                | `u` (visual mode)              |
-| Align the selected conent                           | `:center`/`:left`/`:right`     |
+| Action                                  |                            |
+| --------------------------------------- | -------------------------- |
+| Delete the current character            | `x`                        |
+| Paste the copied text                   | `p`                        |
+| Delete the selection                    | `d`                        |
+| Undo the last word                      | `CTRL-w`(in insert mode)   |
+| Undo the last line                      | `CTRL-u`(in insert mode)   |
+| Undo the last change                    | `u`                        |
+| Redo the last change                    | `Ctrl + r`                 |
+| Inserts the text of the previous insert | `Ctrl + a`                 |
+| Repeat the last command                 | `.`                        |
+| Toggle text's case                      | `~`                        |
+| Convert to uppercase                    | `U` (visual mode)          |
+| Convert to lowercase                    | `u` (visual mode)          |
+| Align the selected conent               | `:center`/`:left`/`:right` |
 
 Misc:
 
@@ -97,7 +118,6 @@ Misc:
 | Sort tye selected lines                                                   | `:sort`        |
 | Join Selection of Lines With Space                                        | `:join` or `J` |
 | Join without spaces                                                       | `:join!`       |
-| Move to the start/end of the line                                         | `0` / `$`      |
 | Enter Insert mode at the start/end of the line                            | `I` / `A`      |
 | Delete from the cursor to the end of the line                             | `D`            |
 | Delete from the cursor to the end of the line, and then enter insert mode | `C`            |
@@ -159,7 +179,9 @@ The postfix(flags) in the above commands:
 
 ### Buffers, Windows and Tabs
 
-> <https://neovim.io/doc/user/usr_08.html#usr_08.txt>
+> <https://neovim.io/doc/user/usr_08.html>
+
+> <https://vimhelp.org/windows.txt.html>
 
 - A buffer is the in-memory text of a file.
 - A window is a viewport on a buffer.
@@ -177,8 +199,7 @@ The postfix(flags) in the above commands:
 
 ### History
 
-
-| Action                              | Command                             |
-| ----------------------------------- | ----------------------------------- |
-| Show the command history            | `q:`                                |
-| Show the search history             | `q/`                                |
+| Action                   | Command |
+| ------------------------ | ------- |
+| Show the command history | `q:`    |
+| Show the search history  | `q/`    |
