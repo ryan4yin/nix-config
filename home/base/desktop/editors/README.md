@@ -61,17 +61,17 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 
 > https://vimhelp.org/motion.txt.html
 
-| Action                                              | Command                                  |
-| --------------------------------------------------- | ---------------------------------------- |
-| Move to the start/end of the buffer                 | `gg`/`G`                                 |
-| Move the line number 5                              | `5gg` / `5G`                             |
-| Move left/down/up/right                             | h/j/k/l or `5h`/`5j`/`5k`/`5l`           |
-| Move to the matchpairs, default to `()`, `{}`, `[]` | `%`                                      |
-| Move to the start/end of the line                   | `0` / `$`                                |
-| Move a sentence forward/backward                    | `(` / `)`                                |
-| Move a paragraph forward/backward                   | `{` / `}`                                |
-| Move a section forward/backward                     | `[[` / `]]`                              |
-| Jump to various positions                           | `'` + some other keys(neovim has prompt) |
+| Action                                              | Command                                            |
+| --------------------------------------------------- | -------------------------------------------------- |
+| Move to the start/end of the buffer                 | `gg`/`G`                                           |
+| Move the line number 5                              | `5gg` / `5G`                                       |
+| Move left/down/up/right                             | h/j/k/l or `5h`/`5j`/`5k`/`5l` or `Ctr-n`/`Ctrl-p` |
+| Move to the matchpairs, default to `()`, `{}`, `[]` | `%`                                                |
+| Move to the start/end of the line                   | `0` / `$`                                          |
+| Move a sentence forward/backward                    | `(` / `)`                                          |
+| Move a paragraph forward/backward                   | `{` / `}`                                          |
+| Move a section forward/backward                     | `[[` / `]]`                                        |
+| Jump to various positions                           | `'` + some other keys(neovim has prompt)           |
 
 Text Objects:
 

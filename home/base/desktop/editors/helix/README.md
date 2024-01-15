@@ -7,6 +7,10 @@ But its configuration is a bit complex, and finding the right plugins, writing c
 That's why I'm interested in Helix, Helix is similar to Neovim, but it's more opinionated, and it's batteries included.
 Whether I'll switch my main editor to Helix or not, it gives me a lot of ideas on how to improve my Neovim workflow.
 
+## Tutorial
+
+Use `:tutor` in helix to start the tutorial.
+
 ## Differences between Neovim and Helixer
 
 1. Neovim have a very activate plugin ecosystem, and it's easy to find plugins for almost everything.
@@ -22,6 +26,8 @@ Whether I'll switch my main editor to Helix or not, it gives me a lot of ideas o
 1. It seems Helix lacks a substitution command, you should run it in another window(via wm or Zellij).
     1. Neovim's substitution command allow you to preview the changes before you apply it, and it's very useful. if I switch to Helix, I'll need to find some other tools with similar feature(such as https://github.com/ms-jpq/sad).
     2. The downside of Neovim's substitution command is that it's unable to save the command we just typed. If I made some things wrong, I have to type the whole substitution command again.
+1. Complexity and Maintenance Costs vs Batteries Included: <https://github.com/helix-editor/helix/discussions/6356>
+
 
 I think Use Helix/Neovim within a terminal file manager(Yazi/ranger/Broot) and Zellij is a good idea. 
 It's quite different from the workflow I migrated from VSCode/JetBrains before, I'm very interested in it.

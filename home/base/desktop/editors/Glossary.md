@@ -8,6 +8,7 @@
 
 The Language Server Protocol (LSP) is an open, JSON-RPC-based protocol for use between source code editors or integrated development environments (IDEs) and servers that provide programming language-specific features like:
 
+- motions such as go-to-definition, find-references, hover.
 - **code completion**
 - **marking of warnings and errors**
 - **refactoring routines**
