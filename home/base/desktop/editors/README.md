@@ -8,13 +8,26 @@ My editors:
 
 And `Zellij` for a smooth and stable terminal experience.
 
+## Tips
+
+1. Many useful keys are already provided by vim, check vim/neovim's docs before you install a new plugin / reinvent the wheel.
+1. After using Emacs/Neovim more skillfully, I strongly recommend that you read the official documentation of Neovim/vim:
+   1. <https://vimhelp.org/>: The official vim documentation.
+   1. <https://neovim.io/doc/user/>: Neovim's official user documentation.
+1. Use Zellij for terminal related operations, and use Neovim/Helix for editing.
+1. As for Emacs, Use its GUI version & terminal emulator `vterm` for terminal related operations.
+1. Two powerful file search & jump tools:
+1. Tree-view plugins are beginner-friendly and intuitive, but they're not very efficient.
+1. **Search by the file path**: Useful when you're familiar with the project structure, especially on a large project.
+1. **Search by the content**: Useful when you're familiar with the code.
+
 ## Tutorial
 
 Type `:tutor`(`:Tutor` in Neovim) to learn the basics usage of vim/neovim.
 
 ## VIM's Cheetsheet
 
-> Here only record my commonly used keyboard keys, to see **a more comprehensive cheetsheet**: <https://github.com/rtorr/vim-cheat-sheet>
+> Here only record my commonly used keys, to see **a more comprehensive cheetsheet**: <https://github.com/rtorr/vim-cheat-sheet>
 
 Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in both Emacs-Evil, Neovim & vim.
 
@@ -27,15 +40,20 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 | Floating Terminal         | `Ctrl + p + w`    |
 | Horizontal Split Terminal | `Ctrl + p + d`    |
 | Vertical Split Terminal   | `Ctrl + p + n`    |
+| Execute a command         | `!xxx`            |
 
 ### File Management
 
-| Action                            |                                              |
-| --------------------------------- | -------------------------------------------- |
-| Save selected text to a file      | `:w filename` (Will show `:'<,'>w filename`) |
-| Save and close the current buffer | `:wq`                                        |
-| Save all buffers                  | `:wa`                                        |
-| Save and close all buffers        | `:wqa`                                       |
+> <https://neovim.io/doc/user/usr_22.html#usr_22.txt>
+
+| Action                            |                                                  |
+| --------------------------------- | ------------------------------------------------ |
+| Save selected text to a file      | `:w filename` (Will show `:'<,'>w filename`)     |
+| Save and close the current buffer | `:wq`                                            |
+| Save all buffers                  | `:wa`                                            |
+| Save and close all buffers        | `:wqa`                                           |
+| Edit a file                       | `:e filename`(or `:e <TAB>` to show a file list) |
+| Browse the file list              | `:Ex` or `:e .`                                  |
 
 ### Text Manipulation
 
@@ -48,12 +66,18 @@ Basics:
 | Move left/down/up/right                             | h/j/k/l or `5h`/`5j`/`5k`/`5l` |
 | Move to the matchpairs, default to `()`, `{}`, `[]` | `%`                            |
 | Delete the current character                        | `x`                            |
+| Paste the copied text                               | `p`                            |
 | Delete the selection                                | `d`                            |
+| Undo the last word                                  | `CTRL-w`(in insert mode)       |
+| Undo the last line                                  | `CTRL-u`(in insert mode)       |
 | Undo the last change                                | `u`                            |
 | Redo the last change                                | `Ctrl + r`                     |
-| Toggle text's case | `~` |
-| Convert to uppercase | `U` |
-| Convert to lowercase | `u` |
+| Inserts the text of the previous insert             | `Ctrl + a`                     |
+| Repeat the last command                             | `.`                            |
+| Toggle text's case                                  | `~`                            |
+| Convert to uppercase                                | `U` (visual mode)              |
+| Convert to lowercase                                | `u` (visual mode)              |
+| Align the selected conent                           | `:center`/`:left`/`:right`     |
 
 Misc:
 
@@ -70,6 +94,7 @@ Misc:
 
 | Action                                                                    |                |
 | ------------------------------------------------------------------------- | -------------- |
+| Sort tye selected lines                                                   | `:sort`        |
 | Join Selection of Lines With Space                                        | `:join` or `J` |
 | Join without spaces                                                       | `:join!`       |
 | Move to the start/end of the line                                         | `0` / `$`      |
@@ -108,12 +133,12 @@ Advance Techs:
 
 ### Find and Replace
 
-| Action                   | Command                             |
-| ------------------------ | ----------------------------------- |
-| Replace in selected area | `:s/old/new/g`                      |
-| Replace in current line  | Same as above                       |
-| Replace in whole file    | `:% s/old/new/g`                    |
-| Replace with regex       | `:% s@\vhttp://(\w+)@https://\1@gc` |
+| Action                           | Command                             |
+| -------------------------------- | ----------------------------------- |
+| Replace in selected area         | `:s/old/new/g`                      |
+| Replace in current line          | Same as above                       |
+| Replace all the lines            | `:% s/old/new/g`                    |
+| Replace all the lines with regex | `:% s@\vhttp://(\w+)@https://\1@gc` |
 
 1. `\v` means means that in the regex pattern after it can be used without backslash escaping(similar to python's raw string).
 2. `\1` means the first matched group in the pattern.
@@ -124,6 +149,7 @@ Advance Techs:
 | ----------------------------------------- | -------------------------------------- |
 | From the 10th line to the end of the file | `:10,$ s/old/new/g` or `:10,$ s@^@#@g` |
 | From the 10th line to the 20th line       | `:10,20 s/old/new/g`                   |
+| Remove the trailing spaces                | `:% s/\s\+$//g`                        |
 
 The postfix(flags) in the above commands:
 
@@ -133,15 +159,26 @@ The postfix(flags) in the above commands:
 
 ### Buffers, Windows and Tabs
 
+> <https://neovim.io/doc/user/usr_08.html#usr_08.txt>
+
 - A buffer is the in-memory text of a file.
 - A window is a viewport on a buffer.
 - A tab page is a collection of windows.
 
 | Action                              | Command                             |
 | ----------------------------------- | ----------------------------------- |
+| Split the window horizontally       | `:sp[lit]` or `:sp filename`        |
+| Split the window horizontally       | `:vs[plit]` or `:vs filename`       |
+| Switch to the next/previous window  | `Ctrl-w + w` or `Ctrl-w + h/j/k/l`  |
 | Show all buffers                    | `:ls`                               |
 | show next/previous buffer           | `]b`/`[b` or `:bn[ext]` / `bp[rev]` |
-| Split the window horizontally       | `:sp[lit]`                               |
-| Split the window horizontally       | `:vs[plit]`                              |
 | New Tab(New Workspace in DoomEmacs) | `:tabnew`                           |
 | Next/Previews Tab                   | `gt`/`gT`                           |
+
+### History
+
+
+| Action                              | Command                             |
+| ----------------------------------- | ----------------------------------- |
+| Show the command history            | `q:`                                |
+| Show the search history             | `q/`                                |
