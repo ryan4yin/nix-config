@@ -45,7 +45,9 @@
   boot.initrd = {
     # unlocked luks devices via a keyfile or prompt a passphrase.
     luks.devices."crypted-nixos" = {
-      device = "/dev/nvme0n1p2";
+      # NOTE: DO NOT use device name here(like /dev/sda, /dev/nvme0n1p2, etc), use the UUID instead.
+      # https://github.com/ryan4yin/nix-config/issues/43
+      device = "/dev/disk/by-uuid/a21ca82a-9ee6-4e5c-9d3f-a93e84e4e0f4";
       # the keyfile(or device partition) that should be used as the decryption key for the encrypted device.
       # if not specified, you will be prompted for a passphrase instead.
       #keyFile = "/root-part.key";
