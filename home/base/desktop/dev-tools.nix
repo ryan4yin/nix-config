@@ -38,6 +38,9 @@
       k6 # load testing tool
       protobuf # protocol buffer compiler
       nix-init # generate nix package from url
+
+      # solve coding extercises - learn by doing
+      exercism
     ]
     ++ (
       if pkgs.stdenv.isLinux
