@@ -48,14 +48,15 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 
 > <https://vimhelp.org/editing.txt.html>
 
-| Action                            |                                                  |
-| --------------------------------- | ------------------------------------------------ |
-| Save selected text to a file      | `:w filename` (Will show `:'<,'>w filename`)     |
-| Save and close the current buffer | `:wq`                                            |
-| Save all buffers                  | `:wa`                                            |
-| Save and close all buffers        | `:wqa`                                           |
-| Edit a file                       | `:e filename`(or `:e <TAB>` to show a file list) |
-| Browse the file list              | `:Ex` or `:e .`                                  |
+| Action                              |                                                  |
+| ----------------------------------- | ------------------------------------------------ |
+| Save selected text to a file        | `:w filename` (Will show `:'<,'>w filename`)     |
+| Save and close the current buffer   | `:wq`                                            |
+| Save all buffers                    | `:wa`                                            |
+| Save and close all buffers          | `:wqa`                                           |
+| Edit a file                         | `:e filename`(or `:e <TAB>` to show a file list) |
+| Browse the file list                | `:Ex` or `:e .`                                  |
+| Discard changes and reread the file | `:e!`                                            |
 
 ### Motion
 
