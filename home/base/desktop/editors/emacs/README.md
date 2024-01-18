@@ -198,25 +198,20 @@ Magit is a powerful tool that make git operations easy and intuitive.
 
 Shortcuts in magit's pane:
 
-<<<<<<< HEAD
-=======
 > When run `git commit` / `git add` / `git push` /... via magit, multiple Arguments can be set.
 > Set arguments won't trigger a git command immediately. Magit will try to run a git command only after an Action key is pressed.
 
->>>>>>> d61e580 (docs: emacs - magit)
-| Action                                             | Shortcut  |
-| -------------------------------------------------- | --------- |
-| Quit the current Magit pane                        | `q`       |
-| Commit                                             | `c`       |
-| Stage                                              | `s`       |
-| Unstage                                            | `u`       |
-| Push                                               | `p`       |
-| Pull                                               | `f`       |
-| Rebase                                             | `r`       |
-| Merge                                              | `m`       |
-| Fold/Unfold                                        | `TAB`     |
-| Show details of the current unit(commit/stage/...) | `<ENTER>` |
-<<<<<<< HEAD
-=======
-
->>>>>>> d61e580 (docs: emacs - magit)
+| Action                                             | Shortcut                                      |
+| -------------------------------------------------- | --------------------------------------------- |
+| Quit the current Magit pane                        | `q`                                           |
+| Commit                                             | `c`                                           |
+| Stage                                              | `s`                                           |
+| Unstage                                            | `u`                                           |
+| Push                                               | `p`                                           |
+| Pull                                               | `f`                                           |
+| Rebase                                             | `r`                                           |
+| Rebase Interactively                               | `r + i`, select on a commit, then `C-c + C-c` |
+| Stash                                              | `z`                                           |
+| Merge                                              | `m`                                           |
+| Fold/Unfold                                        | `TAB`                                         |
+| Show details of the current unit(commit/stage/...) | `<ENTER>`                                     |
