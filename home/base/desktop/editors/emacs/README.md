@@ -189,6 +189,7 @@ SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 
 > https://github.com/magit/magit
 
+
 Magit is a powerful tool that make git operations easy and intuitive.
 
 | Action        | Shortcut                 |
@@ -215,3 +216,6 @@ Shortcuts in magit's pane:
 | Merge                                              | `m`                                           |
 | Fold/Unfold                                        | `TAB`                                         |
 | Show details of the current unit(commit/stage/...) | `<ENTER>`                                     |
+
+KeyBinding full list: <https://github.com/emacs-evil/evil-collection/tree/master/modes/magit#key-bindings>
+
