@@ -167,7 +167,7 @@ SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 
 > easily switch between projects without exit emacs!
 
-| Action                     |               |
+| Action                     | Shortcut      |
 | -------------------------- | ------------- |
 | Switch between projects    | `SPC + p + p` |
 | Browse the current project | `SPC + p + .` |
@@ -177,10 +177,36 @@ SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 
 > Very useful when run emacs in daemon/client modes
 
-| Action                      |                             |
+| Action                      | Shortcut                    |
 | --------------------------- | --------------------------- |
 | Switch between workspaces   | `M-1/2/3/...`(Alt-1/2/3/..) |
 | New Workspace               | `SPC + TAB + n`             |
 | New Named Workspace         | `SPC + TAB + N`             |
 | Delete Workspace            | `SPC + TAB + d`             |
 | Display Workspaces bar blow | `SPC + TAB + TAB`           |
+
+### Magit
+
+> https://github.com/magit/magit
+
+Magit is a powerful tool that make git operations easy and intuitive.
+
+| Action        | Shortcut                 |
+| ------------- | ------------------------ |
+| Open Magit    | `C-x g` or `SPC + g + g` |
+| Switch branch | `SPC + g + b`            |
+
+Shortcuts in magit's pane:
+
+| Action                                             | Shortcut  |
+| -------------------------------------------------- | --------- |
+| Quit the current Magit pane                        | `q`       |
+| Commit                                             | `c`       |
+| Stage                                              | `s`       |
+| Unstage                                            | `u`       |
+| Push                                               | `p`       |
+| Pull                                               | `f`       |
+| Rebase                                             | `r`       |
+| Merge                                              | `m`       |
+| Fold/Unfold                                        | `TAB`     |
+| Show details of the current unit(commit/stage/...) | `<ENTER>` |
