@@ -48,7 +48,4 @@
     # xrandr - set primary screen
     ".screenlayout/monitor.sh".source = ../conf/dual-monitor-4k-1080p.sh;
   };
-
-  # allow fontconfig to discover fonts and configurations installed through home.packages
-  fonts.fontconfig.enable = true;
 }

@@ -21,7 +21,7 @@
 
       #-- python
       nodePackages.pyright # python language server
-      (python310.withPackages (
+      (python311.withPackages (
         ps:
           with ps; [
             ruff-lsp

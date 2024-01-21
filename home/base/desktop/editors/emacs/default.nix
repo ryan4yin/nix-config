@@ -64,9 +64,6 @@ in {
       home.shellAliases = shellAliases;
       programs.nushell.shellAliases = shellAliases;
 
-      # allow fontconfig to discover fonts and configurations installed through `home.packages`
-      fonts.fontconfig.enable = true;
-
       xdg.configFile."doom" = {
         source = ./doom;
         force = true;

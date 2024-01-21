@@ -12,7 +12,7 @@
     krita # digital painting
     musescore # music notation
     # reaper # audio production
-    pkgs-unstable.sonic-pi # music programming
+    # sonic-pi # music programming
 
     # this app consumes a lot of storage, so do not install it currently
     # kicad     # 3d printing, eletrical engineering
