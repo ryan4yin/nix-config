@@ -155,25 +155,25 @@ in {
   # darwin systems
   darwin_harmonica_modules = {
     darwin-modules = [
-      ../hosts/harmonica
+      ../hosts/darwin_harmonica
 
       ../modules/darwin
       ../secrets/darwin.nix
     ];
     home-module.imports = [
-      ../hosts/harmonica/home.nix
+      ../hosts/darwin_harmonica/home.nix
       ../home/darwin
     ];
   };
   darwin_fern_modules = {
     darwin-modules = [
-      ../hosts/fern
+      ../hosts/darwin_fern
 
       ../modules/darwin
       ../secrets/darwin.nix
     ];
     home-module.imports = [
-      ../hosts/fern/home.nix
+      ../hosts/darwin_fern/home.nix
       ../home/darwin
     ];
   };

@@ -1,6 +1,6 @@
 # Hosts
 
-1. macOS
+1. macOS(darwin)
    1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
    1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
 2. `idols`
