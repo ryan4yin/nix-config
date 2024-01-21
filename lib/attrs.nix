@@ -12,7 +12,7 @@
   #   (name: value: ("bar-" + value))
   #   { x = "a"; y = "b"; }
   #     => { foo = "bar-a"; foo = "bar-b"; }
-  mapAttrs = lib.attrsets.mapAttrs;
+  inherit (lib.attrsets) mapAttrs;
 
   # Update both the names and values of the given attribute set.
   #
@@ -20,7 +20,7 @@
   #   (name: value: nameValuePair ("foo_" + name) ("bar-" + value))
   #   { x = "a"; y = "b"; }
   #     => { foo_x = "bar-a"; foo_y = "bar-b"; }
-  mapAttrs' = lib.attrsets.mapAttrs';
+  inherit (lib.attrsets) mapAttrs';
 
   # Merge a list of attribute sets into one. smilar to the operator `a // b`, but for a list of attribute sets.
   # NOTE: the later attribute set overrides the former one!
@@ -28,7 +28,7 @@
   #   mergeAttrsList
   #   [ { x = "a"; y = "b"; } { x = "c"; z = "d"; } { g = "e"; } ]
   #   => { x = "c"; y = "b"; z = "d"; g = "e"; }
-  mergeAttrsList = lib.attrsets.mergeAttrsList;
+  inherit (lib.attrsets) mergeAttrsList;
 
   # Generate a string from an attribute set.
   #
@@ -42,5 +42,5 @@
   #     export x=a
   #     export y=b
   #    ````
-  foldlAttrs = lib.attrsets.foldlAttrs;
+  inherit (lib.attrsets) foldlAttrs;
 }

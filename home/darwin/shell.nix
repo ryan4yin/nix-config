@@ -14,6 +14,6 @@ in {
   };
   programs.zsh = {
     enable = true;
-    envExtra = envExtra;
+    inherit envExtra;
   };
 }
