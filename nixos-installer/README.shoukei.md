@@ -4,7 +4,7 @@
 
 > https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
 
-This flake prepares a Nix environment for setting my desktop [/hosts/12kingdoms/shoukei](/hosts/12kingdoms/shoukei)(in main flake) up on a new machine.
+This flake prepares a Nix environment for setting my desktop [/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei)(in main flake) up on a new machine.
 
 ## Steps to Deploying
 
@@ -17,7 +17,7 @@ First, create a USB install medium from Apple T2's NixOS installer image: https:
 
 ```bash
 sudo mkdir -p /lib
-sudo tar -axvf ../hosts/12kingdoms/shoukei/brcm-firmware/firmware.tar.gz -C /lib/
+sudo tar -axvf ../hosts/12kingdoms_shoukei/brcm-firmware/firmware.tar.gz -C /lib/
 sudo modprobe -r brcmfmac && sudo modprobe brcmfmac
 
 # check whether the wifi firmware is loaded
@@ -164,14 +164,14 @@ Then, generate the NixOS configuration:
 nixos-generate-config --root /mnt
 
 # we need to update our filesystem configs in old hardware-configuration.nix according to the generated one.
-cp /etc/nixos/hardware-configuration.nix ./nix-config/hosts/12kingdoms/shoukei/hardware-configuration-new.nix
+cp /etc/nixos/hardware-configuration.nix ./nix-config/hosts/12kingdoms_shoukei/hardware-configuration-new.nix
 vim .
 ```
 
 Then, Install NixOS:
 
 ```bash
-cd ~/nix-config/hosts/12kingdoms/shoukei/nixos-installer/
+cd ~/nix-config/hosts/12kingdoms_shoukei/nixos-installer/
 
 # run this command if you're retrying to run nixos-install
 rm -rf /mnt/etc
@@ -201,7 +201,7 @@ mv /etc/ssh /persistent/etc/
 
 # delte the generated configuration after editing
 rm -f /mnt/etc/nixos
-rm ~/nix-config/hosts/idols/ai/hardware-configuration-new.nix
+rm ~/nix-config/hosts/idols_ai/hardware-configuration-new.nix
 
 # NOTE: `cat shoukei.md | grep git-1 > git-1.sh` to generate this script
 # commit the changes after installing nixos successfully
@@ -239,4 +239,4 @@ cd ~/nix-config
 just s-hypr
 ```
 
-Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols/ai/secureboot.nix)
+Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)

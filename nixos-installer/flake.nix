@@ -26,8 +26,8 @@
           ../modules/nixos/base/user-group.nix
           ../modules/nixos/base/networking.nix
 
-          ../hosts/idols/ai/hardware-configuration.nix
-          ../hosts/idols/ai/impermanence.nix
+          ../hosts/idols_ai/hardware-configuration.nix
+          ../hosts/idols_ai/impermanence.nix
         ];
       };
 
@@ -51,8 +51,8 @@
           ../modules/nixos/base/user-group.nix
           ../modules/nixos/base/networking.nix
 
-          ../hosts/12kingdoms/shoukei/hardware-configuration.nix
-          ../hosts/12kingdoms/shoukei/impermanence.nix
+          ../hosts/12kingdoms_shoukei/hardware-configuration.nix
+          ../hosts/12kingdoms_shoukei/impermanence.nix
         ];
       };
     };

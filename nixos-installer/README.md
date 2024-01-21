@@ -1,10 +1,10 @@
 # Nix Environment Setup for Host: Idols - Ai
 
-This flake prepares a Nix environment for setting my desktop [/hosts/idols/ai](/hosts/idols/ai/)(in main flake) up on a new machine.
+This flake prepares a Nix environment for setting my desktop [/hosts/idols_ai](/hosts/idols_ai/)(in main flake) up on a new machine.
 
 Other docs:
 
-- README for [/hosts/12kingdoms/shoukei](/hosts/12kingdoms/shoukei): [./README.shoukei.md](./README.shoukei.md)
+- README for [/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei): [./README.shoukei.md](./README.shoukei.md)
 
 TODOs:
 
@@ -184,14 +184,14 @@ Then, generate the NixOS configuration:
 nixos-generate-config --root /mnt
 
 # we need to update our filesystem configs in old hardware-configuration.nix according to the generated one.
-cp /etc/nixos/hardware-configuration.nix ./nix-config/hosts/idols/ai/hardware-configuration-new.nix
+cp /etc/nixos/hardware-configuration.nix ./nix-config/hosts/idols_ai/hardware-configuration-new.nix
 vim .
 ```
 
 Then, Install NixOS:
 
 ```bash
-cd ~/nix-config/hosts/idols/ai/nixos-installer
+cd ~/nix-config/hosts/idols_ai/nixos-installer
 
 # run this command if you're retrying to run nixos-install
 rm -rf /mnt/etc
@@ -220,7 +220,7 @@ mv /etc/ssh /persistent/etc/
 
 # delte the generated configuration after editing
 rm -f /mnt/etc/nixos
-rm ~/nix-config/hosts/idols/ai/hardware-configuration-new.nix
+rm ~/nix-config/hosts/idols_ai/hardware-configuration-new.nix
 
 # NOTE: `cat shoukei.md | grep git-1 > git-1.sh` to generate this script
 # commit the changes after installing nixos successfully
@@ -259,4 +259,4 @@ cd ~/nix-config
 just hypr
 ```
 
-Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols/ai/secureboot.nix)
+Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)
