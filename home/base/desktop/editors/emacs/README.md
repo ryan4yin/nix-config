@@ -189,13 +189,13 @@ SPC s p foo C-; E C-c C-p :%s/foo/bar/g RET Z Z
 
 > https://github.com/magit/magit
 
-
 Magit is a powerful tool that make git operations easy and intuitive.
 
-| Action        | Shortcut                 |
-| ------------- | ------------------------ |
-| Open Magit    | `C-x g` or `SPC + g + g` |
-| Switch branch | `SPC + g + b`            |
+| Action                   | Shortcut                 |
+| ------------------------ | ------------------------ |
+| Open Magit               | `C-x g` or `SPC + g + g` |
+| Switch branch            | `SPC + g + b`            |
+| Show buffer's commit log | `SPC + g + L`            |
 
 Shortcuts in magit's pane:
 
@@ -205,6 +205,9 @@ Shortcuts in magit's pane:
 | Action                                             | Shortcut                                      |
 | -------------------------------------------------- | --------------------------------------------- |
 | Quit the current Magit pane                        | `q`                                           |
+| Show log                                           | `l`                                           |
+| Show current branch's log                          | `l + l`                                       |
+| Show current reflog                                | `l + r`                                       |
 | Commit                                             | `c`                                           |
 | Stage                                              | `s`                                           |
 | Unstage                                            | `u`                                           |
@@ -218,4 +221,3 @@ Shortcuts in magit's pane:
 | Show details of the current unit(commit/stage/...) | `<ENTER>`                                     |
 
 KeyBinding full list: <https://github.com/emacs-evil/evil-collection/tree/master/modes/magit#key-bindings>
-
