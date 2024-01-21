@@ -1,4 +1,5 @@
 {
+  vars_networking,
   username,
   userfullname,
   nuenv,
@@ -29,6 +30,11 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoa9uEI/gR5+klqTQwvCgD6CD5vT5iD9YCNx2xNrH3B ryan@fern"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwZ9MdotnyhxIJrI4gmVshExHiZOx+FGFhcW7BaYkfR ryan@harmonica"
     ];
+  };
+
+  programs.ssh = {
+    extraConfig = vars_networking.ssh.extraConfig;
+    knownHosts = vars_networking.ssh.knownHosts;
   };
 
   nix.settings = {

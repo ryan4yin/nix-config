@@ -1,5 +1,6 @@
 {
   # nixos-jh7110,
+  vars_networking,
   ...
 }:
 #############################################################
@@ -11,8 +12,7 @@
 #############################################################
 let
   hostName = "chiaya"; # Define your hostname.
-  vars = import ../vars.nix;
-  hostAddress = vars.networking.hostAddress.${hostName};
+  hostAddress = vars_networking.hostAddress.${hostName};
 in {
   imports = [
   ];
@@ -20,7 +20,7 @@ in {
   # Set static IP address / gateway / DNS servers.
   networking = {
     inherit hostName;
-    inherit (vars.networking) defaultGateway nameservers;
+    inherit (vars_networking) defaultGateway nameservers;
 
     # Failed to enable firewall due to the following error:
     #   firewall-start[2300]: iptables: Failed to initialize nft: Protocol not supported
