@@ -15,7 +15,7 @@
       # 其中汉字部分叫 Noto Sans/Serif CJK SC/TC/HK/JP/KR，最后一个词是地区变种。
       # noto-fonts # 大部分文字的常见样式，不包含汉字
       # noto-fonts-cjk # 汉字部分
-      # noto-fonts-emoji # 彩色的表情符号字体
+      noto-fonts-emoji # 彩色的表情符号字体
       # noto-fonts-extra # 提供额外的字重和宽度变种
 
       # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
@@ -44,10 +44,10 @@
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig.defaultFonts = {
-      # serif = ["Noto Serif CJK SC" "Noto Serif CJK TC" "Noto Serif CJK JP" "Noto Color Emoji"];
-      # sansSerif = ["Noto Sans CJK SC" "Noto Sans CJK TC" "Noto Sans CJK JP" "Noto Color Emoji"];
-      monospace = ["JetBrainsMono Nerd Font"];
-      # emoji = ["Noto Color Emoji"];
+      serif = ["Source Han Serif SC" "Source Han Serif TC" "Noto Color Emoji"];
+      sansSerif = ["Source Han Sans SC" "Source Han Sans TC" "Noto Color Emoji"];
+      monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+      emoji = ["Noto Color Emoji"];
     };
   };
 
