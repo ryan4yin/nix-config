@@ -88,6 +88,7 @@
         # misc
         ".config/pulse"
         ".pki"
+        ".steam" # steam games
 
         # remote desktop
         ".config/remmina"
