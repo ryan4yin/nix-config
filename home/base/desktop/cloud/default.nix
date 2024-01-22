@@ -11,7 +11,6 @@
       ssm-session-manager-plugin # Amazon SSM Session Manager Plugin
       aws-iam-authenticator
       eksctl
-      istioctl
 
       # aliyun
       aliyun-cli

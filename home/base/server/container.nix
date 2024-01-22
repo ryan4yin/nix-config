@@ -1,10 +1,17 @@
 {
   pkgs,
+  pkgs-unstable,
   nur-ryan4yin,
   ...
 }: {
   home.packages = with pkgs; [
+    skopeo
+    docker-compose
+    dive # explore docker layers
+    lazydocker # Docker terminal UI.
+
     kubectl
+    istioctl
     kubernetes-helm
   ];
 

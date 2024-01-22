@@ -34,7 +34,6 @@
 
     sad # CLI search and replace, with diff preview, really useful!!!
     lazygit # Git terminal UI.
-    lazydocker # Docker terminal UI.
 
     # misc
     tldr
