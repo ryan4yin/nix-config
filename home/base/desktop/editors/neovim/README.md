@@ -132,7 +132,13 @@ Press `<Space> + D` to view available bindings and options.
 | Description                                                  | Shortcut                                                         |
 | ------------------------------------------------------------ | ---------------------------------------------------------------- |
 | Open spectre.nvim search and replace panel                   | `<Space> + ss`                                                   |
-| Search and replace in command line(need install `sad` first) | `find -name "*.nix" \| sad '<pattern>' '<replacement>' \| delta` |
+
+Search and replace via cli(fd + sad + delta):
+
+```bash
+fd "\\.nix$" . | sad '<pattern>' '<replacement>' | delta
+```
+
 
 ### Surrounding Characters
 

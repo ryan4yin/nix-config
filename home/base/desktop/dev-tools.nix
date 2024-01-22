@@ -32,7 +32,6 @@
       # misc
       pkgs-unstable.devbox
       glow # markdown previewer
-      fzf
       gdu # disk usage analyzer, required by AstroNvim
       bfg-repo-cleaner # remove large files from git history
       k6 # load testing tool
