@@ -25,13 +25,16 @@
     gnumake
     just # a command runner like make, but simpler
     gawk # GNU awk, a pattern scanning and processing language
-    sad # CLI search and replace, with diff preview, really useful!!!
     delta # A viewer for git and diff output
     # A fast and polyglot tool for code searching, linting, rewriting at large scale
     # supported languages: only some mainstream languages currently(do not support nix/nginx/yaml/toml/...)
     ast-grep
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processer https://github.com/mikefarah/yq
+
+    sad # CLI search and replace, with diff preview, really useful!!!
+    lazygit # Git terminal UI.
+    lazydocker # Docker terminal UI.
 
     # misc
     tldr
