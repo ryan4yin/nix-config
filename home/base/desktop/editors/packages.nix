@@ -122,6 +122,7 @@
       glow # markdown previewer
       fzf
       pandoc # document converter
+      hugo # static site generator
 
       #-- Optional Requirements:
       gdu # disk usage analyzer, required by AstroNvim
