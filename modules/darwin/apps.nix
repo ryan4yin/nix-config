@@ -55,6 +55,9 @@ in {
     nushell # my custom shell
     gnugrep # replacee macos's grep
     gnutar # replacee macos's tar
+
+    # darwin only apps
+    utm # virtual machine
   ];
   environment.variables =
     {
@@ -159,7 +162,6 @@ in {
       # "anki"
       "shadowsocksx-ng" # proxy tool
       "iina" # video player
-      "syncthing" # file sync
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       "stats" # beautiful system status monitor in menu bar
       "eudic" # 欧路词典

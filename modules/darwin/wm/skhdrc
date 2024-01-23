@@ -1,0 +1,69 @@
+# 配置语法 : <modifier> - <key> : <command>
+# modifier 可以是单个键比如 cmd, alt, ctrl, 也可以是组合键比如  ctrl + shift, ctrl + alt
+# ================================ 打开终端 ================================
+# 启动终端
+cmd - return : open -a kitty
+# 关闭当前窗口，这个不需要加，macOS 默认是 cmd + q，我 Linux 也这么设置的
+# ================================ 窗口设置 ================================
+# =============== 为了避免快捷键冲突改用了 ctrl 作为 modifier =================
+# https://github.com/koekeishiya/yabai/wiki/Commands
+# 切换为平铺模式
+alt - e : yabai -m space --layout bsp
+# 切换为堆叠模式
+alt - s : yabai -m space --layout stack
+# 浮动/不浮动窗口 float
+alt - f : yabai -m window --toggle float
+
+# focus window : 激活窗口快捷键  h: 左  j: 下  k: 右 l: 上 
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+# 调整窗口大小
+ctrl + alt + cmd - left : yabai -m window --resize left:-50:0; yabai -m window --resize right:-50:0
+ctrl + alt + cmd - down : yabai -m window --resize bottom:0:50; yabai -m window --resize top:0:50
+ctrl + alt + cmd - up : yabai -m window --resize top:0:-50; yabai -m window --resize bottom:0:-50
+ctrl + alt + cmd - right : yabai -m window --resize right:50:0; yabai -m window --resize left:50:0
+
+# 重启 Yabai
+cmd + alt - r : /usr/bin/env osascript <<< "display notification \"正在重启 Yabai\" with title \"Yabai\""; launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+# ================================ 多桌面配置  ================================
+# 创建一个新桌面，并把当前活动的窗口发送到新桌面，并且自动跳转到新桌面. 需要 jq 支持 brew install jq
+shift + cmd - n : yabai -m space --create && index="$(yabai -m query --spaces --display | jq '.| length')" && yabai -m window --space "${index}" && yabai -m space --focus "${index}" && yabai -m space --layout bsp
+
+# 在 stack 模式下通过方向键切换窗口
+ctrl - down : yabai -m window --focus stack.next || yabai -m window --focus south
+ctrl - up : yabai -m window --focus stack.prev || yabai -m window --focus north
+# 在 bsp 模式下通过方向键切换窗口
+cmd - left : yabai -m window --focus west
+cmd - right : yabai -m window --focus east
+
+# 切换回最近的一个桌面
+alt - x : yabai -m space --focus recent
+# 在 9 个桌面之间切换
+alt - 1 : yabai -m space --focus 1
+alt - 2 : yabai -m space --focus 2
+alt - 3 : yabai -m space --focus 3
+alt - 4 : yabai -m space --focus 4
+alt - 5 : yabai -m space --focus 5
+alt - 6 : yabai -m space --focus 6
+alt - 7 : yabai -m space --focus 7
+alt - 8 : yabai -m space --focus 8
+alt - 9 : yabai -m space --focus 9
+# 关闭当前桌面
+cmd + alt - w : yabai -m space --destroy
+# 把窗口发送到桌面，并跟随过去 send window to desktop and follow focus
+shift + cmd - z : yabai -m window --space next; yabai -m space --focus next
+shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
+shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
+shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
+shift + cmd - 4 : yabai -m window --space  4; yabai -m space --focus 4
+shift + cmd - 5 : yabai -m window --space  5; yabai -m space --focus 5
+shift + cmd - 6 : yabai -m window --space  6; yabai -m space --focus 6
+shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
+shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
+shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
+
+
