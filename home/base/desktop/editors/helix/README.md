@@ -13,6 +13,14 @@ Use `:tutor` in helix to start the tutorial.
 
 ## Differences between Neovim and Helixer
 
+1. Selecting first, then action.
+    1. Helix: delete 2 word: `2w` then `x`. You can always see what you're selecting before you apply the action.
+    2. Neovim: delete 2 word: `d`. then `2w`. No visual feedback before you apply the action.
+1. Helix - Morden builtin features: LSP, tree-sitter, fuzzy finder, multi cursors, surround and more.
+    1. They're all available in Neovim too, but you need to find and use the right plugins manually, which takes time and effort.
+1. Helix is built in Rust from scratch. The result is a much smaller codebase and a modern set of defaults. No VimScript. No Lua.
+    1. Neovim contains a lot of VimScript, and lua is too dynamic, it's hard to debug.
+    1. Personally I'm glad to take a look at a Rust codebase, but not a VimScript/Lua codebase.
 1. Neovim have a very activate plugin ecosystem, and it's easy to find plugins for almost everything.
     1. Helix is still new, and it even do have a stable plugin system yet. A PR to add a plugin system is still envolving: <https://github.com/helix-editor/helix/pull/8675>
 2. Neovim has intergrated terminal, and it's very powerful. It's quite similar to VSCode's intergrated terminal. I use it a lot.
@@ -23,9 +31,9 @@ Use `:tutor` in helix to start the tutorial.
 1. Helix do not have a tree-view panel, it's recommended to use Yazi/ranger/Broot instead, and open Helix in them.
     1. a tree-view plugin may be added after the plugin system is stable, but no one knows when it will be.
     2. and some Helix users stated that they don't need a tree-view plugin, Helix's file picker is useful and good enough.
-1. It seems Helix lacks a substitution command, you should run it in another window(via wm or Zellij).
+1. It seems Helix lacks a global substitution command, you should run it in another window(via wm or Zellij).
+    1. <https://github.com/helix-editor/helix/issues/196>
     1. Neovim's substitution command allow you to preview the changes before you apply it, and it's very useful. if I switch to Helix, I'll need to find some other tools with similar feature(such as https://github.com/ms-jpq/sad).
-    2. The downside of Neovim's substitution command is that it's unable to save the command we just typed. If I made some things wrong, I have to type the whole substitution command again.
 1. Complexity and Maintenance Costs vs Batteries Included: <https://github.com/helix-editor/helix/discussions/6356>
 
 
