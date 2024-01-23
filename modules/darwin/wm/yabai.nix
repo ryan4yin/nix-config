@@ -2,12 +2,14 @@
   config,
   lib,
   username,
+  pkgs-unstable,
   ...
 }: let
   homeDir = config.users.users."${username}".home;
 in {
   services.yabai = {
     enable = true;
+    package = pkgs-unstable.yabai;
 
     # Whether to enable yabai's scripting-addition.
     # SIP must be disabled for this to work.
