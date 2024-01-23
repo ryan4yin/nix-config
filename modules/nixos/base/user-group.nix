@@ -41,20 +41,9 @@
     openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;
   };
 
-  # DO NOT promote the specified user to input password for `nix-store` and `nix-copy-closure`
-  security.sudo.extraRules = [
-    {
-      users = [username];
-      commands = [
-        {
-          command = "/run/current-system/sw/bin/nix-store";
-          options = ["NOPASSWD"];
-        }
-        {
-          command = "/run/current-system/sw/bin/nix-copy-closure";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
+  # The wheel group is a special user group,
+  # which can access to the `su` or `sudo` command to run commands as super user.
+  #
+  # Don't ask for password for wheel group
+  security.sudo.wheelNeedsPassword = false;
 }
