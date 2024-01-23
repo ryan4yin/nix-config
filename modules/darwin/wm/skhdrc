@@ -1,3 +1,5 @@
+# https://github.com/koekeishiya/yabai/blob/master/examples/skhdrc
+#
 # 配置语法 : <modifier> - <key> : <command>
 # modifier 可以是单个键比如 cmd, alt, ctrl, 也可以是组合键比如  ctrl + shift, ctrl + alt
 # ================================ 打开终端 ================================
@@ -13,6 +15,8 @@ alt - e : yabai -m space --layout bsp
 alt - s : yabai -m space --layout stack
 # 浮动/不浮动窗口 float
 alt - f : yabai -m window --toggle float
+# 全屏
+cmd + alt - f : yabai -m window --toggle zoom-fullscreen
 
 # focus window : 激活窗口快捷键  h: 左  j: 下  k: 右 l: 上 
 alt - h : yabai -m window --focus west
