@@ -88,7 +88,8 @@
       };
 
       # customize settings that not supported by nix-darwin directly
-      # see the source code of https://github.com/rgcr/m-cli to get all the available options
+      # All available settings can be found here:
+      #   https://github.com/yannbertrand/macos-defaults
       CustomUserPreferences = {
         ".GlobalPreferences" = {
           # automatically switch to a new space when switching to the application
@@ -112,6 +113,16 @@
           # Avoid creating .DS_Store files on network or USB volumes
           DSDontWriteNetworkStores = true;
           DSDontWriteUSBStores = true;
+        };
+        "com.apple.spaces" = {
+          "spans-displays" = 0; # Display have seperate spaces
+        };
+        "com.apple.WindowManager" = {
+          EnableStandardClickToShowDesktop = 0; # Click wallpaper to reveal desktop
+          StandardHideDesktopIcons = 0; # Show items on desktop
+          HideDesktop = 0; # Do not hide items on desktop & stage manager
+          StageManagerHideWidgets = 0;
+          StandardHideWidgets = 0;
         };
         "com.apple.screensaver" = {
           # Require password immediately after sleep or screen saver begins
