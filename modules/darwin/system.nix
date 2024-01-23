@@ -5,6 +5,9 @@
 #
 #  All the configuration options are documented here:
 #    https://daiderd.com/nix-darwin/manual/index.html#sec-options
+#  Incomplete list of macOS `defaults` commands :
+#    https://github.com/yannbertrand/macos-defaults
+#
 #
 # NOTE: Some options are not supported by nix-darwin directly, manually set them:
 #   1. To avoid conflicts with neovim, disable ctrl + up/down/left/right to switch spaces in:
@@ -88,7 +91,7 @@
       };
 
       # customize settings that not supported by nix-darwin directly
-      # All available settings can be found here:
+      # Incomplete list of macOS `defaults` commands :
       #   https://github.com/yannbertrand/macos-defaults
       CustomUserPreferences = {
         ".GlobalPreferences" = {
