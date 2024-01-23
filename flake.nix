@@ -43,10 +43,10 @@
               alejandra.enable = true; # formatter
               # deadnix.enable = true; # detect unused variable bindings in `*.nix`
               # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
-              prettier = {
-                enable = true;
-                excludes = [".js" ".md" ".ts"];
-              };
+              # prettier = {
+              #   enable = true;
+              #   excludes = [".js" ".md" ".ts"];
+              # };
             };
           };
         }
