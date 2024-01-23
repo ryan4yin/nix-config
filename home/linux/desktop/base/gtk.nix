@@ -45,12 +45,12 @@
 
     theme = {
       # https://github.com/catppuccin/gtk
-      name = "Catppuccin-Macchiato-Compact-Pink-dark";
+      name = "Catppuccin-Macchiato-Compact-Pink-Dark";
       package = pkgs.catppuccin-gtk.override {
         # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/data/themes/catppuccin-gtk/default.nix
         accents = ["pink"];
         size = "compact";
-        variant = "mocha";
+        variant = "macchiato";
       };
     };
   };
