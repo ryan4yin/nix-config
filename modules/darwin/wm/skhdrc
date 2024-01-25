@@ -30,9 +30,6 @@ ctrl + alt + cmd - down : yabai -m window --resize bottom:0:50; yabai -m window 
 ctrl + alt + cmd - up : yabai -m window --resize top:0:-50; yabai -m window --resize bottom:0:-50
 ctrl + alt + cmd - right : yabai -m window --resize right:50:0; yabai -m window --resize left:50:0
 
-# 重启 Yabai
-cmd + alt - r : /usr/bin/env osascript <<< "display notification \"正在重启 Yabai\" with title \"Yabai\""; launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
-
 # ================================ 多桌面配置  ================================
 # 创建一个新桌面，并把当前活动的窗口发送到新桌面，并且自动跳转到新桌面. 需要 jq 支持 brew install jq
 shift + cmd - n : yabai -m space --create && index="$(yabai -m query --spaces --display | jq '.| length')" && yabai -m window --space "${index}" && yabai -m space --focus "${index}" && yabai -m space --layout bsp
@@ -45,7 +42,7 @@ cmd - left : yabai -m window --focus west
 cmd - right : yabai -m window --focus east
 
 # 切换回最近的一个桌面
-alt - x : yabai -m space --focus recent
+alt - r : yabai -m space --focus recent
 # 在 9 个桌面之间切换
 alt - 1 : yabai -m space --focus 1
 alt - 2 : yabai -m space --focus 2

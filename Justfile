@@ -75,6 +75,10 @@ fe mode="default": darwin-set-proxy
   darwin-build "fern" {{mode}}; \
   darwin-switch "fern" {{mode}}
 
+yabai-reload:
+  launchctl kickstart -k "gui/502/org.nixos.yabai";
+  launchctl kickstart -k "gui/502/org.nixos.skhd"; 
+
 ############################################################################
 #
 #  Idols, Commands related to my remote distributed building cluster
