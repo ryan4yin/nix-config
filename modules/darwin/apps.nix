@@ -89,7 +89,7 @@ in {
     enable = false; # disable homebrew for fast deploy
 
     onActivation = {
-      autoUpdate = false;
+      autoUpdate = true;
       # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
       cleanup = "zap";
     };
@@ -146,7 +146,7 @@ in {
 
     # `brew install --cask`
     casks = [
-      # "wezterm"  # use this one if nixpkgs's wezterm broken
+      "zed" # zed editor
 
       "squirrel" # input method for Chinese, rime-squirrel
 
