@@ -1,6 +1,6 @@
 let
   envExtra = ''
-    export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+    export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
   '';
 in {
   # Homebrew's default install location:
