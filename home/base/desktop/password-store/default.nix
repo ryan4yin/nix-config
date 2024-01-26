@@ -3,7 +3,9 @@
   config,
   lib,
   ...
-}: {
+}: let
+  passwordStoreDir = "${config.xdg.dataHome}/password-store";
+in {
   programs.password-store = {
     enable = true;
     package = pkgs.pass.withExtensions (exts: [
@@ -16,7 +18,7 @@
     ]);
     # See the “Environment variables” section of pass(1) and the extension man pages for more information about the available keys.
     settings = {
-      PASSWORD_STORE_DIR = "${config.xdg.dataHome}/password-store";
+      PASSWORD_STORE_DIR = passwordStoreDir;
       # Overrides the default gpg key identification set by init.
       # Hexadecimal key signature is recommended.
       # Multiple keys may be specified separated by spaces.
@@ -47,4 +49,13 @@
       "firefox"
     ];
   };
+
+  # clone password-store repo if not exists
+  home.activation.initPasswordStore = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    ${pkgs.nushell}/bin/nu -c '
+      if not ("${passwordStoreDir}" | path exists) {
+        ${pkgs.git}/bin/git clone --depth 1 git@github.com:ryan4yin/password-store.git
+      }
+    '
+  '';
 }
