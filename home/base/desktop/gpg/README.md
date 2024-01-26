@@ -76,7 +76,7 @@ The strongest options should be:
 gpg --s2k-mode 3 --s2k-count 65011712 --s2k-digest-algo SHA512 --s2k-cipher-algo AES256 ...
 ```
 
-To use the strongest options globally, you can add the following lines to your `~/.gnupg/gpg.conf`.
+To use the strongest options globally, you can specify these options in your `~/.gnupg/gpg.conf`.
 I've added them to my Home Manager's `programs.gpg.settings` option.
 
 
