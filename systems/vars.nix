@@ -44,8 +44,8 @@ in {
   idol_aquamarine_modules = {
     nixos-modules = [
       ../hosts/idols_aquamarine
-      ../modules/nixos/server.nix
-      ../modules/nixos/proxmox-hardware-configuration.nix
+      ../modules/nixos/server/server.nix
+      ../modules/nixos/server/proxmox-hardware-configuration.nix
     ];
     home-module.imports = [
       ../hosts/idols_aquamarine/home.nix
@@ -58,8 +58,8 @@ in {
   idol_ruby_modules = {
     nixos-modules = [
       ../hosts/idols_ruby
-      ../modules/nixos/server.nix
-      ../modules/nixos/proxmox-hardware-configuration.nix
+      ../modules/nixos/server/server.nix
+      ../modules/nixos/server/proxmox-hardware-configuration.nix
     ];
     home-module.imports = [
       ../hosts/idols_ruby/home.nix
@@ -72,8 +72,8 @@ in {
   idol_kana_modules = {
     nixos-modules = [
       ../hosts/idols_kana
-      ../modules/nixos/server.nix
-      ../modules/nixos/proxmox-hardware-configuration.nix
+      ../modules/nixos/server/server.nix
+      ../modules/nixos/server/proxmox-hardware-configuration.nix
     ];
     home-module.imports = [
       ../hosts/idols_kana/home.nix
@@ -86,7 +86,7 @@ in {
   rolling_nozomi_modules = {
     nixos-modules = [
       ../hosts/rolling_girls_nozomi
-      ../modules/nixos/server-riscv64.nix
+      ../modules/nixos/server/server-riscv64.nix
 
       # cross-compilation this flake.
       {nixpkgs.crossSystem.system = "riscv64-linux";}
@@ -99,7 +99,7 @@ in {
   rolling_yukina_modules = {
     nixos-modules = [
       ../hosts/rolling_girls_yukina
-      ../modules/nixos/server-riscv64.nix
+      ../modules/nixos/server/server-riscv64.nix
 
       # cross-compilation this flake.
       {nixpkgs.crossSystem.system = "riscv64-linux";}
@@ -112,7 +112,7 @@ in {
   _12kingdoms_suzu_modules = {
     nixos-modules = [
       ../hosts/12kingdoms_suzu
-      ../modules/nixos/server-riscv64.nix
+      ../modules/nixos/server/server-riscv64.nix
 
       # cross-compilation this flake.
       {nixpkgs.crossSystem.config = "aarch64-unknown-linux-gnu";}

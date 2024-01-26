@@ -4,11 +4,13 @@
   # =========================================================================
 
   imports = [
-    ./base/i18n.nix
-    ./base/misc.nix
-    ./base/user-group.nix
+    ../base/i18n.nix
+    ../base/misc.nix
+    ../base/user-group.nix
 
-    ../base.nix
+    ../../base.nix
+    
+    ./security.nix
   ];
 
   # List packages installed in system profile. To search, run:

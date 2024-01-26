@@ -42,6 +42,44 @@ To use GnuGP without seamlessly, Some Practical Cryptography knowledge is requir
 
 > ArchWiki's GnuPG page: <https://wiki.archlinux.org/title/GnuPG>
 
+### 0. How GnuGP generate & protect your keypair?
+
+Related Docs:
+
+- [Predictable, Passphrase-Derived PGP Keys](https://nullprogram.com/blog/2019/07/10/)
+- [OpenPGP - The almost perfect key pair](https://blog.eleven-labs.com/en/openpgp-almost-perfect-key-pair-part-1/)
+
+GnuPG generate every secret key separately, and encrypt them with a symmetric key derived from your passphrase.
+OpenPGP standard defines [String-to-Key (S2K)](https://datatracker.ietf.org/doc/html/rfc4880#section-3.7)
+algorithm to derive a symmetric key from your passphrase.
+
+GnuPG's [OpenPGP protocol specific options](https://gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html#OpenPGP-Options) shows that:
+
+```
+--s2k-cipher-algo name
+
+    Use name as the cipher algorithm for symmetric encryption with a passphrase if --personal-cipher-preferences and --cipher-algo are not given. The default is AES-128.
+--s2k-digest-algo name
+
+    Use name as the digest algorithm used to mangle the passphrases for symmetric encryption. The default is SHA-1.
+--s2k-mode n
+
+    Selects how passphrases for symmetric encryption are mangled. If n is 0 a plain passphrase (which is in general not recommended) will be used, a 1 adds a salt (which should not be used) to the passphrase and a 3 (the default) iterates the whole process a number of times (see --s2k-count).
+--s2k-count n
+
+    Specify how many times the passphrases mangling for symmetric encryption is repeated. This value may range between 1024 and 65011712 inclusive. The default is inquired from gpg-agent. Note that not all values in the 1024-65011712 range are legal and if an illegal value is selected, GnuPG will round up to the nearest legal value. This option is only meaningful if --s2k-mode is set to the default of 3.
+```
+
+The strongest options should be:
+
+```
+gpg --s2k-mode 3 --s2k-count 65011712 --s2k-digest-algo SHA512 --s2k-cipher-algo AES256 ...
+```
+
+To use the strongest options globally, you can add the following lines to your `~/.gnupg/gpg.conf`.
+I've added them to my Home Manager's `programs.gpg.settings` option.
+
+
 ### 1. PGP Key(Primary Key) generation
 
 Key management is the core of OpenPGP standard / GnuPG.
