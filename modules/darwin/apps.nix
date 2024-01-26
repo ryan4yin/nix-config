@@ -86,7 +86,7 @@ in {
   # homebrew need to be installed manually, see https://brew.sh
   # https://github.com/LnL7/nix-darwin/blob/master/modules/homebrew.nix
   homebrew = {
-    enable = false; # disable homebrew for fast deploy
+    enable = true; # disable homebrew for fast deploy
 
     onActivation = {
       autoUpdate = true;
@@ -164,7 +164,6 @@ in {
       "iina" # video player
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       "stats" # beautiful system status monitor in menu bar
-      "eudic" # 欧路词典
       # "reaper"  # audio editor
       "sonic-pi" # music programming
 
