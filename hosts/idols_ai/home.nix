@@ -21,8 +21,7 @@
     enable = true;
     extraConfig = ''
       Host github.com
-          # github is controlled by gluttony~
-          IdentityFile ~/.ssh/gluttony
+          IdentityFile ~/.ssh/idols-ai
           # Specifies that ssh should only use the identity file explicitly configured above
           # required to prevent sending default identity files first.
           IdentitiesOnly yes

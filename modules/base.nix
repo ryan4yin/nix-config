@@ -13,7 +13,7 @@
   users.users.${username} = {
     description = userfullname;
     # Public Keys that can be used to login to all my PCs, Macbooks, and servers.
-    # 
+    #
     # Since its authority is so large, we must strengthen its security:
     # 1. The corresponding private key must be:
     #    1. Generated locally on every trusted client via:
@@ -26,6 +26,8 @@
     # 2. Or just use hardware security keys like Yubikey/CanoKey.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPoa9uEI/gR5+klqTQwvCgD6CD5vT5iD9YCNx2xNrH3B ryan@fern"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwZ9MdotnyhxIJrI4gmVshExHiZOx+FGFhcW7BaYkfR ryan@harmonica"
+      ""
     ];
   };
 
