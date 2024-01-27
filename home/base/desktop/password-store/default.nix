@@ -49,13 +49,4 @@ in {
       "firefox"
     ];
   };
-
-  # clone password-store repo if not exists
-  home.activation.initPasswordStore = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    ${pkgs.nushell}/bin/nu -c '
-      if not ("${passwordStoreDir}" | path exists) {
-        ${pkgs.git}/bin/git clone --depth 1 git@github.com:ryan4yin/password-store.git
-      }
-    '
-  '';
 }
