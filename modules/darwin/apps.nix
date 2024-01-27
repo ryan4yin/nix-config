@@ -158,6 +158,8 @@ in {
       "telegram"
       "discord"
       "microsoft-remote-desktop"
+      "moonlight" # remote desktop client
+      "rustdesk"
 
       # "anki"
       "shadowsocksx-ng" # proxy tool
