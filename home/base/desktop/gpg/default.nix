@@ -19,10 +19,10 @@
     mutableKeys = true;
     publicKeys = [
       # https://www.gnupg.org/gph/en/manual/x334.html
-      {
-        source = "${mysecrets}/public/ryan4yin-gpg-keys.pub";
-        trust = 5;
-      } # ultimate trust, my own keys.
+      # {
+      #   source = "${mysecrets}/public/ryan4yin-gpg-keys.pub";
+      #   trust = 5;
+      # } # ultimate trust, my own keys.
     ];
 
     # This configuration is based on the tutorial below, it allows for a robust setup
