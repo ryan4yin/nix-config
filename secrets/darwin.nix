@@ -39,9 +39,10 @@
     # no one can read/write this file, even root.
     # ---------------------------------------------
 
-    "ryan4yin-gpg-subkeys.priv" =
+    # .age means the decrypted file is still encrypted by age(via a passphrase)
+    "ryan4yin-gpg-subkeys.priv.age" =
       {
-        file = "${mysecrets}/ryan4yin-gpg-subkeys.priv.age";
+        file = "${mysecrets}/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
       }
       // noaccess;
 
@@ -107,8 +108,8 @@
       source = config.age.secrets."ssh-key-romantic".path;
     };
 
-    "agenix/ryan4yin-gpg-subkeys.priv" = {
-      source = config.age.secrets."ryan4yin-gpg-subkeys.priv".path;
+    "/agenix/ryan4yin-gpg-subkeys.priv.age" = {
+      source = config.age.secrets."ryan4yin-gpg-subkeys.priv.age".path;
     };
 
     # The following secrets are used by home-manager modules

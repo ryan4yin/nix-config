@@ -46,8 +46,10 @@ To use GnuGP without seamlessly, Some Practical Cryptography knowledge is requir
 
 Related Docs:
 
-- [Predictable, Passphrase-Derived PGP Keys](https://nullprogram.com/blog/2019/07/10/)
-- [OpenPGP - The almost perfect key pair](https://blog.eleven-labs.com/en/openpgp-almost-perfect-key-pair-part-1/)
+- [2021年，用更现代的方法使用PGP（上）][2021年，用更现代的方法使用PGP（上）]
+- [Predictable, Passphrase-Derived PGP Keys][Predictable, Passphrase-Derived PGP Keys]
+- [OpenPGP - The almost perfect key pair][OpenPGP - The almost perfect key pair]
+
 
 GnuPG generate every secret key separately, and encrypt them with a symmetric key derived from your passphrase.
 OpenPGP standard defines [String-to-Key (S2K)](https://datatracker.ietf.org/doc/html/rfc4880#section-3.7)
@@ -123,7 +125,7 @@ Please specify how long the key should be valid.
       <n>w = key expires in n weeks
       <n>m = key expires in n months
       <n>y = key expires in n years
-Key is valid for? (0) 20y
+Key is valid for? (0) 10y
 Key expires at 一  1/ 4 13:50:31 2044 CST
 Is this correct? (y/N) y
 
@@ -133,7 +135,7 @@ Real name:
 Email address: 
 Comment: 
 You selected this USER-ID:
-    "Ryan Yin (For Work) <ryan4yin@linux.com>"
+    "Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>"
 
 Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
 We need to generate a lot of random bytes. It is a good idea to perform
@@ -149,10 +151,10 @@ gpg: directory '/Users/ryan/.gnupg/openpgp-revocs.d' created
 gpg: revocation certificate stored as '/Users/ryan/.gnupg/openpgp-revocs.d/C8D84EBC5F82494F432ACEF042E49B284C30A0DA.rev'
 public and secret key created and signed.
 
-pub   ed25519 2024-01-09 [SC] [expires: 2044-01-04]
+pub   ed25519 2024-01-09 [SC] [expires: 2034-01-04]
       C8D84EBC5F82494F432ACEF042E49B284C30A0DA
-uid                      Ryan Yin (For Work) <ryan4yin@linux.com>
-sub   cv25519 2024-01-09 [E] [expires: 2044-01-04]
+uid                      Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
+sub   cv25519 2024-01-09 [E] [expires: 2034-01-04]
 ```
 
 ### 2. Configuration Files
@@ -223,11 +225,11 @@ There is NO WARRANTY, to the extent permitted by law.
 Secret key is available.
 
 sec  ed25519/42E49B284C30A0DA
-     created: 2024-01-09  expires: 2044-01-04  usage: SC
+     created: 2024-01-09  expires: 2034-01-04  usage: SC
      trust: ultimate      validity: ultimate
 ssb  cv25519/6CB4A81FFB3C99B6
-     created: 2024-01-09  expires: 2044-01-04  usage: E
-[ultimate] (1). Ryan Yin (For Work) <ryan4yin@linux.com>
+     created: 2024-01-09  expires: 2034-01-04  usage: E
+[ultimate] (1). Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
 
 gpg> addkey
 Please select what kind of key you want:
@@ -260,7 +262,7 @@ Please specify how long the key should be valid.
       <n>w = key expires in n weeks
       <n>m = key expires in n months
       <n>y = key expires in n years
-Key is valid for? (0) 20y
+Key is valid for? (0) 10y
 Key expires at Mon Jan  4 17:47:24 2044 CST
 Is this correct? (y/N) y
 Really create? (y/N) y
@@ -270,13 +272,13 @@ disks) during the prime generation; this gives the random number
 generator a better chance to gain enough entropy.
 
 sec  ed25519/42E49B284C30A0DA
-     created: 2024-01-09  expires: 2044-01-04  usage: SC
+     created: 2024-01-09  expires: 2034-01-04  usage: SC
      trust: ultimate      validity: ultimate
 ssb  cv25519/6CB4A81FFB3C99B6
-     created: 2024-01-09  expires: 2044-01-04  usage: E
+     created: 2024-01-09  expires: 2034-01-04  usage: E
 ssb  ed25519/A42813E03A10F504
-     created: 2024-01-09  expires: 2044-01-04  usage: S
-[ultimate] (1). Ryan Yin (For Work) <ryan4yin@linux.com>
+     created: 2024-01-09  expires: 2034-01-04  usage: S
+[ultimate] (1). Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
 
 gpg> addkey
 Please select what kind of key you want:
@@ -336,7 +338,7 @@ Please specify how long the key should be valid.
       <n>w = key expires in n weeks
       <n>m = key expires in n months
       <n>y = key expires in n years
-Key is valid for? (0) 20y
+Key is valid for? (0) 10y
 Key expires at Mon Jan  4 17:48:27 2044 CST
 Is this correct? (y/N) y
 Really create? (y/N) y
@@ -346,15 +348,15 @@ disks) during the prime generation; this gives the random number
 generator a better chance to gain enough entropy.
 
 sec  ed25519/42E49B284C30A0DA
-     created: 2024-01-09  expires: 2044-01-04  usage: SC
+     created: 2024-01-09  expires: 2034-01-04  usage: SC
      trust: ultimate      validity: ultimate
 ssb  cv25519/6CB4A81FFB3C99B6
-     created: 2024-01-09  expires: 2044-01-04  usage: E
+     created: 2024-01-09  expires: 2034-01-04  usage: E
 ssb  ed25519/A42813E03A10F504
-     created: 2024-01-09  expires: 2044-01-04  usage: S
+     created: 2024-01-09  expires: 2034-01-04  usage: S
 ssb  ed25519/5469C4FACC81B60F
-     created: 2024-01-09  expires: 2044-01-04  usage: A
-[ultimate] (1). Ryan Yin (For Work) <ryan4yin@linux.com>
+     created: 2024-01-09  expires: 2034-01-04  usage: A
+[ultimate] (1). Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
 
 gpg> save
 ```
@@ -365,14 +367,14 @@ Check the secret keys and public keys we generated:
 › gpg --list-secret-keys --with-subkey-fingerprint
 [keyboxd]
 ---------
-sec   ed25519 2024-01-09 [SC] [expires: 2044-01-04]
+sec   ed25519 2024-01-09 [SC] [expires: 2034-01-04]
       C8D84EBC5F82494F432ACEF042E49B284C30A0DA
-uid           [ultimate] Ryan Yin (For Work) <ryan4yin@linux.com>
-ssb   cv25519 2024-01-09 [E] [expires: 2044-01-04]
+uid           [ultimate] Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
+ssb   cv25519 2024-01-09 [E] [expires: 2034-01-04]
       1146D48B93C2177C92D186026CB4A81FFB3C99B6
-ssb   ed25519 2024-01-09 [S] [expires: 2044-01-04]
+ssb   ed25519 2024-01-09 [S] [expires: 2034-01-04]
       DF64002A822948B17783BBB1A42813E03A10F504
-ssb   ed25519 2024-01-09 [A] [expires: 2044-01-04]
+ssb   ed25519 2024-01-09 [A] [expires: 2034-01-04]
       65E2C6C1C3559362ABB7047C5469C4FACC81B60F
 
 › gpg --list-public-keys
@@ -385,6 +387,8 @@ Export Public Keys(Both Primary Key & Sub Keys):
 
 ```bash
 gpg --armor --export ryan4yin@linux.com > ryan4yin-gpg-keys.pub
+# check what we have exported, we should see 4 public keys
+nix run nixpkgs#pgpdump ryan4yin-gpg-keys.pub
 ```
 
 Export Primary Key(The exported key is still encrypted by your passphrase):
@@ -397,15 +401,52 @@ Export Primary Key(The exported key is still encrypted by your passphrase):
 ```bash
 # replace the key ID with your own sec key's ID
 gpg --armor --export-secret-keys C8D84EBC5F82494F432ACEF042E49B284C30A0DA! > ryan4yin-primary-key.priv
+
+# Check the exported primary key's detail info,
+nix run nixpkgs#pgpdump ryan4yin-primary-key.priv
+...
+Old: Secret Key Packet(tag 5)(134 bytes)
+        Ver 4 - new
+        Public key creation time - Sat Jan 27 14:13:13 CST 2024
+        Pub alg - EdDSA Edwards-curve Digital Signature Algorithm(pub 22)
+        Elliptic Curve - Ed25519 (0x2B 06 01 04 01 DA 47 0F 01)
+        EdDSA Q(263 bits) - ...
+        Sym alg - AES with 128-bit key(sym 7)
+        Iterated and salted string-to-key(s2k 3):
+                Hash alg - SHA1(hash 2)
+                Salt - 8c 78 58 c0 87 83 8c 2c
+                Count - 65011712(coded count 255)
+        IV - xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx 
+        Encrypted EdDSA x
+        Encrypted SHA1 hash
+...
+```
+
+As [Predictable, Passphrase-Derived PGP Keys][Predictable, Passphrase-Derived PGP Keys] says, we'll find that gpg ignored the `--s2k-count` option we specified when generating the keypair, and the `--s2k` related options we specified in `~/.gnupg/gpg.conf`, 
+the exported primary key is protectd by `SHA1` and `AES128`, which is not secure enough!
+
+So to increase the security of the exported primary key, we need to encrypt it again with a stronger algorithm, I choose `age` here(which use `scrypt` to encrypt the file key with a provided passphrase):
+
+```bash
+# for simplicity, use the same passphrase as your gpg keypair here
+age --passphrase -o ryan4yin-primary-key.priv.age ryan4yin-primary-key.priv
+rm ryan4yin-primary-key.priv
 ```
 
 Export Sub Keys one by one(The exported keys is still encrypted by your passphrase):
 
 ```bash
 gpg --armor --export-secret-subkeys > ryan4yin-gpg-subkeys.priv
+
+# Check the exported primary key's detail info,
+nix run nixpkgs#pgpdump ryan4yin-gpg-subkeys.priv
+
+# encrypt it again with age(scrypt)
+age --passphrase  -o ryan4yin-gpg-subkeys.priv.age ryan4yin-gpg-subkeys.priv
+rm ryan4yin-gpg-subkeys.priv
 ```
 
-Your can import the exported Private Key via `gpg --import <keyfile>` to restore it.
+Your can import the exported Private Key via `gpg --import <keyfile>` to restore it, but you need to decrypt it via age first.
 
 As for Public Keys, please import your publicKeys via Home Manager's `programs.gpg.publicKeys` option, DO NOT import it manually(via `gpg --import <keyfile>`).
 
@@ -419,6 +460,7 @@ gpg --delete-secret-keys ryan4yin@linux.com
 rm ~/.gnupg/openpgp-revocs.d/C8D84EBC5F82494F432ACEF042E49B284C30A0DA.rev
 
 # import our subkeys back
+age --decrypt -o ryan4yin-primary-key.priv ryan4yin-primary-key.priv.age
 gpg --import ryan4yin-gpg-subkeys.priv
 ```
 
@@ -430,23 +472,23 @@ Now check the secret keys and public keys again:
 › gpg --list-secret-keys --keyid-format=long
 /home/ryan/.gnupg/pubring.kbx
 -----------------------------
-sec#  ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2044-01-04]
+sec#  ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2034-01-04]
       Key fingerprint = E267 943C 33AD C5AF 3D76  4D96 D1C5 FFA3 118A 41FC
 uid                 [ unknown] Ryan Yin (Personal) <ryan4yin@linux.com>
-ssb   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2044-01-04]
-ssb   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2044-01-04]
-ssb   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2044-01-04]
+ssb   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2034-01-04]
+ssb   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2034-01-04]
+ssb   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2034-01-04]
 
 
 › gpg --list-public-keys --keyid-format=long
 /home/ryan/.gnupg/pubring.kbx
 -----------------------------
-pub   ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2044-01-04]
+pub   ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2034-01-04]
       Key fingerprint = E267 943C 33AD C5AF 3D76  4D96 D1C5 FFA3 118A 41FC
 uid                 [ unknown] Ryan Yin (Personal) <ryan4yin@linux.com>
-sub   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2044-01-04]
-sub   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2044-01-04]
-sub   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2044-01-04]
+sub   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2034-01-04]
+sub   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2034-01-04]
+sub   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2034-01-04]
 ```
 
 ### 5. Signing & Verification
@@ -480,7 +522,7 @@ gpg --decrypt <file>
 gpg -d <file>
 ```
 
-If you just want to encrypt/decrypt a file quickly, you can use `age`, or use `gpg` with symmetric encryption:
+If you just want to encrypt/decrypt a file quickly, you can use `age` with a passphrase, `gpg` can also do this, but it's not recommended(as age(scrypt)'s more secure):
 
 ```bash
 # Encrypt a file via symmetric encryption(AES256), and output cleartext.
@@ -608,5 +650,11 @@ But if you delete the `trustdb.gpg` and `pubring.kbx`, then import the revoked p
 
 ## References
 
-- [2021年，用更现代的方法使用PGP（上）](https://ulyc.github.io/2021/01/13/2021%E5%B9%B4-%E7%94%A8%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8PGP-%E4%B8%8A/)
+- [2021年，用更现代的方法使用PGP（上）][2021年，用更现代的方法使用PGP（上）]
+- [Predictable, Passphrase-Derived PGP Keys][Predictable, Passphrase-Derived PGP Keys]
+- [OpenPGP - The almost perfect key pair][OpenPGP - The almost perfect key pair]
+
+[2021年，用更现代的方法使用PGP（上）]: https://ulyc.github.io/2021/01/13/2021%E5%B9%B4-%E7%94%A8%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8PGP-%E4%B8%8A/
+[Predictable, Passphrase-Derived PGP Keys]: https://nullprogram.com/blog/2019/07/10/
+[OpenPGP - The almost perfect key pair]: https://blog.eleven-labs.com/en/openpgp-almost-perfect-key-pair-part-1/
 
