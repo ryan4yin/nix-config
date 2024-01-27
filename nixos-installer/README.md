@@ -260,3 +260,18 @@ just hypr
 ```
 
 Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)
+
+
+
+## Change LUKS2's passphrase
+
+```bash
+# test the old passphrase
+sudo cryptsetup --verbose open --test-passphrase /path/to/dev/
+
+# change the passphrase
+sudo cryptsetup luksChangeKey /path/to/dev/
+
+# test the new passphrase
+sudo cryptsetup --verbose open --test-passphrase /path/to/dev/
+```
