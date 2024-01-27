@@ -118,7 +118,7 @@
       user = username;
     };
 
-    "/agenix/ryan4yin-gpg-subkeys.priv.age" = {
+    "agenix/ryan4yin-gpg-subkeys.priv.age" = {
       source = config.age.secrets."ryan4yin-gpg-subkeys.priv.age".path;
       mode = "0000";
     };
