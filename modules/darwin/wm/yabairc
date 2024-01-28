@@ -32,8 +32,6 @@ yabai -m config focus_follows_mouse          autofocus
 # 设置鼠标是否跟随当前活动窗口 默认 off: 关闭 on: 开启
 yabai -m config mouse_follows_focus          on
 
-# 浮动窗口问题在顶部
-yabai -m config window_topmost               on
 # 修改窗口阴影 on: 打开 off: 关闭 float: 只显示浮动窗口的阴影
 yabai -m config window_shadow                float
 
