@@ -19,6 +19,9 @@
     "cifs" # mount windows share
   ];
 
+  boot.kernelModules = ["kvm-amd" "kvm-intel"];
+  boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
+
   networking = {
     hostName = "aquamarine"; # Define your hostname.
     wireless.enable = false; # Enables wireless support via wpa_supplicant.

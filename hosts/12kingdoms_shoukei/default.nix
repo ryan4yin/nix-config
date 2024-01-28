@@ -19,6 +19,9 @@
     ./impermanence.nix
   ];
 
+  boot.kernelModules = ["kvm-amd" "kvm-intel"];
+  boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
+
   networking = {
     hostName = "shoukei"; # Define your hostname.
     # configures the network interface(include wireless) via `nmcli` & `nmtui`

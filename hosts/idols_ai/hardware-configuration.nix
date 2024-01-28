@@ -23,7 +23,8 @@
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
+  boot.kernelModules = ["kvm-intel"]; # kvm virtualization support
+  boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
   boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
   boot.extraModulePackages = [];
   # clear /tmp on boot to get a stateless /tmp directory.
