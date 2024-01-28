@@ -5,9 +5,9 @@
    1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
 2. `idols`
    1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
-   2. `aquamarine`: My NixOS virtual machine with R9-5900HX(8C16T), for distributed building & testing.
-   3. `kana`: Yet another NixOS vm on another physical machine with R5-5625U(6C12T).
-   4. `ruby`: Another NixOS vm on another physical machine with R7-5825U(8C16T).
+   2. `aquamarine`: My NixOS virtual machine as a passby router(IPv4 only) to access the global internet.
+   4. `ruby`: Another NixOS vm with R9-5900HX(8C16T), for distributed building & testing.
+   3. `kana`: Yet another NixOS vm with R7-5225U(6C12T), for desktop testing.
 3. `rolling_girls`: My RISCV64 hosts.
    1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 8GB RAM + 32G eMMC + 64G SD Card.
    2. `yukina`: Lichee Pi 4A(Internal Test Version), TH1520(4xC910@2.0G), 8GB RAM + 8G eMMC + 128G SD Card.
@@ -16,7 +16,7 @@
    1. `shoukei`: NixOS on Macbook Pro 2022 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM + 256G SSD.
 5. Homelab:
-   1. `tailscale-gw`: A tailscale subnet router(gateway) for accessing my homelab remotely. NixOS VM running on Proxmox.
+   1. `tailscale_gw`: A tailscale subnet router(gateway) for accessing my homelab remotely. NixOS VM running on Proxmox.
 
 # idols - Oshi no Ko
 

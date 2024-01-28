@@ -11,7 +11,7 @@
   #   mapAttrs
   #   (name: value: ("bar-" + value))
   #   { x = "a"; y = "b"; }
-  #     => { foo = "bar-a"; foo = "bar-b"; }
+  #     => { x = "bar-a"; y = "bar-b"; }
   inherit (lib.attrsets) mapAttrs;
 
   # Update both the names and values of the given attribute set.

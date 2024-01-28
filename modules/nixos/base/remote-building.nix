@@ -16,7 +16,7 @@
   nix.buildMachines = let
     sshUser = username;
     # ssh key's path on local machine
-    sshKey = "/home/${username}/.ssh/ai-idols";
+    sshKey = "/etc/agenix/ssh-key-romantic";
     systems = [
       # native arch
       "x86_64-linux"
@@ -68,64 +68,4 @@
   nix.extraOptions = ''
     builders-use-substitutes = true
   '';
-
-  # define the host alias for remote builders
-  # this config will be written to /etc/ssh/ssh_config
-  programs.ssh.extraConfig = ''
-    # idols
-    Host ai
-      HostName 192.168.5.100
-      Port 22
-
-    Host aquamarine
-      HostName 192.168.5.101
-      Port 22
-
-    Host ruby
-      HostName 192.168.5.102
-      Port 22
-
-    Host kana
-      HostName 192.168.5.103
-      Port 22
-
-    # rolling girls
-    Host nozomi
-      HostName 192.168.5.104
-      Port 22
-
-    Host yukina
-      HostName 192.168.5.105
-      Port 22
-
-    Host chiaya
-      HostName 192.168.5.106
-      Port 22
-
-    Host suzu
-      HostName 192.168.5.107
-      Port 22
-  '';
-
-  # define the host key for remote builders so that nix can verify all the remote builders
-  # this config will be written to /etc/ssh/ssh_known_hosts
-  programs.ssh.knownHosts = {
-    # 星野 愛久愛海, Hoshino Aquamarine
-    aquamarine = {
-      hostNames = ["aquamarine" "192.168.5.101"];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO0EzzjnuHBE9xEOZupLmaAj9xbYxkUDeLbMqFZ7YPjU";
-    };
-
-    # 星野 瑠美衣, Hoshino Rubii
-    ruby = {
-      hostNames = ["ruby" "192.168.5.102"];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHrDXNQXELnbevZ1rImfXwmQHkRcd3TDNLsQo33c2tUf";
-    };
-
-    # 有馬 かな, Arima Kana
-    kana = {
-      hostNames = ["kana" "192.168.5.103"];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMVX05DQD1XJ0AqFZzsRsqgeUOlZ4opAI+8tkVXyjq+";
-    };
-  };
 }

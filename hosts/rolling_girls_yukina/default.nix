@@ -1,4 +1,8 @@
-{nixos-licheepi4a, ...}:
+{
+  nixos-licheepi4a,
+  vars_networking,
+  ...
+}:
 #############################################################
 #
 #  Yukina - NixOS configuration for Lichee Pi 4A
@@ -6,8 +10,7 @@
 #############################################################
 let
   hostName = "yukina"; # Define your hostname.
-  vars = import ../vars.nix;
-  hostAddress = vars.networking.hostAddress.${hostName};
+  hostAddress = vars_networking.hostAddress.${hostName};
 in {
   imports = [
     # import the licheepi4a module, which contains the configuration for bootloader/kernel/firmware
@@ -19,7 +22,7 @@ in {
   # Set static IP address / gateway / DNS servers.
   networking = {
     inherit hostName;
-    inherit (vars.networking) defaultGateway nameservers;
+    inherit (vars_networking) defaultGateway nameservers;
 
     wireless = {
       # https://wiki.archlinux.org/title/wpa_supplicant

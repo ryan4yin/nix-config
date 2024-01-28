@@ -1,4 +1,8 @@
-{nixos-hardware, ...}:
+{
+  nixos-hardware,
+  vars_networking,
+  ...
+}:
 #############################################################
 #
 #  Shoukei - NixOS running on Macbook Pro 2020 I5 16G
@@ -7,7 +11,6 @@
 #############################################################
 let
   hostName = "shoukei"; # Define your hostname.
-  vars = import ../vars.nix;
 in {
   imports = [
     nixos-hardware.nixosModules.apple-t2
@@ -23,7 +26,7 @@ in {
 
   networking = {
     inherit hostName;
-    inherit (vars.networking) defaultGateway nameservers;
+    inherit (vars_networking) defaultGateway nameservers;
 
     # configures the network interface(include wireless) via `nmcli` & `nmtui`
     networkmanager.enable = true;

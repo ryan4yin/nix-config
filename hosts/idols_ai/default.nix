@@ -1,3 +1,4 @@
+{vars_networking, ...}:
 #############################################################
 #
 #  Ai - my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
@@ -5,8 +6,7 @@
 #############################################################
 let
   hostName = "ai"; # Define your hostname.
-  vars = import ../vars.nix;
-  hostAddress = vars.networking.hostAddress.${hostName};
+  hostAddress = vars_networking.hostAddress.${hostName};
 in {
   imports = [
     ./cifs-mount.nix
@@ -19,7 +19,7 @@ in {
 
   networking = {
     inherit hostName;
-    inherit (vars.networking) defaultGateway nameservers;
+    inherit (vars_networking) defaultGateway nameservers;
 
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
     # configures the network interface(include wireless) via `nmcli` & `nmtui`

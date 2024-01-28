@@ -6,11 +6,12 @@
   inherit (inputs.nixpkgs) lib;
   mylib = import ../lib {inherit lib;};
   vars = import ./vars.nix;
+  vars_networking = import ./vars_networking.nix {inherit lib;};
 
   specialArgsForSystem = system:
     {
       inherit (constants) username userfullname useremail;
-      inherit mylib;
+      inherit mylib vars_networking;
       # use unstable branch for some packages to get the latest updates
       pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system; # refer the `system` parameter form outer scope recursively

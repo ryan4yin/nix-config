@@ -1,4 +1,8 @@
-{nixos-rk3588, ...}:
+{
+  nixos-rk3588,
+  vars_networking,
+  ...
+}:
 #############################################################
 #
 #  Suzu - Orange Pi 5, RK3588s
@@ -6,8 +10,7 @@
 #############################################################
 let
   hostName = "suzu"; # Define your hostname.
-  vars = import ../vars.nix;
-  hostAddress = vars.networking.hostAddress.${hostName};
+  hostAddress = vars_networking.hostAddress.${hostName};
 in {
   imports = [
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
@@ -16,7 +19,7 @@ in {
 
   networking = {
     inherit hostName;
-    inherit (vars.networking) defaultGateway nameservers;
+    inherit (vars_networking) defaultGateway nameservers;
 
     networkmanager.enable = false;
     interfaces.end1 = {

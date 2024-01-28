@@ -1,12 +1,12 @@
+{vars_networking, ...}:
 #############################################################
 #
 #  Tailscale Gateway(homelab subnet router) - a NixOS VM running on Proxmox
 #
 #############################################################
 let
-  hostName = "tailscale-gw"; # Define your hostname.
-  vars = import ../vars.nix;
-  hostAddress = vars.networking.hostAddress.${hostName};
+  hostName = "tailscale_gw"; # Define your hostname.
+  hostAddress = vars_networking.hostAddress.${hostName};
 in {
   imports = [
     ./tailscale.nix
@@ -24,7 +24,7 @@ in {
 
   networking = {
     inherit hostName;
-    inherit (vars.networking) defaultGateway nameservers;
+    inherit (vars_networking) defaultGateway nameservers;
 
     networkmanager.enable = false;
     interfaces.ens18 = {
