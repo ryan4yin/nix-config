@@ -32,11 +32,6 @@
     ];
   };
 
-  programs.ssh = {
-    extraConfig = vars_networking.ssh.extraConfig;
-    knownHosts = vars_networking.ssh.knownHosts;
-  };
-
   nix.settings = {
     # enable flakes globally
     experimental-features = ["nix-command" "flakes"];
