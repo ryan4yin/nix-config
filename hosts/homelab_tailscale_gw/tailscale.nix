@@ -16,7 +16,7 @@
 # How to use:
 #  1. Create a Tailscale account at https://login.tailscale.com
 #  2. Login via `tailscale login`
-#  3. join into your Tailscale network via `tailscale up --accept-routes`
+#  3. join into your Tailscale network via `tailscale up --advertise-routes 192.168.5.0/24`
 #  4. If you prefer automatic connection to Tailscale, use the `authKeyFile` option` in the config below.
 #
 # Status Data:
@@ -39,8 +39,8 @@
     interfaceName = "tailscale0";
     # allow the Tailscale UDP port through the firewall
     openFirewall = true;
-    useRoutingFeatures = "client";
-    extraUpFlags = "--accept-routes";
+    useRoutingFeatures = "server";
+    extraUpFlags = "--advertise-routes 192.168.5.0/24";
     # authKeyFile = "/var/lib/tailscale/authkey";
   };
 }

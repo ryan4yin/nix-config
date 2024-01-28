@@ -82,6 +82,16 @@ in {
   };
   idol_kana_tags = ["dist-build" "kana"];
 
+  homelab_tailscale_gw_modules = {
+    nixos-modules = [
+      ../hosts/homelab_tailscale_gw
+      ../modules/nixos/server/server.nix
+      ../modules/nixos/server/proxmox-hardware-configuration.nix
+    ];
+    # home-module.imports = [];
+  };
+  homelab_tailscale_gw_tags = ["tailscale-gw"];
+
   # 森友 望未, Moritomo Nozomi
   rolling_nozomi_modules = {
     nixos-modules = [

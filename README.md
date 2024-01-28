@@ -137,7 +137,7 @@ nom build .#aquamarine  # `nom`(nix-output-monitor) can be replaced by the stand
 
 # 2. upload the genereated image to proxmox server's backup directory `/var/lib/vz/dump`
 #    please replace the vma file name with the one you generated in step 1.
-scp result/vzdump-qemu-aquamarine-nixos-23.11.20230603.dd49825.vma.zst root@192.168.5.174:/var/lib/vz/dump
+rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
 
 # 3. the image we uploaded will be listed in proxmox web ui's this page: [storage 'local'] -> [backups], we can restore a vm from it via the web ui now.
 ```
@@ -146,7 +146,7 @@ Once the virtual machine `aquamarine` is created, we can deploy updates to it wi
 
 ```shell
 # 1. add the ssh key to ssh-agent
-ssh-add ~/.ssh/ai-idols
+ssh-add /etc/agenix/ssh-key-romantic
 
 # 2. deploy the configuration to all the remote host with tag `@dist-build`
 # using the ssh key we added in step 1

@@ -3,7 +3,11 @@
 #  Ai - my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
 #
 #############################################################
-{
+let
+  hostName = "ai"; # Define your hostname.
+  vars = import ../vars.nix;
+  hostAddress = vars.networking.hostAddress.${hostName};
+in {
   imports = [
     ./cifs-mount.nix
     # Include the results of the hardware scan.
@@ -14,30 +18,16 @@
   ];
 
   networking = {
-    hostName = "ai";
+    inherit hostName;
+    inherit (vars.networking) defaultGateway nameservers;
+
     wireless.enable = false; # Enables wireless support via wpa_supplicant.
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    networkmanager.enable = true;
-
-    enableIPv6 = false; # disable ipv6
+    # configures the network interface(include wireless) via `nmcli` & `nmtui`
+    networkmanager.enable = false;
     interfaces.enp5s0 = {
       useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.5.100";
-          prefixLength = 24;
-        }
-      ];
+      ipv4.addresses = [hostAddress];
     };
-    defaultGateway = "192.168.5.201";
-    nameservers = [
-      "119.29.29.29" # DNSPod
-      "223.5.5.5" # AliDNS
-    ];
   };
 
   # conflict with feature: containerd-snapshotter

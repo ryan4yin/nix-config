@@ -1,6 +1,6 @@
 # Hosts
 
-1. macOS(darwin)
+1. `darwin`(macOS)
    1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
    1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
 2. `idols`
@@ -15,7 +15,8 @@
 4. `12kingdoms`: 
    1. `shoukei`: NixOS on Macbook Pro 2022 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM + 256G SSD.
-
+5. Homelab:
+   1. `tailscale-gw`: A tailscale subnet router(gateway) for accessing my homelab remotely. NixOS VM running on Proxmox.
 
 # idols - Oshi no Ko
 

@@ -80,6 +80,11 @@ in {
       idol_kana_modules
       {host_tags = idol_kana_tags;}
     ]);
+    tailscale_gw = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      homelab_tailscale_gw_modules
+      {host_tags = homelab_tailscale_gw_tags;}
+    ]);
 
     # riscv64 SBCs
     nozomi = colmenaSystem (attrs.mergeAttrsList [

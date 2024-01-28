@@ -1,38 +1,28 @@
 {nixos-rk3588, ...}:
 #############################################################
 #
-#  Aquamarine - A NixOS VM running on Proxmox
+#  Suzu - Orange Pi 5, RK3588s
 #
 #############################################################
-{
+let
+  hostName = "suzu"; # Define your hostname.
+  vars = import ../vars.nix;
+  hostAddress = vars.networking.hostAddress.${hostName};
+in {
   imports = [
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
     nixos-rk3588.nixosModules.orangepi5
   ];
 
   networking = {
-    hostName = "suzu"; # Define your hostname.
-    wireless.enable = false; # Enables wireless support via wpa_supplicant.
+    inherit hostName;
+    inherit (vars.networking) defaultGateway nameservers;
+
     networkmanager.enable = false;
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
     interfaces.end1 = {
       useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.5.107";
-          prefixLength = 24;
-        }
-      ];
+      ipv4.addresses = [hostAddress];
     };
-    defaultGateway = "192.168.5.201";
-    nameservers = [
-      "119.29.29.29" # DNSPod
-      "223.5.5.5" # AliDNS
-    ];
   };
 
   # This value determines the NixOS release from which the default

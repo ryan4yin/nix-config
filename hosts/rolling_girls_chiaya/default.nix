@@ -9,38 +9,27 @@
 #  WIP, not working yet.
 #
 #############################################################
-{
+let
+  hostName = "chiaya"; # Define your hostname.
+  vars = import ../vars.nix;
+  hostAddress = vars.networking.hostAddress.${hostName};
+in {
   imports = [
   ];
 
   # Set static IP address / gateway / DNS servers.
   networking = {
-    hostName = "chiaya"; # Define your hostname.
-    wireless.enable = false;
+    inherit hostName;
+    inherit (vars.networking) defaultGateway nameservers;
 
     # Failed to enable firewall due to the following error:
     #   firewall-start[2300]: iptables: Failed to initialize nft: Protocol not supported
     firewall.enable = false;
-
-    defaultGateway = "192.168.5.201";
-    nameservers = [
-      "119.29.29.29" # DNSPod
-      "223.5.5.5" # AliDNS
-    ];
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
+    networkmanager.enable = false;
     # milkv-mars RJ45 port
     interfaces.end0 = {
       useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.5.106";
-          prefixLength = 24;
-        }
-      ];
+      ipv4.addresses = [hostAddress];
     };
   };
 

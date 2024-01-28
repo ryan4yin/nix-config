@@ -4,7 +4,11 @@
 #  Nozomi - NixOS configuration for Lichee Pi 4A
 #
 #############################################################
-{
+let
+  hostName = "nozomi"; # Define your hostname.
+  vars = import ../vars.nix;
+  hostAddress = vars.networking.hostAddress.${hostName};
+in {
   imports = [
     # import the licheepi4a module, which contains the configuration for bootloader/kernel/firmware
     (nixos-licheepi4a + "/modules/licheepi4a.nix")
@@ -14,7 +18,9 @@
 
   # Set static IP address / gateway / DNS servers.
   networking = {
-    hostName = "nozomi"; # Define your hostname.
+    inherit hostName;
+    inherit (vars.networking) defaultGateway nameservers;
+
     wireless = {
       # https://wiki.archlinux.org/title/wpa_supplicant
       enable = true;
@@ -33,12 +39,6 @@
     #   firewall-start[2300]: iptables: Failed to initialize nft: Protocol not supported
     firewall.enable = false;
 
-    defaultGateway = "192.168.5.201";
-    nameservers = [
-      "119.29.29.29" # DNSPod
-      "223.5.5.5" # AliDNS
-    ];
-
     # Configure network proxy if necessary
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -46,12 +46,7 @@
     # LPI4A's wireless interface
     interfaces.wlan0 = {
       useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.5.104";
-          prefixLength = 24;
-        }
-      ];
+      ipv4.addresses = [hostAddress];
     };
     # LPI4A's first ethernet interface
     # interfaces.end0 = {
