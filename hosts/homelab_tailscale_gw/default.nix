@@ -1,30 +1,26 @@
 #############################################################
 #
-#  Ruby - a NixOS VM running on Proxmox
+#  Tailscale Gateway(homelab subnet router) - a NixOS VM running on Proxmox
 #
 #############################################################
 let
-  hostName = "ruby"; # Define your hostname.
+  hostName = "tailscale-gw"; # Define your hostname.
   vars = import ../vars.nix;
   hostAddress = vars.networking.hostAddress.${hostName};
 in {
-  # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
-  boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
+  imports = [
+    ./tailscale.nix
+  ];
+
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
     "btrfs"
     "xfs"
-    #"zfs"
-    "ntfs"
     "fat"
     "vfat"
     "exfat"
-    "cifs" # mount windows share
   ];
-
-  boot.kernelModules = ["kvm-amd" "kvm-intel"];
-  boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   networking = {
     inherit hostName;

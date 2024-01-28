@@ -3,10 +3,14 @@
 #  Aquamarine - A NixOS VM running on Proxmox
 #
 #############################################################
-{
+let
+  hostName = "aquamarine"; # Define your hostname.
+  vars = import ../vars.nix;
+  hostAddress = vars.networking.hostAddress.${hostName};
+in {
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
-  # supported fil systems, so we can mount any removable disks with these filesystems
+  # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
     "btrfs"
@@ -23,28 +27,14 @@
   boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   networking = {
-    hostName = "aquamarine"; # Define your hostname.
-    wireless.enable = false; # Enables wireless support via wpa_supplicant.
+    inherit hostName;
+    inherit (vars.networking) defaultGateway nameservers;
 
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    networkmanager.enable = true;
+    networkmanager.enable = false;
     interfaces.ens18 = {
       useDHCP = false;
-      ipv4.addresses = [
-        {
-          address = "192.168.5.101";
-          prefixLength = 24;
-        }
-      ];
+      ipv4.addresses = [hostAddress];
     };
-    defaultGateway = "192.168.5.201";
-    nameservers = [
-      "119.29.29.29" # DNSPod
-      "223.5.5.5" # AliDNS
-    ];
   };
 
   # This value determines the NixOS release from which the default

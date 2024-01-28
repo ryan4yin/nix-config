@@ -85,15 +85,18 @@ yabai-reload:
 
 ############################################################################
 #
-#  Idols, Commands related to my remote distributed building cluster
+#  Colmena - Remote NixOS deployment
 #
 ############################################################################
 
-idols-ssh-key:
-  ssh-add ~/.ssh/ai-idols
+colmena-ssh-key:
+  ssh-add /etc/agenix/ssh-key-romantic
 
-idols: idols-ssh-key
+dist:
   colmena apply --on '@dist-build'
+
+dist-debug:
+  colmena apply --on '@dist-build' --verbose --show-trace
 
 aqua:
   colmena apply --on '@aqua'
@@ -104,21 +107,21 @@ ruby:
 kana:
   colmena apply --on '@kana'
 
-idols-debug: idols-ssh-key
-  colmena apply --on '@dist-build' --verbose --show-trace
+tailscale-gw:
+  colmena apply --on '@tailscale-gw'
 
-# only used once to setup the virtual machines
-idols-image:
-  # take image for idols, and upload the image to proxmox nodes.
+pve-image:
   nom build .#aquamarine
-  scp result root@gtr5:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
+  rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
 
   nom build .#ruby
-  scp result root@s500plus:/var/lib/vz/dump/vzdump-qemu-ruby.vma.zst
+  rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-ruby.vma.zst
 
   nom build .#kana
-  scp result root@um560:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
+  rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
 
+  nom build .#tailscale_gw
+  rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-tailscale-gw.vma.zst
 
 ############################################################################
 #
@@ -126,10 +129,10 @@ idols-image:
 #
 ############################################################################
 
-roll: idols-ssh-key
+roll:
   colmena apply --on '@riscv'
 
-roll-debug: idols-ssh-key
+roll-debug:
   colmena apply --on '@dist-build' --verbose --show-trace
 
 nozomi:

@@ -5,7 +5,7 @@
   system,
   specialArgs,
   nixos-modules,
-  home-module,
+  home-module ? null,
 }: let
   inherit (specialArgs) username;
 in
@@ -22,14 +22,19 @@ in
             proxmox.qemuConf.name = "${config.networking.hostName}-nixos-${config.system.nixos.label}";
           };
         }
+      ]
+      ++ (
+        if (home-module != null)
+        then [
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
 
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.users."${username}" = home-module;
-        }
-      ];
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.users."${username}" = home-module;
+          }
+        ]
+        else []
+      );
   }

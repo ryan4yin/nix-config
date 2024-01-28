@@ -1,15 +1,14 @@
-{
-  pkgs,
-  nixos-hardware,
-  ...
-} @ args:
+{nixos-hardware, ...}:
 #############################################################
 #
 #  Shoukei - NixOS running on Macbook Pro 2020 I5 16G
 #   https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
 #
 #############################################################
-{
+let
+  hostName = "shoukei"; # Define your hostname.
+  vars = import ../vars.nix;
+in {
   imports = [
     nixos-hardware.nixosModules.apple-t2
     ./apple-set-os-loader.nix
@@ -23,23 +22,11 @@
   boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   networking = {
-    hostName = "shoukei"; # Define your hostname.
+    inherit hostName;
+    inherit (vars.networking) defaultGateway nameservers;
+
     # configures the network interface(include wireless) via `nmcli` & `nmtui`
     networkmanager.enable = true;
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    defaultGateway = "192.168.5.201";
-    nameservers = [
-      "119.29.29.29" # DNSPod
-      "223.5.5.5" # AliDNS
-    ];
   };
 
   # This value determines the NixOS release from which the default

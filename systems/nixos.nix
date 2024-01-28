@@ -23,6 +23,8 @@ in {
     aquamarine = nixosSystem (idol_aquamarine_modules // base_args);
     ruby = nixosSystem (idol_ruby_modules // base_args);
     kana = nixosSystem (idol_kana_modules // base_args);
+
+    tailscale_gw = nixosSystem (homelab_tailscale_gw_modules // base_args);
   };
 
   # take system images for idols
@@ -44,6 +46,8 @@ in {
         "aquamarine"
         "ruby"
         "kana"
+
+        "tailscale_gw"
       ]
       # generate proxmox image for virtual machines without desktop environment
       (host: self.nixosConfigurations.${host}.config.formats.proxmox)
