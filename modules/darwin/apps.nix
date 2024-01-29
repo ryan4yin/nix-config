@@ -86,7 +86,7 @@ in {
   # homebrew need to be installed manually, see https://brew.sh
   # https://github.com/LnL7/nix-darwin/blob/master/modules/homebrew.nix
   homebrew = {
-    enable = false; # disable homebrew for fast deploy
+    enable = true; # disable homebrew for fast deploy
 
     onActivation = {
       autoUpdate = true;
@@ -146,13 +146,11 @@ in {
 
     # `brew install --cask`
     casks = [
-      "zed" # zed editor
-
       "squirrel" # input method for Chinese, rime-squirrel
-
       "firefox"
       "google-chrome"
       "visual-studio-code"
+      "zed" # zed editor
 
       # IM & audio & remote desktop & meeting
       "telegram"
@@ -161,13 +159,14 @@ in {
       "moonlight" # remote desktop client
       "rustdesk"
 
-      # "anki"
+      # Misc
       "shadowsocksx-ng" # proxy tool
       "iina" # video player
       "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
       "stats" # beautiful system status monitor in menu bar
       # "reaper"  # audio editor
       "sonic-pi" # music programming
+      "tencent-lemon" # macOS cleaner
 
       # Development
       "mitmproxy" # HTTP/HTTPS traffic inspector
