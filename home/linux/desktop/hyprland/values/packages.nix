@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   home.packages = with pkgs; [
     waybar # the status bar
     swaybg # the wallpaper
@@ -8,10 +12,10 @@
     wl-clipboard # copying and pasting
     hyprpicker # color picker
 
-    wf-recorder # creen recording
+    pkgs-unstable.hyprshot # screen shot
     grim # taking screenshots
     slurp # selecting a region to screenshot
-    # TODO replace by `flameshot gui --raw | wl-copy`
+    wf-recorder # creen recording
 
     mako # the notification daemon, the same as dunst
 
