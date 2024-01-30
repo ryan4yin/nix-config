@@ -98,6 +98,12 @@
         ".config/emacs"
         "org" #  org files
 
+        # vscode
+        ".vscode"
+        ".vscode-insiders"
+        ".config/Code/User"
+        ".config/Code - Insiders/User"
+
         # browsers
         ".mozilla"
         ".config/google-chrome"
