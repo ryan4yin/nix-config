@@ -148,9 +148,6 @@ Then, create `./secrets/default.nix` with the following content:
 From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined in `age.identityPaths`.
 It will then symlink the secrets to the path defined by the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
 
-NOTE: By default, `age.identityPaths` is set to `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`,
-so make sure to place your decryption keys there.
-If you're deploying to the same machine from which you encrypted the secrets, it should work out of the box.
 
 ## Adding a new host
 
