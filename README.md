@@ -47,7 +47,7 @@ As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https
 | **Text Editor**             | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                         | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                         |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                          | [Nerd fonts][Nerd fonts]                                                                                          |
 | **Image Viewer**            | [imv][imv]                                                                                                        | [imv][imv]                                                                                                        |
-| **Screenshot Software**     | [grim][grim]                                                                                                      | [flameshot](https://github.com/flameshot-org/flameshot)                                                           |
+| **Screenshot Software**     | [flameshot][flameshot] + [grim][grim]                                                                             | [flameshot][flameshot]                                                                                            |
 | **Screen Recording**        | [OBS][OBS]                                                                                                        | [OBS][OBS]                                                                                                        |
 | **Filesystem & Encryption** | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] crypted partition for persistent, unlock via passphrase | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] crypted partition for persistent, unlock via passphrase |
 | **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                          | [lanzaboote][lanzaboote]                                                                                          |
@@ -203,6 +203,7 @@ Other dotfiles that inspired me:
 [DoomEmacs]: https://github.com/doomemacs/doomemacs
 [flameshot]: https://github.com/flameshot-org/flameshot
 [grim]: https://github.com/emersion/grim
+[flameshot]: https://github.com/flameshot-org/flameshot
 [imv]: https://sr.ht/~exec64/imv/
 [OBS]: https://obsproject.com
 [Mako]: https://github.com/emersion/mako
