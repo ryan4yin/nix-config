@@ -63,13 +63,13 @@ let
 3. Create and edit the secret file `xxx.age` interactively using the following command:
 
 ```shell
-agenix -e ./xxx.age
+sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
 ```
 
 Alternatively, you can encrypt an existing file to `xxx.age` using the following command:
 
 ```shell
-cat /path/to/xxx | agenix -e ./xxx.age
+cat xxx | sudo agenix  -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
 ```
 
 `agenix` will encrypt the file with all the public keys we defined in `secrets.nix`,
