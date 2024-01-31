@@ -6,5 +6,6 @@ As the configuration was constantly updated, my `flake.nix` gradually became blo
 - `colmena.nix`: My NixOS servers deployed via colmena.
 - `darwin.nix`: My Macbooks
 - `nixos.nix`: My NixOS desktops & servers.
-
+- `vars.nix`: Some host-related variables. Imported by `default.nix`.
+- `vars_networking.nix`: All the static IP addresses, gateway, dns server, etc. Imported by `default.nix`.
 
