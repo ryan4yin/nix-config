@@ -8,6 +8,7 @@
 }: let
   homeDir = config.users.users."${username}".home;
 in {
+  # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/os-specific/darwin/yabai/default.nix
   services.yabai = {
     enable = true;
     # temporary workaround for https://github.com/ryan4yin/nix-config/issues/51
@@ -41,12 +42,5 @@ in {
   launchd.user.agents.yabai.serviceConfig = {
     StandardErrorPath = "${homeDir}/Library/Logs/yabai.stderr.log";
     StandardOutPath = "${homeDir}/Library/Logs/yabai.stdout.log";
-  };
-
-  launchd.daemons.yabai-sa = {
-    # https://github.com/koekeishiya/yabai/issues/1287
-    script = lib.mkForce ''
-      echo "skip it"
-    '';
   };
 }
