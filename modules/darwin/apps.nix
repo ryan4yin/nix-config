@@ -174,6 +174,7 @@ in {
       "wireshark" # network analyzer
       "jdk-mission-control" # Java Mission Control
       "google-cloud-sdk" # Google Cloud SDK
+      "miniforge" # Miniconda's community-driven distribution
     ];
   };
 }
