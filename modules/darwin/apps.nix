@@ -104,7 +104,6 @@ in {
       QQ = 451108668;
       WeCom = 1189898970; # Wechat for Work
       TecentMetting = 1484048379;
-      NeteaseCloudMusic = 944848654;
       QQMusic = 595615424;
     };
 
@@ -167,6 +166,7 @@ in {
       # "reaper"  # audio editor
       "sonic-pi" # music programming
       "tencent-lemon" # macOS cleaner
+      "neteasemusic" # music
 
       # Development
       "mitmproxy" # HTTP/HTTPS traffic inspector
