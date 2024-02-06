@@ -53,6 +53,11 @@
       # whether to allow TRIM requests to the underlying device.
       # it's less secure, but faster.
       allowDiscards = true;
+      # Whether to bypass dm-crypt’s internal read and write workqueues. 
+      # Enabling this should improve performance on SSDs; 
+      # https://wiki.archlinux.org/index.php/Dm-crypt/Specialties#Disable_workqueue_for_increased_solid_state_drive_(SSD)_performance
+      bypassWorkqueues = true;
+
     };
   };
 
