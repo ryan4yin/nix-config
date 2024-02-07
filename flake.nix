@@ -96,7 +96,7 @@
     # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
-    # Official NixOS package source, using nixos's stable branch by default
+    # Official NixOS package source, using nixos's unstable branch by default
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
