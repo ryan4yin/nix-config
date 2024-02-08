@@ -151,7 +151,7 @@ It will then symlink the secrets to the path defined by the `age.secrets.<name>.
 
 ## Adding a new host
 
-1. `cat` the sytem-level public key(`/etc/ssh/ssh_host_ed25519_key`) of the new host, and send it to an old host which has already been configured.
+1. `cat` the sytem-level public key(`/etc/ssh/ssh_host_ed25519_key.pub`) of the new host, and send it to an old host which has already been configured.
 2. On the old host:
    1. Add the public key to `secrets.nix`, and rekey all the secrets via `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key`.
    2. Commit and push the changes to `nix-secrets`.
