@@ -101,9 +101,9 @@ global {
 # Subscriptions defined here will be resolved as nodes and merged as a part of the global node pool.
 # Support to give the subscription a tag, and filter nodes from a given subscription in the group section.
 subscription {
-    # Add your subscription links here.
-    'file://mysubscription-1.sub' # the path is related to /etc/dae/
-    'file://mysubscription-2.sub'
+    # Add your subscription links(or files that contains the link) here.
+    'file://dae-mysubscription-1.sub' # the path is related to /etc/dae/
+    'file://dae-mysubscription-2.sub'
 }
 
 # Nodes defined here will be merged as a part of the global node pool.
