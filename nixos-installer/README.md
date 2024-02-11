@@ -15,7 +15,7 @@ TODOs:
 The configuration of the main flake, [/flake.nix](/flake.nix), is heavy, and it takes time to debug & deploy.
 This simplified flake is tiny and can be deployed very quickly, it helps me to:
 
-1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the `main` flake.
+1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the main flake.
 2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence, Secure Boot, TPM2, Encryption, etc.
 
 ## Steps to Deploying this flake
