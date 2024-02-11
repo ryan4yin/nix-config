@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  # ssh-agent is used to pull my private secrets repo from github when depoloying my nixos config.
+  # ssh-agent is used to pull my private secrets repo from github when deploying my nixos config.
   programs.ssh.startAgent = true;
 
   # List packages installed in system profile. To search, run:
