@@ -218,7 +218,7 @@ mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/
 
 
-# delte the generated configuration after editing
+# delete the generated configuration after editing
 rm -f /mnt/etc/nixos
 rm ~/nix-config/hosts/idols_ai/hardware-configuration-new.nix
 
