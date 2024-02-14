@@ -12,8 +12,12 @@
   # to install chrome, you need to enable unfree packages
   nixpkgs.config.allowUnfree = lib.mkForce true;
 
-  # for nix server, we do not need to keep too much generations
-  boot.loader.systemd-boot.configurationLimit = lib.mkDefault 10;
+  boot.loader.systemd-boot = {
+    # we use Git for version control, so we don't need to keep too many generations.
+    configurationLimit = lib.mkDefault 10;
+    # pick the highest resolution for systemd-boot's console.
+    consoleMode = lib.mkDefault "max";
+  };
 
   # do garbage collection weekly to keep disk usage low
   nix.gc = {
