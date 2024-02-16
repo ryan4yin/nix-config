@@ -4,7 +4,7 @@
   mainGatewayAddress = "192.168.5.1";
   dhcpRange = {
     start = "192.168.5.50";
-    end = "102.168.5.100";
+    end = "102.168.5.99";
   };
 in {
   # https://github.com/ghostbuster91/blogposts/blob/main/router2023-part2/main.md
@@ -119,6 +119,7 @@ in {
     # resolve local queries (i.e. add 127.0.0.1 to /etc/resolv.conf)
     resolveLocalQueries = true;
     alwaysKeepRunning = true;
+    # https://thekelleys.org.uk/gitweb/?p=dnsmasq.git;a=tree
     settings = {
       # upstream DNS servers
       server = [
@@ -127,9 +128,13 @@ in {
         # "8.8.8.8"
         # "1.1.1.1"
       ];
-      # sensible behaviours
+      # forces dnsmasq to try each query with each server strictly
+      # in the order they appear in the config.
+      strict-order = true;
+
+      # Never forward plain names (without a dot or domain part)
       domain-needed = true;
-      # prevent packets with malformed domain names and packets with private IP addresses from leaving your network.
+      # Never forward addresses in the non-routed address spaces(e.g. private IP).
       bogus-priv = true;
       # don't needlessly read /etc/resolv.conf which only contains the localhost addresses of dnsmasq itself.
       no-resolv = true;
@@ -137,17 +142,21 @@ in {
       # Cache dns queries.
       cache-size = 1000;
 
-      dhcp-range = ["br-lan,${dhcpRange.start},${dhcpRange.end},24h"];
+      dhcp-range = ["${dhcpRange.start},${dhcpRange.end},24h"];
       interface = "br-lan";
-      dhcp-host = hostAddress;
       dhcp-sequential-ip = true;
+      dhcp-option = [
+        # Override the default route supplied by dnsmasq, which assumes the
+        # router is the same machine as the one running dnsmasq.
+        "option:router,${hostAddress}"
+      ];
 
       # local domains
       local = "/lan/";
       domain = "lan";
       expand-hosts = true;
 
-      # don't use /etc/hosts as this would advertise surfer as localhost
+      # don't use /etc/hosts
       no-hosts = true;
       address = [
         # "/surfer.lan/192.168.10.1"
