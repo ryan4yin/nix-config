@@ -2,6 +2,7 @@
 
 Use aqua as a passby router(IPv4 only) to access the global internet.
 
+NOTE: dae(running on aquamarine) do not provides http/socks5 proxy server, so a v2ray server is running on [homelab_tailscale_gw](../homelab_tailscale_gw/proxy.nix) to provide the http/socks5 proxy service.
 
 ## Troubleshooting
 
