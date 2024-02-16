@@ -17,11 +17,6 @@ in {
     ./secureboot.nix
   ];
 
-  # set http proxy for nix-daemon
-  systemd.services.nix-daemon.environment = {
-    https_proxy = "http://192.168.5.201:7890";
-  };
-
   networking = {
     inherit hostName;
     inherit (vars_networking) defaultGateway nameservers;

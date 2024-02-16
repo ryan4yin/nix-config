@@ -60,14 +60,56 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    parted
-    psmisc # killall/pstree/prtstat/fuser/...
+    neofetch
     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    curl
-    aria2
     git # used by nix flakes
     git-lfs # used by huggingface models
+
+    # archives
+    zip
+    xz
+    zstd
+    unzip
+    p7zip
+
+    # Text Processing
+    # Docs: https://github.com/learnbyexample/Command-line-text-processing
+    gnugrep # GNU grep, provides `grep`/`egrep`/`fgrep`
+    gnused # GNU sed, very powerful(mainly for replacing text in files)
+    gawk # GNU awk, a pattern scanning and processing language
+    jq # A lightweight and flexible command-line JSON processor
+
+    # system call monitoring
+    strace # system call monitoring
+    ltrace # library call monitoring
+    bpftrace # powerful tracing tool
+    tcpdump # network sniffer
+    lsof # list open files
+
+    # system monitoring
+    sysstat
+    iotop
+    iftop
+    btop
+    nmon
+
+    # system tools
+    psmisc # killall/pstree/prtstat/fuser/...
+    lm_sensors # for `sensors` command
+    ethtool
+    pciutils # lspci
+    usbutils # lsusb
+    hdparm # for disk performance, command
+    dmidecode # a tool that reads information about your system's hardware from the BIOS according to the SMBIOS/DMI standard
+    parted
+
+    # misc
+    file
+    findutils
+    which
+    tree
+    gnutar
+    rsync
 
     # create a fhs environment by command `fhs`, so we can run non-nixos packages in nixos!
     (

@@ -9,7 +9,7 @@
   # This should be set per host in /hosts, not here.
   #
   ## For AMD CPU, add "kvm-amd" to kernelModules.
-  # boot.kernelModules = ["kvm-amd" "kvm-intel"];
+  # boot.kernelModules = ["kvm-amd"];
   # boot.extraModprobeConfig = "options kvm_amd nested=1";  # for amd cpu
   #
   ## For Intel CPU, add "kvm-intel" to kernelModules.
@@ -19,6 +19,19 @@
   boot.kernelModules = ["vfio-pci"];
 
   virtualisation = {
+    docker = {
+      enable = true;
+      daemon.settings = {
+        # enables pulling using containerd, which supports restarting from a partial pull
+        # https://docs.docker.com/storage/containerd/
+        "features" = {"containerd-snapshotter" = true;};
+      };
+
+      # start dockerd on boot.
+      # This is required for containers which are created with the `--restart=always` flag to work.
+      enableOnBoot = true;
+    };
+
     libvirtd = {
       enable = true;
       # hanging this option to false may cause file permission issues for existing guests.

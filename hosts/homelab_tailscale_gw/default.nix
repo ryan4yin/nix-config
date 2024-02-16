@@ -10,6 +10,7 @@ let
 in {
   imports = [
     ./tailscale.nix
+    ./proxy.nix
   ];
 
   # supported file systems, so we can mount any removable disks with these filesystems

@@ -1,4 +1,12 @@
-_: {
+{lib, ...}: let
+  hostAddress = "192.168.5.101";
+  hostAddressWithMask = "${hostAddress}/24";
+  mainGatewayAddress = "192.168.5.1";
+  dhcpRange = {
+    start = "192.168.5.50";
+    end = "102.168.5.100";
+  };
+in {
   # https://github.com/ghostbuster91/blogposts/blob/main/router2023-part2/main.md
   boot = {
     kernel = {
@@ -12,50 +20,62 @@ _: {
     };
   };
 
+  # Docker uses iptables internally to setup NAT for containers.
+  # This module disables the ip_tables kernel module, which is required for nftables to work.
+  # So make sure to disable docker here.
+  virtualisation.docker.enable = lib.mkForce false;
   networking = {
-    wireless.enable = false; # Enables wireless support via wpa_supplicant.
     useNetworkd = true;
-    useDHCP = false;
 
+    useDHCP = false;
+    networkmanager.enable = false;
+    wireless.enable = false; # Enables wireless support via wpa_supplicant.
     # No local firewall.
     nat.enable = false;
     firewall.enable = false;
 
+    # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/networking/nftables.nix
     nftables = {
       enable = true;
-      checkRuleset = false;
-      # Since this is a internal bypass router, we don't need to do NAT,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          7.
+      # Check the applyed rules with `nft -a list ruleset`.
+      # Since this is a internal bypass router, we don't need to do NAT & can forward all traffic.
       ruleset = ''
+        # Check out https://wiki.nftables.org/ for better documentation.
+        # Table for both IPv4 and IPv6.
         table inet filter {
-           flowtable f {
-             hook ingress priority 0;
-             devices = { "ens18" };
-             flags offload;
-           }
-
           chain input {
-            type filter hook input priority 0; policy drop;
+            type filter hook input priority 0;
 
-            iifname { "br-lan" } accept comment "Allow local network to access the router"
-            iifname "lo" accept comment "Accept everything from loopback interface"
+            # accept any localhost traffic
+            iifname lo accept
+
+            # accept any lan traffic
+            iifname br-lan accept
+
+            # count and drop any other traffic
+            counter drop
           }
-          chain forward {
-            type filter hook forward priority filter; policy drop;
-            ip protocol { tcp, udp } ct state { established } flow offload @f comment "Offload tcp/udp established traffic"
 
-            iifname { "br-lan" } oifname { "br-lan" } accept comment "Allow LAN to LAN"
+          # Allow all outgoing connections.
+          chain output {
+            type filter hook output priority 0;
+            accept
+          }
+
+          # Allow all forwarding all traffic.
+          chain forward {
+            type filter hook forward priority 0;
+            accept
           }
         }
       '';
     };
   };
 
-  # https://wiki.archlinux.org/title/systemd-networkd
+  # https://nixos.wiki/wiki/Systemd-networkd
   systemd.network = {
-    wait-online.anyInterface = true;
     netdevs = {
       # Create the bridge interface
-      # it works as a switch, so that all the lan ports can communicate with each other at layer 2
       "20-br-lan" = {
         netdevConfig = {
           Kind = "bridge";
@@ -63,22 +83,42 @@ _: {
         };
       };
     };
+    # This is a bypass router, so we do not need a wan interface here.
     networks = {
-      # Connect the bridge ports to the bridge
       "30-lan0" = {
+        # match the interface by name
         matchConfig.Name = "ens18";
+        # Connect to the bridge
         networkConfig = {
           Bridge = "br-lan";
           ConfigureWithoutCarrier = true;
         };
         linkConfig.RequiredForOnline = "enslaved";
       };
+      # Configure the bridge device we just created
+      "40-br-lan" = {
+        matchConfig.Name = "br-lan";
+        address = [
+          # configure addresses including subnet mask
+          hostAddressWithMask # forwards all traffic to the gateway except for the router address itself
+        ];
+        routes = [
+          # forward all traffic to the main gateway
+          {routeConfig.Gateway = mainGatewayAddress;}
+        ];
+        bridgeConfig = {};
+        linkConfig.RequiredForOnline = "routable";
+      };
     };
   };
-  services.resolved.enable = false;
 
+  # resolved is conflict with dnsmasq
+  services.resolved.enable = false;
   services.dnsmasq = {
     enable = true;
+    # resolve local queries (i.e. add 127.0.0.1 to /etc/resolv.conf)
+    resolveLocalQueries = true;
+    alwaysKeepRunning = true;
     settings = {
       # upstream DNS servers
       server = [
@@ -89,15 +129,18 @@ _: {
       ];
       # sensible behaviours
       domain-needed = true;
+      # prevent packets with malformed domain names and packets with private IP addresses from leaving your network.
       bogus-priv = true;
+      # don't needlessly read /etc/resolv.conf which only contains the localhost addresses of dnsmasq itself.
       no-resolv = true;
 
       # Cache dns queries.
       cache-size = 1000;
 
-      dhcp-range = ["br-lan,192.168.5.50,192.168.5.100,24h"];
+      dhcp-range = ["br-lan,${dhcpRange.start},${dhcpRange.end},24h"];
       interface = "br-lan";
-      dhcp-host = "192.168.5.101";
+      dhcp-host = hostAddress;
+      dhcp-sequential-ip = true;
 
       # local domains
       local = "/lan/";

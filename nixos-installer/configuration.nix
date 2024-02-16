@@ -16,7 +16,7 @@
   networking = {
     # configures the network interface(include wireless) via `nmcli` & `nmtui`
     networkmanager.enable = true;
-    defaultGateway = "192.168.5.201";
+    defaultGateway = "192.168.5.101";
   };
   system.stateVersion = "23.11";
 }
