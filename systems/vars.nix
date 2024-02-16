@@ -14,7 +14,11 @@ in {
     nixos-modules =
       [
         ../hosts/idols_ai
-        {modules.desktop.xorg.enable = true;}
+        {
+          modules.desktop.xorg.enable = true;
+          modules.secrets.desktop.enable = true;
+          modules.secrets.impermanence.enable = true;
+        }
       ]
       ++ desktop_base_modules.nixos-modules;
     home-module.imports =
@@ -29,7 +33,11 @@ in {
     nixos-modules =
       [
         ../hosts/idols_ai
-        {modules.desktop.wayland.enable = true;}
+        {
+          modules.desktop.wayland.enable = true;
+          modules.secrets.desktop.enable = true;
+          modules.secrets.impermanence.enable = true;
+        }
       ]
       ++ desktop_base_modules.nixos-modules;
     home-module.imports =
@@ -43,9 +51,11 @@ in {
   # 星野 愛久愛海, Hoshino Akuamarin
   idol_aquamarine_modules = {
     nixos-modules = [
+      ../secrets/nixos.nix
       ../hosts/idols_aquamarine
       ../modules/nixos/server/server.nix
       ../modules/nixos/server/proxmox-hardware-configuration.nix
+      {modules.secrets.server.enable = true;}
     ];
     # home-module.imports = [];
   };

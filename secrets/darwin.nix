@@ -20,7 +20,6 @@
     "/etc/ssh/ssh_host_ed25519_key" # macOS, using the host key for decryption
   ];
 
-  # owner = root
   age.secrets = let
     noaccess = {
       mode = "0000";

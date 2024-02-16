@@ -164,6 +164,8 @@
 
     nuenv.url = "github:DeterminateSystems/nuenv";
 
+    daeuniverse.url = "github:daeuniverse/flake.nix/unstable";
+
     ########################  Some non-flake repositories  #########################################
 
     # AstroNvim is an aesthetic and feature-rich neovim config.

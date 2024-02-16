@@ -1,6 +1,17 @@
 # Idols - Aquamarine
 
-TODO: use aqua as a passby router(IPv4 only) to access the global internet.
+Use aqua as a passby router(IPv4 only) to access the global internet.
+
+
+## Troubleshooting
+
+### DNS cannot be resolved
+
+1. `sudo systemctl stop dae`, then try to resolve the domain name again.
+   - If it works, the problem is caused by `dae` service.
+   - check dae's log by `sudo journalctl -u dae`
+1. DNS & DHCP is provided by `dnsmasq` service, check the configuration of `dnsmasq`.
+
 
 ## References
 

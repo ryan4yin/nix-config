@@ -140,7 +140,7 @@ nom build .#aquamarine  # `nom`(nix-output-monitor) can be replaced by the stand
 
 # 2. upload the genereated image to proxmox server's backup directory `/var/lib/vz/dump`
 #    please replace the vma file name with the one you generated in step 1.
-rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
+rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
 
 # 3. the image we uploaded will be listed in proxmox web ui's this page: [storage 'local'] -> [backups], we can restore a vm from it via the web ui now.
 ```

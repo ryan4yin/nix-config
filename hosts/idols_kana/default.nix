@@ -23,7 +23,7 @@ in {
     "cifs" # mount windows share
   ];
 
-  boot.kernelModules = ["kvm-amd" "kvm-intel"];
+  boot.kernelModules = ["kvm-amd"];
   boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   networking = {
