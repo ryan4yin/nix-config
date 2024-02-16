@@ -21,6 +21,7 @@
         }
       ];
       outbounds = [
+        # forward traffic directly via system's default network(to dae proxy running on aquamarine)
         {
           protocol = "freedom";
           tag = "freedom";
