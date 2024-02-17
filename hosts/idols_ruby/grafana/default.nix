@@ -49,4 +49,6 @@
       dashboards.path = ./dashboards.yml;
     };
   };
+
+  environment.etc."grafana/dashboards".source = ./dashboards;
 }

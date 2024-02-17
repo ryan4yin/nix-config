@@ -34,8 +34,13 @@
     #      Alerting rules allow you to define alert conditions based on Prometheus expression language expressions
     #      and to send notifications about firing alerts to an external service.
     ruleFiles = [
-      ./recording_rules.yml
-      ./alerting_rules.yml
+      ./alert_rules/node-exporter.yml
+      ./alert_rules/kubestate-exporter.yml
+      ./alert_rules/etcd_embedded-exporter.yml
+      ./alert_rules/istio_embedded-exporter.yml
+      ./alert_rules/coredns_embedded-exporter.yml
+
+      # ./recording_rules.yml
     ];
 
     # specifies a set of targets and parameters describing how to scrape metrics from them.
