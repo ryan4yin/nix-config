@@ -107,7 +107,7 @@ ruby:
 kana:
   colmena apply --on '@kana'
 
-tailscale_gw:
+tsgw:
   colmena apply --on '@tailscale_gw'
 
 pve-image:

@@ -165,6 +165,14 @@ in {
     };
   };
 
+  # monitoring with prometheus
+  services.prometheus.exporters.dnsmasq = {
+    enable = true;
+    listenAddress = "0.0.0.0";
+    port = 9153;
+    openFirewall = false;
+  };
+
   # The service irqbalance is useful as it assigns certain IRQ calls to specific CPUs instead of
   # letting the first CPU core to handle everything.
   # This is supposed to increase performance by hitting CPU cache more often.
