@@ -205,7 +205,11 @@ group {
         policy: min_avg10
     }
 
+<<<<<<< HEAD
     github {
+=======
+    ssh-proxy {
+>>>>>>> 7aa2276 (fix: dae - github's ssh access)
         filter: name(keyword: 'UK')
         filter: name(keyword: '英国')
         policy: min_avg10
@@ -251,10 +255,6 @@ routing {
     dip(geoip:cn) -> direct
     domain(geosite:cn) -> direct
 
-    # Use HK to access all other foreign sites
-    domain(geosite:geolocation-!cn) -> proxy
-    !dip(geoip:cn) -> proxy
-
     # Block ads
     domain(geosite:category-ads) -> block
     domain(geosite:category-ads-all) -> block
@@ -268,8 +268,8 @@ routing {
 
     # --- Rules for other commonly used sites ---#
 
-    # Github
-    domain(geosite:github) -> github
+    # SSH - tcp port 22 is blocked by many proxy servers.
+    dport(22) && !dip(geoip:cn) && !domain(geosite:cn) -> ssh-proxy
 
     ### OpenAI
     domain(geosite:openai) -> sg
@@ -311,6 +311,12 @@ routing {
     domain(keyword:'zhihu') -> direct
     domain(keyword:'douyu') -> direct
     domain(geosite:cloudflare-cn) -> direct
+
+    # --- Fallback rules ---#
+
+    # Access all other foreign sites
+    domain(geosite:geolocation-!cn) -> proxy
+    !dip(geoip:cn) -> proxy
 
     fallback: direct
 }

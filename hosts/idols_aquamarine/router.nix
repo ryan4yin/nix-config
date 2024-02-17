@@ -117,7 +117,7 @@ in {
   services.dnsmasq = {
     enable = true;
     # resolve local queries (add 127.0.0.1 to /etc/resolv.conf)
-    resolveLocalQueries = false; # may be conflict with dae, disable this.
+    resolveLocalQueries = true; # may be conflict with dae, disable this.
     alwaysKeepRunning = true;
     # https://thekelleys.org.uk/gitweb/?p=dnsmasq.git;a=tree
     settings = {

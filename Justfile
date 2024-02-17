@@ -100,6 +100,8 @@ dist-debug:
 
 aqua:
   colmena apply --on '@aqua'
+  # some config changes require a restart of the dae service
+  ssh ryan@aquamarine "sudo systemctl stop dae; sleep 1; sudo systemctl start dae"
 
 ruby:
   colmena apply --on '@ruby'
