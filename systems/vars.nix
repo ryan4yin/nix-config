@@ -18,6 +18,8 @@ let
     # home-module.imports = [];
   };
 in {
+  # --- Desktop Systems --- #
+
   # 星野 アイ, Hoshino Ai
   idol_ai_modules_i3 = {
     nixos-modules =
@@ -57,6 +59,8 @@ in {
       ++ desktop_base_modules.home-module.imports;
   };
 
+  # --- Homelab Systems --- #
+
   # 星野 愛久愛海, Hoshino Akuamarin
   idol_aquamarine_modules = {
     nixos-modules =
@@ -68,7 +72,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  idol_aquamarine_tags = ["aqua" "router"];
+  idol_aquamarine_tags = ["aqua" "network" "homelab"];
 
   # 星野 瑠美衣, Hoshino Rubii
   idol_ruby_modules = {
@@ -80,7 +84,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  idol_ruby_tags = ["dist-build" "ruby"];
+  idol_ruby_tags = ["ruby" "operation" "homelab"];
 
   # 有馬 かな, Arima Kana
   idol_kana_modules = {
@@ -92,7 +96,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  idol_kana_tags = ["dist-build" "kana"];
+  idol_kana_tags = ["kana" "app" "homelab"];
 
   homelab_tailscale_gw_modules = {
     nixos-modules =
@@ -102,7 +106,9 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  homelab_tailscale_gw_tags = ["tailscale_gw"];
+  homelab_tailscale_gw_tags = ["tailscale_gw" "network" "homelab"];
+
+  # --- RISC-V / AARCH64 Systems --- #
 
   # 森友 望未, Moritomo Nozomi
   rolling_nozomi_modules = {
@@ -174,7 +180,7 @@ in {
       ++ desktop_base_modules.home-module.imports;
   };
 
-  # darwin systems
+  # --- Darwin Systems --- #
   darwin_harmonica_modules = {
     darwin-modules = [
       ../hosts/darwin_harmonica

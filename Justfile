@@ -92,11 +92,11 @@ yabai-reload:
 colmena-ssh-key:
   ssh-add /etc/agenix/ssh-key-romantic
 
-dist:
-  colmena apply --on '@dist-build'
+lab:
+  colmena apply --on '@homelab'
 
-dist-debug:
-  colmena apply --on '@dist-build' --verbose --show-trace
+lab-debug:
+  colmena apply --on '@homelab' --verbose --show-trace
 
 aqua:
   colmena apply --on '@aqua'
@@ -135,10 +135,10 @@ pve-tsgw:
 #
 ############################################################################
 
-roll:
+riscv:
   colmena apply --on '@riscv'
 
-roll-debug:
+riscv-debug:
   colmena apply --on '@riscv' --verbose --show-trace
 
 nozomi:
@@ -155,6 +155,9 @@ yukina:
 
 aarch:
   colmena apply --on '@aarch'
+
+aarch-debug:
+  colmena apply --on '@aarch' --verbose --show-trace
 
 suzu:
   colmena apply --on '@suzu'
