@@ -225,11 +225,13 @@ group {
 }
 
 # See https://github.com/daeuniverse/dae/blob/main/docs/en/configuration/routing.md for full examples.
+# Pname has the highest priority, so should be placed in the front.
+# Priority of other rules is the same as the order of the rules defined in this file.
 routing {
     ### Preset rules.
 
-    # Network managers in localhost should be direct to avoid false negative network connectivity check when binding to
-    # WAN.
+    # Network managers in localhost should be direct to 
+    # avoid false negative network connectivity check when binding to WAN.
     pname(NetworkManager) -> direct
     pname(systemd-networkd) -> direct
 
