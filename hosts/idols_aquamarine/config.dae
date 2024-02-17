@@ -205,11 +205,7 @@ group {
         policy: min_avg10
     }
 
-<<<<<<< HEAD
-    github {
-=======
     ssh-proxy {
->>>>>>> 7aa2276 (fix: dae - github's ssh access)
         filter: name(keyword: 'UK')
         filter: name(keyword: '英国')
         policy: min_avg10
