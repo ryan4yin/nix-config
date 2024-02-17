@@ -10,13 +10,13 @@ NOTE: dae(running on aquamarine) do not provides http/socks5 proxy server, so a 
 
 1. `sudo systemctl stop dae`, then try to resolve the domain name again.
    - If it works, the problem is caused by `dae` service.
-   - check dae's log by `sudo journalctl -u dae`
+   - check dae's log by `journalctl -u dae -n 1000`
 1. DNS & DHCP is provided by `dnsmasq` service, check the configuration of `dnsmasq`.
 
 ### DHCP cannot be obtained
 
 1. `ss -tunlp`, check if `dnsmasq` is running and listening on udp port 67.
-1. `journalctl -u dnsmasq` to check the log of `dnsmasq`.
+1. `journalctl -u dnsmasq -n 1000` to check the log of `dnsmasq`.
 1. Request a new IP address by disconnect and reconnect one of your devices' wifi.
 1. `nix shell nixpkgs#dhcpdump` and then `sudo dhcpdump -i br-lan`, check if the DHCP request is received by `dnsmasq`.
    1. The server listens on UDP port number 67, and the client listens on UDP port number 68.

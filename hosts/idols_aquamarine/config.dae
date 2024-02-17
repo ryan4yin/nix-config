@@ -18,10 +18,10 @@ global {
 
     # If not zero, traffic sent from dae will be set SO_MARK. It is useful to avoid traffic loop with iptables tproxy
     # rules.
-    so_mark_from_dae: 0
+    so_mark_from_dae: 1
 
     # Log level: error, warn, info, debug, trace.
-    log_level: debug
+    log_level: info
 
     # Disable waiting for network before pulling subscriptions.
     disable_waiting_network: false
@@ -205,6 +205,12 @@ group {
         policy: min_avg10
     }
 
+    github {
+        filter: name(keyword: 'UK')
+        filter: name(keyword: '英国')
+        policy: min_avg10
+    }
+
     sg {
         filter: name(keyword: 'Singapore')
         filter: name(keyword: '新加坡')
@@ -213,13 +219,6 @@ group {
 
     usa {
         filter: name(keyword: 'USA')
-        filter: name(keyword: '美国')
-        policy: min_avg10
-    }
-
-    uk {
-        filter: name(keyword: 'UK')
-        filter: name(keyword: '英国')
         filter: name(keyword: '美国')
         policy: min_avg10
     }
@@ -269,8 +268,8 @@ routing {
 
     # --- Rules for other commonly used sites ---#
 
-    # Access github.com via UK's proxies
-    domain(geosite:github) -> uk
+    # Github
+    domain(geosite:github) -> github
 
     ### OpenAI
     domain(geosite:openai) -> sg
