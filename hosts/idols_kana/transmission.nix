@@ -1,5 +1,9 @@
-let
-  dataDir = "/data/transmission";
+{
+  config,
+  username,
+  ...
+}: let
+  dataDir = "/var/lib/transmission";
   name = "transmission";
 in {
   # the headless Transmission BitTorrent daemon
@@ -10,9 +14,6 @@ in {
     user = name;
     group = name;
     home = dataDir;
-    incomplete-dir-enabled = true;
-    incomplete-dir = "${dataDir}/incomplete";
-    download-dir = "${dataDir}/downloads";
     downloadDirPermissions = "0770";
 
     # Whether to enable tweaking of kernel parameters to open many more connections at the same time.
@@ -23,7 +24,7 @@ in {
 
     # Path to a JSON file to be merged with the settings.
     # Useful to merge a file which is better kept out of the Nix store to set secret config parameters like `rpc-password`.
-    credentialsFile = "/etc/agenix/transmission-credentials.json";
+    credentialsFile = config.age.secrets."transmission-credentials.json".path;
 
     # Whether to open the RPC port in the firewall.
     openRPCPort = false;
@@ -43,7 +44,7 @@ in {
 
       # rpc = Web Interface
       rpc-port = 9091;
-      rpc-bind-address = "127.0.0.1";
+      rpc-bind-address = "0.0.0.0";
       anti-brute-force-enabled = true;
       # After this amount of failed authentication attempts is surpassed,
       # the RPC server will deny any further authentication attempts until it is restarted.
@@ -53,15 +54,19 @@ in {
 
       # Comma-delimited list of IP addresses.
       # Wildcards allowed using '*'. Example: "127.0.0.*,192.168.*.*",
-      # rpc-whitelist-enabled = true;
-      # rpc-whitelist = "";
+      rpc-whitelist-enabled = true;
+      rpc-whitelist = "127.0.0.*,192.168.*.*";
       # Comma-delimited list of domain names.
       # Wildcards allowed using '*'. Example: "*.foo.org,example.com",
-      # rpc-host-whitelist-enabled = true;
-      # rpc-host-whitelist = "";
-      rpc-user = name;
-      rpc-username = name;
-      # rpc-password = "xxx"; # you'd better use the credentialsFile for this.
+      rpc-host-whitelist-enabled = true;
+      rpc-host-whitelist = "*.writefor.fun,localhost,192.168.5.*";
+      rpc-user = username;
+      rpc-username = username;
+      # rpc-password = "test"; # you'd better use the credentialsFile for this.
+
+      incomplete-dir-enabled = true;
+      incomplete-dir = "${dataDir}/incomplete";
+      download-dir = "${dataDir}/downloads";
 
       # Watch a directory for torrent files and add them to transmission.
       watch-dir-enabled = false;

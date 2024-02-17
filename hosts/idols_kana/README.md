@@ -1,13 +1,14 @@
 # Idols - Kana
 
-TODO: use kana for various services.
+Use kana for common applications.
 All the services assumes a reverse proxy to be setup in the front, they are not exposed to the internet directly.
 
-Services:
+## Services
 
-4. dashy: Homepage
-3. ddns
-4. transmission & AriaNg: Torrent downloader and HTTP downloader
-5. uptime-kuma: uptime monitoring
-7. alist/filebrower: File browser for local/SMB/Cloud
-8. excalidraw/DDTV/owncast/jitsi-meet/...
+1. dashy: Homepage
+1. ddns
+1. transmission & AriaNg: Torrent downloader and HTTP downloader
+1. uptime-kuma: uptime monitoring
+1. alist/filebrower: File browser for local/SMB/Cloud
+1. excalidraw/DDTV/owncast/jitsi-meet/...
+

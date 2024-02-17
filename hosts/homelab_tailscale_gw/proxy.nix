@@ -78,6 +78,7 @@
     };
   };
 
+  # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/monitoring/prometheus/exporters/v2ray.nix
   # https://github.com/wi1dcard/v2ray-exporter
   services.prometheus.exporters.v2ray = {
     enable = true;
