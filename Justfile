@@ -110,18 +110,21 @@ kana:
 tsgw:
   colmena apply --on '@tailscale_gw'
 
-pve-image:
-  nom build .#tailscale_gw
-  rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-tailscale_gw.vma.zst
-
+pve-aqua:
   nom build .#aquamarine
   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
 
+pve-ruby:
   nom build .#ruby
   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-ruby.vma.zst
 
+pve-kana:
   nom build .#kana
   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
+
+pve-tsgw:
+  nom build .#tailscale_gw
+  rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-tailscale_gw.vma.zst
 
 
 ############################################################################
