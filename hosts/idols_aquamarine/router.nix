@@ -166,6 +166,7 @@ in {
   };
 
   # monitoring with prometheus
+  # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/monitoring/prometheus/exporters/dnsmasq.nix
   services.prometheus.exporters.dnsmasq = {
     enable = true;
     listenAddress = "0.0.0.0";

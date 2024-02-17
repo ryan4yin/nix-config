@@ -1,4 +1,8 @@
-{vars_networking, ...}:
+{
+  vars_networking,
+  mylib,
+  ...
+}:
 #############################################################
 #
 #  Ruby - a NixOS VM running on Proxmox
@@ -8,9 +12,7 @@ let
   hostName = "ruby"; # Define your hostname.
   hostAddress = vars_networking.hostAddress.${hostName};
 in {
-  imports = [
-    ./restic.nix
-  ];
+  imports = mylib.scanPaths ./.;
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];

@@ -8,6 +8,15 @@ let
       ../home/linux/desktop.nix
     ];
   };
+
+  pve_base_modules = {
+    nixos-modules = [
+      ../secrets/nixos.nix
+      ../modules/nixos/server/server.nix
+      ../modules/nixos/server/proxmox-hardware-configuration.nix
+    ];
+    # home-module.imports = [];
+  };
 in {
   # 星野 アイ, Hoshino Ai
   idol_ai_modules_i3 = {
@@ -50,45 +59,47 @@ in {
 
   # 星野 愛久愛海, Hoshino Akuamarin
   idol_aquamarine_modules = {
-    nixos-modules = [
-      ../secrets/nixos.nix
-      ../hosts/idols_aquamarine
-      ../modules/nixos/server/server.nix
-      ../modules/nixos/server/proxmox-hardware-configuration.nix
-      {modules.secrets.server.enable = true;}
-    ];
+    nixos-modules =
+      [
+        ../hosts/idols_aquamarine
+        ../modules/nixos/server/proxmox-hardware-configuration.nix
+        {modules.secrets.server.network.enable = true;}
+      ]
+      ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
   idol_aquamarine_tags = ["aqua" "router"];
 
   # 星野 瑠美衣, Hoshino Rubii
   idol_ruby_modules = {
-    nixos-modules = [
-      ../hosts/idols_ruby
-      ../modules/nixos/server/server.nix
-      ../modules/nixos/server/proxmox-hardware-configuration.nix
-    ];
+    nixos-modules =
+      [
+        ../hosts/idols_ruby
+        {modules.secrets.server.operation.enable = true;}
+      ]
+      ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
   idol_ruby_tags = ["dist-build" "ruby"];
 
   # 有馬 かな, Arima Kana
   idol_kana_modules = {
-    nixos-modules = [
-      ../hosts/idols_kana
-      ../modules/nixos/server/server.nix
-      ../modules/nixos/server/proxmox-hardware-configuration.nix
-    ];
+    nixos-modules =
+      [
+        ../hosts/idols_kana
+        {modules.secrets.server.application.enable = true;}
+      ]
+      ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
   idol_kana_tags = ["dist-build" "kana"];
 
   homelab_tailscale_gw_modules = {
-    nixos-modules = [
-      ../hosts/homelab_tailscale_gw
-      ../modules/nixos/server/server.nix
-      ../modules/nixos/server/proxmox-hardware-configuration.nix
-    ];
+    nixos-modules =
+      [
+        ../hosts/homelab_tailscale_gw
+      ]
+      ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
   homelab_tailscale_gw_tags = ["tailscale_gw"];

@@ -1,16 +1,20 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  passwordFile = "/etc/agenix/restic-password";
+  sshKeyPath = "/etc/agenix/ssh-key-for-restic-backup";
+  rcloneConfigFile = "/etc/agenix/rclone-conf-for-restic-backup";
+in {
   # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/backup/restic.nix
   services.restic.backups = {
     homelab-backup = {
+      inherit passwordFile;
       initialize = true; # Initialize the repository if it doesn't exist.
-      passwordFile = "/etc/agenix/restic-password";
       repository = "rclone:smb-downloads:/Downloads/proxmox-backup/"; # backup to a rclone remote
 
       # rclone related
       # rcloneOptions = {
       #   bwlimit = "100M";  # Limit the bandwidth used by rclone.
       # };
-      rcloneConfigFile = "/etc/agenix/rclone-conf-for-restic-backup";
+      inherit rcloneConfigFile;
 
       # Which local paths to backup, in addition to ones specified via `dynamicFilesFrom`.
       paths = [
@@ -42,7 +46,7 @@
 
           pve_nodes | each {|it|
             rsync -avz \
-            -e "ssh -i /etc/agenix/ssh-key-for-restic-backup"  \
+            -e "ssh -i ${sshKeyPath}"  \
             $"($it):/var/lib/vz" $"/tmp/restic-backup-temp/($it)"
           }
         '
@@ -55,7 +59,7 @@
 
       # Extra arguments passed to restic backup.
       # extraBackupArgs = [
-      #   "--exclude-file=/etc/agenix/restic-excludes"
+      #   "--exclude-file=/etc/restic/excludes-list"
       # ];
 
       # repository = "/mnt/backup-hdd"; # backup to a local directory
