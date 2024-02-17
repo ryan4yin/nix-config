@@ -134,7 +134,7 @@ roll:
   colmena apply --on '@riscv'
 
 roll-debug:
-  colmena apply --on '@dist-build' --verbose --show-trace
+  colmena apply --on '@riscv' --verbose --show-trace
 
 nozomi:
   colmena apply --on '@nozomi'
