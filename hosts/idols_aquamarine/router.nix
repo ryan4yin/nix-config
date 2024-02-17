@@ -4,7 +4,7 @@
   mainGatewayAddress = "192.168.5.1";
   dhcpRange = {
     start = "192.168.5.50";
-    end = "102.168.5.99";
+    end = "192.168.5.99";
   };
 in {
   # https://github.com/ghostbuster91/blogposts/blob/main/router2023-part2/main.md
@@ -116,8 +116,8 @@ in {
   services.resolved.enable = false;
   services.dnsmasq = {
     enable = true;
-    # resolve local queries (i.e. add 127.0.0.1 to /etc/resolv.conf)
-    resolveLocalQueries = true;
+    # resolve local queries (add 127.0.0.1 to /etc/resolv.conf)
+    resolveLocalQueries = false; # may be conflict with dae, disable this.
     alwaysKeepRunning = true;
     # https://thekelleys.org.uk/gitweb/?p=dnsmasq.git;a=tree
     settings = {
@@ -149,6 +149,7 @@ in {
         # Override the default route supplied by dnsmasq, which assumes the
         # router is the same machine as the one running dnsmasq.
         "option:router,${hostAddress}"
+        "option:dns-server,${hostAddress}"
       ];
 
       # local domains
