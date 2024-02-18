@@ -93,24 +93,21 @@ colmena-ssh-key:
   ssh-add /etc/agenix/ssh-key-romantic
 
 lab:
-  colmena apply --on '@homelab'
-
-lab-debug:
   colmena apply --on '@homelab' --verbose --show-trace
 
 aqua:
-  colmena apply --on '@aqua'
+  colmena apply --on '@aqua' --verbose --show-trace
   # some config changes require a restart of the dae service
   ssh ryan@aquamarine "sudo systemctl stop dae; sleep 1; sudo systemctl start dae"
 
 ruby:
-  colmena apply --on '@ruby'
+  colmena apply --on '@ruby' --verbose --show-trace
 
 kana:
-  colmena apply --on '@kana'
+  colmena apply --on '@kana' --verbose --show-trace
 
 tsgw:
-  colmena apply --on '@tailscale_gw'
+  colmena apply --on '@tailscale-gw' --verbose --show-trace
 
 pve-aqua:
   nom build .#aquamarine

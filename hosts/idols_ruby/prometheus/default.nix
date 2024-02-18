@@ -46,6 +46,7 @@
     # specifies a set of targets and parameters describing how to scrape metrics from them.
     # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
     scrapeConfigs = [
+      # --- Hosts --- #
       {
         job_name = "node-exporter";
         scrape_interval = "30s";
@@ -57,6 +58,34 @@
               map (host: "${host.address}:9100")
               (builtins.attrValues vars_networking.hostAddress);
             labels.type = "node";
+          }
+        ];
+      }
+
+      # --- Homelab Applications --- #
+
+      {
+        job_name = "dnsmasq-exporter";
+        scrape_interval = "30s";
+        metrics_path = "/metrics";
+        static_configs = [
+          {
+            targets = ["${vars_networking.hostAddress.aquamarine.address}:9153"];
+            labels.type = "app";
+            labels.app = "dnsmasq";
+          }
+        ];
+      }
+
+      {
+        job_name = "v2ray-exporter";
+        scrape_interval = "30s";
+        metrics_path = "/metrics";
+        static_configs = [
+          {
+            targets = ["${vars_networking.hostAddress.kana.address}:9153"];
+            labels.type = "app";
+            labels.app = "v2ray";
           }
         ];
       }

@@ -172,6 +172,7 @@ in {
     listenAddress = "0.0.0.0";
     port = 9153;
     openFirewall = false;
+    leasesPath = "/var/lib/dnsmasq/dnsmasq.leases";
   };
 
   # The service irqbalance is useful as it assigns certain IRQ calls to specific CPUs instead of
