@@ -1,17 +1,14 @@
-{vars_networking, ...}:
+{vars_networking, mylib, ...}:
 #############################################################
 #
 #  Tailscale Gateway(homelab subnet router) - a NixOS VM running on Proxmox
 #
 #############################################################
 let
-  hostName = "tailscale_gw"; # Define your hostname.
+  hostName = "tailscale-gw"; # Define your hostname.
   hostAddress = vars_networking.hostAddress.${hostName};
 in {
-  imports = [
-    ./tailscale.nix
-    ./proxy.nix
-  ];
+  imports = mylib.scanPaths ./.;
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
@@ -25,7 +22,10 @@ in {
 
   networking = {
     inherit hostName;
-    inherit (vars_networking) defaultGateway nameservers;
+    inherit (vars_networking) nameservers;
+
+    # Use mainGateway instead of defaultGateway to make NAT Traversal work
+    defaultGateway = vars_networking.mainGateway;
 
     networkmanager.enable = false;
     interfaces.ens18 = {

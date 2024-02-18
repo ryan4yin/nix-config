@@ -85,7 +85,7 @@ yabai-reload:
 
 ############################################################################
 #
-#  Colmena - Remote NixOS deployment
+#  Homelab - Virtual Machines running on Proxmox
 #
 ############################################################################
 
@@ -127,6 +127,41 @@ pve-kana:
 pve-tsgw:
   nom build .#tailscale_gw
   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-tailscale_gw.vma.zst
+
+
+############################################################################
+#
+# Kubernetes related commands
+#
+############################################################################
+
+k8s:
+  colmena apply --on '@k8s'
+
+master:
+  colmena apply --on '@k8s' --on '@master'
+
+worker:
+  colmena apply --on '@k8s' --on '@worker'
+
+pve-k8s:
+  nom build .#k3s_prod_1_master_1
+  rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_master_1.vma.zst
+
+  nom build .#k3s_prod_1_master_2
+  rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_master_2.vma.zst
+
+  nom build .#k3s_prod_1_master_3
+  rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_master_3.vma.zst
+
+  nom build .#k3s_prod_1_worker_1
+  rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_worker_1.vma.zst
+
+  nom build .#k3s_prod_1_worker_2
+  rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_worker_2.vma.zst
+
+  nom build .#k3s_prod_1_worker_3
+  rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_worker_3.vma.zst
 
 
 ############################################################################

@@ -15,7 +15,14 @@ let
       ../modules/nixos/server/server.nix
       ../modules/nixos/server/proxmox-hardware-configuration.nix
     ];
-    # home-module.imports = [];
+  };
+  kube_base_modules = {
+    nixos-modules = [
+      ../secrets/nixos.nix
+      ../modules/nixos/server/server.nix
+      ../modules/nixos/server/proxmox-hardware-configuration.nix
+        {modules.secrets.server.kubernetes.enable = true;}
+    ];
   };
 in {
   # --- Desktop Systems --- #
@@ -106,7 +113,64 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  homelab_tailscale_gw_tags = ["tailscale_gw" "network" "homelab"];
+  homelab_tailscale_gw_tags = ["tailscale-gw" "network" "homelab"];
+
+  # --- Kubernetes Nodes --- #
+
+  k3s_prod_1_master_1_modules = {
+    nixos-modules =
+      [
+        ../hosts/k8s/k3s_prod_1_master_1
+      ]
+      ++ kube_base_modules.nixos-modules;
+    # home-module.imports = [];
+  };
+  k3s_prod_1_master_1_tags = ["k8s" "master" "prod"];
+
+  k3s_prod_1_master_2_modules = {
+    nixos-modules =
+      [
+        ../hosts/k8s/k3s_prod_1_master_2
+      ]
+      ++ kube_base_modules.nixos-modules;
+  };
+  k3s_prod_1_master_2_tags = ["k8s" "master" "prod"];
+
+  k3s_prod_1_master_3_modules = {
+    nixos-modules =
+      [
+        ../hosts/k8s/k3s_prod_1_master_3
+      ]
+      ++ kube_base_modules.nixos-modules;
+  };
+  k3s_prod_1_master_3_tags = ["k8s" "master" "prod"];
+
+  k3s_prod_1_worker_1_modules = {
+    nixos-modules =
+      [
+        ../hosts/k8s/k3s_prod_1_worker_1
+      ]
+      ++ kube_base_modules.nixos-modules;
+  };
+  k3s_prod_1_worker_1_tags = ["k8s" "worker" "prod"];
+
+  k3s_prod_1_worker_2_modules = {
+    nixos-modules =
+      [
+        ../hosts/k8s/k3s_prod_1_worker_2
+      ]
+      ++ kube_base_modules.nixos-modules;
+  };
+  k3s_prod_1_worker_2_tags = ["k8s" "worker" "prod"];
+
+  k3s_prod_1_worker_3_modules = {
+    nixos-modules =
+      [
+        ../hosts/k8s/k3s_prod_1_worker_3
+      ]
+      ++ kube_base_modules.nixos-modules;
+  };
+  k3s_prod_1_worker_3_tags = ["k8s" "worker" "prod"];
 
   # --- RISC-V / AARCH64 Systems --- #
 
