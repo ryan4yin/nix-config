@@ -9,17 +9,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1694733633,
-        "narHash": "sha256-/o/OubAsPMbxqru59tLlWzUI7LBNDaoW4rFwQ2Smxcg=",
+        "lastModified": 1703089996,
+        "narHash": "sha256-ipqShkBmHKC9ft1ZAsA6aeKps32k7+XZSPwfxeHLsAU=",
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "54693c91d923fecb4cf04c4535e3d84f8dec7919",
+        "rev": "564595d0ad4be7277e07fa63b5a991b3c645655d",
         "type": "github"
       },
       "original": {
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "54693c91d923fecb4cf04c4535e3d84f8dec7919",
+        "rev": "564595d0ad4be7277e07fa63b5a991b3c645655d",
         "type": "github"
       }
     },
@@ -628,10 +628,10 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1708183622,
-        "narHash": "sha256-fBhY9MhNLsDnktitkVP9jh37U9VfbDcrIld5ZkvsxJQ=",
+        "lastModified": 1708252756,
+        "narHash": "sha256-X88eosccBrDxn7BIVf8zmjhBjIDXs9PFJsVkanzSUKw=",
         "ref": "refs/heads/main",
-        "rev": "79d8fa3312ec4a8c42ef77d09e98447dc3f9cb19",
+        "rev": "241dc94cf90b8d4ab8dec31eec0b07c35af42ba8",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/ryan4yin/nix-secrets.git"

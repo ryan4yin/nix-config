@@ -2,7 +2,7 @@
 
 A router(IPv4 only) with a tranparent proxy to bypass the G|F|W.
 
-NOTE: dae(running on aquamarine) do not provides http/socks5 proxy server, so a v2ray server is running on [homelab_tailscale_gw](../homelab_tailscale_gw/proxy.nix) to provide the http/socks5 proxy service.
+NOTE: dae(running on aquamarine) do not provides http/socks5 proxy server, so a v2ray server is running on [idols_kana](../idols_kana/proxy.nix) to provide the http/socks5 proxy service.
 
 ## Troubleshooting
 

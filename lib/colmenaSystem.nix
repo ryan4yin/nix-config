@@ -13,7 +13,7 @@ in
   {name, ...}: {
     deployment = {
       inherit targetUser;
-      targetHost = name; # hostName or IP address
+      targetHost = builtins.replaceStrings ["_"] ["-"] name; # hostName or IP address
       tags = host_tags;
     };
 

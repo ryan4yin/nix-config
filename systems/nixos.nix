@@ -24,6 +24,13 @@ in {
     ruby = nixosSystem (idol_ruby_modules // base_args);
     kana = nixosSystem (idol_kana_modules // base_args);
 
+    k3s_prod_1_master_1 = nixosSystem (k3s_prod_1_master_1_modules // base_args);
+    k3s_prod_1_master_2 = nixosSystem (k3s_prod_1_master_2_modules // base_args);
+    k3s_prod_1_master_3 = nixosSystem (k3s_prod_1_master_3_modules // base_args);
+    k3s_prod_1_worker_1 = nixosSystem (k3s_prod_1_worker_1_modules // base_args);
+    k3s_prod_1_worker_2 = nixosSystem (k3s_prod_1_worker_2_modules // base_args);
+    k3s_prod_1_worker_3 = nixosSystem (k3s_prod_1_worker_3_modules // base_args);
+
     tailscale_gw = nixosSystem (homelab_tailscale_gw_modules // base_args);
   };
 
@@ -46,6 +53,13 @@ in {
         "aquamarine"
         "ruby"
         "kana"
+
+        "k3s_prod_1_master_1"
+        "k3s_prod_1_master_2"
+        "k3s_prod_1_master_3"
+        "k3s_prod_1_worker_1"
+        "k3s_prod_1_worker_2"
+        "k3s_prod_1_worker_3"
 
         "tailscale_gw"
       ]

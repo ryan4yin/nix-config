@@ -147,8 +147,8 @@
     };
     # secrets management
     agenix = {
-      # lock with git commit at 0.14.0
-      url = "github:ryantm/agenix/54693c91d923fecb4cf04c4535e3d84f8dec7919";
+      # lock with git commit at 0.15.0
+      url = "github:ryantm/agenix/564595d0ad4be7277e07fa63b5a991b3c645655d";
       # replaced with a type-safe reimplementation to get a better error message and less bugs.
       # url = "github:ryan4yin/ragenix";
       inputs.nixpkgs.follows = "nixpkgs";

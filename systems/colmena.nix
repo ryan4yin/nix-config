@@ -80,6 +80,38 @@ in {
       idol_kana_modules
       {host_tags = idol_kana_tags;}
     ]);
+
+    k3s_prod_1_master_1 = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      k3s_prod_1_master_1_modules
+      {host_tags = k3s_prod_1_master_1_tags;}
+    ]);
+    k3s_prod_1_master_2 = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      k3s_prod_1_master_2_modules
+      {host_tags = k3s_prod_1_master_2_tags;}
+    ]);
+    k3s_prod_1_master_3 = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      k3s_prod_1_master_3_modules
+      {host_tags = k3s_prod_1_master_3_tags;}
+    ]);
+    k3s_prod_1_worker_1 = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      k3s_prod_1_worker_1_modules
+      {host_tags = k3s_prod_1_worker_1_tags;}
+    ]);
+    k3s_prod_1_worker_2 = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      k3s_prod_1_worker_2_modules
+      {host_tags = k3s_prod_1_worker_2_tags;}
+    ]);
+    k3s_prod_1_worker_3 = colmenaSystem (attrs.mergeAttrsList [
+      x64_base_args
+      k3s_prod_1_worker_3_modules
+      {host_tags = k3s_prod_1_worker_3_tags;}
+    ]);
+
     tailscale_gw = colmenaSystem (attrs.mergeAttrsList [
       x64_base_args
       homelab_tailscale_gw_modules
