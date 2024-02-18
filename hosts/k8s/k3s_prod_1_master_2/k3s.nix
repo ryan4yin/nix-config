@@ -21,7 +21,8 @@ in {
       + " --write-kubeconfig-mode 644"
       + " --service-node-port-range 80-32767"
       + " --data-dir /var/lib/rancher/k3s"
+      + " --disable-helm-controller"
       + " --etcd-expose-metrics true"
-      + '' --etcd-snapshot-schedule-cron "0 */12 * * *"'';
+      + ''--etcd-snapshot-schedule-cron "0 */12 * * *"'';
   };
 }
