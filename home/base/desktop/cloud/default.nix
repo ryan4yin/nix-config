@@ -2,9 +2,19 @@
   home.packages = with pkgs;
     [
       # general tools
+      packer # machine image builder
+
+      # infrastructure as code
       pulumi
       pulumictl
-      packer # machine image builder
+      tf2pulumi
+      crd2pulumi
+      pulumiPackages.pulumi-random
+      pulumiPackages.pulumi-command
+      pulumiPackages.pulumi-aws-native
+      pulumiPackages.pulumi-language-go
+      pulumiPackages.pulumi-language-python
+      pulumiPackages.pulumi-language-nodejs
 
       # aws
       awscli2
