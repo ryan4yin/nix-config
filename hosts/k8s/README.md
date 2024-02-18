@@ -23,5 +23,9 @@ I prefer to use [k3s] as the Kubernetes distribution, because it's lightweight, 
    3. `k3s-test-1-worker-2`
    4. `k3s-test-1-worker-3`
 
+## Kubernetes Resources
+
+Kubernetes resouces are deployed and managed separately through [nix-config/pulumi/k8s/](../../pulumi/k8s/).
+
 [k3s]: https://github.com/k3s-io/k3s/
 [what-have-k3s-removed-from-upstream-kubernetes]: https://github.com/k3s-io/k3s/?tab=readme-ov-file#what-have-you-removed-from-upstream-kubernetes
