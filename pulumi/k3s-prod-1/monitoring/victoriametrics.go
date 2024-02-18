@@ -1,16 +1,20 @@
 package monitoring
 
 import (
+	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
 	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-func NewVictoriaMetrics(ctx *pulumi.Context, env string) error {
+func NewVictoriaMetrics(ctx *pulumi.Context, env string, namespace corev1.Namespace) error {
+	var opts []pulumi.ResourceOption
+	opts = append(opts, pulumi.DependsOn([]pulumi.Resource{namespace}))
+
 	// https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack
 	_, err := helm.NewChart(ctx, "victoria-metrics-k8s-stack", helm.ChartArgs{
 		Chart:     pulumi.String("victoria-metrics-k8s-stack"),
 		Version:   pulumi.String("0.19.0"),
-		Namespace: pulumi.String("monitoring"),
+		Namespace: pulumi.String(namespace.Metadata.Name()),
 		FetchArgs: helm.FetchArgs{
 			Repo: pulumi.String("https://victoriametrics.github.io/helm-charts/"),
 		},
@@ -76,6 +80,6 @@ func NewVictoriaMetrics(ctx *pulumi.Context, env string) error {
 				},
 			},
 		},
-	})
+	}, opts...)
 	return err
 }
