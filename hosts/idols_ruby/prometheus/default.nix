@@ -7,9 +7,9 @@
   services.prometheus = {
     enable = true;
     checkConfig = true;
-    listenAddress = "0.0.0.0";
+    listenAddress = "127.0.0.1";
     port = 9090;
-    webExternalUrl = "https://prometheus.writefor.fun";
+    webExternalUrl = "http://prometheus.writefor.fun";
 
     extraFlags = ["--storage.tsdb.retention.time=15d"];
     # Directory below /var/lib to store Prometheus metrics data.
@@ -69,10 +69,12 @@
 
   services.prometheus.alertmanager = {
     enable = true;
+    listenAddress = "127.0.0.1";
+    port = 9093;
+    webExternalUrl = "http://alertmanager.writefor.fun";
     logLevel = "info";
+
     environmentFile = config.age.secrets."alertmanager.env".path;
-    webExternalUrl = "https://alertmanager.writefor.fun";
-    listenAddress = "[::1]";
     configuration = {
       global = {
         # The smarthost and SMTP sender used for mail notifications.
