@@ -52,7 +52,7 @@
           ../modules/nixos/base/networking.nix
 
           ../hosts/12kingdoms_shoukei/hardware-configuration.nix
-          ../hosts/12kingdoms_shoukei/impermanence.nix
+          ../hosts/idols_ai/impermanence.nix
         ];
       };
     };

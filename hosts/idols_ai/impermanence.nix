@@ -72,6 +72,18 @@
           directory = ".ssh";
           mode = "0700";
         }
+
+        # misc
+        ".config/pulse"
+        ".pki"
+        ".steam" # steam games
+
+        # cloud native
+        {
+          # pulumi - infrastructure as code
+          directory = ".pulumi";
+          mode = "0700";
+        }
         {
           directory = ".aws";
           mode = "0700";
@@ -84,11 +96,6 @@
           directory = ".kube";
           mode = "0700";
         }
-
-        # misc
-        ".config/pulse"
-        ".pki"
-        ".steam" # steam games
 
         # remote desktop
         ".config/remmina"
