@@ -12,7 +12,7 @@ func main() {
 		if err := monitoring.NewMonitoring(ctx, "prod"); err != nil {
 			return err
 		}
-		if err := networking.NewMonitoring(ctx, "prod"); err != nil {
+		if err := networking.NewNetworking(ctx, "prod"); err != nil {
 			return err
 		}
 

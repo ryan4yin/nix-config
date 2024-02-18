@@ -5,7 +5,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-func NewMonitoring(ctx *pulumi.Context, env string) error {
+func NewCertManager(ctx *pulumi.Context, env string) error {
 	_, err := helm.NewChart(ctx, "cert-manager", helm.ChartArgs{
 		Chart:     pulumi.String("cert-manager"),
 		Version:   pulumi.String("v1.14.2 "),

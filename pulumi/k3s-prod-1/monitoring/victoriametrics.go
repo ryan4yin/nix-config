@@ -5,7 +5,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-func NewMonitoring(ctx *pulumi.Context, env string) error {
+func NewVictoriaMetrics(ctx *pulumi.Context, env string) error {
 	// https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack
 	_, err := helm.NewChart(ctx, "victoria-metrics-k8s-stack", helm.ChartArgs{
 		Chart:     pulumi.String("victoria-metrics-k8s-stack"),
