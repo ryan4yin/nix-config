@@ -123,7 +123,9 @@ in {
         ../hosts/k8s/k3s_prod_1_master_1
       ]
       ++ kube_base_modules.nixos-modules;
-    # home-module.imports = [];
+    home-module.imports = [
+      ../home/linux/server.nix
+    ];
   };
   k3s_prod_1_master_1_tags = ["k8s-prod-master"];
 
