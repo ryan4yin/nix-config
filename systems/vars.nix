@@ -21,7 +21,7 @@ let
       ../secrets/nixos.nix
       ../modules/nixos/server/server.nix
       ../modules/nixos/server/proxmox-hardware-configuration.nix
-        {modules.secrets.server.kubernetes.enable = true;}
+      {modules.secrets.server.kubernetes.enable = true;}
     ];
   };
 in {
@@ -79,7 +79,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  idol_aquamarine_tags = ["aqua" "network" "homelab"];
+  idol_aquamarine_tags = ["aqua" "homelab-network"];
 
   # 星野 瑠美衣, Hoshino Rubii
   idol_ruby_modules = {
@@ -91,7 +91,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  idol_ruby_tags = ["ruby" "operation" "homelab"];
+  idol_ruby_tags = ["ruby" "homelab-operation"];
 
   # 有馬 かな, Arima Kana
   idol_kana_modules = {
@@ -103,7 +103,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  idol_kana_tags = ["kana" "app" "homelab"];
+  idol_kana_tags = ["kana" "homelab-app"];
 
   homelab_tailscale_gw_modules = {
     nixos-modules =
@@ -113,7 +113,7 @@ in {
       ++ pve_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  homelab_tailscale_gw_tags = ["tailscale-gw" "network" "homelab"];
+  homelab_tailscale_gw_tags = ["tailscale-gw" "homelab-network"];
 
   # --- Kubernetes Nodes --- #
 
@@ -125,7 +125,7 @@ in {
       ++ kube_base_modules.nixos-modules;
     # home-module.imports = [];
   };
-  k3s_prod_1_master_1_tags = ["k8s" "master" "prod"];
+  k3s_prod_1_master_1_tags = ["k8s-prod-master"];
 
   k3s_prod_1_master_2_modules = {
     nixos-modules =
@@ -134,7 +134,7 @@ in {
       ]
       ++ kube_base_modules.nixos-modules;
   };
-  k3s_prod_1_master_2_tags = ["k8s" "master" "prod"];
+  k3s_prod_1_master_2_tags = ["k8s-prod-master"];
 
   k3s_prod_1_master_3_modules = {
     nixos-modules =
@@ -143,7 +143,7 @@ in {
       ]
       ++ kube_base_modules.nixos-modules;
   };
-  k3s_prod_1_master_3_tags = ["k8s" "master" "prod"];
+  k3s_prod_1_master_3_tags = ["k8s-prod-master"];
 
   k3s_prod_1_worker_1_modules = {
     nixos-modules =
@@ -152,7 +152,7 @@ in {
       ]
       ++ kube_base_modules.nixos-modules;
   };
-  k3s_prod_1_worker_1_tags = ["k8s" "worker" "prod"];
+  k3s_prod_1_worker_1_tags = ["k8s-prod-worker"];
 
   k3s_prod_1_worker_2_modules = {
     nixos-modules =
@@ -161,7 +161,7 @@ in {
       ]
       ++ kube_base_modules.nixos-modules;
   };
-  k3s_prod_1_worker_2_tags = ["k8s" "worker" "prod"];
+  k3s_prod_1_worker_2_tags = ["k8s-prod-worker"];
 
   k3s_prod_1_worker_3_modules = {
     nixos-modules =
@@ -170,7 +170,7 @@ in {
       ]
       ++ kube_base_modules.nixos-modules;
   };
-  k3s_prod_1_worker_3_tags = ["k8s" "worker" "prod"];
+  k3s_prod_1_worker_3_tags = ["k8s-prod-worker"];
 
   # --- RISC-V / AARCH64 Systems --- #
 

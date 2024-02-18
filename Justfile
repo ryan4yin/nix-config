@@ -136,13 +136,13 @@ pve-tsgw:
 ############################################################################
 
 k8s:
-  colmena apply --on '@k8s'
+  colmena apply --on '@k8s-*'
 
 master:
-  colmena apply --on '@k8s' --on '@master'
+  colmena apply --on '@k8s-prod-master'
 
 worker:
-  colmena apply --on '@k8s' --on '@worker'
+  colmena apply --on '@k8s-prod-worker'
 
 pve-k8s:
   nom build .#k3s_prod_1_master_1
