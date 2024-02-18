@@ -4,6 +4,8 @@
 
 My infrastructure is managed by Pulumi & NixOS.
 
+[Pulumi AI](https://www.pulumi.com/ai/) is a Chatbot based on GPT v4, it can help you to write Pulumi code.
+
 ## Why Pulumi for Kubernetes?
 
 1. Deploying Helm charts & yaml files in the right order, in a declarative way.
