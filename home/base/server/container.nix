@@ -18,6 +18,11 @@
   programs = {
     k9s = {
       enable = true;
+      # https://k9scli.io/topics/aliases/
+      # aliases = {};
+      settings = {
+        skin = "catppuccino-mocha";
+      };
       skins.catppuccin-mocha = let
         skin_file = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-k9s}/dist/mocha.yml"; # theme - catppuccin mocha
         skin_attr = builtins.fromJSON (
