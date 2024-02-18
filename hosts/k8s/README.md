@@ -8,6 +8,8 @@ I prefer to use [k3s] as the Kubernetes distribution, because it's lightweight, 
 
 ## Hosts
 
+![](/_img/2024-02-18_k8s-nodes-overview.webp)
+
 1. For production:
    1. `k3s-prod-1-master-1`
    1. `k3s-prod-1-master-2`
