@@ -14,7 +14,13 @@
   </a>
 </p>
 
-This repository is home to the nix code that builds my systems.
+This repository is home to the nix code that builds my systems:
+
+1. NixOS Desktops: NixOS with home-manager, i3, hyprland, agenix, etc.
+2. macOS Desktops: nix-darwin with home-manager, zsh, kitty, etc. Share the same home-manager configuration with NixOS Desktops.
+3. NixOS Servers: virtual machines running on Proxmox, with various services, such as homepage, prometheus, grafana, etc.
+
+See [./hosts](./hosts) for details of each host.
 
 ## Why NixOS & Flakes?
 
@@ -74,10 +80,6 @@ See [./home/base/desktop/editors/neovim/](./home/base/desktop/editors/neovim/) f
 ## Emacs
 
 See [./home/base/desktop/editors/emacs/](./home/base/desktop/editors/emacs/) for details.
-
-## Hosts
-
-See [./hosts](./hosts) for details.
 
 ## Secrets Management
 
