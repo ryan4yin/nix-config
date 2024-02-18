@@ -10,7 +10,7 @@
     dashy = {
       hostname = "dashy";
       image = "lissy93/dashy:latest";
-      ports = ["4000:80"];
+      ports = ["127.0.0.1:4000:80"];
       environment = {
         "NODE_ENV" = "production";
       };

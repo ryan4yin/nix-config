@@ -11,8 +11,8 @@
     # DeclarativePlugins = with pkgs.grafanaPlugins; [ grafana-piechart-panel ];
     settings = {
       server = {
-        http_addr = "0.0.0.0";
-        http_port = 80;
+        http_addr = "127.0.0.1";
+        http_port = 3000;
         protocol = "http";
         domain = "grafana.writefo.fun";
         # Redirect to correct domain if the host header does not match the domain. Prevents DNS rebinding attacks.

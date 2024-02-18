@@ -44,7 +44,7 @@ in {
 
       # rpc = Web Interface
       rpc-port = 9091;
-      rpc-bind-address = "0.0.0.0";
+      rpc-bind-address = "127.0.0.1";
       anti-brute-force-enabled = true;
       # After this amount of failed authentication attempts is surpassed,
       # the RPC server will deny any further authentication attempts until it is restarted.
