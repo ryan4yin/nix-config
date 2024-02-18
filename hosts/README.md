@@ -17,17 +17,7 @@
 5. `12kingdoms`: 
    1. `shoukei`: NixOS on Macbook Pro 2022 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM + 256G SSD.
-6. Kubernetes Cluster(TODO):
-   1. For production:
-      1. `k8s-prod-master-1`
-      2. `k8s-prod-worker-1`
-      2. `k8s-prod-worker-2`
-      2. `k8s-prod-worker-3`
-   1. For testing:. 
-      1. `k8s-test-master-1`
-      2. `k8s-test-worker-1`
-      3. `k8s-test-worker-2`
-      4. `k8s-test-worker-3`
+6. `kubernetes`: My Kubernetes Cluster
 
 ## idols - Oshi no Ko
 
