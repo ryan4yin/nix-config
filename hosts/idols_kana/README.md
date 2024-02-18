@@ -1,7 +1,9 @@
 # Idols - Kana
 
-Use kana for common applications.
-All the services assumes a reverse proxy to be setup in the front, they are not exposed to the internet directly.
+Host running some common applications, such as hompage, file browser, torrent downloader, etc.
+
+All the services assumes a reverse proxy to be setup in the front, they are all listening on localhost,
+and a caddy service is listening on the local network interface and proxy the requests to the services.
 
 ## Services
 
