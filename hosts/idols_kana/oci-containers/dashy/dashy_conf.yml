@@ -173,7 +173,7 @@ sections:
   - name: System Monitoring & Control
     icon: fas fa-monitor-heart-rate
     items:
-      - &ref_9
+      - &ref_8
         title: Grafana
         description: Data visualised on dashboards
         icon: hl-grafana
@@ -181,23 +181,23 @@ sections:
         target: newtab
         statusCheck: true
         statusCheckAllowInsecure: true
-        id: 1_2578_grafana
-      - &ref_10
+        id: 0_2578_grafana
+      - &ref_9
         title: Prometheus Dashboard
         description: Monitoring - Prometheus
         icon: si-prometheus
         url: http://prometheus.writefor.fun
         target: newtab
         statusCheck: true
-        id: 2_2578_prometheus
-      - &ref_11
+        id: 1_2578_prometheusdashboard
+      - &ref_10
         title: Uptime Kuma
         description: Uptime Checking
         icon: hl-uptime-kuma
         url: http://uptime-kuma.writefor.fun
         target: newtab
         statusCheck: true
-        id: 3_2578_uptimekuma
+        id: 2_2578_uptimekuma
     displayData:
       sortBy: default
       rows: 1
@@ -205,13 +205,13 @@ sections:
       collapsed: false
       hideForGuests: false
     filteredItems:
+      - *ref_8
       - *ref_9
       - *ref_10
-      - *ref_11
   - name: Productivity
     icon: fas fa-bookmark
     items:
-      - &ref_12
+      - &ref_11
         title: Cloud IDE
         description: Eclipse Che - Cloud IDE
         icon: hl-code
@@ -220,11 +220,11 @@ sections:
         statusCheck: true
         id: 0_1302_cloudide
     filteredItems:
-      - *ref_12
+      - *ref_11
   - name: Media & Entertainment
     icon: fas fa-photo-video
     items:
-      - &ref_13
+      - &ref_12
         title: Home Assistant
         description: Smart home control
         icon: hl-home-assistant
@@ -232,6 +232,14 @@ sections:
         target: newtab
         statusCheck: true
         id: 0_1956_homeassistant
+      - &ref_13
+        title: SFTPGO Web Admin Console
+        description: WebDAV & SFTP server
+        icon: http://sftpgo.writefor.fun/static/img/logo.png
+        url: http://sftpgo.writefor.fun/web/admin/folders
+        target: newtab
+        statusCheck: true
+        id: 1_1956_sftpgowebadminconsole
     displayData:
       sortBy: default
       rows: 1
@@ -239,4 +247,5 @@ sections:
       collapsed: false
       hideForGuests: false
     filteredItems:
+      - *ref_12
       - *ref_13

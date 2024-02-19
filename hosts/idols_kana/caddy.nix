@@ -31,6 +31,14 @@
       encode zstd gzip
       reverse_proxy http://localhost:3001
     '';
+    virtualHosts."http://sftpgo.writefor.fun".extraConfig = ''
+      encode zstd gzip
+      reverse_proxy http://localhost:5010
+    '';
+    virtualHosts."http://webdav.writefor.fun".extraConfig = ''
+      encode zstd gzip
+      reverse_proxy http://localhost:5005
+    '';
   };
   networking.firewall.allowedTCPPorts = [80 443];
 }
