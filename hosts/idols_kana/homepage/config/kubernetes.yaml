@@ -2,6 +2,7 @@
 
 # uses the default kubeconfig to access the cluster
 # read kubbecofig from $KUBECONFIG or $HOME/.kube/config
-mode: default
+# mode: default
+mode: disabled
 
 

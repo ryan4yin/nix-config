@@ -1,3 +1,7 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/settings
+
 title: Ryan Yin's Homelab
 base: http://home.writefor.fun/
 favicon: https://thiscute.world/favicon.ico
@@ -7,6 +11,14 @@ favicon: https://thiscute.world/favicon.ico
 startUrl: http://home.writefor.fun/
 
 language: zh
+
+# Define shared API provider options and secrets here,
+# You can then pass provider instead of apiKey in your widget configuration.
+providers:
+  # read api keys from environment variables
+  openweathermap: {{HOMEPAGE_VAR_WEATHERAPI_APIKEY}}
+  weatherapi: {{HOMEPAGE_VAR_WEATHERAPI_APIKEY}}
+
 
 background:
   image: /images/rolling-girls.png

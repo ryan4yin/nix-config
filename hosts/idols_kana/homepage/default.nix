@@ -17,8 +17,9 @@ in {
   };
   # Install the homepage-dashboard configuration files
   system.activationScripts.installHomepageDashboardConfig = ''
-    mkdir -p ${configDir}/config ${configDir}/images
-    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F600 ${./config}/ ${configDir}/config/
-    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F600 ${./images}/ ${configDir}/images/
+    mkdir -p configDir
+    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F600 ${./config}/ ${configDir}/
+
+    ${pkgs.systemdMinimal}/bin/systemctl restart homepage-dashboard
   '';
 }

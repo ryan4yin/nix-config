@@ -1,3 +1,7 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
 - Proxmox VE 虚拟化集群:
     - PVE-UM560:
         icon: si-proxmox
@@ -35,39 +39,31 @@
         siteMonitor: http://uptime-kuma.writefor.fun
 
 - Homelab Applications:
-    - Home Assistant:
-      icon: home-assistant.png
-      href: "http://homeassistant.home/"
-      description: Home Automation
-      server: kana-docker
-      container: home-assistant
-
     - SFTPGO:
       icon: sftpgo.png
       href: "http://sftpgo.writefor.fun/web/admin/folders"
       description: WebDAV & SFTP server
-      server: kana-docker
-      container: sftpgo
+      siteMonitor: http://sftpgo.writefor.fun/
 
-- Kubernetes Monitoring:
-    # TODO: Update this
-    - Emby:
-      icon: emby.png
-      href: "http://emby.home/"
-      description: Media server
-      namespace: media # The kubernetes namespace the app resides in
-      app: emby # The name of the deployed app
-
-    - Element Chat:
-        icon: matrix-light.png
-        href: https://chat.example.com
-        description: Matrix Synapse Powered Chat
-        app: matrix-element
-        namespace: comms
-        pod-selector: >-
-          app.kubernetes.io/instance in (
-              matrix-element,
-              matrix-media-repo,
-              matrix-media-repo-postgresql,
-              matrix-synapse
-          )
+# - Kubernetes Monitoring:
+#     # TODO: Update this
+#     - Emby:
+#       icon: emby.png
+#       href: "http://emby.home/"
+#       description: Media server
+#       namespace: media # The kubernetes namespace the app resides in
+#       app: emby # The name of the deployed app
+#
+#     - Element Chat:
+#         icon: matrix-light.png
+#         href: https://chat.example.com
+#         description: Matrix Synapse Powered Chat
+#         app: matrix-element
+#         namespace: comms
+#         pod-selector: >-
+#           app.kubernetes.io/instance in (
+#               matrix-element,
+#               matrix-media-repo,
+#               matrix-media-repo-postgresql,
+#               matrix-synapse
+#           )

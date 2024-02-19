@@ -39,6 +39,10 @@
       encode zstd gzip
       reverse_proxy http://localhost:5005
     '';
+    virtualHosts."http://home.writefor.fun".extraConfig = ''
+      encode zstd gzip
+      reverse_proxy http://localhost:8082
+    '';
   };
   networking.firewall.allowedTCPPorts = [80 443];
 }
