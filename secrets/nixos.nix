@@ -198,6 +198,12 @@ in {
               file = "${mysecrets}/server/transmission-credentials.json.age";
             }
             // high_security;
+
+          "sftpgo.env" = {
+            file = "${mysecrets}/server/sftpgo.env.age";
+            mode = "0400";
+            owner = "sftpgo";
+          };
         };
       })
 

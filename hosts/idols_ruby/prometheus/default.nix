@@ -89,6 +89,19 @@
           }
         ];
       }
+
+      {
+        job_name = "sftpgo-embedded-exporter";
+        scrape_interval = "30s";
+        metrics_path = "/metrics";
+        static_configs = [
+          {
+            targets = ["${vars_networking.hostAddress.kana.address}:10000"];
+            labels.type = "app";
+            labels.app = "v2ray";
+          }
+        ];
+      }
     ];
 
     # specifies Alertmanager instances the Prometheus server sends alerts to
