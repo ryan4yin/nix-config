@@ -1,0 +1,3 @@
+kana-docker:
+  socket: /var/run/docker.sock
+

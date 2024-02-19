@@ -1,0 +1,73 @@
+- Proxmox VE 虚拟化集群:
+    - PVE-UM560:
+        icon: si-proxmox
+        href: https://192.168.5.173:8006/
+        description: 'CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2'
+        siteMonitor: https://192.168.5.173:8006/
+
+    - PVE-S500Plus:
+        icon: si-proxmox
+        href: https://192.168.5.174:8006/
+        description: 'CPU: R7-5825U / MEM: 64G / DISK: 1T'
+        siteMonitor: https://192.168.5.174:8006/
+
+    - PVE-GTR5:
+        icon: si-proxmox
+        href: https://192.168.5.172:8006/
+        description: 'CPU: R9-5900HX / MEM: 64G / DISK: 1T'
+        siteMonitor: https://192.168.5.172:8006/
+
+- Homelab Monitoring:
+    - Grafana:
+        icon: si-grafana
+        href: http://grafana.writefor.fun
+        description: Data visualised on dashboards
+        siteMonitor: http://grafana.writefor.fun 
+    - Prometheus Dashboard:
+        icon: si-prometheus
+        href: http://prometheus.writefor.fun
+        description: Monitoring - Prometheus
+        siteMonitor: http://prometheus.writefor.fun
+    - Uptime Kuma:
+        icon: si-uptimekuma
+        href: http://uptime-kuma.writefor.fun
+        description: Uptime Checking
+        siteMonitor: http://uptime-kuma.writefor.fun
+
+- Homelab Applications:
+    - Home Assistant:
+      icon: home-assistant.png
+      href: "http://homeassistant.home/"
+      description: Home Automation
+      server: kana-docker
+      container: home-assistant
+
+    - SFTPGO:
+      icon: sftpgo.png
+      href: "http://sftpgo.writefor.fun/web/admin/folders"
+      description: WebDAV & SFTP server
+      server: kana-docker
+      container: sftpgo
+
+- Kubernetes Monitoring:
+    # TODO: Update this
+    - Emby:
+      icon: emby.png
+      href: "http://emby.home/"
+      description: Media server
+      namespace: media # The kubernetes namespace the app resides in
+      app: emby # The name of the deployed app
+
+    - Element Chat:
+        icon: matrix-light.png
+        href: https://chat.example.com
+        description: Matrix Synapse Powered Chat
+        app: matrix-element
+        namespace: comms
+        pod-selector: >-
+          app.kubernetes.io/instance in (
+              matrix-element,
+              matrix-media-repo,
+              matrix-media-repo-postgresql,
+              matrix-synapse
+          )

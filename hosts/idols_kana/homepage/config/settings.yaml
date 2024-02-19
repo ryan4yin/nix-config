@@ -1,0 +1,71 @@
+title: Ryan Yin's Homelab
+base: http://home.writefor.fun/
+favicon: https://thiscute.world/favicon.ico
+
+# https://developer.mozilla.org/en-US/docs/Web/Manifest/start_url
+# Used by some browsers to determine the start page of the web application
+startUrl: http://home.writefor.fun/
+
+language: zh
+
+background:
+  image: /images/rolling-girls.png
+  blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 50 # 0-100
+
+theme: dark # or light
+
+# Supported colors are: 
+# slate, gray, zinc, neutral, stone, amber,
+# yellow, lime, green, emerald, teal, cyan,
+# sky, blue, indigo, violet, purple, fuchsia, pink, rose, red, white
+color: indigo
+
+# make all cards in a row the same height.
+useEqualHeights: true
+
+# Groups and its layout
+# Groups Name should match the name defined in your services.yaml or widgets.yaml
+layout:
+  Proxmox VE 虚拟化集群:
+    icon: si-proxmox
+    tab: First
+
+  Group A:
+    initiallyCollapsed: true  # collasped by default
+    tab: First
+    style: row
+    columns: 4
+
+  Second Service Group:
+    useEqualHeights: true # overrides global setting
+    tab: Second
+    columns: 4
+
+  Third Service Group:
+    tab: Third
+    style: row
+
+  Bookmark Group on Fourth Tab:
+    tab: Fourth
+
+  Service Group on every Tab:
+    style: row
+    columns: 4
+
+# https://gethomepage.dev/latest/configs/services/#icons
+# iconStyle: theme # optional, defaults to gradient
+
+# Typing in homepage to quick search
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  showSearchSuggestions: true
+  hideVisitURL: true
+
+# Show docker stats
+showStats: true
+
+hideErrors: false
