@@ -14,5 +14,6 @@
     enable = true;
     pinentryFlavor = "curses";
     enableSSHSupport = false;
+    settings.default-cache-ttl = 4 * 60 * 60; # 4 hours
   };
 }
