@@ -93,7 +93,7 @@ colmena-ssh-key:
   ssh-add /etc/agenix/ssh-key-romantic
 
 lab:
-  colmena apply --on '@homelab' --verbose --show-trace
+  colmena apply --on '@homelab-*' --verbose --show-trace
 
 aqua:
   colmena apply --on '@aqua' --verbose --show-trace
