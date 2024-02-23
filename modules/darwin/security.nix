@@ -17,4 +17,10 @@ in {
     StandardErrorPath = "${homeDir}/Library/Logs/gnupg-agent.stderr.log";
     StandardOutPath = "${homeDir}/Library/Logs/gnupg-agent.stdout.log";
   };
+
+  # Disable password authentication for SSH
+  environment.etc."ssh/sshd_config.d/200-disable-password-auth.conf".text = ''
+    PasswordAuthentication no
+    KbdInteractiveAuthentication no
+  '';
 }
