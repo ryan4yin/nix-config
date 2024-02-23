@@ -299,7 +299,7 @@ routing {
     domain(geosite:category-scholar-!cn) -> proxy
 
     ### Direct
-    domain(regex:'.+\.edu\.cn$') -> proxy
+    domain(regex:'.+\.edu\.cn$') -> direct
     domain(keyword:'baidu') -> direct
     domain(keyword:'bilibili') -> direct
     domain(keyword:'taobao') -> direct
