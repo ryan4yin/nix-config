@@ -1,7 +1,9 @@
 {
-  genCoreModule = {
+  gencoreModule = {
+    pkgs,
     hostName,
     vars_networking,
+    ...
   }: let
     hostAddress = vars_networking.hostAddress.${hostName};
   in {
@@ -18,8 +20,14 @@
       "cifs" # mount windows share
     ];
 
-    boot.kernelModules = ["kvm-amd"];
+    boot.kernelModules = ["kvm-amd" "vfio-pci"];
     boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
+
+    environment.systemPackages = with pkgs; [
+      # Validate Hardware Virtualization Support via:
+      #   virt-host-validate qemu
+      libvirt
+    ];
 
     networking = {
       inherit hostName;

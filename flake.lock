@@ -138,6 +138,26 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1709286488,
+        "narHash": "sha256-RDpTZ72zLu05djvXRzK76Ysqp9zSdh84ax/edEaJucs=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "bde7dd352c07d43bd5b8245e6c39074a391fdd46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "doomemacs": {
       "flake": false,
       "locked": {
@@ -1209,6 +1229,7 @@
         "anyrun": "anyrun",
         "astronvim": "astronvim",
         "daeuniverse": "daeuniverse",
+        "disko": "disko",
         "doomemacs": "doomemacs",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",

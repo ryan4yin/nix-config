@@ -1,3 +1,6 @@
 name: k3s-prod-1
-runtime: go
-description: A Go program to deploy all the resources for the k3s-prod-1 cluster
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A Python program to deploy a Helm chart onto a Kubernetes cluster

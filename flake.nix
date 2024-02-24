@@ -156,6 +156,11 @@
 
     nix-gaming.url = "github:fufexan/nix-gaming";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # add git hooks to format nix code before commit
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";

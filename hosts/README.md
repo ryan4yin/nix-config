@@ -56,3 +56,5 @@ When building some packages for riscv64 or aarch64, I often have no cache availa
 
 ![](/_img/12kingdoms-1.webp)
 ![](/_img/12kingdoms-Youko-Rakushun.webp)
+
+[List of Frieren characters](https://en.wikipedia.org/wiki/List_of_Frieren_characters)

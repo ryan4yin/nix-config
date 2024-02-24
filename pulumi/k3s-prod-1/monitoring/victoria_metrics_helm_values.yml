@@ -1,0 +1,37 @@
+# https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack
+#
+# Pulumi will complain ` ValueError: unexpected input of type set` if some values are not available in helm chart!
+grafana:
+  enabled: true
+  defaultDashboardsTimezone: utc+8
+  ingress:
+    enabled: true
+    hosts:
+      - k8s-grafana.writefor.fun
+  persistence:
+    type: pvc
+    enabled: false
+kube-state-metrics:
+  enabled: true
+prometheus-node-exporter:
+  # install node exporter via nixos, not container
+  enabled: false
+vmagent:
+  # vmagent collects metrics from targets and sends them to a remote storage
+  enabled: true
+vmalert:
+  # vmalert is a Prometheus-compatible alertmanager
+  enabled: true
+vmsingle:
+  # Single-node VictoriaMetrics for storing metrics.
+  # https://docs.victoriametrics.com/faq/#which-victoriametrics-type-is-recommended-for-use-in-production---single-node-or-cluster
+  # vmsingle = vmcluster(vmselect + vmstorage + vminsert)
+  enabled: true
+  ingress:
+    hosts:
+      - vm.writefor.fun
+  spec:
+    storage:
+      resources:
+        requests:
+          storage: 50Gi
