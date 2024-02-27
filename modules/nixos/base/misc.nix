@@ -26,6 +26,10 @@
     options = lib.mkDefault "--delete-older-than 7d";
   };
 
+  # Add terminfo database of all known terminals to the system profile.
+  # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/config/terminfo.nix
+  environment.enableAllTerminfo = true;
+
   # Manual optimise storage: nix-store --optimise
   # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
   nix.settings.auto-optimise-store = true;
