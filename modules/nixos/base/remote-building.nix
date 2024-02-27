@@ -48,7 +48,7 @@
     #   # remote builder's max-job
     #   maxJobs = 3;
     #   # speedFactor's a signed integer
-    #   # but it seems that it's not used by Nix, takes no effect
+    #   # https://github.com/ryan4yin/nix-config/issues/70
     #   speedFactor = 1;
     # }
     # {
