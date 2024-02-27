@@ -16,6 +16,8 @@
 
   home.packages = with pkgs;
     [
+      colmena # nixos's remote deployment tool
+
       # db related
       dbeaver
       mycli
@@ -54,6 +56,7 @@
         mitmproxy # http/https proxy tool
         insomnia # REST client
         wireshark # network analyzer
+        ventoy # create bootable usb
       ]
       else []
     );
