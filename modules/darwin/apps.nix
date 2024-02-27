@@ -151,6 +151,9 @@ in {
       "visual-studio-code"
       "zed" # zed editor
 
+      # https://joplinapp.org/help/
+      "joplin" # note taking app
+
       # IM & audio & remote desktop & meeting
       "telegram"
       "discord"
