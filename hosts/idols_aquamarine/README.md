@@ -6,6 +6,12 @@ NOTE: dae(running on aquamarine) do not provides a http/socks5 proxy server, so 
 
 ## Troubleshooting
 
+### Can not access the global internet
+
+1. Check wether the subscription url is accessible.
+   - If not, then you need to get a new subscription url and update the `dae`'s configuration.
+1. Check the `dae` service's log by `journalctl -u dae -n 1000`.
+
 ### DNS cannot be resolved
 
 1. `sudo systemctl stop dae`, then try to resolve the domain name again.
