@@ -164,7 +164,8 @@
 
     nuenv.url = "github:DeterminateSystems/nuenv";
 
-    daeuniverse.url = "github:daeuniverse/flake.nix/unstable";
+    # daeuniverse.url = "github:daeuniverse/flake.nix/unstable";
+    daeuniverse.url = "github:daeuniverse/flake.nix/exp";
 
     ########################  Some non-flake repositories  #########################################
 
