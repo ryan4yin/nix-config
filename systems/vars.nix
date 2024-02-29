@@ -89,7 +89,9 @@ in {
         {modules.secrets.server.operation.enable = true;}
       ]
       ++ pve_base_modules.nixos-modules;
-    # home-module.imports = [];
+    home-module.imports = [
+      ../home/linux/server.nix
+    ];
   };
   idol_ruby_tags = ["ruby" "homelab-operation"];
 
