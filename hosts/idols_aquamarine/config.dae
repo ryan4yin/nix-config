@@ -35,8 +35,9 @@ global {
 
     # The WAN interface to bind. Use it if you want to proxy localhost.
     # Multiple interfaces split by ",". Use "auto" to auto detect.
-    # bypass router has no WAN interface, so comment it.
-    wan_interface: auto
+    # 
+    # Disable this to avoid problems with the proxy server that prevent the subscription link from being updated
+    # wan_interface: auto
 
     # Automatically configure Linux kernel parameters like ip_forward and send_redirects. Check out
     # https://github.com/daeuniverse/dae/blob/main/docs/en/user-guide/kernel-parameters.md to see what will dae do.
