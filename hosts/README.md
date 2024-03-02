@@ -15,7 +15,7 @@
    2. `yukina`: Lichee Pi 4A(Internal Test Version), TH1520(4xC910@2.0G), 8GB RAM + 8G eMMC + 128G SD Card.
    3. `chiaya`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
 5. `12kingdoms`: 
-   1. `shoukei`: NixOS on Macbook Pro 2022 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
+   1. `shoukei`: NixOS on Macbook Pro 2020 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM + 256G SSD.
 6. `kubernetes`: My Kubernetes Cluster
 
