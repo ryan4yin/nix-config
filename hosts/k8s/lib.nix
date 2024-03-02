@@ -29,12 +29,31 @@
       libvirt
     ];
 
+    # Enable the Open vSwitch as a systemd service
+    # It's required by kubernetes' ovs-cni plugin.
+    virtualisation.vswitch = {
+      enable = true;
+      # reset the Open vSwitch configuration database to a default configuration on every start of the systemd ovsdb.service
+      resetOnStart = false;
+    };
+    networking.vswitches = {
+      # https://github.com/k8snetworkplumbingwg/ovs-cni/blob/main/docs/demo.md
+      ovsbr1 = {
+        interfaces = {
+          # Attach the interfaces to OVS bridge
+          # This interface should not used by the host itself!
+          ens18 = {};
+        };
+      };
+    };
+
     networking = {
       inherit hostName;
       inherit (vars_networking) defaultGateway nameservers;
 
       networkmanager.enable = false;
-      interfaces.ens18 = {
+      # Set the host's address on the OVS bridge interface instead of the physical interface!
+      interfaces.ovsbr1 = {
         useDHCP = false;
         ipv4.addresses = [hostAddress];
       };

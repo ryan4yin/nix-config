@@ -1,2 +1,2 @@
-from .kubevirt import *
-from .virtual_machines import *
+from .kubevirt import NewKubeVirt
+from .virtual_machines import NewVirtualMachines

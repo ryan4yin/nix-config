@@ -1,0 +1,34 @@
+---
+apiVersion: kubevirt.io/v1
+kind: KubeVirt
+metadata:
+  name: kubevirt
+  namespace: kubevirt
+spec:
+  workloads:
+    nodePlacement:
+      nodeSelector:
+        node-type: worker
+  certificateRotateStrategy: {}
+  configuration:
+    network:
+      # Bridge network interface on Pod network
+      # is not compatible with istio & live migration
+      # so we should disable it
+      permitBridgeInterfaceOnPodNetwork: false
+    migrations:
+      parallelMigrationsPerCluster: 5
+      parallelOutboundMigrationsPerNode: 2
+      bandwidthPerMigration: 220Mi # 220MiB/s
+      completionTimeoutPerGiB: 800
+      progressTimeout: 150
+      disableTLS: false
+      nodeDrainTaintKey: "kubevirt.io/drain"
+      allowAutoConverge: false
+      allowPostCopy: false
+      unsafeMigrationOverride: false
+    developerConfiguration:
+      featureGates: []
+  customizeComponents: {}
+  imagePullPolicy: IfNotPresent
+  workloadUpdateStrategy: {}

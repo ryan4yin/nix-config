@@ -1,0 +1,458 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cluster-network-addons-operator
+  namespace: cluster-network-addons
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    name: cluster-network-addons-operator
+  name: cluster-network-addons-operator
+rules:
+- apiGroups:
+  - operator.openshift.io
+  resources:
+  - networks
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - security.openshift.io
+  resources:
+  - securitycontextconstraints
+  verbs:
+  - get
+  - list
+  - create
+  - update
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - create
+  - update
+- apiGroups:
+  - networkaddonsoperator.network.kubevirt.io
+  resources:
+  - networkaddonsconfigs
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - networkaddonsoperator.network.kubevirt.io
+  resources:
+  - networkaddonsconfigs/status
+  verbs:
+  - patch
+- apiGroups:
+  - networkaddonsoperator.network.kubevirt.io
+  resources:
+  - networkaddonsconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - namespaces
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterroles
+  verbs:
+  - get
+  - create
+  - update
+  - bind
+  - delete
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+- apiGroups:
+  - config.openshift.io
+  resources:
+  - infrastructures
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/status
+  verbs:
+  - get
+  - update
+  - list
+  - watch
+- apiGroups:
+  - events.k8s.io
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - list
+  - watch
+  - create
+  - update
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - validatingwebhookconfigurations
+  - mutatingwebhookconfigurations
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - get
+  - create
+  - update
+  - list
+  - watch
+- apiGroups:
+  - kubevirt.io
+  resources:
+  - virtualmachines
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - get
+  - create
+  - update
+- apiGroups:
+  - kubevirt.io
+  resources:
+  - virtualmachineinstances
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - k8s.cni.cncf.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-network-addons-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-network-addons-operator
+subjects:
+  - kind: ServiceAccount
+    name: cluster-network-addons-operator
+    namespace: cluster-network-addons
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    name: cluster-network-addons-operator
+  name: cluster-network-addons-operator
+  namespace: cluster-network-addons
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - create
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - update
+  - get
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - prometheusrules
+  - servicemonitors
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - roles
+  - rolebindings
+  verbs:
+  - get
+  - create
+  - update
+  - delete
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - get
+  - delete
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cluster-network-addons-operator
+  namespace: cluster-network-addons
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cluster-network-addons-operator
+subjects:
+  - kind: ServiceAccount
+    name: cluster-network-addons-operator
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    networkaddonsoperator.network.kubevirt.io/version: 0.91.0
+  labels:
+    prometheus.cnao.io: "true"
+  name: cluster-network-addons-operator
+  namespace: cluster-network-addons
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: cluster-network-addons-operator
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        description: cluster-network-addons-operator manages the lifecycle of different
+          Kubernetes network components on top of Kubernetes cluster
+      labels:
+        name: cluster-network-addons-operator
+        prometheus.cnao.io: "true"
+    spec:
+      containers:
+      - env:
+        - name: MULTUS_IMAGE
+          value: ghcr.io/k8snetworkplumbingwg/multus-cni@sha256:3fbcc32bd4e4d15bd93c96def784a229cd84cca27942bf4858b581f31c97ee02
+        - name: MULTUS_DYNAMIC_NETWORKS_CONTROLLER_IMAGE
+          value: ghcr.io/k8snetworkplumbingwg/multus-dynamic-networks-controller@sha256:57573a24923e5588bca6bc337a8b2b08406c5b77583974365d2cf063c0dd5d06
+        - name: LINUX_BRIDGE_IMAGE
+          value: quay.io/kubevirt/cni-default-plugins@sha256:c884d6d08f8c0db98964f1eb3877b44ade41fa106083802a9914775df17d5291
+        - name: LINUX_BRIDGE_MARKER_IMAGE
+          value: quay.io/kubevirt/bridge-marker@sha256:bba066e3b5ff3fb8c5e20861fe8abe51e3c9b50ad6ce3b2616af9cb5479a06d0
+        - name: OVS_CNI_IMAGE
+          value: quay.io/kubevirt/ovs-cni-plugin@sha256:e16ac74343da21abb8fb668ce71e728053d00503a992dae2164b9e94a280113e
+        - name: KUBEMACPOOL_IMAGE
+          value: quay.io/kubevirt/kubemacpool@sha256:cf8daa57ae6603b776d3af512331b143fa03bc2f4b72f28420fddcf5e4156d0a
+        - name: MACVTAP_CNI_IMAGE
+          value: quay.io/kubevirt/macvtap-cni@sha256:850b89343ace7c7ea6b18dd8e11964613974e9d1f7377af03854d407fb15230a
+        - name: KUBE_RBAC_PROXY_IMAGE
+          value: quay.io/openshift/origin-kube-rbac-proxy@sha256:e2def4213ec0657e72eb790ae8a115511d5b8f164a62d3568d2f1bff189917e8
+        - name: KUBE_SECONDARY_DNS_IMAGE
+          value: ghcr.io/kubevirt/kubesecondarydns@sha256:e87e829380a1e576384145f78ccaa885ba1d5690d5de7d0b73d40cfb804ea24d
+        - name: CORE_DNS_IMAGE
+          value: registry.k8s.io/coredns/coredns@sha256:a0ead06651cf580044aeb0a0feba63591858fb2e43ade8c9dea45a6a89ae7e5e
+        - name: OPERATOR_IMAGE
+          value: quay.io/kubevirt/cluster-network-addons-operator:v0.91.0
+        - name: OPERATOR_NAME
+          value: cluster-network-addons-operator
+        - name: OPERATOR_VERSION
+          value: 0.91.0
+        - name: OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: OPERAND_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: WATCH_NAMESPACE
+        - name: MONITORING_NAMESPACE
+          value: openshift-monitoring
+        - name: MONITORING_SERVICE_ACCOUNT
+          value: prometheus-k8s
+        - name: RUNBOOK_URL_TEMPLATE
+          value: https://kubevirt.io/monitoring/runbooks/
+        image: quay.io/kubevirt/cluster-network-addons-operator:v0.91.0
+        imagePullPolicy: Always
+        name: cluster-network-addons-operator
+        resources:
+          requests:
+            cpu: 50m
+            memory: 30Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      - args:
+        - --logtostderr
+        - --secure-listen-address=:8443
+        - --upstream=http://127.0.0.1:8080
+        image: quay.io/openshift/origin-kube-rbac-proxy@sha256:e2def4213ec0657e72eb790ae8a115511d5b8f164a62d3568d2f1bff189917e8
+        imagePullPolicy: Always
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: metrics
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 10m
+            memory: 20Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        terminationMessagePolicy: FallbackToLogsOnError
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: cluster-network-addons-operator
