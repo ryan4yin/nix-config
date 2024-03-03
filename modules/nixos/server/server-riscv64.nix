@@ -4,19 +4,16 @@
   # =========================================================================
 
   imports = [
+    ../base/core.nix
     ../base/i18n.nix
-    ../base/misc.nix
+    ../base/monitoring.nix
+    ../base/nix.nix
+    ../base/ssh.nix
     ../base/user-group.nix
 
     ../../base.nix
-    
-    ./security.nix
   ];
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  #
-  # TODO feel free to add or remove packages here.
   environment.systemPackages = with pkgs; [
     neovim
 
@@ -51,15 +48,5 @@
     # start dockerd on boot.
     # This is required for containers which are created with the `--restart=always` flag to work.
     enableOnBoot = true;
-  };
-
-  services.openssh = {
-    enable = true;
-    settings = {
-      X11Forwarding = true;
-      PermitRootLogin = "prohibit-password"; # disable root login with password
-      PasswordAuthentication = false; # disable password login
-    };
-    openFirewall = true;
   };
 }

@@ -245,7 +245,7 @@ in {
   _12kingdoms_suzu_modules = {
     nixos-modules = [
       ../hosts/12kingdoms_suzu
-      ../modules/nixos/server/server-riscv64.nix
+      ../modules/nixos/server/server-aarch64.nix
 
       # cross-compilation this flake.
       {nixpkgs.crossSystem.config = "aarch64-unknown-linux-gnu";}

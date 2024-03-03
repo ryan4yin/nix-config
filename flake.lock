@@ -628,23 +628,6 @@
         "type": "github"
       }
     },
-    "mesa-panfork": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1670633863,
-        "narHash": "sha256-4eZHMiYS+sRDHNBtLZTA8ELZnLns7yT3USU5YQswxQ0=",
-        "owner": "panfork",
-        "repo": "mesa",
-        "rev": "120202c675749c5ef81ae4c8cdc30019b4de08f4",
-        "type": "gitlab"
-      },
-      "original": {
-        "owner": "panfork",
-        "ref": "csf",
-        "repo": "mesa",
-        "type": "gitlab"
-      }
-    },
     "mysecrets": {
       "flake": false,
       "locked": {
@@ -775,16 +758,15 @@
     "nixos-rk3588": {
       "inputs": {
         "flake-utils": "flake-utils_4",
-        "mesa-panfork": "mesa-panfork",
         "nixpkgs": "nixpkgs_4",
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1703010942,
-        "narHash": "sha256-YYNCF1cnVyQk6OPVnwyvpeg3brwS/ICRGAvFwe2RCZc=",
+        "lastModified": 1709478567,
+        "narHash": "sha256-cfY5vuB9B5KdiVIzdHelldxfOcag/wPPTcbERQpzULs=",
         "owner": "ryan4yin",
         "repo": "nixos-rk3588",
-        "rev": "fce637ae61bc0fce3c68c39c117d08bcc8e2bedf",
+        "rev": "0eea4e4cf05f997833e5cd7c48847c83e0c5b193",
         "type": "github"
       },
       "original": {
@@ -975,16 +957,16 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1691486536,
-        "narHash": "sha256-W2jYTn6rNiJEpjXkOiZxNltgxxwgeZE5cQ967NgsrHU=",
+        "lastModified": 1709309926,
+        "narHash": "sha256-VZFBtXGVD9LWTecGi6eXrE0hJ/mVB3zGUlHImUs2Qak=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8fa39adf946a4470610b38fd7aff0a73ad4356c3",
+        "rev": "79baff8812a0d68e24a836df0a364c678089e2c7",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-23.05-small",
+        "ref": "nixos-23.11",
         "repo": "nixpkgs",
         "type": "github"
       }
