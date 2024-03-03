@@ -1,10 +1,12 @@
 {
   pkgs,
-  vars_networking,
   mylib,
+  vars_networking,
+  disko,
   ...
 }: let
-  hostName = "k3s-prod-1-master-3"; # define your hostname.
+  # MoreFine - S500Plus
+  hostName = "kubevirt-shoryu"; # Define your hostname.
   k8sLib = import ../lib.nix;
   coreModule = k8sLib.gencoreModule {
     inherit pkgs hostName vars_networking;
@@ -14,5 +16,7 @@ in {
     (mylib.scanPaths ./.)
     ++ [
       coreModule
+      disko.nixosModules.default
+      ../kubevirt-disko-fs.nix
     ];
 }

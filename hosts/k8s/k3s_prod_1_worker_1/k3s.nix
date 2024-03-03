@@ -16,6 +16,8 @@ in {
     serverAddr = "https://${serverIp}:6443";
     tokenFile = config.age.secrets."k3s-prod-1-token".path;
     # https://docs.k3s.io/cli/agent
-    extraFlags = "--data-dir /var/lib/rancher/k3s";
+    extraFlags =
+      " --node-label=node-type=worker"
+      + " --data-dir /var/lib/rancher/k3s";
   };
 }

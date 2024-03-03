@@ -69,7 +69,7 @@ cryptsetup --help
 
 # NOTE: `cat shoukei.md | grep luks > format.sh` to generate this script
 # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
-cryptsetup luksFormat --type luks2 --cipher aes-xts-plain64 --hash sha512 --iter-time 5000 --key-size 256 --pbkdf argon2id --use-urandom --verify-passphrase /dev/nvme0n1p4
+cryptsetup luksFormat --type luks2 --cipher aes-xts-plain64 --hash sha512 --iter-time 5000 --key-size 256 --pbkdf argon2id --use-random --verify-passphrase /dev/nvme0n1p4
 
 # show status
 cryptsetup luksDump /dev/nvme0n1p4

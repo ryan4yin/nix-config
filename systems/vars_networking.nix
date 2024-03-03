@@ -1,6 +1,6 @@
 {lib, ...}: rec {
   mainGateway = "192.168.5.1"; # main router
-  defaultGateway = "192.168.5.101";  # subrouter with a transparent proxy
+  defaultGateway = "192.168.5.101"; # subrouter with a transparent proxy
   nameservers = [
     "119.29.29.29" # DNSPod
     "223.5.5.5" # AliDNS
@@ -25,6 +25,9 @@
       "k3s-prod-1-worker-1" = "192.168.5.111";
       "k3s-prod-1-worker-2" = "192.168.5.112";
       "k3s-prod-1-worker-3" = "192.168.5.113";
+      "kubevirt-shoryu" = "192.168.5.176";
+      "kubevirt-shushou" = "192.168.5.177";
+      "kubevirt-youko" = "192.168.5.178";
       "tailscale-gw" = "192.168.5.192";
     };
 

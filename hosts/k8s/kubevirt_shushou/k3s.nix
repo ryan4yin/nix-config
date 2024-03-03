@@ -26,14 +26,13 @@ in {
     # and other servers must connect to it using serverAddr.
     clusterInit = true;
     role = "server";
-    tokenFile = config.age.secrets."k3s-prod-1-token".path;
+    tokenFile = "/run/media/nixos_k3s/kubevirt-k3s-token";
     # https://docs.k3s.io/cli/server
     extraFlags =
-      " --write-kubeconfig /home/${username}/.kube/config"
+      " --write-kubeconfig /etc/k3s/kubeconfig.yml"
       + " --write-kubeconfig-mode 644"
       + " --service-node-port-range 80-32767"
       + " --kube-apiserver-arg='--allow-privileged=true'" # required by kubevirt
-      + " --node-taint=CriticalAddonsOnly=true:NoExecute" # prevent workloads from running on the master
       + " --data-dir /var/lib/rancher/k3s"
       + " --disable-helm-controller"
       + " --etcd-expose-metrics true"
