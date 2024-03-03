@@ -1,6 +1,0 @@
-name: k3s-prod-1
-runtime:
-  name: python
-  options:
-    virtualenv: venv
-description: A Python program to deploy a Helm chart onto a Kubernetes cluster
