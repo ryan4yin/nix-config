@@ -172,6 +172,8 @@
     # daeuniverse.url = "github:daeuniverse/flake.nix/unstable";
     daeuniverse.url = "github:daeuniverse/flake.nix/exp";
 
+    attic.url = "github:zhaofengli/attic";
+
     ########################  Some non-flake repositories  #########################################
 
     # AstroNvim is an aesthetic and feature-rich neovim config.
