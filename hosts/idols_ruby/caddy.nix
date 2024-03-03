@@ -31,6 +31,10 @@
       encode zstd gzip
       reverse_proxy http://localhost:9093
     '';
+    virtualHosts."http://attic.writefor.fun".extraConfig = ''
+      encode zstd gzip
+      reverse_proxy http://localhost:8888
+    '';
   };
   networking.firewall.allowedTCPPorts = [80 443];
 }

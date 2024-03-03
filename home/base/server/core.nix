@@ -1,5 +1,6 @@
 {
   pkgs,
+  attic,
   nur-ryan4yin,
   ...
 }: {
@@ -45,6 +46,9 @@
     # productivity
     caddy # A webserver with automatic HTTPS via Let's Encrypt(replacement of nginx)
     croc # File transfer between computers securely and easily
+
+    # self-hosted nix cache server
+    attic.packages.${pkgs.system}.attic-client
   ];
 
   programs = {
