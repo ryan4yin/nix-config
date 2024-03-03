@@ -135,6 +135,7 @@ dns {
             fallback: googledns
 
             # other custom rules
+            qname(full:analytics.google.com) -> googledns # do not block google analytics(console)
             qname(geosite:category-ads) -> reject
             qname(geosite:category-ads-all) -> reject
             qtype(aaaa) -> reject
@@ -250,6 +251,7 @@ routing {
     domain(geosite:cn) -> direct
 
     # Block ads
+    domain(full:analytics.google.com) -> proxy  # do not block google analytics(console)
     domain(geosite:category-ads) -> block
     domain(geosite:category-ads-all) -> block
 
@@ -282,6 +284,7 @@ routing {
     domain(regex:'.+\.oracle\.com$') -> proxy
     domain(regex:'.+\.docker\.com$') -> proxy
     domain(regex:'.+\.kubernetes\.io$') -> proxy
+    domain(regex:'.+\.nixos\.org$') -> proxy
 
     domain(geosite:microsoft) -> proxy
     domain(geosite:linkedin) -> proxy
