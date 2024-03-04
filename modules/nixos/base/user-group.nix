@@ -36,14 +36,10 @@
       "libvirtd"
     ];
   };
+
+  # root's ssh key are mainly used for remote deployment
   users.users.root = {
     initialHashedPassword = config.users.users."${username}".initialHashedPassword;
     openssh.authorizedKeys.keys = config.users.users."${username}".openssh.authorizedKeys.keys;
   };
-
-  # The wheel group is a special user group,
-  # which can access to the `su` or `sudo` command to run commands as super user.
-  #
-  # Don't ask for password for wheel group
-  security.sudo.wheelNeedsPassword = false;
 }

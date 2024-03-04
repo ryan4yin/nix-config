@@ -7,6 +7,7 @@ with allSystemAttrs; let
     inherit home-manager;
     inherit nixpkgs; # or nixpkgs-unstable
     specialArgs = allSystemSpecialArgs.x64_system;
+    targetUser = "root";
   };
 
   # riscv64 related
@@ -38,7 +39,7 @@ with allSystemAttrs; let
     inherit home-manager;
     inherit (nixos-rk3588.inputs) nixpkgs; # or nixpkgs-unstable
     specialArgs = rk3588_specialArgs;
-    targetUser = "ryan";
+    targetUser = "root";
   };
 in {
   # colmena - remote deployment via SSH
