@@ -1,5 +1,5 @@
 {
-  description = "NixOS & macOS configuration of Ryan Yin";
+  description = "Ryan Yin's nix configuration for both NixOS & macOS";
 
   ##################################################################################################################
   #
