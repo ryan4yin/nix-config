@@ -27,14 +27,22 @@ with allSystemAttrs; let
   };
 
   # aarch64 related
-  # using the same nixpkgs as nixos-rk3588 to utilize the cross-compilation cache.
-  rk3588_pkgs = import nixos-rk3588.inputs.nixpkgs {system = x64_system;};
-  rk3588_specialArgs = {
-    inherit username userfullname useremail;
+  rk3588_pkgs = import nixos-rk3588.inputs.nixpkgs {system = aarch64_system;};
+  # aarch64 related
+  rk3588_specialArgs = let
+    # using the same nixpkgs as nixos-rk3588
     inherit (nixos-rk3588.inputs) nixpkgs;
-    # Provide rk3588 inputs as special argument
-    rk3588 = nixos-rk3588.inputs;
-  };
+    # use aarch64-linux's native toolchain
+    pkgsKernel = import nixpkgs {
+      system = aarch64_system;
+    };
+  in
+    allSystemSpecialArgs.aarch64_system
+    // {
+      inherit nixpkgs;
+      # Provide rk3588 inputs as special argument
+      rk3588 = {inherit nixpkgs pkgsKernel;};
+    };
   rk3588_base_args = {
     inherit home-manager;
     inherit (nixos-rk3588.inputs) nixpkgs; # or nixpkgs-unstable
@@ -55,6 +63,7 @@ in {
 
         # aarch64 SBCs
         suzu = rk3588_specialArgs;
+        rakushun = rk3588_specialArgs;
       };
       nodeNixpkgs = {
         nozomi = lpi4a_pkgs;
@@ -62,6 +71,7 @@ in {
 
         # aarch64 SBCs
         suzu = rk3588_pkgs;
+        rakushun = rk3588_pkgs;
       };
     };
 
@@ -136,6 +146,11 @@ in {
       rk3588_base_args
       _12kingdoms_suzu_modules
       {host_tags = _12kingdoms_suzu_tags;}
+    ]);
+    rakushun = colmenaSystem (attrs.mergeAttrsList [
+      rk3588_base_args
+      _12kingdoms_rakushun_modules
+      {host_tags = _12kingdoms_rakushun_tags;}
     ]);
   };
 }

@@ -10,7 +10,7 @@
 #
 #############################################################
 let
-  hostName = "suzu"; # Define your hostname.
+  hostName = "rakushun"; # Define your hostname.
   hostAddress = vars_networking.hostAddress.${hostName};
 in {
   imports = [
@@ -26,10 +26,16 @@ in {
     inherit (vars_networking) defaultGateway nameservers;
 
     networkmanager.enable = false;
-    interfaces.end1 = {
+    # RJ45 port 1
+    interfaces.enP4p65s0 = {
       useDHCP = false;
       ipv4.addresses = [hostAddress];
     };
+    # RJ45 port 2
+    # interfaces.enP3p49s0 = {
+    # useDHCP = false;
+    # ipv4.addresses = [hostAddress];
+    # };
   };
 
   # This value determines the NixOS release from which the default

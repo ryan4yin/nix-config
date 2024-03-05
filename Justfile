@@ -202,10 +202,18 @@ aarch:
   colmena apply --on '@aarch' --verbose --show-trace
 
 suzu:
-  colmena apply --on '@suzu' --verbose --show-trace
+  colmena apply --on '@suzu' --build-on-target --verbose --show-trace
 
-suzu-debug:
-  colmena apply --on '@suzu' --verbose --show-trace
+suzu-local mode="default":
+  use utils.nu *; \
+  nixos-switch suzu {{mode}}
+
+rakushun:
+  colmena apply --on '@rakushun' --build-on-target --verbose --show-trace
+
+rakushun-local mode="default":
+  use utils.nu *; \
+  nixos-switch rakushun {{mode}}
 
 ############################################################################
 #

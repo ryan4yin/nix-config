@@ -28,6 +28,7 @@
       "kubevirt-shoryu" = "192.168.5.176";
       "kubevirt-shushou" = "192.168.5.177";
       "kubevirt-youko" = "192.168.5.178";
+      "rakushun" = "192.168.5.179";
       "tailscale-gw" = "192.168.5.192";
     };
 
