@@ -812,15 +812,14 @@
     },
     "nixos-licheepi4a": {
       "inputs": {
-        "nixpkgs": "nixpkgs_4",
-        "thead-kernel": "thead-kernel"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1695716231,
-        "narHash": "sha256-G3uedbyLZ2p6kZVNQIA1f7J3yQc5B46XPzhGXXrmfDY=",
+        "lastModified": 1709742425,
+        "narHash": "sha256-9viPBApTsxSDhcIsDFpEDyi4wZA0WjNjHlhS6rV58jw=",
         "owner": "ryan4yin",
         "repo": "nixos-licheepi4a",
-        "rev": "c5ab4399bcb2ded234e901444dbccbaf8d97cc91",
+        "rev": "3a53f9d3c9275c89adb386a057731cd364909040",
         "type": "github"
       },
       "original": {
@@ -1491,23 +1490,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "thead-kernel": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1687607314,
-        "narHash": "sha256-9R+XY18uDuMWjVzLkg4lTmxDltsvyI51qvm34SNVI4I=",
-        "owner": "revyos",
-        "repo": "thead-kernel",
-        "rev": "9c58afc7addc5a4a5deef24dfe6a4a103549d3da",
-        "type": "github"
-      },
-      "original": {
-        "owner": "revyos",
-        "ref": "lpi4a",
-        "repo": "thead-kernel",
         "type": "github"
       }
     },
