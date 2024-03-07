@@ -4,6 +4,8 @@ LUKS encrypted SSD for NixOS, on Orange Pi 5 Plus.
 
 ## How to install NixOS on Orange Pi 5 Plus
 
+![](../../_img/2024-03-07_orangepi5plus_rakushun.webp)
+
 ### 1. Prepare a USB LUKS key
 
 Generate LUKS keyfile to encrypt the root partition, it's used by disko.
