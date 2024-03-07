@@ -5,7 +5,7 @@ LUKS encrypted SSD for NixOS, on Orange Pi 5.
 
 ## Showcases
 
-![](../../_img22024-03-07_orangepi5_suzu.webp)
+![](../../_img/2024-03-07_orangepi5_suzu.webp)
 
 Disk layout:
 
