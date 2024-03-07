@@ -2,9 +2,72 @@
 
 LUKS encrypted SSD for NixOS, on Orange Pi 5 Plus.
 
-## How to install NixOS on Orange Pi 5 Plus
+## Showcases
 
 ![](../../_img/2024-03-07_orangepi5plus_rakushun.webp)
+
+Disk layout:
+
+```bash
+[ryan@rakushun:~]$ lsblk
+NAME        MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINTS
+sda           8:0    1 58.6G  0 disk
+└─sda1        8:1    1  487M  0 part
+mtdblock0    31:0    0   16M  0 disk
+zram0       254:0    0    0B  0 disk
+nvme0n1     259:0    0  1.8T  0 disk
+├─nvme0n1p1 259:1    0  630M  0 part  /boot
+└─nvme0n1p2 259:2    0  1.8T  0 part
+  └─crypted 253:0    0  1.8T  0 crypt /tmp
+                                      /swap
+                                      /snapshots
+                                      /home
+                                      /nix/store
+                                      /var/lib
+                                      /nix
+                                      /
+```
+
+CPU info:
+
+```bash
+[ryan@rakushun:~]$ lscpu
+Architecture:           aarch64
+  CPU op-mode(s):       32-bit, 64-bit
+  Byte Order:           Little Endian
+CPU(s):                 8
+  On-line CPU(s) list:  0-7
+Vendor ID:              ARM
+  Model name:           Cortex-A55
+    Model:              0
+    Thread(s) per core: 1
+    Core(s) per socket: 4
+    Socket(s):          1
+    Stepping:           r2p0
+    CPU(s) scaling MHz: 67%
+    CPU max MHz:        1800.0000
+    CPU min MHz:        408.0000
+    BogoMIPS:           48.00
+    Flags:              fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+  Model name:           Cortex-A76
+    Model:              0
+    Thread(s) per core: 1
+    Core(s) per socket: 2
+    Socket(s):          2
+    Stepping:           r4p0
+    CPU(s) scaling MHz: 18%
+    CPU max MHz:        2256.0000
+    CPU min MHz:        408.0000
+    BogoMIPS:           48.00
+    Flags:              fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+Caches (sum of all):
+  L1d:                  384 KiB (8 instances)
+  L1i:                  384 KiB (8 instances)
+  L2:                   2.5 MiB (8 instances)
+  L3:                   3 MiB (1 instance)
+```
+
+## How to install NixOS on Orange Pi 5 Plus
 
 ### 1. Prepare a USB LUKS key
 
