@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  username,
-  ...
-}:
+{lib, ...}:
 ##############################################################################
 #
 #  Template for Proxmox's VM, mainly based on:
@@ -13,21 +8,6 @@
 #
 ##############################################################################
 {
-  # DO NOT promote ryan to input password for sudo.
-  # this is a workaround for the issue of remote deploy:
-  #   https://github.com/NixOS/nixpkgs/issues/118655
-  security.sudo.extraRules = [
-    {
-      users = [username];
-      commands = [
-        {
-          command = "ALL";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
-
   boot = {
     # after resize the disk, it will grow partition automatically.
     growPartition = true;
