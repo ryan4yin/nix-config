@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{lib, ...}: {
   # =========================================================================
   #      Base NixOS Configuration
   # =========================================================================
@@ -14,4 +14,6 @@
 
     ../../base.nix
   ];
+
+  boot.loader.timeout = lib.mkForce 3; # wait for 3 seconds to select the boot entry
 }

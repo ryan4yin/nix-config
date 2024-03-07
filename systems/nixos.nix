@@ -8,6 +8,28 @@ with allSystemAttrs; let
     system = x64_system;
     specialArgs = allSystemSpecialArgs.x64_system;
   };
+
+  # aarch64 related
+  rk3588_specialArgs = let
+    # using the same nixpkgs as nixos-rk3588
+    inherit (nixos-rk3588.inputs) nixpkgs;
+    # use aarch64-linux's native toolchain
+    pkgsKernel = import nixpkgs {
+      system = aarch64_system;
+    };
+  in
+    allSystemSpecialArgs.aarch64_system
+    // {
+      inherit nixpkgs;
+      # Provide rk3588 inputs as special argument
+      rk3588 = {inherit nixpkgs pkgsKernel;};
+    };
+  rk3588_base_args = {
+    inherit home-manager nixos-generators;
+    inherit (nixos-rk3588.inputs) nixpkgs; # or nixpkgs-unstable
+    system = aarch64_system;
+    specialArgs = rk3588_specialArgs;
+  };
 in {
   nixosConfigurations = {
     # ai with i3 window manager
@@ -32,9 +54,12 @@ in {
     k3s_prod_1_worker_3 = nixosSystem (k3s_prod_1_worker_3_modules // base_args);
 
     tailscale_gw = nixosSystem (homelab_tailscale_gw_modules // base_args);
+
+    # aarch64 hosts
+    suzu = nixosSystem (_12kingdoms_suzu_modules // rk3588_base_args);
+    rakushun = nixosSystem (_12kingdoms_rakushun_modules // rk3588_base_args);
   };
 
-  # take system images for idols
   # https://github.com/nix-community/nixos-generators
   packages."${x64_system}" = attrs.mergeAttrsList [
     (

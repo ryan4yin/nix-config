@@ -246,13 +246,20 @@ in {
     nixos-modules = [
       ../hosts/12kingdoms_suzu
       ../modules/nixos/server/server-aarch64.nix
-
-      # cross-compilation this flake.
-      {nixpkgs.crossSystem.config = "aarch64-unknown-linux-gnu";}
     ];
     # home-module.imports = [];
   };
   _12kingdoms_suzu_tags = ["aarch" "suzu"];
+
+  # 楽俊, Rakushun
+  _12kingdoms_rakushun_modules = {
+    nixos-modules = [
+      ../hosts/12kingdoms_rakushun
+      ../modules/nixos/server/server-aarch64.nix
+    ];
+    # home-module.imports = [];
+  };
+  _12kingdoms_rakushun_tags = ["aarch" "rakushun"];
 
   # Shoukei (祥瓊, Shōkei)
   _12kingdoms_shoukei_modules_i3 = {

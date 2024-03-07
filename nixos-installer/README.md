@@ -200,11 +200,11 @@ rm -rf /mnt/etc
 
 # install nixos
 # NOTE: the root password you set here will be discarded when reboot
-nixos-install --root /mnt --flake .#ai --no-root-password --show-trace # instlall-1
+nixos-install --root /mnt --flake .#ai --no-root-password --show-trace --verbose # instlall-1
 
 # if you want to use a cache mirror, run this command instead
 # replace the mirror url with your own
-nixos-install --root /mnt --flake .#ai --no-root-password --show-trace --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store"  # install-2
+nixos-install --root /mnt --flake .#ai --no-root-password --show-trace --verbose --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store"  # install-2
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login
