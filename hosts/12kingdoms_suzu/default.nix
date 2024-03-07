@@ -17,8 +17,9 @@ in {
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
     nixos-rk3588.nixosModules.orangepi5plus.core
     disko.nixosModules.default
-    ./disko-fs.nix
     ./hardware-configuration.nix
+    ./disko-fs.nix
+    ./impermanence.nix
   ];
 
   networking = {

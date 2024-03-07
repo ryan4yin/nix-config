@@ -1,6 +1,20 @@
 {
+  # required by impermanence
+  fileSystems."/persistent".neededForBoot = true;
+
   disko.devices = {
-    # TODO: rename to nvme0n1
+    nodev."/" = {
+      fsType = "tmpfs";
+      mountOptions = [
+        "size=2G"
+        "defaults"
+        # set mode to 755, otherwise systemd will set it to 777, which cause problems.
+        # relatime: Update inode access times relative to modify or change time.
+        "mode=755"
+      ];
+    };
+
+    # TODO: rename to main
     disk.sda = {
       type = "disk";
       # When using disko-install, we will overwrite this value from the commandline
@@ -57,22 +71,12 @@
                 type = "btrfs";
                 extraArgs = ["-f"];
                 subvolumes = {
-                  # TODO: tmpfs on root
-                  "@root" = {
-                    mountpoint = "/";
-                    mountOptions = ["compress-force=zstd:1" "noatime"];
-                  };
-                  "@home" = {
-                    mountpoint = "/home";
-                    mountOptions = ["compress-force=zstd:1"];
-                  };
-                  "@lib" = {
-                    mountpoint = "/var/lib";
-                    mountOptions = ["compress-force=zstd:1"];
-                  };
-
                   "@nix" = {
                     mountpoint = "/nix";
+                    mountOptions = ["compress-force=zstd:1" "noatime"];
+                  };
+                  "@persistent" = {
+                    mountpoint = "/persistent";
                     mountOptions = ["compress-force=zstd:1" "noatime"];
                   };
                   "@tmp" = {
