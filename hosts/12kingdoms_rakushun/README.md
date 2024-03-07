@@ -21,11 +21,41 @@ nvme0n1     259:0    0  1.8T  0 disk
   └─crypted 253:0    0  1.8T  0 crypt /tmp
                                       /swap
                                       /snapshots
-                                      /home
+                                      /home/ryan/tmp
+                                      /home/ryan/nix-config
+                                      /home/ryan/go
+                                      /home/ryan/codes
+                                      /home/ryan/.ssh
+                                      /home/ryan/.local/state
+                                      /home/ryan/.npm
+                                      /home/ryan/.local/share
+                                      /home/ryan/.conda
+                                      /etc/ssh
+                                      /etc/nix/inputs
+                                      /etc/secureboot
+                                      /etc/agenix
+                                      /etc/NetworkManager/system-connections
+                                      /etc/machine-id
                                       /nix/store
+                                      /var/log
                                       /var/lib
                                       /nix
-                                      /
+                                      /persistent
+
+[ryan@rakushun:~]$ df -Th
+Filesystem          Type      Size  Used Avail Use% Mounted on
+devtmpfs            devtmpfs  785M     0  785M   0% /dev
+tmpfs               tmpfs     7.7G     0  7.7G   0% /dev/shm
+tmpfs               tmpfs     3.9G  6.8M  3.9G   1% /run
+tmpfs               tmpfs     7.7G  1.9M  7.7G   1% /run/wrappers
+none                tmpfs     4.0G   48K  4.0G   1% /
+/dev/mapper/crypted btrfs     1.9T   19G  1.8T   2% /persistent
+/dev/mapper/crypted btrfs     1.9T   19G  1.8T   2% /nix
+/dev/mapper/crypted btrfs     1.9T   19G  1.8T   2% /snapshots
+/dev/mapper/crypted btrfs     1.9T   19G  1.8T   2% /swap
+/dev/mapper/crypted btrfs     1.9T   19G  1.8T   2% /tmp
+/dev/nvme0n1p1      vfat      629M   96M  534M  16% /boot
+tmpfs               tmpfs     1.6G  4.0K  1.6G   1% /run/user/1000
 ```
 
 CPU info:

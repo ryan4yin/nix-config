@@ -22,11 +22,40 @@ nvme0n1     259:0    0 238.5G  0 disk
   └─crypted 253:0    0 237.8G  0 crypt /tmp
                                        /snapshots
                                        /swap
-                                       /home
+                                       /home/ryan/tmp
+                                       /home/ryan/nix-config
+                                       /home/ryan/go
+                                       /home/ryan/.local/state
+                                       /home/ryan/codes
+                                       /home/ryan/.npm
+                                       /home/ryan/.ssh
+                                       /home/ryan/.local/share
+                                       /etc/ssh
+                                       /home/ryan/.conda
+                                       /etc/secureboot
+                                       /etc/agenix
+                                       /etc/nix/inputs
+                                       /etc/NetworkManager/system-connections
                                        /nix/store
+                                       /var/log
                                        /var/lib
                                        /nix
-                                       /
+                                       /persistent
+
+[ryan@suzu:~]$ df -Th
+Filesystem          Type      Size  Used Avail Use% Mounted on
+devtmpfs            devtmpfs  383M     0  383M   0% /dev
+tmpfs               tmpfs     3.8G     0  3.8G   0% /dev/shm
+tmpfs               tmpfs     1.9G  6.2M  1.9G   1% /run
+tmpfs               tmpfs     3.8G  1.9M  3.8G   1% /run/wrappers
+none                tmpfs     2.0G   48K  2.0G   1% /
+/dev/mapper/crypted btrfs     238G   11G  226G   5% /persistent
+/dev/mapper/crypted btrfs     238G   11G  226G   5% /nix
+/dev/mapper/crypted btrfs     238G   11G  226G   5% /swap
+/dev/mapper/crypted btrfs     238G   11G  226G   5% /snapshots
+/dev/mapper/crypted btrfs     238G   11G  226G   5% /tmp
+/dev/nvme0n1p1      vfat      629M   86M  543M  14% /boot
+tmpfs               tmpfs     766M  4.0K  766M   1% /run/user/1000
 ```
 
 CPU info:
