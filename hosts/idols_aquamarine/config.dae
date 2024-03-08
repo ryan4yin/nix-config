@@ -136,6 +136,7 @@ dns {
 
             # other custom rules
             qname(full:analytics.google.com) -> googledns # do not block google analytics(console)
+            qname(regex: '.+\.nixos.org$') -> googledns
             qname(geosite:category-ads) -> reject
             qname(geosite:category-ads-all) -> reject
             qtype(aaaa) -> reject
@@ -168,9 +169,9 @@ group {
         filter: name(keyword: 'USA') [add_latency: -500ms]
         filter: name(keyword: '美国') [add_latency: -500ms]
         filter: name(keyword: 'UK') [add_latency: -300ms]
-        filter: name(keyword: '英国') [add_latency: -300ms]
-        filter: name(keyword: 'Japan') [add_latency: 300ms]
-        filter: name(keyword: '日本') [add_latency: 300ms]
+        # filter: name(keyword: '英国') [add_latency: -300ms]
+        # filter: name(keyword: 'Japan') [add_latency: 300ms]
+        # filter: name(keyword: '日本') [add_latency: 300ms]
 
         # Other filters:
         #   Filter nodes from the global node pool defined by the subscription and node section above.

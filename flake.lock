@@ -145,11 +145,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1709381418,
-        "narHash": "sha256-2TXn+W/hVN2DIYGU7hHaipmFzjNgDAb8i5We46urLBg=",
+        "lastModified": 1709777987,
+        "narHash": "sha256-rGjM51lS7KumEvJlWGC2ufgBKVCG5DM/3naYWhMv23Q=",
         "owner": "daeuniverse",
         "repo": "flake.nix",
-        "rev": "655a02dea1720eedc36a09e55b9a764115dbce1c",
+        "rev": "7b867cfa5a8ee56fc20425f9c09b4feee27d5f76",
         "type": "github"
       },
       "original": {
