@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs;
     [
       # general tools
@@ -26,12 +30,10 @@
       aliyun-cli
     ]
     ++ (
-      if pkgs.stdenv.isLinux
-      then [
+      lib.optionals pkgs.stdenv.isLinux [
         # cloud tools that nix do not have cache for.
         terraform
         terraformer # generate terraform configs from existing cloud resources
       ]
-      else []
     );
 }
