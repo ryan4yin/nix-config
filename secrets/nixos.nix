@@ -35,7 +35,7 @@ in {
     server.operation.enable = mkEnableOption "NixOS Secrets for Operation Servers(Backup, Monitoring, etc)";
     server.kubernetes.enable = mkEnableOption "NixOS Secrets for Kubernetes";
 
-    impermanence.enable = mkEnableOption "Wether use impermanence and ephemeral root file sytem";
+    impermanence.enable = mkEnableOption "Wether use impermanence and ephemeral root file system";
   };
 
   config =
