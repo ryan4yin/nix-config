@@ -23,6 +23,10 @@
         # To use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
       };
+
+      # my private secrets, it's a private repository, you need to replace it with your own.
+      # use ssh protocol to authenticate via ssh-agent/ssh-key, and shallow clone to save time
+      mysecrets = ../secrets/secrets-data;
     }
     // inputs;
 

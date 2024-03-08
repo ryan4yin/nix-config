@@ -6,10 +6,10 @@ export def nixos-switch [
 ] {
     if "debug" == $mode {
         # show details via nix-output-monitor
-        nom build $".#nixosConfigurations.($name).config.system.build.toplevel" --show-trace --verbose
-        nixos-rebuild switch --use-remote-sudo --flake $".#($name)" --show-trace --verbose
+        nom build $".?submodules=1#nixosConfigurations.($name).config.system.build.toplevel" --show-trace --verbose
+        nixos-rebuild switch --use-remote-sudo --flake $".?submodules=1#($name)" --show-trace --verbose
     } else {
-        nixos-rebuild switch --use-remote-sudo --flake $".#($name)"
+        nixos-rebuild switch --use-remote-sudo --flake $".?submodules=1#($name)"
     }
 }
 
