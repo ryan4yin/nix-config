@@ -14,6 +14,8 @@
     istioctl
     kubevirt # virtctl
     kubernetes-helm
+    fluxcd
+    argocd
   ];
 
   programs = {
