@@ -129,9 +129,7 @@
       (ripgrep.override {withPCRE2 = true;}) # recursively searches directories for a regex pattern
     ]
     ++ (
-      if pkgs.stdenv.isDarwin
-      then []
-      else [
+      lib.optionals pkgs.stdenv.isLinux [
         #-- verilog / systemverilog
         verible
         gdb
