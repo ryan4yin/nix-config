@@ -1,13 +1,14 @@
 {
-  nixpkgs,
-  nix-darwin,
-  home-manager,
-  system,
-  specialArgs,
+  inputs,
   darwin-modules,
-  home-module,
+  home-module ? null,
+  myvars,
+  system,
+  genSpecialArgs,
+  ...
 }: let
-  inherit (specialArgs) username;
+  inherit (inputs) nixpkgs home-manager nix-darwin;
+  specialArgs = genSpecialArgs system;
 in
   nix-darwin.lib.darwinSystem {
     inherit system specialArgs;
@@ -31,7 +32,7 @@ in
           home-manager.useUserPackages = true;
 
           home-manager.extraSpecialArgs = specialArgs;
-          home-manager.users."${username}" = home-module;
+          home-manager.users."${myvars.username}" = home-module;
         }
       ];
   }

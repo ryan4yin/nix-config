@@ -2,11 +2,11 @@
   pkgs,
   config,
   lib,
-  username,
+  myvars,
   pkgs-unstable,
   ...
 }: let
-  homeDir = config.users.users."${username}".home;
+  homeDir = config.users.users."${myvars.username}".home;
 in {
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/os-specific/darwin/yabai/default.nix
   services.yabai = {

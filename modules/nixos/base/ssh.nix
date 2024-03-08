@@ -1,6 +1,6 @@
 {
   lib,
-  vars_networking,
+  myvars,
   ...
 }: {
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -8,7 +8,7 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = lib.mkDefault false;
 
-  programs.ssh = vars_networking.ssh;
+  programs.ssh = myvars.networking.ssh;
 
   # Enable the OpenSSH daemon.
   services.openssh = {

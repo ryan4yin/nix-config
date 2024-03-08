@@ -11,21 +11,21 @@ set shell := ["nu", "-c"]
 
 i3 mode="default":
   use utils.nu *; \
-  nixos-switch ai_i3 {{mode}}
+  nixos-switch ai-i3 {{mode}}
 
 hypr mode="default":
   use utils.nu *; \
-  nixos-switch ai_hyprland {{mode}}
+  nixos-switch ai-hyprland {{mode}}
 
 
 s-i3 mode="default":
   use utils.nu *; \
-  nixos-switch shoukei_i3 {{mode}}
+  nixos-switch shoukei-i3 {{mode}}
 
 
 s-hypr mode="default":
   use utils.nu *; \
-  nixos-switch shoukei_hyprland {{mode}}
+  nixos-switch shoukei-hyprland {{mode}}
 
 
 up:
@@ -122,7 +122,7 @@ ruby:
 kana:
   colmena apply --on '@kana' --verbose --show-trace
 
-tsgw:
+tailscale:
   colmena apply --on '@tailscale-gw' --verbose --show-trace
 
 # pve-aqua:
@@ -138,8 +138,8 @@ tsgw:
 #   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
 #
 # pve-tsgw:
-#   nom build .#tailscale_gw
-#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-tailscale_gw.vma.zst
+#   nom build .#tailscale-gw
+#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-tailscale-gw.vma.zst
 #
 
 ############################################################################
@@ -148,33 +148,33 @@ tsgw:
 #
 ############################################################################
 
-k8s:
-  colmena apply --on '@k8s-*' --verbose --show-trace
+k3s:
+  colmena apply --on '@k3s-*' --verbose --show-trace
 
 master:
-  colmena apply --on '@k8s-prod-master-*' --verbose --show-trace
+  colmena apply --on '@k3s-prod-1-master-*' --verbose --show-trace
 
 worker:
-  colmena apply --on '@k8s-prod-worker-*' --verbose --show-trace
+  colmena apply --on '@k3s-prod-1-worker-*' --verbose --show-trace
 
 # pve-k8s:
-#   nom build .#k3s_prod_1_master_1
-#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_master_1.vma.zst
+#   nom build .#k3s-prod-1-master-1
+#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-master-1.vma.zst
 #
-#   nom build .#k3s_prod_1_master_2
-#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_master_2.vma.zst
+#   nom build .#k3s-prod-1-master-2
+#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-master-2.vma.zst
 #
-#   nom build .#k3s_prod_1_master_3
-#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_master_3.vma.zst
+#   nom build .#k3s-prod-1-master-3
+#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-master-3.vma.zst
 #
-#   nom build .#k3s_prod_1_worker_1
-#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_worker_1.vma.zst
+#   nom build .#k3s-prod-1-worker-1
+#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-worker-1.vma.zst
 #
-#   nom build .#k3s_prod_1_worker_2
-#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_worker_2.vma.zst
+#   nom build .#k3s-prod-1-worker-2
+#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-worker-2.vma.zst
 #
-#   nom build .#k3s_prod_1_worker_3
-#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s_prod_1_worker_3.vma.zst
+#   nom build .#k3s-prod-1-worker-3
+#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-worker-3.vma.zst
 #
 
 ############################################################################

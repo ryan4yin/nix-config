@@ -8,68 +8,7 @@
   #
   ##################################################################################################################
 
-  # The `outputs` function will return all the build results of the flake.
-  # A flake can have many use cases and different types of outputs,
-  # parameters in `outputs` are defined in `inputs` and can be referenced by their names.
-  # However, `self` is an exception, this special parameter points to the `outputs` itself (self-reference)
-  # The `@` syntax here is used to alias the attribute set of the inputs's parameter, making it convenient to use inside the function.
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    pre-commit-hooks,
-    ...
-  }: let
-    constants = import ./constants.nix;
-
-    # `lib.genAttrs [ "foo" "bar" ] (name: "x_" + name)` => `{ foo = "x_foo"; bar = "x_bar"; }`
-    forEachSystem = func: (nixpkgs.lib.genAttrs constants.allSystems func);
-
-    allSystemConfigurations = import ./systems {inherit self inputs constants;};
-  in
-    allSystemConfigurations
-    // {
-      # format the nix code in this flake
-      # alejandra is a nix formatter with a beautiful output
-      formatter = forEachSystem (
-        system: nixpkgs.legacyPackages.${system}.alejandra
-      );
-
-      # pre-commit hooks for nix code
-      checks = forEachSystem (
-        system: {
-          pre-commit-check = pre-commit-hooks.lib.${system}.run {
-            src = ./.;
-            hooks = {
-              alejandra.enable = true; # formatter
-              # deadnix.enable = true; # detect unused variable bindings in `*.nix`
-              # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
-              # prettier = {
-              #   enable = true;
-              #   excludes = [".js" ".md" ".ts"];
-              # };
-            };
-          };
-        }
-      );
-      devShells = forEachSystem (
-        system: let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in {
-          default = pkgs.mkShell {
-            packages = with pkgs; [
-              # fix https://discourse.nixos.org/t/non-interactive-bash-errors-from-flake-nix-mkshell/33310
-              bashInteractive
-              # fix `cc` replaced by clang, which causes nvim-treesitter compilation error
-              gcc
-            ];
-            name = "dots";
-            shellHook = ''
-              ${self.checks.${system}.pre-commit-check.shellHook}
-            '';
-          };
-        }
-      );
-    };
+  outputs = inputs: import ./outputs inputs;
 
   # the nixConfig here only affects the flake itself, not the system configuration!
   # for more information, see:
@@ -173,6 +112,11 @@
     daeuniverse.url = "github:daeuniverse/flake.nix/exp";
 
     attic.url = "github:zhaofengli/attic";
+
+    haumea = {
+      url = "github:nix-community/haumea/v0.2.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ########################  Some non-flake repositories  #########################################
 

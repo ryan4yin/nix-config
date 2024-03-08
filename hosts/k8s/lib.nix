@@ -2,10 +2,10 @@
   gencoreModule = {
     pkgs,
     hostName,
-    vars_networking,
+    networking,
     ...
   }: let
-    hostAddress = vars_networking.hostAddress.${hostName};
+    hostAddress = networking.hostAddress.${hostName};
   in {
     # supported file systems, so we can mount any removable disks with these filesystems
     boot.supportedFilesystems = [
@@ -49,7 +49,7 @@
 
     networking = {
       inherit hostName;
-      inherit (vars_networking) defaultGateway nameservers;
+      inherit (networking) defaultGateway nameservers;
 
       networkmanager.enable = false;
       # Set the host's address on the OVS bridge interface instead of the physical interface!

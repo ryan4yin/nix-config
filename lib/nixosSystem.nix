@@ -1,13 +1,15 @@
 {
-  nixpkgs,
-  home-manager,
-  nixos-generators,
+  inputs,
+  lib,
   system,
-  specialArgs,
+  genSpecialArgs,
   nixos-modules,
   home-module ? null,
+  myvars,
+  ...
 }: let
-  inherit (specialArgs) username;
+  inherit (inputs) nixpkgs home-manager nixos-generators;
+  specialArgs = genSpecialArgs system;
 in
   nixpkgs.lib.nixosSystem {
     inherit system specialArgs;
@@ -24,17 +26,16 @@ in
         }
       ]
       ++ (
-        if (home-module != null)
-        then [
+        lib.optionals (home-module != null)
+        [
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.users."${username}" = home-module;
+            home-manager.users."${myvars.username}" = home-module;
           }
         ]
-        else []
       );
   }

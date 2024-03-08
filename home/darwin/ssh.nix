@@ -1,3 +1,3 @@
-{vars_networking, ...}: {
-  programs.ssh.extraConfig = vars_networking.ssh.extraConfig;
+{myvars, ...}: {
+  programs.ssh.extraConfig = myvars.networking.ssh.extraConfig;
 }

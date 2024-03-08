@@ -15,7 +15,7 @@
     nixosConfigurations = {
       ai = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = inputs // {username = "ryan";};
+        specialArgs = inputs // {myvars.username = "ryan";};
         modules = [
           {networking.hostName = "ai";}
 
@@ -26,14 +26,14 @@
           ../modules/nixos/base/user-group.nix
           ../modules/nixos/base/networking.nix
 
-          ../hosts/idols_ai/hardware-configuration.nix
-          ../hosts/idols_ai/impermanence.nix
+          ../hosts/idols-ai/hardware-configuration.nix
+          ../hosts/idols-ai/impermanence.nix
         ];
       };
 
       shoukei = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = inputs // {username = "ryan";};
+        specialArgs = inputs // {myvars.username = "ryan";};
         modules = [
           # Building on a USB installer is buggy, lack of disk space, memory, trublesome to setup substituteers, etc.
           # so we disable apple-t2 module here to avoid build kernel during the initial installation, and enable it after the first boot.
@@ -51,8 +51,8 @@
           ../modules/nixos/base/user-group.nix
           ../modules/nixos/base/networking.nix
 
-          ../hosts/12kingdoms_shoukei/hardware-configuration.nix
-          ../hosts/idols_ai/impermanence.nix
+          ../hosts/12kingdoms-shoukei/hardware-configuration.nix
+          ../hosts/idols-ai/impermanence.nix
         ];
       };
     };
