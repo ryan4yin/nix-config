@@ -5,20 +5,17 @@
 }: {
   home.packages = with pkgs;
     [
-      # general tools
-      packer # machine image builder
-
       # infrastructure as code
-      pulumi
-      pulumictl
-      tf2pulumi
-      crd2pulumi
-      pulumiPackages.pulumi-random
-      pulumiPackages.pulumi-command
-      pulumiPackages.pulumi-aws-native
-      pulumiPackages.pulumi-language-go
-      pulumiPackages.pulumi-language-python
-      pulumiPackages.pulumi-language-nodejs
+      # pulumi
+      # pulumictl
+      # tf2pulumi
+      # crd2pulumi
+      # pulumiPackages.pulumi-random
+      # pulumiPackages.pulumi-command
+      # pulumiPackages.pulumi-aws-native
+      # pulumiPackages.pulumi-language-go
+      # pulumiPackages.pulumi-language-python
+      # pulumiPackages.pulumi-language-nodejs
 
       # aws
       awscli2
@@ -34,6 +31,7 @@
         # cloud tools that nix do not have cache for.
         terraform
         terraformer # generate terraform configs from existing cloud resources
+        packer # machine image builder
       ]
     );
 }

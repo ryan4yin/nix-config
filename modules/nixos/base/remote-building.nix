@@ -1,4 +1,4 @@
-{username, ...}: {
+{myvars, ...}: {
   ####################################################################
   #
   #  NixOS's Configuration for Remote Building / Distributed Building
@@ -14,7 +14,7 @@
   # nix.settings.max-jobs = 0;
   nix.distributedBuilds = true;
   nix.buildMachines = let
-    sshUser = username;
+    sshUser = myvars.username;
     # ssh key's path on local machine
     sshKey = "/etc/agenix/ssh-key-romantic";
     systems = [

@@ -91,7 +91,7 @@ See [./secrets](./secrets) for details.
 ## How to Deploy this Flake?
 
 > :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine :exclamation: It will not succeed.** 
-> This flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols_ai/hardware-configuration.nix), [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols_ai/cifs-mount.nix), [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols_ai/default.nix#L77-L91), etc.) which is not suitable for your hardwares,
+> This flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix), [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols_ai/cifs-mount.nix), [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91), etc.) which is not suitable for your hardwares,
 > and requires my private secrets repository [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy.
 > You may use this repo as a reference to build your own configuration.
 
@@ -104,7 +104,7 @@ For NixOS:
 ```bash
 # deploy one of the configuration based on the hostname
 sudo nixos-rebuild switch --flake .#ai_i3
-# sudo nixos-rebuild switch --flake .#ai_hyprland
+# sudo nixos-rebuild switch --flake .#ai-hyprland
 
 # deploy via `just`(a command runner with similar syntax to make) & Justfile
 just i3    # deploy my pc with i3 window manager

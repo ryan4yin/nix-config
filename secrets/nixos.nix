@@ -4,7 +4,7 @@
   pkgs,
   agenix,
   mysecrets,
-  username,
+  myvars,
   ...
 }:
 with lib; let
@@ -20,7 +20,7 @@ with lib; let
   };
   user_readable = {
     mode = "0500";
-    owner = username;
+    owner = myvars.username;
   };
 in {
   imports = [
@@ -160,7 +160,7 @@ in {
           "agenix/ssh-key-romantic" = {
             source = config.age.secrets."ssh-key-romantic".path;
             mode = "0600";
-            user = username;
+            user = myvars.username;
           };
 
           "agenix/ryan4yin-gpg-subkeys.priv.age" = {

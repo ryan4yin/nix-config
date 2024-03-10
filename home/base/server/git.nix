@@ -2,8 +2,7 @@
   config,
   lib,
   pkgs,
-  userfullname,
-  useremail,
+  myvars,
   ...
 }: {
   # `programs.git` will generate the config file: ~/.config/git/config
@@ -21,8 +20,8 @@
     enable = true;
     lfs.enable = true;
 
-    userName = userfullname;
-    userEmail = useremail;
+    userName = myvars.userfullname;
+    userEmail = myvars.useremail;
 
     includes = [
       {
