@@ -50,9 +50,6 @@
       cargo # rust package manager
       rustfmt
 
-      #-- zig
-      zls
-
       #-- nix
       nil
       rnix-lsp
@@ -94,14 +91,6 @@
       nodePackages."@tailwindcss/language-server"
       emmet-ls
 
-      #-- CloudNative
-      nodePackages.dockerfile-language-server-nodejs
-      # terraform  # install via brew on macOS
-      terraform-ls
-      jsonnet
-      jsonnet-language-server
-      hadolint # Dockerfile linter
-
       # -- Lisp like Languages
       guile
       racket-minimal
@@ -127,9 +116,19 @@
       #-- Optional Requirements:
       gdu # disk usage analyzer, required by AstroNvim
       (ripgrep.override {withPCRE2 = true;}) # recursively searches directories for a regex pattern
+
+      #-- CloudNative
+      nodePackages.dockerfile-language-server-nodejs
+      # terraform  # install via brew on macOS
+      terraform-ls
+      jsonnet-language-server
+      hadolint # Dockerfile linter
     ]
     ++ (
-      lib.optionals pkgs.stdenv.isLinux [
+      lib.optionals (pkgs.system != "x86_64-darwin") [
+        jsonnet
+        #-- zig
+        zls
         #-- verilog / systemverilog
         verible
         gdb

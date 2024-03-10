@@ -35,7 +35,6 @@
       doggo # DNS client for humans
       duf # Disk Usage/Free Utility - a better 'df' alternative
       du-dust # A more intuitive version of `du` in rust
-      ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
       gdu # disk usage analyzer(replacement of `du`)
 
       # nix related
@@ -56,7 +55,10 @@
       croc # File transfer between computers securely and easily
     ]
     # self-hosted nix cache server
-    ++ lib.optionals pkgs.stdenv.isLinux [attic.packages.${pkgs.system}.attic-client];
+    ++ lib.optionals (pkgs.system != "x86_64-darwin") [
+      attic.packages.${pkgs.system}.attic-client
+      ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
+    ];
 
   programs = {
     # A modern replacement for ‘ls’
