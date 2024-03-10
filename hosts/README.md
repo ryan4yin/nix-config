@@ -9,16 +9,15 @@
    3. `ruby`: Another NixOS VM running operation and maintenance related services, such as prometheus, grafana, restic, etc.
    4. `kana`: Yet another NixOS VM running some common applications, such as hompage, file browser, torrent downloader, etc.
 3. Homelab:
-   1. `tailscale_gw`: A tailscale subnet router(gateway) for accessing my homelab remotely. NixOS VM running on Proxmox.
+   1. `tailscale-gw`: A tailscale subnet router(gateway) for accessing my homelab remotely. NixOS VM running on Proxmox.
 4. `rolling_girls`: My RISCV64 hosts.
-   1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 8GB RAM + 32G eMMC + 64G SD Card.
-   2. `yukina`: Lichee Pi 4A(Internal Test Version), TH1520(4xC910@2.0G), 8GB RAM + 8G eMMC + 128G SD Card.
-   3. `chiaya`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
+   1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 16GB RAM + 32G eMMC + 128G SD Card.
+   2. `yukina`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
 5. `12kingdoms`:
    1. `shoukei`: NixOS on Macbook Pro 2020 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM + 256G SSD.
    1. `rakushun`: Orange Pi 5 Plus, RK3588(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 16G RAM + 2T SSD.
-6. `kubernetes`: My Kubernetes Cluster
+6. `k8s`: My Kubernetes Clusters
 
 ## idols - Oshi no Ko
 
