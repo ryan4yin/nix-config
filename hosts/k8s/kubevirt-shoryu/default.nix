@@ -18,6 +18,6 @@ in {
     ++ [
       coreModule
       disko.nixosModules.default
-      ../disko_config/kubevirt-disko-fs.nix
+      ../disko-config/kubevirt-disko-fs.nix
     ];
 }
