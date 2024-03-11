@@ -27,7 +27,8 @@
    3. If the new host need to use home-manager, add its custom config into `hosts/<name>/home.nix`.
 1. Under `outputs/`
    1. Add a new nix file named `outputs/<system-architecture>/src/<name>.nix`.
-   2. Copy the content from one of the existing host's nix file, and modify it to fit the new host.
+   2. Copy the content from one of the existing similar host, and modify it to fit the new host.
+      1. Usually, you only need to modify the `name` and `tags` fields.
    3. [Optional] Add a new unit test file under `outputs/<system-architecture>/tests/<name>.nix` to test the new host's nix file.
    4. [Optional] Add a new integration test file under `outputs/<system-architecture>/integration-tests/<name>.nix` to test whether the new host's nix config can be built and deployed correctly.
 
