@@ -14,49 +14,45 @@
   #
   #############################################################
 
-  home.packages = with pkgs;
-    [
-      colmena # nixos's remote deployment tool
+  home.packages = with pkgs; [
+    colmena # nixos's remote deployment tool
 
-      # db related
-      dbeaver
-      mycli
-      pgcli
-      mongosh
-      sqlite
+    # db related
+    dbeaver
+    mycli
+    pgcli
+    mongosh
+    sqlite
 
-      # embedded development
-      minicom
+    # embedded development
+    minicom
 
-      # ai related
-      python311Packages.huggingface-hub # huggingface-cli
+    # ai related
+    python311Packages.huggingface-hub # huggingface-cli
 
-      # misc
-      pkgs-unstable.devbox
-      bfg-repo-cleaner # remove large files from git history
-      k6 # load testing tool
-      protobuf # protocol buffer compiler
+    # misc
+    pkgs-unstable.devbox
+    bfg-repo-cleaner # remove large files from git history
+    k6 # load testing tool
+    protobuf # protocol buffer compiler
 
-      # solve coding extercises - learn by doing
-      exercism
-    ]
-    ++ (
-      lib.optionals pkgs.stdenv.isLinux [
-        # Automatically trims your branches whose tracking remote refs are merged or gone
-        # It's really useful when you work on a project for a long time.
-        git-trim
+    # solve coding extercises - learn by doing
+    exercism
 
-        # need to run `conda-install` before using it
-        # need to run `conda-shell` before using command `conda`
-        # conda is not available for MacOS
-        conda
+    # Automatically trims your branches whose tracking remote refs are merged or gone
+    # It's really useful when you work on a project for a long time.
+    git-trim
 
-        mitmproxy # http/https proxy tool
-        insomnia # REST client
-        wireshark # network analyzer
-        ventoy # create bootable usb
-      ]
-    );
+    # need to run `conda-install` before using it
+    # need to run `conda-shell` before using command `conda`
+    # conda is not available for MacOS
+    conda
+
+    mitmproxy # http/https proxy tool
+    insomnia # REST client
+    wireshark # network analyzer
+    ventoy # create bootable usb
+  ];
 
   programs = {
     direnv = {
