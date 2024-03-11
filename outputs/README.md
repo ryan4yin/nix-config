@@ -1,5 +1,14 @@
 # Flake Outputs
 
+## Is such a complex and fine-grained structure necessary?
+
+There is no need to do this when you have a small number of machines.
+
+But when you have a large number of machines, it is necessary to manage them in a fine-grained way,
+otherwise, it will be difficult to manage and maintain them.
+
+## Overview
+
 All the outputs of this flake are defined here.
 
 ```bash
