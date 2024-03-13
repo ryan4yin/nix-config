@@ -27,7 +27,7 @@
       ++ [
         {modules.secrets.server.kubernetes.enable = true;}
       ];
-    home-module.imports = map mylib.relativeToRoot [
+    home-modules = map mylib.relativeToRoot [
       "home/linux/server.nix"
     ];
   };

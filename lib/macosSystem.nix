@@ -1,7 +1,8 @@
 {
+  lib,
   inputs,
   darwin-modules,
-  home-module ? null,
+  home-modules ? [],
   myvars,
   system,
   genSpecialArgs,
@@ -25,14 +26,18 @@ in
           # discard all the default paths, and only use the one from this flake.
           nix.nixPath = lib.mkForce ["/etc/nix/inputs"];
         })
+      ]
+      ++ (
+        lib.optionals ((lib.lists.length home-modules) > 0)
+        [
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
 
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-
-          home-manager.extraSpecialArgs = specialArgs;
-          home-manager.users."${myvars.username}" = home-module;
-        }
-      ];
+            home-manager.extraSpecialArgs = specialArgs;
+            home-manager.users."${myvars.username}".imports = home-modules;
+          }
+        ]
+      );
   }

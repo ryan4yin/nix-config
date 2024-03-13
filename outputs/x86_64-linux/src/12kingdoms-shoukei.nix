@@ -20,7 +20,7 @@
       # host specific
       "hosts/12kingdoms-${name}"
     ];
-    home-module.imports = map mylib.relativeToRoot [
+    home-modules = map mylib.relativeToRoot [
       # common
       "home/linux/desktop.nix"
       # host specific
@@ -38,11 +38,11 @@
         }
       ]
       ++ base-modules.nixos-modules;
-    home-module.imports =
+    home-modules =
       [
         {modules.desktop.i3.enable = true;}
       ]
-      ++ base-modules.home-module.imports;
+      ++ base-modules.home-modules;
   };
 
   modules-hyprland = {
@@ -55,11 +55,11 @@
         }
       ]
       ++ base-modules.nixos-modules;
-    home-module.imports =
+    home-modules =
       [
         {modules.desktop.hyprland.enable = true;}
       ]
-      ++ base-modules.home-module.imports;
+      ++ base-modules.home-modules;
   };
 in {
   nixosConfigurations = {
