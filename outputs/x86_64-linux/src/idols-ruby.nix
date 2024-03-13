@@ -28,7 +28,7 @@
       ++ [
         {modules.secrets.server.operation.enable = true;}
       ];
-    home-modules.imports = map mylib.relativeToRoot [
+    home-module.imports = map mylib.relativeToRoot [
       "home/linux/server.nix"
     ];
   };
