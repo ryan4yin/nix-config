@@ -24,14 +24,20 @@
     };
     colmena = lib.attrsets.mergeAttrsList (map (it: it.colmena or {}) dataWithoutPaths);
   };
+
+  unitTestsData = with haumea.lib;
+    load {
+      src = ./tests;
+      inputs = args // {inherit outputs;};
+      transformer = [
+        (transformers.hoistAttrs "tests" "tests")
+      ];
+    };
 in
   outputs
   // {
-    inherit data; # for debugging purposes
+    inherit data unitTestsData; # for debugging purposes
 
     # NixOS's unit tests.
-    unitTests = haumea.lib.loadEvalTests {
-      src = ./tests;
-      inputs = args // {inherit outputs;};
-    };
+    unitTests = lib.debug.runTests unitTestsData.tests;
   }
