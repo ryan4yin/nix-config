@@ -1,4 +1,4 @@
-name: Nix Flake Unit Tests
+name: Nix Flake Eval Tests
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             experimental-features = nix-command flakes
 
-      - name: Run Nix Flake Unit Tests
+      - name: Run Nix Flake Eval Tests
         run: |
-          echo 'Flake Unit Tests'
-          nix eval .#unitTests --show-trace --print-build-logs --verbose
+          echo 'Flake Eval Tests'
+          nix eval .#evalTests --show-trace --print-build-logs --verbose

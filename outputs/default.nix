@@ -53,7 +53,7 @@ in {
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
 
   # Unit Tests for all NixOS systems.
-  unitTests = lib.lists.all (it: it.unitTests == {}) nixosSystemValues;
+  evalTests = lib.lists.all (it: it.evalTests == {}) nixosSystemValues;
 
   # NixOS Hosts
   nixosConfigurations =
