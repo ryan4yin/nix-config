@@ -24,7 +24,7 @@
       # common
       "home/linux/desktop.nix"
       # host specific
-      "hosts/12kindoms-${name}/home.nix"
+      "hosts/12kingdoms-${name}/home.nix"
     ];
   };
 

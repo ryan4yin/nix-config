@@ -37,7 +37,7 @@ All the outputs of this flake are defined here.
 └── x86_64-linux    # All outputs for Linux x86_64
     ├── default.nix
     ├── src
-    │   ├── 12kindoms-shoukei.nix
+    │   ├── 12kingdoms-shoukei.nix
     │   ├── homelab-tailscale-gw.nix
     │   ├── idols-ai.nix
     │   ├── idols-aquamarine.nix
