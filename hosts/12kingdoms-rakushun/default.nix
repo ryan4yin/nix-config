@@ -20,6 +20,9 @@ in {
     ./hardware-configuration.nix
     ./disko-fs.nix
     ./impermanence.nix
+
+    ./gitea.nix
+    ./caddy.nix
   ];
 
   networking = {
