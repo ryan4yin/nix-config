@@ -7,12 +7,47 @@ There is no need to do this when you have a small number of machines.
 But when you have a large number of machines, it is necessary to manage them in a fine-grained way,
 otherwise, it will be difficult to manage and maintain them.
 
-## Unit Tests
+## Tests
 
-Unit Tests for all flake outputs(only NixOS systems currently).
+We have two types of tests: eval tests and nixos tests.
+
+Related projects & docs:
+
+- [haumea](https://github.com/nix-community/haumea): Filesystem-based module system for Nix
+- [Unveiling the Power of the NixOS Integration Test Driver (Part 1)](https://nixcademy.com/2023/10/24/nixos-integration-tests/)
+- [NixOS Tests - NixOS Manual](https://nixos.org/manual/nixos/stable/#sec-nixos-tests)
+
+### 1. Eval Tests
+
+Eval Tests evaluate the expressions and compare the results with the expected results.
+It runs fast, but it doesn't build a real machine.
+We use eval tests to ensure that some attributes are correctly set for each NixOS host(not Darwin).
+
+How to run all the eval tests:
 
 ```bash
 nix eval .#evalTests --show-trace --print-build-logs --verbose
+```
+
+### 2. NixOS Tests
+
+> WIP: not working yet
+
+NixOS Tests builds and starts virtual machines using our NixOS configuration and run tests on them.
+Comparing to eval tests, it runs slow, but it builds a real machine, and we can test the whole system actually works as expected.
+
+Problems:
+
+- [ ] We need a private cache server, so that our NixOS tests do not need to build some custom packages every time we run the tests.
+- [ ] Cannot test the whole host, because my host relies on its unique ssh host key to decrypt its agenix secrets.
+  - [ ] Maybe it's better to test every service separately, not the whole host?
+
+How to run NixOS tests for every host:
+
+```bash
+# Format: nix build .#<name>-nixos-tests
+
+nix build .#ruby-nixos-tests
 ```
 
 ## Overview
@@ -25,26 +60,35 @@ All the outputs of this flake are defined here.
 ├── default.nix       # The entry point, all the outputs are composed here.
 ├── README.md
 ├── aarch64-darwin    # All outputs for macOS Apple Silicon
-│   ├── default.nix   # The entry point for all outputs for macOS Apple Silicon
-│   └── src
+│   ├── default.nix
+│   └── src           # every host has its own file in this directory
 │       └── fern.nix
 ├── aarch64-linux     # All outputs for Linux ARM64
 │   ├── default.nix
-│   └── src
-│       ├── 12kingdoms-rakushun.nix
-│       └── 12kingdoms-suzu.nix
-├── riscv64-linux    # All outputs for Linux RISCV64
+│   └── src           # every host has its own file in this directory
+│   │   ├── 12kingdoms-rakushun.nix
+│   │   └── 12kingdoms-suzu.nix
+│   └── tests         # eval tests
+│       └── hostname
+│           ├── expected.nix
+│           └── expr.nix
+├── riscv64-linux     # All outputs for Linux RISCV64
 │   ├── default.nix
-│   └── src
-│       ├── rolling-girls-nozomi.nix
-│       └── rolling-girls-yukina.nix
-├── x86_64-darwin   # All outputs for macOS Intel
+│   └── src           # every host has its own file in this directory
+│   │   ├── rolling-girls-nozomi.nix
+│   │   └── rolling-girls-yukina.nix
+│   └── tests         # eval tests
+│       └── hostname
+│           ├── expected.nix
+│           └── expr.nix
+├── x86_64-darwin     # All outputs for macOS Intel
 │   ├── default.nix
 │   └── src
 │       └── harnomica.nix
-└── x86_64-linux    # All outputs for Linux x86_64
+└── x86_64-linux      # All outputs for Linux x86_64
     ├── default.nix
-    ├── src
+    ├── nixos-tests
+│   └── src           # every host has its own file in this directory
     │   ├── 12kingdoms-shoukei.nix
     │   ├── homelab-tailscale-gw.nix
     │   ├── idols-ai.nix
@@ -60,7 +104,12 @@ All the outputs of this flake are defined here.
     │   ├── kubevirt-shoryu.nix
     │   ├── kubevirt-shushou.nix
     │   └── kubevirt-youko.nix
-    └── tests
+    └── tests         # eval tests
+        ├── home-manager
+        │   ├── expected.nix
+        │   └── expr.nix
+        └── hostname
+            ├── expected.nix
+            └── expr.nix
 
-12 directories, 28 files
 ```

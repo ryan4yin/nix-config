@@ -42,4 +42,7 @@ in {
 
   # generate proxmox image for virtual machines without desktop environment
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.proxmox;
+
+  # nixos tests
+  packages."${name}-nixos-tests" = import ../nixos-tests/idols-ruby.nix systemArgs;
 }
