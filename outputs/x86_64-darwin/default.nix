@@ -19,3 +19,12 @@
   };
 in
   outputs
+  // {
+    inherit data; # for debugging purposes
+
+    # NixOS's unit tests.
+    evalTests = haumea.lib.loadEvalTests {
+      src = ./tests;
+      inputs = args // {inherit outputs;};
+    };
+  }

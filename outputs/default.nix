@@ -45,6 +45,7 @@
   allSystemNames = builtins.attrNames allSystems;
   nixosSystemValues = builtins.attrValues nixosSystems;
   darwinSystemValues = builtins.attrValues darwinSystems;
+  allSystemValues = nixosSystemValues ++ darwinSystemValues;
 
   # Helper function to generate a set of attributes for each system
   forAllSystems = func: (nixpkgs.lib.genAttrs allSystemNames func);
@@ -53,7 +54,7 @@ in {
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
 
   # Unit Tests for all NixOS systems.
-  evalTests = lib.lists.all (it: it.evalTests == {}) nixosSystemValues;
+  evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
 
   # NixOS Hosts
   nixosConfigurations =
