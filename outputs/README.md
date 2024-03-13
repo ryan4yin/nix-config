@@ -9,7 +9,12 @@ otherwise, it will be difficult to manage and maintain them.
 
 ## Tests
 
-We have two types of tests: eval tests and nixos tests.
+Testing is not necessary when your configuration is not complex, 
+but with the increase in the number and configuration of your machines, testing becomes more and more important.
+
+We have two types of tests: eval tests and nixos tests, 
+both of which can help us detect many obscure errors early, 
+so as to avoid testing directly in the real world, and to avoid failures in personal computers and even corporate online environments.
 
 Related projects & docs:
 
