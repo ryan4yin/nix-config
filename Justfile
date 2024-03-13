@@ -119,6 +119,10 @@ aqua:
 ruby:
   colmena apply --on '@ruby' --verbose --show-trace
 
+ruby-local mode="default":
+  use utils.nu *; \
+  nixos-switch ruby {{mode}}
+
 kana:
   colmena apply --on '@kana' --verbose --show-trace
 
