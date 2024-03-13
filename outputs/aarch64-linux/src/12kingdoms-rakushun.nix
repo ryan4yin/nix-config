@@ -50,7 +50,7 @@
 in {
   nixosConfigurations.${name} = mylib.nixosSystem rk3588SystemArgs;
 
-  colmena-meta = {
+  colmenaMeta = {
     nodeSpecialArgs.${name} = rk3588SpecialArgs;
     nodeNixpkgs.${name} = rk3588Pkgs;
   };

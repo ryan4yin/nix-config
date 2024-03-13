@@ -74,8 +74,8 @@ in {
         )
         // {
           # per-node nixpkgs & specialArgs
-          nodeNixpkgs = lib.attrsets.mergeAttrsList (map (it: it.colmena-meta.nodeNixpkgs or {}) nixosSystemValues);
-          nodeSpecialArgs = lib.attrsets.mergeAttrsList (map (it: it.colmena-meta.nodeSpecialArgs or {}) nixosSystemValues);
+          nodeNixpkgs = lib.attrsets.mergeAttrsList (map (it: it.colmenaMeta.nodeNixpkgs or {}) nixosSystemValues);
+          nodeSpecialArgs = lib.attrsets.mergeAttrsList (map (it: it.colmenaMeta.nodeSpecialArgs or {}) nixosSystemValues);
         };
     }
     // lib.attrsets.mergeAttrsList (map (it: it.colmena or {}) nixosSystemValues);

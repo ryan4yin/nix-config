@@ -18,9 +18,9 @@
     nixosConfigurations = lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) dataWithoutPaths);
     packages = lib.attrsets.mergeAttrsList (map (it: it.packages or {}) dataWithoutPaths);
     # colmena contains some meta info, which need to be merged carefully.
-    colmena-meta = {
-      nodeNixpkgs = lib.attrsets.mergeAttrsList (map (it: it.colmena-meta.nodeNixpkgs or {}) dataWithoutPaths);
-      nodeSpecialArgs = lib.attrsets.mergeAttrsList (map (it: it.colmena-meta.nodeSpecialArgs or {}) dataWithoutPaths);
+    colmenaMeta = {
+      nodeNixpkgs = lib.attrsets.mergeAttrsList (map (it: it.colmenaMeta.nodeNixpkgs or {}) dataWithoutPaths);
+      nodeSpecialArgs = lib.attrsets.mergeAttrsList (map (it: it.colmenaMeta.nodeSpecialArgs or {}) dataWithoutPaths);
     };
     # colmena's per-machine data.
     colmena = lib.attrsets.mergeAttrsList (map (it: it.colmena or {}) dataWithoutPaths);
