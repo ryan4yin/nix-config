@@ -22,7 +22,7 @@
     ];
     home-modules = map mylib.relativeToRoot [
       # common
-      "home/linux/desktop.nix"
+      "home/linux/gui.nix"
       # host specific
       "hosts/12kingdoms-${name}/home.nix"
     ];

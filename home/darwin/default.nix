@@ -2,8 +2,9 @@
   imports =
     (mylib.scanPaths ./.)
     ++ [
-      ../base/server
-      ../base/desktop
-      ../base/core.nix
+      ../base/core
+      ../base/tui
+      ../base/gui
+      ../base/home.nix
     ];
 }
