@@ -122,7 +122,7 @@
         # The smarthost and SMTP sender used for mail notifications.
         smtp_smarthost = "smtp.qq.com:465";
         smtp_from = "$SMTP_SENDER_EMAIL";
-        smtp_auth_myvars.username = "$SMTP_AUTH_USERNAME";
+        smtp_auth_username = "$SMTP_AUTH_USERNAME";
         smtp_auth_password = "$SMTP_AUTH_PASSWORD";
         # smtp.qq.com:465 support SSL only, so we need to disable TLS here.
         # https://service.mail.qq.com/detail/0/310
