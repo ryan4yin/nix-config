@@ -30,7 +30,7 @@ in
       ++ (
         lib.optionals ((lib.lists.length home-modules) > 0)
         [
-          home-manager.nixosModules.home-manager
+          home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

@@ -1,8 +1,9 @@
 # colmena - Remote Deployment via SSH
 {
+  lib,
   inputs,
   nixos-modules,
-  home-module ? null,
+  home-modules ? null,
   myvars,
   system,
   tags,
@@ -23,17 +24,16 @@ in
     imports =
       nixos-modules
       ++ (
-        if (home-module != null)
-        then [
+        lib.optionals ((lib.lists.length home-modules) > 0)
+        [
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.users."${myvars.username}" = home-module;
+            home-manager.users."${myvars.username}".imports = home-modules;
           }
         ]
-        else []
       );
   }
