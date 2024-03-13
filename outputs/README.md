@@ -7,6 +7,10 @@ There is no need to do this when you have a small number of machines.
 But when you have a large number of machines, it is necessary to manage them in a fine-grained way,
 otherwise, it will be difficult to manage and maintain them.
 
+The number of my machines has grown to more than 20, 
+and the increase in scale has shown signs of getting out of control of complexity,
+so it is a natural and reasonable choice to use this fine-grained architecture to manage.
+
 ## Tests
 
 Testing is not necessary when your configuration is not complex, 
