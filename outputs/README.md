@@ -12,7 +12,7 @@ otherwise, it will be difficult to manage and maintain them.
 Unit Tests for all flake outputs(only NixOS systems currently).
 
 ```bash
-nix eval .#unitTests --show-trace --print-build-logs --verbose
+nix eval .#evalTests --show-trace --print-build-logs --verbose
 ```
 
 ## Overview
