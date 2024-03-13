@@ -65,7 +65,7 @@ All the outputs of this flake are defined here.
 │       └── fern.nix
 ├── aarch64-linux     # All outputs for Linux ARM64
 │   ├── default.nix
-│   └── src           # every host has its own file in this directory
+│   ├── src           # every host has its own file in this directory
 │   │   ├── 12kingdoms-rakushun.nix
 │   │   └── 12kingdoms-suzu.nix
 │   └── tests         # eval tests
@@ -74,7 +74,7 @@ All the outputs of this flake are defined here.
 │           └── expr.nix
 ├── riscv64-linux     # All outputs for Linux RISCV64
 │   ├── default.nix
-│   └── src           # every host has its own file in this directory
+│   ├── src           # every host has its own file in this directory
 │   │   ├── rolling-girls-nozomi.nix
 │   │   └── rolling-girls-yukina.nix
 │   └── tests         # eval tests
@@ -88,7 +88,7 @@ All the outputs of this flake are defined here.
 └── x86_64-linux      # All outputs for Linux x86_64
     ├── default.nix
     ├── nixos-tests
-│   └── src           # every host has its own file in this directory
+    ├── src           # every host has its own file in this directory
     │   ├── 12kingdoms-shoukei.nix
     │   ├── homelab-tailscale-gw.nix
     │   ├── idols-ai.nix
