@@ -7,6 +7,14 @@ There is no need to do this when you have a small number of machines.
 But when you have a large number of machines, it is necessary to manage them in a fine-grained way,
 otherwise, it will be difficult to manage and maintain them.
 
+## Unit Tests
+
+Unit Tests for all flake outputs(only NixOS systems currently).
+
+```bash
+nix eval .#unitTests --show-trace --print-build-logs --verbose
+```
+
 ## Overview
 
 All the outputs of this flake are defined here.
@@ -56,5 +64,3 @@ All the outputs of this flake are defined here.
 
 12 directories, 28 files
 ```
-
-

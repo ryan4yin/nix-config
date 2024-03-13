@@ -52,6 +52,9 @@ in {
   # add attribute sets into outputs, for debugging
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
 
+  # Unit Tests for all NixOS systems.
+  unitTests = lib.lists.all (it: it.unitTests == {}) nixosSystemValues;
+
   # NixOS Hosts
   nixosConfigurations =
     lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues);
@@ -89,9 +92,6 @@ in {
   # Unit Tests, Intergraded Tests, and Pre-commit checks
   checks = forAllSystems (
     system: {
-      # Unit Tests for the system
-      # unit-tests = allSystems.${system}.unit-tests;
-
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = ./.;
         hooks = {

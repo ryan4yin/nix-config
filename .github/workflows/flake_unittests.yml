@@ -1,0 +1,24 @@
+name: Nix Flake Unit Tests
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  checks:
+    name: Check expressions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix
+        uses: cachix/install-nix-action@v24
+        with:
+          install_url: https://nixos.org/nix/install
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            experimental-features = nix-command flakes
+
+      - name: Run Nix Flake Unit Tests
+        run: |
+          echo 'Flake Unit Tests'
+          nix eval .#unitTests --show-trace --print-build-logs --verbose
