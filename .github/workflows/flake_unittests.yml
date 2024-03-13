@@ -1,6 +1,22 @@
 name: Nix Flake Unit Tests
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "scripts/**"
+      - "**.md"
+      - "**.nu"
+      - 'Justfile'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "scripts/**"
+      - "**.md"
+      - "**.nu"
+      - 'Justfile'
 
 jobs:
   checks:
