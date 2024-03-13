@@ -29,7 +29,7 @@
         {modules.secrets.server.operation.enable = true;}
       ];
     home-modules = map mylib.relativeToRoot [
-      "home/linux/server.nix"
+      "home/linux/tui.nix"
     ];
   };
 

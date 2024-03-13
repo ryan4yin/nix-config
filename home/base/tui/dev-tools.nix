@@ -18,7 +18,6 @@
     colmena # nixos's remote deployment tool
 
     # db related
-    dbeaver
     mycli
     pgcli
     mongosh
@@ -47,11 +46,6 @@
     # need to run `conda-shell` before using command `conda`
     # conda is not available for MacOS
     conda
-
-    mitmproxy # http/https proxy tool
-    insomnia # REST client
-    wireshark # network analyzer
-    ventoy # create bootable usb
   ];
 
   programs = {
