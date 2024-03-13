@@ -28,6 +28,8 @@ Related projects & docs:
 
 ### 1. Eval Tests
 
+> TODO: More Tests!
+
 Eval Tests evaluate the expressions and compare the results with the expected results.
 It runs fast, but it doesn't build a real machine.
 We use eval tests to ensure that some attributes are correctly set for each NixOS host(not Darwin).
