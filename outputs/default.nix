@@ -94,7 +94,7 @@ in {
   checks = forAllSystems (
     system: {
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
-        src = ./.;
+        src = mylib.relativeToRoot ".";
         hooks = {
           alejandra.enable = true; # formatter
           # deadnix.enable = true; # detect unused variable bindings in `*.nix`
