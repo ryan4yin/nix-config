@@ -28,6 +28,9 @@ s-hypr mode="default":
   nixos-switch shoukei-hyprland {{mode}}
 
 
+test:
+  nix eval .#evalTests --show-trace --print-build-logs --verbose
+
 up:
   nix flake update
 
