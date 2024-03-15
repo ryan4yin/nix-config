@@ -50,17 +50,17 @@
   # Helper function to generate a set of attributes for each system
   forAllSystems = func: (nixpkgs.lib.genAttrs allSystemNames func);
 in {
-  # add attribute sets into outputs, for debugging
+  # Add attribute sets into outputs, for debugging
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
 
-  # Unit Tests for all NixOS systems.
+  # Eval Tests for all NixOS systems.
   evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
 
   # NixOS Hosts
   nixosConfigurations =
     lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues);
 
-  # colmena - remote deployment via SSH
+  # Colmena - remote deployment via SSH
   colmena =
     {
       meta =
@@ -90,7 +90,6 @@ in {
     system: allSystems.${system}.packages or {}
   );
 
-  # Unit Tests, Intergraded Tests, and Pre-commit checks
   checks = forAllSystems (
     system: {
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
