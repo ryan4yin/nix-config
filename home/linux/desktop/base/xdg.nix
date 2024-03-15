@@ -69,11 +69,11 @@
 
         "audio/*" = ["mpv.desktop"];
         "video/*" = ["mpv.dekstop"];
-        "image/*" = ["imv.desktop"];
-        "image/gif" = ["imv.desktop"];
-        "image/jpeg" = ["imv.desktop"];
-        "image/png" = ["imv.desktop"];
-        "image/webp" = ["imv.desktop"];
+        "image/*" = ["imv-dir.desktop"];
+        "image/gif" = ["imv-dir.desktop"];
+        "image/jpeg" = ["imv-dir.desktop"];
+        "image/png" = ["imv-dir.desktop"];
+        "image/webp" = ["imv-dir.desktop"];
       };
 
       associations.removed = {
