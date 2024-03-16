@@ -8,7 +8,7 @@
   mylib = import ../lib {inherit lib;};
   myvars = import ../vars {inherit lib;};
 
-  # Add my custom lib, vars, nixpkgs instance, and all the inputs to sepcialArgs,
+  # Add my custom lib, vars, nixpkgs instance, and all the inputs to specialArgs,
   # so that I can use them in all my nixos/home-manager/darwin modules.
   genSpecialArgs = system:
     inputs
@@ -96,12 +96,20 @@ in {
         src = mylib.relativeToRoot ".";
         hooks = {
           alejandra.enable = true; # formatter
+          typos.enable = true; # Source code spell checker
+          prettier.enable = true;
           # deadnix.enable = true; # detect unused variable bindings in `*.nix`
           # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
-          # prettier = {
-          #   enable = true;
-          #   excludes = [".js" ".md" ".ts"];
-          # };
+        };
+        settings = {
+          typos = {
+            write = true; # Automatically fix typos
+            ignored-words = [];
+          };
+          prettier = {
+            write = true; # Automatically format files
+            configPath = "./.prettierrc.yaml";
+          };
         };
       };
     }
@@ -118,6 +126,14 @@ in {
           bashInteractive
           # fix `cc` replaced by clang, which causes nvim-treesitter compilation error
           gcc
+          # Nix-related
+          alejandra
+          deadnix
+          statix
+          # spell checker
+          typos
+          # code formatter
+          nodePackages.prettier
         ];
         name = "dots";
         shellHook = ''
