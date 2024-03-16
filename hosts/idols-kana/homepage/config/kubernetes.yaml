@@ -4,5 +4,3 @@
 # read kubbecofig from $KUBECONFIG or $HOME/.kube/config
 # mode: default
 mode: disabled
-
-

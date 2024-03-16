@@ -1,4 +1,4 @@
-# Grafana Dashbaords
+# Grafana Dashboards
 
 ## Homelab
 
@@ -8,4 +8,3 @@
 ## Kubernetes
 
 1. https://github.com/dotdc/grafana-dashboards-kubernetes/
-

@@ -6,17 +6,19 @@
 2. Org Mode
 3. Lisp Coding
 4. A top-level tutorial for Emacs(Chinese): <https://nyk.ma/tags/emacs/>
-5. A Beginner's Guide to Emacs(Chinese): <https://github.com/emacs-tw/emacs-101-beginner-survival-guide>
+5. A Beginner's Guide to Emacs(Chinese):
+   <https://github.com/emacs-tw/emacs-101-beginner-survival-guide>
 
 ## Screenshot
 
 ![](/_img/emacs-2024-01-07.webp)
 
-## Usefull Links
+## Useful Links
 
 - Framework: <https://github.com/doomemacs/doomemacs>
   - key bindings:
-    - source code: <https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el>
+    - source code:
+      <https://github.com/doomemacs/doomemacs/blob/master/modules/config/default/%2Bevil-bindings.el>
     - docs: <https://github.com/doomemacs/doomemacs/blob/master/modules/editor/evil/README.org>
   - module index: <https://github.com/doomemacs/doomemacs/blob/master/docs/modules.org>
 - LSP Client: <https://github.com/manateelazycat/lsp-bridge>
@@ -44,7 +46,7 @@ when in doubt, run `doom sync`!
 ```bash
 # testing
 just emacs-test
-jsut emacs-purge
+just emacs-purge
 just emacs-reload
 
 # clear test data
@@ -59,14 +61,16 @@ just emacs-clean
   - So vim/neovim is still the best choice for servers.
 - Emacs's markdown-mode works not well with tables, see:
   - https://github.com/jrblevin/markdown-mode/issues/380
-- I use git command frequently, but doomemacs only autoupdates status of git diff / treemacs when using magit.
+- I use git command frequently, but doomemacs only autoupdates status of git diff / treemacs when
+  using magit.
   - I have to learn magit to avoid this issue...
 - GitHub's orgmode support is not well, Markdown is better for GitHub.
   - Use markdown for repo's README.md, and use orgmode for my personal notes and docs only.
 
 ## Cheetsheet
 
-Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
+Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common cheetsheet at
+[../README.md](../README.md) before reading the following.
 
 ### Basics
 
@@ -98,7 +102,8 @@ Here is the cheetsheet related to my DoomEmacs configs. Please read vim's common
 ### File Tree
 
 - treemacs: <https://github.com/Alexander-Miller/treemacs/blob/master/src/elisp/treemacs-mode.el>
-- treemacs-evil: <https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-evil.el>
+- treemacs-evil:
+  <https://github.com/Alexander-Miller/treemacs/blob/master/src/extra/treemacs-evil.el>
 
 | Action                                | Shortcut  |
 | ------------------------------------- | --------- |
@@ -199,8 +204,9 @@ Magit is a powerful tool that make git operations easy and intuitive.
 
 Shortcuts in magit's pane:
 
-> When run `git commit` / `git add` / `git push` /... via magit, multiple Arguments can be set.
-> Set arguments won't trigger a git command immediately. Magit will try to run a git command only after an Action key is pressed.
+> When run `git commit` / `git add` / `git push` /... via magit, multiple Arguments can be set. Set
+> arguments won't trigger a git command immediately. Magit will try to run a git command only after
+> an Action key is pressed.
 
 | Action                                             | Shortcut                                      |
 | -------------------------------------------------- | --------------------------------------------- |
@@ -220,4 +226,5 @@ Shortcuts in magit's pane:
 | Fold/Unfold                                        | `TAB`                                         |
 | Show details of the current unit(commit/stage/...) | `<ENTER>`                                     |
 
-KeyBinding full list: <https://github.com/emacs-evil/evil-collection/tree/master/modes/magit#key-bindings>
+KeyBinding full list:
+<https://github.com/emacs-evil/evil-collection/tree/master/modes/magit#key-bindings>

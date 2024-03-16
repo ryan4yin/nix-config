@@ -104,7 +104,7 @@ in {
         settings = {
           typos = {
             write = true; # Automatically fix typos
-            ignored-words = [];
+            configPath = "../.typos.toml";
           };
           prettier = {
             write = true; # Automatically format files

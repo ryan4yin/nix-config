@@ -16,9 +16,8 @@ language: zh
 # You can then pass provider instead of apiKey in your widget configuration.
 providers:
   # read api keys from environment variables
-  openweathermap: {{HOMEPAGE_VAR_WEATHERAPI_APIKEY}}
-  weatherapi: {{HOMEPAGE_VAR_WEATHERAPI_APIKEY}}
-
+  openweathermap: { { HOMEPAGE_VAR_WEATHERAPI_APIKEY } }
+  weatherapi: { { HOMEPAGE_VAR_WEATHERAPI_APIKEY } }
 
 background:
   image: /images/rolling-girls.png
@@ -29,7 +28,7 @@ background:
 
 theme: dark # or light
 
-# Supported colors are: 
+# Supported colors are:
 # slate, gray, zinc, neutral, stone, amber,
 # yellow, lime, green, emerald, teal, cyan,
 # sky, blue, indigo, violet, purple, fuchsia, pink, rose, red, white
@@ -46,7 +45,7 @@ layout:
     tab: First
 
   Group A:
-    initiallyCollapsed: true  # collasped by default
+    initiallyCollapsed: true # collapsed by default
     tab: First
     style: row
     columns: 4

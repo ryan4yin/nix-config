@@ -1,24 +1,31 @@
 # Secrets Management
 
-> For Website/App's passwords, see [/home/base/desktop/password-store](/home/base/desktop/password-store/README.md) for more details.
+> For Website/App's passwords, see
+> [/home/base/desktop/password-store](/home/base/desktop/password-store/README.md) for more details.
 
-All my secrets are safely encrypted via agenix, and stored in a separate private GitHub repository and referenced as a flake input in this flake.
+All my secrets are safely encrypted via agenix, and stored in a separate private GitHub repository
+and referenced as a flake input in this flake.
 
-The encryption is done by using all my host's public keys(`/etc/ssh/ssh_host_ed25519_key`), so that they can only be decrypted on any of my configured hosts.
-The host keys are generated locally on each host by openssh without passphrase, and are only readable by `root`, and will never leave the host.
+The encryption is done by using all my host's public keys(`/etc/ssh/ssh_host_ed25519_key`), so that
+they can only be decrypted on any of my configured hosts. The host keys are generated locally on
+each host by openssh without passphrase, and are only readable by `root`, and will never leave the
+host.
 
-In this way, all secrets is still encrypted when transmitted over the network and written to `/nix/store`,
-they are decrypted only when they are finally used.
+In this way, all secrets is still encrypted when transmitted over the network and written to
+`/nix/store`, they are decrypted only when they are finally used.
 
-In addition, we further improve the security of secrets files by storing them in a separate private repository.
+In addition, we further improve the security of secrets files by storing them in a separate private
+repository.
 
-This directory contains this README.md, and a `nixos.nix`/`darwin.nix` that used to decrypt all my secrets via agenix, and then I can use them in this flake.
+This directory contains this README.md, and a `nixos.nix`/`darwin.nix` that used to decrypt all my
+secrets via agenix, and then I can use them in this flake.
 
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.
 
-This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the `./secrets.nix` file, so you need to have it installed first:
+This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the
+`./secrets.nix` file, so you need to have it installed first:
 
 To use agenix temporarily, run:
 
@@ -29,7 +36,8 @@ nix shell nixpkgs#agenix
 Suppose you want to add a new secret file `xxx.age`. Follow these steps:
 
 1. Navigate to your private `nix-secrets` repository.
-2. Edit `secrets.nix` and add a new entry for `xxx.age`, defining the encryption keys and the secret file path, for example:
+2. Edit `secrets.nix` and add a new entry for `xxx.age`, defining the encryption keys and the secret
+   file path, for example:
 
 ```nix
 # This file is not imported into your NixOS configuration. It is only used for the agenix CLI.
@@ -72,14 +80,15 @@ Alternatively, you can encrypt an existing file to `xxx.age` using the following
 cat xxx | sudo agenix  -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
 ```
 
-`agenix` will encrypt the file with all the public keys we defined in `secrets.nix`,
-so all the users and systems defined in `secrets.nix` can decrypt it with their private keys.
+`agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the
+users and systems defined in `secrets.nix` can decrypt it with their private keys.
 
 ## Deploying Secrets
 
 > All the operations in this section should be performed in this repository.
 
-First, add your own private `nix-secrets` repository and `agenix` as a flake input, and pass them to sub modules via `specialArgs`:
+First, add your own private `nix-secrets` repository and `agenix` as a flake input, and pass them to
+sub modules via `specialArgs`:
 
 ```nix
 {
@@ -145,22 +154,25 @@ Then, create `./secrets/default.nix` with the following content:
 }
 ```
 
-From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the private keys defined in `age.identityPaths`.
-It will then symlink the secrets to the path defined by the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
-
+From now on, every time you run `nixos-rebuild switch`, it will decrypt the secrets using the
+private keys defined in `age.identityPaths`. It will then symlink the secrets to the path defined by
+the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
 
 ## Adding a new host
 
-1. `cat` the sytem-level public key(`/etc/ssh/ssh_host_ed25519_key.pub`) of the new host, and send it to an old host which has already been configured.
+1. `cat` the system-level public key(`/etc/ssh/ssh_host_ed25519_key.pub`) of the new host, and send
+   it to an old host which has already been configured.
 2. On the old host:
-   1. Add the public key to `secrets.nix`, and rekey all the secrets via `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key`.
+   1. Add the public key to `secrets.nix`, and rekey all the secrets via
+      `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key`.
    2. Commit and push the changes to `nix-secrets`.
 3. On the new host:
-   1. Clone this repo and run `nixos-rebuild switch` to deploy it, all the secrets will be decrypted automatically via the host private key.
-
+   1. Clone this repo and run `nixos-rebuild switch` to deploy it, all the secrets will be decrypted
+      automatically via the host private key.
 
 ## Other Replacements
 
 - [ragenix](https://github.com/yaxitech/ragenix): A Rust reimplementation of agenix.
-  - agenix is mainly written in bash, and it's error message is quite obscure, a little typo may cause some errors no one can understand.
+  - agenix is mainly written in bash, and it's error message is quite obscure, a little typo may
+    cause some errors no one can understand.
   - with a type-safe language like Rust, we can get a better error message and less bugs.

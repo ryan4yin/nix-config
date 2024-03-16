@@ -2,7 +2,6 @@
 
 LUKS encrypted SSD for NixOS, on Orange Pi 5.
 
-
 ## Showcases
 
 ![](../../_img/2024-03-07_orangepi5_suzu.webp)
@@ -19,7 +18,7 @@ zram0       254:0    0     0B  0 disk
 nvme0n1     259:0    0 238.5G  0 disk
 ├─nvme0n1p1 259:1    0   630M  0 part  /boot
 └─nvme0n1p2 259:2    0 237.9G  0 part
-  └─crypted 253:0    0 237.8G  0 crypt /tmp
+  └─encrypted 253:0    0 237.8G  0 crypt /tmp
                                        /snapshots
                                        /swap
                                        /home/ryan/tmp
@@ -97,7 +96,7 @@ Caches (sum of all):
   L3:                   3 MiB (1 instance)
 ```
 
-## How to install NixOS on Orange Pi 5 
+## How to install NixOS on Orange Pi 5
 
 ### 1. Prepare a USB LUKS key
 
@@ -124,7 +123,9 @@ dd bs=512 count=64 iflag=fullblock seek=128 if=$KEYFILE of=$DEVICE
 
 ### 2. Partition the SSD & install NixOS via disko
 
-First, follow [UEFI - ryan4yin/nixos-rk3588](https://github.com/ryan4yin/nixos-rk3588/blob/main/UEFI.md) to install UEFI bootloader and boot into NixOS live environment via a USB stick.
+First, follow
+[UEFI - ryan4yin/nixos-rk3588](https://github.com/ryan4yin/nixos-rk3588/blob/main/UEFI.md) to
+install UEFI bootloader and boot into NixOS live environment via a USB stick.
 
 Then, run the following commands:
 
@@ -145,5 +146,3 @@ cd ~/nix-config
 # NOTE: the root password you set here will be discarded when reboot
 sudo nixos-install --root /mnt --flake .#suzu --no-root-password --show-trace --verbose
 ```
-
-

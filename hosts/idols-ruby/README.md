@@ -11,4 +11,3 @@ Host running operation and maintenance related services:
 1. prometheus + alertmanager + grafana + loki: Monitor the metrics/logs of my homelab.
 1. restic: Backup my personal data to cloud or NAS.
 1. synthing: Sync file between android/macbook/PC and NAS.
-

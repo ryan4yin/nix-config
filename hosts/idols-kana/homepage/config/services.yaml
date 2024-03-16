@@ -6,19 +6,19 @@
     - PVE-UM560:
         icon: si-proxmox
         href: https://192.168.5.173:8006/
-        description: 'CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2'
+        description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
         siteMonitor: https://192.168.5.173:8006/
 
     - PVE-S500Plus:
         icon: si-proxmox
         href: https://192.168.5.174:8006/
-        description: 'CPU: R7-5825U / MEM: 64G / DISK: 1T'
+        description: "CPU: R7-5825U / MEM: 64G / DISK: 1T"
         siteMonitor: https://192.168.5.174:8006/
 
     - PVE-GTR5:
         icon: si-proxmox
         href: https://192.168.5.172:8006/
-        description: 'CPU: R9-5900HX / MEM: 64G / DISK: 1T'
+        description: "CPU: R9-5900HX / MEM: 64G / DISK: 1T"
         siteMonitor: https://192.168.5.172:8006/
 
 - Homelab Monitoring:
@@ -26,7 +26,7 @@
         icon: si-grafana
         href: http://grafana.writefor.fun
         description: Data visualised on dashboards
-        siteMonitor: http://grafana.writefor.fun 
+        siteMonitor: http://grafana.writefor.fun
     - Prometheus Dashboard:
         icon: si-prometheus
         href: http://prometheus.writefor.fun
@@ -44,7 +44,6 @@
       href: "http://sftpgo.writefor.fun/web/admin/folders"
       description: WebDAV & SFTP server
       siteMonitor: http://sftpgo.writefor.fun/
-
 # - Kubernetes Monitoring:
 #     # TODO: Update this
 #     - Emby:

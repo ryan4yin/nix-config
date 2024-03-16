@@ -29,5 +29,3 @@ K3S_TOKEN_FILE=./kubevirt-k3s-token
 USB_PATH=/run/media/ryan/NIXOS_K3S
 cp $K3S_TOKEN_FILE $USB_PATH
 ```
-
-

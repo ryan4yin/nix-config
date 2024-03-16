@@ -1,14 +1,14 @@
 # Neovim Editor
 
-My Neovim config based on [AstroNvim](https://github.com/AstroNvim/AstroNvim).
-For more details, visit the [AstroNvim website](https://astronvim.com/).
+My Neovim config based on [AstroNvim](https://github.com/AstroNvim/AstroNvim). For more details,
+visit the [AstroNvim website](https://astronvim.com/).
 
-This document outlines neovim's configuration structure and various shortcuts/commands for efficient usage.
+This document outlines neovim's configuration structure and various shortcuts/commands for efficient
+usage.
 
 ## Screenshots
 
-![](/_img/astronvim_2023-07-13_00-39.webp)
-![](/_img/hyprland_2023-07-29_2.webp)
+![](/_img/astronvim_2023-07-13_00-39.webp) ![](/_img/hyprland_2023-07-29_2.webp)
 
 ## Configuration Structure
 
@@ -47,7 +47,8 @@ just nvim-clear
 
 ## Cheetsheet
 
-Here is the cheetsheet related to my Neovim configs. Please read vim's common cheetsheet at [../README.md](../README.md) before reading the following.
+Here is the cheetsheet related to my Neovim configs. Please read vim's common cheetsheet at
+[../README.md](../README.md) before reading the following.
 
 ### Incremental Selection
 
@@ -62,15 +63,16 @@ Provided by nvim-treesitter.
 
 ### Search and Jump
 
-Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligent search and jump plugin.
+Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligent search and jump
+plugin.
 
-1. It enhaces the default search and jump behavior of neovim.(search with prefix `/`)
+1. It enhances the default search and jump behavior of neovim.(search with prefix `/`)
 
-| Action            | Shortcut                                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------------------------------- |
-| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)                                   |
-| Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(arround your matches, all the surrounding Treesitter nodes will be labeled) |
-| Remote Flash      | `yr`, `dr`, `cr`, (arround your matches, all the surrounding Treesitter nodes will be labeled)                |
+| Action            | Shortcut                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| Search            | `/`(normal search), `s`(disable all code highlight, only highlight matches)                                  |
+| Treesitter Search | `yR`,`dR`, `cR`, `vR`, `ctrl+v+R`(around your matches, all the surrounding Treesitter nodes will be labeled) |
+| Remote Flash      | `yr`, `dr`, `cr`, (around your matches, all the surrounding Treesitter nodes will be labeled)                |
 
 ### Commands & Shortcuts
 
@@ -92,12 +94,8 @@ Provided by [flash.nvim](https://github.com/folke/flash.nvim), it's a intelligen
 
 ### Splitting and Buffers
 
-|
-| Action | Shortcut |
-| --------------------- | ------------- |
-| Horizontal Split | `\` |
-| Vertical Split | `\|` |
-| Close Buffer | `<Space> + c` |
+| | Action | Shortcut | | --------------------- | ------------- | | Horizontal Split | `\` | |
+Vertical Split | `\|` | | Close Buffer | `<Space> + c` |
 
 ### Editing and Formatting
 
@@ -129,16 +127,15 @@ Press `<Space> + D` to view available bindings and options.
 
 ### Search and Replace Globally
 
-| Description                                                  | Shortcut                                                         |
-| ------------------------------------------------------------ | ---------------------------------------------------------------- |
-| Open spectre.nvim search and replace panel                   | `<Space> + ss`                                                   |
+| Description                                | Shortcut       |
+| ------------------------------------------ | -------------- |
+| Open spectre.nvim search and replace panel | `<Space> + ss` |
 
 Search and replace via cli(fd + sad + delta):
 
 ```bash
 fd "\\.nix$" . | sad '<pattern>' '<replacement>' | delta
 ```
-
 
 ### Surrounding Characters
 

@@ -1,12 +1,16 @@
 # Nix Environment Setup for Host: Idols - Ai
 
-> :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your machine! Please write your own configuration from scratch, and use my configuration and documentation for reference only.** 
+> :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your
+> machine! Please write your own configuration from scratch, and use my configuration and
+> documentation for reference only.**
 
-This flake prepares a Nix environment for setting my desktop [/hosts/idols_ai](/hosts/idols_ai/)(in main flake) up on a new machine.
+This flake prepares a Nix environment for setting my desktop [/hosts/idols_ai](/hosts/idols_ai/)(in
+main flake) up on a new machine.
 
 Other docs:
 
-- README for [/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei): [./README.shoukei.md](./README.shoukei.md)
+- README for [/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei):
+  [./README.shoukei.md](./README.shoukei.md)
 
 TODOs:
 
@@ -14,11 +18,13 @@ TODOs:
 
 ## Why an extra flake is needed?
 
-The configuration of the main flake, [/flake.nix](/flake.nix), is heavy, and it takes time to debug & deploy.
-This simplified flake is tiny and can be deployed very quickly, it helps me to:
+The configuration of the main flake, [/flake.nix](/flake.nix), is heavy, and it takes time to debug
+& deploy. This simplified flake is tiny and can be deployed very quickly, it helps me to:
 
-1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the main flake.
-2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence, Secure Boot, TPM2, Encryption, etc.
+1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the main
+   flake.
+2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence,
+   Secure Boot, TPM2, Encryption, etc.
 
 ## Steps to Deploying this flake
 
@@ -34,13 +40,14 @@ First, create a USB install medium from NixOS's official ISO image and boot from
 
 > [Frequently asked questions (FAQ) - cryptsetup](https://gitlab.com/cryptsetup/cryptsetup/wikis/FrequentlyAskedQuestions)
 
-Securing a root file system is where dm-crypt excels, feature and performance-wise. 
-An encrypted root file system protects everything on the system, it make the system a black box to the attacker.
+Securing a root file system is where dm-crypt excels, feature and performance-wise. An encrypted
+root file system protects everything on the system, it make the system a black box to the attacker.
 
 1. The EFI system partition(ESP) must be left unencrypted, and is mounted at `/boot`
-    1. Since the UEFI firmware can only load boot loaders from unencrypted partitions.
+   1. Since the UEFI firmware can only load boot loaders from unencrypted partitions.
 2. Secure Boot is enabled, everything in ESP is signed.
-3. The BTRFS file system with subvolumes is used for the root partition, and the swap area is a swapfile on a dedicated BTRFS subvolume, thus the swap area is also encrypted.
+3. The BTRFS file system with subvolumes is used for the root partition, and the swap area is a
+   swapfile on a dedicated BTRFS subvolume, thus the swap area is also encrypted.
 
 And the boot flow is:
 
@@ -68,7 +75,7 @@ parted /dev/nvme0n1 -- mkpart ESP fat32 2MB 629MB  # part-1
 parted /dev/nvme0n1 -- set 1 esp on  # part-1
 
 # Create the root partition using the rest of the disk
-# Format: 
+# Format:
 #   mkpart [part-type name fs-type] start end
 parted /dev/nvme0n1 -- mkpart primary 630MB 100%  # part-1
 
@@ -80,7 +87,7 @@ Encrypting the root partition:
 
 ```bash
 lsblk
-# show cryptsetup's compiled in defualts
+# show cryptsetup's compiled in defaults
 cryptsetup --help
 
 # NOTE: `cat shoukei.md | grep luks > luks.sh` to generate this script
@@ -91,7 +98,7 @@ cryptsetup luksFormat --type luks2 --cipher aes-xts-plain64 --hash sha512 --iter
 cryptsetup luksDump /dev/nvme0n1p2
 
 # open(unlock) the device with the passphrase you just set
-cryptsetup luksOpen /dev/nvme0n1p2 crypted-nixos
+cryptsetup luksOpen /dev/nvme0n1p2 encrypted-nixos
 
 # show disk status
 lsblk
@@ -103,7 +110,7 @@ Formatting the root partition:
 # NOTE: `cat shoukei.md | grep create-btrfs > btrfs.sh` to generate this script
 mkfs.fat -F 32 -n ESP /dev/nvme0n1p1  # create-btrfs
 # format the root partition with btrfs and label it
-mkfs.btrfs -L crypted-nixos /dev/mapper/crypted-nixos   # create-btrfs
+mkfs.btrfs -L encrypted-nixos /dev/mapper/crypted-nixos   # create-btrfs
 
 # mount the root partition and create subvolumes
 mount /dev/mapper/crypted-nixos /mnt  # create-btrfs
@@ -117,7 +124,7 @@ umount /mnt  # create-btrfs
 
 # NOTE: `cat shoukei.md | grep mount-1 > mount-1.sh` to generate this script
 # Remount the root partition with the subvolumes you just created
-# 
+#
 # Enable zstd compression to:
 #   1. Reduce the read/write operations, which helps to:
 #     1. Extend the life of the SSD.
@@ -152,10 +159,10 @@ Now, the disk status should be:
 ```bash
 # show disk status
 $ lsblk
-nvme0n1           259:0    0   1.8T  0 disk  
+nvme0n1           259:0    0   1.8T  0 disk
 ├─nvme0n1p1       259:2    0   600M  0 part  /mnt/boot
-└─nvme0n1p2       259:3    0   1.8T  0 part  
-  └─crypted-nixos 254:0    0   1.8T  0 crypt /mnt/swap
+└─nvme0n1p2       259:3    0   1.8T  0 part
+  └─encrypted-nixos 254:0    0   1.8T  0 crypt /mnt/swap
                                              /mnt/persistent
                                              /mnt/snapshots
                                              /mnt/nix
@@ -243,10 +250,10 @@ reboot
 
 And then reboot.
 
-
 ## Deploying the main flake's NixOS configuration
 
-After rebooting, we need to generate a new SSH key for the new machine, and add it to GitHub, so that the new machine can pull my private secrets repo:
+After rebooting, we need to generate a new SSH key for the new machine, and add it to GitHub, so
+that the new machine can pull my private secrets repo:
 
 ```bash
 # 1. Generate a new SSH key with a strong passphrase
@@ -255,8 +262,9 @@ ssh-keygen -t ed25519 -a 256 -C "ryan@idols-ai" -f ~/.ssh/idols_ai
 ssh-add ~/.ssh/idols_ai
 ```
 
-Then follow the instructions in [../secrets/README.md](../secrets/README.md) to rekey all my secrets with the new host's system-level SSH key(`/etc/ssh/ssh_host_ed25519_key`),
-so that agenix can decrypt them automatically on the new host when I deploy my NixOS configuration.
+Then follow the instructions in [../secrets/README.md](../secrets/README.md) to rekey all my secrets
+with the new host's system-level SSH key(`/etc/ssh/ssh_host_ed25519_key`), so that agenix can
+decrypt them automatically on the new host when I deploy my NixOS configuration.
 
 After all these steps, we can finally deploy the main flake's NixOS configuration by:
 
@@ -270,8 +278,10 @@ cd ~/nix-config
 just hypr
 ```
 
-Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)
-
+Finally, to enable secure boot, follow the instructions in
+[lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md)
+and
+[nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)
 
 ## Change LUKS2's passphrase
 

@@ -1,0 +1,12 @@
+[files]
+ignore-dot = true
+ignore-files = true
+extend-exclude = ["themes/", "data/", "static-surprises/", "resources/"]
+
+[default]
+binary = false
+# ignore some special identifiers(sha256, mac address, crypto keys, etc)
+extend-ignore-re = [
+  "iterm2",
+  "iHgEIBYKACAWIQSizQe9ljFEyyclWmtVhZllwnQrSwUCZZ1T9wIdAAAKCRBVhZll", # crypto keys
+]

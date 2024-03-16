@@ -16,32 +16,31 @@ To ensure security, we should change the GPG key every two or three years. Here 
 3. Update `./default.nix` to use the new GPG sub keys.
 4. Check which Key `pass` currently uses:
 
-    ```bash
-    cd ~/.local/share/password-store/
-    # check which key is used by pass
-    cat .gpg-id
-    # check which key is really used to encrypt the password
-    gpg --list-packets path/to/any/password.gpg
-    ```
-4. Change the key used by `pass`:
-    ```bash
-    # change the key used by pass, see `man pass` for more details
-    # you will be asked to enter the password of both the new and old keys
-    # then pass will re-encrypt all the passwords with the new key
-    pass init <new-key-id>
-    ```
-5. Check if the key is changed:
-    ```bash
-    # check which key is used by pass
-    cat .gpg-id
-    # check which key is really used to encrypt the password
-    gpg --list-packets path/to/any/password.gpg
-    ```
-6. Delete the old GPG key pair:
-    ```bash
-    # delete the old key pair
-    gpg --delete-secret-keys <old-key-id>
-    gpg --delete-keys <old-key-id>
-    ```
+   ```bash
+   cd ~/.local/share/password-store/
+   # check which key is used by pass
+   cat .gpg-id
+   # check which key is really used to encrypt the password
+   gpg --list-packets path/to/any/password.gpg
+   ```
 
-
+5. Change the key used by `pass`:
+   ```bash
+   # change the key used by pass, see `man pass` for more details
+   # you will be asked to enter the password of both the new and old keys
+   # then pass will re-encrypt all the passwords with the new key
+   pass init <new-key-id>
+   ```
+6. Check if the key is changed:
+   ```bash
+   # check which key is used by pass
+   cat .gpg-id
+   # check which key is really used to encrypt the password
+   gpg --list-packets path/to/any/password.gpg
+   ```
+7. Delete the old GPG key pair:
+   ```bash
+   # delete the old key pair
+   gpg --delete-secret-keys <old-key-id>
+   gpg --delete-keys <old-key-id>
+   ```

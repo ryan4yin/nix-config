@@ -8,12 +8,9 @@ Related:
 - <https://github.com/NixOS/nixos-hardware/tree/master/apple/t2>
 - <https://wiki.t2linux.org/distributions/nixos/installation/>
 
-
 TODOs:
 
 - [ ] Resume from suspend(close the lid) doesn't work
 - [ ] Show battery percentage in i3blocks/waybar
 - [ ] Touchbar unusable some times
-    - It works on boot, but after a while it stops working
-
-
+  - It works on boot, but after a while it stops working

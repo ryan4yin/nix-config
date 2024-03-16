@@ -1,16 +1,20 @@
 # Nix Environment Setup for Host: 12Kingdoms - Shoukei
 
-> :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your machine! Please write your own configuration from scratch, and use my configuration and documentation for reference only.** 
+> :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your
+> machine! Please write your own configuration from scratch, and use my configuration and
+> documentation for reference only.**
 
 > https://wiki.t2linux.org/distributions/nixos/installation/
 
 > https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
 
-This flake prepares a Nix environment for setting my desktop [/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei)(in main flake) up on a new machine.
+This flake prepares a Nix environment for setting my desktop
+[/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei)(in main flake) up on a new machine.
 
 ## Steps to Deploying
 
-First, create a USB install medium from Apple T2's NixOS installer image: https://github.com/t2linux/nixos-t2-iso.git
+First, create a USB install medium from Apple T2's NixOS installer image:
+https://github.com/t2linux/nixos-t2-iso.git
 
 ### 2. Connecting to the Internet
 
@@ -64,7 +68,7 @@ Now let's recreate the 4th partition via `fdisk`, and then encrypting the root p
 
 ```bash
 lsblk
-# show cryptsetup's compiled in defualts
+# show cryptsetup's compiled in defaults
 cryptsetup --help
 
 # NOTE: `cat shoukei.md | grep luks > format.sh` to generate this script
@@ -75,7 +79,7 @@ cryptsetup luksFormat --type luks2 --cipher aes-xts-plain64 --hash sha512 --iter
 cryptsetup luksDump /dev/nvme0n1p4
 
 # open(unlock) the device with the passphrase you just set
-cryptsetup luksOpen /dev/nvme0n1p4 crypted-nixos
+cryptsetup luksOpen /dev/nvme0n1p4 encrypted-nixos
 
 # show disk status
 lsblk
@@ -86,7 +90,7 @@ Formatting the root partition:
 ```bash
 # NOTE: `cat shoukei.md | egrep "create-btrfs"  > create-btrfs.sh` to generate this script
 # format the root partition with btrfs and label it
-mkfs.btrfs -L crypted-nixos /dev/mapper/crypted-nixos  # create-btrfs
+mkfs.btrfs -L encrypted-nixos /dev/mapper/crypted-nixos  # create-btrfs
 # mount the root partition and create subvolumes
 mount /dev/mapper/crypted-nixos /mnt  # create-btrfs
 btrfs subvolume create /mnt/@nix  # create-btrfs
@@ -135,7 +139,7 @@ $ lsblk
 nvme0n1           259:0    0   1.8T  0 disk
 ├─nvme0n1p1       259:2    0   600M  0 part  /mnt/boot
 └─nvme0n1p4       259:3    0   1.8T  0 part
-  └─crypted-nixos 254:0    0   1.8T  0 crypt /mnt/swap
+  └─encrypted-nixos 254:0    0   1.8T  0 crypt /mnt/swap
                                              /mnt/persistent
                                              /mnt/snapshots
                                              /mnt/nix
@@ -201,7 +205,7 @@ nixos-enter
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/
 
-# delte the generated configuration after editing
+# delete the generated configuration after editing
 rm -f /mnt/etc/nixos
 rm ~/nix-config/hosts/idols_ai/hardware-configuration-new.nix
 
@@ -226,7 +230,8 @@ And then reboot.
 
 ## Deploying the main flake's NixOS configuration
 
-After rebooting, we need to generate a new SSH key for the new machine, and add it to GitHub, so that the new machine can pull my private secrets repo:
+After rebooting, we need to generate a new SSH key for the new machine, and add it to GitHub, so
+that the new machine can pull my private secrets repo:
 
 ```bash
 # 1. Generate a new SSH key with a strong passphrase
@@ -235,8 +240,9 @@ ssh-keygen -t ed25519 -a 256 -C "ryan@idols-ai" -f ~/.ssh/shoukei
 ssh-add ~/.ssh/shoukei
 ```
 
-Then follow the instructions in [../secrets/README.md](../secrets/README.md) to rekey all my secrets with the new host's system-level SSH key(`/etc/ssh/ssh_host_ed25519_key`),
-so that agenix can decrypt them automatically on the new host when I deploy my NixOS configuration.
+Then follow the instructions in [../secrets/README.md](../secrets/README.md) to rekey all my secrets
+with the new host's system-level SSH key(`/etc/ssh/ssh_host_ed25519_key`), so that agenix can
+decrypt them automatically on the new host when I deploy my NixOS configuration.
 
 After all these steps, we can finally deploy the main flake's NixOS configuration by:
 
@@ -250,4 +256,7 @@ cd ~/nix-config
 just s-hypr
 ```
 
-Finally, to enable secure boot, follow the instructions in [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md) and [nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)
+Finally, to enable secure boot, follow the instructions in
+[lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md)
+and
+[nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols_ai/secureboot.nix)

@@ -12,10 +12,10 @@ datasources:
       manageAlerts: true
       prometheusType: Prometheus
       prometheusVersion: 2.49.0
-      cacheLevel: 'High'
+      cacheLevel: "High"
       disableRecordingRules: false
-      # As of Grafana 10, the Prometheus data source can be configured to query live dashboards 
+      # As of Grafana 10, the Prometheus data source can be configured to query live dashboards
       # incrementally, instead of re-querying the entire duration on each dashboard refresh.
-      # Increasing the duration of the incrementalQueryOverlapWindow will increase the size of every incremental query, 
+      # Increasing the duration of the incrementalQueryOverlapWindow will increase the size of every incremental query,
       # but might be helpful for instances that have inconsistent results for recent data.
       incrementalQueryOverlapWindow: 10m

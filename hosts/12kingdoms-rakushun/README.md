@@ -18,7 +18,7 @@ zram0       254:0    0    0B  0 disk
 nvme0n1     259:0    0  1.8T  0 disk
 ├─nvme0n1p1 259:1    0  630M  0 part  /boot
 └─nvme0n1p2 259:2    0  1.8T  0 part
-  └─crypted 253:0    0  1.8T  0 crypt /tmp
+  └─encrypted 253:0    0  1.8T  0 crypt /tmp
                                       /swap
                                       /snapshots
                                       /home/ryan/tmp
@@ -123,7 +123,9 @@ dd bs=512 count=64 iflag=fullblock seek=128 if=$KEYFILE of=$DEVICE
 
 ### 2. Partition the SSD & install NixOS via disko
 
-First, follow [UEFI - ryan4yin/nixos-rk3588](https://github.com/ryan4yin/nixos-rk3588/blob/main/UEFI.md) to install UEFI bootloader and boot into NixOS live environment via a USB stick.
+First, follow
+[UEFI - ryan4yin/nixos-rk3588](https://github.com/ryan4yin/nixos-rk3588/blob/main/UEFI.md) to
+install UEFI bootloader and boot into NixOS live environment via a USB stick.
 
 Then, run the following commands:
 
@@ -145,5 +147,3 @@ cd ~/nix-config
 # NOTE: the root password you set here will be discarded when reboot
 sudo nixos-install --root /mnt --flake .#rakushun --no-root-password --show-trace --verbose
 ```
-
-

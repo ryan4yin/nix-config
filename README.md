@@ -14,52 +14,64 @@
   </a>
 </p>
 
-> My configuration is becoming more and more complex, and it may be difficult for beginners to read it.
-> If you are new to NixOS and want to know how I use NixOS, I would recommend you to take a look at the [ryan4yin/nix-config/releases](https://github.com/ryan4yin/nix-config/releases) first, **checkout to some simpler older versions**, which will be much easier to understand.
+> My configuration is becoming more and more complex, and it may be difficult for beginners to read
+> it. If you are new to NixOS and want to know how I use NixOS, I would recommend you to take a look
+> at the [ryan4yin/nix-config/releases](https://github.com/ryan4yin/nix-config/releases) first,
+> **checkout to some simpler older versions**, which will be much easier to understand.
 
 This repository is home to the nix code that builds my systems:
 
 1. NixOS Desktops: NixOS with home-manager, i3, hyprland, agenix, etc.
-2. macOS Desktops: nix-darwin with home-manager, share the same home-manager configuration with NixOS Desktops.
-3. NixOS Servers: virtual machines running on Proxmox, with various services, such as kubernetes, homepage, prometheus, grafana, etc.
+2. macOS Desktops: nix-darwin with home-manager, share the same home-manager configuration with
+   NixOS Desktops.
+3. NixOS Servers: virtual machines running on Proxmox, with various services, such as kubernetes,
+   homepage, prometheus, grafana, etc.
 
 See [./hosts](./hosts) for details of each host.
 
 ## Why NixOS & Flakes?
 
-Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once something is setup and configured once, it works (almost) forever. If someone else shares their configuration, anyone else can just use it (if you really understand what you're copying/refering now).
+Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once
+something is setup and configured once, it works (almost) forever. If someone else shares their
+configuration, anyone else can just use it (if you really understand what you're copying/refering
+now).
 
-As for Flakes, refer to [Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
+As for Flakes, refer to
+[Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
 
-**Want to know NixOS & Flaks in detail? Looking for a beginner-friendly tutorial or best practices? You don't have to go through the pain I've experienced again! Check out my [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
+**Want to know NixOS & Flaks in detail? Looking for a beginner-friendly tutorial or best practices?
+You don't have to go through the pain I've experienced again! Check out my
+[NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
-> If you're using macOS, check out [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick start.
+> If you're using macOS, check out
+> [ryan4yin/nix-darwin-kickstarter](https://github.com/ryan4yin/nix-darwin-kickstarter) for a quick
+> start.
 
 ## Components
 
-|                             | NixOS(Wayland)                                                                                                    | NixOS(Xorg)                                                                                                       |
-| --------------------------- | :---------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
-| **Window Manager**          | [Hyprland][Hyprland]                                                                                              | [i3][i3]                                                                                                          |
-| **Terminal Emulator**       | [Zellij][Zellij] + [Kitty][Kitty]                                                                                 | [Zellij][Zellij] + [Kitty][Kitty]                                                                                 |
-| **Bar**                     | [Waybar][Waybar]                                                                                                  | [polybar][polybar]                                                                                                |
-| **Application Launcher**    | [anyrun][anyrun]                                                                                                  | [rofi][rofi]                                                                                                      |
-| **Notification Daemon**     | [Mako][Mako]                                                                                                      | [Dunst][Dunst]                                                                                                    |
-| **Display Manager**         | [GDM][GDM]                                                                                                        | [GDM][GDM]                                                                                                        |
-| **Color Scheme**            | [Catppuccin][Catppuccin]                                                                                          | [Catppuccin][Catppuccin]                                                                                          |
-| **network management tool** | [NetworkManager][NetworkManager]                                                                                  | [NetworkManager][NetworkManager]                                                                                  |
-| **Input method framework**  | [Fcitx5][Fcitx5]                                                                                                  | [Fcitx5][Fcitx5]                                                                                                  |
-| **System resource monitor** | [Btop][Btop]                                                                                                      | [Btop][Btop]                                                                                                      |
-| **File Manager**            | [Yazi][Yazi] + [thunar][thunar]                                                                                   | [Yazi][Yazi] + [thunar][thunar]                                                                                   |
-| **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                         | [Nushell][Nushell] + [Starship][Starship]                                                                         |
-| **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk]                    | [Netease-cloud-music-gtk][netease-cloud-music-gtk]                                                                |
-| **Media Player**            | [mpv][mpv]                                                                                                        | [mpv][mpv]                                                                                                        |
-| **Text Editor**             | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                         | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                         |
-| **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                          | [Nerd fonts][Nerd fonts]                                                                                          |
-| **Image Viewer**            | [imv][imv]                                                                                                        | [imv][imv]                                                                                                        |
-| **Screenshot Software**     | [flameshot][flameshot] + [grim][grim]                                                                             | [flameshot][flameshot]                                                                                            |
-| **Screen Recording**        | [OBS][OBS]                                                                                                        | [OBS][OBS]                                                                                                        |
-| **Filesystem & Encryption** | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] crypted partition for persistent, unlock via passphrase | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] crypted partition for persistent, unlock via passphrase |
-| **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                          | [lanzaboote][lanzaboote]                                                                                          |
+|                             | NixOS(Wayland)                                                                                                      | NixOS(Xorg)                                                                                                         |
+| --------------------------- | :------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------ |
+| **Window Manager**          | [Hyprland][Hyprland]                                                                                                | [i3][i3]                                                                                                            |
+| **Terminal Emulator**       | [Zellij][Zellij] + [Kitty][Kitty]                                                                                   | [Zellij][Zellij] + [Kitty][Kitty]                                                                                   |
+| **Bar**                     | [Waybar][Waybar]                                                                                                    | [polybar][polybar]                                                                                                  |
+| **Application Launcher**    | [anyrun][anyrun]                                                                                                    | [rofi][rofi]                                                                                                        |
+| **Notification Daemon**     | [Mako][Mako]                                                                                                        | [Dunst][Dunst]                                                                                                      |
+| **Display Manager**         | [GDM][GDM]                                                                                                          | [GDM][GDM]                                                                                                          |
+| **Color Scheme**            | [Catppuccin][Catppuccin]                                                                                            | [Catppuccin][Catppuccin]                                                                                            |
+| **network management tool** | [NetworkManager][NetworkManager]                                                                                    | [NetworkManager][NetworkManager]                                                                                    |
+| **Input method framework**  | [Fcitx5][Fcitx5]                                                                                                    | [Fcitx5][Fcitx5]                                                                                                    |
+| **System resource monitor** | [Btop][Btop]                                                                                                        | [Btop][Btop]                                                                                                        |
+| **File Manager**            | [Yazi][Yazi] + [thunar][thunar]                                                                                     | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
+| **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                           | [Nushell][Nushell] + [Starship][Starship]                                                                           |
+| **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc], [Netease-cloud-music-gtk][netease-cloud-music-gtk]                      | [Netease-cloud-music-gtk][netease-cloud-music-gtk]                                                                  |
+| **Media Player**            | [mpv][mpv]                                                                                                          | [mpv][mpv]                                                                                                          |
+| **Text Editor**             | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                           | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                           |
+| **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                            | [Nerd fonts][Nerd fonts]                                                                                            |
+| **Image Viewer**            | [imv][imv]                                                                                                          | [imv][imv]                                                                                                          |
+| **Screenshot Software**     | [flameshot][flameshot] + [grim][grim]                                                                               | [flameshot][flameshot]                                                                                              |
+| **Screen Recording**        | [OBS][OBS]                                                                                                          | [OBS][OBS]                                                                                                          |
+| **Filesystem & Encryption** | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
+| **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                            | [lanzaboote][lanzaboote]                                                                                            |
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
 
@@ -73,8 +85,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## I3 + AstroNvim
 
-![](./_img/i3_2023-07-29_1.webp)
-![](./_img/i3_2023-07-29_2.webp)
+![](./_img/i3_2023-07-29_1.webp) ![](./_img/i3_2023-07-29_2.webp)
 
 ## Neovim
 
@@ -90,14 +101,19 @@ See [./secrets](./secrets) for details.
 
 ## How to Deploy this Flake?
 
-> :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine :exclamation: It will not succeed.** 
-> This flake contains my hardware configuration(such as [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix), [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols_ai/cifs-mount.nix), [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91), etc.) which is not suitable for your hardwares,
-> and requires my private secrets repository [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy.
-> You may use this repo as a reference to build your own configuration.
+> :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine
+> :exclamation: It will not succeed.** This flake contains my hardware configuration(such as
+> [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix),
+> [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols_ai/cifs-mount.nix),
+> [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91),
+> etc.) which is not suitable for your hardwares, and requires my private secrets repository
+> [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy. You
+> may use this repo as a reference to build your own configuration.
 
 For NixOS:
 
-> To deploy this flake from NixOS's official ISO image(purest installation method), please refer to [./nixos-installer/](./nixos-installer/)
+> To deploy this flake from NixOS's official ISO image(purest installation method), please refer to
+> [./nixos-installer/](./nixos-installer/)
 
 > Need to restart the machine when switching between `wayland` and `xorg`.
 
@@ -136,7 +152,8 @@ just ha debug
 # just fe debug
 ```
 
-> [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg) (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
+> [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
+> (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
 
 ## How to create & managage VM from this flake?
 
@@ -146,14 +163,15 @@ use `aquamarine` as an example, we can create a virtual machine with the followi
 # 1. generate a proxmox vma image file
 nom build .#aquamarine  # `nom`(nix-output-monitor) can be replaced by the standard command `nix`
 
-# 2. upload the genereated image to proxmox server's backup directory `/var/lib/vz/dump`
+# 2. upload the generated image to proxmox server's backup directory `/var/lib/vz/dump`
 #    please replace the vma file name with the one you generated in step 1.
 rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
 
 # 3. the image we uploaded will be listed in proxmox web ui's this page: [storage 'local'] -> [backups], we can restore a vm from it via the web ui now.
 ```
 
-Once the virtual machine `aquamarine` is created, we can deploy updates to it with the following commands:
+Once the virtual machine `aquamarine` is created, we can deploy updates to it with the following
+commands:
 
 ```shell
 # 1. add the ssh key to ssh-agent
@@ -164,7 +182,8 @@ ssh-add /etc/agenix/ssh-key-romantic
 colmena apply --on '@dist-build' --show-trace
 ```
 
-If you're not familiar with remote deployment, please read this tutorial first: [Remote Deployment - NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment)
+If you're not familiar with remote deployment, please read this tutorial first:
+[Remote Deployment - NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment)
 
 ## References
 
@@ -179,17 +198,22 @@ Other dotfiles that inspired me:
   - [davidtwco/veritas](https://github.com/davidtwco/veritas)
   - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
   - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
-  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, anyrun, etc.
-  - [nix-community/srvos](https://github.com/nix-community/srvos): a collection of opinionated and sharable NixOS configurations for servers
+  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, anyrun,
+    etc.
+  - [nix-community/srvos](https://github.com/nix-community/srvos): a collection of opinionated and
+    sharable NixOS configurations for servers
 - Modularized NixOS Configuration
   - [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
   - [viperML/dotfiles](https://github.com/viperML/dotfiles)
 - Hyprland(wayland)
-  - [notwidow/hyprland](https://github.com/notwidow/hyprland): This is where I start my hyprland journey.
-  - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar configuration here.
+  - [notwidow/hyprland](https://github.com/notwidow/hyprland): This is where I start my hyprland
+    journey.
+  - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar
+    configuration here.
   - [linuxmobile/kaku](https://github.com/linuxmobile/kaku)
 - I3 Window Manager
-  - [endeavouros-i3wm-setup](https://github.com/endeavouros-team/endeavouros-i3wm-setup): I started using i3 here, and my i3 configuration is also based on it, but made a lot of changes.
+  - [endeavouros-i3wm-setup](https://github.com/endeavouros-team/endeavouros-i3wm-setup): I started
+    using i3 here, and my i3 configuration is also based on it, but made a lot of changes.
   - [denisse-dev/dotfiles](https://github.com/denisse-dev/dotfiles)
 - Neovim/AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.

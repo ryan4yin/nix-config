@@ -114,9 +114,7 @@
         "justifyMode": "auto",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -1431,10 +1429,7 @@
   ],
   "refresh": "30s",
   "schemaVersion": 38,
-  "tags": [
-    "Kubernetes",
-    "Prometheus"
-  ],
+  "tags": ["Kubernetes", "Prometheus"],
   "templating": {
     "list": [
       {
@@ -1595,12 +1590,8 @@
       {
         "current": {
           "selected": true,
-          "text": [
-            "coredns"
-          ],
-          "value": [
-            "coredns"
-          ]
+          "text": ["coredns"],
+          "value": ["coredns"]
         },
         "definition": "label_values(coredns_build_info{cluster=\"$cluster\"},job)",
         "hide": 0,

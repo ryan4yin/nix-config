@@ -10,15 +10,18 @@ And `Zellij` for a smooth and stable terminal experience.
 
 ## Tips
 
-1. Many useful keys are already provided by vim, check vim/neovim's docs before you install a new plugin / reinvent the wheel.
-1. After using Emacs/Neovim more skillfully, I strongly recommend that you read the official documentation of Neovim/vim:
+1. Many useful keys are already provided by vim, check vim/neovim's docs before you install a new
+   plugin / reinvent the wheel.
+1. After using Emacs/Neovim more skillfully, I strongly recommend that you read the official
+   documentation of Neovim/vim:
    1. <https://vimhelp.org/>: The official vim documentation.
    1. <https://neovim.io/doc/user/>: Neovim's official user documentation.
 1. Use Zellij for terminal related operations, and use Neovim/Helix for editing.
 1. As for Emacs, Use its GUI version & terminal emulator `vterm` for terminal related operations.
 1. Two powerful file search & jump tools:
 1. Tree-view plugins are beginner-friendly and intuitive, but they're not very efficient.
-1. **Search by the file path**: Useful when you're familiar with the project structure, especially on a large project.
+1. **Search by the file path**: Useful when you're familiar with the project structure, especially
+   on a large project.
 1. **Search by the content**: Useful when you're familiar with the code.
 
 ## Tutorial
@@ -27,13 +30,16 @@ Type `:tutor`(`:Tutor` in Neovim) to learn the basics usage of vim/neovim.
 
 ## VIM's Cheetsheet
 
-> Here only record my commonly used keys, to see **a more comprehensive cheetsheet**: <https://vimhelp.org/quickref.txt.html>
+> Here only record my commonly used keys, to see **a more comprehensive cheetsheet**:
+> <https://vimhelp.org/quickref.txt.html>
 
-Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in both Emacs-Evil, Neovim & vim.
+Both Emacs-Evil & Neovim are compatible with vim, sothe key-bindings described here are common in
+both Emacs-Evil, Neovim & vim.
 
 ### Terminal Related
 
-I mainly use Zellij for terminal related operations, here is its terminal shortcuts I use frequently now:
+I mainly use Zellij for terminal related operations, here is its terminal shortcuts I use frequently
+now:
 
 | Action                    | Zellij's Shortcut |
 | ------------------------- | ----------------- |
@@ -76,10 +82,12 @@ I mainly use Zellij for terminal related operations, here is its terminal shortc
 
 Text Objects:
 
-- **sentence**: text ending at a '.', '!' or '?' followed by either the end of a line, or by a space or tab.
+- **sentence**: text ending at a '.', '!' or '?' followed by either the end of a line, or by a space
+  or tab.
 - **paragraph**: text ending at a blank line.
-- **section**: text starting with a section header and ending at the start of the next section header (or at the end of the file). - The "`]]`" and "`[[`" commands stop at the '`{`' in the first column. This is
-  useful to find the start of a function in a C/Go/Java/... program.
+- **section**: text starting with a section header and ending at the start of the next section
+  header (or at the end of the file). - The "`]]`" and "`[[`" commands stop at the '`{`' in the
+  first column. This is useful to find the start of a function in a C/Go/Java/... program.
 
 ### Text Manipulation
 
@@ -99,7 +107,7 @@ Basics:
 | Toggle text's case                      | `~`                        |
 | Convert to uppercase                    | `U` (visual mode)          |
 | Convert to lowercase                    | `u` (visual mode)          |
-| Align the selected conent               | `:center`/`:left`/`:right` |
+| Align the selected content              | `:center`/`:left`/`:right` |
 
 Misc:
 
@@ -116,7 +124,7 @@ Misc:
 
 | Action                                                                    |                |
 | ------------------------------------------------------------------------- | -------------- |
-| Sort tye selected lines                                                   | `:sort`        |
+| Sort the selected lines                                                   | `:sort`        |
 | Join Selection of Lines With Space                                        | `:join` or `J` |
 | Join without spaces                                                       | `:join!`       |
 | Enter Insert mode at the start/end of the line                            | `I` / `A`      |
@@ -161,7 +169,8 @@ Advance Techs:
 | Replace all the lines            | `:% s/old/new/g`                    |
 | Replace all the lines with regex | `:% s@\vhttp://(\w+)@https://\1@gc` |
 
-1. `\v` means means that in the regex pattern after it can be used without backslash escaping(similar to python's raw string).
+1. `\v` means means that in the regex pattern after it can be used without backslash
+   escaping(similar to python's raw string).
 2. `\1` means the first matched group in the pattern.
 
 ### Replace in the specific lines

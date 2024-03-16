@@ -128,11 +128,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "$datasource",
       "decimals": 0,
       "format": "short",
@@ -297,7 +293,7 @@
           "unit": "s"
         },
         {
-          "alias": "Last reload sucessfull",
+          "alias": "Last reload successful",
           "colorMode": "cell",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -308,10 +304,7 @@
           "decimals": 2,
           "mappingType": 1,
           "pattern": "Value #C",
-          "thresholds": [
-            "0",
-            "1"
-          ],
+          "thresholds": ["0", "1"],
           "type": "number",
           "unit": "short"
         },
@@ -363,11 +356,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "$datasource",
       "decimals": 0,
       "description": "Number of peers in the Alertmanager cluster.",
@@ -445,11 +434,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "$datasource",
       "description": "Current number of active alerts.",
       "format": "none",
@@ -526,11 +511,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "$datasource",
       "description": "Current number of suppressed alerts.",
       "format": "none",
@@ -607,11 +588,7 @@
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
+      "colors": ["#299c46", "rgba(237, 129, 40, 0.89)", "#d44a3a"],
       "datasource": "$datasource",
       "description": "Current number of active silences.",
       "format": "none",
@@ -2469,7 +2446,7 @@
               "expr": "increase(alertmanager_cluster_reconnections_total{instance=~\"$instance\"}[$__interval])",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "Sucessful reconnections",
+              "legendFormat": "Successful reconnections",
               "refId": "A"
             },
             {
@@ -2578,7 +2555,7 @@
               "expr": "increase(alertmanager_cluster_reconnections_total{instance=~\"$instance\"}[$__interval])",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "Sucessful reconnections",
+              "legendFormat": "Successful reconnections",
               "refId": "A"
             },
             {
@@ -2687,7 +2664,7 @@
               "expr": "increase(alertmanager_cluster_reconnections_total{instance=~\"$instance\"}[$__interval])",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "Sucessful reconnections",
+              "legendFormat": "Successful reconnections",
               "refId": "A"
             },
             {
@@ -2796,7 +2773,7 @@
               "expr": "increase(alertmanager_cluster_reconnections_total{instance=~\"$instance\"}[$__interval])",
               "format": "time_series",
               "intervalFactor": 1,
-              "legendFormat": "Sucessful reconnections",
+              "legendFormat": "Successful reconnections",
               "refId": "A"
             },
             {
@@ -10161,15 +10138,11 @@
               "format": "time_series",
               "groupBy": [
                 {
-                  "params": [
-                    "$__interval"
-                  ],
+                  "params": ["$__interval"],
                   "type": "time"
                 },
                 {
-                  "params": [
-                    "null"
-                  ],
+                  "params": ["null"],
                   "type": "fill"
                 }
               ],
@@ -10183,9 +10156,7 @@
               "select": [
                 [
                   {
-                    "params": [
-                      "value"
-                    ],
+                    "params": ["value"],
                     "type": "field"
                   },
                   {
@@ -10305,15 +10276,11 @@
               "format": "time_series",
               "groupBy": [
                 {
-                  "params": [
-                    "$__interval"
-                  ],
+                  "params": ["$__interval"],
                   "type": "time"
                 },
                 {
-                  "params": [
-                    "null"
-                  ],
+                  "params": ["null"],
                   "type": "fill"
                 }
               ],
@@ -10327,9 +10294,7 @@
               "select": [
                 [
                   {
-                    "params": [
-                      "value"
-                    ],
+                    "params": ["value"],
                     "type": "field"
                   },
                   {
@@ -10449,15 +10414,11 @@
               "format": "time_series",
               "groupBy": [
                 {
-                  "params": [
-                    "$__interval"
-                  ],
+                  "params": ["$__interval"],
                   "type": "time"
                 },
                 {
-                  "params": [
-                    "null"
-                  ],
+                  "params": ["null"],
                   "type": "fill"
                 }
               ],
@@ -10471,9 +10432,7 @@
               "select": [
                 [
                   {
-                    "params": [
-                      "value"
-                    ],
+                    "params": ["value"],
                     "type": "field"
                   },
                   {
@@ -10593,15 +10552,11 @@
               "format": "time_series",
               "groupBy": [
                 {
-                  "params": [
-                    "$__interval"
-                  ],
+                  "params": ["$__interval"],
                   "type": "time"
                 },
                 {
-                  "params": [
-                    "null"
-                  ],
+                  "params": ["null"],
                   "type": "fill"
                 }
               ],
@@ -10615,9 +10570,7 @@
               "select": [
                 [
                   {
-                    "params": [
-                      "value"
-                    ],
+                    "params": ["value"],
                     "type": "field"
                   },
                   {
@@ -11131,11 +11084,7 @@
   "refresh": "5m",
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [
-    "alertmanager",
-    "prometheus",
-    "alerting"
-  ],
+  "tags": ["alertmanager", "prometheus", "alerting"],
   "templating": {
     "list": [
       {
@@ -11185,29 +11134,8 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
   "title": "Alertmanager",

@@ -2,15 +2,8 @@
   "position": "top",
   "layer": "top",
 
-  "modules-left": [
-    "custom/launcher",
-    "temperature",
-    "backlight",
-    "hyprland/workspaces"
-  ],
-  "modules-center": [
-    "custom/playerctl"
-  ],
+  "modules-left": ["custom/launcher", "temperature", "backlight", "hyprland/workspaces"],
+  "modules-center": ["custom/playerctl"],
   "modules-right": [
     "mpd",
     "pulseaudio",
@@ -21,7 +14,7 @@
     "clock",
     "idle_inhibitor",
     "custom/powermenu",
-    "tray"
+    "tray",
   ],
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -38,8 +31,8 @@
       "9": "",
       "10": "〇",
       "focused": "",
-      "default": ""
-    }
+      "default": "",
+    },
   },
 
   "clock": {
@@ -48,137 +41,123 @@
     "rotate": 0,
     "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
     "format": " {:%H:%M}",
-    "format-alt": " {:%a %b %d, %G}"
+    "format-alt": " {:%a %b %d, %G}",
   },
   "cpu": {
     "format": "\udb80\udf5b {usage}%",
     "interval": 1,
     "on-click-middle": "kitty btop",
-    "on-click-right": "kitty btop"
+    "on-click-right": "kitty btop",
   },
   "custom/launcher": {
     "format": "\uf313 ",
     "on-click": "$HOME/.config/hypr/scripts/menu",
     "on-click-middle": "exec default_wall",
     "on-click-right": "exec wallpaper_random",
-    "tooltip": false
+    "tooltip": false,
   },
   "custom/powermenu": {
     "format": "\uf011",
     "on-click": "$HOME/.config/hypr/scripts/wlogout",
-    "tooltip": false
+    "tooltip": false,
   },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
       "activated": "\uf06e",
-      "deactivated": "\uf070"
+      "deactivated": "\uf070",
     },
-    "tooltip": false
+    "tooltip": false,
   },
   "memory": {
     "format": "\udb83\udee0 {percentage}%",
     "interval": 1,
     "states": {
-      "warning": 85
-    }
+      "warning": 85,
+    },
   },
   "mpd": {
-      "interval": 2,
-      "unknown-tag": "N/A",
-      "format": "{stateIcon} {artist} - {title}",
-      "format-disconnected": " Disconnected",
-      "format-paused": "{stateIcon} {artist} - {title}",
-      "format-stopped": "Stopped ",
-      "state-icons": {
-          "paused": "",
-          "playing": ""
-      },
-      "tooltip-format": "MPD (connected)",
-      "tooltip-format-disconnected": "MPD (disconnected)",
-      // Commands to execute on events
-      "on-click": "mpc toggle",
-      "on-click-middle": "mpc prev",
-      "on-click-right": "mpc next",
-      "on-update": "",
-      "on-scroll-up": "mpc seek +00:00:01",
-      "on-scroll-down": "mpc seek -00:00:01",
-      "smooth-scrolling-threshold": 1
+    "interval": 2,
+    "unknown-tag": "N/A",
+    "format": "{stateIcon} {artist} - {title}",
+    "format-disconnected": " Disconnected",
+    "format-paused": "{stateIcon} {artist} - {title}",
+    "format-stopped": "Stopped ",
+    "state-icons": {
+      "paused": "",
+      "playing": "",
+    },
+    "tooltip-format": "MPD (connected)",
+    "tooltip-format-disconnected": "MPD (disconnected)",
+    // Commands to execute on events
+    "on-click": "mpc toggle",
+    "on-click-middle": "mpc prev",
+    "on-click-right": "mpc next",
+    "on-update": "",
+    "on-scroll-up": "mpc seek +00:00:01",
+    "on-scroll-down": "mpc seek -00:00:01",
+    "smooth-scrolling-threshold": 1,
   },
   "custom/playerctl": {
-     "format": "{icon}  <span>{}</span>",
-     "return-type": "json",
-     "max-length": 55,
-     "exec": "playerctl -a metadata --format '{\"text\": \"  {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-     "on-click-middle": "playerctl previous",
-     "on-click": "playerctl play-pause",
-     "on-click-right": "playerctl next",
-     "format-icons": {
-       "Paused": "<span foreground='#6dd9d9'></span>",
-       "Playing": "<span foreground='#82db97'></span>"
-     }
+    "format": "{icon}  <span>{}</span>",
+    "return-type": "json",
+    "max-length": 55,
+    "exec": "playerctl -a metadata --format '{\"text\": \"  {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click-middle": "playerctl previous",
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "format-icons": {
+      "Paused": "<span foreground='#6dd9d9'></span>",
+      "Playing": "<span foreground='#82db97'></span>",
+    },
   },
   "network": {
-      "interval": 5,
-      //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
-      "format-wifi": " {essid}",
-      "format-ethernet": " {ipaddr}/{cidr}",
-      "format-linked": " {ifname} (No IP)",
-      "format-disconnected": "睊 Disconnected",
-      "format-disabled": "睊 Disabled",
-      "format-alt": " {bandwidthUpBytes} |  {bandwidthDownBytes}",
-      "tooltip-format": " {ifname} via {gwaddr}",
-      "on-click-middle": "nm-connection-editor",
-      "on-click-right": "kitty nmtui"
+    "interval": 5,
+    //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
+    "format-wifi": " {essid}",
+    "format-ethernet": " {ipaddr}/{cidr}",
+    "format-linked": " {ifname} (No IP)",
+    "format-disconnected": "睊 Disconnected",
+    "format-disabled": "睊 Disabled",
+    "format-alt": " {bandwidthUpBytes} |  {bandwidthDownBytes}",
+    "tooltip-format": " {ifname} via {gwaddr}",
+    "on-click-middle": "nm-connection-editor",
+    "on-click-right": "kitty nmtui",
   },
   "pulseaudio": {
-      //"format": "{volume}% {icon} {format_source}",
-      "format": "{icon} {volume}%",
-      "format-muted": " Mute",
-      "format-bluetooth": " {volume}% {format_source}",
-      "format-bluetooth-muted": " Mute",
-      "format-source": " {volume}%",
-      "format-source-muted": "",
-      "format-icons": {
-          "headphone": "",
-          "hands-free": "",
-          "headset": "",
-          "phone": "",
-          "portable": "",
-          "car": "",
-          "default": [
-              "",
-              "",
-              ""
-          ]
-      },
-      "scroll-step": 5.0,
-      // Commands to execute on events
-      "on-click": "amixer set Master toggle",
-      "on-click-right": "pavucontrol",
-      "smooth-scrolling-threshold": 1,
+    //"format": "{volume}% {icon} {format_source}",
+    "format": "{icon} {volume}%",
+    "format-muted": " Mute",
+    "format-bluetooth": " {volume}% {format_source}",
+    "format-bluetooth-muted": " Mute",
+    "format-source": " {volume}%",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""],
+    },
+    "scroll-step": 5.0,
+    // Commands to execute on events
+    "on-click": "amixer set Master toggle",
+    "on-click-right": "pavucontrol",
+    "smooth-scrolling-threshold": 1,
   },
   "temperature": {
     "format": "\uf2c9 {temperatureC}\u00b0C",
-    "tooltip": false
+    "tooltip": false,
   },
   "backlight": {
     "format": "{icon} {percent}%",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
+    "format-icons": ["", "", "", "", "", "", "", "", ""],
   },
   "tray": {
     "icon-size": 15,
-    "spacing": 5
+    "spacing": 5,
   },
   "battery": {
     "bat": "BAT0",
@@ -186,7 +165,7 @@
     "interval": 60,
     "states": {
       "warning": 30,
-      "critical": 15
+      "critical": 15,
     },
     "max-length": 20,
     "format": "{icon} {capacity}%",
@@ -196,12 +175,6 @@
     "format-plugged": " {capacity}%",
     "format-alt": "{icon} {time}",
     "format-full": " {capacity}%",
-    "format-icons": [
-      " ",
-      " ",
-      " ",
-      " ",
-      " "
-    ]
+    "format-icons": [" ", " ", " ", " ", " "],
   },
 }

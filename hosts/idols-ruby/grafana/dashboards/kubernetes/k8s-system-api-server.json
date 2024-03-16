@@ -114,9 +114,7 @@
         "justifyMode": "auto",
         "orientation": "horizontal",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
@@ -195,9 +193,7 @@
         "footer": {
           "countRows": false,
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -227,14 +223,7 @@
         {
           "id": "labelsToFields",
           "options": {
-            "keepLabels": [
-              "group",
-              "job",
-              "removed_release",
-              "resource",
-              "version",
-              "name"
-            ],
+            "keepLabels": ["group", "job", "removed_release", "resource", "version", "name"],
             "mode": "columns"
           }
         },
@@ -268,9 +257,7 @@
           "options": {
             "fields": {
               "group": {
-                "aggregations": [
-                  "lastNotNull"
-                ],
+                "aggregations": ["lastNotNull"],
                 "operation": "groupby"
               },
               "job": {
@@ -278,9 +265,7 @@
                 "operation": "groupby"
               },
               "namespace": {
-                "aggregations": [
-                  "lastNotNull"
-                ],
+                "aggregations": ["lastNotNull"],
                 "operation": "groupby"
               },
               "removed_release": {
@@ -288,9 +273,7 @@
                 "operation": "groupby"
               },
               "resource": {
-                "aggregations": [
-                  "lastNotNull"
-                ],
+                "aggregations": ["lastNotNull"],
                 "operation": "groupby"
               },
               "version": {
@@ -1248,10 +1231,7 @@
   "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": [
-    "Kubernetes",
-    "Prometheus"
-  ],
+  "tags": ["Kubernetes", "Prometheus"],
   "templating": {
     "list": [
       {
