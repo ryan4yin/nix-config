@@ -27,7 +27,7 @@ full featured(see [what-have-k3s-removed-from-upstream-kubernetes] for details).
 ## Kubernetes Resources
 
 Kubernetes resources are deployed and managed separately through
-[nix-config/pulumi/k8s/](../../pulumi/k8s/).
+[ryan4yin/k8s-gitops](https://github.com/ryan4yin/k8s-gitops).
 
 [k3s]: https://github.com/k3s-io/k3s/
 [what-have-k3s-removed-from-upstream-kubernetes]:
