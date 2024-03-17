@@ -15,7 +15,7 @@
     pkgs-unstable.hyprshot # screen shot
     grim # taking screenshots
     slurp # selecting a region to screenshot
-    wf-recorder # creen recording
+    wf-recorder # screen recording
 
     mako # the notification daemon, the same as dunst
 
