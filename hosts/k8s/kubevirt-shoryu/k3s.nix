@@ -34,8 +34,9 @@ in {
       + " --service-node-port-range 80-32767"
       + " --kube-apiserver-arg='--allow-privileged=true'" # required by kubevirt
       + " --data-dir /var/lib/rancher/k3s"
-      + " --disable-helm-controller"
+      + " --disable-helm-controller" # we use fluxcd instead
+      + " --disable=traefik" # deploy our own ingress controller instead
       + " --etcd-expose-metrics true"
-      + ''--etcd-snapshot-schedule-cron "0 */12 * * *"'';
+      + " --etcd-snapshot-schedule-cron '0 */12 * * *'";
   };
 }
