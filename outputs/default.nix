@@ -104,11 +104,11 @@ in {
         settings = {
           typos = {
             write = true; # Automatically fix typos
-            configPath = "../.typos.toml";
+            configPath = "./.typos.toml"; # relative to the flake root
           };
           prettier = {
             write = true; # Automatically format files
-            configPath = "./.prettierrc.yaml";
+            configPath = "./.prettierrc.yaml"; # relative to the flake root
           };
         };
       };
