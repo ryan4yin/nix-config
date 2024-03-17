@@ -3,7 +3,7 @@
   lib,
   inputs,
   nixos-modules,
-  home-modules ? null,
+  home-modules ? [],
   myvars,
   system,
   tags,
