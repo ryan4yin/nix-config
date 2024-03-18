@@ -47,6 +47,17 @@
       };
     };
 
+    # Workaround for longhorn running on NixOS
+    # https://github.com/longhorn/longhorn/issues/2166
+    systemd.tmpfiles.rules = [
+      "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+    ];
+    # Longhorn uses open-iscsi to create block devices.
+    services.openiscsi = {
+      name = "iqn.2020-08.org.linux-iscsi.initiatorhost:${hostName}";
+      enable = true;
+    };
+
     networking = {
       inherit hostName;
       inherit (networking) defaultGateway nameservers;
