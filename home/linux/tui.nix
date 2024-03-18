@@ -5,6 +5,5 @@
     ../base/home.nix
 
     ./base
-    ./desktop
   ];
 }
