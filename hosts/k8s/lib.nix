@@ -27,6 +27,10 @@
       # Validate Hardware Virtualization Support via:
       #   virt-host-validate qemu
       libvirt
+
+      # used by kubernetes' ovs-cni plugin
+      # https://github.com/k8snetworkplumbingwg/multus-cni
+      multus-cni
     ];
 
     # Enable the Open vSwitch as a systemd service
