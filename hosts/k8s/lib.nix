@@ -17,6 +17,7 @@
       "fat"
       "vfat"
       "exfat"
+      "nfs" # required by longhorn
       "cifs" # mount windows share
     ];
 
