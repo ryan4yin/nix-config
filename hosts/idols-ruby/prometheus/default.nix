@@ -55,8 +55,8 @@
           {
             # All my NixOS hosts.
             targets =
-              map (host: "${host.address}:9100")
-              (builtins.attrValues myvars.networking.hostAddress);
+              map (addr: "${addr.ipv4}:9100")
+              (builtins.attrValues myvars.networking.hostsAddr);
             labels.type = "node";
           }
         ];
@@ -70,7 +70,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostAddress.aquamarine.address}:9153"];
+            targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9153"];
             labels.type = "app";
             labels.app = "dnsmasq";
           }
@@ -83,7 +83,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostAddress.kana.address}:9153"];
+            targets = ["${myvars.networking.hostsAddr.kana.ipv4}:9153"];
             labels.type = "app";
             labels.app = "v2ray";
           }
@@ -96,7 +96,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostAddress.kana.address}:10000"];
+            targets = ["${myvars.networking.hostsAddr.kana.ipv4}:10000"];
             labels.type = "app";
             labels.app = "v2ray";
           }

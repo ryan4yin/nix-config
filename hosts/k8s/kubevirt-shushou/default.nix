@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   mylib,
   myvars,
@@ -6,17 +7,25 @@
   ...
 }: let
   hostName = "kubevirt-shushou"; # Define your hostname.
-  k8sLib = import ../lib.nix;
-  coreModule = k8sLib.gencoreModule {
+  k3sServerName = "kubevirt-shoryu";
+
+  coreModule = mylib.genKubeVirtCoreModule {
     inherit pkgs hostName;
     inherit (myvars) networking;
+  };
+  k3sModule = mylib.genK3sServerModule {
+    inherit pkgs;
+    kubeconfigFile = "/home/${myvars.username}/.kube/config";
+    tokenFile = config.age.secrets."k3s-prod-1-token".path;
+    serverIp = myvars.networking.hostsAddr.${k3sServerName}.ipv4;
   };
 in {
   imports =
     (mylib.scanPaths ./.)
     ++ [
-      coreModule
       disko.nixosModules.default
       ../disko-config/kubevirt-disko-fs.nix
+      coreModule
+      k3sModule
     ];
 }

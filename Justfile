@@ -129,26 +129,6 @@ ruby-local mode="default":
 kana:
   colmena apply --on '@kana' --verbose --show-trace
 
-tailscale:
-  colmena apply --on '@tailscale-gw' --verbose --show-trace
-
-# pve-aqua:
-#   nom build .#aquamarine
-#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
-#
-# pve-ruby:
-#   nom build .#ruby
-#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-ruby.vma.zst
-#
-# pve-kana:
-#   nom build .#kana
-#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-kana.vma.zst
-#
-# pve-tsgw:
-#   nom build .#tailscale-gw
-#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-tailscale-gw.vma.zst
-#
-
 ############################################################################
 #
 # Kubernetes related commands
@@ -164,25 +144,6 @@ master:
 worker:
   colmena apply --on '@k3s-prod-1-worker-*' --verbose --show-trace
 
-# pve-k8s:
-#   nom build .#k3s-prod-1-master-1
-#   rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-master-1.vma.zst
-#
-#   nom build .#k3s-prod-1-master-2
-#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-master-2.vma.zst
-#
-#   nom build .#k3s-prod-1-master-3
-#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-master-3.vma.zst
-#
-#   nom build .#k3s-prod-1-worker-1
-#   rsync -avz --progress --copy-links result root@gtr5:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-worker-1.vma.zst
-#
-#   nom build .#k3s-prod-1-worker-2
-#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-worker-2.vma.zst
-#
-#   nom build .#k3s-prod-1-worker-3
-#   rsync -avz --progress --copy-links result root@s500plus:/var/lib/vz/dump/vzdump-qemu-k3s-prod-1-worker-3.vma.zst
-#
 
 ############################################################################
 #

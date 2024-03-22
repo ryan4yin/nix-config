@@ -7,30 +7,116 @@
   ];
   prefixLength = 24;
 
-  hostAddress =
-    lib.attrsets.mapAttrs
-    (name: address: {inherit prefixLength address;})
-    {
-      "ai" = "192.168.5.100";
-      "aquamarine" = "192.168.5.101";
-      "ruby" = "192.168.5.102";
-      "kana" = "192.168.5.103";
-      "nozomi" = "192.168.5.104";
-      "yukina" = "192.168.5.105";
-      "chiaya" = "192.168.5.106";
-      "suzu" = "192.168.5.107";
-      "k3s-prod-1-master-1" = "192.168.5.108";
-      "k3s-prod-1-master-2" = "192.168.5.109";
-      "k3s-prod-1-master-3" = "192.168.5.110";
-      "k3s-prod-1-worker-1" = "192.168.5.111";
-      "k3s-prod-1-worker-2" = "192.168.5.112";
-      "k3s-prod-1-worker-3" = "192.168.5.113";
-      "kubevirt-shoryu" = "192.168.5.176";
-      "kubevirt-shushou" = "192.168.5.177";
-      "kubevirt-youko" = "192.168.5.178";
-      "rakushun" = "192.168.5.179";
-      "tailscale-gw" = "192.168.5.192";
+  hostsAddr = {
+    # Homelab's Physical Machines (KubeVirt Nodes)
+    kubevirt-shoryu = {
+      iface = "eno1";
+      ipv4 = "192.168.5.181";
     };
+    kubevirt-shushou = {
+      iface = "eno1";
+      ipv4 = "192.168.5.182";
+    };
+    kubevirt-youko = {
+      iface = "eno1";
+      ipv4 = "192.168.5.183";
+    };
+
+    # Other VMs and Physical Machines
+    ai = {
+      # Desktop PC
+      iface = "enp5s0";
+      ipv4 = "192.168.5.100";
+    };
+    aquamarine = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.101";
+    };
+    ruby = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.102";
+    };
+    kana = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.103";
+    };
+    nozomi = {
+      # LicheePi 4A's wireless iterface - RISC-V
+      iface = "wlan0";
+      ipv4 = "192.168.5.104";
+    };
+    yukina = {
+      # LicheePi 4A's wireless iterface - RISC-V
+      iface = "wlan0";
+      ipv4 = "192.168.5.105";
+    };
+    chiaya = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.106";
+    };
+    suzu = {
+      # Orange Pi 5 - ARM
+      iface = "end1";
+      ipv4 = "192.168.5.107";
+    };
+    rakushun = {
+      # Orange Pi 5 - ARM
+      # RJ45 port 1 - enP4p65s0
+      # RJ45 port 2 - enP3p49s0
+      iface = "enP4p65s0";
+      ipv4 = "192.168.5.179";
+    };
+
+    k3s-prod-1-master-1 = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.108";
+    };
+    k3s-prod-1-master-2 = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.109";
+    };
+    k3s-prod-1-master-3 = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.110";
+    };
+    k3s-prod-1-worker-1 = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.111";
+    };
+    k3s-prod-1-worker-2 = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.112";
+    };
+    k3s-prod-1-worker-3 = {
+      # VM
+      iface = "ens18";
+      ipv4 = "192.168.5.113";
+    };
+  };
+
+  hostsInterface =
+    lib.attrsets.mapAttrs
+    (
+      key: val: {
+        interfaces."${val.iface}" = {
+          useDHCP = false;
+          ipv4.addresses = [{
+            inherit prefixLength;
+            address = val.ipv4;
+          }];
+        };
+      }
+    )
+    hostsAddr;
 
   ssh = {
     # define the host alias for remote builders
@@ -47,15 +133,15 @@
     # '';
     extraConfig =
       lib.attrsets.foldlAttrs
-      (acc: host: value:
+      (acc: host: val:
         acc
         + ''
           Host ${host}
-            HostName ${value.address}
+            HostName ${val.ipv4}
             Port 22
         '')
       ""
-      hostAddress;
+      hostsAddr;
 
     # define the host key for remote builders so that nix can verify all the remote builders
     # this config will be written to /etc/ssh/ssh_known_hosts
@@ -68,7 +154,7 @@
       #     => { x = "bar-a"; y = "bar-b"; }
       lib.attrsets.mapAttrs
       (host: value: {
-        hostNames = [host hostAddress.${host}.address];
+        hostNames = [host hostsAddr.${host}.ipv4];
         publicKey = value.publicKey;
       })
       {
