@@ -11,7 +11,6 @@
 #############################################################
 let
   hostName = "suzu"; # Define your hostname.
-  hostAddress = myvars.networking.hostAddress.${hostName};
 in {
   imports = [
     # import the rk3588 module, which contains the configuration for bootloader/kernel/firmware
@@ -25,12 +24,8 @@ in {
   networking = {
     inherit hostName;
     inherit (myvars.networking) defaultGateway nameservers;
-
+    inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
     networkmanager.enable = false;
-    interfaces.end1 = {
-      useDHCP = false;
-      ipv4.addresses = [hostAddress];
-    };
   };
 
   # This value determines the NixOS release from which the default

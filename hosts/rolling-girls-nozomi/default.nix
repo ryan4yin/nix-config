@@ -10,7 +10,6 @@
 #############################################################
 let
   hostName = "nozomi"; # Define your hostname.
-  hostAddress = myvars.networking.hostAddress.${hostName};
 in {
   imports = [
     # import the licheepi4a module, which contains the configuration for bootloader/kernel/firmware
@@ -23,6 +22,7 @@ in {
   networking = {
     inherit hostName;
     inherit (myvars.networking) defaultGateway nameservers;
+    inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
 
     wireless = {
       # https://wiki.archlinux.org/title/wpa_supplicant
@@ -46,11 +46,6 @@ in {
     # proxy.default = "http://user:password@proxy:port/";
     # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-    # LPI4A's wireless interface
-    interfaces.wlan0 = {
-      useDHCP = false;
-      ipv4.addresses = [hostAddress];
-    };
     # LPI4A's first ethernet interface
     # interfaces.end0 = {
     #   useDHCP = false;

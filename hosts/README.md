@@ -11,9 +11,6 @@
       prometheus, grafana, restic, etc.
    4. `kana`: Yet another NixOS VM running some common applications, such as hompage, file browser,
       torrent downloader, etc.
-3. Homelab:
-   1. `tailscale-gw`: A tailscale subnet router(gateway) for accessing my homelab remotely. NixOS VM
-      running on Proxmox.
 4. `rolling_girls`: My RISCV64 hosts.
    1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 16GB RAM + 32G eMMC + 128G SD Card.
    2. `yukina`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.

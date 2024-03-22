@@ -2,7 +2,13 @@
   colmenaSystem = import ./colmenaSystem.nix;
   macosSystem = import ./macosSystem.nix;
   nixosSystem = import ./nixosSystem.nix;
+
   attrs = import ./attrs.nix {inherit lib;};
+
+  genKubeVirtCoreModule = import ./genKubeVirtCoreModule.nix;
+  genK3sServerModule = import ./genK3sServerModule.nix;
+  genK3sAgentModule = import ./genK3sAgentModule.nix;
+
   # use path relative to the root of the project
   relativeToRoot = lib.path.append ../.;
   scanPaths = path:

@@ -104,7 +104,6 @@ All the outputs of this flake are defined here.
     ├── nixos-tests
     ├── src           # every host has its own file in this directory
     │   ├── 12kingdoms-shoukei.nix
-    │   ├── homelab-tailscale-gw.nix
     │   ├── idols-ai.nix
     │   ├── idols-aquamarine.nix
     │   ├── idols-kana.nix

@@ -6,7 +6,6 @@
 #############################################################
 let
   hostName = "ai"; # Define your hostname.
-  hostAddress = myvars.networking.hostAddress.${hostName};
 in {
   imports = [
     ./cifs-mount.nix
@@ -20,14 +19,8 @@ in {
   networking = {
     inherit hostName;
     inherit (myvars.networking) defaultGateway nameservers;
-
-    wireless.enable = false; # Enables wireless support via wpa_supplicant.
-    # configures the network interface(include wireless) via `nmcli` & `nmtui`
+    inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
     networkmanager.enable = false;
-    interfaces.enp5s0 = {
-      useDHCP = false;
-      ipv4.addresses = [hostAddress];
-    };
   };
 
   # conflict with feature: containerd-snapshotter

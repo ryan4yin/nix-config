@@ -10,7 +10,6 @@
 #############################################################
 let
   hostName = "kana"; # Define your hostname.
-  hostAddress = myvars.networking.hostAddress.${hostName};
 in {
   imports = mylib.scanPaths ./.;
 
@@ -33,12 +32,8 @@ in {
   networking = {
     inherit hostName;
     inherit (myvars.networking) defaultGateway nameservers;
-
+    inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
     networkmanager.enable = false;
-    interfaces.ens18 = {
-      useDHCP = false;
-      ipv4.addresses = [hostAddress];
-    };
   };
 
   # This value determines the NixOS release from which the default
