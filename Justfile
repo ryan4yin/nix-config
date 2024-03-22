@@ -27,10 +27,11 @@ s-hypr mode="default":
   use utils.nu *; \
   nixos-switch shoukei-hyprland {{mode}}
 
-
+# Run eval tests
 test:
   nix eval .#evalTests --show-trace --print-build-logs --verbose
 
+# update all the flake inputs
 up:
   nix flake update
 
@@ -39,21 +40,25 @@ up:
 upp input:
   nix flake lock --update-input {{input}}
 
+# List all generations of the system profile
 history:
   nix profile history --profile /nix/var/nix/profiles/system
 
+# Open a nix shell with the flake
 repl:
   nix repl -f flake:nixpkgs
 
+# remove all generations older than 7 days
 clean:
-  # remove all generations older than 7 days
   sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
 
+# Garbage collect all unused nix store entries
 gc:
   # garbage collect all unused nix store entries
   sudo nix store gc --debug
   sudo nix-collect-garbage --delete-old
 
+# Remove all reflog entries and prune unreachable objects
 gitgc:
   git reflog expire --expire-unreachable=now --all
   git gc --prune=now
@@ -72,38 +77,22 @@ darwin-rollback:
   use utils.nu *; \
   darwin-rollback
 
+# Deploy to harmonica(macOS host)
 ha mode="default":
   use utils.nu *; \
   darwin-build "harmonica" {{mode}}; \
   darwin-switch "harmonica" {{mode}}
 
+# Depoly to fern(macOS host)
 fe mode="default": darwin-set-proxy
   use utils.nu *; \
   darwin-build "fern" {{mode}}; \
   darwin-switch "fern" {{mode}}
 
+# Reload yabai and skhd(macOS)
 yabai-reload:
   launchctl kickstart -k "gui/502/org.nixos.yabai";
   launchctl kickstart -k "gui/502/org.nixos.skhd"; 
-
-############################################################################
-#
-#  Homelab - NixOS servers running on bare metal
-#
-############################################################################
-
-virt:
-  colmena apply --on '@virt-*' --verbose --show-trace
-
-shoryu:
-  colmena apply --on '@shoryu' --verbose --show-trace
-
-shushou:
-  colmena apply --on '@shushou' --verbose --show-trace
-
-youko:
-  colmena apply --on '@youko' --verbose --show-trace
-
 
 ############################################################################
 #
@@ -111,7 +100,21 @@ youko:
 #
 ############################################################################
 
+# Remote deployment via colmena
+col tag:
+  colmena apply --on '@{{tag}}' --verbose --show-trace
+
+# Build and upload a vm image
+upload-vm name mode="default":
+  use utils.nu *; \
+  upload-vm {{name}} {{mode}}
+
+# Deploy all the KubeVirt nodes(Physical machines running KubeVirt)
 lab:
+  colmena apply --on '@virt-*' --verbose --show-trace
+
+# Deploy all the VMs running on KubeVirt
+vm:
   colmena apply --on '@homelab-*' --verbose --show-trace
 
 aqua:
@@ -144,6 +147,8 @@ master:
 worker:
   colmena apply --on '@k3s-prod-1-worker-*' --verbose --show-trace
 
+k3s-test:
+  colmena apply --on '@k3s-test-*' --verbose --show-trace
 
 ############################################################################
 #
@@ -167,7 +172,7 @@ yukina:
 ############################################################################
 
 aarch:
-  colmena apply --on '@aarch' --verbose --show-trace
+  colmena apply --on '@aarch' --build-on-target --verbose --show-trace
 
 suzu:
   colmena apply --on '@suzu' --build-on-target --verbose --show-trace

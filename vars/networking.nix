@@ -101,6 +101,22 @@
       iface = "ens18";
       ipv4 = "192.168.5.113";
     };
+
+    k3s-test-1-master-1 = {
+      # KubeVirt VM
+      iface = "eth1";
+      ipv4 = "192.168.5.114";
+    };
+    k3s-test-1-master-2 = {
+      # KubeVirt VM
+      iface = "eth1";
+      ipv4 = "192.168.5.115";
+    };
+    k3s-test-1-master-3 = {
+      # KubeVirt VM
+      iface = "eth1";
+      ipv4 = "192.168.5.116";
+    };
   };
 
   hostsInterface =
@@ -109,10 +125,12 @@
       key: val: {
         interfaces."${val.iface}" = {
           useDHCP = false;
-          ipv4.addresses = [{
-            inherit prefixLength;
-            address = val.ipv4;
-          }];
+          ipv4.addresses = [
+            {
+              inherit prefixLength;
+              address = val.ipv4;
+            }
+          ];
         };
       }
     )

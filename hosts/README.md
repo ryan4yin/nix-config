@@ -38,6 +38,9 @@
    4. [Optional] Add a new integration test file under
       `outputs/<system-architecture>/integration-tests/<name>.nix` to test whether the new host's
       nix config can be built and deployed correctly.
+1. Under `vars/networking.nix`
+   1. Add the new host's static IP address.
+   1. Skip this step if the new host is not in the local network or is a mobile device.
 
 ## idols - Oshi no Ko
 
