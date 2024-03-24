@@ -23,6 +23,23 @@
       encode zstd gzip
       reverse_proxy http://localhost:3000
     '';
+
+    # https://caddyserver.com/docs/caddyfile/directives/file_server
+    virtualHosts."http://file.writefor.fun".extraConfig = ''
+      root * /var/lib/caddy/fileserver/
+      encode zstd gzip
+      file_server browse {
+        hide .git
+        precompressed zstd br gzip
+      }
+    '';
   };
   networking.firewall.allowedTCPPorts = [80 443];
+
+  # Create Directories
+  systemd.tmpfiles.rules = [
+    "d /var/lib/caddy/fileserver/ 0755 caddy caddy"
+    # directory for virual machine's images
+    "d /var/lib/caddy/fileserver/vms 0755 caddy caddy"
+  ];
 }
