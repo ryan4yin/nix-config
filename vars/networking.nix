@@ -8,7 +8,9 @@
   prefixLength = 24;
 
   hostsAddr = {
+    # ============================================
     # Homelab's Physical Machines (KubeVirt Nodes)
+    # ============================================
     kubevirt-shoryu = {
       iface = "eno1";
       ipv4 = "192.168.5.181";
@@ -22,7 +24,9 @@
       ipv4 = "192.168.5.183";
     };
 
+    # ============================================
     # Other VMs and Physical Machines
+    # ============================================
     ai = {
       # Desktop PC
       iface = "enp5s0";
@@ -44,12 +48,12 @@
       ipv4 = "192.168.5.103";
     };
     nozomi = {
-      # LicheePi 4A's wireless iterface - RISC-V
+      # LicheePi 4A's wireless interface - RISC-V
       iface = "wlan0";
       ipv4 = "192.168.5.104";
     };
     yukina = {
-      # LicheePi 4A's wireless iterface - RISC-V
+      # LicheePi 4A's wireless interface - RISC-V
       iface = "wlan0";
       ipv4 = "192.168.5.105";
     };
@@ -71,6 +75,9 @@
       ipv4 = "192.168.5.179";
     };
 
+    # ============================================
+    # Kubernetes Clusters
+    # ============================================
     k3s-prod-1-master-1 = {
       # VM
       iface = "ens18";
@@ -109,10 +116,12 @@
       key: val: {
         interfaces."${val.iface}" = {
           useDHCP = false;
-          ipv4.addresses = [{
-            inherit prefixLength;
-            address = val.ipv4;
-          }];
+          ipv4.addresses = [
+            {
+              inherit prefixLength;
+              address = val.ipv4;
+            }
+          ];
         };
       }
     )
