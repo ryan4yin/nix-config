@@ -53,9 +53,6 @@ in {
   # Add attribute sets into outputs, for debugging
   debugAttrs = {inherit nixosSystems darwinSystems allSystems allSystemNames;};
 
-  # Eval Tests for all NixOS systems.
-  evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
-
   # NixOS Hosts
   nixosConfigurations =
     lib.attrsets.mergeAttrsList (map (it: it.nixosConfigurations or {}) nixosSystemValues);
@@ -90,8 +87,14 @@ in {
     system: allSystems.${system}.packages or {}
   );
 
+  # Eval Tests for all NixOS & darwin systems.
+  evalTests = lib.lists.all (it: it.evalTests == {}) allSystemValues;
+
   checks = forAllSystems (
     system: {
+      # eval-tests per system
+      eval-tests = allSystems.${system}.evalTests == {};
+
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = mylib.relativeToRoot ".";
         hooks = {

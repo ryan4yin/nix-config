@@ -5,11 +5,11 @@
   genSpecialArgs,
   nixos-modules,
   home-modules ? [],
+  specialArgs ? (genSpecialArgs system),
   myvars,
   ...
 }: let
   inherit (inputs) nixpkgs home-manager nixos-generators;
-  specialArgs = genSpecialArgs system;
 in
   nixpkgs.lib.nixosSystem {
     inherit system specialArgs;
