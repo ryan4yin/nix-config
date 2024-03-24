@@ -37,5 +37,6 @@ jobs:
       - name: Run Nix Flake Eval Tests
         run: |
           echo 'Flake Eval Tests'
-          nix eval .#checks --show-trace --print-build-logs --verbose
-          # nix eval .#evalTests --show-trace --print-build-logs --verbose
+          # stack overflow...
+          # nix eval .#checks --show-trace --print-build-logs --verbose
+          nix eval .#evalTests --show-trace --print-build-logs --verbose
