@@ -894,11 +894,11 @@
         "pre-commit-hooks": "pre-commit-hooks_2"
       },
       "locked": {
-        "lastModified": 1709742375,
-        "narHash": "sha256-UxXWq1k5KLKZJjCz34yMZt69Tlpz41fIxLTHLL1GVN4=",
+        "lastModified": 1711256697,
+        "narHash": "sha256-R/0CBfv0LOUeITUEQp9UgF/jtt6kgp82DjFELSGa1rY=",
         "owner": "ryan4yin",
         "repo": "nixos-rk3588",
-        "rev": "3a492b825532656b5f1b9f26cc9668ecd64c0189",
+        "rev": "c6628c5b849adc9c2ddda3767db30e6d29adc222",
         "type": "github"
       },
       "original": {
