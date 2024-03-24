@@ -3,9 +3,7 @@
   fileSystems."/run/media/nixos_k3s" = {
     device = "/dev/disk/by-label/NIXOS_K3S";
     fsType = "vfat";
-    mountOptions = [
-      "ro"
-    ];
+    options = ["ro"];
   };
 
   disko.devices = {
