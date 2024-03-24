@@ -9,10 +9,10 @@
   tags,
   ssh-user,
   genSpecialArgs,
+  specialArgs ? (genSpecialArgs system),
   ...
 }: let
   inherit (inputs) home-manager;
-  specialArgs = genSpecialArgs system;
 in
   {name, ...}: {
     deployment = {

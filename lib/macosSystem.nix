@@ -6,10 +6,10 @@
   myvars,
   system,
   genSpecialArgs,
+  specialArgs ? (genSpecialArgs system),
   ...
 }: let
   inherit (inputs) nixpkgs home-manager nix-darwin;
-  specialArgs = genSpecialArgs system;
 in
   nix-darwin.lib.darwinSystem {
     inherit system specialArgs;
