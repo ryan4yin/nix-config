@@ -11,7 +11,6 @@ let
 in {
   imports = [
     daeuniverse.nixosModules.dae
-    daeuniverse.nixosModules.daed
   ];
 
   # dae - eBPF-based Linux high-performance transparent proxy.

@@ -10,12 +10,13 @@ in {
   # https://github.com/ghostbuster91/blogposts/blob/main/router2023-part2/main.md
   boot = {
     kernel = {
+      # https://github.com/daeuniverse/dae/blob/main/docs/en/user-guide/kernel-parameters.md
       sysctl = {
         # forward network packets that are not destined for the interface on which they were received
         "net.ipv4.conf.all.forwarding" = true;
         "net.ipv6.conf.all.forwarding" = true;
         "net.ipv4.conf.br-lan.rp_filter" = 1;
-        "net.ipv4.conf.wan.rp_filter" = 1;
+        "net.ipv4.conf.br-lan.send_redirects" = 0;
       };
     };
   };
@@ -37,7 +38,7 @@ in {
     # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/networking/nftables.nix
     nftables = {
       enable = true;
-      # Check the applyed rules with `nft -a list ruleset`.
+      # Check the applied rules with `nft -a list ruleset`.
       # Since this is a internal bypass router, we don't need to do NAT & can forward all traffic.
       ruleset = ''
         # Check out https://wiki.nftables.org/ for better documentation.
