@@ -16,11 +16,16 @@
   ssh-user = "root";
 
   modules = {
-    nixos-modules = map mylib.relativeToRoot [
-      "modules/nixos/server/server-aarch64.nix"
-      # host specific modules
-      "hosts/12kingdoms-${name}"
-    ];
+    nixos-modules =
+      (map mylib.relativeToRoot [
+        "secrets/nixos.nix"
+        "modules/nixos/server/server-aarch64.nix"
+        # host specific modules
+        "hosts/12kingdoms-${name}"
+      ])
+      ++ [
+        {modules.secrets.server.network.enable = true;}
+      ];
   };
 
   inherit (inputs) nixos-rk3588;
