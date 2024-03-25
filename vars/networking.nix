@@ -1,6 +1,8 @@
 {lib}: rec {
   mainGateway = "192.168.5.1"; # main router
-  defaultGateway = "192.168.5.101"; # subrouter with a transparent proxy
+  # use suzi as the default gateway
+  # it's a subrouter with a transparent proxy
+  defaultGateway = "192.168.5.178";
   nameservers = [
     "119.29.29.29" # DNSPod
     "223.5.5.5" # AliDNS
