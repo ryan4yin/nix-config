@@ -8,6 +8,8 @@
 #
 #  Suzu - Orange Pi 5 Plus, RK3588 + 16GB RAM
 #
+#  https://github.com/astro/microvm.nix
+#
 #############################################################
 let
   hostName = "suzu"; # Define your hostname.
@@ -19,14 +21,12 @@ in {
     ./hardware-configuration.nix
     ./disko-fs.nix
     ./impermanence.nix
+
+    ./networking.nix
+    ./microvm-host.nix
   ];
 
-  networking = {
-    inherit hostName;
-    inherit (myvars.networking) defaultGateway nameservers;
-    inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
-    networkmanager.enable = false;
-  };
+  networking = {inherit hostName;};
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
