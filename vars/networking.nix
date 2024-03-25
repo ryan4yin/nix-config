@@ -75,8 +75,12 @@
       ipv4 = "192.168.5.179";
     };
     suzi = {
-      iface = "eth1";
+      iface = "eth1"; # fake iface, it's not used by the host
       ipv4 = "192.168.5.178";
+    };
+    mitsuha = {
+      iface = "eth1"; # fake iface, it's not used by the host
+      ipv4 = "192.168.5.177";
     };
 
     # ============================================

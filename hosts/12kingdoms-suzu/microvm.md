@@ -30,6 +30,14 @@ microvm -r my-microvm
 ## 2. run `systemctl stop microvm@my-microvm` in the host
 ```
 
+## VM's pros compared to container
+
+1. VM has its own kernel, so it can use a fullfeatured kernel or customise the kernel's
+   configuration, without affecting the host.
+1. VM use a fullfeatured init system, so it can run services like a real machine.
+1. VM can use a fullfeatured network stack, so it can run network services like a real machine. it's
+   very useful for hosting some network services(such as tailscale, dae, etc).
+
 ## FAQ
 
 ### 1. enter the vm without ssh

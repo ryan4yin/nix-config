@@ -22,7 +22,6 @@ in {
 
     ./gitea.nix
     ./caddy.nix
-    ./tailscale.nix
   ];
 
   networking = {
