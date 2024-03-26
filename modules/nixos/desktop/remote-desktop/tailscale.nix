@@ -7,7 +7,7 @@
 #
 # Tailscale - your own private network(VPN) that uses WireGuard
 #
-# It's open souce and free for personal use,
+# It's open source and free for personal use,
 # and it's really easy to setup and use.
 # Tailscale has great client coverage for Linux, windows, Mac, android, and iOS.
 # Tailscale is more mature and stable compared to other alternatives such as netbird/netmaker.
