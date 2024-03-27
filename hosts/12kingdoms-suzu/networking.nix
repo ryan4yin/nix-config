@@ -1,6 +1,6 @@
 {myvars, ...}: let
   hostName = "suzu";
-  inherit (myvars.networking) defaultGateway nameservers;
+  inherit (myvars.networking) mainGateway nameservers;
   inherit (myvars.networking.hostsAddr.${hostName}) iface ipv4;
 
   ipv4WithMask = "${ipv4}/24";
@@ -40,7 +40,7 @@ in {
     matchConfig.Name = "br0";
     networkConfig = {
       Address = [ipv4WithMask];
-      Gateway = defaultGateway;
+      Gateway = mainGateway;
       DNS = nameservers;
       IPv6AcceptRA = true;
     };
