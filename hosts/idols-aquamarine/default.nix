@@ -8,8 +8,6 @@ let
   hostName = "aquamarine"; # Define your hostname.
 in {
   imports = [
-    ./router.nix
-    ./dae.nix
   ];
 
   # supported file systems, so we can mount any removable disks with these filesystems
@@ -22,8 +20,8 @@ in {
     "exfat"
   ];
 
-  boot.kernelModules = ["kvm-amd"];
-  boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
+  # boot.kernelModules = ["kvm-amd"];
+  # boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   networking = {
     inherit hostName;

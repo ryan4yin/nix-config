@@ -28,6 +28,11 @@ in {
     };
   };
 
+  systemd.services.dae.serviceConfig = {
+    Restart = "on-failure";
+    RestartSec = 10;
+  };
+
   # dae supports two types of subscriptions: base64 encoded proxies, and sip008.
   # subscription can be a url return the subscription, or a file path that contains the subscription.
   #
