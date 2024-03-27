@@ -62,4 +62,6 @@
     # Control socket for the Hypervisor so that a MicroVM can be shutdown cleanly
     socket = "control.socket";
   };
+
+  system.stateVersion = "23.11";
 }
