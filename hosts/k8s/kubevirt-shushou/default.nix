@@ -16,7 +16,7 @@
   k3sModule = mylib.genK3sServerModule {
     inherit pkgs;
     kubeconfigFile = "/home/${myvars.username}/.kube/config";
-    tokenFile = config.age.secrets."k3s-prod-1-token".path;
+    tokenFile = "/run/media/nixos_k3s/kubevirt-k3s-token";
     serverIp = myvars.networking.hostsAddr.${k3sServerName}.ipv4;
   };
 in {
@@ -25,6 +25,8 @@ in {
     ++ [
       disko.nixosModules.default
       ../disko-config/kubevirt-disko-fs.nix
+      ../kubevirt-shoryu/hardware-configuration.nix
+      ../kubevirt-shoryu/impermanence.nix
       coreModule
       k3sModule
     ];

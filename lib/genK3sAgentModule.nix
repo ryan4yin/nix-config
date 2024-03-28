@@ -14,8 +14,12 @@ in {
     role = "agent";
     serverAddr = "https://${serverIp}:6443";
     # https://docs.k3s.io/cli/agent
-    extraFlags =
-      " --node-label=node-type=worker"
-      + " --data-dir /var/lib/rancher/k3s";
+    extraFlags = let
+      flagList = [
+        "--node-label=node-type=worker"
+        "--data-dir /var/lib/rancher/k3s"
+      ];
+    in
+      pkgs.lib.concatStringsSep " " flagList;
   };
 }
