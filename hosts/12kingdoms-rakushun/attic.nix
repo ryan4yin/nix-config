@@ -45,7 +45,7 @@
     credentialsFile = config.age.secrets."attic-nix-cache-server.env".path;
 
     settings = {
-      listen = "[::]:8888";
+      listen = "127.0.0.1:3300";
 
       # Data chunking
       #

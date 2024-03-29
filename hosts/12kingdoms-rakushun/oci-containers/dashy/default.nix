@@ -1,7 +1,7 @@
 {
   # Replace dashy with gethomepage, because dashy is too slow to start/reload.
 
-  # # Install the dashy configuration file instaed of symlink it
+  # # Install the dashy configuration file instead of symlink it
   # system.activationScripts.installDashyConfig = ''
   #   install -Dm 600 ${./dashy_conf.yml} /etc/dashy/dashy_conf.yml
   # '';

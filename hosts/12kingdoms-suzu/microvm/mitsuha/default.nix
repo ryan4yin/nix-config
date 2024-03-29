@@ -2,13 +2,10 @@
   imports =
     (mylib.scanPaths ./.)
     ++ [
-      ../../../secrets/nixos.nix
-      ../../../modules/nixos/base/ssh.nix
-      ../../../modules/nixos/base/user-group.nix
-      ../../../modules/base.nix
+      ../../../../modules/nixos/base/ssh.nix
+      ../../../../modules/nixos/base/user-group.nix
+      ../../../../modules/base.nix
     ];
-
-  modules.secrets.server.network.enable = true;
 
   microvm = {
     mem = 1024; # RAM allocation in MB
@@ -17,8 +14,8 @@
     interfaces = [
       {
         type = "tap";
-        id = "vm-suzi"; # should be prefixed with "vm-"
-        mac = "02:00:00:00:00:01"; # unique MAC address
+        id = "vm-mitsuha"; # should be prefixed with "vm-"
+        mac = "02:00:00:00:00:02"; # Unique MAC address
       }
     ];
 

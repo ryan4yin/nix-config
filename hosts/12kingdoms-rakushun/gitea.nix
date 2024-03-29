@@ -21,7 +21,7 @@ in {
       server = {
         SSH_PORT = 2222;
         PROTOCOL = "http";
-        HTTP_PORT = 3000;
+        HTTP_PORT = 3301;
         HTTP_ADDR = "127.0.0.1";
         DOMAIN = "git.writefor.fun";
       };

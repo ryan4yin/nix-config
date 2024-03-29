@@ -10,7 +10,7 @@
     settings = {
       server = {
         http_addr = "127.0.0.1";
-        http_port = 3000;
+        http_port = 3351;
         protocol = "http";
         domain = "grafana.writefo.fun";
         # Redirect to correct domain if the host header does not match the domain. Prevents DNS rebinding attacks.
