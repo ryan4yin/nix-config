@@ -5,14 +5,10 @@
 
   ipv4WithMask = "${ipv4}/24";
 in {
-  boot = {
-    kernel = {
-      sysctl = {
-        # forward network packets that are not destined for the interface on which they were received
-        "net.ipv4.conf.all.forwarding" = true;
-        "net.ipv6.conf.all.forwarding" = true;
-      };
-    };
+  boot.kernel.sysctl = {
+    # forward network packets that are not destined for the interface on which they were received
+    "net.ipv4.conf.all.forwarding" = true;
+    "net.ipv6.conf.all.forwarding" = true;
   };
 
   networking.useNetworkd = true;
