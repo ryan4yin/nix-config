@@ -19,6 +19,9 @@
     tokenFile = "/run/media/nixos_k3s/kubevirt-k3s-token";
     # the first node in the cluster should be the one to initialize the cluster
     clusterInit = true;
+    # use my own domain & kube-vip's virtual IP for the API server
+    # so that the API server can always be accessed even if some nodes are down
+    masterHost = "kubevirt-cluster-1.writefor.fun";
   };
 in {
   imports =

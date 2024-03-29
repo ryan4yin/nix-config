@@ -1,6 +1,6 @@
 {
   pkgs,
-  serverIp,
+  masterHost,
   tokenFile,
   ...
 }: let
@@ -12,7 +12,7 @@ in {
     inherit package tokenFile;
 
     role = "agent";
-    serverAddr = "https://${serverIp}:6443";
+    serverAddr = "https://${masterHost}:6443";
     # https://docs.k3s.io/cli/agent
     extraFlags = let
       flagList = [

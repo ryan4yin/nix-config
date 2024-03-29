@@ -6,8 +6,10 @@
   # If you are configuring an HA cluster with an embedded etcd,
   # the 1st server must have `clusterInit = true`
   # and other servers must connect to it using `serverAddr`.
-  serverIp ? null,
-  clusterInit ? (serverIp == null),
+  #
+  # this can be a domain name or an IP address(such as kube-vip's virtual IP)
+  masterHost,
+  clusterInit ? false,
   addTaints ? false,
   ...
 }: let
@@ -32,14 +34,14 @@ in {
     serverAddr =
       if clusterInit
       then ""
-      else "https://${serverIp}:6443";
+      else "https://${masterHost}:6443";
 
     role = "server";
     # https://docs.k3s.io/cli/server
     extraFlags = let
       flagList =
         [
-          "--write-kubeconfig ${kubeconfigFile}"
+          "--write-kubeconfig=${kubeconfigFile}"
           "--write-kubeconfig-mode=644"
           "--service-node-port-range=80-32767"
           "--kube-apiserver-arg='--allow-privileged=true'" # required by kubevirt
@@ -52,6 +54,7 @@ in {
           "--disable=servicelb" # we use kube-vip instead
           "--flannel-backend=none" # we use cilium instead
           "--disable-network-policy"
+          "--tls-san=${masterHost}"
         ]
         # prevent workloads from running on the master
         ++ (pkgs.lib.optionals addTaints ["--node-taint=CriticalAddonsOnly=true:NoExecute"]);
