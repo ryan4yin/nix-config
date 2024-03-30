@@ -10,7 +10,8 @@
   # this can be a domain name or an IP address(such as kube-vip's virtual IP)
   masterHost,
   clusterInit ? false,
-  addTaints ? false,
+  nodeLabels ? [],
+  nodeTaints ? [],
   ...
 }: let
   package = pkgs.k3s_1_29;
@@ -56,8 +57,8 @@ in {
           "--disable-network-policy"
           "--tls-san=${masterHost}"
         ]
-        # prevent workloads from running on the master
-        ++ (pkgs.lib.optionals addTaints ["--node-taint=CriticalAddonsOnly=true:NoExecute"]);
+        ++ (map (label: "--node-label=${label}") nodeLabels)
+        ++ (map (taint: "--node-taint=${taint}") nodeTaints);
     in
       pkgs.lib.concatStringsSep " " flagList;
   };

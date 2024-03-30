@@ -22,6 +22,9 @@
     # use my own domain & kube-vip's virtual IP for the API server
     # so that the API server can always be accessed even if some nodes are down
     masterHost = "kubevirt-cluster-1.writefor.fun";
+    nodeLabels = [
+      "node-purpose=kubevirt"
+    ];
   };
 in {
   imports =

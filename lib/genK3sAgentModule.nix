@@ -2,6 +2,7 @@
   pkgs,
   masterHost,
   tokenFile,
+  nodeLabels ? [],
   ...
 }: let
   package = pkgs.k3s_1_29;
@@ -15,10 +16,11 @@ in {
     serverAddr = "https://${masterHost}:6443";
     # https://docs.k3s.io/cli/agent
     extraFlags = let
-      flagList = [
-        "--node-label=node-type=worker"
-        "--data-dir /var/lib/rancher/k3s"
-      ];
+      flagList =
+        [
+          "--data-dir /var/lib/rancher/k3s"
+        ]
+        ++ (map (label: "--node-label=${label}") nodeLabels);
     in
       pkgs.lib.concatStringsSep " " flagList;
   };
