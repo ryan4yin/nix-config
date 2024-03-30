@@ -40,6 +40,8 @@ in {
     "net.ipv4.neigh.default.gc_interval" = 60;
     "net.ipv4.neigh.default.gc_stale_time" = 120;
 
+    "net.ipv6.conf.all.disable_ipv6" = 1; # disable ipv6
+
     # --- memory --- #
     "vm.swappiness" = 0; # don't swap unless absolutely necessary
   };
@@ -88,6 +90,7 @@ in {
     # Set the host's address on the OVS bridge interface instead of the physical interface!
     interfaces.ovsbr1 = networking.hostsInterface.${hostName}.interfaces.${iface};
     dhcpcd.enable = false; # disable dhcpcd, it's useless for the host
+    enableIPv6 = true;
   };
 
   # This value determines the NixOS release from which the default
