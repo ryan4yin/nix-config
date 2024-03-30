@@ -87,6 +87,7 @@ in {
     networkmanager.enable = false;
     # Set the host's address on the OVS bridge interface instead of the physical interface!
     interfaces.ovsbr1 = networking.hostsInterface.${hostName}.interfaces.${iface};
+    dhcpcd.enable = false; # disable dhcpcd, it's useless for the host
   };
 
   # This value determines the NixOS release from which the default
