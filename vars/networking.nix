@@ -36,17 +36,17 @@
     };
     aquamarine = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.101";
     };
     ruby = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.102";
     };
     kana = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.103";
     };
     nozomi = {
@@ -61,7 +61,7 @@
     };
     chiaya = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.106";
     };
     suzu = {
@@ -77,11 +77,11 @@
       ipv4 = "192.168.5.179";
     };
     suzi = {
-      iface = "eth1"; # fake iface, it's not used by the host
+      iface = "enp2s0"; # fake iface, it's not used by the host
       ipv4 = "192.168.5.178";
     };
     mitsuha = {
-      iface = "eth1"; # fake iface, it's not used by the host
+      iface = "enp2s0"; # fake iface, it's not used by the host
       ipv4 = "192.168.5.177";
     };
 
@@ -90,48 +90,48 @@
     # ============================================
     k3s-prod-1-master-1 = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.108";
     };
     k3s-prod-1-master-2 = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.109";
     };
     k3s-prod-1-master-3 = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.110";
     };
     k3s-prod-1-worker-1 = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.111";
     };
     k3s-prod-1-worker-2 = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.112";
     };
     k3s-prod-1-worker-3 = {
       # VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.113";
     };
 
     k3s-test-1-master-1 = {
       # KubeVirt VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.114";
     };
     k3s-test-1-master-2 = {
       # KubeVirt VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.115";
     };
     k3s-test-1-master-3 = {
       # KubeVirt VM
-      iface = "eth1";
+      iface = "enp2s0";
       ipv4 = "192.168.5.116";
     };
   };
