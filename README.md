@@ -119,16 +119,16 @@ For NixOS:
 
 ```bash
 # deploy one of the configuration based on the hostname
-sudo nixos-rebuild switch --flake .#ai_i3
-# sudo nixos-rebuild switch --flake .#ai-hyprland
+# sudo nixos-rebuild switch --flake .#ai_i3
+sudo nixos-rebuild switch --flake .#ai-hyprland
 
 # deploy via `just`(a command runner with similar syntax to make) & Justfile
-just i3    # deploy my pc with i3 window manager
-# just hypr  # deploy my pc with hyprland compositor
+# just i3    # deploy my pc with i3 window manager
+just hypr  # deploy my pc with hyprland compositor
 
 # or we can deploy with details
-just i3 debug
-# just hypr-debug
+# just i3 debug
+just hypr-debug
 ```
 
 For macOS:
@@ -154,36 +154,6 @@ just ha debug
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
 > (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
-
-## How to create & managage VM from this flake?
-
-use `aquamarine` as an example, we can create a virtual machine with the following command:
-
-```shell
-# 1. generate a proxmox vma image file
-nom build .#aquamarine  # `nom`(nix-output-monitor) can be replaced by the standard command `nix`
-
-# 2. upload the generated image to proxmox server's backup directory `/var/lib/vz/dump`
-#    please replace the vma file name with the one you generated in step 1.
-rsync -avz --progress --copy-links result root@um560:/var/lib/vz/dump/vzdump-qemu-aquamarine.vma.zst
-
-# 3. the image we uploaded will be listed in proxmox web ui's this page: [storage 'local'] -> [backups], we can restore a vm from it via the web ui now.
-```
-
-Once the virtual machine `aquamarine` is created, we can deploy updates to it with the following
-commands:
-
-```shell
-# 1. add the ssh key to ssh-agent
-ssh-add /etc/agenix/ssh-key-romantic
-
-# 2. deploy the configuration to all the remote host with tag `@dist-build`
-# using the ssh key we added in step 1
-colmena apply --on '@dist-build' --show-trace
-```
-
-If you're not familiar with remote deployment, please read this tutorial first:
-[Remote Deployment - NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment)
 
 ## References
 
