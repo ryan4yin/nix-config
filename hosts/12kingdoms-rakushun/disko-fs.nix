@@ -40,10 +40,10 @@
             size = "100%";
             content = {
               type = "luks";
-              name = "crypted";
+              name = "encrypted";
               settings = {
                 keyFile = "/dev/disk/by-label/OPI5P_DSC"; # The keyfile is stored on a USB stick
-                # The maxium size of the keyfile is 8192 bytes
+                # The maximum size of the keyfile is 8192 bytes
                 keyFileSize = 512 * 64; # match the `bs * count` of the `dd` command
                 keyFileOffset = 512 * 128; # match the `bs * skip` of the `dd` command
                 fallbackToPassword = true;
@@ -69,8 +69,16 @@
               ];
               content = {
                 type = "btrfs";
-                extraArgs = ["-f"];
+                extraArgs = ["-f"]; # Force override existing partition
                 subvolumes = {
+                  # mount the top-level subvolume at /btr_pool
+                  # it will be used by btrbk to create snapshots
+                  "/" = {
+                    mountpoint = "/btr_pool";
+                    # btrfs's top-level subvolume, internally has an id 5
+                    # we can access all other subvolumes from this subvolume.
+                    mountOptions = ["subvolid=5"];
+                  };
                   "@nix" = {
                     mountpoint = "/nix";
                     mountOptions = ["compress-force=zstd:1" "noatime"];

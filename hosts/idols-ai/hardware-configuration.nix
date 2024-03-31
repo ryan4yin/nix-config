@@ -45,7 +45,7 @@
 
   boot.initrd = {
     # unlocked luks devices via a keyfile or prompt a passphrase.
-    luks.devices."crypted-nixos" = {
+    luks.devices."encrypted-nixos" = {
       # NOTE: DO NOT use device name here(like /dev/sda, /dev/nvme0n1p2, etc), use UUID instead.
       # https://github.com/ryan4yin/nix-config/issues/43
       device = "/dev/disk/by-uuid/a21ca82a-9ee6-4e5c-9d3f-a93e84e4e0f4";
@@ -61,6 +61,14 @@
       # https://wiki.archlinux.org/index.php/Dm-crypt/Specialties#Disable_workqueue_for_increased_solid_state_drive_(SSD)_performance
       bypassWorkqueues = true;
     };
+  };
+
+  fileSystems."/btr_pool" = {
+    device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
+    fsType = "btrfs";
+    # btrfs's top-level subvolume, internally has an id 5
+    # we can access all other subvolumes from this subvolume.
+    options = ["subvolid=5"];
   };
 
   # equal to `mount -t tmpfs tmpfs /`
