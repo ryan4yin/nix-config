@@ -11,7 +11,7 @@
     port = 9090;
     webExternalUrl = "http://prometheus.writefor.fun";
 
-    extraFlags = ["--storage.tsdb.retention.time=15d"];
+    extraFlags = ["--storage.tsdb.retention.time=45d"];
     # Directory below /var/lib to store Prometheus metrics data.
     stateDir = "prometheus2";
 
@@ -70,7 +70,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9153"];
+            targets = ["${myvars.networking.hostsAddr.suzi.ipv4}:9153"];
             labels.type = "app";
             labels.app = "dnsmasq";
           }
@@ -83,7 +83,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostsAddr.kana.ipv4}:9153"];
+            targets = ["${myvars.networking.hostsAddr.rakushun.ipv4}:9153"];
             labels.type = "app";
             labels.app = "v2ray";
           }
@@ -96,7 +96,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostsAddr.kana.ipv4}:10000"];
+            targets = ["${myvars.networking.hostsAddr.rakushun.ipv4}:10000"];
             labels.type = "app";
             labels.app = "v2ray";
           }

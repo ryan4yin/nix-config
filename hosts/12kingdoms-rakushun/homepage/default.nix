@@ -4,7 +4,7 @@ in {
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/misc/homepage-dashboard.nix
   services.homepage-dashboard = {
     enable = true;
-    listenPort = 8082;
+    listenPort = 4401;
     openFirewall = false;
   };
   systemd.services.homepage-dashboard.environment = {
@@ -17,7 +17,7 @@ in {
   };
   # Install the homepage-dashboard configuration files
   system.activationScripts.installHomepageDashboardConfig = ''
-    mkdir -p configDir
+    mkdir -p ${configDir}
     ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F600 ${./config}/ ${configDir}/
 
     ${pkgs.systemdMinimal}/bin/systemctl restart homepage-dashboard

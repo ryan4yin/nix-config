@@ -51,7 +51,7 @@
       webdavd.bindings = [
         {
           address = "127.0.0.1";
-          port = 5005;
+          port = 3303;
         }
       ];
       # HTTP Server provides a simple web interface to manage the server.
@@ -59,7 +59,7 @@
         {
           address = "127.0.0.1";
           enable_https = false;
-          port = 5010;
+          port = 3302;
           client_ip_proxy_header = "X-Forwarded-For";
           # a basic built-in web interface that allows you to manage users,
           # virtual folders, admins and connections.
