@@ -22,9 +22,8 @@
     };
 
     boot.growPartition = true;
-    boot.kernelParams = [ "console=ttyS0" ];
+    boot.kernelParams = ["console=ttyS0"];
     boot.loader.grub.device = "/dev/vda";
-    boot.loader.timeout = 0;
 
     services.qemuGuest.enable = true;
     services.openssh.enable = true;
