@@ -14,6 +14,8 @@ commands:
 
 ```shell
 just col aquamarine
+just col kubevirt-shoryu
+just col k3s-test-1-master-1
 ```
 
 If you're not familiar with remote deployment, please read this tutorial first:
