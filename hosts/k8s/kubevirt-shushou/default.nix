@@ -23,6 +23,7 @@
     nodeLabels = [
       "node-purpose=kubevirt"
     ];
+    disableFlannel = false;
   };
 in {
   imports =

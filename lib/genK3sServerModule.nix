@@ -12,6 +12,7 @@
   clusterInit ? false,
   nodeLabels ? [],
   nodeTaints ? [],
+  disableFlannel ? true,
   ...
 }: let
   package = pkgs.k3s_1_29;
@@ -53,20 +54,23 @@ in {
           "--disable-helm-controller" # we use fluxcd instead
           "--disable=traefik" # deploy our own ingress controller instead
           "--disable=servicelb" # we use kube-vip instead
-          "--flannel-backend=none" # we use cilium instead
           "--disable-network-policy"
           "--tls-san=${masterHost}"
         ]
         ++ (map (label: "--node-label=${label}") nodeLabels)
-        ++ (map (taint: "--node-taint=${taint}") nodeTaints);
+        ++ (map (taint: "--node-taint=${taint}") nodeTaints)
+        ++ (pkgs.lib.optionals disableFlannel ["--flannel-backend=none"]);
     in
       pkgs.lib.concatStringsSep " " flagList;
   };
 
   # create symlinks to link k3s's cni directory to the one used by almost all CNI plugins
+  # such as multus, calico, etc.
   systemd.tmpfiles.rules = [
     "L+ /opt/cni/bin - - - - /var/lib/rancher/k3s/data/current/bin"
-    # seems like k3s's containerd will create /etc/cni/net.d, so we don't need to create a symlink for it
-    # "L+ /etc/cni/net.d - - - - /var/lib/rancher/k3s/agent/etc/cni/net.d"
+    # If you have disabled flannel, you will have to create the directory via a tmpfiles rule
+    "D /var/lib/rancher/k3s/agent/etc/cni/net.d 0751 root root - -"
+    # Link the CNI config directory
+    "L+ /etc/cni/net.d - - - - /var/lib/rancher/k3s/agent/etc/cni/net.d"
   ];
 }
