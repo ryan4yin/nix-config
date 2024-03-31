@@ -21,12 +21,11 @@
         # common
         "secrets/nixos.nix"
         "modules/nixos/server/server.nix"
-        "modules/nixos/server/proxmox-hardware-configuration.nix"
+        "modules/nixos/server/kubevirt-hardware-configuration.nix"
         # host specific
         "hosts/idols-${name}"
       ])
       ++ [
-        {modules.secrets.server.application.enable = true;}
       ];
   };
 

@@ -1,26 +1,27 @@
 # Hosts
 
-1. `darwin`(macOS)
-   1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
-   1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
-2. `idols`
-   1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
-   2. `aquamarine`: My NixOS virtual machine as a router(IPv4 only) with a transparent proxy to
-      bypass the G|F|W.
-   3. `ruby`: Another NixOS VM running operation and maintenance related services, such as
-      prometheus, grafana, restic, etc.
-   4. `kana`: Yet another NixOS VM running some common applications, such as hompage, file browser,
-      torrent downloader, etc.
-4. `rolling_girls`: My RISCV64 hosts.
-   1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 16GB RAM + 32G eMMC + 128G SD Card.
-   2. `yukina`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
-5. `12kingdoms`:
+1. `12kingdoms`:
    1. `shoukei`: NixOS on Macbook Pro 2020 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM +
       256G SSD.
+      1. Network related services running via microvm.nix, such as router(transparent proxy - dae),
+         tailscale subrouter, etc.
    1. `rakushun`: Orange Pi 5 Plus, RK3588(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8),
       16G RAM + 2T SSD.
-6. `k8s`: My Kubernetes Clusters
+      1. Monitoring(prometheus, grafana, exporters), CI/CD(gitea, runner), homepage, file browser,
+         and other services.
+1. `darwin`(macOS)
+   1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
+   1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
+1. `k8s`: My Kubernetes Clusters
+1. `idols`
+   1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
+   2. `aquamarine`: Not used now.
+   3. `ruby`: Not used now.
+   4. `kana`: Not used now.
+1. `rolling_girls`: My RISCV64 hosts.
+   1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 16GB RAM + 32G eMMC + 128G SD Card.
+   2. `yukina`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
 
 ## How to add a new host
 
