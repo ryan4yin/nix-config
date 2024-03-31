@@ -5,7 +5,7 @@
 }:
 #############################################################
 #
-#  Ruby - a NixOS VM running on Proxmox
+#  Ruby - a NixOS VM running on Proxmox/KubeVirt
 #
 #############################################################
 let

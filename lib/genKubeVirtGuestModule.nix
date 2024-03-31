@@ -1,15 +1,11 @@
-{myvars, ...}:
-#############################################################
-#
-#  Aquamarine - A NixOS VM running on Proxmox/KubeVirt
-#
-#############################################################
-let
-  hostName = "aquamarine"; # Define your hostname.
+{
+  pkgs,
+  hostName,
+  networking,
+  ...
+}: let
+  inherit (networking.hostsAddr.${hostName}) iface;
 in {
-  imports = [
-  ];
-
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
@@ -20,12 +16,11 @@ in {
     "exfat"
   ];
 
-  # boot.kernelModules = ["kvm-amd"];
-  # boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
-
   networking = {
     inherit hostName;
-    inherit (myvars.networking) nameservers;
+    inherit (networking) defaultGateway nameservers;
+    inherit (networking.hostsInterface.${hostName}) interfaces;
+    networkmanager.enable = false;
   };
 
   # This value determines the NixOS release from which the default

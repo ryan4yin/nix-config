@@ -9,7 +9,7 @@
   # MoreFine - S500Plus
   hostName = "kubevirt-shoryu"; # Define your hostname.
 
-  coreModule = mylib.genKubeVirtCoreModule {
+  coreModule = mylib.genKubeVirtHostModule {
     inherit pkgs hostName;
     inherit (myvars) networking;
   };

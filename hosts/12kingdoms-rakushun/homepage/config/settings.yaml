@@ -40,8 +40,8 @@ useEqualHeights: true
 # Groups and its layout
 # Groups Name should match the name defined in your services.yaml or widgets.yaml
 layout:
-  Proxmox VE 虚拟化集群:
-    icon: si-proxmox
+  KubeVirt 虚拟化集群:
+    icon: si-kubevirt
     tab: First
 
   Group A:

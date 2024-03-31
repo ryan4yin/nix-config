@@ -8,7 +8,7 @@ in {
     homelab-backup = {
       inherit passwordFile;
       initialize = true; # Initialize the repository if it doesn't exist.
-      repository = "rclone:smb-downloads:/Downloads/proxmox-backup/"; # backup to a rclone remote
+      repository = "rclone:smb-downloads:/Downloads/kubevirt-backup/"; # backup to a rclone remote
 
       # rclone related
       # rcloneOptions = {
@@ -34,20 +34,16 @@ in {
       # A script that must run before starting the backup process.
       backupPrepareCommand = ''
         ${pkgs.nushell}/bin/nu -c '
-          let pve_nodes = [
-            # proxmox cluster's nodes
-            "um560"
-            "gtr5"
-            "s500plus"
-
-            # others
-            "kana"
+          let kubevirt_nodes = [
+            "kubevirt-shoryu"
+            "kubevirt-shushou"
+            "kubevirt-youko"
           ]
 
-          pve_nodes | each {|it|
+          kubevirt_nodes | each {|it|
             rsync -avz \
             -e "ssh -i ${sshKeyPath}"  \
-            $"($it):/var/lib/vz" $"/tmp/restic-backup-temp/($it)"
+            $"($it):/perissitent/" $"/tmp/restic-backup-temp/($it)"
           }
         '
       '';

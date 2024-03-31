@@ -27,7 +27,8 @@
 
     services.qemuGuest.enable = true;
     services.openssh.enable = true;
-    services.cloud-init.enable = true;
+    # we configure the host via nixos itself, so we don't need the cloud-init
+    services.cloud-init.enable = false;
     systemd.services."serial-getty@ttyS0".enable = true;
   };
 }

@@ -5,7 +5,7 @@
 }:
 #############################################################
 #
-#  Kana - a NixOS VM running on Proxmox
+#  Kana - a NixOS VM running on Proxmox/KubeVirt
 #
 #############################################################
 let

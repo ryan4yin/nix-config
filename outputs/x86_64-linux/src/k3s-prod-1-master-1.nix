@@ -20,7 +20,7 @@
         # common
         "secrets/nixos.nix"
         "modules/nixos/server/server.nix"
-        "modules/nixos/server/proxmox-hardware-configuration.nix"
+        "modules/nixos/server/kubevirt-hardware-configuration.nix"
         # host specific
         "hosts/k8s/${name}"
       ])
@@ -39,6 +39,5 @@ in {
   colmena.${name} =
     mylib.colmenaSystem (systemArgs // {inherit tags ssh-user;});
 
-  # generate proxmox image for virtual machines without desktop environment
-  packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.proxmox;
+  packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
 }

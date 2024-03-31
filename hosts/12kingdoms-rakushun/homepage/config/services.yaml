@@ -2,24 +2,31 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/services
 
-- Proxmox VE 虚拟化集群:
-    - PVE-UM560:
-        icon: si-proxmox
-        href: https://192.168.5.173:8006/
-        description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
-        siteMonitor: https://192.168.5.173:8006/
-
-    - PVE-S500Plus:
-        icon: si-proxmox
-        href: https://192.168.5.174:8006/
+- KubeVirt 虚拟化集群:
+    - KubeVirt-Shoryu:
+        icon: si-kubevirt
         description: "CPU: R7-5825U / MEM: 64G / DISK: 1T"
-        siteMonitor: https://192.168.5.174:8006/
-
-    - PVE-GTR5:
-        icon: si-proxmox
-        href: https://192.168.5.172:8006/
+        href: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
+        siteMonitor: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
+    - KubeVirt-Shushou:
+        icon: si-kubevirt
         description: "CPU: R9-5900HX / MEM: 64G / DISK: 1T"
-        siteMonitor: https://192.168.5.172:8006/
+        href: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
+        siteMonitor: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
+    - KubeVirt-Youko:
+        icon: si-kubevirt
+        description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
+        href: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
+        siteMonitor: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
+    - LongHorn-Storage:
+        icon: si-longhorn
+        href: http://longhorn.writefor.fun/
+    - Victoria-Metrics:
+        icon: si-victoriametrics
+        href: http://vm.writefor.fun/
+    - KubeVirt-Grafana:
+        icon: si-grafana
+        href: http://k8s-grafana.writefor.fun/
 
 - Homelab Monitoring:
     - Grafana:

@@ -36,6 +36,5 @@ in {
   colmena.${name} =
     mylib.colmenaSystem (systemArgs // {inherit tags ssh-user;});
 
-  # generate proxmox image for virtual machines without desktop environment
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
 }

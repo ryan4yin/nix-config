@@ -7,7 +7,7 @@
 }: let
   hostName = "k3s-prod-1-worker-1"; # define your hostname.
 
-  coreModule = mylib.genKubeVirtCoreModule {
+  coreModule = mylib.genKubeVirtGuestModule {
     inherit pkgs hostName;
     inherit (myvars) networking;
   };

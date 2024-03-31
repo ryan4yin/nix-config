@@ -36,17 +36,17 @@
     };
     aquamarine = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.101";
     };
     ruby = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.102";
     };
     kana = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.103";
     };
     nozomi = {
@@ -61,7 +61,7 @@
     };
     chiaya = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.106";
     };
     suzu = {
@@ -90,32 +90,32 @@
     # ============================================
     k3s-prod-1-master-1 = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.108";
     };
     k3s-prod-1-master-2 = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.109";
     };
     k3s-prod-1-master-3 = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.110";
     };
     k3s-prod-1-worker-1 = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.111";
     };
     k3s-prod-1-worker-2 = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.112";
     };
     k3s-prod-1-worker-3 = {
       # VM
-      iface = "ens18";
+      iface = "eth1";
       ipv4 = "192.168.5.113";
     };
 
