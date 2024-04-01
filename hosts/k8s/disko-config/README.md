@@ -48,7 +48,7 @@ sudo nix run --experimental-features "nix-command flakes" 'github:nix-community/
 
 # or step by step
 ## 1. partition & format the disk via disko
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko ./disko-fs.nix
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko hosts/k8s/disko-config/kukubevirt-disko-fs.nix
 ## 2. install nixos
 # NOTE: the root password you set here will be discarded when reboot
 sudo nixos-install --root /mnt --flake .#suzu --no-root-password --show-trace --verbose
