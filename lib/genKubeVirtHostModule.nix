@@ -50,6 +50,7 @@ in {
     # Validate Hardware Virtualization Support via:
     #   virt-host-validate qemu
     libvirt
+    kubevirt # virtctl
 
     # used by kubernetes' ovs-cni plugin
     # https://github.com/k8snetworkplumbingwg/multus-cni
