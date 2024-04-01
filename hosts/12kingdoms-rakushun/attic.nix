@@ -27,12 +27,12 @@
   # 2. Login at the desktop via command:
   #    `attic login central http://attic.writefor.fun <TOKEN>`
   # 3. Create a new cache via command:
-  #    `attic cache create rk3588`
-  #    `attic use cache rk3588`
+  #    `attic cache create central`
+  #    `attic use cache central`
   # 4. Push Caches to the cache server via:
   #     # push the nixos system's cache
   #     nom build ".#nixosConfigurations.rakushun.config.system.build.toplevel" --show-trace --verbose
-  #     cachix push rk3588 result
+  #     attic push central result
   #
   #    it's similar to cachix, related docs:
   #    https://docs.attic.rs/reference/attic-cli.html
