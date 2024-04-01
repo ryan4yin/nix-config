@@ -25,9 +25,10 @@
     kubeletExtraArgs = [
       "--cpu-manager-policy=static"
       # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
-      # we have to reserve some resources for for system daemons running as pods
+      # we have to reserve some resources for for system daemons running as pods or system services
       # when cpu-manager's static policy is enabled
-      "--system-reserved=cpu=1,memory=1Gi,ephemeral-storage=2Gi"
+      # the memory we reserved here is also for the kernel, since kernel's memory is not accounted in pods
+      "--system-reserved=cpu=1,memory=2Gi,ephemeral-storage=2Gi"
     ];
     nodeLabels = [
       "node-purpose=kubevirt"
