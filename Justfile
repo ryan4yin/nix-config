@@ -5,27 +5,17 @@ set shell := ["nu", "-c"]
 
 ############################################################################
 #
-#  Nix commands related to the local machine
+#  Common commands(suitable for all machines)
 #
 ############################################################################
 
-i3 mode="default":
+# Remote deployment via colmena
+col tag:
+  colmena apply --on '@{{tag}}' --verbose --show-trace
+
+local name mode="default":
   use utils.nu *; \
-  nixos-switch ai-i3 {{mode}}
-
-hypr mode="default":
-  use utils.nu *; \
-  nixos-switch ai-hyprland {{mode}}
-
-
-s-i3 mode="default":
-  use utils.nu *; \
-  nixos-switch shoukei-i3 {{mode}}
-
-
-s-hypr mode="default":
-  use utils.nu *; \
-  nixos-switch shoukei-hyprland {{mode}}
+  nixos-switch {{name}} {{mode}}
 
 # Run eval tests
 test:
@@ -65,6 +55,30 @@ gitgc:
 
 ############################################################################
 #
+#  NixOS Desktop related commands
+#
+############################################################################
+
+i3 mode="default":
+  use utils.nu *; \
+  nixos-switch ai-i3 {{mode}}
+
+hypr mode="default":
+  use utils.nu *; \
+  nixos-switch ai-hyprland {{mode}}
+
+
+s-i3 mode="default":
+  use utils.nu *; \
+  nixos-switch shoukei-i3 {{mode}}
+
+
+s-hypr mode="default":
+  use utils.nu *; \
+  nixos-switch shoukei-hyprland {{mode}}
+
+############################################################################
+#
 #  Darwin related commands, harmonica is my macbook pro's hostname
 #
 ############################################################################
@@ -96,13 +110,9 @@ yabai-reload:
 
 ############################################################################
 #
-#  Homelab - Virtual Machines running on Kubevirt
+#  Homelab - Kubevirt Cluster related commands
 #
 ############################################################################
-
-# Remote deployment via colmena
-col tag:
-  colmena apply --on '@{{tag}}' --verbose --show-trace
 
 # Build and upload a vm image
 upload-vm name mode="default":
@@ -113,14 +123,43 @@ upload-vm name mode="default":
 lab:
   colmena apply --on '@virt-*' --verbose --show-trace
 
+shoryu:
+  colmena apply --on '@kubevirt-shoryu' --verbose --show-trace
+
+shoryu-local mode="default":
+  use utils.nu *; \
+  nixos-switch kubevirt-shoryu {{mode}}
+
+shushou:
+  colmena apply --on '@kubevirt-shushou' --verbose --show-trace
+
+shushou-local mode="default":
+  use utils.nu *; \
+  nixos-switch kubevirt-shushou {{mode}}
+
+youko:
+  colmena apply --on '@kubevirt-youko' --verbose --show-trace
+
+youko-local mode="default":
+  use utils.nu *; \
+  nixos-switch kubevirt-youko {{mode}}
+
+############################################################################
+#
+# Commands for other Virtual Machines
+#
+############################################################################
+
 # Deploy all the VMs running on KubeVirt
 vm:
   colmena apply --on '@homelab-*' --verbose --show-trace
 
 aqua:
   colmena apply --on '@aqua' --verbose --show-trace
-  # some config changes require a restart of the dae service
-  ssh root@aquamarine "sudo systemctl stop dae; sleep 1; sudo systemctl start dae"
+
+aqua-local mode="default":
+  use utils.nu *; \
+  nixos-switch aquamarine {{mode}}
 
 ruby:
   colmena apply --on '@ruby' --verbose --show-trace
@@ -131,6 +170,10 @@ ruby-local mode="default":
 
 kana:
   colmena apply --on '@kana' --verbose --show-trace
+
+kana-local mode="default":
+  use utils.nu *; \
+  nixos-switch kana {{mode}}
 
 ############################################################################
 #
