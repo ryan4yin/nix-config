@@ -30,6 +30,10 @@
   #    `attic cache create rk3588`
   #    `attic use cache rk3588`
   # 4. Push Caches to the cache server via:
+  #     # push the nixos system's cache
+  #     nom build ".#nixosConfigurations.rakushun.config.system.build.toplevel" --show-trace --verbose
+  #     cachix push rk3588 result
+  #
   #    it's similar to cachix, related docs:
   #    https://docs.attic.rs/reference/attic-cli.html
   #    https://docs.cachix.org/pushing#pushing
