@@ -41,5 +41,5 @@ git clone https://github.com/ryan4yin/nix-config.git
 
 cd nix-config
 sudo nix run --experimental-features "nix-command flakes" 'github:nix-community/disko#disko-install' -- \
-  --write-efi-boot-entries --flake .#kubevirt-shoryu --disk main /dev/nvme0n1
+  --write-efi-boot-entries --disk main /dev/nvme0n1 --flake .#kubevirt-shoryu
 ```
