@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ../base/btrbk.nix
     ../base/core.nix
     ../base/i18n.nix
     ../base/monitoring.nix
