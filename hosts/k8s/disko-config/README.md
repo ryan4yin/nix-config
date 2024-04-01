@@ -40,6 +40,16 @@ nix-shell -p git vim gnumake
 git clone https://github.com/ryan4yin/nix-config.git
 
 cd nix-config
+
+# one line
 sudo nix run --experimental-features "nix-command flakes" 'github:nix-community/disko#disko-install' -- \
   --write-efi-boot-entries --disk main /dev/nvme0n1 --flake .#kubevirt-shoryu
+
+
+# or step by step
+## 1. partition & format the disk via disko
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko ./disko-fs.nix
+## 2. install nixos
+# NOTE: the root password you set here will be discarded when reboot
+sudo nixos-install --root /mnt --flake .#suzu --no-root-password --show-trace --verbose
 ```
