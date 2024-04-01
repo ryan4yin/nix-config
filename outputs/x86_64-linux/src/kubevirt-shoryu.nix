@@ -26,6 +26,9 @@
       ++ [
         # {modules.secrets.server.kubernetes.enable = true;}
       ];
+    home-modules = map mylib.relativeToRoot [
+      "home/linux/tui.nix"
+    ];
   };
 
   systemArgs = modules // args;
