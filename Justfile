@@ -72,7 +72,6 @@ s-i3 mode="default":
   use utils.nu *; \
   nixos-switch shoukei-i3 {{mode}}
 
-
 s-hypr mode="default":
   use utils.nu *; \
   nixos-switch shoukei-hyprland {{mode}}
@@ -150,9 +149,12 @@ youko-local mode="default":
 #
 ############################################################################
 
-# Deploy all the VMs running on KubeVirt
-vm:
-  colmena apply --on '@homelab-*' --verbose --show-trace
+# Build and upload a vm image
+upload-idols mode="default":
+  use utils.nu *; \
+  upload-vm aquamarine {{mode}}
+  upload-vm ruby {{mode}}
+  upload-vm kana {{mode}}
 
 aqua:
   colmena apply --on '@aqua' --verbose --show-trace
@@ -180,6 +182,22 @@ kana-local mode="default":
 # Kubernetes related commands
 #
 ############################################################################
+
+# Build and upload a vm image
+upload-k3s mode="default":
+  use utils.nu *; \
+  upload-vm k3s-prod-1-master-1 {{mode}}; \
+  upload-vm k3s-prod-1-master-2 {{mode}}; \
+  upload-vm k3s-prod-1-master-3 {{mode}}; \
+  upload-vm k3s-prod-1-worker-1 {{mode}}; \
+  upload-vm k3s-prod-1-worker-2 {{mode}}; \
+  upload-vm k3s-prod-1-worker-3 {{mode}};
+
+upload-k3s-test mode="default":
+  use utils.nu *; \
+  upload-vm k3s-test-1-master-1 {{mode}}; \
+  upload-vm k3s-test-1-master-2 {{mode}}; \
+  upload-vm k3s-test-1-master-3 {{mode}};
 
 k3s:
   colmena apply --on '@k3s-*' --verbose --show-trace
