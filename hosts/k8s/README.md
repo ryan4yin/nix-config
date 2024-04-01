@@ -7,7 +7,17 @@ I'm running two Kubernetes clusters, one for production and one for testing.
 I prefer to use [k3s] as the Kubernetes distribution, because it's lightweight, easy to install, and
 full featured(see [what-have-k3s-removed-from-upstream-kubernetes] for details).
 
-## Hosts
+## KubeVirt Cluster
+
+The KubeVirt cluster is running on physical machines, all my virtual machines are running on this
+cluster, including other Kubernetes clusters.
+
+![](../../_img/2024-04-02_kubevirt-cluster-nodes.webp)
+![](../../_img/2024-04-02_kubevirt-cluster-pods.webp)
+
+## K3s Clusters
+
+Clusters running as virtual machines on the KubeVirt cluster, for testing and production.
 
 ![](/_img/2024-02-18_k8s-nodes-overview.webp)
 
