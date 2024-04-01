@@ -10,11 +10,13 @@
   # this can be a domain name or an IP address(such as kube-vip's virtual IP)
   masterHost,
   clusterInit ? false,
+  kubeletExtraArgs ? [],
   nodeLabels ? [],
   nodeTaints ? [],
   disableFlannel ? true,
   ...
 }: let
+  lib = pkgs.lib;
   package = pkgs.k3s_1_29;
 in {
   environment.systemPackages = with pkgs; [
@@ -59,9 +61,10 @@ in {
         ]
         ++ (map (label: "--node-label=${label}") nodeLabels)
         ++ (map (taint: "--node-taint=${taint}") nodeTaints)
-        ++ (pkgs.lib.optionals disableFlannel ["--flannel-backend=none"]);
+        ++ (map (arg: "--kubelet-arg=${arg}") kubeletExtraArgs)
+        ++ (lib.optionals disableFlannel ["--flannel-backend=none"]);
     in
-      pkgs.lib.concatStringsSep " " flagList;
+      lib.concatStringsSep " " flagList;
   };
 
   # create symlinks to link k3s's cni directory to the one used by almost all CNI plugins

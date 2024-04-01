@@ -1,5 +1,5 @@
 {
-  config,
+  lib,
   pkgs,
   mylib,
   myvars,
@@ -22,6 +22,13 @@
     # use my own domain & kube-vip's virtual IP for the API server
     # so that the API server can always be accessed even if some nodes are down
     masterHost = "kubevirt-cluster-1.writefor.fun";
+    kubeletExtraArgs = [
+      "--cpu-manager-policy=static"
+      # https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
+      # we have to reserve some resources for for system daemons running as pods
+      # when cpu-manager's static policy is enabled
+      "--system-reserved=cpu=1,memory=1Gi,ephemeral-storage=2Gi"
+    ];
     nodeLabels = [
       "node-purpose=kubevirt"
     ];
