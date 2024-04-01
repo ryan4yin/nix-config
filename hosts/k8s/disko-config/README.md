@@ -51,5 +51,16 @@ sudo nix run --experimental-features "nix-command flakes" 'github:nix-community/
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko hosts/k8s/disko-config/kukubevirt-disko-fs.nix
 ## 2. install nixos
 # NOTE: the root password you set here will be discarded when reboot
-sudo nixos-install --root /mnt --flake .#suzu --no-root-password --show-trace --verbose
+sudo nixos-install --root /mnt --no-root-password --show-trace --verbose --flake .#kubevirt-shoryu
+
+# move the essential files into /persistent
+nixos-enter
+
+# NOTE: DO NOT skip this step!!!
+# copy the essential files into /persistent
+# otherwise the / will be cleared and data will lost
+## NOTE: impermanence just create links from / to /persistent
+##       We need to copy files into /persistent manually!!!
+mv /etc/machine-id /persistent/etc/
+mv /etc/ssh /persistent/etc/
 ```
