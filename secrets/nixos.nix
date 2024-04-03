@@ -34,6 +34,7 @@ in {
     server.application.enable = mkEnableOption "NixOS Secrets for Application Servers";
     server.operation.enable = mkEnableOption "NixOS Secrets for Operation Servers(Backup, Monitoring, etc)";
     server.kubernetes.enable = mkEnableOption "NixOS Secrets for Kubernetes";
+    server.webserver.enable = mkEnableOption "NixOS Secrets for Web Servers(contains tls cert keys)";
 
     impermanence.enable = mkEnableOption "whether use impermanence and ephemeral root file system";
   };
@@ -242,6 +243,16 @@ in {
               file = "${mysecrets}/server/k3s-test-1-token.age";
             }
             // high_security;
+        };
+      })
+
+      (mkIf cfg.server.webserver.enable {
+        age.secrets = {
+          "certs/ecc-server.key" = {
+            file = "${mysecrets}/certs/ecc-server.key.age";
+            mode = "0400";
+            owner = "caddy"; # used by caddy only
+          };
         };
       })
     ]);

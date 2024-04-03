@@ -1,4 +1,12 @@
-{myvars, ...}: {
+{config, ...}: let
+  hostCommonConfig = ''
+    encode zstd gzip
+    tls ${../../certs/ecc-server.crt} ${config.age.secrets."certs/ecc-server.key".path} {
+      protocols tls1.3 tls1.3
+      curves x25519 secp384r1 secp521r1
+    }
+  '';
+in {
   services.caddy = {
     enable = true;
     # Reload Caddy instead of restarting it when configuration file changes.
@@ -12,23 +20,19 @@
     globalConfig = ''
       http_port    80
       https_port   443
-      auto_https   off
+      auto_https   disable_certs
     '';
 
-    # ACME related settings.
-    # email = myvars.useremail;
-    # acmeCA = "https://acme-v02.api.letsencrypt.org/directory";
-
     # Dashboard
-    virtualHosts."http://home.writefor.fun".extraConfig = ''
-      encode zstd gzip
+    virtualHosts."home.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       reverse_proxy http://localhost:4401
     '';
 
     # https://caddyserver.com/docs/caddyfile/directives/file_server
-    virtualHosts."http://file.writefor.fun".extraConfig = ''
+    virtualHosts."file.writefor.fun".extraConfig = ''
       root * /var/lib/caddy/fileserver/
-      encode zstd gzip
+      ${hostCommonConfig}
       file_server browse {
         hide .git
         precompressed zstd br gzip
@@ -36,42 +40,42 @@
     '';
 
     # Datastore
-    virtualHosts."http://attic.writefor.fun".extraConfig = ''
+    virtualHosts."attic.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3300
     '';
 
-    virtualHosts."http://git.writefor.fun".extraConfig = ''
+    virtualHosts."git.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3301
     '';
-    virtualHosts."http://sftpgo.writefor.fun".extraConfig = ''
+    virtualHosts."sftpgo.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3302
     '';
-    virtualHosts."http://webdav.writefor.fun".extraConfig = ''
+    virtualHosts."webdav.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3303
     '';
-    virtualHosts."http://transmission.writefor.fun".extraConfig = ''
+    virtualHosts."transmission.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:9091
     '';
 
     # Monitoring
-    virtualHosts."http://uptime-kuma.writefor.fun".extraConfig = ''
+    virtualHosts."uptime-kuma.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3350
     '';
-    virtualHosts."http://grafana.writefor.fun".extraConfig = ''
+    virtualHosts."grafana.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3351
     '';
-    virtualHosts."http://prometheus.writefor.fun".extraConfig = ''
+    virtualHosts."prometheus.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:9090
     '';
-    virtualHosts."http://alertmanager.writefor.fun".extraConfig = ''
+    virtualHosts."alertmanager.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:9093
     '';
