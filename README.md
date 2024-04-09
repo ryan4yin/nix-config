@@ -128,7 +128,7 @@ just hypr  # deploy my pc with hyprland compositor
 
 # or we can deploy with details
 # just i3 debug
-just hypr-debug
+just hypr debug
 ```
 
 For macOS:
