@@ -75,7 +75,6 @@
 
         # misc
         ".config/pulse"
-        ".config/attic" # attic nix cache server
         ".pki"
         ".steam" # steam games
 

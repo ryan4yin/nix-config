@@ -221,12 +221,6 @@ in {
               file = "${mysecrets}/server/alertmanager.env.age";
             }
             // high_security;
-
-          "attic-nix-cache-server.env" =
-            {
-              file = "${mysecrets}/server/attic-nix-cache-server.env.age";
-            }
-            // high_security;
         };
       })
 

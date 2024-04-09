@@ -39,12 +39,6 @@ in {
       }
     '';
 
-    # Datastore
-    virtualHosts."attic.writefor.fun".extraConfig = ''
-      encode zstd gzip
-      reverse_proxy http://localhost:3300
-    '';
-
     virtualHosts."git.writefor.fun".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:3301
