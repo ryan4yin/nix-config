@@ -12,11 +12,11 @@ let
     "mitmproxy"
     "insomnia"
     "wireshark"
-    "ventoy"
     "jsonnet"
     "zls"
     "verible"
     "gdb"
+    "ncdu"
   ];
 in {
   nixpkgs.overlays = [

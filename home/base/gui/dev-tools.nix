@@ -6,7 +6,5 @@
     mitmproxy # http/https proxy tool
     insomnia # REST client
     wireshark # network analyzer
-    ventoy # create bootable usb
-    virt-viewer # vnc connect to VM, used by kubevirt
   ];
 }
