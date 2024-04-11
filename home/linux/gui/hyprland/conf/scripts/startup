@@ -14,10 +14,10 @@ done
 # it will by start by home-manager automatically, do not need to restart it here.
 # systemctl --user restart wallpaper.service
 
-# Lauch notification daemon (mako)
+# Launch notification daemon (mako)
 ~/.config/hypr/scripts/notifications &
 
-# Lauch statusbar (waybar)
+# Launch statusbar (waybar)
 ~/.config/hypr/scripts/statusbar &
 
 # Start mpd

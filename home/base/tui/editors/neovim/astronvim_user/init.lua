@@ -22,7 +22,7 @@ return {
     -- https://github.com/echasnovski/mini.ai
     { import = "astrocommunity.motion.mini-ai" },
     { import = "astrocommunity.motion.flash-nvim" },
-    -- diable toggleterm.nvim, zellij's terminal is far better than neovim's one
+    -- disable toggleterm.nvim, zellij's terminal is far better than neovim's one
     { "akinsho/toggleterm.nvim",                                   enabled = false },
     { "folke/flash.nvim",                                          vscode = false },
     -- Highly experimental plugin that completely replaces
@@ -199,7 +199,7 @@ return {
     { import = "astrocommunity.motion.nvim-spider" },
     -- AI Assistant
     { import = "astrocommunity.completion.copilot-lua-cmp" },
-    -- Custom copilot-lua to enable filtypes: markdown
+    -- Custom copilot-lua to enable filetypes: markdown
     {
       "zbirenbaum/copilot.lua",
       opts = function(_, opts)
@@ -514,7 +514,7 @@ return {
   -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   lsp = {
     config = {
-      -- the offset_enconding of clangd will confilicts whit null-ls
+      -- the offset_encoding of clangd will confilicts whit null-ls
       -- so we need to manually set it to utf-8
       clangd = {
         capabilities = {
