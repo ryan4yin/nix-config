@@ -2,6 +2,12 @@
 
 LUKS encrypted SSD for NixOS, on Orange Pi 5.
 
+## TODOs
+
+- [ ] Add support for BGP routing.
+  - [Comparing Open Source BGP Stacks](https://elegantnetwork.github.io/posts/comparing-open-source-bgp-stacks/)
+  - [`services.frr.*` - search.nixos.org](https://search.nixos.org/options?channel=unstable&query=services.frr)
+
 ## Showcases
 
 ![](../../_img/2024-03-07_orangepi5_suzu.webp)
