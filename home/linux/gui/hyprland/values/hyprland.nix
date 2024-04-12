@@ -4,12 +4,15 @@
   hyprland,
   nur-ryan4yin,
   ...
-}: {
+}: let
+  package = hyprland.packages.${pkgs.system}.hyprland;
+in {
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
   # so that gammastep/wallpaper-switcher's user service can be start correctly!
   # they are all depending on hyprland/i3's user graphical-session
   wayland.windowManager.hyprland = {
+    inherit package;
     enable = true;
     settings = {
       source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf";
@@ -25,7 +28,6 @@
         "GDK_BACKEND,wayland"
       ];
     };
-    package = hyprland.packages.${pkgs.system}.hyprland;
     extraConfig = builtins.readFile ../conf/hyprland.conf;
     # gammastep/wallpaper-switcher need this to be enabled.
     systemd.enable = true;
@@ -34,7 +36,7 @@
   # NOTE: this executable is used by greetd to start a wayland session when system boot up
   # with such a vendor-no-locking script, we can switch to another wayland compositor without modifying greetd's config in NixOS module
   home.file.".wayland-session" = {
-    source = "${pkgs.hyprland}/bin/Hyprland";
+    source = "${package}/bin/Hyprland";
     executable = true;
   };
 
