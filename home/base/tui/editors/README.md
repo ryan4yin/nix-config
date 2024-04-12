@@ -205,7 +205,7 @@ The postfix(flags) in the above commands:
 | Show all buffers                    | `:ls`                               |
 | show next/previous buffer           | `]b`/`[b` or `:bn[ext]` / `bp[rev]` |
 | New Tab(New Workspace in DoomEmacs) | `:tabnew`                           |
-| Next/Previews Tab                   | `gt`/`gT`                           |
+| Next/Previews Tab                   | `gt`/`gy`                           |
 
 ### History
 
