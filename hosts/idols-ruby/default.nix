@@ -25,7 +25,6 @@ in {
     "fat"
     "vfat"
     "exfat"
-    "cifs" # mount windows share
   ];
 
   boot.kernelModules = ["kvm-amd"];

@@ -8,7 +8,7 @@ let
   hostName = "ai"; # Define your hostname.
 in {
   imports = [
-    ./cifs-mount.nix
+    ./netdev-mount.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 

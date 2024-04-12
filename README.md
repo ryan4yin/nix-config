@@ -104,7 +104,6 @@ See [./secrets](./secrets) for details.
 > :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine
 > :exclamation: It will not succeed.** This flake contains my hardware configuration(such as
 > [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix),
-> [cifs-mount.nix](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols_ai/cifs-mount.nix),
 > [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91),
 > etc.) which is not suitable for your hardwares, and requires my private secrets repository
 > [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy. You

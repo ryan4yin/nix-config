@@ -17,7 +17,6 @@ in {
     "vfat"
     "exfat"
     "nfs" # required by longhorn
-    "cifs" # mount windows share
   ];
 
   boot.kernelModules = ["kvm-amd" "vfio-pci"];

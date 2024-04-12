@@ -40,7 +40,6 @@
     "ntfs"
     "fat"
     "vfat"
-    "cifs" # mount windows share
   ];
 
   boot.initrd = {

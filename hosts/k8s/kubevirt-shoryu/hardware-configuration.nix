@@ -32,7 +32,6 @@
     "ntfs"
     "fat"
     "vfat"
-    "cifs" # mount windows share
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
