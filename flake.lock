@@ -69,23 +69,6 @@
         "type": "github"
       }
     },
-    "astronvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1705337239,
-        "narHash": "sha256-jF+D2CdnSJ5at9HYrDGHKYodVL4VBdqA94OPBu4ESUo=",
-        "owner": "AstroNvim",
-        "repo": "AstroNvim",
-        "rev": "c58489a292fc2ebbc662c54a45213b01f7401f41",
-        "type": "github"
-      },
-      "original": {
-        "owner": "AstroNvim",
-        "ref": "v3.41.2",
-        "repo": "AstroNvim",
-        "type": "github"
-      }
-    },
     "crane": {
       "inputs": {
         "nixpkgs": [
@@ -1584,7 +1567,6 @@
       "inputs": {
         "agenix": "agenix",
         "anyrun": "anyrun",
-        "astronvim": "astronvim",
         "daeuniverse": "daeuniverse",
         "disko": "disko",
         "doomemacs": "doomemacs",
