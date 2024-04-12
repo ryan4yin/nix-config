@@ -9,4 +9,5 @@ binary = false
 extend-ignore-re = [
   "iterm2",
   "iHgEIBYKACAWIQSizQe9ljFEyyclWmtVhZllwnQrSwUCZZ1T9wIdAAAKCRBVhZll", # crypto keys
+  "noice", # noice.nvim
 ]
