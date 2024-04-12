@@ -24,7 +24,7 @@
     ast-grep
 
     sad # CLI search and replace, just like sed, but with diff preview.
-    yq-go # yaml processer https://github.com/mikefarah/yq
+    yq-go # yaml processor https://github.com/mikefarah/yq
     just # a command runner like make, but simpler
     delta # A viewer for git and diff output
     lazygit # Git terminal UI.
@@ -59,7 +59,8 @@
     # useful in bash/zsh prompt, not in nushell.
     eza = {
       enable = true;
-      enableAliases = false; # do not enable aliases in nushell!
+      # do not enable aliases in nushell!
+      enableNushellIntegration = false;
       git = true;
       icons = true;
     };

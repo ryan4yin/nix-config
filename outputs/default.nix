@@ -99,20 +99,23 @@ in {
         src = mylib.relativeToRoot ".";
         hooks = {
           alejandra.enable = true; # formatter
-          typos.enable = true; # Source code spell checker
-          prettier.enable = true;
-          # deadnix.enable = true; # detect unused variable bindings in `*.nix`
-          # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
-        };
-        settings = {
+          # Source code spell checker
           typos = {
-            write = true; # Automatically fix typos
-            configPath = "./.typos.toml"; # relative to the flake root
+            enable = true;
+            settings = {
+              write = true; # Automatically fix typos
+              configPath = "./.typos.toml"; # relative to the flake root
+            };
           };
           prettier = {
-            write = true; # Automatically format files
-            configPath = "./.prettierrc.yaml"; # relative to the flake root
+            enable = true;
+            settings = {
+              write = true; # Automatically format files
+              configPath = "./.prettierrc.yaml"; # relative to the flake root
+            };
           };
+          # deadnix.enable = true; # detect unused variable bindings in `*.nix`
+          # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
         };
       };
     }
