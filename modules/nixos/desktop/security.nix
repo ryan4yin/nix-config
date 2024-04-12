@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   nix.extraOptions = ''
     !include ${config.age.secrets.nix-access-tokens.path}
   '';
@@ -12,7 +16,7 @@
   # gpg agent with pinentry
   programs.gnupg.agent = {
     enable = true;
-    pinentryPackage = "curses";
+    pinentryPackage = pkgs.pinentry-qt;
     enableSSHSupport = false;
     settings.default-cache-ttl = 4 * 60 * 60; # 4 hours
   };
