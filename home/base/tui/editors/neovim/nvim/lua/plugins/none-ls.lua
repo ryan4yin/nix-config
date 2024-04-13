@@ -22,7 +22,6 @@ return {
       code_actions.refactoring,
       code_actions.gomodifytags, -- Go - modify struct field tags
       code_actions.impl, -- Go - generate interface method stubs
-      code_actions.shellcheck,
       code_actions.proselint, -- English prose linter
       code_actions.statix, -- Lints and suggestions for Nix.
 
@@ -36,11 +35,8 @@ return {
       formatting.prettier, -- js/ts/vue/css/html/json/... formatter
       diagnostics.hadolint, -- Dockerfile linter
       formatting.black, -- Python formatter
-      formatting.ruff, -- extremely fast Python linter
       formatting.goimports, -- Go formatter
       formatting.shfmt, -- Shell formatter
-      formatting.rustfmt, -- Rust formatter
-      formatting.taplo, -- TOML formatteautoindentr
       formatting.terraform_fmt, -- Terraform formatter
       formatting.stylua, -- Lua formatter
       formatting.alejandra, -- Nix formatter
