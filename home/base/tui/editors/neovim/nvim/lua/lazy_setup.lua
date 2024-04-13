@@ -14,7 +14,10 @@ require("lazy").setup({
   { import = "plugins" },
 } --[[@as LazySpec]], {
   -- Configure any other `lazy.nvim` configuration options here
-  install = { colorscheme = { "catppuccin"}, },
+  -- https://github.com/folke/lazy.nvim?tab=readme-ov-file#%EF%B8%8F-configuration
+  
+  -- try to load one of these colorschemes when starting an installation during startup
+  install = { colorscheme = { "catppuccin" }, },
   ui = { backdrop = 100 },
   performance = {
     rtp = {
