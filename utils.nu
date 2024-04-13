@@ -54,7 +54,7 @@ export def darwin-rollback [] {
     ./result/sw/bin/darwin-rebuild --rollback
 }
 
-# ==================== Virutal Machines related =====================
+# ==================== Virtual Machines related =====================
 
 # Build and upload a VM image
 export def upload-vm [
