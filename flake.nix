@@ -123,11 +123,6 @@
 
     ########################  Some non-flake repositories  #########################################
 
-    # AstroNvim is an aesthetic and feature-rich neovim config.
-    astronvim = {
-      url = "github:AstroNvim/AstroNvim/v3.41.2";
-      flake = false;
-    };
     # doom-emacs is a configuration framework for GNU Emacs.
     doomemacs = {
       url = "github:doomemacs/doomemacs";
