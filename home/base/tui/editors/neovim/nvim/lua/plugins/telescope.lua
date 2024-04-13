@@ -33,6 +33,11 @@ return {
           previewers.buffer_previewer_maker(filepath, bufnr, opts)
         end
       end)
+
+      -- Load Extensions
+      require("telescope").load_extension "refactoring"
+      require("telescope").load_extension "yank_history"
+      require("telescope").load_extension "undo"
     end
 
     require("telescope").setup {

@@ -263,11 +263,11 @@ path:
    $env.PATH | split row ":"
 
 nvim-test:
-  rm -rf $"($env.HOME)/.config/astronvim/lua/user"
-  rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/neovim/astronvim_user/ $"($env.HOME)/.config/astronvim/lua/user"
+  rm -rf $"($env.HOME)/.config/nvim"
+  rsync -avz --copy-links --chmod=D2755,F744 home/base/tui/editors/neovim/nvim/ $"($env.HOME)/.config/nvim/"
 
 nvim-clean:
-  rm -rf $"($env.HOME)/.config/astronvim/lua/user"
+  rm -rf $"($env.HOME)/.config/nvim"
 
 # =================================================
 # Emacs related commands
@@ -289,7 +289,7 @@ reload-emacs-cmd := if os() == "macos" {
 
 emacs-test:
   rm -rf $"($env.HOME)/.config/doom"
-  rsync -avz --copy-links --chmod=D2755,F744 home/base/desktop/editors/emacs/doom/ $"($env.HOME)/.config/doom"
+  rsync -avz --copy-links --chmod=D2755,F744 home/base/tui/editors/emacs/doom/ $"($env.HOME)/.config/doom/"
   doom clean
   doom sync
 

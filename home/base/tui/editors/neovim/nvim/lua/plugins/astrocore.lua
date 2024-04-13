@@ -1,13 +1,7 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
-
-require("telescope").load_extension "refactoring"
-require("telescope").load_extension "yank_history"
-require("telescope").load_extension "undo"
 
 ---@type LazySpec
 return {
@@ -48,34 +42,18 @@ return {
       },
     },
     -- Mappings can be configured through AstroCore as well.
+    -- https://docs.astronvim.com/recipes/mappings/
     -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
     mappings = {
       -- first key is the mode
       n = {
         -- second key is the lefthand side of the map
 
-        -- navigate buffer tabs with `H` and `L`
-        L = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        H = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-
-        -- mappings seen under group name "Buffer"
-        ["<Leader>bD"] = {
-          function()
-            require("astroui.status.heirline").buffer_picker(
-              function(bufnr) require("astrocore.buffer").close(bufnr) end
-            )
-          end,
-          desc = "Pick to close",
-        },
-        -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
-        ["<Leader>b"] = { desc = "Buffers" },
-
         -- second key is the lefthand side of the map
         -- mappings seen under group name "Buffer"
         ["<Leader>bn"] = { "<cmd>tabnew<cr>", desc = "New tab" },
         -- quick save
-        ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
+        -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },
 
         -- Terminal
         -- NOTE: https://neovim.io/doc/user/builtin.html#jobstart()
@@ -90,33 +68,6 @@ return {
         ["<Leader>sp"] = {
           '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
           desc = "Search on current file",
-        },
-
-        -- refactoring
-        ["<Leader>ri"] = {
-          function() require("refactoring").refactor "Inline Variable" end,
-          desc = "Inverse of extract variable",
-        },
-        ["<Leader>rb"] = { function() require("refactoring").refactor "Extract Block" end, desc = "Extract Block" },
-        ["<Leader>rbf"] = {
-          function() require("refactoring").refactor "Extract Block To File" end,
-          desc = "Extract Block To File",
-        },
-        ["<Leader>rr"] = {
-          function() require("telescope").extensions.refactoring.refactors() end,
-          desc = "Prompt for a refactor to apply",
-        },
-        ["<Leader>rp"] = {
-          function() require("refactoring").debug.printf { below = false } end,
-          desc = "Insert print statement to mark the calling of a function",
-        },
-        ["<Leader>rv"] = {
-          function() require("refactoring").debug.print_var() end,
-          desc = "Insert print statement to print a variable",
-        },
-        ["<Leader>rc"] = {
-          function() require("refactoring").debug.cleanup {} end,
-          desc = "Cleanup of all generated print statements",
         },
 
         -- yank_history
@@ -150,30 +101,7 @@ return {
         -- search and replace globally
         ["<Leader>sw"] = { '<esc><cmd>lua require("spectre").open_visual()<CR>', desc = "Search current word" },
       },
-      -- visual mode(what's the difference between v and x???)
-      x = {
-        -- refactoring
-        ["<Leader>ri"] = {
-          function() require("refactoring").refactor "Inline Variable" end,
-          desc = "Inverse of extract variable",
-        },
-        ["<Leader>re"] = {
-          function() require("refactoring").refactor "Extract Function" end,
-          desc = "Extracts the selected code to a separate function",
-        },
-        ["<Leader>rf"] = {
-          function() require("refactoring").refactor "Extract Function To File" end,
-          desc = "Extract Function To File",
-        },
-        ["<Leader>rv"] = {
-          function() require("refactoring").refactor "Extract Variable" end,
-          desc = "Extracts occurrences of a selected expression to its own variable",
-        },
-        ["<Leader>rr"] = {
-          function() require("telescope").extensions.refactoring.refactors() end,
-          desc = "Prompt for a refactor to apply",
-        },
-      },
+
     },
   },
 }
