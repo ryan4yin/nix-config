@@ -89,11 +89,11 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## Neovim
 
-See [./home/base/desktop/editors/neovim/](./home/base/desktop/editors/neovim/) for details.
+See [./home/base/tui/editors/neovim/](./home/base/tui/editors/neovim/) for details.
 
 ## Emacs
 
-See [./home/base/desktop/editors/emacs/](./home/base/desktop/editors/emacs/) for details.
+See [./home/base/tui/editors/emacs/](./home/base/tui/editors/emacs/) for details.
 
 ## Secrets Management
 
