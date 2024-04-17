@@ -3,12 +3,12 @@
 # https://gethomepage.dev/latest/configs/settings
 
 title: Ryan Yin's Homelab
-base: http://home.writefor.fun/
+base: https://home.writefor.fun/
 favicon: https://thiscute.world/favicon.ico
 
 # https://developer.mozilla.org/en-US/docs/Web/Manifest/start_url
 # Used by some browsers to determine the start page of the web application
-startUrl: http://home.writefor.fun/
+startUrl: https://home.writefor.fun/
 
 language: zh
 
@@ -20,11 +20,11 @@ providers:
   weatherapi: { { HOMEPAGE_VAR_WEATHERAPI_APIKEY } }
 
 background:
-  image: /images/rolling-girls.png
+  image: https://file.writefor.fun/wallpapers/rolling-girls.png
   blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-  saturate: 50 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
-  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-  opacity: 50 # 0-100
+  saturate: 90 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 90 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 85 # 0-100
 
 theme: dark # or light
 

@@ -1,4 +1,9 @@
-{config, ...}: let
+{
+  pkgs,
+  config,
+  wallpapers,
+  ...
+}: let
   hostCommonConfig = ''
     encode zstd gzip
     tls ${../../certs/ecc-server.crt} ${config.age.secrets."certs/ecc-server.key".path} {
@@ -82,4 +87,11 @@ in {
     # directory for virtual machine's images
     "d /var/lib/caddy/fileserver/vms 0755 caddy caddy"
   ];
+
+  # Add all my wallpapers into /var/lib/caddy/fileserver/wallpapers
+  # Install the homepage-dashboard configuration files
+  system.activationScripts.installCaddyWallpapers = ''
+    mkdir -p /var/lib/caddy/fileserver/wallpapers
+    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F644 ${wallpapers}/ /var/lib/caddy/fileserver/wallpapers/
+  '';
 }
