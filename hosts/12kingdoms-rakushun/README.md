@@ -31,3 +31,10 @@ the services.
 
 TODO: create a private PKI for caddy, to achieve end-to-end encryption between caddy and the
 services.
+
+## Misc
+
+```bash
+# copy closure to another arm64 machine
+nix-copy-closure --to root@suzu  /run/current-system
+```
