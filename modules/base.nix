@@ -15,6 +15,10 @@
     ../certs/ecc-ca.crt
   ];
 
+  # auto upgrade nix to the unstable version
+  # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/tools/package-management/nix/default.nix#L284
+  nix.package = pkgs.nixVersions.unstable;
+
   environment.systemPackages = with pkgs; [
     git # used by nix flakes
     git-lfs # used by huggingface models
