@@ -20,7 +20,9 @@ in {
     inherit hostName;
     inherit (myvars.networking) defaultGateway nameservers;
     inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
-    networkmanager.enable = false;
+
+    # desktop need its cli for status bar
+    networkmanager.enable = true;
   };
 
   # conflict with feature: containerd-snapshotter
