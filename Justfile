@@ -232,22 +232,24 @@ yukina:
 #
 ############################################################################
 
-aarch:
-  colmena apply --on '@aarch' --build-on-target --verbose --show-trace
-
-suzu:
-  colmena apply --on '@suzu' --build-on-target --verbose --show-trace
-
-suzu-local mode="default":
-  use utils.nu *; \
-  nixos-switch suzu {{mode}}
-
 rakushun:
   colmena apply --on '@rakushun' --build-on-target --verbose --show-trace
 
 rakushun-local mode="default":
   use utils.nu *; \
   nixos-switch rakushun {{mode}}
+
+suzu-set-proxy:
+  ip route del default via 192.168.5.1
+  ip route add default via 192.168.5.178
+
+suzu-unset-proxy:
+  ip route del default via 192.168.5.178
+  ip route add default via 192.168.5.1
+
+suzu-local mode="default":
+  use utils.nu *; \
+  nixos-switch suzu {{mode}}
 
 ############################################################################
 #
