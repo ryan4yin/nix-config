@@ -18,13 +18,6 @@ in
       ++ [
         ({lib, ...}: {
           nixpkgs.pkgs = import nixpkgs {inherit system;};
-          # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-          nix.registry.nixpkgs.flake = nixpkgs;
-
-          environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-          # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
-          # discard all the default paths, and only use the one from this flake.
-          nix.nixPath = lib.mkForce ["/etc/nix/inputs"];
         })
       ]
       ++ (
