@@ -50,10 +50,11 @@ sudo nix run --experimental-features "nix-command flakes" 'github:nix-community/
 ## 1. partition & format the disk via disko
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko hosts/k8s/disko-config/kukubevirt-disko-fs.nix
 ## 2. install nixos
-# NOTE: the root password you set here will be discarded when reboot
 sudo nixos-install --root /mnt --no-root-password --show-trace --verbose --flake .#kubevirt-shoryu
 
-# move the essential files into /persistent
+# enter into the installed system, check password & users
+# `su ryan` => `sudo -i` => enter ryan's password => successfully login
+# if login failed, check the password you set in install-1, and try again
 nixos-enter
 
 # NOTE: DO NOT skip this step!!!
@@ -63,4 +64,6 @@ nixos-enter
 ##       We need to copy files into /persistent manually!!!
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/
+mkdir -p /persistent/home/ryan
+chown -R ryan:ryan /persistent/home/ryan
 ```

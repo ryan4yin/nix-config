@@ -137,6 +137,20 @@ sudo nix --experimental-features "nix-command flakes" run github:nix-community/d
 
 cd ~/nix-config
 # install nixos
-# NOTE: the root password you set here will be discarded when reboot
 sudo nixos-install --root /mnt --flake .#suzu --no-root-password --show-trace --verbose
+
+# enter into the installed system, check password & users
+# `su ryan` => `sudo -i` => enter ryan's password => successfully login
+# if login failed, check the password you set in install-1, and try again
+nixos-enter
+
+# NOTE: DO NOT skip this step!!!
+# copy the essential files into /persistent
+# otherwise the / will be cleared and data will lost
+## NOTE: impermanence just create links from / to /persistent
+##       We need to copy files into /persistent manually!!!
+mv /etc/machine-id /persistent/etc/
+mv /etc/ssh /persistent/etc/
+mkdir -p /persistent/home/ryan
+chown -R ryan:ryan /persistent/home/ryan
 ```
