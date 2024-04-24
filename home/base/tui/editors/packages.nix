@@ -25,6 +25,7 @@
         with ps; [
           ruff-lsp
           black # python formatter
+          debugpy
 
           jupyter
           ipython
