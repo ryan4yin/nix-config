@@ -49,7 +49,8 @@
               name = "encrypted";
               settings = {
                 keyFile = "/dev/disk/by-label/NIXOS_DSC"; # The keyfile is stored on a USB stick
-                # The maximum size of the keyfile is 8192 bytes
+                # The maximum size of the keyfile is 8192 KiB
+                # type `cryptsetup --help` to see the compiled-in key and passphrase maximum sizes
                 keyFileSize = 512 * 64; # match the `bs * count` of the `dd` command
                 keyFileOffset = 512 * 128; # match the `bs * skip` of the `dd` command
                 fallbackToPassword = true;
