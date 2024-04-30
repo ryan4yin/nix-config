@@ -27,7 +27,7 @@
     zip
     xz
     zstd
-    unzip
+    unzipNLS
     p7zip
 
     # Text Processing
