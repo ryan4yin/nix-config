@@ -30,7 +30,13 @@ This task is accomplished using the [agenix](https://github.com/ryantm/agenix) C
 To use agenix temporarily, run:
 
 ```bash
-nix shell nixpkgs#agenix
+nix shell github:ryantm/agenix#agenix
+```
+
+or agenix provided by ragenix, run:
+
+```bash
+nix shell github:ryan4yin/ragenix#ragenix
 ```
 
 Suppose you want to add a new secret file `xxx.age`. Follow these steps:
