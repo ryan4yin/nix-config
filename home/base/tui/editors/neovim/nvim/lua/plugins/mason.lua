@@ -42,13 +42,14 @@ return {
     -- end,
   },
   {
+    -- https://docs.astronvim.com/recipes/dap/
     "jay-babu/mason-nvim-dap.nvim",
     -- mason is unusable on NixOS, disable it.
     -- ensure_installed nothing
-    opts = function(_, opts)
-      opts.ensure_installed = nil
-      opts.automatic_installation = false
-    end,
+    -- opts = function(_, opts)
+    --   opts.ensure_installed = nil
+    --   opts.automatic_installation = false
+    -- end,
 
     -- overrides `require("mason-nvim-dap").setup(...)`
     -- opts = function(_, opts)
