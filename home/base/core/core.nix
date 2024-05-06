@@ -134,7 +134,7 @@
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      enableNushellIntegration = false;
+      enableNushellIntegration = true;
     };
   };
 }
