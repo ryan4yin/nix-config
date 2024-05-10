@@ -25,7 +25,7 @@
 
     includes = [
       {
-        # use diffrent email & name for work
+        # use different email & name for work
         path = "~/work/.gitconfig";
         condition = "gitdir:~/work/";
       }
@@ -33,6 +33,7 @@
 
     extraConfig = {
       init.defaultBranch = "main";
+      trim.bases = "develop,master,main"; # for git-trim
       push.autoSetupRemote = true;
       pull.rebase = true;
 
