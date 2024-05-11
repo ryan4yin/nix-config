@@ -27,12 +27,14 @@
           black # python formatter
           debugpy
 
+          # my commonly used python packages
           jupyter
           ipython
           pandas
           requests
           pyquery
           pyyaml
+          boto3
 
           ## emacs's lsp-bridge dependenciesge
           epc
