@@ -59,19 +59,23 @@ gitgc:
 #
 ############################################################################
 
+[linux]
 i3 mode="default":
   use utils.nu *; \
   nixos-switch ai-i3 {{mode}}
 
+[linux]
 hypr mode="default":
   use utils.nu *; \
   nixos-switch ai-hyprland {{mode}}
 
 
+[linux]
 s-i3 mode="default":
   use utils.nu *; \
   nixos-switch shoukei-i3 {{mode}}
 
+[linux]
 s-hypr mode="default":
   use utils.nu *; \
   nixos-switch shoukei-hyprland {{mode}}
@@ -82,27 +86,32 @@ s-hypr mode="default":
 #
 ############################################################################
 
+[macos]
 darwin-set-proxy:
   sudo python3 scripts/darwin_set_proxy.py
   sleep 1sec
 
+[macos]
 darwin-rollback:
   use utils.nu *; \
   darwin-rollback
 
 # Deploy to harmonica(macOS host)
+[macos]
 ha mode="default":
   use utils.nu *; \
   darwin-build "harmonica" {{mode}}; \
   darwin-switch "harmonica" {{mode}}
 
 # Depoly to fern(macOS host)
+[macos]
 fe mode="default": darwin-set-proxy
   use utils.nu *; \
   darwin-build "fern" {{mode}}; \
   darwin-switch "fern" {{mode}}
 
 # Reload yabai and skhd(macOS)
+[macos]
 yabai-reload:
   launchctl kickstart -k "gui/502/org.nixos.yabai";
   launchctl kickstart -k "gui/502/org.nixos.skhd"; 
