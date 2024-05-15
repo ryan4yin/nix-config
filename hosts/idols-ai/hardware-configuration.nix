@@ -40,6 +40,7 @@
     "ntfs"
     "fat"
     "vfat"
+    "exfat"
   ];
 
   boot.initrd = {

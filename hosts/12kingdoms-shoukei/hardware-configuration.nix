@@ -37,6 +37,7 @@
     "ntfs"
     "fat"
     "vfat"
+    "exfat"
   ];
 
   # clear /tmp on boot to get a stateless /tmp directory.
