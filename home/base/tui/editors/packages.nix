@@ -25,7 +25,7 @@
         with ps; [
           ruff-lsp
           black # python formatter
-          debugpy
+          # debugpy
 
           # my commonly used python packages
           jupyter
@@ -37,13 +37,13 @@
           boto3
 
           ## emacs's lsp-bridge dependenciesge
-          epc
-          orjson
-          sexpdata
-          six
-          setuptools
-          paramiko
-          rapidfuzz
+          # epc
+          # orjson
+          # sexpdata
+          # six
+          # setuptools
+          # paramiko
+          # rapidfuzz
         ]
     ))
 

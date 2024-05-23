@@ -36,12 +36,12 @@
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
     # Official NixOS package source, using nixos's unstable branch by default
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
     # for macos
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.11-darwin";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.05-darwin";
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
@@ -50,8 +50,8 @@
 
     # home-manager, used for managing user configuration
     home-manager = {
-      # url = "github:nix-community/home-manager/release-23.11";
-      url = "github:nix-community/home-manager/master";
+      url = "github:nix-community/home-manager/release-24.05";
+      # url = "github:nix-community/home-manager/master";
 
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
@@ -67,7 +67,7 @@
     impermanence.url = "github:nix-community/impermanence";
 
     hyprland = {
-      url = "github:hyprwm/Hyprland/v0.38.1";
+      url = "github:hyprwm/Hyprland/v0.39.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -96,7 +96,7 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
 
     disko = {
-      url = "github:nix-community/disko";
+      url = "github:nix-community/disko/v1.6.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -27,7 +27,7 @@
     minicom
 
     # ai related
-    python311Packages.huggingface-hub # huggingface-cli
+    python312Packages.huggingface-hub # huggingface-cli
 
     # misc
     pkgs-unstable.devbox

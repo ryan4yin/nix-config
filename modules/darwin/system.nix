@@ -13,7 +13,7 @@
 #   1. To avoid conflicts with neovim, disable ctrl + up/down/left/right to switch spaces in:
 #     [System Preferences] -> [Keyboard] -> [Keyboard Shortcuts] -> [Mission Control]
 #   2. Disable use Caps Lock as 中/英 switch in:
-#     [System Preferences] -> [Keyboard] -> [Input Sources] -> [Edit] -> [Use 中/英 key to switch ] -> [Disble]
+#     [System Preferences] -> [Keyboard] -> [Input Sources] -> [Edit] -> [Use 中/英 key to switch ] -> [Disable]
 ###################################################################################
 {
   # Add ability to used TouchID for sudo authentication
@@ -118,7 +118,7 @@
           DSDontWriteUSBStores = true;
         };
         "com.apple.spaces" = {
-          "spans-displays" = 0; # Display have seperate spaces
+          "spans-displays" = 0; # Display have separate spaces
         };
         "com.apple.WindowManager" = {
           EnableStandardClickToShowDesktop = 0; # Click wallpaper to reveal desktop
@@ -202,7 +202,7 @@
       source-han-serif # 思源宋体
 
       # nerdfonts
-      # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/data/fonts/nerdfonts/shas.nix
+      # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/pkgs/data/fonts/nerdfonts/shas.nix
       (nerdfonts.override {
         fonts = [
           # symbols icon only

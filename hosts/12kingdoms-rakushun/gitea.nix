@@ -1,6 +1,6 @@
 {pkgs, ...}: let
 in {
-  # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/misc/gitea.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/misc/gitea.nix
   services.gitea = {
     enable = true;
     user = "gitea";

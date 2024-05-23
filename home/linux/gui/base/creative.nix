@@ -19,7 +19,7 @@
     # kicad     # 3d printing, eletrical engineering
 
     # fpga
-    pkgs-unstable.python311Packages.apycula # gowin fpga
+    pkgs-unstable.python312Packages.apycula # gowin fpga
     pkgs-unstable.yosys # fpga synthesis
     pkgs-unstable.nextpnr # fpga place and route
     pkgs-unstable.openfpgaloader # fpga programming
