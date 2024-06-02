@@ -9,7 +9,7 @@
   specialArgs ? (genSpecialArgs system),
   ...
 }: let
-  inherit (inputs) nixpkgs home-manager nix-darwin;
+  inherit (inputs) nixpkgs-darwin home-manager nix-darwin;
 in
   nix-darwin.lib.darwinSystem {
     inherit system specialArgs;
@@ -17,7 +17,7 @@ in
       darwin-modules
       ++ [
         ({lib, ...}: {
-          nixpkgs.pkgs = import nixpkgs {inherit system;};
+          nixpkgs.pkgs = import nixpkgs-darwin {inherit system;};
         })
       ]
       ++ (
