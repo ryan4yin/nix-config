@@ -7,7 +7,7 @@
   name = "transmission";
 in {
   # the headless Transmission BitTorrent daemon
-  # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/torrent/transmission.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/torrent/transmission.nix
   # https://wiki.archlinux.org/title/transmission
   services.transmission = {
     enable = true;
@@ -81,7 +81,7 @@ in {
       lpd-enabled = true;
       # The peer port to listen for incoming connections.
       peer-port = 51413;
-      # Enable UPnP or NAT-PMP to forward a port through your firewall(NAT).
+      # Enable UOnP or NAT-PMP to forward a port through your firewall(NAT).
       # https://github.com/transmission/transmission/blob/main/docs/Port-Forwarding-Guide.md
       port-forwarding-enabled = true;
 

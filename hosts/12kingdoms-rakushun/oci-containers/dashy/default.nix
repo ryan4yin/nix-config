@@ -6,7 +6,7 @@
   #   install -Dm 600 ${./dashy_conf.yml} /etc/dashy/dashy_conf.yml
   # '';
   #
-  # # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/virtualisation/oci-containers.nix
+  # # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/virtualisation/oci-containers.nix
   # virtualisation.oci-containers.containers = {
   #   # check its logs via `journalctl -u podman-dashy`
   #   dashy = {

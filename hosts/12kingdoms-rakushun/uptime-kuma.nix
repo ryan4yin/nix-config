@@ -1,5 +1,5 @@
 {
-  # https://github.com/NixOS/nixpkgs/blob/nixos-23.11/nixos/modules/services/monitoring/uptime-kuma.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/uptime-kuma.nix
   services.uptime-kuma = {
     enable = true;
     # https://github.com/louislam/uptime-kuma/wiki/Environment-Variables
