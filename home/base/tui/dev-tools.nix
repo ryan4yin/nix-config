@@ -18,8 +18,8 @@
     colmena # nixos's remote deployment tool
 
     # db related
-    mycli
-    pgcli
+    pkgs-unstable.mycli
+    pkgs-unstable.pgcli
     mongosh
     sqlite
 
@@ -27,7 +27,7 @@
     minicom
 
     # ai related
-    python312Packages.huggingface-hub # huggingface-cli
+    pkgs-unstable.python312Packages.huggingface-hub # huggingface-cli
 
     # misc
     pkgs-unstable.devbox
