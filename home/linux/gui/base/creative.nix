@@ -1,7 +1,7 @@
 {
   pkgs,
   pkgs-unstable,
-  pkgs-stable,
+  # pkgs-stable,
   nur-ryan4yin,
   ...
 }: {
@@ -30,7 +30,7 @@
     # live streaming
     obs-studio = {
       enable = true;
-      plugins = with pkgs-stable.obs-studio-plugins; [
+      plugins = with pkgs.obs-studio-plugins; [
         # screen capture
         wlrobs
         # obs-ndi
