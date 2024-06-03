@@ -110,10 +110,10 @@ Formatting the root partition:
 # NOTE: `cat shoukei.md | grep create-btrfs > btrfs.sh` to generate this script
 mkfs.fat -F 32 -n ESP /dev/nvme0n1p1  # create-btrfs
 # format the root partition with btrfs and label it
-mkfs.btrfs -L encrypted-nixos /dev/mapper/crypted-nixos   # create-btrfs
+mkfs.btrfs -L encrypted-nixos /dev/mapper/encrypted-nixos   # create-btrfs
 
 # mount the root partition and create subvolumes
-mount /dev/mapper/crypted-nixos /mnt  # create-btrfs
+mount /dev/mapper/encrypted-nixos /mnt  # create-btrfs
 btrfs subvolume create /mnt/@nix  # create-btrfs
 btrfs subvolume create /mnt/@guix  # create-btrfs
 btrfs subvolume create /mnt/@tmp  # create-btrfs
@@ -130,13 +130,13 @@ umount /mnt  # create-btrfs
 #     1. Extend the life of the SSD.
 #     2. improve the performance of disks with low IOPS / RW throughput, such as HDD and SATA SSD.
 #   2. Save the disk space.
-mkdir /mnt/{nix,tmp,swap,persistent,snapshots,boot}  # mount-1
-mount -o compress-force=zstd:1,noatime,subvol=@nix /dev/mapper/crypted-nixos /mnt/nix  # mount-1
-mount -o compress-force=zstd:1,noatime,subvol=@guix /dev/mapper/crypted-nixos /mnt/gnu  # mount-1
-mount -o compress-force=zstd:1,subvol=@tmp /dev/mapper/crypted-nixos /mnt/tmp  # mount-1
-mount -o subvol=@swap /dev/mapper/crypted-nixos /mnt/swap  # mount-1
-mount -o compress-force=zstd:1,noatime,subvol=@persistent /dev/mapper/crypted-nixos /mnt/persistent  # mount-1
-mount -o compress-force=zstd:1,noatime,subvol=@snapshots /dev/mapper/crypted-nixos /mnt/snapshots  # mount-1
+mkdir /mnt/{nix,gnu,tmp,swap,persistent,snapshots,boot}  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@nix /dev/mapper/encrypted-nixos /mnt/nix  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@guix /dev/mapper/encrypted-nixos /mnt/gnu  # mount-1
+mount -o compress-force=zstd:1,subvol=@tmp /dev/mapper/encrypted-nixos /mnt/tmp  # mount-1
+mount -o subvol=@swap /dev/mapper/encrypted-nixos /mnt/swap  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@persistent /dev/mapper/encrypted-nixos /mnt/persistent  # mount-1
+mount -o compress-force=zstd:1,noatime,subvol=@snapshots /dev/mapper/encrypted-nixos /mnt/snapshots  # mount-1
 mount /dev/nvme0n1p1 /mnt/boot  # mount-1
 
 # create a swapfile on btrfs file system
@@ -244,7 +244,7 @@ cp -r ../nix-config /mnt/etc/nixos
 sync
 swapoff /mnt/swap/swapfile
 umount -R /mnt
-cryptsetup close /dev/mapper/crypted-nixos
+cryptsetup close /dev/mapper/encrypted-nixos
 reboot
 ```
 
