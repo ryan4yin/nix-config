@@ -17,7 +17,9 @@
 > My configuration is becoming more and more complex, and it may be difficult for beginners to read
 > it. If you are new to NixOS and want to know how I use NixOS, I would recommend you to take a look
 > at the [ryan4yin/nix-config/releases](https://github.com/ryan4yin/nix-config/releases) first,
-> **checkout to some simpler older versions**, which will be much easier to understand.
+> **checkout to some simpler older versions**, such as
+> [i3-kickstarter](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter), which will be much
+> easier to understand.
 
 This repository is home to the nix code that builds my systems:
 
