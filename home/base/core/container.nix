@@ -11,6 +11,7 @@
     lazydocker # Docker terminal UI.
 
     kubectl
+    kubebuilder
     istioctl
     kubevirt # virtctl
     kubernetes-helm
