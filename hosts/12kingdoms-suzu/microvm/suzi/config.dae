@@ -272,6 +272,12 @@ routing {
     domain(geosite:openai) -> sg
     domain(regex:'.+\.openai$') -> sg
 
+    # Steam
+    domain(suffix: steampowered.com) -> direct
+    domain(suffix: steamserver.net) -> direct
+    domain(geosite:steam@cn) -> direct
+    domain(geosite:steam) -> proxy
+
     ### Media
     domain(geosite:netflix) -> media
 
