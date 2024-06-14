@@ -24,6 +24,11 @@
 
     # aliyun
     aliyun-cli
+    # digitalocean
+    doctl
+    # google cloud
+    google-cloud-sdk
+
     # cloud tools that nix do not have cache for.
     terraform
     terraformer # generate terraform configs from existing cloud resources
