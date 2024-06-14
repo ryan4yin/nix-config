@@ -17,6 +17,8 @@
     kubernetes-helm
     fluxcd
     argocd
+
+    ko # build go project to container image
   ];
 
   programs = {
