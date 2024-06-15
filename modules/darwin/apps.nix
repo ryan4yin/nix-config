@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 ##########################################################################
@@ -80,7 +81,7 @@ in {
   programs.zsh.enable = true;
   environment.shells = [
     pkgs.zsh
-    pkgs.nushellFull # my custom shell
+    pkgs-unstable.nushell # my custom shell
   ];
 
   # homebrew need to be installed manually, see https://brew.sh
@@ -103,7 +104,7 @@ in {
       Wechat = 836500024;
       QQ = 451108668;
       WeCom = 1189898970; # Wechat for Work
-      TecentMetting = 1484048379;
+      TecentMeeting = 1484048379;
       QQMusic = 595615424;
     };
 
@@ -164,7 +165,7 @@ in {
       # Misc
       "shadowsocksx-ng" # proxy tool
       "iina" # video player
-      "raycast" # (HotKey: alt/option + space)search, caculate and run scripts(with many plugins)
+      "raycast" # (HotKey: alt/option + space)search, calculate and run scripts(with many plugins)
       "stats" # beautiful system status monitor in menu bar
       # "reaper"  # audio editor
       "sonic-pi" # music programming
