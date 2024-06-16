@@ -17,7 +17,7 @@ return {
         node_decremental = "<bs>", -- Backspace
       },
     }
-    opts.ignore_install = { "gotmpl" }
+    opts.ignore_install = { "gotmpl", "wing" }
 
     -- add more things to the ensure_installed table protecting against community packs modifying it
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
