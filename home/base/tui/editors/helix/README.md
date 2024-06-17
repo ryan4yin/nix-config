@@ -30,7 +30,7 @@ Use `:tutor` in helix to start the tutorial.
    1. Personally I'm glad to take a look at a Rust codebase, but not a VimScript/Lua codebase.
 1. Neovim have a very activate plugin ecosystem, and it's easy to find plugins for almost
    everything.
-   1. Helix is still new, and it even do have a stable plugin system yet. A PR to add a plugin
+   1. Helix is still new, and it even don't have a stable plugin system yet. A PR to add a plugin
       system is still envolving: <https://github.com/helix-editor/helix/pull/8675>
 1. Neovim has integrated terminal, and it's very powerful. It's quite similar to VSCode's integrated
    terminal. I use it a lot.
