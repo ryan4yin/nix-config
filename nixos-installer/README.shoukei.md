@@ -79,7 +79,7 @@ cryptsetup luksFormat --type luks2 --cipher aes-xts-plain64 --hash sha512 --iter
 cryptsetup luksDump /dev/nvme0n1p4
 
 # open(unlock) the device with the passphrase you just set
-cryptsetup luksOpen /dev/nvme0n1p4 encrypted-nixos
+cryptsetup luksOpen /dev/nvme0n1p4 crypted-nixos
 
 # show disk status
 lsblk
@@ -90,7 +90,7 @@ Formatting the root partition:
 ```bash
 # NOTE: `cat shoukei.md | egrep "create-btrfs"  > create-btrfs.sh` to generate this script
 # format the root partition with btrfs and label it
-mkfs.btrfs -L encrypted-nixos /dev/mapper/crypted-nixos  # create-btrfs
+mkfs.btrfs -L crypted-nixos /dev/mapper/crypted-nixos  # create-btrfs
 # mount the root partition and create subvolumes
 mount /dev/mapper/crypted-nixos /mnt  # create-btrfs
 btrfs subvolume create /mnt/@nix  # create-btrfs
@@ -139,7 +139,7 @@ $ lsblk
 nvme0n1           259:0    0   1.8T  0 disk
 ├─nvme0n1p1       259:2    0   600M  0 part  /mnt/boot
 └─nvme0n1p4       259:3    0   1.8T  0 part
-  └─encrypted-nixos 254:0    0   1.8T  0 crypt /mnt/swap
+  └─crypted-nixos 254:0    0   1.8T  0 crypt /mnt/swap
                                              /mnt/persistent
                                              /mnt/snapshots
                                              /mnt/nix

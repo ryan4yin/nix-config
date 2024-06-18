@@ -44,7 +44,7 @@
   boot.tmp.cleanOnBoot = true;
   boot.initrd = {
     # unlocked luks devices via a keyfile or prompt a passphrase.
-    luks.devices."encrypted-nixos" = {
+    luks.devices."crypted-nixos" = {
       device = "/dev/nvme0n1p4";
       # the keyfile(or device partition) that should be used as the decryption key for the encrypted device.
       # if not specified, you will be prompted for a passphrase instead.

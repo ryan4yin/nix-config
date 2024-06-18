@@ -40,7 +40,7 @@ zram0             253:0    0 15.6G  0 disk  [SWAP]
 nvme0n1           259:0    0  1.8T  0 disk
 ├─nvme0n1p1       259:2    0  598M  0 part  /boot
 └─nvme0n1p2       259:3    0  1.8T  0 part
-  └─encrypted-nixos 254:0    0  1.8T  0 crypt /tmp
+  └─crypted-nixos 254:0    0  1.8T  0 crypt /tmp
                                             /swap/swapfile
                                             /swap
                                             /snapshots
