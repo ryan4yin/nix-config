@@ -12,7 +12,7 @@
 
   # the nixConfig here only affects the flake itself, not the system configuration!
   # for more information, see:
-  #     https://nixos-and-flakes.thiscute.world/nixos-with-flakes/add-custom-cache-servers
+  #     https://nixos-and-flakes.thiscute.world/nix-store/add-binary-cache-servers
   nixConfig = {
     # substituers will be appended to the default substituters when fetching packages
     extra-substituters = [
