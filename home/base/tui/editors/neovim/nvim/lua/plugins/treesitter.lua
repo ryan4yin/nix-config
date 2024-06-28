@@ -6,6 +6,7 @@ return {
   dependencies = {
     -- NOTE: additional parser
     { "nushell/tree-sitter-nu" },
+    { "IndianBoy42/tree-sitter-just" },
   },
   opts = function(_, opts)
     opts.incremental_selection = {
