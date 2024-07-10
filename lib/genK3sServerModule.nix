@@ -27,8 +27,10 @@ in {
     kubernetes-helm
     cilium-cli
     fluxcd
+    clusterctl # for kubernetes cluster-api
 
-    skopeo
+    skopeo # copy/sync images between registries and local storage
+    go-containerregistry # provides `crane` & `gcrane`, it's similar to skopeo
     dive # explore docker layers
   ];
 

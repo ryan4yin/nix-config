@@ -5,14 +5,16 @@
   ...
 }: {
   home.packages = with pkgs; [
-    skopeo
     docker-compose
     dive # explore docker layers
     lazydocker # Docker terminal UI.
+    skopeo # copy/sync images between registries and local storage
+    go-containerregistry # provides `crane` & `gcrane`, it's similar to skopeo
 
     kubectl
     kubebuilder
     istioctl
+    clusterctl # for kubernetes cluster-api
     kubevirt # virtctl
     kubernetes-helm
     fluxcd
