@@ -1,11 +1,10 @@
 {
   pkgs,
   lib,
-  hyprland,
   nur-ryan4yin,
   ...
 }: let
-  package = hyprland.packages.${pkgs.system}.hyprland;
+  package = pkgs.hyprland;
 in {
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
