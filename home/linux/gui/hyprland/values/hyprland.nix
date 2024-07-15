@@ -4,7 +4,7 @@
   nur-ryan4yin,
   ...
 }: let
-  package = pkgs.hyprland;
+  package = pkgs.hyprland.override {debug = true;};
 in {
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
