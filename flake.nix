@@ -60,14 +60,14 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.3.0";
+      url = "github:nix-community/lanzaboote/v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     impermanence.url = "github:nix-community/impermanence";
 
     hyprland = {
-      url = "github:hyprwm/Hyprland/v0.39.1";
+      url = "github:hyprwm/Hyprland/v0.41.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
