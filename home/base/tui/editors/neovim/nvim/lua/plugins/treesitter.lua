@@ -20,31 +20,23 @@ return {
     opts.ignore_install = { "gotmpl", "wing" }
 
     -- add more things to the ensure_installed table protecting against community packs modifying it
+    -- https://github.com/nvim-treesitter/nvim-treesitter/tree/master
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
-      -- neovim
-      "vim",
-      "lua",
-      -- operation & cloud native
-      "dockerfile",
-      "hcl",
-      "jsonnet",
-      "regex",
-      "terraform",
-      "nix",
+      -- please add only the tree-sitters that are not available in nixpkgs here
+
+      "kdl",
       "csv",
-      "nickel", -- nickel language
-      "just", -- justfile
-      -- other programming language
+      "xml",
+      "vhdl",
+
+      ---- Misc
       "diff",
+      "git_config",
+      "git_rebase",
       "gitignore",
       "gitcommit",
-      "latex",
-      "sql",
-      -- Lisp like
-      "fennel",
-      "clojure",
-      "commonlisp",
-      "scheme",
+      "gitattributes",
+      "ssh_config",
     })
   end,
 }

@@ -5,134 +5,151 @@
     '';
   };
 
-  home.packages = with pkgs; [
-    #-- c/c++
-    cmake
-    cmake-language-server
-    gnumake
-    checkmake
-    # c/c++ compiler, required by nvim-treesitter!
-    gcc
-    # c/c++ tools with clang-tools, the unwrapped version won't
-    # add alias like `cc` and `c++`, so that it won't conflict with gcc
-    # llvmPackages.clang-unwrapped
-    clang-tools
-    lldb
+  home.packages = with pkgs; (
+    # -*- Data & Configuration Languages -*-#
+    [
+      #-- nix
+      nil
+      # rnix-lsp
+      # nixd
+      statix # Lints and suggestions for the nix programming language
+      deadnix # Find and remove unused code in .nix source files
+      alejandra # Nix Code Formatter
 
-    #-- python
-    nodePackages.pyright # python language server
-    (python311.withPackages (
-      ps:
-        with ps; [
-          ruff-lsp
-          black # python formatter
-          # debugpy
+      #-- nickel lang
+      nickel
 
-          # my commonly used python packages
-          jupyter
-          ipython
-          pandas
-          requests
-          pyquery
-          pyyaml
-          boto3
+      #-- json like
+      # terraform  # install via brew on macOS
+      terraform-ls
+      jsonnet
+      jsonnet-language-server
+      taplo # TOML language server / formatter / validator
+      nodePackages.yaml-language-server
+      actionlint # GitHub Actions linter
 
-          ## emacs's lsp-bridge dependenciesge
-          # epc
-          # orjson
-          # sexpdata
-          # six
-          # setuptools
-          # paramiko
-          # rapidfuzz
-        ]
-    ))
+      #-- dockerfile
+      hadolint # Dockerfile linter
+      nodePackages.dockerfile-language-server-nodejs
 
-    #-- rust
-    rust-analyzer
-    cargo # rust package manager
-    rustfmt
+      #-- markdown
+      marksman # language server for markdown
+      glow # markdown previewer
+      pandoc # document converter
+      hugo # static site generator
 
-    #-- nix
-    nil
-    # rnix-lsp
-    # nixd
-    statix # Lints and suggestions for the nix programming language
-    deadnix # Find and remove unused code in .nix source files
-    alejandra # Nix Code Formatter
+      #-- sql
+      sqlfluff
 
-    #-- golang
-    go
-    gomodifytags
-    iferr # generate error handling code for go
-    impl # generate function implementation for go
-    gotools # contains tools like: godoc, goimports, etc.
-    gopls # go language server
-    delve # go debugger
+      #-- protocol buffer
+      buf # linting and formatting
+    ]
+    ++
+    #-*- General Purpose Languages -*-#
+    [
+      #-- c/c++
+      cmake
+      cmake-language-server
+      gnumake
+      checkmake
+      # c/c++ compiler, required by nvim-treesitter!
+      gcc
+      gdb
+      # c/c++ tools with clang-tools, the unwrapped version won't
+      # add alias like `cc` and `c++`, so that it won't conflict with gcc
+      # llvmPackages.clang-unwrapped
+      clang-tools
+      lldb
 
-    # -- java
-    jdk17
-    gradle
-    maven
-    spring-boot-cli
-    jdt-language-server
+      #-- python
+      nodePackages.pyright # python language server
+      (python311.withPackages (
+        ps:
+          with ps; [
+            ruff-lsp
+            black # python formatter
+            # debugpy
 
-    #-- lua
-    stylua
-    lua-language-server
+            # my commonly used python packages
+            jupyter
+            ipython
+            pandas
+            requests
+            pyquery
+            pyyaml
+            boto3
 
-    #-- bash
-    nodePackages.bash-language-server
-    shellcheck
-    shfmt
+            ## emacs's lsp-bridge dependenciesge
+            # epc
+            # orjson
+            # sexpdata
+            # six
+            # setuptools
+            # paramiko
+            # rapidfuzz
+          ]
+      ))
 
-    #-- javascript/typescript --#
-    nodePackages.nodejs
-    nodePackages.typescript
-    nodePackages.typescript-language-server
-    # HTML/CSS/JSON/ESLint language servers extracted from vscode
-    nodePackages.vscode-langservers-extracted
-    nodePackages."@tailwindcss/language-server"
-    emmet-ls
+      #-- rust
+      rust-analyzer
+      cargo # rust package manager
+      rustfmt
 
-    # -- Lisp like Languages
-    guile
-    racket-minimal
-    fnlfmt # fennel
+      #-- golang
+      go
+      gomodifytags
+      iferr # generate error handling code for go
+      impl # generate function implementation for go
+      gotools # contains tools like: godoc, goimports, etc.
+      gopls # go language server
+      delve # go debugger
 
-    #-- Others
-    taplo # TOML language server / formatter / validator
-    nodePackages.yaml-language-server
-    sqlfluff # SQL linter
-    actionlint # GitHub Actions linter
-    buf # protoc plugin for linting and formatting
-    proselint # English prose linter
+      # -- java
+      jdk17
+      gradle
+      maven
+      spring-boot-cli
+      jdt-language-server
 
-    #-- Misc
-    tree-sitter # common language parser/highlighter
-    nodePackages.prettier # common code formatter
-    marksman # language server for markdown
-    glow # markdown previewer
-    fzf
-    pandoc # document converter
-    hugo # static site generator
+      #-- zig
+      zls
 
-    #-- Optional Requirements:
-    gdu # disk usage analyzer, required by AstroNvim
-    (ripgrep.override {withPCRE2 = true;}) # recursively searches directories for a regex pattern
+      #-- lua
+      stylua
+      lua-language-server
 
-    #-- CloudNative
-    nodePackages.dockerfile-language-server-nodejs
-    # terraform  # install via brew on macOS
-    terraform-ls
-    jsonnet
-    jsonnet-language-server
-    hadolint # Dockerfile linter
+      #-- bash
+      nodePackages.bash-language-server
+      shellcheck
+      shfmt
+    ]
+    #-*- Web Development -*-#
+    ++ [
+      nodePackages.nodejs
+      nodePackages.typescript
+      nodePackages.typescript-language-server
+      # HTML/CSS/JSON/ESLint language servers extracted from vscode
+      nodePackages.vscode-langservers-extracted
+      nodePackages."@tailwindcss/language-server"
+      emmet-ls
+    ]
+    # -*- Lisp like Languages -*-#
+    ++ [
+      guile
+      racket-minimal
+      fnlfmt # fennel
+    ]
+    ++ [
+      proselint # English prose linter
 
-    #-- zig
-    zls
-    #-- verilog / systemverilog
-    verible
-    gdb
-  ];
+      #-- verilog / systemverilog
+      verible
+
+      #-- Optional Requirements:
+      nodePackages.prettier # common code formatter
+      fzf
+      gdu # disk usage analyzer, required by AstroNvim
+      (ripgrep.override {withPCRE2 = true;}) # recursively searches directories for a regex pattern
+    ]
+  );
 }

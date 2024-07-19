@@ -3,7 +3,6 @@
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
 --       as this provides autocomplete and documentation while editing
 
-
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
@@ -42,40 +41,51 @@ return {
       -- end
     },
     -- enable servers that you already have installed without mason
+    -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     servers = {
-      ---- Frontend & NodeJS
+      ---- Data & Configuration Languages
+      "jsonls", -- json language server
+      "jsonnet_ls", -- jsonnet language server
+      "yamlls", -- yaml language server
+      "taplo", -- toml language server
+      "dagger", -- cuelsp - cue language server
+      "terraformls", -- terraform hcl
+      "marksman", -- markdown ls
+      "nickel_ls", -- nickel language server
+      "nil_ls", -- nix language server
+      "bufls", -- protocol buffer language server
+      "dockerls", -- dockerfile
+      "cmake", -- cmake language server
+      "sqls", -- sql language server
+
+      ---- General Purpose Languages
+      "clangd", -- c/c++
+      "gopls", -- go
+      "jdtls", -- java language server, provides only basic features
+      "rust_analyzer", -- rust
+      "pyright", -- python
+      "ruff_lsp", -- extremely fast Python linter and code transformation
+      -- "julials", -- julia language server
+      -- "zls", -- zig language server
+      "lua_ls", -- lua
+      "bashls", -- bash
+      "nushell", -- nushell language server
+
+      ---- Web Development
       "tsserver", -- typescript/javascript language server
       "tailwindcss", -- tailwindcss language server
       "html", -- html language server
       "cssls", -- css language server
       "prismals", -- prisma language server
       "volar", -- vue language server
-      ---- Configuration Language
-      "marksman", -- markdown ls
-      "jsonls", -- json language server
-      "yamlls", -- yaml language server
-      "taplo", -- toml language server
-      ---- Backend
-      "lua_ls", -- lua
-      "gopls", -- go
-      "rust_analyzer", -- rust
-      "pyright", -- python
-      "ruff_lsp", -- extremely fast Python linter and code transformation
-      "jdtls", -- java
-      "nil_ls", -- nix language server
-      "bufls", -- protocol buffer language server
-      "zls", -- zig language server
-      ---- HDL
-      "verible", -- verilog language server
-      ---- Operation & Cloud Nativautoindente
-      "bashls", -- bash
-      "cmake", -- cmake language server
-      "clangd", -- c/c++
-      "dockerls", -- dockerfile
-      "jsonnet_ls", -- jsonnet language server
-      "terraformls", -- terraform hcl
-      "nushell", -- nushell language server
+
+      ---- Lisp Like
       "scheme_langserver", -- scheme language server
+      "elixirls", -- elixir language server
+      -- "clojure_lsp", -- clojure language server"
+
+      ---- Circuit Design
+      "verible", -- verilog language server
     },
     -- customize language server configuration options passed to `lspconfig`
     ---@diagnostic disable: missing-fields
