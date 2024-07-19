@@ -5,8 +5,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = {
     -- NOTE: additional parser
-    { "nushell/tree-sitter-nu" },
-    { "IndianBoy42/tree-sitter-just" },
+    { "nushell/tree-sitter-nu" }, -- nushell scripts
   },
   opts = function(_, opts)
     opts.incremental_selection = {
@@ -33,6 +32,8 @@ return {
       "terraform",
       "nix",
       "csv",
+      "nickel", -- nickel language
+      "just", -- justfile
       -- other programming language
       "diff",
       "gitignore",
@@ -43,23 +44,7 @@ return {
       "fennel",
       "clojure",
       "commonlisp",
-      -- customized languages:
       "scheme",
     })
-
-    -- add support for scheme
-    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-    parser_config.scheme = {
-      install_info = {
-        url = "https://github.com/6cdh/tree-sitter-scheme", -- local path or git repo
-        files = { "src/parser.c" },
-        -- optional entries:
-        branch = "main", -- default branch in case of git repo if different from master
-        generate_requires_npm = false, -- if stand-alone parser without npm dependencies
-        requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
-      },
-    }
-    -- use scheme parser for filetypes: scm
-    vim.treesitter.language.register("scheme", "scm")
   end,
 }
