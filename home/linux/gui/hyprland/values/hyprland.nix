@@ -4,7 +4,7 @@
   nur-ryan4yin,
   ...
 }: let
-  package = pkgs.hyprland.override {debug = true;};
+  package = pkgs.hyprland;
 in {
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
@@ -29,7 +29,10 @@ in {
     };
     extraConfig = builtins.readFile ../conf/hyprland.conf;
     # gammastep/wallpaper-switcher need this to be enabled.
-    systemd.enable = true;
+    systemd = {
+      enable = true;
+      variables = ["--all"];
+    };
   };
 
   # NOTE: this executable is used by greetd to start a wayland session when system boot up
