@@ -20,10 +20,17 @@
     # How often this btrbk instance is started. See systemd.time(7) for more information about the format.
     onCalendar = "Tue,Fri,Sat,Sun *-*-* 3:45:20"; # daily at 3:45, except on Monday, Wednesday, and Thursday
     settings = {
-      # keep daily snapshots for 14 days
+      # how to prune local snapshots:
+      # 1. keep daily snapshots for xx days
       snapshot_preserve = "9d";
-      # keep all snapshots for 2 days, no matter how frequently you (or your cron job) run btrbk
+      # 2. keep all snapshots for 2 days, no matter how frequently you (or your cron job) run btrbk
       snapshot_preserve_min = "2d";
+
+      # hot to prune remote incremental baqckups:
+      # keep daily backups for 9 days, weekly backups for 4 weeks, and monthly backups for 2 months
+      target_preserve = "9d 4w 2m";
+      target_preserve_min = "no";
+
       volume = {
         "/btr_pool" = {
           subvolume = {
@@ -31,7 +38,10 @@
               snapshot_create = "always";
             };
           };
-          target = "/snapshots";
+
+          # backup to a remote server or a local directory
+          # its prune policy is defined by `target_preserve` and `target_preserve_min`
+          # target = "/snapshots";
         };
       };
     };
