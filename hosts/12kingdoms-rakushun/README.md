@@ -2,7 +2,7 @@
 
 LUKS encrypted SSD for NixOS, on Orange Pi 5 Plus.
 
-Host running storage, operation and maintenance related services:
+Storage, operation and maintenance related services are running on this host:
 
 1. Storage such as git server, file server/browser, torrent downloader,, etc.
 1. Backup or sync my personal data to cloud or NAS.
