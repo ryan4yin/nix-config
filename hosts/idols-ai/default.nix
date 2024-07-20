@@ -41,10 +41,10 @@ in {
   };
   virtualisation.docker.enableNvidia = true; # for nvidia-docker
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     # needed by nvidia-docker
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # This value determines the NixOS release from which the default

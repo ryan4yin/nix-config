@@ -1,7 +1,7 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
+{pkgs-stable, ...}: {
+  home.packages = with pkgs-stable; [
     # https://joplinapp.org/help/
-    # joplin # joplin-cli
-    # joplin-desktop
+    joplin # joplin-cli
+    joplin-desktop
   ];
 }
