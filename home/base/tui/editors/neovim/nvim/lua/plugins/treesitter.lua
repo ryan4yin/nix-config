@@ -27,7 +27,6 @@ return {
       "kdl",
       "csv",
       "xml",
-      "vhdl",
 
       ---- Misc
       "diff",

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+## Fix anyrun
+## https://github.com/anyrun-org/anyrun/issues/153
+ln -s $XDG_RUNTIME_DIR/hypr /tmp/hypr
+
 ## Autostart Programs
 
 # Kill already running process
