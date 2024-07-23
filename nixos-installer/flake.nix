@@ -5,17 +5,24 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nuenv.url = "github:DeterminateSystems/nuenv";
   };
 
   outputs = inputs @ {
     nixpkgs,
     nixos-hardware,
+    nuenv,
     ...
   }: {
     nixosConfigurations = {
       ai = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = inputs // {myvars.username = "ryan";};
+        specialArgs =
+          inputs
+          // {
+            myvars.username = "ryan";
+            myvars.userfullname = "Ryan Yin";
+          };
         modules = [
           {networking.hostName = "ai";}
 
@@ -33,7 +40,12 @@
 
       shoukei = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = inputs // {myvars.username = "ryan";};
+        specialArgs =
+          inputs
+          // {
+            myvars.username = "ryan";
+            myvars.userfullname = "Ryan Yin";
+          };
         modules = [
           # Building on a USB installer is buggy, lack of disk space, memory, trublesome to setup substituteers, etc.
           # so we disable apple-t2 module here to avoid build kernel during the initial installation, and enable it after the first boot.
