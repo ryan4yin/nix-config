@@ -94,8 +94,11 @@ plugin.
 
 ### Splitting and Buffers
 
-| | Action | Shortcut | | --------------------- | ------------- | | Horizontal Split | `\` | |
-Vertical Split | `\|` | | Close Buffer | `<Space> + c` |
+| Action           | Shortcut      |
+| ---------------- | ------------- |
+| Horizontal Split | `\`           |
+| Vertical Split   | `\|`          |
+| Close Buffer     | `<Space> + c` |
 
 ### Editing and Formatting
 
@@ -163,7 +166,7 @@ Provided by mini.surround plugin.
 | --------------------------------- | --------------- |
 | Show all Yank History             | `:<Space> + yh` |
 | Show undo history                 | `:<Space> + uh` |
-| Show the path of the current file | `:!echo $%`      |
+| Show the path of the current file | `:!echo $%`     |
 
 ## Additional Resources
 
