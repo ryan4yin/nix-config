@@ -10,7 +10,7 @@
     gnupg
     gnumake
 
-    # Morden cli tools, replacement of grep/sed/...
+    # Modern cli tools, replacement of grep/sed/...
 
     # Interactively filter its input using fuzzy searching, not limit to filenames.
     fzf
