@@ -104,7 +104,7 @@ one keypair, or a keyring/keychain(which contains multiple sub key-pairs).
 
 Let's generate a keypair interactively:
 
-> Now in 2024, GnuPG 2.4.1 defaults to ECC algorithm (9) and Curve 25519 for ECC, which is morden
+> Now in 2024, GnuPG 2.4.1 defaults to ECC algorithm (9) and Curve 25519 for ECC, which is modern
 > and safe, I would recommend to use these defaults directly.
 
 ```bash

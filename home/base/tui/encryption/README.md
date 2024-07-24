@@ -16,7 +16,7 @@ using a Cloud provider for key management.
 Both age, Sops & GnuPG provide asymmetric encryption, which is useful for encrypting files for a
 specific user.
 
-For morden use, age is recommended, as it use [AEAD encryption function -
+For modern use, age is recommended, as it use [AEAD encryption function -
 ChaCha20-Poly1305][age Format v1], If you do not want to manage the keys by yourself, Sops is
 recommended, as it use KMS for key management.
 

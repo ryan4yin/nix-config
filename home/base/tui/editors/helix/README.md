@@ -20,7 +20,7 @@ Use `:tutor` in helix to start the tutorial.
    1. Helix: delete 2 word: `2w` then `x`. You can always see what you're selecting before you apply
       the action.
    2. Neovim: delete 2 word: `d`. then `2w`. No visual feedback before you apply the action.
-1. Helix - Morden builtin features: LSP, tree-sitter, fuzzy finder, multi cursors, surround and
+1. Helix - Modern builtin features: LSP, tree-sitter, fuzzy finder, multi cursors, surround and
    more.
    1. They're all available in Neovim too, but you need to find and use the right plugins manually,
       which takes time and effort.
