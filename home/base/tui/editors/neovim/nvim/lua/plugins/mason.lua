@@ -1,4 +1,7 @@
 -- Customize Mason plugins
+--
+-- NOTE: Issue - mason.nvim does not support NixOS:
+-- https://github.com/williamboman/mason.nvim/issues/428
 
 ---@type LazySpec
 return {
