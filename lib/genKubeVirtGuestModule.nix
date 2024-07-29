@@ -4,7 +4,7 @@
   networking,
   ...
 }: let
-  inherit (networking) mainGateway nameservers;
+  inherit (networking) defaultGateway nameservers;
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
 in {
@@ -27,7 +27,7 @@ in {
     matchConfig.Name = [iface];
     networkConfig = {
       Address = [ipv4WithMask];
-      Gateway = mainGateway;
+      Gateway = defaultGateway;
       DNS = nameservers;
       IPv6AcceptRA = true;
     };
