@@ -68,7 +68,7 @@ export def upload-vm [
         nix build $target
     }
 
-    let remote = $"root@rakushun:/var/lib/caddy/fileserver/vms/kubevirt-($name).qcow2"
-    rsync -avz --progress --copy-links result $remote
+    let remote = $"ryan@rakushun:/data/caddy/fileserver/vms/kubevirt-($name).qcow2"
+    rsync -avz --progress --copy-links --checksum result $remote
 }
 
