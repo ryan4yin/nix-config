@@ -59,6 +59,6 @@ in {
     # NOTE: the hugepages allocated here can not be used for other purposes!
     # so we should left some memory for the host OS
     "hugepagesz=1G"
-    "hugepages=56"
+    "hugepages=54"
   ];
 }
