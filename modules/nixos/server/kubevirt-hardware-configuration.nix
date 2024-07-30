@@ -19,11 +19,8 @@
   ];
 
   config = {
-    # backup only once a week inside all virtual machines
-    services.btrbk.instances.btrbk = {
-      onCalendar = lib.mkForce "Wed *-*-* 5:25:20";
-      settings.snapshot_preserve = lib.mkForce "7d";
-    };
+    # disable backups in the VM
+    services.btrbk.instances = lib.mkFOrce {};
 
     fileSystems."/" = {
       device = "/dev/disk/by-label/nixos";
