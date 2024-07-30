@@ -18,7 +18,7 @@
 
   services.btrbk.instances.btrbk = {
     # How often this btrbk instance is started. See systemd.time(7) for more information about the format.
-    onCalendar = "Tue,Fri,Sat,Sun *-*-* 3:45:20"; # daily at 3:45, except on Monday, Wednesday, and Thursday
+    onCalendar = "Tue,Thu,Sat *-*-* 3:45:20";
     settings = {
       # how to prune local snapshots:
       # 1. keep daily snapshots for xx days

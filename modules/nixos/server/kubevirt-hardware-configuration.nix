@@ -18,6 +18,12 @@
     "${toString modulesPath}/profiles/qemu-guest.nix"
   ];
 
+  # backup only once a week inside all virtual machines
+  services.btrbk.instances.btrbk = {
+    onCalendar = lib.mkForce "Wed *-*-* 5:25:20";
+    settings.snapshot_preserve = lib.mkForce "7d";
+  };
+
   config = {
     fileSystems."/" = {
       device = "/dev/disk/by-label/nixos";
