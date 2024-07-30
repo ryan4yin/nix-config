@@ -20,7 +20,7 @@
 
   config = {
     # disable backups in the VM
-    services.btrbk.instances = lib.mkFOrce {};
+    services.btrbk.instances = lib.mkForce {};
 
     fileSystems."/" = {
       device = "/dev/disk/by-label/nixos";
