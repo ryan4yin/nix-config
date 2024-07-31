@@ -2,6 +2,11 @@
   # Read SFTPGO_DEFAULT_ADMIN_USERNAME and SFTPGO_DEFAULT_ADMIN_PASSWORD from a file
   systemd.services.sftpgo.serviceConfig.EnvironmentFile = config.age.secrets."sftpgo.env".path;
 
+  # Create Directories
+  systemd.tmpfiles.rules = [
+    "d /data/apps/sftpgo 0755 stfpgo stfpgo"
+  ];
+
   services.sftpgo = {
     enable = true;
     user = "sftpgo";
