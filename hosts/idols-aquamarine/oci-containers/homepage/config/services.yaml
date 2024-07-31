@@ -6,18 +6,18 @@
     - KubeVirt-Shoryu:
         icon: si-kubevirt
         description: "CPU: R7-5825U / MEM: 64G / DISK: 1T"
-        href: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
-        siteMonitor: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
+        href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
+        siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
     - KubeVirt-Shushou:
         icon: si-kubevirt
         description: "CPU: R9-5900HX / MEM: 64G / DISK: 1T"
-        href: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
-        siteMonitor: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
+        href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
+        siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
     - KubeVirt-Youko:
         icon: si-kubevirt
         description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
-        href: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
-        siteMonitor: http://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
+        href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
+        siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
     - LongHorn-Storage:
         icon: si-longhorn
         href: http://longhorn.writefor.fun/
@@ -31,26 +31,26 @@
 - Homelab Monitoring:
     - Grafana:
         icon: si-grafana
-        href: http://grafana.writefor.fun
+        href: https://grafana.writefor.fun
         description: Data visualised on dashboards
-        siteMonitor: http://grafana.writefor.fun
+        siteMonitor: https://grafana.writefor.fun
     - Prometheus Dashboard:
         icon: si-prometheus
-        href: http://prometheus.writefor.fun
+        href: https://prometheus.writefor.fun
         description: Monitoring - Prometheus
-        siteMonitor: http://prometheus.writefor.fun
+        siteMonitor: https://prometheus.writefor.fun
     - Uptime Kuma:
         icon: si-uptimekuma
-        href: http://uptime-kuma.writefor.fun
+        href: https://uptime-kuma.writefor.fun
         description: Uptime Checking
-        siteMonitor: http://uptime-kuma.writefor.fun
+        siteMonitor: https://uptime-kuma.writefor.fun
 
 - Homelab Applications:
     - SFTPGO:
       icon: sftpgo.png
-      href: "http://sftpgo.writefor.fun/web/admin/folders"
+      href: "https://sftpgo.writefor.fun/web/admin/folders"
       description: WebDAV & SFTP server
-      siteMonitor: http://sftpgo.writefor.fun/
+      siteMonitor: https://sftpgo.writefor.fun/
 # - Kubernetes Monitoring:
 #     # TODO: Update this
 #     - Emby:
