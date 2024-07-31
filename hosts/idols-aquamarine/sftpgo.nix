@@ -5,7 +5,7 @@
   services.sftpgo = {
     enable = true;
     user = "sftpgo";
-    dataDir = "/var/lib/sftpgo";
+    dataDir = "/data/apps/sftpgo";
     extraArgs = [
       "--log-level"
       "info"

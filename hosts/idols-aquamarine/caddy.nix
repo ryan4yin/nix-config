@@ -17,7 +17,7 @@ in {
     # Reload Caddy instead of restarting it when configuration file changes.
     enableReload = true;
     user = "caddy"; # User account under which caddy runs.
-    dataDir = "/var/lib/caddy";
+    dataDir = "/data/apps/caddy";
     logDir = "/var/log/caddy";
 
     # Additional lines of configuration appended to the global config section of the Caddyfile.
@@ -36,7 +36,7 @@ in {
 
     # https://caddyserver.com/docs/caddyfile/directives/file_server
     virtualHosts."file.writefor.fun".extraConfig = ''
-      root * /var/lib/caddy/fileserver/
+      root * /data/apps/caddy/fileserver/
       ${hostCommonConfig}
       file_server browse {
         hide .git
@@ -83,15 +83,15 @@ in {
 
   # Create Directories
   systemd.tmpfiles.rules = [
-    "d /var/lib/caddy/fileserver/ 0755 caddy caddy"
+    "d /data/apps/caddy/fileserver/ 0755 caddy caddy"
     # directory for virtual machine's images
-    "d /var/lib/caddy/fileserver/vms 0755 caddy caddy"
+    "d /data/apps/caddy/fileserver/vms 0755 caddy caddy"
   ];
 
-  # Add all my wallpapers into /var/lib/caddy/fileserver/wallpapers
+  # Add all my wallpapers into /data/apps/caddy/fileserver/wallpapers
   # Install the homepage-dashboard configuration files
   system.activationScripts.installCaddyWallpapers = ''
-    mkdir -p /var/lib/caddy/fileserver/wallpapers
-    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F644 ${wallpapers}/ /var/lib/caddy/fileserver/wallpapers/
+    mkdir -p /data/apps/caddy/fileserver/wallpapers
+    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F644 ${wallpapers}/ /data/apps/caddy/fileserver/wallpapers/
   '';
 }

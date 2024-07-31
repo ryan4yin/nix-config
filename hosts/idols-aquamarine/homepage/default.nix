@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  configDir = "/var/lib/homepage-dashboard";
+  configDir = "/data/apps/homepage-dashboard";
 in {
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/misc/homepage-dashboard.nix
   services.homepage-dashboard = {

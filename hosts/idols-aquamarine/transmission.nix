@@ -3,7 +3,7 @@
   myvars,
   ...
 }: let
-  dataDir = "/var/lib/transmission";
+  dataDir = "/data/apps/transmission";
   name = "transmission";
 in {
   # the headless Transmission BitTorrent daemon

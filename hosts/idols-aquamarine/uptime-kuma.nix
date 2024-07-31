@@ -6,7 +6,7 @@
     settings = {
       "UPTIME_KUMA_HOST" = "127.0.0.1";
       "UPTIME_KUMA_PORT" = "3350";
-      "DATA_DIR" = "/var/lib/uptime-kuma/";
+      "DATA_DIR" = "/data/apps/uptime-kuma/";
     };
   };
 }
