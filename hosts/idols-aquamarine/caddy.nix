@@ -31,7 +31,7 @@ in {
     # Dashboard
     virtualHosts."home.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
-      reverse_proxy http://localhost:4401
+      reverse_proxy http://localhost:54401
     '';
 
     # https://caddyserver.com/docs/caddyfile/directives/file_server
@@ -64,7 +64,7 @@ in {
     # Monitoring
     virtualHosts."uptime-kuma.writefor.fun".extraConfig = ''
       encode zstd gzip
-      reverse_proxy http://localhost:3350
+      reverse_proxy http://localhost:53350
     '';
     virtualHosts."grafana.writefor.fun".extraConfig = ''
       encode zstd gzip
