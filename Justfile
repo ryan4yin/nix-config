@@ -3,6 +3,8 @@
 # use nushell for shell commands
 set shell := ["nu", "-c"]
 
+utils_nu := absolute_path("utils.nu")
+
 ############################################################################
 #
 #  Common commands(suitable for all machines)
@@ -73,14 +75,14 @@ fmt:
 [group('desktop')]
 i3 mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   nixos-switch ai-i3 {{mode}}
 
 [linux]
 [group('desktop')]
 hypr mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   nixos-switch ai-hyprland {{mode}}
 
 
@@ -88,14 +90,14 @@ hypr mode="default":
 [group('desktop')]
 s-i3 mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   nixos-switch shoukei-i3 {{mode}}
 
 [linux]
 [group('desktop')]
 s-hypr mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   nixos-switch shoukei-hyprland {{mode}}
 
 ############################################################################
@@ -114,7 +116,7 @@ darwin-set-proxy:
 [group('desktop')]
 darwin-rollback:
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   darwin-rollback
 
 # Deploy to harmonica(macOS host)
@@ -122,7 +124,7 @@ darwin-rollback:
 [group('desktop')]
 ha mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   darwin-build "harmonica" {{mode}};
   darwin-switch "harmonica" {{mode}}
 
@@ -131,7 +133,7 @@ ha mode="default":
 [group('desktop')]
 fe mode="default": darwin-set-proxy
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   darwin-build "fern" {{mode}};
   darwin-switch "fern" {{mode}}
 
@@ -158,7 +160,7 @@ col tag:
 [group('homelab')]
 local name mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   nixos-switch {{name}} {{mode}}
 
 # Build and upload a vm image
@@ -166,7 +168,7 @@ local name mode="default":
 [group('homelab')]
 upload-vm name mode="default":
   #!/usr/bin/env nu
-  use utils.nu *;
+  use {{utils_nu}} *;
   upload-vm {{name}} {{mode}}
 
 # Deploy all the KubeVirt nodes(Physical machines running KubeVirt)
@@ -184,7 +186,7 @@ shoryu:
 [group('homelab')]
 shoryu-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch kubevirt-shoryu {{mode}}
 
 [linux]
@@ -196,7 +198,7 @@ shushou:
 [group('homelab')]
 shushou-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch kubevirt-shushou {{mode}}
 
 [linux]
@@ -208,7 +210,7 @@ youko:
 [group('homelab')]
 youko-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch kubevirt-youko {{mode}}
 
 ############################################################################
@@ -222,7 +224,7 @@ youko-local mode="default":
 [group('homelab')]
 upload-idols mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   upload-vm aquamarine {{mode}}
   upload-vm ruby {{mode}}
   upload-vm kana {{mode}}
@@ -236,7 +238,7 @@ aqua:
 [group('homelab')]
 aqua-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch aquamarine {{mode}}
 
 [linux]
@@ -248,7 +250,7 @@ ruby:
 [group('homelab')]
 ruby-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch ruby {{mode}}
 
 [linux]
@@ -260,7 +262,7 @@ kana:
 [group('homelab')]
 kana-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch kana {{mode}}
 
 ############################################################################
@@ -274,7 +276,7 @@ kana-local mode="default":
 [group('homelab')]
 upload-k3s mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   upload-vm k3s-prod-1-master-1 {{mode}}; 
   upload-vm k3s-prod-1-master-2 {{mode}}; 
   upload-vm k3s-prod-1-master-3 {{mode}}; 
@@ -286,7 +288,7 @@ upload-k3s mode="default":
 [group('homelab')]
 upload-k3s-test mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   upload-vm k3s-test-1-master-1 {{mode}}; 
   upload-vm k3s-test-1-master-2 {{mode}}; 
   upload-vm k3s-test-1-master-3 {{mode}};
@@ -347,7 +349,7 @@ rakushun:
 [group('homelab')]
 rakushun-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch rakushun {{mode}}
 
 [linux]
@@ -366,7 +368,7 @@ suzu-unset-proxy:
 [group('homelab')]
 suzu-local mode="default":
   #!/usr/bin/env nu
-  use utils.nu *; 
+  use {{utils_nu}} *; 
   nixos-switch suzu {{mode}}
 
 ############################################################################
