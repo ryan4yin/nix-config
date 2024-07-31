@@ -1,9 +1,9 @@
-{
+{lib, ...}: {
   # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/uptime-kuma.nix
   services.uptime-kuma = {
     enable = true;
     # https://github.com/louislam/uptime-kuma/wiki/Environment-Variables
-    settings = {
+    settings = lib.mkForce {
       "UPTIME_KUMA_HOST" = "127.0.0.1";
       "UPTIME_KUMA_PORT" = "3350";
       "DATA_DIR" = "/data/apps/uptime-kuma/";
