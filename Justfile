@@ -405,25 +405,23 @@ emacs-purge:
   doom clean
   doom sync
 
+[linux]
 [group('emacs')]
-[no-quiet]
 emacs-reload:
-  #!/usr/bin/env nu
   doom sync
+  systemctl --user restart emacs.service
+  systemctl --user status emacs.service
 
-  let emacs_plist_path = "~/Library/LaunchAgents/org.nix-community.home.emacs.plist"
-  if "Darwin" == (uname).kernel-name {
-    print $"Running on macOS, reload launchd daemon via ($emacs_plist_path)"
-    launchctl unload $emacs_plist_path
-    launchctl load $emacs_plist_path
-    tail -f ~/Library/Logs/emacs-daemon.stderr.log
-  } else if "Linux" == (uname).kernel-name {
-    systemctl --user restart emacs.service
-    systemctl --user status emacs.service
-  } else {
-    print "Unsupported platform"
-    exit 1
-  }
+
+emacs-plist-path := "~/Library/LaunchAgents/org.nix-community.home.emacs.plist"
+
+[macos]
+[group('emacs')]
+emacs-reload:
+  doom sync
+  launchctl unload {{emacs-plist-path}}
+  launchctl load {{emacs-plist-path}}
+  tail -f ~/Library/Logs/emacs-daemon.stderr.log
 
 # =================================================
 #
