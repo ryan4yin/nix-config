@@ -435,6 +435,11 @@ emacs-reload:
 path:
    $env.PATH | split row ":"
 
+[linux]
+[group('common')]
+penvof pid:
+  sudo cat $"/proc/($pid)/environ" | tr '\0' '\n'
+
 # Remove all reflog entries and prune unreachable objects
 [group('git')]
 gitgc:
