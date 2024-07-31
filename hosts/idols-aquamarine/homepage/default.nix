@@ -1,5 +1,9 @@
-{pkgs, ...}: let
-  configDir = "/var/lib/homepage-dashboard";
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  configDir = "/data/apps/homepage-dashboard";
 in {
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/misc/homepage-dashboard.nix
   services.homepage-dashboard = {
@@ -8,7 +12,7 @@ in {
     openFirewall = false;
   };
   systemd.services.homepage-dashboard.environment = {
-    HOMEPAGE_CONFIG_DIR = configDir;
+    HOMEPAGE_CONFIG_DIR = lib.mkForce configDir;
 
     # 1. The value of env var HOMEPAGE_VAR_XXX will replace {{HOMEPAGE_VAR_XXX}} in any config
     # HOMEPAGE_VAR_XXX_APIKEY = "myapikey";

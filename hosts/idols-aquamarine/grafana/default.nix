@@ -5,7 +5,7 @@
 }: {
   services.grafana = {
     enable = true;
-    dataDir = "/var/lib/grafana";
+    dataDir = "/data/apps/grafana";
     # DeclarativePlugins = with pkgs.grafanaPlugins; [ grafana-piechart-panel ];
     settings = {
       server = {

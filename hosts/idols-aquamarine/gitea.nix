@@ -5,7 +5,7 @@ in {
     enable = true;
     user = "gitea";
     group = "gitea";
-    stateDir = "/var/lib/gitea";
+    stateDir = "/data/apps/gitea";
     appName = "Ryan Yin's Gitea Service";
     lfs.enable = true;
     # Enable a timer that runs gitea dump to generate backup-files of the current gitea database and repositories.

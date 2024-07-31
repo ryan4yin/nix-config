@@ -2,6 +2,7 @@
   mylib,
   myvars,
   pkgs,
+  disko,
   ...
 }:
 #############################################################
@@ -12,7 +13,11 @@
 let
   hostName = "aquamarine"; # Define your hostname.
 in {
-  imports = mylib.scanPaths ./.;
+  imports =
+    (mylib.scanPaths ./.)
+    ++ [
+      disko.nixosModules.default
+    ];
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
