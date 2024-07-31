@@ -27,7 +27,10 @@ in {
       };
       # one of "Trace", "Debug", "Info", "Warn", "Error", "Critical"
       log.LEVEL = "Info";
-      session.COOKIE_SECURE = false;
+      # Marks session cookies as "secure" as a hint for browsers to only send them via HTTPS.
+      session.COOKIE_SECURE = true;
+      # NOTE: The first registered user will be the administrator,
+      # so this parameter should NOT be set before the first user registers!
       service.DISABLE_REGISTRATION = true;
 
       # "cron.sync_external_users" = {
