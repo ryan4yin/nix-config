@@ -1,16 +1,18 @@
-{config, ...}: {
+{config, ...}: let
+  user = "sftpgo";
+  dataDir = "/data/apps/sftpgo";
+in {
   # Read SFTPGO_DEFAULT_ADMIN_USERNAME and SFTPGO_DEFAULT_ADMIN_PASSWORD from a file
   systemd.services.sftpgo.serviceConfig.EnvironmentFile = config.age.secrets."sftpgo.env".path;
 
   # Create Directories
   systemd.tmpfiles.rules = [
-    "d /data/apps/sftpgo 0755 stfpgo stfpgo"
+    "d ${dataDir} 0755 ${user} ${user}"
   ];
 
   services.sftpgo = {
     enable = true;
-    user = "sftpgo";
-    dataDir = "/data/apps/sftpgo";
+    inherit user dataDir;
     extraArgs = [
       "--log-level"
       "info"
