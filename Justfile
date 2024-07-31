@@ -52,13 +52,13 @@ gc:
 [linux]
 [group('nix')]
 shell:
-  nix shell nixpkgs#just nixpkgs#nushell nixpkgs#colmena
+  nix shell nixpkgs#git nixpkgs#neovim nixpkgs#just nixpkgs#nushell nixpkgs#colmena
 
 # Enter a shell session which has all the necessary tools for this flake
 [macos]
 [group('nix')]
 shell:
-  nix shell nixpkgs#just nixpkgs#nushell
+  nix shell nixpkgs#git nixpkgs#neovim nixpkgs#just nixpkgs#nushell
 
 [group('nix')]
 fmt:
@@ -442,9 +442,14 @@ penvof pid:
 
 # Remove all reflog entries and prune unreachable objects
 [group('git')]
-gitgc:
+ggc:
   git reflog expire --expire-unreachable=now --all
   git gc --prune=now
+
+# Amend the last commit without changing the commit message
+[group('git')]
+game:
+  git commit --amend -a --no-edit
 
 # Delete all failed pods
 [group('k8s')]
