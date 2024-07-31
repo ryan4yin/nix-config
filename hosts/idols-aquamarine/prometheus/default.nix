@@ -83,7 +83,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostsAddr.rakushun.ipv4}:9153"];
+            targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9153"];
             labels.type = "app";
             labels.app = "v2ray";
           }
@@ -96,7 +96,7 @@
         metrics_path = "/metrics";
         static_configs = [
           {
-            targets = ["${myvars.networking.hostsAddr.rakushun.ipv4}:10000"];
+            targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:10000"];
             labels.type = "app";
             labels.app = "v2ray";
           }
