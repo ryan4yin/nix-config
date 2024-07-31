@@ -15,15 +15,19 @@
             subvolumes = {
               "@persistent" = {
                 mountpoint = "/data/apps";
-                mountOptions = ["compress-force=zstd:1" "noatime"];
+                mountOptions = [
+                  "compress-force=zstd:1"
+                  # https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html
+                  "nofail"
+                ];
               };
               "@backups" = {
                 mountpoint = "/data/backups";
-                mountOptions = ["compress-force=zstd:1" "noatime"];
+                mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
               };
               "@snapshots" = {
                 mountpoint = "/data/apps-snapshots";
-                mountOptions = ["compress-force=zstd:1" "noatime"];
+                mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
               };
             };
           };
@@ -43,11 +47,11 @@
             subvolumes = {
               "@persistent" = {
                 mountpoint = "/data/fileshare";
-                mountOptions = ["compress-force=zstd:1" "noatime"];
+                mountOptions = ["compress-force=zstd:1" "nofail"];
               };
               "@snapshots" = {
                 mountpoint = "/data/fileshare-snapshots";
-                mountOptions = ["compress-force=zstd:1" "noatime"];
+                mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
               };
             };
           };
