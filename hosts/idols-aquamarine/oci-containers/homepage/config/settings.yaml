@@ -21,10 +21,10 @@ providers:
 
 background:
   image: https://file.writefor.fun/wallpapers/rolling-girls.png
-  blur: sm # sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
-  saturate: 90 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  blur: sm # 模糊 - sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 90 # 色彩饱和度 - 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
   brightness: 90 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
-  opacity: 85 # 0-100
+  opacity: 25 # 透明度 - 0-100
 
 theme: dark # or light
 
@@ -32,7 +32,7 @@ theme: dark # or light
 # slate, gray, zinc, neutral, stone, amber,
 # yellow, lime, green, emerald, teal, cyan,
 # sky, blue, indigo, violet, purple, fuchsia, pink, rose, red, white
-color: indigo
+color: slate
 
 # make all cards in a row the same height.
 useEqualHeights: true
@@ -40,31 +40,20 @@ useEqualHeights: true
 # Groups and its layout
 # Groups Name should match the name defined in your services.yaml or widgets.yaml
 layout:
+  Homelab Monitoring:
+    icon: mdi-monitor-dashboard
+    initiallyCollapsed: false # collapsed by default
+    tab: Main
+    style: row
+    columns: 3
+
+  Homelab Applications:
+    icon: si-homepage
+    tab: Main
+
   KubeVirt 虚拟化集群:
-    icon: si-kubevirt
-    tab: First
-
-  Group A:
-    initiallyCollapsed: true # collapsed by default
-    tab: First
-    style: row
-    columns: 4
-
-  Second Service Group:
-    useEqualHeights: true # overrides global setting
-    tab: Second
-    columns: 4
-
-  Third Service Group:
-    tab: Third
-    style: row
-
-  Bookmark Group on Fourth Tab:
-    tab: Fourth
-
-  Service Group on every Tab:
-    style: row
-    columns: 4
+    icon: si-kubernetes
+    tab: KubeVirt
 
 # https://gethomepage.dev/latest/configs/services/#icons
 # iconStyle: theme # optional, defaults to gradient
