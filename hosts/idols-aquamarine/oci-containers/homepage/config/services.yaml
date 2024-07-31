@@ -1,56 +1,62 @@
 ---
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/services
+#
+# Icons:
+#   1. .png/.svg: will be referenced from https://github.com/walkxcode/dashboard-icons
+#   2. mdi-XXX:   https://pictogrammers.com/library/mdi/
+#   3. si-XXX:    https://simpleicons.org/
 
 - KubeVirt 虚拟化集群:
     - KubeVirt-Shoryu:
-        icon: si-kubevirt
+        icon: mdi-server
         description: "CPU: R7-5825U / MEM: 64G / DISK: 1T"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
     - KubeVirt-Shushou:
-        icon: si-kubevirt
+        icon: mdi-server
         description: "CPU: R9-5900HX / MEM: 64G / DISK: 1T"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
     - KubeVirt-Youko:
-        icon: si-kubevirt
+        icon: mdi-server
         description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
     - LongHorn-Storage:
-        icon: si-longhorn
+        icon: longhorn.svg
         href: http://longhorn.writefor.fun/
     - Victoria-Metrics:
         icon: si-victoriametrics
         href: http://vm.writefor.fun/
     - KubeVirt-Grafana:
-        icon: si-grafana
+        icon: grafana.svg
         href: http://k8s-grafana.writefor.fun/
 
 - Homelab Monitoring:
     - Grafana:
-        icon: si-grafana
+        icon: grafana.svg
         href: https://grafana.writefor.fun
         description: Data visualised on dashboards
         siteMonitor: https://grafana.writefor.fun
     - Prometheus Dashboard:
-        icon: si-prometheus
+        icon: prometheus.svg
         href: https://prometheus.writefor.fun
         description: Monitoring - Prometheus
         siteMonitor: https://prometheus.writefor.fun
     - Uptime Kuma:
-        icon: si-uptimekuma
+        icon: uptime-kuma.svg
         href: https://uptime-kuma.writefor.fun
         description: Uptime Checking
         siteMonitor: https://uptime-kuma.writefor.fun
 
 - Homelab Applications:
     - SFTPGO:
-      icon: sftpgo.png
-      href: "https://sftpgo.writefor.fun/web/admin/folders"
-      description: WebDAV & SFTP server
-      siteMonitor: https://sftpgo.writefor.fun/
+        icon: sftpgo.png
+        href: "https://sftpgo.writefor.fun/web/admin/folders"
+        description: WebDAV & SFTP server
+        siteMonitor: https://sftpgo.writefor.fun/
+#
 # - Kubernetes Monitoring:
 #     # TODO: Update this
 #     - Emby:
