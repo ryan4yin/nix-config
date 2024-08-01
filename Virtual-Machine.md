@@ -1,6 +1,7 @@
 ## How to create & managage KubeVirt's Virtual Machine from this flake?
 
-Use `aquamarine` as an example, first upload the virtual machine to the file server:
+Use `aquamarine` as an example, first build and upload the virtual machine's qcow2 image to the file
+server:
 
 ```shell
 just upload-vm aquamarine
