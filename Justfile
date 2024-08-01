@@ -277,7 +277,7 @@ kana-local mode="default":
 # Build and upload a vm image
 [linux]
 [group('homelab')]
-upload-k3s mode="default":
+upload-k3s-prod mode="default":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
   upload-vm k3s-prod-1-master-1 {{mode}}; 
@@ -298,18 +298,8 @@ upload-k3s-test mode="default":
 
 [linux]
 [group('homelab')]
-k3s:
-  colmena apply --on '@k3s-*' --verbose --show-trace
-
-[linux]
-[group('homelab')]
-master:
-  colmena apply --on '@k3s-prod-1-master-*' --verbose --show-trace
-
-[linux]
-[group('homelab')]
-worker:
-  colmena apply --on '@k3s-prod-1-worker-*' --verbose --show-trace
+k3s-prod:
+  colmena apply --on '@k3s-prod-*' --verbose --show-trace
 
 [linux]
 [group('homelab')]
