@@ -1,6 +1,9 @@
 # just is a command runner, Justfile is very similar to Makefile, but simpler.
 
-# use nushell for shell commands
+# Use nushell for shell commands
+# To usage this justfile, you need to enter a shell with just & nushell installed:
+# 
+#   nix shell nixpkgs#just nixpkgs#nushell
 set shell := ["nu", "-c"]
 
 utils_nu := absolute_path("utils.nu")
@@ -16,7 +19,7 @@ utils_nu := absolute_path("utils.nu")
 test:
   nix eval .#evalTests --show-trace --print-build-logs --verbose
 
-# update all the flake inputs
+# Update all the flake inputs
 [group('nix')]
 up:
   nix flake update
@@ -52,13 +55,13 @@ gc:
 [linux]
 [group('nix')]
 shell:
-  nix shell nixpkgs#git nixpkgs#neovim nixpkgs#just nixpkgs#nushell nixpkgs#colmena
+  nix shell nixpkgs#git nixpkgs#neovim nixpkgs#colmena
 
 # Enter a shell session which has all the necessary tools for this flake
 [macos]
 [group('nix')]
 shell:
-  nix shell nixpkgs#git nixpkgs#neovim nixpkgs#just nixpkgs#nushell
+  nix shell nixpkgs#git nixpkgs#neovim
 
 [group('nix')]
 fmt:
