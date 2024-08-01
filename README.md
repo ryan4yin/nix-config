@@ -31,6 +31,9 @@ This repository is home to the nix code that builds my systems:
 
 See [./hosts](./hosts) for details of each host.
 
+See [./Virtual-Machine.md](./Virtual-Machine.md) for details of how to create & manage KubeVirt's
+Virtual Machine from this flake.
+
 ## Why NixOS & Flakes?
 
 Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once

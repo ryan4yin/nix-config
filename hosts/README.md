@@ -4,19 +4,20 @@
    1. `shoukei`: NixOS on Macbook Pro 2020 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
    1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM +
       256G SSD.
-      1. Network related services running via microvm.nix, such as router(transparent proxy - dae),
-         tailscale subrouter, etc.
+      - Network related services running via microvm.nix, such as router(transparent proxy - dae),
+        tailscale subrouter, etc.
    1. `rakushun`: Orange Pi 5 Plus, RK3588(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8),
       16G RAM + 2T SSD.
-      1. Monitoring(prometheus, grafana, exporters), CI/CD(gitea, runner), homepage, file browser,
-         and other services.
+      - Not used now.
 1. `darwin`(macOS)
    1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
    1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
-1. `k8s`: My Kubernetes Clusters
+1. `k8s`: My Kubevirt & Kubernetes Clusters
 1. `idols`
    1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
-   2. `aquamarine`: Not used now.
+   2. `aquamarine`: Kubevirt Virtual Machine.
+      - Monitoring(prometheus, grafana, exporters), CI/CD(gitea, runner), homepage, file browser,
+        and other services.
    3. `ruby`: Not used now.
    4. `kana`: Not used now.
 1. `rolling_girls`: My RISCV64 hosts.
