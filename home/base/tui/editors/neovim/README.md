@@ -112,7 +112,18 @@ plugin.
 | Comment Line(support multiple lines)                  | `<Space> + /`  |
 | Open filepath/URL at cursor(neovim's builtin command) | `gx`           |
 | Find files by name (fzf)                              | `<Space> + ff` |
+| Find files by name (include hidden files)             | `<Space> + fF` |
 | Grep string in files (ripgrep)                        | `<Space> + fw` |
+| Grep string in files (include hidden files)           | `<Space> + fW` |
+
+### Git
+
+| Action                     | Shortcut        |
+| -------------------------- | --------------- |
+| Git Commits (repository)   | `:<Space> + gc` |
+| Git Commits (current file) | `:<Space> + gC` |
+| Git Branches               | `:<Space> + gb` |
+| Git Status                 | `:<Space> + gt` |
 
 ### Sessions
 
