@@ -1,13 +1,16 @@
 ## How to create & managage KubeVirt's Virtual Machine from this flake?
 
-Use `aquamarine` as an example, we can create a virtual machine with the following command:
+Use `aquamarine` as an example, first upload the virtual machine to the file server:
 
 ```shell
 just upload-vm aquamarine
 ```
 
 Then create the virtual machine by creating a yaml file at
-[ryan4yin/k8s-gitops](https://github.com/ryan4yin/k8s-gitops/tree/main/vms)
+[ryan4yin/k8s-gitops](https://github.com/ryan4yin/k8s-gitops/tree/main/vms), set the
+`spec.dataVolumeTemplates[0].source.http.url` to the uploaded file's URL, and fluxcd will
+automatically apply the changes, then a virtual machine named `aquamarine` will be created in the
+KubeVirt cluster.
 
 Once the virtual machine `aquamarine` is created, we can deploy updates to it with the following
 commands:
