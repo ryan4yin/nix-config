@@ -12,6 +12,7 @@
     go-containerregistry # provides `crane` & `gcrane`, it's similar to skopeo
 
     kubectl
+    kubectx
     kubebuilder
     istioctl
     clusterctl # for kubernetes cluster-api
