@@ -53,13 +53,9 @@ clean:
 # Garbage collect all unused nix store entries
 [group('nix')]
 gc:
-  # garbage collect all unused nix store entries
-  # NOTE: it's a system-wide garbage collection, but it seems won't affect home-manager's gcroot on darwin
+  # garbage collect all unused nix store entries(system-wide)
   sudo nix-collect-garbage --delete-older-than 7d
-
-[group('nix')]
-gc-home:
-  # garbage collect all unused nix store entries(for the user - home-manager on nix-darwin)
+  # garbage collect all unused nix store entries(for the user - home-manager)
   # https://github.com/LnL7/nix-darwin/issues/237
   nix-collect-garbage --delete-older-than 7d
 
