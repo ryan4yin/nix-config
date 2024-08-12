@@ -14,6 +14,10 @@ utils_nu := absolute_path("utils.nu")
 #
 ############################################################################
 
+# List all the just commands
+default:
+    @just --list
+
 # Run eval tests
 [group('nix')]
 test:
