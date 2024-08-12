@@ -24,6 +24,7 @@ return {
     opts.ensure_installed = require("astrocore").list_insert_unique(opts.ensure_installed, {
       -- please add only the tree-sitters that are not available in nixpkgs here
 
+      "just",
       "kdl",
       "csv",
       "xml",
