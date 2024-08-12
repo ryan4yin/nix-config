@@ -59,7 +59,8 @@ gc:
 
 [group('nix')]
 gc-home:
-  # garbage collect all unused nix store entries(for the user - home-manager)
+  # garbage collect all unused nix store entries(for the user - home-manager on nix-darwin)
+  # https://github.com/LnL7/nix-darwin/issues/237
   nix-collect-garbage --delete-old
 
 # Enter a shell session which has all the necessary tools for this flake
