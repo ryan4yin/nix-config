@@ -15,7 +15,7 @@ from pathlib import Path
 NIX_DAEMON_PLIST = Path("/Library/LaunchDaemons/org.nixos.nix-daemon.plist")
 NIX_DAEMON_NAME = "org.nixos.nix-daemon"
 # http proxy provided by my homelab's bypass router
-HTTP_PROXY = "http://192.168.5.179:7890"
+HTTP_PROXY = "http://192.168.5.101:7890"
 
 PLIST = plistlib.loads(NIX_DAEMON_PLIST.read_bytes())
 
@@ -55,5 +55,5 @@ def unset_proxy():
 
 
 if __name__ == "__main__":
-    # set_proxy()
-    unset_proxy()
+    set_proxy()
+    # unset_proxy()
