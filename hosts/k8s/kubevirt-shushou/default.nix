@@ -52,8 +52,8 @@ in {
     #
     # pre-allocate hugepages manually(for kubevirt guest vms)
     # NOTE: the hugepages allocated here can not be used for other purposes!
-    # so we should left some memory for the host OS
+    # so we should left some memory for the host OS and other vms that don't use hugepages
     "hugepagesz=1G"
-    "hugepages=55"
+    "hugepages=48" # use 75% of the total memory for hugepages
   ];
 }
