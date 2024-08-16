@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  username,
   ...
 }: {
   programs = {
@@ -14,7 +15,7 @@
 
     firefox = {
       enable = true;
-      profiles.ryan = {};
+      profiles.${username} = {};
     };
   };
 }

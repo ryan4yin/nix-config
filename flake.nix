@@ -38,39 +38,51 @@
     ...
   }: {
     nixosConfigurations = {
-      nixos-test = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      nixos-test = let
+        username = "ryan";
+        specialArgs = {inherit username;};
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
 
-        modules = [
-          ./hosts/nixos-test
+          modules = [
+            ./hosts/nixos-test
+            ./users/${username}/nixos.nix
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home;
-          }
-        ];
-      };
+              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.users.${username} = import ./users/${username}/home.nix;
+            }
+          ];
+        };
 
-      msi-rtx4090 = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      msi-rtx4090 = let
+        username = "suzi"; # another username for this machine
+        specialArgs = {inherit username;};
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
 
-        modules = [
-          ./hosts/msi-rtx4090
+          modules = [
+            ./hosts/msi-rtx4090
+            ./users/${username}/nixos.nix
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
 
-            home-manager.extraSpecialArgs = inputs;
-            home-manager.users.ryan = import ./home;
-          }
-        ];
-      };
+              home-manager.extraSpecialArgs = inputs // specialArgs;
+              home-manager.users.${username} = import ./users/${username}/home.nix;
+            }
+          ];
+        };
     };
   };
 }

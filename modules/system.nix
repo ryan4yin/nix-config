@@ -1,20 +1,16 @@
 {
   pkgs,
   lib,
+  username,
   ...
-}: let
-  username = "ryan";
-in {
+}: {
   # ============================= User related =============================
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ryan = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "ryan";
+    description = username;
     extraGroups = ["networkmanager" "wheel"];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJx3Sk20pLL1b2PPKZey2oTyioODrErq83xG78YpFBoj admin@ryan-MBP"
-    ];
   };
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`

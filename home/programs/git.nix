@@ -7,7 +7,6 @@
   programs.git = {
     enable = true;
 
-    userName = "Ryan Yin";
-    userEmail = "xiaoyin_c@qq.com";
+    # ... Other options ...
   };
 }

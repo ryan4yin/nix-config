@@ -1,20 +1,9 @@
-{ config, pkgs, ... }:
-
-{
-
-  imports = [
-    ./fcitx5
-    ./i3
-    ./programs
-    ./rofi
-    ./shell
-  ];
-
+{username, ...}: {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
-    username = "ryan";
-    homeDirectory = "/home/ryan";
+    inherit username;
+    homeDirectory = "/home/${username}";
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
