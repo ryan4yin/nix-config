@@ -1,42 +1,81 @@
 # auto disk partitioning:
 #   nix run github:nix-community/disko -- --mode disko ./disko-fs.nix
 {
+  fileSystems."/data/fileshare/public".depends = ["/data/fileshare"];
+
   disko.devices = {
-    disk.data-apps = {
+    disk.data-encrypted = {
       type = "disk";
-      device = "/dev/disk/by-id/ata-WDC_WD40EJRX-89T1XY0_WD-WCC7K0XDCZE6";
+      device = "/dev/disk/by-id/ata-WDC_WD40EZRZ-22GXCB0_WD-WCC7K7VV9613";
       content = {
         type = "gpt";
-        partitions.data-apps = {
-          size = "100%";
-          content = {
-            type = "btrfs";
-            # extraArgs = ["-f"]; # Override existing partition
-            subvolumes = {
-              "@persistent" = {
-                mountpoint = "/data/apps";
-                mountOptions = [
-                  "compress-force=zstd:1"
-                  # https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html
-                  "nofail"
-                ];
+        partitions = {
+          luks = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "data-encrypted";
+              settings = {
+                keyFile = "/etc/agenix/hdd-luks-crypt-key";
+                # The maximum size of the keyfile is 8192 KiB
+                # type `cryptsetup --help` to see the compiled-in key and passphrase maximum sizes
+                # to generate a key file:
+                #    dd bs=512 count=1024 iflag=fullblock if=/dev/random of=./hdd-luks-crypt-key
+                keyFileSize = 512 * 64; # match the `bs * count` of the `dd` command
+                keyFileOffset = 512 * 128; # match the `bs * skip` of the `dd` command
+                fallbackToPassword = true;
+                allowDiscards = true;
               };
-              "@backups" = {
-                mountpoint = "/data/backups";
-                mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
-              };
-              "@snapshots" = {
-                mountpoint = "/data/apps-snapshots";
-                mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+
+              # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
+              # cryptsetup luksFormat
+              extraFormatArgs = [
+                "--type luks2"
+                "--cipher aes-xts-plain64"
+                "--hash sha512"
+                "--iter-time 5000"
+                "--key-size 256"
+                "--pbkdf argon2id"
+                # use true random data from /dev/random, will block until enough entropy is available
+                "--use-random"
+              ];
+              extraOpenArgs = [
+                "--timeout 10"
+              ];
+              content = {
+                type = "btrfs";
+                extraArgs = ["-f"]; # Force override existing partition
+                subvolumes = {
+                  "@apps" = {
+                    mountpoint = "/data/apps";
+                    mountOptions = [
+                      "compress-force=zstd:1"
+                      # https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html
+                      "nofail"
+                    ];
+                  };
+                  "@fileshare" = {
+                    mountpoint = "/data/fileshare";
+                    mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+                  };
+                  "@backups" = {
+                    mountpoint = "/data/backups";
+                    mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+                  };
+                  "@snapshots" = {
+                    mountpoint = "/data/apps-snapshots";
+                    mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+                  };
+                };
               };
             };
           };
         };
       };
     };
-    disk.data-fileshare = {
+    disk.data-public = {
       type = "disk";
-      device = "/dev/disk/by-id/ata-WDC_WD40EZRZ-22GXCB0_WD-WCC7K7VV9613";
+      device = "/dev/disk/by-id/ata-WDC_WD40EJRX-89T1XY0_WD-WCC7K0XDCZE6";
       content = {
         type = "gpt";
         partitions.data-fileshare = {
@@ -46,12 +85,8 @@
             # extraArgs = ["-f"]; # Override existing partition
             subvolumes = {
               "@persistent" = {
-                mountpoint = "/data/fileshare";
+                mountpoint = "/data/fileshare/public";
                 mountOptions = ["compress-force=zstd:1" "nofail"];
-              };
-              "@snapshots" = {
-                mountpoint = "/data/fileshare-snapshots";
-                mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
               };
             };
           };
