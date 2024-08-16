@@ -15,5 +15,5 @@
     ../../base.nix
   ];
 
-  boot.loader.timeout = lib.mkForce 3; # wait for 3 seconds to select the boot entry
+  boot.loader.timeout = lib.mkForce 7; # wait for x seconds to select the boot entry
 }

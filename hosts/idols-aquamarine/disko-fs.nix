@@ -26,6 +26,9 @@
                 fallbackToPassword = true;
                 allowDiscards = true;
               };
+              # Whether to add a boot.initrd.luks.devices entry for the specified disk.
+              # This data disk is not needed to boot the system, so we don't need to unlock it in the initrd.
+              initrdUnlock = false;
 
               # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
               # cryptsetup luksFormat
