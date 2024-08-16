@@ -35,6 +35,7 @@ in {
     server.operation.enable = mkEnableOption "NixOS Secrets for Operation Servers(Backup, Monitoring, etc)";
     server.kubernetes.enable = mkEnableOption "NixOS Secrets for Kubernetes";
     server.webserver.enable = mkEnableOption "NixOS Secrets for Web Servers(contains tls cert keys)";
+    server.storage.enable = mkEnableOption "NixOS Secrets for HDD Data's LUKS Encryption";
 
     impermanence.enable = mkEnableOption "whether use impermanence and ephemeral root file system";
   };
@@ -246,6 +247,25 @@ in {
             file = "${mysecrets}/certs/ecc-server.key.age";
             mode = "0400";
             owner = "caddy"; # used by caddy only
+          };
+        };
+      })
+
+      (mkIf cfg.server.storage.enable {
+        age.secrets = {
+          "hdd-luks-crypt-key" = {
+            file = "${mysecrets}/hdd-luks-crypt-key.age";
+            mode = "0400";
+            owner = "root";
+          };
+        };
+
+        # place secrets in /etc/
+        environment.etc = {
+          "agenix/hdd-luks-crypt-key" = {
+            source = config.age.secrets."hdd-luks-crypt-key".path;
+            mode = "0400";
+            user = "root";
           };
         };
       })

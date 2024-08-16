@@ -29,6 +29,7 @@
         {modules.secrets.server.application.enable = true;}
         {modules.secrets.server.operation.enable = true;}
         {modules.secrets.server.webserver.enable = true;}
+        {modules.secrets.server.storage.enable = true;}
       ];
     home-modules = map mylib.relativeToRoot [
       "home/linux/tui.nix"
