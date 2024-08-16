@@ -209,6 +209,12 @@ group {
         policy: min_avg10
     }
 
+    proxy-random {
+        filter: name(keyword: 'UK')
+        filter: name(keyword: '英国')
+        policy: random
+    }
+
     sg {
         filter: name(keyword: 'Singapore')
         filter: name(keyword: '新加坡')
@@ -267,6 +273,12 @@ routing {
 
     # SSH - tcp port 22 is blocked by many proxy servers.
     dport(22) && !dip(geoip:cn) && !domain(geosite:cn) -> ssh-proxy
+
+    ### GitHub / Docker Hub
+    ### randomly select a node from the group for every connection
+    ### to avoid the rate limit of GitHub API and Docker Hub API
+    domain(geosite:github) -> proxy-random
+    domain(geosite:docker) -> proxy-random
 
     ### OpenAI
     domain(geosite:openai) -> sg
