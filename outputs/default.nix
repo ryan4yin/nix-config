@@ -34,8 +34,8 @@
   # modules for each supported system
   nixosSystems = {
     x86_64-linux = import ./x86_64-linux (args // {system = "x86_64-linux";});
-    aarch64-linux = import ./aarch64-linux (args // {system = "aarch64-linux";});
-    riscv64-linux = import ./riscv64-linux (args // {system = "riscv64-linux";});
+    # aarch64-linux = import ./aarch64-linux (args // {system = "aarch64-linux";});
+    # riscv64-linux = import ./riscv64-linux (args // {system = "riscv64-linux";});
   };
   darwinSystems = {
     aarch64-darwin = import ./aarch64-darwin (args // {system = "aarch64-darwin";});

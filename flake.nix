@@ -101,16 +101,8 @@
 
     nuenv.url = "github:DeterminateSystems/nuenv";
 
-    daeuniverse.url = "github:daeuniverse/flake.nix";
-    # daeuniverse.url = "github:daeuniverse/flake.nix/exp";
-
     haumea = {
       url = "github:nix-community/haumea/v0.2.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    microvm = {
-      url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -146,12 +138,5 @@
       url = "github:ryan4yin/nur-packages";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # riscv64 SBCs
-    nixos-licheepi4a.url = "github:ryan4yin/nixos-licheepi4a";
-    # nixos-jh7110.url = "github:ryan4yin/nixos-jh7110";
-
-    # aarch64 SBCs
-    nixos-rk3588.url = "github:ryan4yin/nixos-rk3588";
   };
 }

@@ -2,13 +2,6 @@
 
 1. `12kingdoms`:
    1. `shoukei`: NixOS on Macbook Pro 2020 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
-   1. `suzu`: Orange Pi 5, RK3588s(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8), 8G RAM +
-      256G SSD.
-      - Network related services running via microvm.nix, such as router(transparent proxy - dae),
-        tailscale subrouter, etc.
-   1. `rakushun`: Orange Pi 5 Plus, RK3588(4xA76 + 4xA55), GPU(4Cores, Mail-G610), NPU(6Tops@int8),
-      16G RAM + 2T SSD.
-      - Not used now.
 1. `darwin`(macOS)
    1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
    1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
@@ -20,9 +13,8 @@
         and other services.
    3. `ruby`: Not used now.
    4. `kana`: Not used now.
-1. `rolling_girls`: My RISCV64 hosts.
-   1. `nozomi`: Lichee Pi 4A, TH1520(4xC910@2.0G), 16GB RAM + 32G eMMC + 128G SD Card.
-   2. `yukina`: Milk-V Mars, JH7110(4xU74@1.5 GHz), 4G RAM + No eMMC + 64G SD Card.
+1. Other aarch64/riscv64 SBCs:
+   [ryan4yin/nixos-config-sbc](https://github.com/ryan4yin/nixos-config-sbc)
 
 ## How to add a new host
 
