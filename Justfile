@@ -321,64 +321,6 @@ k3s-test:
 
 ############################################################################
 #
-#  RISC-V related commands
-#
-############################################################################
-
-[linux]
-[group('homelab')]
-riscv:
-  colmena apply --on '@riscv' --verbose --show-trace
-
-[linux]
-[group('homelab')]
-nozomi:
-  colmena apply --on '@nozomi' --verbose --show-trace
-
-[linux]
-[group('homelab')]
-yukina:
-  colmena apply --on '@yukina' --verbose --show-trace
-
-############################################################################
-#
-# Aarch64 related commands
-#
-############################################################################
-
-[linux]
-[group('homelab')]
-rakushun:
-  colmena apply --on '@rakushun' --build-on-target --verbose --show-trace
-
-[linux]
-[group('homelab')]
-rakushun-local mode="default":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *; 
-  nixos-switch rakushun {{mode}}
-
-[linux]
-[group('homelab')]
-suzu-set-proxy:
-  ip route del default via 192.168.5.1
-  ip route add default via 192.168.5.178
-
-[linux]
-[group('homelab')]
-suzu-unset-proxy:
-  ip route del default via 192.168.5.178
-  ip route add default via 192.168.5.1
-
-[linux]
-[group('homelab')]
-suzu-local mode="default":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *; 
-  nixos-switch suzu {{mode}}
-
-############################################################################
-#
 #  Neovim related commands
 #
 ############################################################################
