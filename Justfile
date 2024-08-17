@@ -402,4 +402,14 @@ game:
 # Delete all failed pods
 [group('k8s')]
 del-failed:
-   kubectl delete pod --all-namespaces --field-selector="status.phase==Failed"
+  kubectl delete pod --all-namespaces --field-selector="status.phase==Failed"
+
+[linux]
+[group('services')]
+list-inactive:
+  systemctl list-units -all --state=inactive
+
+[linux]
+[group('services')]
+list-failed:
+  systemctl list-units -all --state=failed
