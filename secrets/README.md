@@ -6,19 +6,19 @@
 All my secrets are safely encrypted via agenix, and stored in a separate private GitHub repository
 and referenced as a flake input in this flake.
 
-The encryption is done by using all my host's public keys(`/etc/ssh/ssh_host_ed25519_key`), so that
-they can only be decrypted on any of my configured hosts. The host keys are generated locally on
-each host by openssh without passphrase, and are only readable by `root`, and will never leave the
-host.
+The encryption is done using the public keys of all my hosts (`/etc/ssh/ssh_host_ed25519_key`), so
+that they can only be decrypted on any of my configured hosts. The host keys are generated locally
+on each host by OpenSSH without a passphrase and are only readable by `root`. The host keys will
+never leave the host.
 
-In this way, all secrets is still encrypted when transmitted over the network and written to
-`/nix/store`, they are decrypted only when they are finally used.
+In this way, all secrets are still encrypted when transmitted over the network and written to
+`/nix/store`. They are decrypted only when they are finally used.
 
-In addition, we further improve the security of secrets files by storing them in a separate private
+In addition, we further improve the security of secret files by storing them in a separate private
 repository.
 
-This directory contains this README.md, and a `nixos.nix`/`darwin.nix` that used to decrypt all my
-secrets via agenix, and then I can use them in this flake.
+This directory contains this `README.md`, and a `nixos.nix`/`darwin.nix` file that is used to
+decrypt all my secrets via `agenix`. Then, I can use them in this flake.
 
 ## Adding or Updating Secrets
 
