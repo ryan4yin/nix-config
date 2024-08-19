@@ -45,36 +45,49 @@ in {
     '';
 
     virtualHosts."git.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:3301
     '';
     virtualHosts."sftpgo.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:3302
     '';
     virtualHosts."webdav.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:3303
     '';
     virtualHosts."transmission.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:9091
     '';
 
     # Monitoring
     virtualHosts."uptime-kuma.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:53350
     '';
     virtualHosts."grafana.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:3351
     '';
     virtualHosts."prometheus.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      encode zstd gzip
+      reverse_proxy http://localhost:9090
+    '';
+    # Do not redirect to https for api path
+    virtualHosts."http://prometheus.writefor.fun/api/v1/write".extraConfig = ''
       encode zstd gzip
       reverse_proxy http://localhost:9090
     '';
     virtualHosts."alertmanager.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:9093
     '';

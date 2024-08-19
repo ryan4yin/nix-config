@@ -12,7 +12,11 @@
     port = 9090;
     webExternalUrl = "http://prometheus.writefor.fun";
 
-    extraFlags = ["--storage.tsdb.retention.time=45d"];
+    extraFlags = [
+      "--storage.tsdb.retention.time=45d"
+      # https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations
+      "--web.enable-remote-write-receiver"
+    ];
     # Directory below /var/lib to store Prometheus metrics data.
     stateDir = "prometheus2";
 
