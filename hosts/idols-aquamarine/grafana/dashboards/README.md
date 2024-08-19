@@ -8,3 +8,7 @@
 ## Kubernetes
 
 1. https://github.com/dotdc/grafana-dashboards-kubernetes/
+
+## Istio
+
+1. https://github.com/istio/istio/tree/1.23.0/manifests/addons/dashboards
