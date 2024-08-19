@@ -4,6 +4,12 @@
   myvars,
   ...
 }: {
+  # Workaround for prometheus to store data in another place
+  systemd.tmpfiles.rules = [
+    "D /data/apps/prometheus2 0751 prometheus prometheus - -"
+    "L+ /var/lib/prometheus2 - - - - /data/apps/prometheus2"
+  ];
+
   # https://prometheus.io/docs/prometheus/latest/configuration/configuration/
   services.prometheus = {
     enable = true;
@@ -13,7 +19,7 @@
     webExternalUrl = "http://prometheus.writefor.fun";
 
     extraFlags = [
-      "--storage.tsdb.retention.time=45d"
+      "--storage.tsdb.retention.time=30d"
       # https://prometheus.io/docs/prometheus/latest/storage/#remote-storage-integrations
       "--web.enable-remote-write-receiver"
     ];
