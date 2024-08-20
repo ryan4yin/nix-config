@@ -2942,7 +2942,7 @@
             "value": "destination"
           }
         ],
-        "query": "source,destination",
+        "query": "source,destination,waypoint",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
