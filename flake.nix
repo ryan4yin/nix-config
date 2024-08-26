@@ -134,9 +134,7 @@
       flake = false;
     };
 
-    nur-ryan4yin = {
-      url = "github:ryan4yin/nur-packages";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nur-ryan4yin.url = "github:ryan4yin/nur-packages";
+    nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
   };
 }

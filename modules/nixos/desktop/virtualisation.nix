@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  nur-ataraxiasjel,
+  ...
+}: {
   ###################################################################################
   #
   #  Virtualisation - Libvirt(QEMU/KVM) / Docker / LXD / WayDroid
@@ -32,6 +36,7 @@
       enableOnBoot = true;
     };
 
+    # Usage: https://wiki.nixos.org/wiki/Waydroid
     waydroid.enable = true;
 
     # libvirtd = {
@@ -45,6 +50,14 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # This script is used to install the arm translation layer for waydroid
+    # so that we can install arm apks on x86_64 waydroid
+    #
+    # https://github.com/casualsnek/waydroid_script
+    # https://github.com/AtaraxiaSjel/nur/tree/master/pkgs/waydroid-script
+    # https://wiki.archlinux.org/title/Waydroid#ARM_Apps_Incompatible
+    nur-ataraxiasjel.packages.${pkgs.system}.waydroid-script
+
     # Need to add [File (in the menu bar) -> Add connection] when start for the first time
     # virt-manager
 

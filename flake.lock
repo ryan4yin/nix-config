@@ -716,6 +716,22 @@
     },
     "nixpkgs_4": {
       "locked": {
+        "lastModified": 1716948383,
+        "narHash": "sha256-SzDKxseEcHR5KzPXLwsemyTR/kaM9whxeiJohbL04rs=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "ad57eef4ef0659193044870c731987a6df5cf56b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
         "lastModified": 1702921762,
         "narHash": "sha256-O/rP7gulApQAB47u6szEd8Pn8Biw0d84j5iuP2tcxzY=",
         "owner": "NixOS",
@@ -749,9 +765,27 @@
         "type": "github"
       }
     },
-    "nur-ryan4yin": {
+    "nur-ataraxiasjel": {
       "inputs": {
         "nixpkgs": "nixpkgs_4"
+      },
+      "locked": {
+        "lastModified": 1723710142,
+        "narHash": "sha256-2dIz02Upb7k6c6jx41JtLwvGoKFZanu7vS/ZwMW6m+I=",
+        "owner": "AtaraxiaSjel",
+        "repo": "nur",
+        "rev": "433c9d20d40ee728f5a57bc18dd70b714a7d2ff3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "AtaraxiaSjel",
+        "repo": "nur",
+        "type": "github"
+      }
+    },
+    "nur-ryan4yin": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_5"
       },
       "locked": {
         "lastModified": 1717568000,
@@ -853,6 +887,7 @@
         "nixpkgs-stable": "nixpkgs-stable_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nuenv": "nuenv",
+        "nur-ataraxiasjel": "nur-ataraxiasjel",
         "nur-ryan4yin": "nur-ryan4yin",
         "polybar-themes": "polybar-themes",
         "pre-commit-hooks": "pre-commit-hooks",
