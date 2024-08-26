@@ -12,3 +12,7 @@
 ## Istio
 
 1. https://github.com/istio/istio/tree/1.23.0/manifests/addons/dashboards
+
+## Kubevirt
+
+1. https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana

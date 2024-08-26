@@ -20,24 +20,6 @@ providers:
     allowUiUpdates: false
     options:
       # <string, required> path to dashboard files on disk. Required when using the 'file' type
-      path: /etc/grafana/dashboards/homelab/
+      path: /etc/grafana/dashboards/
       # <bool> use folder names from filesystem to create folders in Grafana
-      foldersFromFilesStructure: true
-  - name: "Kubernetes"
-    orgId: 1
-    type: file
-    disableDeletion: true
-    updateIntervalSeconds: 20
-    allowUiUpdates: false
-    options:
-      path: /etc/grafana/dashboards/kubernetes/
-      foldersFromFilesStructure: true
-  - name: "Istio"
-    orgId: 1
-    type: file
-    disableDeletion: true
-    updateIntervalSeconds: 20
-    allowUiUpdates: false
-    options:
-      path: /etc/grafana/dashboards/istio/
       foldersFromFilesStructure: true
