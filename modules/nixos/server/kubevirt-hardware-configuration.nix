@@ -32,7 +32,7 @@
     boot.kernelParams = ["console=ttyS0"];
     boot.loader.grub.device = "/dev/vda";
 
-    services.qemuGuest.enable = true;
+    services.qemuGuest.enable = true; # qemu-guest-agent
     services.openssh.enable = true;
     # we configure the host via nixos itself, so we don't need the cloud-init
     services.cloud-init.enable = lib.mkForce false;
