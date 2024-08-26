@@ -5,7 +5,7 @@
   nodeLabels ? [],
   ...
 }: let
-  package = pkgs.k3s_1_29;
+  package = pkgs.k3s;
 in {
   environment.systemPackages = [package];
   services.k3s = {
