@@ -32,19 +32,21 @@
       enableOnBoot = true;
     };
 
-    libvirtd = {
-      enable = true;
-      # hanging this option to false may cause file permission issues for existing guests.
-      # To fix these, manually change ownership of affected files in /var/lib/libvirt/qemu to qemu-libvirtd.
-      qemu.runAsRoot = true;
-    };
     waydroid.enable = true;
-    lxd.enable = true;
+
+    # libvirtd = {
+    #   enable = true;
+    #   # hanging this option to false may cause file permission issues for existing guests.
+    #   # To fix these, manually change ownership of affected files in /var/lib/libvirt/qemu to qemu-libvirtd.
+    #   qemu.runAsRoot = true;
+    # };
+
+    # lxd.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
     # Need to add [File (in the menu bar) -> Add connection] when start for the first time
-    virt-manager
+    # virt-manager
 
     # QEMU/KVM(HostCpuOnly), provides:
     #   qemu-storage-daemon qemu-edid qemu-ga
