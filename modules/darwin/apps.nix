@@ -114,6 +114,7 @@ in {
       "homebrew/cask-versions"
 
       "hashicorp/tap"
+      "nikitabobko/tap"
     ];
 
     brews = [
@@ -151,6 +152,7 @@ in {
       "google-chrome"
       "visual-studio-code"
       "zed" # zed editor
+      "aerospace" # an i3-like tiling window manager for macOS
 
       # https://joplinapp.org/help/
       "joplin" # note taking app
