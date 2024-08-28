@@ -84,6 +84,8 @@ plugin.
 | Show line diagnostics         | `gl`           |
 | Show function/variable info   | `K`            |
 | References of a symbol        | `gr`           |
+| Next tab                      | `]b`           |
+| Previous tab                  | `[b`           |
 
 ### Window Navigation
 

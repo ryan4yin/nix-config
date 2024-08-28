@@ -115,7 +115,8 @@ in {
       "homebrew/cask-versions"
 
       "hashicorp/tap"
-      "nikitabobko/tap"
+      "nikitabobko/tap" # aerospace - an i3-like tiling window manager for macOS
+      "FelixKratz/formulae" # janky borders - highlight active window borders
     ];
 
     brews = [
@@ -154,6 +155,7 @@ in {
       "visual-studio-code"
       "zed" # zed editor
       "aerospace" # an i3-like tiling window manager for macOS
+      "wezterm"
 
       # https://joplinapp.org/help/
       "joplin" # note taking app

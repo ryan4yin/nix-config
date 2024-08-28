@@ -12,7 +12,13 @@ after-login-command = []
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+after-startup-command = [
+  # Highlight focused windows with colored borders
+  # 
+  # JankyBorders has a built-in detection of already running process,
+  # so it won't be run twice on AeroSpace restart
+  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+]
 
 # Start AeroSpace at login
 start-at-login = false
@@ -52,12 +58,17 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 0
-inner.vertical =   0
-outer.left =       0
-outer.bottom =     0
-outer.top =        0
-outer.right =      0
+inner.horizontal = 5
+inner.vertical = 5
+outer.left = 5
+outer.bottom = 5
+outer.top = 5
+outer.right = 5
+
+[exec]
+inherit-env-vars = true
+[exec.env-vars]
+PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -81,12 +92,12 @@ outer.right =      0
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
 # You can uncomment the following lines to open up terminal with alt + enter shortcut (like in i3)
-# alt-enter = '''exec-and-forget osascript -e '
-# tell application "Terminal"
-#     do script
-#     activate
-# end tell'
-# '''
+alt-enter = '''exec-and-forget osascript -e '
+tell application "kitty"
+    do script
+    activate
+end tell'
+'''
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
@@ -109,70 +120,29 @@ alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
-alt-7 = 'workspace 7'
+alt-1 = 'workspace 1Kitty'
+alt-2 = 'workspace 2Wez'
+alt-3 = 'workspace 3Work'
+alt-4 = 'workspace 4Firefox'
+alt-5 = 'workspace 5Chrome'
+alt-6 = 'workspace 6Chat'
+alt-7 = 'workspace 7Music'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
-alt-b = 'workspace B'
-alt-c = 'workspace C'
-alt-d = 'workspace D'
-alt-e = 'workspace E'
-alt-f = 'workspace F'
-alt-g = 'workspace G'
-alt-i = 'workspace I'
-alt-m = 'workspace M'
-alt-n = 'workspace N'
-alt-o = 'workspace O'
-alt-p = 'workspace P'
-alt-q = 'workspace Q'
-alt-r = 'workspace R'
-alt-s = 'workspace S'
-alt-t = 'workspace T'
-alt-u = 'workspace U'
-alt-v = 'workspace V'
-alt-w = 'workspace W'
-alt-x = 'workspace X'
-alt-y = 'workspace Y'
-alt-z = 'workspace Z'
+alt-0 = 'workspace 10'
+
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-alt-shift-1 = 'move-node-to-workspace 1'
-alt-shift-2 = 'move-node-to-workspace 2'
-alt-shift-3 = 'move-node-to-workspace 3'
-alt-shift-4 = 'move-node-to-workspace 4'
-alt-shift-5 = 'move-node-to-workspace 5'
-alt-shift-6 = 'move-node-to-workspace 6'
-alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-1 = 'move-node-to-workspace 1Kitty'
+alt-shift-2 = 'move-node-to-workspace 2Wez'
+alt-shift-3 = 'move-node-to-workspace 3Work'
+alt-shift-4 = 'move-node-to-workspace 4Firefox'
+alt-shift-5 = 'move-node-to-workspace 5Chrome'
+alt-shift-6 = 'move-node-to-workspace 6Chat'
+alt-shift-7 = 'move-node-to-workspace 7Music'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
-alt-shift-a = 'move-node-to-workspace A'
-alt-shift-b = 'move-node-to-workspace B'
-alt-shift-c = 'move-node-to-workspace C'
-alt-shift-d = 'move-node-to-workspace D'
-alt-shift-e = 'move-node-to-workspace E'
-alt-shift-f = 'move-node-to-workspace F'
-alt-shift-g = 'move-node-to-workspace G'
-alt-shift-i = 'move-node-to-workspace I'
-alt-shift-m = 'move-node-to-workspace M'
-alt-shift-n = 'move-node-to-workspace N'
-alt-shift-o = 'move-node-to-workspace O'
-alt-shift-p = 'move-node-to-workspace P'
-alt-shift-q = 'move-node-to-workspace Q'
-alt-shift-r = 'move-node-to-workspace R'
-alt-shift-s = 'move-node-to-workspace S'
-alt-shift-t = 'move-node-to-workspace T'
-alt-shift-u = 'move-node-to-workspace U'
-alt-shift-v = 'move-node-to-workspace V'
-alt-shift-w = 'move-node-to-workspace W'
-alt-shift-x = 'move-node-to-workspace X'
-alt-shift-y = 'move-node-to-workspace Y'
-alt-shift-z = 'move-node-to-workspace Z'
+alt-shift-0 = 'move-node-to-workspace 10'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -182,16 +152,106 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
 
+cmd-h = []     # Disable "hide application"
+cmd-alt-h = [] # Disable "hide others"
+
+alt-shift-c = 'reload-config'
+
+alt-r = 'mode resize'
+
+# Declare 'resize' binding mode
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'
+
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+f = [
+  'layout floating tiling',
+  'mode main',
+] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
 
 alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
+
+
+# =================================================================
+#
+# Assign apps on particular workspaces
+#
+# Use this command to get IDs of running applications:
+#   aerospace list-apps
+#
+# =================================================================
+
+[[on-window-detected]]
+if.app-id = 'net.kovidgoyal.kitty'
+run = 'move-node-to-workspace 1Kitty'
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = 'move-node-to-workspace 2Wez'
+
+[[on-window-detected]]
+if.app-id = 'com.tencent.WeWorkMac'
+run = 'move-node-to-workspace 3Work'
+
+[[on-window-detected]]
+if.app-id = 'org.mozilla.firefox'
+run = 'move-node-to-workspace 4Firefox'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'move-node-to-workspace 5Chrome'
+
+[[on-window-detected]]
+if.app-id = 'ru.keepcoder.Telegram'
+run = 'move-node-to-workspace 6Chat'
+
+[[on-window-detected]]
+if.app-id = 'com.tencent.xinWeChat'
+run = 'move-node-to-workspace 6Chat'
+
+[[on-window-detected]]
+if.app-id = 'com.tencent.qq'
+run = 'move-node-to-workspace 6Chat'
+
+[[on-window-detected]]
+if.app-id = 'com.tencent.QQMusicMac'
+run = 'move-node-to-workspace 7Music'
+
+[[on-window-detected]]
+if.app-id = 'com.netease.163music'
+run = 'move-node-to-workspace 7Music'
+
+# Make all windows float by default
+[[on-window-detected]]
+check-further-callbacks = true
+run = 'layout floating'
+
+# =================================================================
+# Multiple monitor configuration
+# =================================================================
+
+[workspace-to-monitor-force-assignment]
+1Kitty = 'secondary'  # Non-main monitor in case when there are only two monitors'
+2Wez = 'main'         # "Main" monitor ("main" as in System Settings → Displays → Use as)
+3Work = 'main'
+4Firefox = 'main'
+5Chrome = 'secondary'
+6Chat = 'main'
+7Music = 'main'
+8 = 'main'
+9 = 'main'
+0 = 'main'
