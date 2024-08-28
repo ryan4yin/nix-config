@@ -56,7 +56,7 @@ gc:
   # garbage collect all unused nix store entries(system-wide)
   sudo nix-collect-garbage --delete-older-than 7d
   # garbage collect all unused nix store entries(for the user - home-manager)
-  # https://github.com/LnL7/nix-darwin/issues/237
+  # https://github.com/NixOS/nix/issues/8508
   nix-collect-garbage --delete-older-than 7d
 
 # Enter a shell session which has all the necessary tools for this flake
