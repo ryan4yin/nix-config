@@ -29,7 +29,8 @@
 - [Firejail](https://github.com/netblue30/firejail/tree/master/etc): A SUID security sandbox with
   hundreds of security profiles for many common applications in the default installation.
   - https://wiki.nixos.org/wiki/Firejail
-  - Firejail needs SUID to work, which is considered a security risk - [Does firejail improve the security of my system?](https://github.com/netblue30/firejail/discussions/4601)
+  - Firejail needs SUID to work, which is considered a security risk -
+    [Does firejail improve the security of my system?](https://github.com/netblue30/firejail/discussions/4601)
 - [Bubblewrap](https://github.com/containers/bubblewrap):
   [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no batteries included.
   - NixOS's FHSEnv is implemented using bubblewrap by default.
@@ -56,3 +57,6 @@ provide a much higher level of security.
   - https://github.com/bluskript/nix-config/blob/7ecb6a7254c1ac4969072f4c4febdc19f8b83b30/pkgs/nixpak/default.nix
 - firejail configs:
   - https://github.com/stelcodes/nixos-config/blob/f8967c82a5e5f3d128eb1aaf7498b5f918f719ec/packages/overlay.nix#L261
+- apparmor configs:
+  - https://github.com/sukhmancs/nixos-configs/blob/7fcf737c506ad843113cd5b94796b49d4d4dfad2/modules/shared/security/apparmor/default.nix#L8
+  - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
