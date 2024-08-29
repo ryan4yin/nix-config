@@ -28,9 +28,12 @@
 
 - [Firejail](https://github.com/netblue30/firejail/tree/master/etc): A SUID security sandbox with
   hundreds of security profiles for many common applications in the default installation.
-- Bubblewrap: [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no
-  batteries included.
+  - https://wiki.nixos.org/wiki/Firejail
+- [Bubblewrap](https://github.com/containers/bubblewrap):
+  [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no batteries included.
   - NixOS's FHSEnv is implemented using bubblewrap by default.
+- [Systemd/Hardening](https://wiki.nixos.org/wiki/Systemd/Hardening): Systemd also provides some
+  sandboxing features.
 
 ## NOTE
 
@@ -43,7 +46,9 @@ provide a much higher level of security.
 
 - [Harden your NixOS workstation - dataswamp](https://dataswamp.org/~solene/2022-01-13-nixos-hardened.html)
 - [Linux Insecurities - Madaidans](https://madaidans-insecurities.github.io/linux.html)
-- NixOS Configs:
+- nixpak configs:
   - https://github.com/segment-tree/my-nixos/tree/ceb6041f73bd9edcb78a8818b27a28f7c629193b/hm/me/apps/nixpak
   - https://github.com/Keksgesicht/nixos-config/tree/91cc77d8d6b598da7c4dbed143e0009c2dea6940/packages/nixpak
   - https://github.com/bluskript/nix-config/blob/7ecb6a7254c1ac4969072f4c4febdc19f8b83b30/pkgs/nixpak/default.nix
+- firejail configs:
+  - https://github.com/stelcodes/nixos-config/blob/f8967c82a5e5f3d128eb1aaf7498b5f918f719ec/packages/overlay.nix#L261
