@@ -1,5 +1,11 @@
 # Linux Hardening
 
+## Goal
+
+1. Prevent applications from accessing files they shouldn't.
+   - Such as a malicious application accessing your browser's cookies, SSH Keys, etc.
+2. Prevent applications from accessing the network when they shouldn't.
+
 ## Kernel Hardening
 
 - NixOS Kernel Config:
