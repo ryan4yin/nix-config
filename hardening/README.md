@@ -29,6 +29,7 @@
 - [Firejail](https://github.com/netblue30/firejail/tree/master/etc): A SUID security sandbox with
   hundreds of security profiles for many common applications in the default installation.
   - https://wiki.nixos.org/wiki/Firejail
+  - Firejail needs SUID to work, which is considered a security risk - [Does firejail improve the security of my system?](https://github.com/netblue30/firejail/discussions/4601)
 - [Bubblewrap](https://github.com/containers/bubblewrap):
   [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no batteries included.
   - NixOS's FHSEnv is implemented using bubblewrap by default.
@@ -46,6 +47,9 @@ provide a much higher level of security.
 
 - [Harden your NixOS workstation - dataswamp](https://dataswamp.org/~solene/2022-01-13-nixos-hardened.html)
 - [Linux Insecurities - Madaidans](https://madaidans-insecurities.github.io/linux.html)
+- [Sandboxing all programs by default - NixOS Discourse](https://discourse.nixos.org/t/sandboxing-all-programs-by-default/7792)
+- [在 Firejail 中运行 Steam](https://imbearchild.cyou/archives/2021/11/steam-in-firejail/)
+- [Firejail - Arch Linux Wiki](https://wiki.archlinux.org/title/Firejail)
 - nixpak configs:
   - https://github.com/segment-tree/my-nixos/tree/ceb6041f73bd9edcb78a8818b27a28f7c629193b/hm/me/apps/nixpak
   - https://github.com/Keksgesicht/nixos-config/tree/91cc77d8d6b598da7c4dbed143e0009c2dea6940/packages/nixpak

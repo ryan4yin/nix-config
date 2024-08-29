@@ -14,6 +14,7 @@
     ];
   };
 in {
+  # Add nixpaked Apps into nixpkgs, and reference them in home-manager or other nixos modules
   nixpkgs.overlays = [
     (_: super: {
       nixpaks = {
