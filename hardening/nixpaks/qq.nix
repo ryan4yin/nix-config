@@ -7,9 +7,19 @@
 }:
 mkNixPak {
   config = {sloth, ...}: {
-    flatpak = {
-      appId = "com.tencent.qq";
+    app = {
+      package = with pkgs; (mkWaylandApp qq "qq" [
+        "--enable-wayland-ime"
+      ]);
+      binPath = "bin/qq";
     };
+    flatpak.appId = "com.tencent.qq";
+
+    imports = [
+      "${nixpak-pkgs}/pkgs/modules/gui-base.nix"
+      "${nixpak-pkgs}/pkgs/modules/network.nix"
+    ];
+
     dbus.policies = {
       "org.gnome.Shell.Screencast" = "talk";
       "org.freedesktop.Notifications" = "talk";
@@ -57,17 +67,6 @@ mkNixPak {
           "${simp1e-cursors}/share/pixmaps"
         ]));
       };
-    };
-
-    imports = [
-      "${nixpak-pkgs}/pkgs/modules/gui-base.nix"
-      "${nixpak-pkgs}/pkgs/modules/network.nix"
-    ];
-    app = {
-      package = with pkgs; (mkWaylandApp qq "qq" [
-        "--enable-wayland-ime"
-      ]);
-      binPath = "bin/qq";
     };
   };
 }

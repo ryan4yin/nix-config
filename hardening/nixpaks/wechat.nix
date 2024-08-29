@@ -8,9 +8,22 @@
 mkNixPak
 {
   config = {sloth, ...}: {
-    flatpak = {
-      appId = "com.tencent.mm";
+    app = {
+      package = pkgs.wechat-uos.override {
+        uosLicense = pkgs.fetchurl {
+          url = "https://aur.archlinux.org/cgit/aur.git/plain/license.tar.gz?h=wechat-uos-bwrap";
+          hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
+        };
+      };
+      binPath = "bin/wechat-uos";
     };
+    flatpak.appId = "com.tencent.mm";
+
+    imports = [
+      "${nixpak-pkgs}/pkgs/modules/gui-base.nix"
+      "${nixpak-pkgs}/pkgs/modules/network.nix"
+    ];
+
     bubblewrap = {
       bind.rw = [
         [
@@ -75,20 +88,6 @@ mkNixPak
           "${simp1e-cursors}/share/pixmaps"
         ]));
       };
-    };
-
-    imports = [
-      "${nixpak-pkgs}/pkgs/modules/gui-base.nix"
-      "${nixpak-pkgs}/pkgs/modules/network.nix"
-    ];
-    app = {
-      package = pkgs.wechat-uos.override {
-        uosLicense = pkgs.fetchurl {
-          url = "https://aur.archlinux.org/cgit/aur.git/plain/license.tar.gz?h=wechat-uos-bwrap";
-          hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
-        };
-      };
-      binPath = "bin/wechat-uos";
     };
   };
 }
