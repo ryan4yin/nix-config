@@ -29,43 +29,43 @@ in {
           profile = "${super.firejail}/etc/firejail/chromium.profile";
         };
 
-        mpv = {
+        mpv = firejailWrapper {
           executable = "${super.lib.getBin super.mpv}/bin/mpv";
           profile = "${super.firejail}/etc/firejail/mpv.profile";
         };
-        imv = {
+        imv = firejailWrapper {
           executable = "${super.lib.getBin super.imv}/bin/imv";
           profile = "${super.firejail}/etc/firejail/imv.profile";
         };
-        zathura = {
+        zathura = firejailWrapper {
           executable = "${super.lib.getBin super.zathura}/bin/zathura";
           profile = "${super.firejail}/etc/firejail/zathura.profile";
         };
-        discord = {
+        discord = firejailWrapper {
           executable = "${super.lib.getBin super.discord}/bin/discord";
           profile = "${super.firejail}/etc/firejail/discord.profile";
         };
-        slack = {
+        slack = firejailWrapper {
           executable = "${super.lib.getBin super.slack}/bin/slack";
           profile = "${super.firejail}/etc/firejail/slack.profile";
         };
-        telegram-desktop = {
+        telegram-desktop = firejailWrapper {
           executable = "${super.lib.getBin super.tdesktop}/bin/telegram-desktop";
           profile = "${super.firejail}/etc/firejail/telegram-desktop.profile";
         };
-        brave = {
+        brave = firejailWrapper {
           executable = "${super.lib.getBin super.brave}/bin/brave";
           profile = "${super.firejail}/etc/firejail/brave.profile";
         };
-        qutebrowser = {
+        qutebrowser = firejailWrapper {
           executable = "${super.lib.getBin super.qutebrowser}/bin/qutebrowser";
           profile = "${super.firejail}/etc/firejail/qutebrowser.profile";
         };
-        thunar = {
+        thunar = firejailWrapper {
           executable = "${super.lib.getBin super.xfce.thunar}/bin/thunar";
           profile = "${super.firejail}/etc/firejail/thunar.profile";
         };
-        vscodium = {
+        vscodium = firejailWrapper {
           executable = "${super.lib.getBin super.vscodium}/bin/vscodium";
           profile = "${super.firejail}/etc/firejail/vscodium.profile";
         };
