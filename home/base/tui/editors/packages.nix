@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   nixpkgs.config = {
     programs.npm.npmrc = ''
       prefix = ''${HOME}/.npm-global
@@ -138,6 +142,11 @@
       guile
       racket-minimal
       fnlfmt # fennel
+      (
+        if pkgs.stdenv.isDarwin
+        then pkgs.emptyDirectory
+        else pkgs-unstable.akkuPackages.scheme-langserver
+      )
     ]
     ++ [
       proselint # English prose linter
