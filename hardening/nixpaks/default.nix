@@ -20,6 +20,8 @@ in {
         qq = super.callPackage ./qq.nix callArgs;
         wechat = super.callPackage ./wechat.nix callArgs;
         firefox = super.callPackage ./firefox.nix callArgs;
+        netease-cloud-music-gtk = super.callPackage ./netease-cloud-music-gtk.nix callArgs;
+        prismlauncher = super.callPackage ./prismlauncher.nix callArgs;
       };
     })
   ];
