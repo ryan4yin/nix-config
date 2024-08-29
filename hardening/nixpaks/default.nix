@@ -3,19 +3,23 @@
   nixpak,
   ...
 }: let
-  mkNixPak = nixpak.lib.nixpak {
-    inherit (pkgs) lib;
-    inherit pkgs;
+  callArgs = {
+    mkNixPak = nixpak.lib.nixpak {
+      inherit (pkgs) lib;
+      inherit pkgs;
+    };
+    safeBind = sloth: realdir: mapdir: [
+      (sloth.mkdir (sloth.concat' sloth.appDataDir realdir))
+      (sloth.concat' sloth.homeDir mapdir)
+    ];
   };
 in {
-  _module.args = {inherit mkNixPak;};
-
   nixpkgs.overlays = [
     (_: super: {
       nixpaks = {
-        qq = super.callPackage ./qq.nix;
-        wechat = super.callPackage ./wechat.nix;
-        firefox = super.callPackage ./firefox.nix;
+        qq = super.callPackage ./qq.nix callArgs;
+        wechat = super.callPackage ./wechat.nix callArgs;
+        firefox = super.callPackage ./firefox.nix callArgs;
       };
     })
   ];
