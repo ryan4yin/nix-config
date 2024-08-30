@@ -2,10 +2,13 @@
 
 ## Goal
 
-1. Prevent applications from accessing files they shouldn't.
-   - Such as a malicious application accessing your browser's cookies, SSH Keys, etc.
-2. Prevent applications from accessing the network they shouldn't.
-3. Prevent applications from accessing hardware devices they don't need.
+- **System Level**: Protect critical files from being accessed by untrusted applications.
+  1. Such as browser cookies, SSH keys, etc.
+- **Per-App Level**: Prevent untrusted applications(such as closed-source apps) from:
+  1.  Accessing files they shouldn't.
+      - Such as a malicious application accessing your browser's cookies, SSH Keys, etc.
+  1.  Accessing the network when they don't need to.
+  1.  Accessing hardware devices they don't need.
 
 ## Kernel Hardening
 
