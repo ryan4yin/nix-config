@@ -51,7 +51,9 @@ mkNixPak {
         "/dev/shm"
         "/run/dbus"
 
-        "/dev/nvidia-uvm" # required when using nvidia as primary gpu
+        # required when using nvidia as primary gpu
+        "/dev/nvidia-uvm"
+        "/dev/nvidia-modeset"
       ];
       tmpfs = [
         "/tmp"

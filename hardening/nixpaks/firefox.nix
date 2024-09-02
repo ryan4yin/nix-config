@@ -29,17 +29,10 @@ mkNixPak {
       # "io.gitlab.librewolf.*" = "own";      # librewolf
     };
 
-    bubblewrap = let
-      envSuffix = envKey: sloth.concat' (sloth.env envKey);
-    in {
+    bubblewrap = {
       bind.rw = [
         (sloth.concat' sloth.homeDir "/.mozilla")
         (sloth.concat' sloth.homeDir "/Downloads")
-
-        # Unsure
-        "/tmp/.X11-unix"
-        (sloth.envOr "XAUTHORITY" "/no-xauth")
-        (envSuffix "XDG_RUNTIME_DIR" "/dconf")
 
         # ================ for externsions ===============================
         # required by https://github.com/browserpass/browserpass-extension
@@ -50,12 +43,47 @@ mkNixPak {
         "/sys/bus/pci"
         ["${config.app.package}/lib/firefox" "/app/etc/firefox"]
 
-        # Use correct timezone
+        "/etc/fonts"
+        "/etc/machine-id"
         "/etc/localtime"
+        "/run/opengl-driver"
 
         # Unsure
         (sloth.concat' sloth.xdgConfigHome "/dconf")
       ];
+
+      network = true;
+      sockets = {
+        x11 = false;
+        wayland = true;
+        pipewire = true;
+      };
+      bind.dev = [
+        "/dev/dri"
+        "/dev/shm"
+        "/run/dbus"
+
+        # required when using nvidia as primary gpu
+        "/dev/nvidia-uvm"
+        "/dev/nvidia-modeset"
+      ];
+      tmpfs = [
+        "/tmp"
+      ];
+
+      env = {
+        XDG_DATA_DIRS = lib.mkForce (lib.makeSearchPath "share" (with pkgs; [
+          adw-gtk3
+          tela-icon-theme
+          shared-mime-info
+        ]));
+        XCURSOR_PATH = lib.mkForce (lib.concatStringsSep ":" (with pkgs; [
+          "${tela-icon-theme}/share/icons"
+          "${tela-icon-theme}/share/pixmaps"
+          "${simp1e-cursors}/share/icons"
+          "${simp1e-cursors}/share/pixmaps"
+        ]));
+      };
     };
   };
 }
