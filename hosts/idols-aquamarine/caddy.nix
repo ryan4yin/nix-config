@@ -91,6 +91,16 @@ in {
       encode zstd gzip
       reverse_proxy http://localhost:9093
     '';
+    virtualHosts."minio.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      encode zstd gzip
+      reverse_proxy http://localhost:9096
+    '';
+    virtualHosts."minio-ui.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      encode zstd gzip
+      reverse_proxy http://localhost:9097
+    '';
   };
   networking.firewall.allowedTCPPorts = [80 443];
 

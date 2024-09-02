@@ -206,6 +206,11 @@ in {
             mode = "0400";
             owner = "sftpgo";
           };
+          "minio.env" = {
+            file = "${mysecrets}/server/sftpgo.env.age";
+            mode = "0400";
+            owner = "minio";
+          };
         };
       })
 
