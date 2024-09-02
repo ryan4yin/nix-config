@@ -89,25 +89,10 @@ gcroot:
 
 [linux]
 [group('desktop')]
-i3 mode="default":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *;
-  nixos-switch ai-i3 {{mode}}
-
-[linux]
-[group('desktop')]
 hypr mode="default":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
   nixos-switch ai-hyprland {{mode}}
-
-
-[linux]
-[group('desktop')]
-s-i3 mode="default":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *;
-  nixos-switch shoukei-i3 {{mode}}
 
 [linux]
 [group('desktop')]
