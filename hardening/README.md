@@ -55,6 +55,7 @@ provide a much higher level of security.
 - [在 Firejail 中运行 Steam](https://imbearchild.cyou/archives/2021/11/steam-in-firejail/)
 - [Firejail - Arch Linux Wiki](https://wiki.archlinux.org/title/Firejail)
 - nixpak configs:
+  - https://github.com/pokon548/OysterOS/tree/b97604d89953373d6316286b96f6a964af2c398d/desktop/application
   - https://github.com/segment-tree/my-nixos/tree/ceb6041f73bd9edcb78a8818b27a28f7c629193b/hm/me/apps/nixpak
   - https://github.com/Keksgesicht/nixos-config/tree/91cc77d8d6b598da7c4dbed143e0009c2dea6940/packages/nixpak
   - https://github.com/bluskript/nix-config/blob/7ecb6a7254c1ac4969072f4c4febdc19f8b83b30/pkgs/nixpak/default.nix
@@ -63,3 +64,6 @@ provide a much higher level of security.
 - apparmor configs:
   - https://github.com/sukhmancs/nixos-configs/blob/7fcf737c506ad843113cd5b94796b49d4d4dfad2/modules/shared/security/apparmor/default.nix#L8
   - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
+- Others:
+  - Directly via `buildFHSUserEnvBubblewrap`:
+    https://github.com/xddxdd/nur-packages/blob/master/pkgs/uncategorized/wechat-uos/default.nix

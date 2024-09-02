@@ -8,9 +8,10 @@
 mkNixPak {
   config = {sloth, ...}: {
     app = {
-      package = with pkgs; (mkWaylandApp qq "qq" [
-        "--enable-wayland-ime"
-      ]);
+      package = pkgs.qq.override {
+        # fix fcitx5 input method
+        commandLineArgs = lib.concatStringsSep " " ["--enable-wayland-ime"];
+      };
       binPath = "bin/qq";
     };
     flatpak.appId = "com.tencent.qq";
@@ -20,14 +21,13 @@ mkNixPak {
       "${nixpak-pkgs}/pkgs/modules/network.nix"
     ];
 
+    # list all dbus services:
+    #   ls -al /run/current-system/sw/share/dbus-1/services/
+    #   ls -al /etc/profiles/per-user/ryan/share/dbus-1/services/
     dbus.policies = {
       "org.gnome.Shell.Screencast" = "talk";
       "org.freedesktop.Notifications" = "talk";
       "org.kde.StatusNotifierWatcher" = "talk";
-
-      "org.freedesktop.portal.Documents" = "talk";
-      "org.freedesktop.portal.Flatpak" = "talk";
-      "org.freedesktop.portal.FileChooser" = "talk";
     };
     bubblewrap = {
       bind.rw = [
@@ -38,10 +38,11 @@ mkNixPak {
         "/etc/fonts"
         "/etc/machine-id"
         "/etc/localtime"
+        "/run/opengl-driver"
       ];
       network = true;
       sockets = {
-        x11 = true;
+        x11 = false;
         wayland = true;
         pipewire = true;
       };
@@ -49,12 +50,13 @@ mkNixPak {
         "/dev/dri"
         "/dev/shm"
         "/run/dbus"
+
+        "/dev/nvidia-uvm" # required when using nvidia as primary gpu
       ];
       tmpfs = [
         "/tmp"
       ];
       env = {
-        IBUS_USE_PORTAL = "1";
         XDG_DATA_DIRS = lib.mkForce (lib.makeSearchPath "share" (with pkgs; [
           adw-gtk3
           tela-icon-theme

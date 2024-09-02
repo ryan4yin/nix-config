@@ -1,9 +1,11 @@
 {
   pkgs,
   nixpak,
+  nixpak-pkgs,
   ...
 }: let
   callArgs = {
+    inherit nixpak-pkgs;
     mkNixPak = nixpak.lib.nixpak {
       inherit (pkgs) lib;
       inherit pkgs;
@@ -13,16 +15,17 @@
       (sloth.concat' sloth.homeDir mapdir)
     ];
   };
+  wrapper = _pkgs: path: (_pkgs.callPackage path callArgs).config.script;
 in {
   # Add nixpaked Apps into nixpkgs, and reference them in home-manager or other nixos modules
   nixpkgs.overlays = [
     (_: super: {
       nixpaks = {
-        qq = super.callPackage ./qq.nix callArgs;
-        wechat = super.callPackage ./wechat.nix callArgs;
-        firefox = super.callPackage ./firefox.nix callArgs;
-        netease-cloud-music-gtk = super.callPackage ./netease-cloud-music-gtk.nix callArgs;
-        prismlauncher = super.callPackage ./prismlauncher.nix callArgs;
+        qq = wrapper super ./qq.nix;
+        qq-desktop-item = super.callPackage ./qq-desktop-item.nix {};
+
+        firefox = wrapper super ./firefox.nix;
+        firefox-desktop-item = super.callPackage ./firefox-desktop-item.nix {};
       };
     })
   ];

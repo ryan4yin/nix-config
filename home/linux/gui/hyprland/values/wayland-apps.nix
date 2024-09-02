@@ -22,7 +22,8 @@
     + (builtins.readFile "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-foot}/catppuccin-mocha.conf");
 
   home.packages = [
-    pkgs.firejailed.firefox
+    pkgs.nixpaks.firefox
+    pkgs.nixpaks.firefox-desktop-item
   ];
 
   programs = {

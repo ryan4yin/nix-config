@@ -12,7 +12,7 @@ mkNixPak {
     ...
   }: {
     app = {
-      package = pkgs.firefox;
+      package = pkgs.firefox-wayland;
       binPath = "bin/firefox";
     };
     flatpak.appId = "org.mozilla.firefox";
@@ -40,6 +40,10 @@ mkNixPak {
         "/tmp/.X11-unix"
         (sloth.envOr "XAUTHORITY" "/no-xauth")
         (envSuffix "XDG_RUNTIME_DIR" "/dconf")
+
+        # ================ for externsions ===============================
+        # required by https://github.com/browserpass/browserpass-extension
+        (sloth.concat' sloth.homeDir "/.local/share/password-store") # pass
       ];
       bind.ro = [
         # To actually make Firefox run

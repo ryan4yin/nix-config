@@ -12,7 +12,6 @@
     # instant messaging
     telegram-desktop
     discord
-    pkgs-unstable.qq # https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/networking/instant-messengers/qq
 
     # remote desktop(rdp connect)
     remmina
@@ -21,6 +20,10 @@
     # misc
     flameshot
     ventoy # multi-boot usb creator
+
+    # my custom hardened packages
+    pkgs.nixpaks.qq
+    pkgs.nixpaks.qq-desktop-item
   ];
 
   # GitHub CLI tool

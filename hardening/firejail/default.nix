@@ -18,16 +18,16 @@ in {
           profile = "${super.firejail}/etc/firejail/steam.profile";
         };
 
-        firefox = firejailWrapper {
-          name = "firefox-firejailed";
-          executable = "${super.lib.getBin super.firefox-wayland}/bin/firefox";
-          profile = "${super.firejail}/etc/firejail/firefox.profile";
-        };
-        chromium = firejailWrapper {
-          name = "chromium-firejailed";
-          executable = "${super.lib.getBin super.ungoogled-chromium}/bin/chromium";
-          profile = "${super.firejail}/etc/firejail/chromium.profile";
-        };
+        # firefox = firejailWrapper {
+        #   name = "firefox-firejailed";
+        #   executable = "${super.lib.getBin super.firefox-wayland}/bin/firefox";
+        #   profile = "${super.firejail}/etc/firejail/firefox.profile";
+        # };
+        # chromium = firejailWrapper {
+        #   name = "chromium-firejailed";
+        #   executable = "${super.lib.getBin super.ungoogled-chromium}/bin/chromium";
+        #   profile = "${super.firejail}/etc/firejail/chromium.profile";
+        # };
 
         mpv = firejailWrapper {
           executable = "${super.lib.getBin super.mpv}/bin/mpv";
