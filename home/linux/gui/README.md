@@ -2,7 +2,6 @@
 
 3. `base`: all common configurations for all desktops.
 4. `hyprland`: Hyprland's configuration.
-5. `i3`: i3's configuration.
 
 ## Why install I3/Hyprland in Home Manager instead of a NixOS Module?
 
