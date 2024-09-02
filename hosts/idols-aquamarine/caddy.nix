@@ -100,7 +100,6 @@ in {
         header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
         header_up X-Forwarded-Proto {scheme}
         transport http {
-            versions h2c
             dial_timeout 300s
             read_timeout 300s
             write_timeout 300s
@@ -118,7 +117,6 @@ in {
         header_up Upgrade {http.request.header.Upgrade}
         header_up Connection {http.request.header.Connection}
         transport http {
-            versions h2c
             dial_timeout 300s
             read_timeout 300s
             write_timeout 300s

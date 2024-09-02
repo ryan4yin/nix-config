@@ -207,7 +207,7 @@ in {
             owner = "sftpgo";
           };
           "minio.env" = {
-            file = "${mysecrets}/server/sftpgo.env.age";
+            file = "${mysecrets}/server/minio.env.age";
             mode = "0400";
             owner = "minio";
           };
