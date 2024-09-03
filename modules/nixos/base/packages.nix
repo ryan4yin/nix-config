@@ -37,6 +37,9 @@
     parted
   ];
 
+  # BCC - Tools for BPF-based Linux IO analysis, networking, monitoring, and more
+  programs.bcc.enable = true;
+
   # replace default editor with neovim
   environment.variables.EDITOR = "nvim";
 }
