@@ -87,7 +87,19 @@
             }
           ];
         }
-
+        {
+          job_name = "postgres-exporter";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9187"];
+              labels.type = "app";
+              labels.app = "postgresql";
+              labels.host = "aquamarine";
+            }
+          ];
+        }
         {
           job_name = "sftpgo-embedded-exporter";
           scrape_interval = "30s";

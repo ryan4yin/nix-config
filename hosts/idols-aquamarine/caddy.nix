@@ -6,7 +6,7 @@
 }: let
   hostCommonConfig = ''
     encode zstd gzip
-    tls ${../../certs/ecc-server.crt} ${config.age.secrets."certs/ecc-server.key".path} {
+    tls ${../../certs/ecc-server.crt} ${config.age.secrets."caddy-ecc-server.key".path} {
       protocols tls1.3 tls1.3
       curves x25519 secp384r1 secp521r1
     }
