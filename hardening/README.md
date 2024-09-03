@@ -20,6 +20,7 @@
 - NixOS Profile:
   https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/profiles/hardened.nix
 - Apparmor: [roddhjav/apparmor.d)](https://github.com/roddhjav/apparmor.d)
+  - https://gitlab.com/apparmor/apparmor/-/wikis/Documentation
   - AppArmor.d is a set of over 1500 AppArmor profiles whose aim is to confine most Linux based
     applications and processes.
   - Nix Package:

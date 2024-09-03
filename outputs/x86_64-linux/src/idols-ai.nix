@@ -20,9 +20,9 @@
       # host specific
       "hosts/idols-${name}"
       # nixos hardening
-      "hardening/profiles/default.nix"
+      # "hardening/profiles/default.nix"
       "hardening/nixpaks"
-      "hardening/apparmor"
+      # "hardening/apparmor"
     ];
     home-modules = map mylib.relativeToRoot [
       # common
