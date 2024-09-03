@@ -4,7 +4,7 @@ in {
   programs.firejail.enable = true;
 
   # Add firejailed Apps into nixsuper, and reference them in home-manager or other nixos modules
-  nixsuper.overlays = [
+  nixpkgs.overlays = [
     (_: super: {
       firejailed = {
         steam = firejailWrapper {
@@ -20,7 +20,7 @@ in {
 
         firefox = firejailWrapper {
           name = "firefox-firejailed";
-          executable = "${super.lib.getBin super.firefox}/bin/firefox";
+          executable = "${super.lib.getBin super.firefox-wayland}/bin/firefox";
           profile = "${super.firejail}/etc/firejail/firefox.profile";
         };
         chromium = firejailWrapper {

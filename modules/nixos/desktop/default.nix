@@ -3,5 +3,9 @@
   lib,
   ...
 }: {
-  imports = mylib.scanPaths ./.;
+  imports =
+    (mylib.scanPaths ./.)
+    ++ [
+      ../../../hardening/firejail
+    ];
 }
