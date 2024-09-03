@@ -39,11 +39,11 @@ in {
     modesetting.enable = true;
     powerManagement.enable = true;
   };
-  virtualisation.docker.enableNvidia = true; # for nvidia-docker
 
   hardware.graphics = {
     enable = true;
     # needed by nvidia-docker
+    nvidia-container-toolkit.enable = true;
     enable32Bit = true;
   };
 
