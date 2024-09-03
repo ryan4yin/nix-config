@@ -6,20 +6,28 @@
   ...
 }: let
   inherit (myvars) username;
+
+  user = "postgres"; # postgresql's default system user
+  package = pkgs.postgresql_16;
+  dataDir = "/data/apps/postgresql/${package.psqlSchema}";
 in {
+  # Create Directories
+  systemd.tmpfiles.rules = [
+    "d ${dataDir} 0755 ${user} ${user}"
+  ];
+
   # https://wiki.nixos.org/wiki/PostgreSQL
   # https://search.nixos.org/options?channel=unstable&query=services.postgresql.
   # https://www.postgresql.org/docs/
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql_16;
+    inherit package dataDir;
     # https://www.postgresql.org/docs/16/jit.html
     # JIT compilation is beneficial primarily for long-running CPU-bound queries.
     # Frequently these will be analytical queries. For short queries the added overhead
     # of performing JIT compilation will often be higher than the time it can save.
     enableJIT = true;
     enableTCPIP = true;
-    dataDir = "/data/apps/postgresql${config.services.postgresql.package.psqlSchema}";
 
     # Ensures that the specified databases exist.
     ensureDatabases = [
@@ -63,8 +71,8 @@ in {
 
       # ssl
       ssl = true;
-      ssl_cert_file = ../../certs/ecc-server.crt;
-      ssl_key_file = config.age.secrets."certs/ecc-server.key".path;
+      ssl_cert_file = "${../../certs/ecc-server.crt}";
+      ssl_key_file = config.age.secrets."postgres-ecc-server.key".path;
       ssl_min_protocol_version = "TLSv1.3";
       ssl_ecdh_curve = "secp384r1";
       # Using custom DH parameters reduces the exposure
@@ -76,6 +84,7 @@ in {
       huge_pages = "try";
     };
 
+    # allow root & myself can login via `psql -U postgres` without other aauthentication
     identMap = ''
       # ArbitraryMapName systemUser DBUser
       superuser_map      root        postgres
@@ -85,12 +94,24 @@ in {
       superuser_map      /^(.*)$     \1
     '';
 
-    authentication = pkgs.lib.mkOverride 10 ''
-      # type database DBuser origin-address auth-method
+    # https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
+    authentication = lib.mkForce ''
+      # TYPE  DATABASE        USER            ADDRESS                 METHOD   OPTIONS
 
-      # trust all localhost access
-      host  all      all     127.0.0.1/32   trust
-      host all       all     ::1/128        trust
+      # "local" is for Unix domain socket connections only
+      local   all             all                                     peer     map=superuser_map
+      # IPv4 local connections:
+      host    all             all             127.0.0.1/32            trust
+      # IPv6 local connections:
+      host    all             all             ::1/128                 trust
+      # Allow replication connections from localhost, by a user with the
+      # replication privilege.
+      local   replication     all                                     trust
+      host    replication     all             127.0.0.1/32            trust
+      host    replication     all             ::1/128                 trust
+
+      # Other Remote Access - allow access only the database with the same name as the user
+      host    sameuser        all             0.0.0.0/0               scram-sha-256
     '';
     # initialScript =
     #   pkgs.writeText "backend-initScript" ''
@@ -100,7 +121,7 @@ in {
   services.prometheus.exporters.postgres = {
     enable = true;
     listenAddress = "0.0.0.0";
-    port = "9187";
+    port = 9187;
     user = "postgres-exporter";
     group = "postgres-exporter";
     dataSourceName = "user=postgres database=postgres host=/run/postgresql sslmode=verify-full";
