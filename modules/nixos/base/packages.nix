@@ -14,6 +14,7 @@
     lsof # list open files
 
     # ebpf related tools
+    # https://github.com/bpftrace/bpftrace
     bpftrace # powerful tracing tool
     bpftop # monitor BPF programs
     bpfmon # BPF based visual packet rate monitor
@@ -38,6 +39,7 @@
   ];
 
   # BCC - Tools for BPF-based Linux IO analysis, networking, monitoring, and more
+  # https://github.com/iovisor/bcc
   programs.bcc.enable = true;
 
   # replace default editor with neovim
