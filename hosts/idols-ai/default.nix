@@ -39,11 +39,10 @@ in {
     modesetting.enable = true;
     powerManagement.enable = true;
   };
-
+  hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics = {
     enable = true;
     # needed by nvidia-docker
-    nvidia-container-toolkit.enable = true;
     enable32Bit = true;
   };
 
