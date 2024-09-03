@@ -16,3 +16,8 @@
 ## Kubevirt
 
 1. https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana
+
+
+## Databases
+
+1. https://grafana.com/grafana/dashboards/9628-postgresql-database/

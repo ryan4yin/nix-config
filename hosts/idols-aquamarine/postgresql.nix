@@ -87,11 +87,12 @@ in {
     # allow root & myself can login via `psql -U postgres` without other aauthentication
     identMap = ''
       # ArbitraryMapName systemUser DBUser
-      superuser_map      root        postgres
-      superuser_map      postgres    postgres
-      superuser_map      ${username} postgres
+      superuser_map      root                postgres
+      superuser_map      postgres            postgres
+      superuser_map      postgres-exporter   postgres
+      superuser_map      ${username}         postgres
       # Let other names login as themselves
-      superuser_map      /^(.*)$     \1
+      superuser_map      /^(.*)$             \1
     '';
 
     # https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
