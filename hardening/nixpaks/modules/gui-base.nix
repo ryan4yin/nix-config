@@ -28,8 +28,11 @@ in {
     # https://github.com/nixpak/nixpak/blob/master/modules/gpu.nix
     # 1. bind readonly - /run/opengl-driver
     # 2. bind device   - /dev/dri
-    gpu.enable = true;
-    gpu.provider = "bundle";
+    gpu = {
+      enable = true;
+      provider = "nixos";
+      bundlePackage = pkgs.mesa.drivers; # for amd & intel
+    };
     # https://github.com/nixpak/nixpak/blob/master/modules/gui/fonts.nix
     fonts.enable = true;
     # https://github.com/nixpak/nixpak/blob/master/modules/locale.nix
@@ -55,6 +58,7 @@ in {
         (envSuffix "XDG_RUNTIME_DIR" "/pulse")
       ];
       bind.ro = [
+        "/etc/fonts"
         (envSuffix "XDG_RUNTIME_DIR" "/doc")
         (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
