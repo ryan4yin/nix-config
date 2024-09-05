@@ -285,28 +285,6 @@
         "type": "github"
       }
     },
-    "flake-parts_5": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "nixpak-pkgs",
-          "nixpak",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1722555600,
-        "narHash": "sha256-XOQkdLafnb/p9ij77byFQjDf5m5QYl9b2REiVClC+x4=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "8471fe90ad337a8074e957b69ca4d0089218391d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems_2"
@@ -432,32 +410,6 @@
           "flake-parts"
         ],
         "nixpkgs": [
-          "nixpak",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1719226092,
-        "narHash": "sha256-YNkUMcCUCpnULp40g+svYsaH1RbSEj6s4WdZY/SHe38=",
-        "owner": "hercules-ci",
-        "repo": "hercules-ci-effects",
-        "rev": "11e4b8dc112e2f485d7c97e1cee77f9958f498f5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "hercules-ci-effects",
-        "type": "github"
-      }
-    },
-    "hercules-ci-effects_2": {
-      "inputs": {
-        "flake-parts": [
-          "nixpak-pkgs",
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "nixpak-pkgs",
           "nixpak",
           "nixpkgs"
         ]
@@ -689,28 +641,6 @@
       "original": {
         "owner": "nixpak",
         "repo": "nixpak",
-        "type": "github"
-      }
-    },
-    "nixpak-pkgs": {
-      "inputs": {
-        "flake-parts": "flake-parts_5",
-        "hercules-ci-effects": "hercules-ci-effects_2",
-        "nixpak": [
-          "nixpak"
-        ]
-      },
-      "locked": {
-        "lastModified": 1724914250,
-        "narHash": "sha256-9RgJsnoPyjEcjsVpG7C3ySLnSoinl4M4mmxsAiN0dj8=",
-        "owner": "nixpak",
-        "repo": "pkgs",
-        "rev": "4585118dacb2d1c2bb178980ab5d7463aac69f99",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixpak",
-        "repo": "pkgs",
         "type": "github"
       }
     },
@@ -1021,7 +951,6 @@
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpak": "nixpak",
-        "nixpak-pkgs": "nixpak-pkgs",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-stable": "nixpkgs-stable_2",

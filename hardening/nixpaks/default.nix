@@ -1,11 +1,9 @@
 {
   pkgs,
   nixpak,
-  nixpak-pkgs,
   ...
 }: let
   callArgs = {
-    inherit nixpak-pkgs;
     mkNixPak = nixpak.lib.nixpak {
       inherit (pkgs) lib;
       inherit pkgs;

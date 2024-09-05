@@ -1,8 +1,12 @@
+# Refer:
+# - Flatpak manifest's docs:
+#   - https://docs.flatpak.org/en/latest/manifests.html
+#   - https://docs.flatpak.org/en/latest/sandbox-permissions.html
+# - QQ's flatpak manifest: https://github.com/flathub/com.qq.QQ/blob/master/com.qq.QQ.yaml
 {
   lib,
   pkgs,
   mkNixPak,
-  nixpak-pkgs,
   ...
 }:
 mkNixPak {
@@ -17,8 +21,8 @@ mkNixPak {
     flatpak.appId = "com.tencent.qq";
 
     imports = [
-      "${nixpak-pkgs}/pkgs/modules/gui-base.nix"
-      "${nixpak-pkgs}/pkgs/modules/network.nix"
+      ./modules/gui-base.nix
+      ./modules/network.nix
     ];
 
     # list all dbus services:
@@ -35,10 +39,8 @@ mkNixPak {
         (sloth.mkdir (sloth.concat [sloth.xdgDownloadDir "/QQ"]))
       ];
       bind.ro = [
-        "/etc/fonts"
         "/etc/machine-id"
         "/etc/localtime"
-        "/run/opengl-driver"
       ];
       network = true;
       sockets = {
@@ -47,30 +49,15 @@ mkNixPak {
         pipewire = true;
       };
       bind.dev = [
-        "/dev/dri"
-        "/dev/shm"
-        "/run/dbus"
+        "/dev/shm" # Shared Memory
 
-        # required when using nvidia as primary gpu
+        # seems required when using nvidia as primary gpu
         "/dev/nvidia-uvm"
         "/dev/nvidia-modeset"
       ];
       tmpfs = [
         "/tmp"
       ];
-      env = {
-        XDG_DATA_DIRS = lib.mkForce (lib.makeSearchPath "share" (with pkgs; [
-          adw-gtk3
-          tela-icon-theme
-          shared-mime-info
-        ]));
-        XCURSOR_PATH = lib.mkForce (lib.concatStringsSep ":" (with pkgs; [
-          "${tela-icon-theme}/share/icons"
-          "${tela-icon-theme}/share/pixmaps"
-          "${simp1e-cursors}/share/icons"
-          "${simp1e-cursors}/share/pixmaps"
-        ]));
-      };
     };
   };
 }
