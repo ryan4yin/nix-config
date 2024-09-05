@@ -19,6 +19,10 @@
       "modules/nixos/desktop.nix"
       # host specific
       "hosts/idols-${name}"
+      # nixos hardening
+      # "hardening/profiles/default.nix"
+      "hardening/nixpaks"
+      # "hardening/apparmor"
     ];
     home-modules = map mylib.relativeToRoot [
       # common

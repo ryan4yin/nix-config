@@ -106,6 +106,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixpak = {
+      url = "github:nixpak/nixpak";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ########################  Some non-flake repositories  #########################################
 
     # doom-emacs is a configuration framework for GNU Emacs.

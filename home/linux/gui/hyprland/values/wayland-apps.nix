@@ -21,6 +21,12 @@
     ''
     + (builtins.readFile "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-foot}/catppuccin-mocha.conf");
 
+  home.packages = [
+    pkgs.firefox-wayland
+    # pkgs.nixpaks.firefox
+    # pkgs.nixpaks.firefox-desktop-item
+  ];
+
   programs = {
     # a wayland only terminal emulator
     foot = {
@@ -52,12 +58,6 @@
         # enable hardware acceleration - vulkan api
         # "--enable-features=Vulkan"
       ];
-    };
-
-    firefox = {
-      enable = true;
-      enableGnomeExtensions = false;
-      package = pkgs.firefox-wayland; # firefox with wayland support
     };
 
     vscode = {
