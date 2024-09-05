@@ -10,6 +10,17 @@
   1.  Accessing the network when they don't need to.
   1.  Accessing hardware devices they don't need.
 
+## Current Status
+
+1. **System Level**:
+   - [ ] AppArmor
+   - [ ] Kernel & System Hardening
+1. **Per-App Level**:
+   - Nixpak (Bubblewrap)
+     - [x] QQ
+     - [ ] Firefox (Nvidia GPU support issue)
+   - [ ] Firejail (risk? not enabled yet)
+
 ## Kernel Hardening
 
 - NixOS Kernel Config:
