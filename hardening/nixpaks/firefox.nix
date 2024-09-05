@@ -50,14 +50,10 @@ mkNixPak {
         "/sys/bus/pci"
         ["${config.app.package}/lib/firefox" "/app/etc/firefox"]
 
-        "/etc/machine-id"
-        "/etc/localtime"
-
         # Unsure
         (sloth.concat' sloth.xdgConfigHome "/dconf")
       ];
 
-      network = true;
       sockets = {
         x11 = false;
         wayland = true;
@@ -67,6 +63,7 @@ mkNixPak {
         "/dev/shm" # Shared Memory
 
         # seems required when using nvidia as primary gpu
+        "/dev/nvidia0"
         "/dev/nvidia-uvm"
         "/dev/nvidia-modeset"
       ];

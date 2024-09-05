@@ -7,12 +7,8 @@
   ...
 }: let
   envSuffix = envKey: suffix: sloth.concat' (sloth.env envKey) suffix;
-  cursorTheme = pkgs.catppuccin-gtk.override {
-    # https://github.com/NixOS/nixpkgs/blob/nixos-23.05/pkgs/data/themes/catppuccin-gtk/default.nix
-    accents = ["pink"];
-    size = "compact";
-    variant = "macchiato";
-  };
+  # cursor & icon's theme should be the same as the host's one.
+  cursorTheme = pkgs.bibata-cursors;
   iconTheme = pkgs.papirus-icon-theme;
 in {
   config = {
@@ -29,12 +25,14 @@ in {
     # 1. bind readonly - /run/opengl-driver
     # 2. bind device   - /dev/dri
     gpu = {
-      enable = true;
+      enable = lib.mkDefault true;
       provider = "nixos";
       bundlePackage = pkgs.mesa.drivers; # for amd & intel
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gui/fonts.nix
+    # it works not well, bind system's /etc/fonts directly instead
     fonts.enable = true;
+    fonts.fonts = config.fonts.packages;
     # https://github.com/nixpak/nixpak/blob/master/modules/locale.nix
     locale.enable = true;
     bubblewrap = {
@@ -56,29 +54,29 @@ in {
         (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
         (envSuffix "XDG_RUNTIME_DIR" "/gvfsd")
         (envSuffix "XDG_RUNTIME_DIR" "/pulse")
+
+        "/run/dbus"
       ];
       bind.ro = [
-        "/etc/fonts"
         (envSuffix "XDG_RUNTIME_DIR" "/doc")
         (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-4.0")
         (sloth.concat' sloth.xdgConfigHome "/fontconfig")
+
+        "/etc/fonts" # for fontconfig
+        "/etc/machine-id"
+        "/etc/localtime"
       ];
       env = {
         XDG_DATA_DIRS = lib.mkForce (lib.makeSearchPath "share" [
-          pkgs.shared-mime-info
-          pkgs.adwaita-icon-theme
           iconTheme
           cursorTheme
+          pkgs.shared-mime-info
         ]);
         XCURSOR_PATH = lib.mkForce (lib.concatStringsSep ":" [
-          "${pkgs.adwaita-icon-theme}/share/icons"
-          "${pkgs.adwaita-icon-theme}/share/pixmaps"
           "${cursorTheme}/share/icons"
           "${cursorTheme}/share/pixmaps"
-          "${iconTheme}/share/icons"
-          "${iconTheme}/share/pixmaps"
         ]);
       };
     };

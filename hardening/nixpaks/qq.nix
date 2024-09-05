@@ -38,11 +38,6 @@ mkNixPak {
         (sloth.concat [sloth.xdgConfigHome "/QQ"])
         (sloth.mkdir (sloth.concat [sloth.xdgDownloadDir "/QQ"]))
       ];
-      bind.ro = [
-        "/etc/machine-id"
-        "/etc/localtime"
-      ];
-      network = true;
       sockets = {
         x11 = false;
         wayland = true;
@@ -52,6 +47,7 @@ mkNixPak {
         "/dev/shm" # Shared Memory
 
         # seems required when using nvidia as primary gpu
+        "/dev/nvidia0"
         "/dev/nvidia-uvm"
         "/dev/nvidia-modeset"
       ];
