@@ -32,12 +32,18 @@ in {
     # Ensures that the specified databases exist.
     ensureDatabases = [
       "mytestdb" # for testing
-      "openobserve"
       "juicefs"
+      # openobserve for every k8s clusters
+      "o2-k3s-test-1"
+      "o2-k3s-prod-1"
     ];
     ensureUsers = [
       {
-        name = "openobserve";
+        name = "o2-k3s-test-1";
+        ensureDBOwnership = true;
+      }
+      {
+        name = "o2-k3s-prod-1";
         ensureDBOwnership = true;
       }
       {
