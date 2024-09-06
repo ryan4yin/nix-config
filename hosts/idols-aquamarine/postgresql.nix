@@ -12,7 +12,9 @@
   dataDir = "/data/apps/postgresql/${package.psqlSchema}";
 in {
   # Create Directories
+  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
+    "d /data/apps/postgresql 0755 ${user} ${user}"
     "d ${dataDir} 0755 ${user} ${user}"
   ];
 
@@ -34,16 +36,16 @@ in {
       "mytestdb" # for testing
       "juicefs"
       # openobserve for every k8s clusters
-      "o2-k3s-test-1"
-      "o2-k3s-prod-1"
+      "o2_k3s_test_1"
+      "o2_k3s_prod_1"
     ];
     ensureUsers = [
       {
-        name = "o2-k3s-test-1";
+        name = "o2_k3s_test_1";
         ensureDBOwnership = true;
       }
       {
-        name = "o2-k3s-prod-1";
+        name = "o2_k3s_prod_1";
         ensureDBOwnership = true;
       }
       {

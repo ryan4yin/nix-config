@@ -127,6 +127,7 @@ in {
   networking.firewall.allowedTCPPorts = [80 443];
 
   # Create Directories
+  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
     "d /data/apps/caddy/fileserver/ 0755 caddy caddy"
     # directory for virtual machine's images

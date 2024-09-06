@@ -6,6 +6,7 @@ in {
   systemd.services.sftpgo.serviceConfig.EnvironmentFile = config.age.secrets."sftpgo.env".path;
 
   # Create Directories
+  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0755 ${user} ${user}"
   ];
