@@ -26,12 +26,14 @@
     - LongHorn-Storage:
         icon: longhorn.svg
         href: http://longhorn.writefor.fun/
-    - Victoria-Metrics:
-        icon: si-victoriametrics
-        href: http://vm.writefor.fun/
-    - KubeVirt-Grafana:
-        icon: grafana.svg
-        href: http://k8s-grafana.writefor.fun/
+
+    # remote write to main prometheus, disable those two
+    # - Victoria-Metrics:
+    #     icon: si-victoriametrics
+    #     href: http://vm.writefor.fun/
+    # - KubeVirt-Grafana:
+    #     icon: grafana.svg
+    #     href: http://k8s-grafana.writefor.fun/
 
 - Homelab Monitoring:
     - Grafana:
@@ -56,7 +58,12 @@
         href: "https://sftpgo.writefor.fun/web/admin/folders"
         description: WebDAV & SFTP server
         siteMonitor: https://sftpgo.writefor.fun/
-#
+    - MinIO:
+        icon: minio.png
+        href: "https://minio-ui.writefor.fun/"
+        description: S3 compatible object storage
+        siteMonitor: "https://minio-ui.writefor.fun/"
+
 # - Kubernetes Monitoring:
 #     # TODO: Update this
 #     - Emby:

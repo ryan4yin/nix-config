@@ -5,6 +5,7 @@
   ...
 }: {
   # Workaround for prometheus to store data in another place
+  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
     "D /data/apps/prometheus2 0751 prometheus prometheus - -"
     "L+ /var/lib/prometheus2 - - - - /data/apps/prometheus2"

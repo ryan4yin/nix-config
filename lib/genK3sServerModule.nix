@@ -71,6 +71,7 @@ in {
 
   # create symlinks to link k3s's cni directory to the one used by almost all CNI plugins
   # such as multus, calico, etc.
+  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
     "L+ /opt/cni/bin - - - - /var/lib/rancher/k3s/data/current/bin"
     # If you have disabled flannel, you will have to create the directory via a tmpfiles rule
