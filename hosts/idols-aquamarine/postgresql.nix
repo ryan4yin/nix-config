@@ -14,8 +14,8 @@ in {
   # Create Directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
-    "d /data/apps/postgresql 0755 ${user} ${user}"
-    "d ${dataDir} 0755 ${user} ${user}"
+    "d /data/apps/postgresql 0700 ${user} ${user}"
+    "d ${dataDir} 0700 ${user} ${user}"
   ];
 
   # https://wiki.nixos.org/wiki/PostgreSQL
