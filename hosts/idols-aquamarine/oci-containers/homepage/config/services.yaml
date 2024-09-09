@@ -63,7 +63,16 @@
         href: "https://minio-ui.writefor.fun/"
         description: S3 compatible object storage
         siteMonitor: "https://minio-ui.writefor.fun/"
-
+    - MinIO:
+        icon: gitea.png
+        href: "https://git.writefor.fun/"
+        description: Gitea - Git with a cup of tea
+        siteMonitor: "https://git.writefor.fun/"
+    - Transmission:
+        icon: transmission.png
+        href: "https://transmission.writefor.fun/"
+        description: Transmission BitTorrent client
+        siteMonitor: "https://transmission.writefor.fun/"
 # - Kubernetes Monitoring:
 #     # TODO: Update this
 #     - Emby:
