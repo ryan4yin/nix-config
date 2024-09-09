@@ -1,5 +1,4 @@
-{pkgs, ...}: let
-in {
+{pkgs, ...}: {
   # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/misc/gitea.nix
   services.gitea = {
     enable = true;
@@ -32,6 +31,12 @@ in {
       # NOTE: The first registered user will be the administrator,
       # so this parameter should NOT be set before the first user registers!
       service.DISABLE_REGISTRATION = true;
+      # https://docs.gitea.com/administration/config-cheat-sheet#security-security
+      security = {
+        LOGIN_REMEMBER_DAYS = 31;
+        PASSWORD_HASH_ALGO = "scrypt";
+        MIN_PASSWORD_LENGTH = 10;
+      };
 
       # "cron.sync_external_users" = {
       #   RUN_AT_START = true;
