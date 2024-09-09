@@ -23,6 +23,7 @@
         HTTP_PORT = 3301;
         HTTP_ADDR = "127.0.0.1";
         DOMAIN = "git.writefor.fun";
+        ROOT_URL = "https://git.writefor.fun/";
       };
       # one of "Trace", "Debug", "Info", "Warn", "Error", "Critical"
       log.LEVEL = "Info";
