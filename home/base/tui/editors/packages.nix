@@ -95,9 +95,11 @@
       ))
 
       #-- rust
-      rust-analyzer
-      cargo # rust package manager
-      rustfmt
+      # we'd better use the rust-overlays for rust development
+      pkgs-unstable.rust-analyzer
+      pkgs-unstable.cargo # rust package manager
+      pkgs-unstable.rustfmt
+      pkgs-unstable.clippy # rust linter
 
       #-- golang
       go
