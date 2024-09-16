@@ -1,5 +1,5 @@
 # ==============================================
-# Based on doomemacs's auther's config:
+# Based on doomemacs's author's config:
 #   https://github.com/hlissner/dotfiles/blob/master/modules/editors/emacs.nix
 #
 # Emacs Tutorials:
@@ -20,7 +20,7 @@ with lib; let
   '';
   shellAliases = {
     e = "emacsclient --create-frame"; # gui
-    et = "emacsclient --create-frame --tty"; # termimal
+    et = "emacsclient --create-frame --tty"; # terminal
   };
   librime-dir = "${config.xdg.dataHome}/emacs/librime";
   parinfer-rust-lib-dir = "${config.xdg.dataHome}/emacs/parinfer-rust";

@@ -5,3 +5,5 @@ result/
 .pre-commit-config.yaml
 logs/
 core*
+!core/
+!core.nix
