@@ -15,7 +15,7 @@
 }:
 with lib; let
   cfg = config.modules.editors.emacs;
-  envExtra = ''
+  envExtra = lib.mkAfter ''
     export PATH="${config.xdg.configHome}/emacs/bin:$PATH"
   '';
   shellAliases = {
