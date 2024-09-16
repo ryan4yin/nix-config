@@ -1,4 +1,4 @@
-{lib}: let
+{lib, ...}: let
   envExtra = lib.mkAfter ''
     export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
   '';
