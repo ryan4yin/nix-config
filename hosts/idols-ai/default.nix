@@ -46,6 +46,8 @@ in {
     # needed by nvidia-docker
     enable32Bit = true;
   };
+  # https://nixos.org/manual/nixpkgs/unstable/#opt-cudaSupport
+  nixpkgs.config.cudaSupport = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
