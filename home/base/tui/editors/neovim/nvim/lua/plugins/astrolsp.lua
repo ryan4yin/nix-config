@@ -72,7 +72,7 @@ return {
       "nushell", -- nushell language server
 
       ---- Web Development
-      "tsserver", -- typescript/javascript language server
+      "ts_ls", -- typescript/javascript language server
       "tailwindcss", -- tailwindcss language server
       "html", -- html language server
       "cssls", -- css language server
