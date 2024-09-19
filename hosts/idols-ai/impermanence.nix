@@ -130,6 +130,9 @@
         # neovim plugins(wakatime & copilot)
         ".wakatime"
         ".config/github-copilot"
+
+        # others
+        ".config/blender"
       ];
       files = [
         ".wakatime.cfg"

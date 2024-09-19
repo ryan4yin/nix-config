@@ -11,6 +11,7 @@ in {
     ./netdev-mount.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./nvidia.nix
 
     ./impermanence.nix
     ./secureboot.nix
@@ -27,27 +28,6 @@ in {
 
   # conflict with feature: containerd-snapshotter
   # virtualisation.docker.storageDriver = "btrfs";
-
-  # for Nvidia GPU
-  services.xserver.videoDrivers = ["nvidia"]; # will install nvidia-vaapi-driver by default
-  hardware.nvidia = {
-    open = false;
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/os-specific/linux/nvidia-x11/default.nix
-    # package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    # required by most wayland compositors!
-    modesetting.enable = true;
-    powerManagement.enable = true;
-  };
-  hardware.nvidia-container-toolkit.enable = true;
-  hardware.graphics = {
-    enable = true;
-    # needed by nvidia-docker
-    enable32Bit = true;
-  };
-  # https://nixos.org/manual/nixpkgs/unstable/#opt-cudaSupport
-  nixpkgs.config.cudaSupport = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
