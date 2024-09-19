@@ -101,6 +101,18 @@ return {
         filetypes = { "scheme", "scm" },
         single_file_support = true,
       },
+      rust_analyzer = {
+        settings = {
+          -- Make the rust-analyzer use its own profile,
+          -- so you can run cargo build without that being blocked while rust-analyzer runs.
+          ["rust-analyzer"] = {
+            cargo = {
+              extraEnv = { CARGO_PROFILE_RUST_ANALYZER_INHERITS = "dev" },
+              extraArgs = { "--profile", "rust-analyzer" },
+            },
+          },
+        },
+      },
     },
     -- customize how language servers are attached
     handlers = {
