@@ -48,6 +48,7 @@
               "rustc"
               "rustfmt"
             ])
+            # use rust-analyzer-nightly for better type inference
             rust-analyzer-nightly
           ]
           # https://github.com/bevyengine/bevy/blob/v0.14.2/docs/linux_dependencies.md#nix
