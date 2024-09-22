@@ -28,7 +28,10 @@ Clusters running as virtual machines on the KubeVirt cluster, for testing and pr
    1. `k3s-prod-1-worker-1`
    1. `k3s-prod-1-worker-2`
    1. `k3s-prod-1-worker-3`
-1. For testing:. 2. `k3s-test-1-master-1` 3. `k3s-test-1-master-2` 4. `k3s-test-1-master-3`
+1. For testing:
+   1. `k3s-test-1-master-1`
+   2. `k3s-test-1-master-2`
+   3. `k3s-test-1-master-3`
 
 ## Kubernetes Resources
 
