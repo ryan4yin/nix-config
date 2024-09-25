@@ -1,5 +1,7 @@
 # Linux Hardening
 
+> Work in progress.
+
 ## Goal
 
 - **System Level**: Protect critical files from being accessed by untrusted applications.

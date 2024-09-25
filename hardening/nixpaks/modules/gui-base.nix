@@ -31,7 +31,7 @@ in {
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gui/fonts.nix
     # it works not well, bind system's /etc/fonts directly instead
-    fonts.enable = true;
+    fonts.enable = false;
     # https://github.com/nixpak/nixpak/blob/master/modules/locale.nix
     locale.enable = true;
     bubblewrap = {
@@ -66,7 +66,19 @@ in {
         "/etc/fonts" # for fontconfig
         "/etc/machine-id"
         "/etc/localtime"
+
+        # Fix: libEGL warning: egl: failed to create dri2 screen
+        "/etc/egl"
+        "/etc/static/egl"
       ];
+      bind.dev = [
+        # seems required when using nvidia as primary gpu
+        "/dev/nvidia0"
+        "/dev/nvidiactl"
+        "/dev/nvidia-modeset"
+        "/dev/nvidia-uvm"
+      ];
+
       env = {
         XDG_DATA_DIRS = lib.mkForce (lib.makeSearchPath "share" [
           iconTheme

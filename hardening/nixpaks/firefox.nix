@@ -61,11 +61,6 @@ mkNixPak {
       };
       bind.dev = [
         "/dev/shm" # Shared Memory
-
-        # seems required when using nvidia as primary gpu
-        "/dev/nvidia0"
-        "/dev/nvidia-uvm"
-        "/dev/nvidia-modeset"
       ];
       tmpfs = [
         "/tmp"
