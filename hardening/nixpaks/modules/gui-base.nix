@@ -31,7 +31,7 @@ in {
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gui/fonts.nix
     # it works not well, bind system's /etc/fonts directly instead
-    fonts.enable = true;
+    fonts.enable = false;
     # https://github.com/nixpak/nixpak/blob/master/modules/locale.nix
     locale.enable = true;
     bubblewrap = {
