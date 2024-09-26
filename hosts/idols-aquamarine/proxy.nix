@@ -1,6 +1,6 @@
 {
   # dae(running on aquamarine) do not provides http/socks5 proxy server; so we use v2ray here.
-  # https=//github.com/v2fly
+  # https://github.com/v2fly
   services.v2ray = {
     enable = true;
     config = {
