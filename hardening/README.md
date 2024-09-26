@@ -68,6 +68,9 @@ provide a much higher level of security.
 - [Sandboxing all programs by default - NixOS Discourse](https://discourse.nixos.org/t/sandboxing-all-programs-by-default/7792)
 - [在 Firejail 中运行 Steam](https://imbearchild.cyou/archives/2021/11/steam-in-firejail/)
 - [Firejail - Arch Linux Wiki](https://wiki.archlinux.org/title/Firejail)
+- [Paranoid NixOS Setup - xeiaso](https://xeiaso.net/blog/paranoid-nixos-2021-07-18/)
+- [nix-mineral](https://github.com/cynicsketch/nix-mineral): NixOS module for convenient system
+  hardening.
 - nixpak configs:
   - https://github.com/pokon548/OysterOS/tree/b97604d89953373d6316286b96f6a964af2c398d/desktop/application
   - https://github.com/segment-tree/my-nixos/tree/ceb6041f73bd9edcb78a8818b27a28f7c629193b/hm/me/apps/nixpak
