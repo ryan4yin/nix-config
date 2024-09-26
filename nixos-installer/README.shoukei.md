@@ -1,8 +1,8 @@
 # Nix Environment Setup for Host: 12Kingdoms - Shoukei
 
 > :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your
-> machine! Please write your own configuration from scratch, and use my configuration and
-> documentation for reference only.**
+> machine :exclamation: Please write your own configuration from scratch, and use my configuration
+> and documentation for reference only.**
 
 > https://wiki.t2linux.org/distributions/nixos/installation/
 

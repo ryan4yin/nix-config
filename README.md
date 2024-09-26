@@ -55,7 +55,7 @@ You don't have to go through the pain I've experienced again! Check out my
 ## Components
 
 |                             | NixOS(Wayland)                                                                                                      |
-| --------------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **Window Manager**          | [Hyprland][Hyprland]                                                                                                |
 | **Terminal Emulator**       | [Zellij][Zellij] + [Kitty][Kitty]                                                                                   |
 | **Bar**                     | [Waybar][Waybar]                                                                                                    |
@@ -102,8 +102,9 @@ See [./secrets](./secrets) for details.
 
 ## How to Deploy this Flake?
 
-> :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine
-> :exclamation: It will not succeed.** This flake contains my hardware configuration(such as
+<!-- prettier-ignore -->
+> :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine :exclamation:
+> It will not succeed.** This flake contains my hardware configuration(such as
 > [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix),
 > [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91),
 > etc.) which is not suitable for your hardwares, and requires my private secrets repository
