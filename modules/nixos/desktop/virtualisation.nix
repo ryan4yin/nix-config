@@ -9,7 +9,7 @@
   #
   ###################################################################################
 
-  # Enable nested virsualization, required by security containers and nested vm.
+  # Enable nested virtualization, required by security containers and nested vm.
   # This should be set per host in /hosts, not here.
   #
   ## For AMD CPU, add "kvm-amd" to kernelModules.
