@@ -156,6 +156,7 @@ in {
       "zed" # zed editor
       "aerospace" # an i3-like tiling window manager for macOS
       "wezterm"
+      "tor-browser"
 
       # https://joplinapp.org/help/
       "joplin" # note taking app
