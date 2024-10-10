@@ -1,7 +1,11 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}: {
   home.packages = with pkgs; [
     age
-    sops
+    pkgs-unstable.sops
     rclone
   ];
 }
