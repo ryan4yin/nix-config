@@ -133,6 +133,7 @@
 
         # others
         ".config/blender"
+        ".config/LDtk"
       ];
       files = [
         ".wakatime.cfg"
