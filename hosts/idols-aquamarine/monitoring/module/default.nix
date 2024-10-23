@@ -8,7 +8,7 @@
   ...
 }:
 with lib; let
-  cfg = config.services.victoriametrics;
+  cfg = config.services.my-victoriametrics;
   yaml = pkgs.formats.yaml {};
 
   promTypes = import ./promTypes.nix lib;
@@ -48,7 +48,7 @@ with lib; let
     then map (filterAttrsListRecursive pred) x
     else x;
 in {
-  options.services.victoriametrics = with lib; {
+  options.services.my-victoriametrics = {
     enable = mkEnableOption "VictoriaMetrics, a time series database, long-term remote storage for victoriametrics";
     package = mkPackageOption pkgs "victoriametrics" {};
 
@@ -125,7 +125,7 @@ in {
       group = "victoriametrics";
     };
 
-    systemd.services.victoriametrics = {
+    systemd.services.my-victoriametrics = {
       description = "VictoriaMetrics time series database";
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
