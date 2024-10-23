@@ -22,10 +22,7 @@
     enable = true; # disable
 
     # install wezterm via homebrew on macOS to avoid compilation, dummy package here.
-    package =
-      if pkgs.stdenv.isLinux
-      then pkgs.wezterm
-      else pkgs.hello;
+    package = pkgs.wezterm;
 
     enableBashIntegration = pkgs.stdenv.isLinux;
     enableZshIntegration = pkgs.stdenv.isLinux;
