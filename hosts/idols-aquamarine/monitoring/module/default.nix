@@ -11,7 +11,7 @@ with lib; let
   cfg = config.services.my-victoriametrics;
   yaml = pkgs.formats.yaml {};
 
-  promTypes = import ./promTypes.nix lib;
+  promTypes = import ./promTypes.nix {inherit lib;};
 
   bindAddr = "${cfg.listenAddress}:${builtins.toString cfg.port}";
   workingDir = "/var/lib/" + cfg.stateDir;
