@@ -113,7 +113,7 @@
     enable = true;
     settings = {
       "datasource.url" = "http://localhost:9090";
-      "notifier.url" = "http://localhost:9093"; # alertmanager's api
+      "notifier.url" = ["http://localhost:9093"]; # alertmanager's api
 
       # Whether to disable long-lived connections to the datasource.
       "datasource.disableKeepAlive" = true;
