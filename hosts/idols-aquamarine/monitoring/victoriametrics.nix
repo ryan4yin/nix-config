@@ -19,7 +19,7 @@
 
     extraFlags = [
       # Allowed percent of system memory VictoriaMetrics caches may occupy.
-      "-memory.allowedPercent 50"
+      "-memory.allowedPercent=50"
     ];
     # Directory below /var/lib to store victoriametrics metrics data.
     stateDir = "victoriametrics";

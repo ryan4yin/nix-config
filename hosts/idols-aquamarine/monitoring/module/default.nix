@@ -136,8 +136,8 @@ in {
         ExecStart = ''
           ${cfg.package}/bin/victoria-metrics \
               -storageDataPath=${workingDir} \
-              -httpListenAddr ${cfg.listenAddress} \
-              -retentionPeriod ${cfg.retentionTime} \
+              -httpListenAddr=${bindAddr} \
+              -retentionPeriod=${cfg.retentionTime} \
               -promscrape.config=${generatedPrometheusYml} \
               ${lib.escapeShellArgs cfg.extraFlags}
         '';
