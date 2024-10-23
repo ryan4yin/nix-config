@@ -1,4 +1,4 @@
-# Prometheus & Alertmanager
+# Monitoring & Alerting
 
 ## Alert Rules
 
