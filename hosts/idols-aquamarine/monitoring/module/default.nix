@@ -122,6 +122,7 @@ in {
     users.groups.victoriametrics = {};
     users.users.victoriametrics = {
       description = "victoriametrics daemon user";
+      isSystemUser = true; # required when uid is null
       group = "victoriametrics";
     };
 
