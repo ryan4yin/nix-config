@@ -163,7 +163,7 @@ in {
 
       # IM & audio & remote desktop & meeting
       "telegram"
-      "discord"
+      # "discord" # update too frequently, use the web version instead
       "microsoft-remote-desktop"
       "moonlight" # remote desktop client
       "rustdesk"

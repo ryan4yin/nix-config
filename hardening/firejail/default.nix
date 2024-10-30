@@ -41,10 +41,6 @@ in {
           executable = "${super.lib.getBin super.zathura}/bin/zathura";
           profile = "${super.firejail}/etc/firejail/zathura.profile";
         };
-        discord = firejailWrapper {
-          executable = "${super.lib.getBin super.discord}/bin/discord";
-          profile = "${super.firejail}/etc/firejail/discord.profile";
-        };
         slack = firejailWrapper {
           executable = "${super.lib.getBin super.slack}/bin/slack";
           profile = "${super.firejail}/etc/firejail/slack.profile";
