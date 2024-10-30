@@ -18,11 +18,11 @@
 
   services.btrbk.instances.btrbk = {
     # How often this btrbk instance is started. See systemd.time(7) for more information about the format.
-    onCalendar = "Tue,Thu,Sat *-*-* 3:45:20";
+    onCalendar = "Tue,Sat *-*-* 3:45:20";
     settings = {
       # how to prune local snapshots:
       # 1. keep daily snapshots for xx days
-      snapshot_preserve = "9d";
+      snapshot_preserve = "7d";
       # 2. keep all snapshots for 2 days, no matter how frequently you (or your cron job) run btrbk
       snapshot_preserve_min = "2d";
 
