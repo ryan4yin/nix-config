@@ -13,11 +13,10 @@
   # https://victoriametrics.io/docs/victoriametrics/latest/configuration/configuration/
   services.my-victoriametrics = {
     enable = true;
-    listenAddress = "127.0.0.1";
-    port = 9090;
-    retentionTime = "30d";
+    listenAddress = "127.0.0.1:9090";
+    retentionPeriod = "30d";
 
-    extraFlags = [
+    extraOptions = [
       # Allowed percent of system memory VictoriaMetrics caches may occupy.
       "-memory.allowedPercent=50"
     ];
@@ -26,87 +25,89 @@
 
     # specifies a set of targets and parameters describing how to scrape metrics from them.
     # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
-    scrapeConfigs =
-      [
-        # --- Homelab Applications --- #
+    prometheusConfig = {
+      scrape_configs =
+        [
+          # --- Homelab Applications --- #
 
-        {
-          job_name = "dnsmasq-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              targets = ["${myvars.networking.hostsAddr.suzi.ipv4}:9153"];
-              labels.type = "app";
-              labels.app = "dnsmasq";
-              labels.host = "suzi";
-            }
-          ];
-        }
+          {
+            job_name = "dnsmasq-exporter";
+            scrape_interval = "30s";
+            metrics_path = "/metrics";
+            static_configs = [
+              {
+                targets = ["${myvars.networking.hostsAddr.suzi.ipv4}:9153"];
+                labels.type = "app";
+                labels.app = "dnsmasq";
+                labels.host = "suzi";
+              }
+            ];
+          }
 
-        {
-          job_name = "v2ray-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9153"];
-              labels.type = "app";
-              labels.app = "v2ray";
-              labels.host = "aquamarine";
-            }
-          ];
-        }
-        {
-          job_name = "postgres-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9187"];
-              labels.type = "app";
-              labels.app = "postgresql";
-              labels.host = "aquamarine";
-            }
-          ];
-        }
-        {
-          job_name = "sftpgo-embedded-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:10000"];
-              labels.type = "app";
-              labels.app = "sftpgo";
-              labels.host = "aquamarine";
-            }
-          ];
-        }
-      ]
-      # --- Hosts --- #
-      ++ (
-        lib.attrsets.foldlAttrs
-        (acc: hostname: addr:
-          acc
-          ++ [
-            {
-              job_name = "node-exporter-${hostname}";
-              scrape_interval = "30s";
-              metrics_path = "/metrics";
-              static_configs = [
-                {
-                  # All my NixOS hosts.
-                  targets = ["${addr.ipv4}:9100"];
-                  labels.type = "node";
-                  labels.host = hostname;
-                }
-              ];
-            }
-          ])
-        []
-        myvars.networking.hostsAddr
-      );
+          {
+            job_name = "v2ray-exporter";
+            scrape_interval = "30s";
+            metrics_path = "/metrics";
+            static_configs = [
+              {
+                targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9153"];
+                labels.type = "app";
+                labels.app = "v2ray";
+                labels.host = "aquamarine";
+              }
+            ];
+          }
+          {
+            job_name = "postgres-exporter";
+            scrape_interval = "30s";
+            metrics_path = "/metrics";
+            static_configs = [
+              {
+                targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:9187"];
+                labels.type = "app";
+                labels.app = "postgresql";
+                labels.host = "aquamarine";
+              }
+            ];
+          }
+          {
+            job_name = "sftpgo-embedded-exporter";
+            scrape_interval = "30s";
+            metrics_path = "/metrics";
+            static_configs = [
+              {
+                targets = ["${myvars.networking.hostsAddr.aquamarine.ipv4}:10000"];
+                labels.type = "app";
+                labels.app = "sftpgo";
+                labels.host = "aquamarine";
+              }
+            ];
+          }
+        ]
+        # --- Hosts --- #
+        ++ (
+          lib.attrsets.foldlAttrs
+          (acc: hostname: addr:
+            acc
+            ++ [
+              {
+                job_name = "node-exporter-${hostname}";
+                scrape_interval = "30s";
+                metrics_path = "/metrics";
+                static_configs = [
+                  {
+                    # All my NixOS hosts.
+                    targets = ["${addr.ipv4}:9100"];
+                    labels.type = "node";
+                    labels.host = hostname;
+                  }
+                ];
+              }
+            ])
+          []
+          myvars.networking.hostsAddr
+        );
+    };
   };
 
   services.vmalert = {

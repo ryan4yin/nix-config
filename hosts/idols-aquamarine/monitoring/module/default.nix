@@ -1,6 +1,3 @@
-# Based on
-# - https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/databases/victoriametrics.nix
-# - https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/default.nix
 {
   config,
   pkgs,
@@ -9,75 +6,53 @@
 }:
 with lib; let
   cfg = config.services.my-victoriametrics;
-  yaml = pkgs.formats.yaml {};
+  settingsFormat = pkgs.formats.yaml {};
 
-  promTypes = import ./promTypes.nix {inherit lib;};
-
-  bindAddr = "${cfg.listenAddress}:${builtins.toString cfg.port}";
   workingDir = "/var/lib/" + cfg.stateDir;
+  startCommandLine =
+    lib.escapeShellArgs [
+      "${cfg.package}/bin/victoria-metrics"
+      "-storageDataPath=${workingDir}"
+      "-httpListenAddr=${cfg.listenAddress}"
+      "-retentionPeriod=${cfg.retentionPeriod}"
+    ]
+    ++ lib.optional (cfg.prometheusConfig != null) "-promscrape.config=${prometheusConfigYml}"
+    ++ cfg.extraOptions;
+  prometheusConfigYml = checkedConfig (
+    settingsFormat.generate "prometheusConfig.yaml" cfg.prometheusConfig
+  );
 
-  generatedPrometheusYml = yaml.generate "prometheus.yml" scrapeConfig;
-
-  # This becomes the main config file for VictoriaMetrics's `-promscrape.config`
-  # https://docs.victoriametrics.com/vmagent/#how-to-collect-metrics-in-prometheus-format
-  scrapeConfig = {
-    global = filterValidPrometheus cfg.globalConfig;
-    scrape_configs = filterValidPrometheus cfg.scrapeConfigs;
-  };
-
-  filterValidPrometheus = filterAttrsListRecursive (n: v: !(n == "_module" || v == null));
-  filterAttrsListRecursive = pred: x:
-    if isAttrs x
+  checkedConfig = file:
+    if cfg.checkConfig
     then
-      listToAttrs
-      (
-        concatMap
-        (
-          name: let
-            v = x.${name};
-          in
-            if pred name v
-            then [
-              (nameValuePair name (filterAttrsListRecursive pred v))
-            ]
-            else []
-        )
-        (attrNames x)
-      )
-    else if isList x
-    then map (filterAttrsListRecursive pred) x
-    else x;
+      pkgs.runCommand "checked-config" {nativeBuildInputs = [cfg.package];} ''
+        ln -s ${file} $out
+        ${startCommandLine} -dryRun
+      ''
+    else file;
 in {
   options.services.my-victoriametrics = {
-    enable = mkEnableOption "VictoriaMetrics, a time series database, long-term remote storage for victoriametrics";
+    enable = mkEnableOption "VictoriaMetrics, a time series database.";
     package = mkPackageOption pkgs "victoriametrics" {};
 
-    port = mkOption {
-      type = types.port;
-      default = 8428;
-      description = ''
-        Port to listen on.
-      '';
-    };
-
     listenAddress = mkOption {
+      default = ":8428";
       type = types.str;
-      default = "0.0.0.0";
       description = ''
-        Address to listen on for the http API.
+        TCP address to listen for incoming http requests.
       '';
     };
 
     stateDir = mkOption {
       type = types.str;
-      default = "victoriametrics2";
+      default = "victoriametrics";
       description = ''
         Directory below `/var/lib` to store VictoriaMetrics metrics data.
         This directory will be created automatically using systemd's StateDirectory mechanism.
       '';
     };
 
-    retentionTime = mkOption {
+    retentionPeriod = mkOption {
       type = types.nullOr types.str;
       default = null;
       example = "15d";
@@ -89,60 +64,77 @@ in {
       '';
     };
 
-    globalConfig = mkOption {
-      type = promTypes.globalConfig;
+    prometheusConfig = lib.mkOption {
+      type = lib.types.submodule {freeformType = settingsFormat.type;};
       default = {};
+      example = literalExpression ''
+        {
+          scrape_configs = [
+            {
+              job_name = "postgres-exporter";
+              metrics_path = "/metrics";
+              static_configs = [
+                {
+                  targets = ["1.2.3.4:9187"];
+                  labels.type = "database";
+                }
+              ];
+            }
+            {
+              job_name = "node-exporter";
+              metrics_path = "/metrics";
+              static_configs = [
+                {
+                  targets = ["1.2.3.4:9100"];
+                  labels.type = "node";
+                }
+                {
+                  targets = ["5.6.7.8:9100"];
+                  labels.type = "node";
+                }
+              ];
+            }
+          ];
+        }
+      '';
       description = ''
-        Parameters that are valid in all  configuration contexts. They
-        also serve as defaults for other configuration sections
+        Config for prometheus style metrics.
+        See the docs: <https://docs.victoriametrics.com/vmagent/#how-to-collect-metrics-in-prometheus-format>
+        for more information.
       '';
     };
 
-    scrapeConfigs = mkOption {
-      type = types.listOf promTypes.scrape_config;
-      default = [];
-      description = ''
-        A list of scrape configurations.
-        See docs: <https://docs.victoriametrics.com/vmagent/#how-to-collect-metrics-in-prometheus-format>
-      '';
-    };
-
-    extraFlags = mkOption {
+    extraOptions = mkOption {
       type = types.listOf types.str;
       default = [];
+      example = literalExpression ''
+        [
+          "-httpAuth.username=username"
+          "-httpAuth.password=file:///abs/path/to/file"
+          "-loggerLevel=WARN"
+        ]
+      '';
       description = ''
-        Extra options to pass to VictoriaMetrics. See the README:
-        <https://github.com/VictoriaMetrics/VictoriaMetrics/blob/master/README.md>
-        or {command}`victoriametrics -help` for more
-        information.
+        Extra options to pass to VictoriaMetrics. See the docs:
+        <https://docs.victoriametrics.com/single-server-victoriametrics/#list-of-command-line-flags>
+        or {command}`victoriametrics -help` for more information.
       '';
     };
   };
-  config = lib.mkIf cfg.enable {
-    users.groups.victoriametrics = {};
-    users.users.victoriametrics = {
-      description = "victoriametrics daemon user";
-      isSystemUser = true; # required when uid is null
-      group = "victoriametrics";
-    };
 
-    systemd.services.my-victoriametrics = {
+  config = lib.mkIf cfg.enable {
+    systemd.services.victoriametrics = {
       description = "VictoriaMetrics time series database";
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
-
       startLimitBurst = 5;
+
       serviceConfig = {
-        ExecStart = ''
-          ${cfg.package}/bin/victoria-metrics \
-              -storageDataPath=${workingDir} \
-              -httpListenAddr=${bindAddr} \
-              -retentionPeriod=${cfg.retentionTime} \
-              -promscrape.config=${generatedPrometheusYml} \
-              ${lib.escapeShellArgs cfg.extraFlags}
-        '';
-        RestartSec = 1;
+        ExecStart = startCommandLine;
+        DynamicUser = true;
         User = "victoriametrics";
+        Group = "victoriametrics";
+        RestartSec = 1;
         Restart = "on-failure";
         RuntimeDirectory = "victoriametrics";
         RuntimeDirectoryMode = "0700";
@@ -154,11 +146,6 @@ in {
         LimitNOFILE = 1048576;
 
         # Hardening
-        AmbientCapabilities = lib.mkIf (cfg.port < 1024) ["CAP_NET_BIND_SERVICE"];
-        CapabilityBoundingSet =
-          if (cfg.port < 1024)
-          then ["CAP_NET_BIND_SERVICE"]
-          else [""];
         DeviceAllow = ["/dev/null rw"];
         DevicePolicy = "strict";
         LockPersonality = true;
@@ -177,19 +164,30 @@ in {
         ProtectProc = "invisible";
         ProtectSystem = "full";
         RemoveIPC = true;
-        RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+          "AF_UNIX"
+        ];
         RestrictNamespaces = true;
         RestrictRealtime = true;
         RestrictSUIDSGID = true;
         SystemCallArchitectures = "native";
-        SystemCallFilter = ["@system-service" "~@privileged"];
+        SystemCallFilter = [
+          "@system-service"
+          "~@privileged"
+        ];
       };
 
-      postStart = lib.mkBefore ''
-        until ${lib.getBin pkgs.curl}/bin/curl -s -o /dev/null http://${bindAddr}/ping; do
-          sleep 1;
-        done
-      '';
+      postStart = let
+        bindAddr =
+          (lib.optionalString (lib.hasPrefix ":" cfg.listenAddress) "127.0.0.1") + cfg.listenAddress;
+      in
+        lib.mkBefore ''
+          until ${lib.getBin pkgs.curl}/bin/curl -s -o /dev/null http://${bindAddr}/ping; do
+            sleep 1;
+          done
+        '';
     };
   };
 }
