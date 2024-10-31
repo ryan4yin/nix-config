@@ -8,11 +8,10 @@ with lib; let
   cfg = config.services.my-victoriametrics;
   settingsFormat = pkgs.formats.yaml {};
 
-  workingDir = "/var/lib/" + cfg.stateDir;
   startCLIList =
     [
       "${cfg.package}/bin/victoria-metrics"
-      "-storageDataPath=${workingDir}"
+      "-storageDataPath=/var/lib/${cfg.stateDir}"
       "-httpListenAddr=${cfg.listenAddress}"
       "-retentionPeriod=${cfg.retentionPeriod}"
     ]
@@ -133,12 +132,10 @@ in {
 
         DynamicUser = true;
         User = "victoriametrics";
-        Group = "victoriametrics";
         RestartSec = 1;
         Restart = "on-failure";
         RuntimeDirectory = "victoriametrics";
         RuntimeDirectoryMode = "0700";
-        WorkingDirectory = workingDir;
         StateDirectory = cfg.stateDir;
         StateDirectoryMode = "0700";
 
