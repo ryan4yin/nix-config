@@ -13,8 +13,8 @@ with lib; let
       "${cfg.package}/bin/victoria-metrics"
       "-storageDataPath=/var/lib/${cfg.stateDir}"
       "-httpListenAddr=${cfg.listenAddress}"
-      "-retentionPeriod=${cfg.retentionPeriod}"
     ]
+    ++ lib.optionals (cfg.retentionPeriod != null) ["-retentionPeriod=${cfg.retentionPeriod}"]
     ++ cfg.extraOptions;
   prometheusConfigYml = checkedConfig (
     settingsFormat.generate "prometheusConfig.yaml" cfg.prometheusConfig
@@ -27,7 +27,7 @@ with lib; let
     '';
 in {
   options.services.my-victoriametrics = {
-    enable = mkEnableOption "VictoriaMetrics, a time series database.";
+    enable = mkEnableOption "VictoriaMetrics is a fast, cost-effective and scalable monitoring solution and time series database.";
     package = mkPackageOption pkgs "victoriametrics" {};
 
     listenAddress = mkOption {
@@ -127,11 +127,10 @@ in {
       serviceConfig = {
         ExecStart = lib.escapeShellArgs (
           startCLIList
-          ++ lib.optional (cfg.prometheusConfig != null) ["-promscrape.config=${prometheusConfigYml}"]
+          ++ lib.optionals (cfg.prometheusConfig != null) ["-promscrape.config=${prometheusConfigYml}"]
         );
 
         DynamicUser = true;
-        User = "victoriametrics";
         RestartSec = 1;
         Restart = "on-failure";
         RuntimeDirectory = "victoriametrics";
