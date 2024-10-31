@@ -8,28 +8,23 @@ with lib; let
   cfg = config.services.my-victoriametrics;
   settingsFormat = pkgs.formats.yaml {};
 
-  workingDir = "/var/lib/" + cfg.stateDir;
-  startCommandLine =
-    lib.escapeShellArgs [
+  startCLIList =
+    [
       "${cfg.package}/bin/victoria-metrics"
-      "-storageDataPath=${workingDir}"
+      "-storageDataPath=/var/lib/${cfg.stateDir}"
       "-httpListenAddr=${cfg.listenAddress}"
       "-retentionPeriod=${cfg.retentionPeriod}"
     ]
-    ++ lib.optional (cfg.prometheusConfig != null) "-promscrape.config=${prometheusConfigYml}"
     ++ cfg.extraOptions;
   prometheusConfigYml = checkedConfig (
     settingsFormat.generate "prometheusConfig.yaml" cfg.prometheusConfig
   );
 
   checkedConfig = file:
-    if cfg.checkConfig
-    then
-      pkgs.runCommand "checked-config" {nativeBuildInputs = [cfg.package];} ''
-        ln -s ${file} $out
-        ${startCommandLine} -dryRun
-      ''
-    else file;
+    pkgs.runCommand "checked-config" {nativeBuildInputs = [cfg.package];} ''
+      ln -s ${file} $out
+      ${lib.escapeShellArgs startCLIList} -promscrape.config=${file} -dryRun
+    '';
 in {
   options.services.my-victoriametrics = {
     enable = mkEnableOption "VictoriaMetrics, a time series database.";
@@ -130,15 +125,17 @@ in {
       startLimitBurst = 5;
 
       serviceConfig = {
-        ExecStart = startCommandLine;
+        ExecStart = lib.escapeShellArgs (
+          startCLIList
+          ++ lib.optional (cfg.prometheusConfig != null) ["-promscrape.config=${prometheusConfigYml}"]
+        );
+
         DynamicUser = true;
         User = "victoriametrics";
-        Group = "victoriametrics";
         RestartSec = 1;
         Restart = "on-failure";
         RuntimeDirectory = "victoriametrics";
         RuntimeDirectoryMode = "0700";
-        WorkingDirectory = workingDir;
         StateDirectory = cfg.stateDir;
         StateDirectoryMode = "0700";
 
