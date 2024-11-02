@@ -97,6 +97,7 @@
 
       #-- rust
       # we'd better use the rust-overlays for rust development
+      pkgs-unstable.rustc
       pkgs-unstable.rust-analyzer
       pkgs-unstable.cargo # rust package manager
       pkgs-unstable.rustfmt
