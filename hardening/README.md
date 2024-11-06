@@ -20,7 +20,7 @@
 1. **Per-App Level**:
    - Nixpak (Bubblewrap)
      - [x] QQ
-     - [ ] Firefox (Nvidia GPU support issue)
+     - [x] Firefox
    - [ ] Firejail (risk? not enabled yet)
 
 ## Kernel Hardening
