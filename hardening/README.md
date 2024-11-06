@@ -39,6 +39,7 @@
   - Nix Package:
     [roddhjav-apparmor-rules](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ro/roddhjav-apparmor-rules/package.nix#L33)
   - https://github.com/NixOS/nixpkgs/issues/331645
+  - https://github.com/LordGrimmauld/aa-alias-manager
 - SELinux: too complex, not recommended for personal use.
 
 ## Application Sandboxing
