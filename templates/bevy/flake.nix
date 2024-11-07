@@ -64,9 +64,8 @@
             libxkbcommon
             wayland # To use the wayland feature
           ])
-          # https://discourse.nixos.org/t/develop-shell-environment-setup-for-macos/11399
-          # https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/pkgs/os-specific/darwin/apple-sdk/frameworks.nix
           ++ (pkgs.lib.optionals pkgs.stdenv.isDarwin [
+            # https://discourse.nixos.org/t/the-darwin-sdks-have-been-updated/55295/1
             apple-sdk_15
           ]);
         LD_LIBRARY_PATH = lib.makeLibraryPath buildInputs;
