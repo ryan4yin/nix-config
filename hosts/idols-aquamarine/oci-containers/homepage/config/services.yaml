@@ -63,7 +63,7 @@
         href: "https://minio-ui.writefor.fun/"
         description: S3 compatible object storage
         siteMonitor: "https://minio-ui.writefor.fun/"
-    - MinIO:
+    - Gitea:
         icon: gitea.png
         href: "https://git.writefor.fun/"
         description: Gitea - Git with a cup of tea
