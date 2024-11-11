@@ -62,7 +62,7 @@
       # do not enable aliases in nushell!
       enableNushellIntegration = false;
       git = true;
-      icons = true;
+      icons = "auto";
     };
 
     # a cat(1) clone with syntax highlighting and Git integration.
