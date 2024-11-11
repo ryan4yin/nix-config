@@ -94,8 +94,8 @@
       "https://mirror.sjtu.edu.cn/nix-channels/store"
 
       "https://nix-community.cachix.org"
-      # my own cache server
-      "https://ryan4yin.cachix.org"
+      # my own cache server, currently not used.
+      # "https://ryan4yin.cachix.org"
     ];
 
     trusted-public-keys = [
