@@ -55,5 +55,5 @@ def unset_proxy():
 
 
 if __name__ == "__main__":
-    set_proxy()
-    # unset_proxy()
+    # set_proxy()
+    unset_proxy()

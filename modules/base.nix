@@ -2,8 +2,6 @@
   pkgs,
   myvars,
   nuenv,
-  nixpkgs,
-  lib,
   ...
 } @ args: {
   nixpkgs.overlays =
@@ -19,8 +17,7 @@
 
   # auto upgrade nix to the unstable version
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/tools/package-management/nix/default.nix#L284
-  # nix.package = pkgs.nixVersions.latest;
-  nix.package = pkgs.nixVersions.nix_2_22;
+  nix.package = pkgs.nixVersions.latest;
 
   environment.systemPackages = with pkgs; [
     git # used by nix flakes
@@ -110,14 +107,4 @@
     ];
     builders-use-substitutes = true;
   };
-
-  # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-  nix.registry.nixpkgs.flake = nixpkgs;
-
-  environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-  # make `nix repl '<nixpkgs>'` use the same nixpkgs as the one used by this flake.
-  # discard all the default paths, and only use the one from this flake.
-  nix.nixPath = lib.mkForce ["/etc/nix/inputs"];
-  # https://github.com/NixOS/nix/issues/9574
-  nix.settings.nix-path = lib.mkForce "nixpkgs=/etc/nix/inputs/nixpkgs";
 }
