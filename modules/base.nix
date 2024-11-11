@@ -96,14 +96,11 @@
       "https://nix-community.cachix.org"
       # my own cache server
       "https://ryan4yin.cachix.org"
-      # cuda-maintainer's cache server
-      "https://cuda-maintainers.cachix.org"
     ];
 
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
-      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     ];
     builders-use-substitutes = true;
   };
