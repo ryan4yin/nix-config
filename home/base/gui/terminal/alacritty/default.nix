@@ -1,4 +1,8 @@
-{pkgs, ...}:
+{
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 ###########################################################
 #
 # Alacritty Configuration
@@ -22,6 +26,7 @@
 {
   programs.alacritty = {
     enable = true;
+    package = pkgs-unstable.alacritty;
     # https://alacritty.org/config-alacritty.html
     settings = {
       general.import = [
