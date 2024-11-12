@@ -10,6 +10,12 @@
     agenix.darwinModules.default
   ];
 
+  # enable logs for debugging
+  launchd.daemons."activate-agenix".serviceConfig = {
+    StandardErrorPath = "/Library/Logs/org.nixos.activate-agenix.stderr.log";
+    StandardOutPath = "/Library/Logs/org.nixos.activate-agenix.stdout.log";
+  };
+
   environment.systemPackages = [
     agenix.packages."${pkgs.system}".default
   ];

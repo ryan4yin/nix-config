@@ -176,6 +176,25 @@ the `age.secrets.<name>.path` argument, which defaults to `/etc/secrets`.
    1. Clone this repo and run `nixos-rebuild switch` to deploy it, all the secrets will be decrypted
       automatically via the host private key.
 
+## Troubleshooting
+
+### 1. Nix-Darwin Module
+
+Check logs:
+
+```bash
+tail -n 100 /Library/Logs/org.nixos.activate-agenix.stderr.log
+tail -n 100 /Library/Logs/org.nixos.activate-agenix.stdout.log
+```
+
+### 2. NixOS Module
+
+Check logs:
+
+```
+journalctl | grep -5 agenix
+```
+
 ## Other Replacements
 
 - [ragenix](https://github.com/yaxitech/ragenix): A Rust reimplementation of agenix.
