@@ -29,7 +29,7 @@
         else 13;
     };
 
-    # consistent with wezterm
+    # consistent with other terminal emulators
     keybindings = {
       "ctrl+shift+m" = "toggle_maximized";
       "ctrl+shift+f" = "show_scrollback"; # search in the current window

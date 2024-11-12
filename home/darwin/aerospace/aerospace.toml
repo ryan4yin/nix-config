@@ -200,8 +200,8 @@ if.app-id = 'net.kovidgoyal.kitty'
 run = 'move-node-to-workspace 1Kitty'
 
 [[on-window-detected]]
-if.app-id = 'com.github.wez.wezterm'
-run = 'move-node-to-workspace 2Wez'
+if.app-id = 'org.alacritty'
+run = 'move-node-to-workspace 2Alacritty'
 
 [[on-window-detected]]
 if.app-id = 'com.tencent.WeWorkMac'
@@ -246,7 +246,7 @@ run = 'layout floating'
 
 [workspace-to-monitor-force-assignment]
 1Kitty = 'secondary'  # Non-main monitor in case when there are only two monitors'
-2Wez = 'main'         # "Main" monitor ("main" as in System Settings → Displays → Use as)
+2Alacritty = 'main'         # "Main" monitor ("main" as in System Settings → Displays → Use as)
 3Work = 'main'
 4Firefox = 'main'
 5Chrome = 'secondary'
