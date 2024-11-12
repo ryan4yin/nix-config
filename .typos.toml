@@ -9,7 +9,26 @@ binary = false
 extend-ignore-re = [
   "iterm2",
   "iHgEIBYKACAWIQSizQe9ljFEyyclWmtVhZllwnQrSwUCZZ1T9wIdAAAKCRBVhZll", # crypto keys
-  "noice", # noice.nvim
+  "noice",                                                            # noice.nvim
   "crypted-nixos",
   "daed",
+
+  # catppuccin theme colors
+  "11111b",
+  "1e1e2e",
+  "313244",
+  "414356",
+  "45475a",
+  "585b70",
+  "89b4fa",
+  "94e2d5",
+  "a6adc8",
+  "a6e3a1",
+  "bac2de",
+  "cdd6f4",
+  "f38ba8",
+  "f5c2e7",
+  "f5e0dc",
+  "f9e2af",
+  "fab387",
 ]
