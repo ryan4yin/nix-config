@@ -9,7 +9,7 @@
         font = "JetBrainsMono Nerd Font:size=13";
         dpi-aware = "yes";
 
-        #  Spawn a nushell in login mode via `bash`
+        # Spawn a nushell in login mode via `bash`
         shell = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";
       };
 
