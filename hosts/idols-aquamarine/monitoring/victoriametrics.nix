@@ -21,7 +21,7 @@
   };
 
   # https://victoriametrics.io/docs/victoriametrics/latest/configuration/configuration/
-  services.my-victoriametrics = {
+  services.victoriametrics = {
     enable = true;
     listenAddress = "127.0.0.1:9090";
     retentionPeriod = "30d";
