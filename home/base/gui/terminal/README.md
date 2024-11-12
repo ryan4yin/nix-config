@@ -13,11 +13,7 @@ My current terminal emulators are:
 1. kitty: My main terminal emulator.
    1. to select/copy a large mount of text, We should do some tricks via kitty's `scrollback_pager`
       with neovim, it's really painful: <https://github.com/kovidgoyal/kitty/issues/719>
-2. wezterm: My secondary terminal emulator.
-   1. its search ability is very basic, and it's not easy to use.
-   1. its scrollback buffer's copy mode is very like vim, which is nice, but zellij's even better,
-      it can use neovim as its default scrollback buffer's editor without any pain!
-3. foot: a fast, lightweight and minimalistic Wayland terminal emulator.
+2. foot: A fast, lightweight and minimalistic Wayland terminal emulator.
    1. foot only do the things a terminal emulator should do, no more, no less.
    1. It's really suitable for tiling window manager or zellij users!
 
