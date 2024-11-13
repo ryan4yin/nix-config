@@ -22,6 +22,9 @@ in {
         qq = wrapper super ./qq.nix;
         qq-desktop-item = super.callPackage ./qq-desktop-item.nix {};
 
+        wechat-uos = wrapper super ./wechat-uos.nix;
+        wechat-uos-desktop-item = super.callPackage ./wechat-uos-desktop-item.nix {};
+
         firefox = wrapper super ./firefox.nix;
         firefox-desktop-item = super.callPackage ./firefox-desktop-item.nix {};
       };

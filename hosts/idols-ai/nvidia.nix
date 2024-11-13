@@ -3,7 +3,13 @@
   # for Nvidia GPU
   # ===============================================================================================
 
-  boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"];
+  # https://wiki.hyprland.org/Nvidia/
+  boot.kernelParams = [
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    # Since NVIDIA does not load kernel mode setting by default,
+    # enabling it is required to make Wayland compositors function properly.
+    "nvidia-drm.fbdev=1"
+  ];
   services.xserver.videoDrivers = ["nvidia"]; # will install nvidia-vaapi-driver by default
   hardware.nvidia = {
     open = false;
@@ -15,6 +21,7 @@
     modesetting.enable = true;
     powerManagement.enable = true;
   };
+
   hardware.nvidia-container-toolkit.enable = true;
   hardware.graphics = {
     enable = true;

@@ -37,10 +37,15 @@ mkNixPak {
     };
 
     bubblewrap = {
+      # To trace all the home files QQ accesses, you can use the following nushell command:
+      #   just trace-access firefox
+      # See the Justfile in the root of this repository for more information.
       bind.rw = [
-        (sloth.concat' sloth.homeDir "/.mozilla")
-        (sloth.concat' sloth.homeDir "/Downloads")
+        # given the read write permission to the following directories.
+        # NOTE: sloth.mkdir is used to create the directory if it does not exist!
+        (sloth.mkdir (sloth.concat' sloth.homeDir "/.mozilla"))
 
+        sloth.xdgDownloadDir
         # ================ for externsions ===============================
         # required by https://github.com/browserpass/browserpass-extension
         (sloth.concat' sloth.homeDir "/.local/share/password-store") # pass

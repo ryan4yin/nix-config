@@ -381,6 +381,10 @@ emacs-reload:
 path:
    $env.PATH | split row ":"
 
+[group('common')]
+trace-access app *args:
+  strace -f -t -e trace=file {{app}} {{args}} | complete | $in.stderr | lines | find -v -r "(/nix/store|/newroot|/proc)" | parse --regex '"(/.+)"' | sort | uniq
+
 [linux]
 [group('common')]
 penvof pid:
