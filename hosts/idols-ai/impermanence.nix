@@ -134,6 +134,10 @@
         # others
         ".config/blender"
         ".config/LDtk"
+
+        # IM
+        ".config/QQ"
+        ".xwechat"
       ];
       files = [
         ".wakatime.cfg"
