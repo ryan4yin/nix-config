@@ -53,7 +53,7 @@ return {
       "marksman", -- markdown ls
       "nickel_ls", -- nickel language server
       "nil_ls", -- nix language server
-      "bufls", -- protocol buffer language server
+      "buf_ls", -- protocol buffer language server
       "dockerls", -- dockerfile
       "cmake", -- cmake language server
       "sqls", -- sql language server
@@ -64,7 +64,7 @@ return {
       "jdtls", -- java language server, provides only basic features
       "rust_analyzer", -- rust
       "pyright", -- python
-      "ruff_lsp", -- extremely fast Python linter and code transformation
+      "ruff", -- extremely fast Python linter and code transformation
       -- "julials", -- julia language server
       -- "zls", -- zig language server
       "lua_ls", -- lua
