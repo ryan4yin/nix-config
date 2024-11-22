@@ -15,10 +15,11 @@ let
     v = "nvim";
     vdiff = "nvim -d";
   };
+  # the path to nvim directory
+  # to make this symlink work, we need to git clone this repo to your home directory.
+  configPath = "${config.home.homeDirectory}/nix-config/home/base/tui/editors/neovim/nvim";
 in {
-  home.activation.installAstroNvim = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F744 ${./nvim}/ ${config.xdg.configHome}/nvim/
-  '';
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink configPath;
 
   home.shellAliases = shellAliases;
   programs.nushell.shellAliases = shellAliases;

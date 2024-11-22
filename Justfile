@@ -317,35 +317,14 @@ k3s-prod:
 k3s-test:
   colmena apply --on '@k3s-test-*' --verbose --show-trace
 
-############################################################################
-#
-#  Neovim related commands
-#
-############################################################################
-
-[group('neovim')]
-nvim-test:
-  rm -rf $"($env.HOME)/.config/nvim"
-  rsync -avz --copy-links --chmod=D2755,F744 home/base/tui/editors/neovim/nvim/ $"($env.HOME)/.config/nvim/"
-
-[group('neovim')]
-nvim-clean:
-  rm -rf $"($env.HOME)/.config/nvim"
-
 # =================================================
 # Emacs related commands
 # =================================================
 
 [group('emacs')]
 emacs-test:
-  rm -rf $"($env.HOME)/.config/doom"
-  rsync -avz --copy-links --chmod=D2755,F744 home/base/tui/editors/emacs/doom/ $"($env.HOME)/.config/doom/"
   doom clean
   doom sync
-
-[group('emacs')]
-emacs-clean:
-  rm -rf $"($env.HOME)/.config/doom/"
 
 [group('emacs')]
 emacs-purge:
