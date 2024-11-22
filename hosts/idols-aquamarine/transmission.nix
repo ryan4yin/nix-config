@@ -7,7 +7,7 @@
   name = "transmission";
 in {
   # the headless Transmission BitTorrent daemon
-  # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/torrent/transmission.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/torrent/transmission.nix
   # https://wiki.archlinux.org/title/transmission
   services.transmission = {
     enable = true;

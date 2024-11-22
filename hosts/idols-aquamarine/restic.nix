@@ -3,7 +3,7 @@
   sshKeyPath = "/etc/agenix/ssh-key-for-restic-backup";
   rcloneConfigFile = "/etc/agenix/rclone-conf-for-restic-backup";
 in {
-  # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/backup/restic.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/backup/restic.nix
   services.restic.backups = {
     homelab-backup = {
       inherit passwordFile;

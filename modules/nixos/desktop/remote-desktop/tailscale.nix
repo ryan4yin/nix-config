@@ -25,7 +25,7 @@
 #   which is already persistent across reboots(via impermanence.nix)
 #
 # References:
-# https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/networking/tailscale.nix
+# https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/networking/tailscale.nix
 #
 # =============================================================
 {

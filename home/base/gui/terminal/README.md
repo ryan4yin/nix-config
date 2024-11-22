@@ -52,7 +52,7 @@ Error opening terminal: xterm-kitty.
 
 NixOS preserve the `TERMINFO` and `TERMINFO_DIRS` environment variables, for `root` and the `wheel`
 group:
-[nixpkgs/nixos/modules/config/terminfo.nix](https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/config/terminfo.nix#L18)
+[nixpkgs/nixos/modules/config/terminfo.nix](https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/config/terminfo.nix#L18)
 
 For nix-darwin, take a look at <https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues>
 

@@ -1,6 +1,6 @@
 {
   # enable the node exporter on all nixos hosts
-  # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters/node.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/monitoring/prometheus/exporters/node.nix
   services.prometheus.exporters.node = {
     enable = true;
     listenAddress = "0.0.0.0";
