@@ -10,7 +10,7 @@
   # Workaround for victoriametrics to store data in another place
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
-    "D /data/apps/victoriametrics 0770 root victoriametrics-data - -"
+    "d /data/apps/victoriametrics 0770 root victoriametrics-data - -"
   ];
 
   # Symlinks do not work with DynamicUser, so we should use bind mount here.

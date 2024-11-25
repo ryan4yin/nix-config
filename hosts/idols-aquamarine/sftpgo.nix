@@ -8,7 +8,7 @@ in {
   # Create Directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
-    "D ${dataDir} 0755 ${user} ${user}"
+    "d ${dataDir} 0755 ${user} ${user}"
   ];
 
   services.sftpgo = {

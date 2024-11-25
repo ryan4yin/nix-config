@@ -75,7 +75,7 @@ in {
   systemd.tmpfiles.rules = [
     "L+ /opt/cni/bin - - - - /var/lib/rancher/k3s/data/current/bin"
     # If you have disabled flannel, you will have to create the directory via a tmpfiles rule
-    "D /var/lib/rancher/k3s/agent/etc/cni/net.d 0751 root root - -"
+    "d /var/lib/rancher/k3s/agent/etc/cni/net.d 0751 root root - -"
     # Link the CNI config directory
     "L+ /etc/cni/net.d - - - - /var/lib/rancher/k3s/agent/etc/cni/net.d"
   ];
