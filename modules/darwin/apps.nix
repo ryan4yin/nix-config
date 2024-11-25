@@ -73,7 +73,8 @@ in {
       # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
       TERMINFO_DIRS = map (path: path + "/share/terminfo") config.environment.profiles ++ ["/usr/share/terminfo"];
 
-      EDITOR = "nvim";
+      # for security reasons, do not load neovim's user config
+      EDITOR = "nvim --clean";
     }
     # Set variables for you to manually install homebrew packages.
     // homebrew_mirror_env;
