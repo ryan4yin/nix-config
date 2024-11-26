@@ -2,11 +2,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neofetch
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    just # justfile
-    nushell # nushell
-
     # system call monitoring
     strace # system call monitoring
     ltrace # library call monitoring
@@ -41,7 +36,4 @@
   # BCC - Tools for BPF-based Linux IO analysis, networking, monitoring, and more
   # https://github.com/iovisor/bcc
   programs.bcc.enable = true;
-
-  # replace default editor with neovim
-  environment.variables.EDITOR = "nvim";
 }

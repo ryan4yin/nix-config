@@ -29,7 +29,7 @@ in {
       enable = true;
       package = pkgs-unstable.neovim-unwrapped;
 
-      defaultEditor = true;
+      # defaultEditor = true; # set EDITOR at system-wide level
       viAlias = true;
       vimAlias = true;
 
