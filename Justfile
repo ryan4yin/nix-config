@@ -1,7 +1,7 @@
 # just is a command runner, Justfile is very similar to Makefile, but simpler.
 
 # Use nushell for shell commands
-# To usage this justfile, you need to enter a shell with just & nushell installed:
+# To use this justfile, you need to enter a shell with just & nushell installed:
 # 
 #   nix shell nixpkgs#just nixpkgs#nushell
 set shell := ["nu", "-c"]
