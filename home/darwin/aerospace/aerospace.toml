@@ -127,9 +127,9 @@ alt-4 = 'workspace 4Firefox'
 alt-5 = 'workspace 5Chrome'
 alt-6 = 'workspace 6Chat'
 alt-7 = 'workspace 7Music'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
-alt-0 = 'workspace 10'
+alt-8 = 'workspace 8Mail'
+alt-9 = 'workspace 9File'
+alt-0 = 'workspace 0Other'
 
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
@@ -140,9 +140,9 @@ alt-shift-4 = 'move-node-to-workspace 4Firefox'
 alt-shift-5 = 'move-node-to-workspace 5Chrome'
 alt-shift-6 = 'move-node-to-workspace 6Chat'
 alt-shift-7 = 'move-node-to-workspace 7Music'
-alt-shift-8 = 'move-node-to-workspace 8'
-alt-shift-9 = 'move-node-to-workspace 9'
-alt-shift-0 = 'move-node-to-workspace 10'
+alt-shift-8 = 'move-node-to-workspace 8Mail'
+alt-shift-9 = 'move-node-to-workspace 9File'
+alt-shift-0 = 'move-node-to-workspace 0Other'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -235,10 +235,32 @@ run = 'move-node-to-workspace 7Music'
 if.app-id = 'com.netease.163music'
 run = 'move-node-to-workspace 7Music'
 
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = 'move-node-to-workspace 8Mail'
+
+# calendar
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = 'move-node-to-workspace 8Mail'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['layout floating', 'move-node-to-workspace 9File']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iBooksX'
+run = ['layout floating', 'move-node-to-workspace 9File']
+
+# Book/Picture Preview
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = ['layout floating', 'move-node-to-workspace 9File']
+
 # Make all windows float by default
 [[on-window-detected]]
 check-further-callbacks = true
-run = 'layout floating'
+run = ['layout floating', 'move-node-to-workspace 0Other']
 
 # =================================================================
 # Multiple monitor configuration
@@ -252,6 +274,6 @@ run = 'layout floating'
 5Chrome = 'secondary'
 6Chat = 'main'
 7Music = 'main'
-8 = 'main'
-9 = 'main'
-0 = 'main'
+8Mail = 'main'
+9File = 'main'
+0Other = 'main'
