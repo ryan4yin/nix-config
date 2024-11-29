@@ -16,7 +16,7 @@
     nvtopPackages.full
 
     # video/audio tools
-    cava # for visualizing audio
+    # cava # for visualizing audio
     libva-utils
     vdpauinfo
     vulkan-tools
