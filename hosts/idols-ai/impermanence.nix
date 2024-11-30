@@ -111,6 +111,9 @@
         ".config/Code/User"
         ".config/Code - Insiders/User"
 
+        # zed editor
+        ".config/zed"
+
         # browsers
         ".mozilla"
         ".config/google-chrome"
