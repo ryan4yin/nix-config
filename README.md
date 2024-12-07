@@ -17,7 +17,7 @@
 > My configuration is becoming more and more complex, and **it will be difficult for beginners to
 > read**. If you are new to NixOS and want to know how I use NixOS, I would recommend you to take a
 > look at the [ryan4yin/nix-config/releases](https://github.com/ryan4yin/nix-config/releases) first,
-> **checkout to some simpler older versions, such as
+> **check out to some simpler older versions, such as
 > [i3-kickstarter](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter), which will be much
 > easier to understand**.
 
@@ -38,13 +38,13 @@ Virtual Machine from this flake.
 
 Nix allows for easy-to-manage, collaborative, reproducible deployments. This means that once
 something is setup and configured once, it works (almost) forever. If someone else shares their
-configuration, anyone else can just use it (if you really understand what you're copying/refering
+configuration, anyone else can just use it (if you really understand what you're copying/referring
 now).
 
 As for Flakes, refer to
 [Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
 
-**Want to know NixOS & Flaks in detail? Looking for a beginner-friendly tutorial or best practices?
+**Want to know NixOS & Flakes in detail? Looking for a beginner-friendly tutorial or best practices?
 You don't have to go through the pain I've experienced again! Check out my
 [NixOS & Nix Flakes Book - 🛠️ ❤️ An unofficial & opinionated :book: for beginners](https://github.com/ryan4yin/nixos-and-flakes-book)!**
 
@@ -107,13 +107,13 @@ See [./secrets](./secrets) for details.
 > It will not succeed.** This flake contains my hardware configuration(such as
 > [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix),
 > [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91),
-> etc.) which is not suitable for your hardwares, and requires my private secrets repository
+> etc.) which is not suitable for your hardware, and requires my private secrets repository
 > [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy. You
 > may use this repo as a reference to build your own configuration.
 
 For NixOS:
 
-> To deploy this flake from NixOS's official ISO image(purest installation method), please refer to
+> To deploy this flake from NixOS's official ISO image (purest installation method), please refer to
 > [./nixos-installer/](./nixos-installer/)
 
 > Need to restart the machine when switching between `wayland` and `xorg`.
@@ -136,7 +136,7 @@ For macOS:
 # 1. install nix & homebrew manually.
 # 2. prepare the deployment environment with essential packages available
 nix-shell -p just nushell
-# 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deplyment.
+# 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
 # 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
 # 4. deploy harmonica's configuration(macOS Intel)
