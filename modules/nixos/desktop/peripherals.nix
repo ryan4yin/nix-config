@@ -25,7 +25,7 @@
   # rtkit is optional but recommended
   security.rtkit.enable = true;
   # Disable pulseaudio, it conflicts with pipewire too.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   #============================= Bluetooth =============================
 
