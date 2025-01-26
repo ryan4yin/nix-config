@@ -99,6 +99,7 @@
   };
 
   # place secrets in /etc/
+  # NOTE: this will fail for the first time. cause it's running before "activate-agenix"
   environment.etc = {
     # wireguard config used with `wg-quick up wg-business`
     # Fix DNS for WireGuard on macOS: https://github.com/ryan4yin/nix-config/issues/5
