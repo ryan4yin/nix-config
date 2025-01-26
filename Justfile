@@ -145,7 +145,7 @@ ha mode="default":
 # Depoly to fern(macOS host)
 [macos]
 [group('desktop')]
-fe mode="default": darwin-set-proxy
+fe mode="default": 
   #!/usr/bin/env nu
   use {{utils_nu}} *;
   darwin-build "fern" {{mode}};
