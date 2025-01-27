@@ -96,8 +96,8 @@ Key management is the core of OpenPGP standard / GnuPG.
 
 GnuPG uses public-key cryptography so that users may communicate securely. In a public-key system,
 each user has a pair of keys consisting of a private key and a public key. **A user's private key is
-kept secret; it need **never be revealed. The public key may be given to anyone with whom the user
-wants to communicate\*\*. GnuPG uses a somewhat more sophisticated scheme in which a user has a
+kept secret; it need NEVER be revealed. The public key may be given to anyone with whom the user
+wants to communicate**. GnuPG uses a somewhat more sophisticated scheme in which a user has a
 primary keypair and then zero or more additional subordinate keypairs. The primary and subordinate
 keypairs are bundled to facilitate key management and the bundle can often be considered simply as
 one keypair, or a keyring/keychain(which contains multiple sub key-pairs).
@@ -229,9 +229,9 @@ The **best practice** is:
    backup it to somewhere else, and import it to another machine to use your keypair.
 5. Backup your Primary key's revocation certificate to somewhere safe, it's the last way to rescure
    your safety if your primary key is compromised!
-6. It's a big problem if your revocation certificate is compromised, but not the bigest one. because
-   it's only used to revoke your keypair, your data is still safe. But you should generate a new
-   keypair and revoke the old one immediately.
+6. It's a big problem if your revocation certificate is compromised, but not the biggest one.
+   because it's only used to revoke your keypair, your data is still safe. But you should generate a
+   new keypair and revoke the old one immediately.
 7. It will be a big problem if your primary key is compromised, and you don't have a revocation
    certificate to revoke it. But since OpenPGP do not have a good way to distribute revocation
    certificate, even you have a revocation certificate, it's still hard to distribute it to
@@ -628,7 +628,7 @@ uid                   [ultimate] test <test@test.t>
 sub   cv25519/0x9E78E897B6490D6B 2024-01-09 [E]
 
 # encrypt some file before revoke the keypair
-› gpg -aer test@test.t README.md > README.md.asc
+› gpg -are test@test.t README.md > README.md.asc
 
 # try to decrypt the file, it should works
 › gpg -d README.md.asc
@@ -695,7 +695,7 @@ gpg: reason for revocation: No reason specified
 # ......
 
 # try to encrypt some file via the revoked key, it will fail.
-› gpg -aer 9E78E897B6490D6B README.md
+› gpg -are 9E78E897B6490D6B README.md
 gpg: 9E78E897B6490D6B: skipped: Unusable public key
 gpg: README.md: encryption failed: Unusable public key
 ```
