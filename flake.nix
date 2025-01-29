@@ -113,6 +113,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
+
     ########################  Some non-flake repositories  #########################################
 
     # doom-emacs is a configuration framework for GNU Emacs.
