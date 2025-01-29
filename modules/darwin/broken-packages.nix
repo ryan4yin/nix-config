@@ -17,6 +17,7 @@ let
     "verible"
     "gdb"
     "ncdu"
+    "racket-minimal"
   ];
 in {
   nixpkgs.overlays = [

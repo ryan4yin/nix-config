@@ -60,7 +60,7 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.1";
+      url = "github:nix-community/lanzaboote/v0.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -82,9 +82,9 @@
     # secrets management
     agenix = {
       # lock with git commit at 0.15.0
-      # url = "github:ryantm/agenix/564595d0ad4be7277e07fa63b5a991b3c645655d";
+      url = "github:ryantm/agenix/564595d0ad4be7277e07fa63b5a991b3c645655d";
       # replaced with a type-safe reimplementation to get a better error message and less bugs.
-      url = "github:ryan4yin/ragenix";
+      # url = "github:ryan4yin/ragenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
