@@ -181,6 +181,7 @@ in {
       "tencent-lemon" # macOS cleaner
       "neteasemusic" # music
       "blender@lts" # 3D creation suite
+      "ibkr"
 
       # Development
       "mitmproxy" # HTTP/HTTPS traffic inspector
