@@ -182,6 +182,7 @@ in {
       "neteasemusic" # music
       "blender@lts" # 3D creation suite
       "ibkr"
+      "mihomo-party" # transparent proxy tool
 
       # Development
       "mitmproxy" # HTTP/HTTPS traffic inspector
