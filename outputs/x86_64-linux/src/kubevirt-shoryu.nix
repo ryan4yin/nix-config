@@ -24,7 +24,10 @@
         "hosts/k8s/${name}"
       ])
       ++ [
-        # {modules.secrets.server.kubernetes.enable = true;}
+        {
+          modules.secrets.server.kubernetes.enable = true;
+          modules.secrets.impermanence.enable = true;
+        }
       ];
     # home-modules = map mylib.relativeToRoot [
     #   "home/linux/tui.nix"
