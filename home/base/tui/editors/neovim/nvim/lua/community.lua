@@ -13,8 +13,6 @@ return {
   -- Highly experimental plugin that completely replaces
   -- the UI for messages, cmdline and the popupmenu.
   -- { import = "astrocommunity.utility.noice-nvim" },
-  -- Fully featured & enhanced replacement for copilot.vim
-  -- <Tab> work with both auto completion in cmp and copilot
   { import = "astrocommunity.media.vim-wakatime" },
   { import = "astrocommunity.motion.leap-nvim" },
   { import = "astrocommunity.motion.flit-nvim" },

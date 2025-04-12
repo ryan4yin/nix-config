@@ -1,4 +1,8 @@
-{pkgs-unstable, ...}: let
+{
+  config,
+  pkgs-unstable,
+  ...
+}: let
   inherit (pkgs-unstable) nu_scripts;
 in {
   programs.bash = {
