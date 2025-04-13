@@ -91,7 +91,7 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
 
     disko = {
-      url = "github:nix-community/disko/v1.9.0";
+      url = "github:nix-community/disko/v1.11.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
