@@ -9,7 +9,7 @@ with lib; let
   cfg = config.modules.desktop.hyprland;
 in {
   imports = [
-    anyrun.homeManagerModules.default
+    # anyrun.homeManagerModules.default # the module is already in hm now.
     ./options
   ];
 
