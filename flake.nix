@@ -117,6 +117,8 @@
       url = "github:ghostty-org/ghostty";
     };
 
+    blender-bin.url = "github:edolstra/nix-warez?dir=blender";
+
     ########################  Some non-flake repositories  #########################################
 
     # doom-emacs is a configuration framework for GNU Emacs.

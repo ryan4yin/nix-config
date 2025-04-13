@@ -3,11 +3,13 @@
   pkgs-unstable,
   # pkgs-stable,
   nur-ryan4yin,
+  blender-bin,
   ...
 }: {
   home.packages = with pkgs; [
     # creative
-    blender # 3d modeling
+    # https://github.com/edolstra/nix-warez/blob/master/blender/flake.nix
+    blender-bin.packages.${pkgs.system}.blender_4_2 # 3d modeling
     # gimp      # image editing, I prefer using figma in browser instead of this one
     inkscape # vector graphics
     krita # digital painting
