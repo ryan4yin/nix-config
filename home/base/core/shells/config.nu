@@ -1,146 +1,177 @@
-# Nushell Config File
+# Nushell Config File Documentation
 #
-# version = 0.81.1
+# Warning: This file is intended for documentation purposes only and
+# is not intended to be used as an actual configuration file as-is.
+#
+# version = "0.103.0"
+#
+# A `config.nu` file is used to override default Nushell settings,
+# define (or import) custom commands, or run any other startup tasks.
+# See https://www.nushell.sh/book/configuration.html
+#
+# Nushell sets "sensible defaults" for most configuration settings, so
+# the user's `config.nu` only needs to override these defaults if
+# desired.
+#
+# This file serves as simple "in-shell" documentation for these
+# settings, or you can view a more complete discussion online at:
+# https://nushell.sh/book/configuration
+#
+# You can pretty-print and page this file using:
+# config nu --doc | nu-highlight | less -R
 
-# let's define some colors
+# $env.config
+# -----------
+# The $env.config environment variable is a record containing most Nushell
+# configuration settings. Keep in mind that, as a record, setting it to a
+# new record will remove any keys which aren't in the new record. Nushell
+# will then automatically merge in the internal defaults for missing keys.
+#
+# The same holds true for keys in the $env.config which are also records
+# or lists.
+#
+# For this reason, settings are typically changed by updating the value of
+# a particular key. Merging a new config record is also possible. See the
+# Configuration chapter of the book for more information.
 
-# https://github.com/catppuccin/i3/blob/main/themes/catppuccin-mocha
-let rosewater = "#f5e0dc"
-let flamingo  = "#f2cdcd"
-let pink      = "#f5c2e7"
-let mauve     = "#cba6f7"
-let red       = "#f38ba8"
-let maroon    = "#eba0ac"
-let peach     = "#fab387"
-let green     = "#a6e3a1"
-let teal      = "#94e2d5"
-let sky       = "#89dceb"
-let sapphire  = "#74c7ec"
-let blue      = "#89b4fa"
-let lavender  = "#b4befe"
-let text      = "#cdd6f4"
-let subtext1  = "#bac2de"
-let subtext0  = "#a6adc8"
-let overlay2  = "#9399b2"
-let overlay1  = "#7f849c"
-let overlay0  = "#6c7086"
-let surface2  = "#585b70"
-let surface1  = "#45475a"
-let surface0  = "#313244"
-let base      = "#1e1e2e"
-let mantle    = "#181825"
-let crust     = "#11111b"
 
-# we're creating a theme here that uses the colors we defined above.
+$env.config.history.file_format = "sqlite"
+$env.config.history.max_size = 5_000_000
 
-let catppuccin_theme = {
-    separator: $overlay2
-    leading_trailing_space_bg: $surface2
-    header: $red
-    date: $pink
-    filesize: $green
-    row_index: $text
-    bool: $peach
-    int: $red
-    duration: $sky
-    range: $sapphire
-    float: $lavender
-    string: $text
-    nothing: $overlay1
-    binary: $subtext1
-    cellpath: $subtext0
-    hints: dark_gray
+# isolation (bool):
+# `true`: New history from other currently-open Nushell sessions is not
+# seen when scrolling through the history using PrevHistory (typically
+# the Up key) or NextHistory (Down key)
+# `false`: All commands entered in other Nushell sessions will be mixed with
+# those from the current shell.
+# Note: Older history items (from before the current shell was started) are
+# always shown.
+# This setting only applies to SQLite-backed history
+$env.config.history.isolation = true
 
-    shape_garbage: { fg: $overlay2 bg: $red attr: b}
-    shape_bool: $maroon
-    shape_int: { fg: $pink attr: b}
-    shape_float: { fg: $pink attr: b}
-    shape_range: { fg: $overlay0 attr: b}
-    shape_internalcall: { fg: $maroon attr: b}
-    shape_external: $mauve
-    shape_externalarg: { fg: $red attr: b}
-    shape_literal: $flamingo
-    shape_operator: $rosewater
-    shape_signature: { fg: $red attr: b}
-    shape_string: $red
-    shape_filepath: $peach
-    shape_globpattern: { fg: $teal attr: b}
-    shape_variable: $pink
-    shape_flag: { fg: $mauve attr: b}
-    shape_custom: {attr: b}
-}
+# ----------------------
+# Miscellaneous Settings
+# ----------------------
 
-# The default config record. This is where much of your global configuration is setup.
-$env.config = {
-  color_config: $catppuccin_theme  # <-- this is the theme
-  use_ansi_coloring: true
+# show_banner (bool): Enable or disable the welcome banner at startup
+$env.config.show_banner = false
 
-  # true or false to enable or disable the welcome banner at startup
-  show_banner: false
-  
-  table: {
-    mode: rounded # basic, compact, compact_double, light, thin, with_love, rounded, reinforced, heavy, none, other
-    index_mode: always # "always" show indexes, "never" show indexes, "auto" = show indexes when a table has "index" column
-    show_empty: true # show 'empty list' and 'empty record' placeholders for command output
-    trim: {
-      methodology: wrapping # wrapping or truncating
-      wrapping_try_keep_words: true # A strategy used by the 'wrapping' methodology
-      truncating_suffix: "..." # A suffix used by the 'truncating' methodology
-    }
-  }
+# rm.always_trash (bool):
+# true: rm behaves as if the --trash/-t option is specified
+# false: rm behaves as if the --permanent/-p option is specified (default)
+$env.config.rm.always_trash = true
 
-  completions: {
-    case_sensitive: false # set to true to enable case-sensitive completions
-    quick: true  # set this to false to prevent auto-selecting completions when only one remains
-    partial: true  # set this to false to prevent partial filling of the prompt
-    algorithm: "prefix"  # prefix or fuzzy
-    external: {
-      enable: true # set to false to prevent nushell looking into $env.PATH to find more suggestions, `false` recommended for WSL users as this look up may be very slow
-      max_results: 100 # setting it lower can improve completion performance at the cost of omitting some options
-      completer: null # check 'carapace_completer' above as an example
-    }
-  }
-  filesize: {
-    metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-    format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, zb, zib, auto
-  }
-  cursor_shape: {
-    emacs: line # block, underscore, line, blink_block, blink_underscore, blink_line (line is the default)
-    vi_insert: block # block, underscore, line , blink_block, blink_underscore, blink_line (block is the default)
-    vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line (underscore is the default)
-  }
-  footer_mode: "auto" # always, never, number_of_rows, auto
-  float_precision: 2 # the precision for displaying floats in tables
-  # buffer_editor: "emacs" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
-  bracketed_paste: true # enable bracketed paste, currently useless on windows
-  edit_mode: emacs # emacs, vi
-  shell_integration: {
-        # osc2 abbreviates the path if in the home_dir, sets the tab/window title, shows the running command in the tab/window title
-        osc2: true
-        # osc7 is a way to communicate the path to the terminal, this is helpful for spawning new tabs in the same directory
-        osc7: true
-        # osc8 is also implemented as the deprecated setting ls.show_clickable_links, it shows clickable links in ls output if your terminal supports it. show_clickable_links is deprecated in favor of osc8
-        osc8: true
-        # osc9_9 is from ConEmu and is starting to get wider support. It's similar to osc7 in that it communicates the path to the terminal
-        osc9_9: false
-        # osc133 is several escapes invented by Final Term which include the supported ones below.
-        # 133;A - Mark prompt start
-        # 133;B - Mark prompt end
-        # 133;C - Mark pre-execution
-        # 133;D;exit - Mark execution finished with exit code
-        # This is used to enable terminals to know where the prompt is, the command is, where the command finishes, and where the output of the command is
-        osc133: true
-        # osc633 is closely related to osc133 but only exists in visual studio code (vscode) and supports their shell integration features
-        # 633;A - Mark prompt start
-        # 633;B - Mark prompt end
-        # 633;C - Mark pre-execution
-        # 633;D;exit - Mark execution finished with exit code
-        # 633;E - NOT IMPLEMENTED - Explicitly set the command line with an optional nonce
-        # 633;P;Cwd=<path> - Mark the current working directory and communicate it to the terminal
-        # and also helps with the run recent menu in vscode
-        osc633: true
-        # reset_application_mode is escape \x1b[?1l and was added to help ssh work better
-        reset_application_mode: true
-    }
-  render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
-}
+# recursion_limit (int): how many times a command can call itself recursively
+# before an error will be generated.
+$env.config.recursion_limit = 50
+
+# ---------------------------
+# Commandline Editor Settings
+# ---------------------------
+
+# edit_mode (string) "vi" or "emacs" sets the editing behavior of Reedline
+$env.config.edit_mode = "vi"
+
+# Command that will be used to edit the current line buffer with Ctrl+O.
+# If unset, uses $env.VISUAL and then $env.EDITOR
+#
+$env.config.buffer_editor = ["nvim", "--clean"]
+
+# cursor_shape_* (string)
+# -----------------------
+# The following variables accept a string from the following selections:
+# "block", "underscore", "line", "blink_block", "blink_underscore", "blink_line", or "inherit"
+# "inherit" skips setting cursor shape and uses the current terminal setting.
+$env.config.cursor_shape.emacs = "inherit"         # Cursor shape in emacs mode
+$env.config.cursor_shape.vi_insert = "block"       # Cursor shape in vi-insert mode
+$env.config.cursor_shape.vi_normal = "underscore"  # Cursor shape in normal vi mode
+
+# --------------------
+# Terminal Integration
+# --------------------
+# Nushell can output a number of escape codes to enable advanced features in Terminal Emulators
+# that support them. Settings in this section enable or disable these features in Nushell.
+# Features aren't supported by your Terminal can be disabled. Features can also be disabled,
+#  of course, if there is a conflict between the Nushell and Terminal's implementation.
+
+# use_kitty_protocol (bool):
+# A keyboard enhancement protocol supported by the Kitty Terminal. Additional keybindings are
+# available when using this protocol in a supported terminal. For example, without this protocol,
+# Ctrl+I is interpreted as the Tab Key. With this protocol, Ctrl+I and Tab can be mapped separately.
+$env.config.use_kitty_protocol = false
+
+# osc2 (bool):
+# When true, the current directory and running command are shown in the terminal tab/window title.
+# Also abbreviates the directory name by prepending ~ to the home directory and its subdirectories.
+$env.config.shell_integration.osc2 = true
+
+# osc7 (bool):
+# Nushell will report the current directory to the terminal using OSC 7. This is useful when
+# spawning new tabs in the same directory.
+$env.config.shell_integration.osc7 = true
+
+# osc9_9 (bool):
+# Enables/Disables OSC 9;9 support, originally a ConEmu terminal feature. This is an
+# alternative to OSC 7 which also communicates the current path to the terminal.
+$env.config.shell_integration.osc9_9 = false
+
+# osc8 (bool):
+# When true, the `ls` command will generate clickable links that can be launched in another
+# application by the terminal.
+# Note: This setting replaces the now deprecated `ls.clickable_links`
+$env.config.shell_integration.osc8 = true
+
+# osc133 (bool):
+# true/false to enable/disable OSC 133 support, a set of several escape sequences which
+# report the (1) starting location of the prompt, (2) ending location of the prompt,
+# (3) starting location of the command output, and (4) the exit code of the command.
+
+# originating with Final Term. These sequences report information regarding the prompt
+# location as well as command status to the terminal. This enables advanced features in
+# some terminals, including the ability to provide separate background colors for the
+# command vs. the output, collapsible output, or keybindings to scroll between prompts.
+$env.config.shell_integration.osc133 = true
+
+# osc633 (bool):
+# true/false to enable/disable OSC 633, an extension to OSC 133 for Visual Studio Code
+$env.config.shell_integration.osc633 = true
+
+# NU_LIB_DIRS
+# -----------
+# Directories in this constant are searched by the
+# `use` and `source` commands.
+#
+# By default, the `scripts` subdirectory of the default configuration
+# directory is included:
+const NU_LIB_DIRS = [
+    ($nu.default-config-dir | path join 'scripts') # add <nushell-config-dir>/scripts
+    ($nu.data-dir | path join 'completions') # default home for nushell completions
+]
+# You can replace (override) or append to this list by shadowing the constant
+const NU_LIB_DIRS = $NU_LIB_DIRS ++ [($nu.default-config-dir | path join 'modules')]
+
+# An environment variable version of this also exists. It is searched after the constant.
+$env.NU_LIB_DIRS ++= [ ($nu.data-dir | path join "nu_scripts") ]
+
+# NU_PLUGIN_DIRS
+# --------------
+# Directories to search for plugin binaries when calling add.
+
+# By default, the `plugins` subdirectory of the default configuration
+# directory is included:
+const NU_PLUGIN_DIRS = [
+    ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
+]
+# You can replace (override) or append to this list by shadowing the constant
+const NU_PLUGIN_DIRS = $NU_PLUGIN_DIRS ++ [($nu.default-config-dir | path join 'plugins')]
+
+# As with NU_LIB_DIRS, an $env.NU_PLUGIN_DIRS is searched after the constant version
+
+# The `path add` function from the Standard Library also provides
+# a convenience method for prepending to the path:
+use std/util "path add"
+path add "~/.local/bin"
+
+# You can remove duplicate directories from the path using:
+$env.PATH = ($env.PATH | uniq)
+
