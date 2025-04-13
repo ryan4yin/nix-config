@@ -25,19 +25,24 @@ in {
     # https://github.com/nushell/nushell/issues/8214
     extraConfig = ''
       source /etc/agenix/alias-for-work.nushell
+
+      # Directories in this constant are searched by the
+      # `use` and `source` commands.
+      const NU_LIB_DIRS = $NU_LIB_DIRS ++ ['${nu_scripts}/share/nu_scripts']
+
       # completion
-      use ${nu_scripts}/share/nu_scripts/custom-completions/git/git-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/glow/glow-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/just/just-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/make/make-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/man/man-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/nix/nix-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/cargo/cargo-completions.nu *
-      use ${nu_scripts}/share/nu_scripts/custom-completions/zellij/zellij-completions.nu *
+      use custom-completions/git/git-completions.nu *
+      use custom-completions/glow/glow-completions.nu *
+      use custom-completions/just/just-completions.nu *
+      use custom-completions/make/make-completions.nu *
+      use custom-completions/man/man-completions.nu *
+      use custom-completions/nix/nix-completions.nu *
+      use custom-completions/cargo/cargo-completions.nu *
+      use custom-completions/zellij/zellij-completions.nu *
       # alias
-      # use ${nu_scripts}/share/nu_scripts/aliases/git/git-aliases.nu *
-      use ${nu_scripts}/share/nu_scripts/aliases/eza/eza-aliases.nu *
-      use ${nu_scripts}/share/nu_scripts/aliases/bat/bat-aliases.nu *
+      use aliases/git/git-aliases.nu *
+      use aliases/eza/eza-aliases.nu *
+      use aliases/bat/bat-aliases.nu *
     '';
   };
 }
