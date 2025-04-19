@@ -318,39 +318,6 @@ k3s-test:
   colmena apply --on '@k3s-test-*' --verbose --show-trace
 
 # =================================================
-# Emacs related commands
-# =================================================
-
-[group('emacs')]
-emacs-test:
-  doom clean
-  doom sync
-
-[group('emacs')]
-emacs-purge:
-  doom purge
-  doom clean
-  doom sync
-
-[linux]
-[group('emacs')]
-emacs-reload:
-  doom sync
-  systemctl --user restart emacs.service
-  systemctl --user status emacs.service
-
-
-emacs-plist-path := "~/Library/LaunchAgents/org.nix-community.home.emacs.plist"
-
-[macos]
-[group('emacs')]
-emacs-reload:
-  doom sync
-  launchctl unload {{emacs-plist-path}}
-  launchctl load {{emacs-plist-path}}
-  tail -f ~/Library/Logs/emacs-daemon.stderr.log
-
-# =================================================
 #
 # Other useful commands
 #

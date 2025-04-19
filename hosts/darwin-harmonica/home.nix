@@ -11,7 +11,4 @@ _: {
         IdentitiesOnly yes
     '';
   };
-  modules.editors.emacs = {
-    enable = true;
-  };
 }

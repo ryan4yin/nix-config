@@ -70,7 +70,7 @@ You don't have to go through the pain I've experienced again! Check out my
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                           |
 | **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc]                                                                          |
 | **Media Player**            | [mpv][mpv]                                                                                                          |
-| **Text Editor**             | [Neovim][Neovim] + [DoomEmacs][DoomEmacs]                                                                           |
+| **Text Editor**             | [Neovim][Neovim]                                                                                                    |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                            |
 | **Image Viewer**            | [imv][imv]                                                                                                          |
 | **Screenshot Software**     | [flameshot][flameshot] + [grim][grim]                                                                               |
@@ -80,21 +80,15 @@ You don't have to go through the pain I've experienced again! Check out my
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
 
-## Hyprland + AstroNvim + DoomEmacs
+## Hyprland + AstroNvim
 
 ![](./_img/hyprland_2023-07-29_1.webp)
 
 ![](./_img/hyprland_2023-07-29_2.webp)
 
-![](./_img/emacs-2024-01-07.webp)
-
 ## Neovim
 
 See [./home/base/tui/editors/neovim/](./home/base/tui/editors/neovim/) for details.
-
-## Emacs
-
-See [./home/base/tui/editors/emacs/](./home/base/tui/editors/emacs/) for details.
 
 ## Secrets Management
 
@@ -199,7 +193,6 @@ Other dotfiles that inspired me:
 [Zellij]: https://github.com/zellij-org/zellij
 [Neovim]: https://github.com/neovim/neovim
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
-[DoomEmacs]: https://github.com/doomemacs/doomemacs
 [flameshot]: https://github.com/flameshot-org/flameshot
 [grim]: https://github.com/emersion/grim
 [flameshot]: https://github.com/flameshot-org/flameshot
