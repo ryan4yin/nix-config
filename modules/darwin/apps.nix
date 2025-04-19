@@ -182,7 +182,6 @@ in {
       "tencent-lemon" # macOS cleaner
       "neteasemusic" # music
       "blender@lts" # 3D creation suite
-      "ibkr"
       "mihomo-party" # transparent proxy tool
 
       # Development
