@@ -21,20 +21,26 @@ return {
     -- add any opts here
     provider = "deepseek",
     vendors = {
+      openrouter = {
+        __inherited_from = "openai",
+        endpoint = "https://openrouter.ai/api/v1",
+        api_key_name = "OPENROUTER_API_KEY",
+        model = "deepseek/deepseek-chat-v3-0324:free",
+      },
       deepseek = {
         __inherited_from = "openai",
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "https://api.deepseek.com",
-        model = "deepseek-chat",
+        model = "deepseek-coder",
       },
     },
     -- WARNING: Since auto-suggestions are a high-frequency operation and therefore expensive,
     -- currently designating it as `copilot` provider is dangerous because: https://github.com/yetone/avante.nvim/issues/1048
     -- Of course, you can reduce the request frequency by increasing `suggestion.debounce`.
-    auto_suggestions_provider = "deepseek",
+    auto_suggestions_provider = "openrouter",
     suggestion = {
       debounce = 750, -- wait for x ms before suggestion
-      throttle = 1200,  -- wait for at least x ms before the next suggestion
+      throttle = 1200, -- wait for at least x ms before the next suggestion
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
