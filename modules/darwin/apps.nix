@@ -163,7 +163,7 @@ in {
       "ghostty" # terminal emulator
 
       # https://joplinapp.org/help/
-      # "joplin" # note taking app
+      "joplin" # note taking app
 
       # IM & audio & remote desktop & meeting
       "telegram"
