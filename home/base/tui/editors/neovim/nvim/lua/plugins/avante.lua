@@ -54,6 +54,13 @@ return {
         endpoint = "https://api.deepseek.com",
         model = "deepseek-reasoner",
       },
+      aliyun_qwen3 = {
+        __inherited_from = "openai",
+        api_key_name = "DASHSCOPE_API_KEY",
+        endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        -- model = "qwen-coder-plus-latest",
+        model = "qwen3-235b-a22b",
+      },
     },
     -- WARNING: Since auto-suggestions are a high-frequency operation and therefore expensive,
     -- currently designating it as `copilot` provider is dangerous because: https://github.com/yetone/avante.nvim/issues/1048
