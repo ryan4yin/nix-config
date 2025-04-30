@@ -21,6 +21,11 @@ return {
   opts = {
     -- add any opts here
     provider = "deepseek_coder",
+    ollama = {
+      endpoint = "http://127.0.0.1:11434", -- Note that there is no /v1 at the end.
+      model = "modelscope.cn/unsloth/Qwen3-30B-A3B-GGUF",
+      -- model = "modelscope.cn/unsloth/Qwen3-235B-A22B-GGUF",
+    },
     vendors = {
       openrouter_claude_4_7_sonnet = {
         __inherited_from = "openai",
