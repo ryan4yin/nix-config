@@ -170,7 +170,8 @@ in {
       # "discord" # update too frequently, use the web version instead
       "microsoft-remote-desktop"
       "moonlight" # remote desktop client
-      "rustdesk"
+      "rustdesk" # meeting
+      "zoom" # meeting
 
       # Misc
       # "shadowsocksx-ng" # proxy tool
