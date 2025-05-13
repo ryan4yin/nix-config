@@ -268,6 +268,12 @@ run = ['layout floating', 'move-node-to-workspace 9File']
 if.app-id = 'com.apple.Preview'
 run = ['layout floating', 'move-node-to-workspace 9File']
 
+
+# Auth UI
+[[on-window-detected]]
+if.app-id = 'com.apple.SecurityAgent'
+run = ['layout floating']
+
 # Make all windows float by default
 [[on-window-detected]]
 check-further-callbacks = true
