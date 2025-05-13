@@ -20,6 +20,6 @@
   sshAuthorizedKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKlN+Q/GxvwxDX/OAjJHaNFEznEN4Tw4E4TwqQu/eD6 ryan@idols-ai"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFIznBmtZlMcVUL+uPFltLTNa8Y1J0aT1E36AXQV07su ryan@fern"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwZ9MdotnyhxIJrI4gmVshExHiZOx+FGFhcW7BaYkfR ryan@harmonica"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDc1PNTXzzvd93E+e9LXvnEzqgUI5gMTEF/IitvzgmL+ ryan@frieren"
   ];
 }

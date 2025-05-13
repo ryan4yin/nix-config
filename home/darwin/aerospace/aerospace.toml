@@ -203,8 +203,19 @@ run = 'move-node-to-workspace 1Kitty'
 if.app-id = 'org.alacritty'
 run = 'move-node-to-workspace 2Alacritty'
 
+
+# [[on-window-detected]]
+# if.app-id = 'com.tencent.WeWorkMac'
+# run = 'move-node-to-workspace 3Work'
+
 [[on-window-detected]]
-if.app-id = 'com.tencent.WeWorkMac'
+# if.app-id = 'com.tencent.WeWorkMac'
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace 3Work'
+
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
 run = 'move-node-to-workspace 3Work'
 
 [[on-window-detected]]
@@ -267,13 +278,13 @@ run = ['layout floating', 'move-node-to-workspace 0Other']
 # =================================================================
 
 [workspace-to-monitor-force-assignment]
-1Kitty = 'secondary'  # Non-main monitor in case when there are only two monitors'
+1Kitty = 'main'  # Non-main monitor in case when there are only two monitors'
 2Alacritty = 'main'         # "Main" monitor ("main" as in System Settings → Displays → Use as)
-3Work = 'main'
+3Work = ['secondary', 'main']
 4Firefox = 'main'
-5Chrome = 'secondary'
-6Chat = 'main'
-7Music = 'main'
+5Chrome = 'main'
+6Chat = ['secondary', 'main']
+7Music = ['secondary', 'main']
 8Mail = 'main'
 9File = 'main'
 0Other = 'main'
