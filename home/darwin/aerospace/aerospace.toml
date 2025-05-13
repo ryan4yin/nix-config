@@ -263,6 +263,10 @@ run = ['layout floating', 'move-node-to-workspace 9File']
 if.app-id = 'com.apple.iBooksX'
 run = ['layout floating', 'move-node-to-workspace 9File']
 
+[[on-window-detected]]
+if.app-id = 'net.cozic.joplin-desktop'
+run = ['layout floating', 'move-node-to-workspace 9File']
+
 # Book/Picture Preview
 [[on-window-detected]]
 if.app-id = 'com.apple.Preview'
