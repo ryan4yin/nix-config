@@ -1,11 +1,11 @@
 _:
 #############################################################
 #
-#  Fern - MacBook Pro 2022 13-inch M2 16G.
+#  Fern - MacBook Pro 2024 14-inch M4 Pro 48G, mainly for business.
 #
 #############################################################
 let
-  hostname = "fern";
+  hostname = "frieren";
 in {
   networking.hostName = hostname;
   networking.computerName = hostname;

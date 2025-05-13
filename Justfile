@@ -151,6 +151,15 @@ fe mode="default":
   darwin-build "fern" {{mode}};
   darwin-switch "fern" {{mode}}
 
+# Depoly to frieren(macOS host)
+[macos]
+[group('desktop')]
+fr mode="default": 
+  #!/usr/bin/env nu
+  use {{utils_nu}} *;
+  darwin-build "frieren" {{mode}};
+  darwin-switch "frieren" {{mode}}
+
 # Reset launchpad to force it to reindex Applications
 [macos]
 [group('desktop')]
