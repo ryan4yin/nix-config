@@ -273,9 +273,14 @@ if.app-id = 'com.apple.Preview'
 run = ['layout floating', 'move-node-to-workspace 9File']
 
 
-# Auth UI
+# Auth UI - do not move it
 [[on-window-detected]]
 if.app-id = 'com.apple.SecurityAgent'
+run = ['layout floating']
+
+# System Settings - do not move it
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
 run = ['layout floating']
 
 # Make all windows float by default
