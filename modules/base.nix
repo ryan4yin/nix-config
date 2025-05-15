@@ -85,6 +85,8 @@
     openssh.authorizedKeys.keys = myvars.mainSshAuthorizedKeys;
   };
 
+  programs.ssh = myvars.networking.ssh;
+
   nix.settings = {
     # enable flakes globally
     experimental-features = ["nix-command" "flakes"];
