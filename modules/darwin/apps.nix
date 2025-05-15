@@ -159,6 +159,9 @@ in {
       # https://joplinapp.org/help/
       "joplin" # note taking app
 
+      # AI
+      "lm-studio"
+
       # IM & audio & remote desktop & meeting
       "telegram"
       "qq"
