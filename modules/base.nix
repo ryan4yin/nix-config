@@ -82,7 +82,7 @@
     #      ```
     #    2. Never leave the device and never sent over the network.
     # 2. Or just use hardware security keys like Yubikey/CanoKey.
-    openssh.authorizedKeys.keys = myvars.sshAuthorizedKeys;
+    openssh.authorizedKeys.keys = myvars.mainSshAuthorizedKeys;
   };
 
   nix.settings = {
