@@ -1,4 +1,6 @@
-{
+{config, ...}: let
+  hostName = "shoukei"; # Define your hostname.
+in {
   modules.desktop.hyprland = {
     nvidia = false;
     settings = {
@@ -11,16 +13,5 @@
     };
   };
 
-  programs.ssh = {
-    enable = true;
-    extraConfig = ''
-      Host github.com
-        Hostname github.com
-        # github is controlled by shoukei~
-        IdentityFile ~/.ssh/shoukei
-        # Specifies that ssh should only use the identity file explicitly configured above
-        # required to prevent sending default identity files first.
-        IdentitiesOnly yes
-    '';
-  };
+  programs.ssh.matchBlocks."github.com".identityFile = "${config.home.homeDirectory}/.ssh/${hostName}";
 }
