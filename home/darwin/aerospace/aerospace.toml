@@ -203,10 +203,9 @@ run = 'move-node-to-workspace 1Kitty'
 if.app-id = 'org.alacritty'
 run = 'move-node-to-workspace 2Alacritty'
 
-
-# [[on-window-detected]]
-# if.app-id = 'com.tencent.WeWorkMac'
-# run = 'move-node-to-workspace 3Work'
+[[on-window-detected]]
+if.app-id = 'com.tencent.WeWorkMac'
+run = 'move-node-to-workspace 3Work'
 
 [[on-window-detected]]
 # if.app-id = 'com.tencent.WeWorkMac'
@@ -272,6 +271,17 @@ run = ['layout floating', 'move-node-to-workspace 9File']
 if.app-id = 'com.apple.Preview'
 run = ['layout floating', 'move-node-to-workspace 9File']
 
+[[on-window-detected]]
+if.app-id = 'org.wireshark.Wireshark'
+run = ['layout floating', 'move-node-to-workspace 0Other']
+
+[[on-window-detected]]
+if.app-id = 'ai.elementlabs.lmstudio'
+run = ['layout floating', 'move-node-to-workspace 0Other']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = ['layout floating', 'move-node-to-workspace 0Other']
 
 # Auth UI - do not move it
 [[on-window-detected]]
@@ -286,7 +296,7 @@ run = ['layout floating']
 # Make all windows float by default
 [[on-window-detected]]
 check-further-callbacks = true
-run = ['layout floating', 'move-node-to-workspace 0Other']
+run = ['layout floating']
 
 # =================================================================
 # Multiple monitor configuration
