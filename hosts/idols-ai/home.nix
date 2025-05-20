@@ -1,6 +1,4 @@
-{config, ...}: let
-  hostName = "ai"; # Define your hostname.
-in {
+{config, ...}: {
   modules.desktop = {
     hyprland = {
       nvidia = true;
@@ -15,5 +13,5 @@ in {
     };
   };
 
-  programs.ssh.matchBlocks."github.com".identityFile = "${config.home.homeDirectory}/.ssh/${hostName}";
+  programs.ssh.matchBlocks."github.com".identityFile = "${config.home.homeDirectory}/.ssh/idols-ai";
 }
