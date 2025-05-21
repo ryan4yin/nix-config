@@ -19,7 +19,7 @@
 
     # 2d game design
     ldtk # A modern, versatile 2D level editor
-    aseprite # Animated sprite editor & pixel art tool
+    # aseprite # Animated sprite editor & pixel art tool
 
     # this app consumes a lot of storage, so do not install it currently
     # kicad     # 3d printing, eletrical engineering
