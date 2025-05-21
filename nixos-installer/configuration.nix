@@ -18,5 +18,5 @@
     networkmanager.enable = true;
     defaultGateway = "192.168.5.101";
   };
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }

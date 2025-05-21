@@ -12,7 +12,7 @@
 #   journalctl --user -u sunshine --since "2 minutes ago"
 #
 # References:
-#   https://github.com/NixOS/nixpkgs/blob/nixos-24.11/nixos/modules/services/networking/sunshine.nix
+#   https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/networking/sunshine.nix
 #
 # ===============================================================================
 {

@@ -44,9 +44,9 @@ export def darwin-switch [
     mode: string
 ] {
     if "debug" == $mode {
-        ./result/sw/bin/darwin-rebuild switch --flake $".#($name)" --show-trace --verbose
+        sudo -E ./result/sw/bin/darwin-rebuild switch --flake $".#($name)" --show-trace --verbose
     } else {
-        ./result/sw/bin/darwin-rebuild switch --flake $".#($name)"
+        sudo -E ./result/sw/bin/darwin-rebuild switch --flake $".#($name)"
     }
 }
 
