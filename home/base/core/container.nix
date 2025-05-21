@@ -12,7 +12,14 @@
     go-containerregistry # provides `crane` & `gcrane`, it's similar to skopeo
 
     kubectl
-    kubectx
+    kubectx # kubectx & kubens
+    kubectl-view-secret # kubectl view-secret
+    kubectl-tree # kubectl tree
+    kubectl-node-shell # exec into node
+    kubepug # kubernetes pre upgrade checker
+    k8sgpt
+    # kubectl-ai # an ai helper opensourced by google
+
     kubebuilder
     istioctl
     clusterctl # for kubernetes cluster-api
@@ -46,6 +53,10 @@
         );
       in
         skin_attr;
+    };
+    kubecolor = {
+      enable = true;
+      enableAlias = true;
     };
   };
 }
