@@ -43,11 +43,13 @@ in {
       use custom-completions/tar/tar-completions.nu *
       use custom-completions/tcpdump/tcpdump-completions.nu *
       use custom-completions/zellij/zellij-completions.nu *
-      use custom-completions/zoxide/zoxide-completions.nu *
+      # use custom-completions/zoxide/zoxide-completions.nu *
+
       # alias
       use aliases/git/git-aliases.nu *
       use aliases/eza/eza-aliases.nu *
       use aliases/bat/bat-aliases.nu *
+
       # modules
       use modules/argx *
       use modules/lg *
