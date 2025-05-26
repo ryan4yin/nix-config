@@ -45,10 +45,11 @@ mkNixPak {
         # NOTE: sloth.mkdir is used to create the directory if it does not exist!
         (sloth.mkdir (sloth.concat' sloth.homeDir "/.mozilla"))
 
-        sloth.xdgDownloadDir
         # ================ for externsions ===============================
         # required by https://github.com/browserpass/browserpass-extension
         (sloth.concat' sloth.homeDir "/.local/share/password-store") # pass
+        sloth.xdgDownloadDir
+        sloth.xdgDocumentsDir
       ];
       bind.ro = [
         # To actually make Firefox run

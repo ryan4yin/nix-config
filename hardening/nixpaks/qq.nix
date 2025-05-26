@@ -41,7 +41,8 @@ mkNixPak {
         # given the read write permission to the following directories.
         # NOTE: sloth.mkdir is used to create the directory if it does not exist!
         (sloth.mkdir (sloth.concat [sloth.xdgConfigHome "/QQ"]))
-        (sloth.mkdir (sloth.concat [sloth.xdgDownloadDir "/QQ"]))
+        (sloth.mkdir (sloth.concat [sloth.xdgDocumentsDir "/QQ"]))
+        sloth.xdgDownloadDir
       ];
       sockets = {
         x11 = false;
