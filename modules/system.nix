@@ -76,11 +76,15 @@
 
       # normal fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
 
       # nerdfonts
-      (nerdfonts.override {fonts = ["FiraCode" "JetBrainsMono"];})
+      # https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
+      nerd-fonts.symbols-only # symbols icon only
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.iosevka
     ];
 
     # use fonts specified by user rather than default ones
@@ -133,8 +137,7 @@
   ];
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   services.power-profiles-daemon = {
     enable = true;
   };
@@ -158,6 +161,6 @@
       #media-session.enable = true;
     };
 
-    udev.packages = with pkgs; [gnome.gnome-settings-daemon];
+    udev.packages = with pkgs; [gnome-settings-daemon];
   };
 }
