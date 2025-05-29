@@ -138,12 +138,6 @@ in {
             file = "${mysecrets}/alias-for-work.nushell.age";
           }
           // user_readable;
-
-        "alias-for-work.bash" =
-          {
-            file = "${mysecrets}/alias-for-work.bash.age";
-          }
-          // user_readable;
       };
 
       # place secrets in /etc/
@@ -172,10 +166,6 @@ in {
         # So we need to make then readable by the user
         "agenix/alias-for-work.nushell" = {
           source = config.age.secrets."alias-for-work.nushell".path;
-          mode = "0644"; # both the original file and the symlink should be readable and executable by the user
-        };
-        "agenix/alias-for-work.bash" = {
-          source = config.age.secrets."alias-for-work.bash".path;
           mode = "0644"; # both the original file and the symlink should be readable and executable by the user
         };
       };

@@ -5,18 +5,6 @@
 }: let
   inherit (pkgs-unstable) nu_scripts;
 in {
-  programs.bash = {
-    # load the alias file for work
-    bashrcExtra = ''
-      alias_for_work=/etc/agenix/alias-for-work.bash
-      if [ -f $alias_for_work ]; then
-        . $alias_for_work
-      else
-        echo "No alias file found for work"
-      fi
-    '';
-  };
-
   programs.nushell = {
     # load the alias file for work
     # the file must exist, otherwise nushell will complain about it!

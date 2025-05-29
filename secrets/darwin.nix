@@ -90,12 +90,6 @@
         file = "${mysecrets}/alias-for-work.nushell.age";
       }
       // user_readable;
-
-    "alias-for-work.bash" =
-      {
-        file = "${mysecrets}/alias-for-work.bash.age";
-      }
-      // user_readable;
   };
 
   # place secrets in /etc/
@@ -124,9 +118,6 @@
     # So we need to change its mode manually
     "agenix/alias-for-work.nushell" = {
       source = config.age.secrets."alias-for-work.nushell".path;
-    };
-    "agenix/alias-for-work.bash" = {
-      source = config.age.secrets."alias-for-work.bash".path;
     };
   };
 
