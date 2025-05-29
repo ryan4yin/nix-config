@@ -13,6 +13,6 @@ Nix allows for easy to manage, collaborative, reproducible deployments. This mea
 After installed NixOS with `nix-command` & `flake` enabled, you can deploy this flake with the following command:
 
 ```bash
-sudo nixos-rebuild switch .#nixos-test
+sudo nixos-rebuild switch --flake .#nixos-test
 ```
 
