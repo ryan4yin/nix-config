@@ -40,5 +40,10 @@
 
   services = {
     playerctld.enable = true;
+
+    flameshot = {
+      enable = true;
+      package = pkgs.flameshot.override {enableWlrSupport = true;};
+    };
   };
 }
