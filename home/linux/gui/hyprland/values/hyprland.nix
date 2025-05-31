@@ -1,11 +1,26 @@
 {
   pkgs,
+  config,
   lib,
   nur-ryan4yin,
   ...
 }: let
   package = pkgs.hyprland;
 in {
+  # hyprland configs, based on https://github.com/notwidow/hyprland
+  xdg.configFile = let
+    mkSymlink = config.lib.file.mkOutOfStoreSymlink;
+    hyprPath = "${config.home.homeDirectory}/nix-config/home/linux/gui/hyprland/conf";
+  in {
+    "hypr/configs".source = mkSymlink "${hyprPath}/configs";
+    "hypr/mako".source = mkSymlink "${hyprPath}/mako";
+    "hypr/scripts".source = mkSymlink "${hyprPath}/scripts";
+    "hypr/waybar".source = mkSymlink "${hyprPath}/waybar";
+    "hypr/wlogout".source = mkSymlink "${hyprPath}/wlogout";
+    # music player - mpd
+    "mpd".source = mkSymlink "${hyprPath}/mako";
+  };
+
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
   # so that gammastep/wallpaper-switcher's user service can be start correctly!
@@ -14,7 +29,16 @@ in {
     inherit package;
     enable = true;
     settings = {
-      source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf";
+      source = let
+        configPath = "${config.home.homeDirectory}/.config/hypr/configs";
+      in [
+        "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf"
+        "${configPath}/exec.conf"
+        "${configPath}/fcitx5.conf"
+        "${configPath}/keybindings.conf"
+        "${configPath}/settings.conf"
+        "${configPath}/windowrules.conf"
+      ];
       env = [
         "NIXOS_OZONE_WL,1" # for any ozone-based browser & electron apps to run on wayland
         "MOZ_ENABLE_WAYLAND,1" # for firefox to run on wayland
@@ -27,7 +51,6 @@ in {
         "GDK_BACKEND,wayland"
       ];
     };
-    extraConfig = builtins.readFile ../conf/hyprland.conf;
     # gammastep/wallpaper-switcher need this to be enabled.
     systemd = {
       enable = true;
@@ -40,31 +63,5 @@ in {
   home.file.".wayland-session" = {
     source = "${package}/bin/Hyprland";
     executable = true;
-  };
-
-  # hyprland configs, based on https://github.com/notwidow/hyprland
-  xdg.configFile = {
-    "hypr/mako" = {
-      source = ../conf/mako;
-      recursive = true;
-    };
-    "hypr/scripts" = {
-      source = ../conf/scripts;
-      recursive = true;
-    };
-    "hypr/waybar" = {
-      source = ../conf/waybar;
-      recursive = true;
-    };
-    "hypr/wlogout" = {
-      source = ../conf/wlogout;
-      recursive = true;
-    };
-
-    # music player - mpd
-    "mpd" = {
-      source = ../conf/mpd;
-      recursive = true;
-    };
   };
 }
