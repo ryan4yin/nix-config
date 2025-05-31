@@ -76,7 +76,6 @@ tooltip label {
 #memory,
 #temperature,
 #cpu,
-#mpd,
 #custom-wall,
 #temperature,
 #backlight,
@@ -150,13 +149,4 @@ tooltip label {
   padding-right: 8px;
   padding-left: 10px;
 }
-#mpd.paused {
-  color: #414868;
-  font-style: italic;
-}
-#mpd.stopped {
-  background: transparent;
-}
-#mpd {
-  color: #c0caf5;
-}
+

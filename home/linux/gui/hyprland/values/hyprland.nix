@@ -17,8 +17,6 @@ in {
     "hypr/scripts".source = mkSymlink "${hyprPath}/scripts";
     "hypr/waybar".source = mkSymlink "${hyprPath}/waybar";
     "hypr/wlogout".source = mkSymlink "${hyprPath}/wlogout";
-    # music player - mpd
-    "mpd".source = mkSymlink "${hyprPath}/mako";
   };
 
   # NOTE:

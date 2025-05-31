@@ -68,7 +68,6 @@ You don't have to go through the pain I've experienced again! Check out my
 | **System resource monitor** | [Btop][Btop]                                                                                                        |
 | **File Manager**            | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                           |
-| **Music Player**            | [mpd][mpd], [ncmpcpp][ncmpcpp], [mpc][mpc]                                                                          |
 | **Media Player**            | [mpv][mpv]                                                                                                          |
 | **Text Editor**             | [Neovim][Neovim]                                                                                                    |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                            |
@@ -201,10 +200,6 @@ Other dotfiles that inspired me:
 [Mako]: https://github.com/emersion/mako
 [Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
 [catppuccin]: https://github.com/catppuccin/catppuccin
-[mpd]: https://github.com/MusicPlayerDaemon/MPD
-[ncmpcpp]: https://github.com/ncmpcpp/ncmpcpp
-[mpc]: https://github.com/MusicPlayerDaemon/mpc
-[Netease-cloud-music-gtk]: https://github.com/gmg137/netease-cloud-music-gtk
 [NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard
 [GDM]: https://wiki.archlinux.org/title/GDM
