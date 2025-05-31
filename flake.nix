@@ -144,6 +144,8 @@
     };
 
     nur-ryan4yin.url = "github:ryan4yin/nur-packages";
-    nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
+
+    # for waydroid
+    # nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
   };
 }
