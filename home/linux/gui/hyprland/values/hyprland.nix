@@ -7,17 +7,31 @@
 }: let
   package = pkgs.hyprland;
 in {
-  # hyprland configs, based on https://github.com/notwidow/hyprland
   xdg.configFile = let
     mkSymlink = config.lib.file.mkOutOfStoreSymlink;
     hyprPath = "${config.home.homeDirectory}/nix-config/home/linux/gui/hyprland/conf";
   in {
+    "mako".source = mkSymlink "${hyprPath}/mako";
+    "waybar".source = mkSymlink "${hyprPath}/waybar";
+    "wlogout".source = mkSymlink "${hyprPath}/wlogout";
+    "hypr/hypridle.conf".source = mkSymlink "${hyprPath}/hypridle.conf";
     "hypr/configs".source = mkSymlink "${hyprPath}/configs";
-    "hypr/mako".source = mkSymlink "${hyprPath}/mako";
-    "hypr/scripts".source = mkSymlink "${hyprPath}/scripts";
-    "hypr/waybar".source = mkSymlink "${hyprPath}/waybar";
-    "hypr/wlogout".source = mkSymlink "${hyprPath}/wlogout";
   };
+
+  # status bar
+  programs.waybar.enable = true;
+
+  # screen locker
+  programs.hyprlock.enable = true;
+
+  # Logout Menu
+  programs.wlogout.enable = true;
+
+  # Hyprland idle daemon
+  services.hypridle.enable = true;
+
+  # notification daemon, the same as dunst
+  services.mako.enable = true;
 
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,

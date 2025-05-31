@@ -50,14 +50,14 @@
   },
   "custom/launcher": {
     "format": "\uf313 ",
-    "on-click": "$HOME/.config/hypr/scripts/menu",
+    "on-click": "anyrun",
     "on-click-middle": "exec default_wall",
     "on-click-right": "exec wallpaper_random",
     "tooltip": false,
   },
   "custom/powermenu": {
     "format": "\uf011",
-    "on-click": "$HOME/.config/hypr/scripts/wlogout",
+    "on-click": "wlogout",
     "tooltip": false,
   },
   "idle_inhibitor": {

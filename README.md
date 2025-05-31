@@ -72,7 +72,7 @@ You don't have to go through the pain I've experienced again! Check out my
 | **Text Editor**             | [Neovim][Neovim]                                                                                                    |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                            |
 | **Image Viewer**            | [imv][imv]                                                                                                          |
-| **Screenshot Software**     | [flameshot][flameshot] + [grim][grim]                                                                               |
+| **Screenshot Software**     | [flameshot][flameshot]                                                                               |
 | **Screen Recording**        | [OBS][OBS]                                                                                                          |
 | **Filesystem & Encryption** | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
 | **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                            |
@@ -193,7 +193,6 @@ Other dotfiles that inspired me:
 [Neovim]: https://github.com/neovim/neovim
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
 [flameshot]: https://github.com/flameshot-org/flameshot
-[grim]: https://github.com/emersion/grim
 [flameshot]: https://github.com/flameshot-org/flameshot
 [imv]: https://sr.ht/~exec64/imv/
 [OBS]: https://obsproject.com
