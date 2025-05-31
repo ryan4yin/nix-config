@@ -3,12 +3,6 @@
   pkgs-unstable,
   ...
 }: {
-  nixpkgs.config = {
-    programs.npm.npmrc = ''
-      prefix = ''${HOME}/.npm-global
-    '';
-  };
-
   home.packages = with pkgs; (
     # -*- Data & Configuration Languages -*-#
     [
