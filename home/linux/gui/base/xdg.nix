@@ -61,6 +61,8 @@
         # https://github.com/microsoft/vscode/issues/146408
         "x-scheme-handler/vscode" = ["code-url-handler.desktop"]; # open `vscode://` url with `code-url-handler.desktop`
         "x-scheme-handler/vscode-insiders" = ["code-insiders-url-handler.desktop"]; # open `vscode-insiders://` url with `code-insiders-url-handler.desktop`
+        "x-scheme-handler/zoommtg" = ["Zoom.desktop"];
+
         # all other unknown schemes will be opened by this default application.
         # "x-scheme-handler/unknown" = editor;
 

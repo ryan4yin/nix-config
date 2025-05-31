@@ -21,6 +21,8 @@
     vdpauinfo
     vulkan-tools
     glxinfo
+
+    zoom-us
   ];
 
   # https://github.com/catppuccin/cava
