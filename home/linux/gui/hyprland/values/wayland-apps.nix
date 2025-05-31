@@ -25,7 +25,6 @@
     # firefox-wayland
     nixpaks.firefox
     nixpaks.firefox-desktop-item
-    code-cursor # an AI code editor
   ];
 
   programs = {
