@@ -32,7 +32,7 @@
       enable = true;
       # let `xdg-open` to open the url with the correct application.
       defaultApplications = let
-        browser = ["firefox.desktop"];
+        browser = ["firefox.desktop" "google-chrome.desktop"];
         editor = ["nvim.desktop" "Helix.desktop" "code.desktop" "code-insiders.desktop"];
       in {
         "application/json" = browser;
@@ -75,6 +75,8 @@
         "image/jpeg" = ["imv-dir.desktop"];
         "image/png" = ["imv-dir.desktop"];
         "image/webp" = ["imv-dir.desktop"];
+
+        "inode/directory" = ["yazi.desktop"];
       };
 
       associations.removed = {
