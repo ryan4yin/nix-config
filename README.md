@@ -171,6 +171,7 @@ Other dotfiles that inspired me:
     journey.
   - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar
     configuration here.
+  - [Zeioth/zeioth-hyprland-config](https://github.com/Zeioth/zeioth-hyprland-config)
   - [linuxmobile/kaku](https://github.com/linuxmobile/kaku)
 - Neovim/AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
