@@ -43,10 +43,17 @@
     "format-alt": " {:%a %b %d, %G}",
   },
   "cpu": {
-    "format": "\udb80\udf5b {usage}%",
+    "format": "CPU {usage}%",
     "interval": 1,
     "on-click-middle": "foot btop",
     "on-click-right": "foot btop",
+  },
+  "memory": {
+    "format": "MEM {percentage}%",
+    "interval": 1,
+    "states": {
+      "warning": 85,
+    },
   },
   "custom/launcher": {
     "format": "\uf313 ",
@@ -68,13 +75,6 @@
     },
     "tooltip": false,
   },
-  "memory": {
-    "format": "\udb83\udee0 {percentage}%",
-    "interval": 1,
-    "states": {
-      "warning": 85,
-    },
-  },
   "custom/playerctl": {
     "format": "{icon}  <span>{}</span>",
     "return-type": "json",
@@ -90,14 +90,15 @@
   },
   "network": {
     "interval": 5,
-    //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
-    "format-wifi": " {essid}",
-    "format-ethernet": " {ipaddr}/{cidr}",
-    "format-linked": " {ifname} (No IP)",
-    "format-disconnected": "睊 Disconnected",
-    "format-disabled": "睊 Disabled",
-    "format-alt": " {bandwidthUpBytes} |  {bandwidthDownBytes}",
-    "tooltip-format": " {ifname} via {gwaddr}",
+    "format": "{ifname}",
+    "format-wifi": " {essid} ({signalStrength}%)  Up: {bandwidthUpBits} Down: {bandwidthDownBits}",
+    "format-ethernet": "  {ifname} Up: {bandwidthUpBits} Down: {bandwidthDownBits}",
+    "format-disconnected": "Disconnected ⚠",
+    "tooltip-format": " {ifname} via {gwaddri}",
+    "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
+    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 50,
     "on-click-middle": "nm-connection-editor",
     "on-click-right": "foot nmtui",
   },

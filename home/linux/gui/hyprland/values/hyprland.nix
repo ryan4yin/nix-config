@@ -19,7 +19,10 @@ in {
   };
 
   # status bar
-  programs.waybar.enable = true;
+  programs.waybar = {
+    enable = true;
+    systemd.enable = true;
+  };
 
   # screen locker
   programs.hyprlock.enable = true;
