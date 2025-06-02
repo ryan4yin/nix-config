@@ -6,6 +6,11 @@
 #############################################################
 let
   hostName = "ai"; # Define your hostname.
+
+  inherit (myvars.networking) defaultGateway defaultGateway6 nameservers;
+  inherit (myvars.networking.hostsAddr.${hostName}) iface ipv4 ipv6;
+  ipv4WithMask = "${ipv4}/24";
+  ipv6WithMask = "${ipv6}/64";
 in {
   imports = [
     ./netdev-mount.nix
@@ -19,11 +24,36 @@ in {
 
   networking = {
     inherit hostName;
-    inherit (myvars.networking) defaultGateway nameservers;
-    inherit (myvars.networking.hostsInterface.${hostName}) interfaces;
 
-    # desktop need its cli for status bar
+    # desktop need its cli for status bar & wifi network.
     networkmanager.enable = true;
+  };
+
+  networking.useNetworkd = true;
+  systemd.network.enable = true;
+
+  # Add ipv4 address to the bridge.
+  systemd.network.networks."10-${iface}" = {
+    matchConfig.Name = [iface];
+    networkConfig = {
+      DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
+      Address = [ipv4WithMask ipv6WithMask];
+      DNS = nameservers;
+      IPv6AcceptRA = true;
+      LinkLocalAddressing = "ipv6";
+    };
+    routes = [
+      {
+        Destination = "0.0.0.0/0";
+        Gateway = defaultGateway;
+      }
+      {
+        Destination = "::/0";
+        Gateway = defaultGateway6;
+        GatewayOnLink = true; # it's a gateway on local link.
+      }
+    ];
+    linkConfig.RequiredForOnline = "routable";
   };
 
   # conflict with feature: containerd-snapshotter
