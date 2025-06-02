@@ -36,10 +36,10 @@ in {
   systemd.network.networks."10-${iface}" = {
     matchConfig.Name = [iface];
     networkConfig = {
-      DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
       Address = [ipv4WithMask ipv6WithMask];
       DNS = nameservers;
-      IPv6AcceptRA = true;
+      DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
+      IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
       LinkLocalAddressing = "ipv6";
     };
     routes = [
