@@ -116,7 +116,7 @@ s-hypr mode="default":
 
 ############################################################################
 #
-#  Darwin related commands, harmonica is my macbook pro's hostname
+#  Darwin related commands
 #
 ############################################################################
 
@@ -132,15 +132,6 @@ darwin-rollback:
   #!/usr/bin/env nu
   use {{utils_nu}} *;
   darwin-rollback
-
-# Deploy to harmonica(macOS host)
-[macos]
-[group('desktop')]
-ha mode="default":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *;
-  darwin-build "harmonica" {{mode}};
-  darwin-switch "harmonica" {{mode}}
 
 # Depoly to fern(macOS host)
 [macos]

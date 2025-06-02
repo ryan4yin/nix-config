@@ -76,34 +76,17 @@ All the outputs of this flake are defined here.
 ├── aarch64-darwin    # All outputs for macOS Apple Silicon
 │   ├── default.nix
 │   └── src           # every host has its own file in this directory
+│       ├── frieren.nix
 │       └── fern.nix
 ├── aarch64-linux     # All outputs for Linux ARM64
 │   ├── default.nix
 │   ├── src           # every host has its own file in this directory
-│   │   ├── 12kingdoms-rakushun.nix
-│   │   └── 12kingdoms-suzu.nix
+│   │   ├── 12kingdoms-shoukei.nix
 │   └── tests         # eval tests
-│       └── hostname
-│           ├── expected.nix
-│           └── expr.nix
-├── riscv64-linux     # All outputs for Linux RISCV64
-│   ├── default.nix
-│   ├── src           # every host has its own file in this directory
-│   │   ├── rolling-girls-nozomi.nix
-│   │   └── rolling-girls-yukina.nix
-│   └── tests         # eval tests
-│       └── hostname
-│           ├── expected.nix
-│           └── expr.nix
-├── x86_64-darwin     # All outputs for macOS Intel
-│   ├── default.nix
-│   └── src
-│       └── harnomica.nix
 └── x86_64-linux      # All outputs for Linux x86_64
     ├── default.nix
     ├── nixos-tests
     ├── src           # every host has its own file in this directory
-    │   ├── 12kingdoms-shoukei.nix
     │   ├── idols-ai.nix
     │   ├── idols-aquamarine.nix
     │   ├── idols-kana.nix
@@ -121,8 +104,10 @@ All the outputs of this flake are defined here.
         ├── home-manager
         │   ├── expected.nix
         │   └── expr.nix
-        └── hostname
+        ├── hostname
+        │   ├── expected.nix
+        │   └── expr.nix
+        └── kernel
             ├── expected.nix
             └── expr.nix
-
 ```

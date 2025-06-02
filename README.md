@@ -132,15 +132,11 @@ nix-shell -p just nushell
 # 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
 # 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
-# 4. deploy harmonica's configuration(macOS Intel)
-just ha
-
 # deploy fern's configuration(Apple Silicon)
 just fe
 
 # deploy with details
-just ha debug
-# just fe debug
+just fe debug
 ```
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)

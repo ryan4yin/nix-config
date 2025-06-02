@@ -1,0 +1,2 @@
+# ignore flake.lock here, generate a new one every time install a new host
+flake.lock
