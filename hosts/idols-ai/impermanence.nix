@@ -77,6 +77,7 @@
         ".config/pulse"
         ".pki"
         ".steam" # steam games
+        ".var" # flatpak app's data
 
         # cloud native
         {
