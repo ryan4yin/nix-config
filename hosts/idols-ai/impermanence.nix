@@ -90,6 +90,10 @@
           mode = "0700";
         }
         {
+          directory = ".config/gcloud";
+          mode = "0700";
+        }
+        {
           directory = ".docker";
           mode = "0700";
         }
