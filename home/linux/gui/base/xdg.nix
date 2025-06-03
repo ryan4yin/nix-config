@@ -32,7 +32,7 @@
       enable = true;
       # let `xdg-open` to open the url with the correct application.
       defaultApplications = let
-        browser = ["firefox.desktop" "google-chrome.desktop"];
+        browser = ["google-chrome.desktop" "firefox.desktop"];
         editor = ["nvim.desktop" "Helix.desktop" "code.desktop" "code-insiders.desktop"];
       in {
         "application/json" = browser;
