@@ -25,8 +25,9 @@ in {
   networking = {
     inherit hostName;
 
-    # desktop need its cli for status bar & wifi network.
-    networkmanager.enable = true;
+    # we use networkd instead
+    networkmanager.enable = false; # provides nmcli/nmtui for wifi adjustment
+    useDHCP = false;
   };
 
   networking.useNetworkd = true;
