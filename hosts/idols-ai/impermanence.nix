@@ -147,6 +147,8 @@
       files = [
         ".wakatime.cfg"
         ".config/nushell/history.txt"
+        ".config/zoomus.conf"
+        ".config/zoom.conf"
       ];
     };
   };
