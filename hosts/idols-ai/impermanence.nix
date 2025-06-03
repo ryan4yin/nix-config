@@ -54,7 +54,8 @@
     # the following directories will be passed to /persistent/home/$USER
     users.ryan = {
       directories = [
-        "codes"
+        "codes" # for personal code
+        "work" # for work, contains a .gitconfig with my work email.
         "nix-config"
         "tmp"
 
