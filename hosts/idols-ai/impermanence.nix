@@ -100,6 +100,7 @@
         # remote desktop
         ".config/remmina"
         ".config/freerdp"
+        ".zoom"
 
         # doom-emacs
         ".config/emacs"
