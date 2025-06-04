@@ -94,6 +94,11 @@ verify-store:
 repair-store *paths:
   nix store repair {{paths}}
 
+# Update all Nixpkgs inputs
+[group('nix')]
+up-nix:
+  nix flake update nixpkgs nixpkgs-stable nixpkgs-unstable nixpkgs-darwin nixpkgs-ollama
+
 ############################################################################
 #
 #  NixOS Desktop related commands
