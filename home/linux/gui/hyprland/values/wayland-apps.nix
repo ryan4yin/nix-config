@@ -1,6 +1,6 @@
 {
   pkgs,
-  nur-ryan4yin,
+  pkgs-stable,
   ...
 }: {
   home.packages = with pkgs; [
@@ -13,6 +13,7 @@
     # source code: https://github.com/nix-community/home-manager/blob/master/modules/programs/chromium.nix
     google-chrome = {
       enable = true;
+      package = pkgs-stable.google-chrome;
 
       # https://wiki.archlinux.org/title/Chromium#Native_Wayland_support
       commandLineArgs = [
