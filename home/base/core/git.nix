@@ -36,6 +36,7 @@
       trim.bases = "develop,master,main"; # for git-trim
       push.autoSetupRemote = true;
       pull.rebase = true;
+      log.date = "iso"; # use iso format for date
 
       # replace https with ssh
       url = {
