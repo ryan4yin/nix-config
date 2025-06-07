@@ -34,6 +34,13 @@ in {
     dive # explore docker layers
   ];
 
+  # Kernel modules required by cilium
+  boot.kernelModules = ["ip6_tables" "ip6table_mangle" "ip6table_raw" "ip6table_filter"];
+  networking.enableIPv6 = true;
+  networking.nat = {
+    enable = true;
+    enableIPv6 = true;
+  };
   services.k3s = {
     enable = true;
     inherit package tokenFile clusterInit;
