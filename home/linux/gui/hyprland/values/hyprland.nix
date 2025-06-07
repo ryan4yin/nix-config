@@ -64,6 +64,7 @@ in {
         "QT_QPA_PLATFORM,wayland"
         "SDL_VIDEODRIVER,wayland"
         "GDK_BACKEND,wayland"
+        "XDG_SESSION_TYPE,wayland"
       ];
     };
     # gammastep/wallpaper-switcher need this to be enabled.
