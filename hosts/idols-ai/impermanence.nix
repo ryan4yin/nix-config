@@ -114,9 +114,13 @@
 
         # vscode
         ".vscode"
+        ".config/Code"
         ".vscode-insiders"
-        ".config/Code/User"
-        ".config/Code - Insiders/User"
+        ".config/Code - Insiders"
+
+        # cursor ai editor
+        ".cursor"
+        ".config/Cursor"
 
         # zed editor
         ".config/zed"
@@ -124,6 +128,10 @@
         # browsers
         ".mozilla"
         ".config/google-chrome"
+
+        # Joplin
+        ".config/joplin" # tui client
+        ".config/Joplin" # joplin-desktop
 
         # neovim / remmina / flatpak / ...
         ".local/share"
