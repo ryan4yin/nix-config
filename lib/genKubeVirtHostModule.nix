@@ -4,7 +4,9 @@
   networking,
   ...
 }: let
-  inherit (networking.hostsAddr.${hostName}) iface;
+  inherit (networking) defaultGateway defaultGateway6 nameservers;
+  inherit (networking.hostsAddr.${hostName}) iface ipv4;
+  ipv4WithMask = "${ipv4}/24";
 in {
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
@@ -31,15 +33,17 @@ in {
     # --- network --- #
     "net.bridge.bridge-nf-call-iptables" = 1;
     "net.core.somaxconn" = 32768;
-    "net.ipv4.ip_forward" = 1;
+
+    # ----- IPv4 ----- #
+    "net.ipv4.ip_forward" = 1; # Enable forwarding
     "net.ipv4.conf.all.forwarding" = 1;
     "net.ipv4.neigh.default.gc_thresh1" = 4096;
     "net.ipv4.neigh.default.gc_thresh2" = 6144;
     "net.ipv4.neigh.default.gc_thresh3" = 8192;
     "net.ipv4.neigh.default.gc_interval" = 60;
     "net.ipv4.neigh.default.gc_stale_time" = 120;
-
-    "net.ipv6.conf.all.disable_ipv6" = 1; # disable ipv6
+    # ----- IPv6 ----- #
+    "net.ipv6.conf.all.forwarding" = 1; # Enable forwarding
 
     # --- memory --- #
     "vm.swappiness" = 0; # don't swap unless absolutely necessary
@@ -67,6 +71,16 @@ in {
     enable = true;
   };
 
+  networking = {
+    inherit hostName;
+
+    # we use networkd instead
+    networkmanager.enable = false;
+    useDHCP = false;
+  };
+  networking.useNetworkd = true;
+  systemd.network.enable = true;
+
   # Enable the Open vSwitch as a systemd service
   # It's required by kubernetes' ovs-cni plugin.
   virtualisation.vswitch = {
@@ -82,15 +96,40 @@ in {
       interfaces.${iface} = {};
     };
   };
-  networking = {
-    inherit hostName;
-    inherit (networking) defaultGateway nameservers;
 
-    networkmanager.enable = false;
-    # Set the host's address on the OVS bridge interface instead of the physical interface!
-    interfaces.ovsbr1 = networking.hostsInterface.${hostName}.interfaces.${iface};
-    dhcpcd.enable = false; # disable dhcpcd, it's useless for the host
-    enableIPv6 = true;
+  # systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
+
+  # Set the host's address on the OVS bridge interface instead of the physical interface!
+  systemd.network.networks = {
+    "10-ovsbr1" = {
+      matchConfig.Name = ["ovsbr1"];
+      networkConfig = {
+        Address = [ipv4WithMask];
+        DNS = nameservers;
+        DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
+        IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
+        LinkLocalAddressing = "ipv6";
+      };
+      routes = [
+        {
+          Destination = "0.0.0.0/0";
+          Gateway = defaultGateway;
+        }
+        {
+          Destination = "::/0";
+          Gateway = defaultGateway6;
+          GatewayOnLink = true; # it's a gateway on local link.
+        }
+      ];
+      linkConfig.RequiredForOnline = "routable";
+    };
+    "20-${iface}" = {
+      matchConfig.Name = [iface];
+      networkConfig.LinkLocalAddressing = "no";
+      # tell networkd ignore this interface.
+      # it's managed by openvswitch
+      linkConfig.RequiredForOnline = "no";
+    };
   };
 
   # This value determines the NixOS release from which the default

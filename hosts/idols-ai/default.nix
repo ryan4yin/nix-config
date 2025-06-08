@@ -33,7 +33,6 @@ in {
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
-  # Add ipv4 address to the bridge.
   systemd.network.networks."10-${iface}" = {
     matchConfig.Name = [iface];
     networkConfig = {

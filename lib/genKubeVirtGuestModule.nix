@@ -4,7 +4,7 @@
   networking,
   ...
 }: let
-  inherit (networking) defaultGateway nameservers;
+  inherit (networking) defaultGateway defaultGateway6 nameservers;
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
 in {
@@ -18,19 +18,36 @@ in {
     "exfat"
   ];
 
-  networking = {inherit hostName;};
+  networking = {
+    inherit hostName;
+
+    # we use networkd instead
+    networkmanager.enable = false;
+    useDHCP = false;
+  };
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
-  # Add ipv4 address to the bridge.
   systemd.network.networks."10-${iface}" = {
     matchConfig.Name = [iface];
     networkConfig = {
       Address = [ipv4WithMask];
-      Gateway = defaultGateway;
       DNS = nameservers;
-      IPv6AcceptRA = true;
+      DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
+      IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
+      LinkLocalAddressing = "ipv6";
     };
+    routes = [
+      {
+        Destination = "0.0.0.0/0";
+        Gateway = defaultGateway;
+      }
+      {
+        Destination = "::/0";
+        Gateway = defaultGateway6;
+        GatewayOnLink = true; # it's a gateway on local link.
+      }
+    ];
     linkConfig.RequiredForOnline = "routable";
   };
 
