@@ -1,6 +1,6 @@
 # for provider
 #
-# export MINIO_PASSWORD=="xxx"
+# export MINIO_PASSWORD="xxx"
 
 # for terraform's s3 backend
 #
@@ -10,3 +10,7 @@
 terraform init
 terraform plan
 terraform apply
+
+# show secret key
+terraform output loki_secretkey
+

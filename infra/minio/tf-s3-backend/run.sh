@@ -1,6 +1,6 @@
 # for provider
 #
-# export MINIO_PASSWORD=="xxx"
+# export MINIO_PASSWORD="xxx"
 #
 terraform init
 terraform plan

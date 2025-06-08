@@ -79,6 +79,7 @@
         ".pki"
         ".steam" # steam games
         ".var" # flatpak app's data
+        ".terraform.d/plugin-cache" # terraform's plugin cache
 
         # cloud native
         {
