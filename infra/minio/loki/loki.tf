@@ -18,6 +18,20 @@ resource "minio_s3_bucket" "k3s-test-1-loki-admin" {
 }
 
 # ==============================================
+# Bucket Lifecycle
+# ==============================================
+
+resource "minio_ilm_policy" "loki-chunks-expire-rules" {
+  bucket = minio_s3_bucket.k3s-test-1-loki-chunks.bucket
+
+  rule {
+    id         = "expire-7d"
+    status     = "Enabled"
+    expiration = "7d"
+  }
+}
+
+# ==============================================
 # User & Permission
 # ==============================================
 
