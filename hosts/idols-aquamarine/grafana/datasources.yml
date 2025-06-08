@@ -1,7 +1,17 @@
-# https://grafana.com/docs/grafana/latest/datasources/prometheus/
+# https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources
 apiVersion: 1
 
+# List of data sources to delete from the database.
+deleteDatasources:
+  - name: Loki
+    orgId: 1
+
+# Mark provisioned data sources for deletion if they are no longer in a provisioning file.
+# It takes no effect if data sources are already listed in the deleteDatasources section.
+prune: true
+
 datasources:
+  # https://grafana.com/docs/grafana/latest/datasources/prometheus/
   - name: prometheus-homelab
     type: prometheus
     access: proxy
@@ -19,3 +29,17 @@ datasources:
       # Increasing the duration of the incrementalQueryOverlapWindow will increase the size of every incremental query,
       # but might be helpful for instances that have inconsistent results for recent data.
       incrementalQueryOverlapWindow: 10m
+    isDefault: true
+    editable: false
+  # https://grafana.com/docs/grafana/latest/datasources/loki/
+  - name: loki-k3s-test-1
+    type: loki
+    access: proxy
+    url: https://loki-gateway.writefor.fun
+    jsonData:
+      timeout: 30
+      maxLines: 1000
+      httpHeaderName1: "X-Scope-OrgID"
+    secureJsonData:
+      httpHeaderValue1: "fake"
+    editable: false
