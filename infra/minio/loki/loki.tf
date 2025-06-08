@@ -7,16 +7,6 @@ resource "minio_s3_bucket" "k3s-test-1-loki-chunks" {
   acl    = "private"
 }
 
-resource "minio_s3_bucket" "k3s-test-1-loki-ruler" {
-  bucket = "k3s-test-1-loki-ruler"
-  acl    = "private"
-}
-
-resource "minio_s3_bucket" "k3s-test-1-loki-admin" {
-  bucket = "k3s-test-1-loki-admin"
-  acl    = "private"
-}
-
 # ==============================================
 # Bucket Lifecycle
 # ==============================================
@@ -65,9 +55,7 @@ resource "minio_iam_policy" "loki" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::k3s-test-1-loki-chunks/*",
-        "arn:aws:s3:::k3s-test-1-loki-ruler/*",
-        "arn:aws:s3:::k3s-test-1-loki-admin/*"
+        "arn:aws:s3:::k3s-test-1-loki-chunks/*"
       ]
     }
   ]
@@ -84,14 +72,6 @@ resource "minio_iam_user_policy_attachment" "loki-1" {
 
 output "loki-chunks_url" {
   value = minio_s3_bucket.k3s-test-1-loki-chunks.bucket_domain_name
-}
-
-output "loki-ruler_url" {
-  value = minio_s3_bucket.k3s-test-1-loki-ruler.bucket_domain_name
-}
-
-output "loki-admin_url" {
-  value = minio_s3_bucket.k3s-test-1-loki-admin.bucket_domain_name
 }
 
 output "loki_accesskey" {
