@@ -264,7 +264,7 @@
           "span": 4,
           "targets": [
             {
-              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", job=~\"($namespace)/compactor\"})",
+              "expr": "sum by(pod) (go_memstats_heap_inuse_bytes{cluster=~\"$cluster\", })",
               "format": "time_series",
               "legendFormat": "{{pod}}",
               "legendLink": null
@@ -1361,7 +1361,7 @@
           "span": 12,
           "targets": [
             {
-              "expr": "{cluster=~\"$cluster\", job=~\"($namespace)/compactor\"}",
+              "expr": "{cluster=~\"$cluster\", }",
               "refId": "A"
             }
           ],
