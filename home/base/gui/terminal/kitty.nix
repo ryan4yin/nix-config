@@ -36,6 +36,10 @@
     };
 
     settings = {
+      # do not show title bar & window title
+      hide_window_decorations = "titlebar-and-corners";
+      macos_show_window_title_in = "none";
+
       background_opacity = "0.93";
       macos_option_as_alt = true; # Option key acts as Alt on macOS
       enable_audio_bell = false;
