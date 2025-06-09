@@ -158,8 +158,12 @@ in {
       "squirrel" # input method for Chinese, rime-squirrel
       "firefox"
       "google-chrome"
+      
+      # code editor
       "visual-studio-code"
-      # "zed" # zed editor
+      # "zed"
+      "cursor" # cursor ai editor
+
       "aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
 
