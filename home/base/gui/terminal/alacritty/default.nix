@@ -37,6 +37,7 @@
         startup_mode = "Maximized"; # Maximized window
         dynamic_title = true;
         option_as_alt = "Both"; # Option key acts as Alt on macOS
+        decorations = "None"; # Show neither borders nor title bar
       };
       scrolling = {
         history = 10000;
