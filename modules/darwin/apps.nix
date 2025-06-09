@@ -137,7 +137,7 @@ in {
       #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
       # 1. `sudo tailscaled install-system-daemon`
       # 2. `tailscale up --accept-routes`
-      "tailscale" # tailscale cli version
+      # "tailscale" # tailscale cli version
 
       # https://github.com/rgcr/m-cli
       "m-cli" #  Swiss Army Knife for macOS
@@ -165,6 +165,8 @@ in {
 
       # https://joplinapp.org/help/
       "joplin" # note taking app
+
+      "tailscale" # tailscale macos app (with gui)
 
       # AI
       "lm-studio"
