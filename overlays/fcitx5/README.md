@@ -4,18 +4,15 @@ Useful for Linux(fcitx5-rime) & macOS(squirrel).
 
 ## Linux(fcitx5-rime)
 
-1. pay attention to the `rm -rf .local/share/fcitx5/rime/`, which may contains some auto generated
-   rime config files, which may cause flypy not the default scheme for rime
-2. manage `~/.config/fcitx5/profile` in ../home/hyprland/default.nix, which hardcode rime as the
-   default input method, so you do not need to use fcitx-configtool to set rime as the default input
+1. `~/.config/fcitx5/profile` is linked to
+   [home/linux/gui/base/fcitx5/profile](/home/linux/gui/base/fcitx5/profile), which hardcode rime as
+   the default input method, so you do not need to use fcitx-configtool to adjust fcitx5's input
    method.
-3. fcitx5-rime still cannot use on vscode & chrome now... need more time to figure out why and
-   resolve it.
 
 ## macOS(squirrel)
 
-1. pay attention to the `rm -rf ~/Library/Rime/`, which may contains some auto generated rime config
-   files.
+1. ` ~/Library/Rime/` is force linked to this rime-data, see
+   [home/darwin/rime-squirrel.nix](/home/darwin/rime-squirrel.nix) for details.
 
 ## Docs about fcitx5
 
