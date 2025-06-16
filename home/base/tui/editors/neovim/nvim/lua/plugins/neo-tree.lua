@@ -5,6 +5,11 @@ return {
   config = function()
     require("neo-tree").setup {
       filesystem = {
+        filtered_items = {
+          visible = true, -- visible by default
+          hide_dotfiles = false,
+          hide_gitignored = false,
+        },
         commands = {
           avante_add_files = function(state)
             local node = state.tree:get_node()
@@ -34,13 +39,4 @@ return {
       },
     }
   end,
-  opts = {
-    filesystem = {
-      filtered_items = {
-        visible = true, -- visible by default
-        hide_dotfiles = false,
-        hide_gitignored = false,
-      },
-    },
-  },
 }
