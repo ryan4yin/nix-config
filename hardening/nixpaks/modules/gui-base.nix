@@ -72,11 +72,17 @@ in {
         "/etc/static/egl"
       ];
       bind.dev = [
+        "/dev/shm" # Shared Memory
+
         # seems required when using nvidia as primary gpu
         "/dev/nvidia0"
         "/dev/nvidiactl"
         "/dev/nvidia-modeset"
         "/dev/nvidia-uvm"
+      ];
+
+      tmpfs = [
+        "/tmp"
       ];
 
       env = {

@@ -79,12 +79,6 @@ mkNixPak {
         wayland = true;
         pipewire = true;
       };
-      bind.dev = [
-        "/dev/shm" # Shared Memory
-      ];
-      tmpfs = [
-        "/tmp"
-      ];
     };
   };
 }
