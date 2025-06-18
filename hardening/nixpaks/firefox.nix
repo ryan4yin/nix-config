@@ -45,9 +45,6 @@ mkNixPak {
         # NOTE: sloth.mkdir is used to create the directory if it does not exist!
         (sloth.mkdir (sloth.concat' sloth.homeDir "/.mozilla"))
 
-        # ================ for externsions ===============================
-        # required by https://github.com/browserpass/browserpass-extension
-        (sloth.concat' sloth.homeDir "/.local/share/password-store") # pass
         sloth.xdgDownloadDir
         sloth.xdgDocumentsDir
       ];
@@ -55,6 +52,12 @@ mkNixPak {
         # To actually make Firefox run
         "/sys/bus/pci"
         ["${config.app.package}/lib/firefox" "/app/etc/firefox"]
+
+        # ================ for browserpass extension ===============================
+        "/etc/gnupg"
+        (sloth.concat' sloth.homeDir "/.gnupg") # gpg's config
+        (sloth.concat' sloth.homeDir "/.local/share/password-store") # my secrets
+        (sloth.concat' sloth.runtimeDir "/gnupg") # for access gpg-agent socket
 
         # Unsure
         (sloth.concat' sloth.xdgConfigHome "/dconf")
