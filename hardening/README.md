@@ -18,10 +18,8 @@
    - [ ] AppArmor
    - [ ] Kernel & System Hardening
 1. **Per-App Level**:
-   - Nixpak (Bubblewrap)
-     - [x] QQ
-     - [x] Firefox
-   - [ ] Firejail (risk? not enabled yet)
+   - Nixpak (Bubblewrap, running at user-level)
+   - Firejail (a SUID program, meaning it's running as root)
 
 ## Kernel Hardening
 
@@ -32,26 +30,27 @@
 
 - NixOS Profile:
   https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/profiles/hardened.nix
-- Apparmor: [roddhjav/apparmor.d)](https://github.com/roddhjav/apparmor.d)
+- Apparmor: [roddhjav/apparmor.d](https://github.com/roddhjav/apparmor.d)
   - https://gitlab.com/apparmor/apparmor/-/wikis/Documentation
   - AppArmor.d is a set of over 1500 AppArmor profiles whose aim is to confine most Linux based
     applications and processes.
-  - Nix Package:
-    [roddhjav-apparmor-rules](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ro/roddhjav-apparmor-rules/package.nix#L33)
-  - https://github.com/NixOS/nixpkgs/issues/331645
-  - https://github.com/LordGrimmauld/aa-alias-manager
+  - But all the profiles of AppArmor assume a FHS filesystem, which caused all apparmor policies
+    takes no effect on NixOS.
+  - Apparmor on NixOS Roadmap:
+    - https://discourse.nixos.org/t/apparmor-on-nixos-roadmap/57217
+    - https://github.com/LordGrimmauld/aa-alias-manager
 - SELinux: too complex, not recommended for personal use.
 
 ## Application Sandboxing
 
+- [Bubblewrap](https://github.com/containers/bubblewrap):
+  [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no batteries included.
+  - NixOS's FHSEnv is implemented using bubblewrap by default.
 - [Firejail](https://github.com/netblue30/firejail/tree/master/etc): A SUID security sandbox with
   hundreds of security profiles for many common applications in the default installation.
   - https://wiki.nixos.org/wiki/Firejail
   - Firejail needs SUID to work, which is considered a security risk -
     [Does firejail improve the security of my system?](https://github.com/netblue30/firejail/discussions/4601)
-- [Bubblewrap](https://github.com/containers/bubblewrap):
-  [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no batteries included.
-  - NixOS's FHSEnv is implemented using bubblewrap by default.
 - [Systemd/Hardening](https://wiki.nixos.org/wiki/Systemd/Hardening): Systemd also provides some
   sandboxing features.
 
@@ -67,8 +66,6 @@ provide a much higher level of security.
 - [Harden your NixOS workstation - dataswamp](https://dataswamp.org/~solene/2022-01-13-nixos-hardened.html)
 - [Linux Insecurities - Madaidans](https://madaidans-insecurities.github.io/linux.html)
 - [Sandboxing all programs by default - NixOS Discourse](https://discourse.nixos.org/t/sandboxing-all-programs-by-default/7792)
-- [在 Firejail 中运行 Steam](https://imbearchild.cyou/archives/2021/11/steam-in-firejail/)
-- [Firejail - Arch Linux Wiki](https://wiki.archlinux.org/title/Firejail)
 - [Paranoid NixOS Setup - xeiaso](https://xeiaso.net/blog/paranoid-nixos-2021-07-18/)
 - [nix-mineral](https://github.com/cynicsketch/nix-mineral): NixOS module for convenient system
   hardening.
@@ -80,7 +77,6 @@ provide a much higher level of security.
 - firejail configs:
   - https://github.com/stelcodes/nixos-config/blob/f8967c82a5e5f3d128eb1aaf7498b5f918f719ec/packages/overlay.nix#L261
 - apparmor configs:
-  - https://github.com/sukhmancs/nixos-configs/blob/7fcf737c506ad843113cd5b94796b49d4d4dfad2/modules/shared/security/apparmor/default.nix#L8
   - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
 - Others:
   - Directly via `buildFHSUserEnvBubblewrap`:
