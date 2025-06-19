@@ -78,6 +78,7 @@ provide a much higher level of security.
   - https://github.com/stelcodes/nixos-config/blob/f8967c82a5e5f3d128eb1aaf7498b5f918f719ec/packages/overlay.nix#L261
 - apparmor configs:
   - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
+  - https://git.grimmauld.de/Grimmauld/grimm-nixos-laptop/src/branch/main/hardening
 - Others:
   - Directly via `buildFHSUserEnvBubblewrap`:
     https://github.com/xddxdd/nur-packages/blob/master/pkgs/uncategorized/wechat-uos/default.nix
