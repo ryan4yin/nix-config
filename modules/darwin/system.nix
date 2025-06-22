@@ -1,4 +1,8 @@
-{pkgs, myvars, ...}:
+{
+  pkgs,
+  myvars,
+  ...
+}:
 ###################################################################################
 #
 #  macOS's System configuration
@@ -22,7 +26,7 @@
   time.timeZone = "Asia/Shanghai";
 
   system = {
-  primaryUser = myvars.username;
+    primaryUser = myvars.username;
 
     defaults = {
       menuExtraClock.Show24Hour = true; # show 24 hour clock
@@ -181,30 +185,4 @@
   # comment this due to the issue:
   #   https://github.com/LnL7/nix-darwin/issues/359
   # time.timeZone = "Asia/shanghai";
-
-  # Fonts
-  fonts = {
-    packages = with pkgs; [
-      # packages = with pkgs; [
-      # icon fonts
-      material-design-icons
-      font-awesome
-
-      # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
-      source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
-      source-serif # 衬线字体，不含汉字。字族名叫 Source Code Pro，以及带字重的变体
-      source-han-sans # 思源黑体
-      source-han-serif # 思源宋体
-
-      # nerdfonts
-      # https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
-      nerd-fonts.symbols-only # symbols icon only
-      nerd-fonts.fira-code
-      nerd-fonts.jetbrains-mono
-      nerd-fonts.iosevka
-
-      julia-mono
-      dejavu_fonts
-    ];
-  };
 }

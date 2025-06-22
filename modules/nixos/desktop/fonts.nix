@@ -10,19 +10,28 @@
       material-design-icons
       font-awesome
 
-      # Noto 系列字体是 Google 主导的，名字的含义是「没有豆腐」（no tofu），因为缺字时显示的方框或者方框被叫作 tofu
-      # Noto 系列字族名只支持英文，命名规则是 Noto + Sans 或 Serif + 文字名称。
-      # 其中汉字部分叫 Noto Sans/Serif CJK SC/TC/HK/JP/KR，最后一个词是地区变种。
-      # noto-fonts # 大部分文字的常见样式，不包含汉字
-      # noto-fonts-cjk # 汉字部分
-      noto-fonts-emoji # 彩色的表情符号字体
-      # noto-fonts-extra # 提供额外的字重和宽度变种
+      # Noto 是 Google 开发的开源字体家族
+      # 名字的含义是「没有豆腐」（no tofu），因为缺字时显示的方框或者方框被叫作 tofu
+      #
+      # Noto 系列字族只支持英文，命名规则是 Noto + Sans 或 Serif + 文字名称。
+      noto-fonts # 大部分文字的常见样式，不包含汉字
+      noto-fonts-color-emoji # 彩色的表情符号字体
+      # Noto CJK 为「思源」系列汉字字体，由 Adobe + Google 共同开发
+      # Google 以 Noto Sans/Serif CJK SC/TC/HK/JP/KR 的名称发布该系列字体。
+      # noto-fonts-cjk-sans # 思源黑体
+      # noto-fonts-cjk-serif # 思源宋体
 
-      # 思源系列字体是 Adobe 主导的。其中汉字部分被称为「思源黑体」和「思源宋体」，是由 Adobe + Google 共同开发的
-      source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3 和 Source Sans Pro，以及带字重的变体，加上 Source Sans 3 VF
-      source-serif # 衬线字体，不含汉字。字族名叫 Source Code Pro，以及带字重的变体
+      # Adobe 以 Source Han Sans/Serif 的名称发布此系列字体
+      source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3，以及带字重的变体（VF）
+      source-serif # 衬线字体，不含汉字。字族名叫 Source Serif 4，以及带字重的变体
+      # Source Hans 系列汉字字体由 Adobe + Google 共同开发
+      # 这俩跟 noto-fonts-cjk-xxx 实际为同一字体，只是分别由 Adobe/Google 以自己的品牌名发布
       source-han-sans # 思源黑体
       source-han-serif # 思源宋体
+
+      # 文泉驿是旅美学者房骞骞（FangQ）于 2004 年创建的开源汉字字体项目
+      wqy_zenhei # 文泉驿正黑
+      wqy_microhei # 文泉驿微米黑
 
       # nerdfonts
       # https://github.com/NixOS/nixpkgs/blob/nixos-unstable-small/pkgs/data/fonts/nerd-fonts/manifests/fonts.json
@@ -32,16 +41,32 @@
       nerd-fonts.iosevka
 
       julia-mono
-      dejavu_fonts
     ];
 
-    # user defined fonts
-    # the reason there's Noto Color Emoji everywhere is to override DejaVu's
-    # B&W emojis that would sometimes show instead of some Color emojis
+    # User defined default fonts
     fontconfig.defaultFonts = {
-      serif = ["Source Han Serif SC" "Source Han Serif TC" "Noto Color Emoji"];
-      sansSerif = ["Source Han Sans SC" "Source Han Sans TC" "Noto Color Emoji"];
-      monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
+      serif = [
+        # 英文: 衬线字体
+        "Source Sans 3"
+        # 中文: 宋体/明体
+        "Source Han Serif SC"
+        "Source Han Serif TC"
+      ];
+      # SansSerif 也简写做 Sans, Sans 在法语中就是「without」或者「无」的意思
+      sansSerif = [
+        # 英文: 无衬线字体
+        "Source Serif 4"
+        # 中文: 黑体
+        "Source Han Sans SC"
+        "Source Han Sans TC"
+      ];
+      # 等宽字体
+      monospace = [
+        # 英文
+        "JetBrainsMono Nerd Font"
+        # 中文
+        "WenQuanYi Micro Hei Mono"
+      ];
       emoji = ["Noto Color Emoji"];
     };
   };
@@ -53,14 +78,19 @@
     # It supports a richer feature set than the standard linux console VT,
     # including full unicode support, and when the video card supports drm should be much faster.
     enable = true;
-    fonts = [
+    fonts = with pkgs; [
       {
         name = "Source Code Pro";
-        package = pkgs.source-code-pro;
+        package = source-code-pro;
+      }
+      # CJK font
+      {
+        name = "WenQuanYi Micro Hei Mono";
+        package = wqy_microhei;
       }
     ];
     extraOptions = "--term xterm-256color";
-    extraConfig = "font-size=12";
+    extraConfig = "font-size=14";
     # Whether to use 3D hardware acceleration to render the console.
     hwRender = true;
   };
