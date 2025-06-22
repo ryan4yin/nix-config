@@ -41,6 +41,7 @@
       nerd-fonts.iosevka
 
       julia-mono
+      # sarasa-gothic # 更纱黑体，一种基于 Inter、Iosevka 和 Source Han Sans 的 CJK 复合字体
     ];
 
     # User defined default fonts
@@ -80,8 +81,8 @@
     enable = true;
     fonts = with pkgs; [
       {
-        name = "Source Code Pro";
-        package = source-code-pro;
+        name = "JetBrainsMono Nerd Font";
+        package = nerd-fonts.jetbrains-mono;
       }
       # CJK font
       {
