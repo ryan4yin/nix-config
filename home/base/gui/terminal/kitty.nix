@@ -21,7 +21,7 @@
     # and it's installed by home-manager if `theme` is specified.
     themeFile = "Catppuccin-Mocha";
     font = {
-      name = "JetBrainsMono Nerd Font";
+      name = "Maple Mono NF CN";
       # use different font size on macOS
       size =
         if pkgs.stdenv.isDarwin

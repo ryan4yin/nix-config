@@ -32,7 +32,7 @@
 
       * {
         transition: 200ms ease;
-        font-family: "JetBrainsMono Nerd Font";
+        font-family: "Maple Mono NF CN";
         font-size: 1.3rem;
       }
 
@@ -52,7 +52,7 @@
         background-color: @bg-col;
       }
 
-      /* anyrun's ouput matches entries - Base */
+      /* anyrun's output matches entries - Base */
       #match {
         color: @fg-col;
         background: @bg-col;

@@ -3,7 +3,7 @@
 * {
   /* https://docs.gtk.org/gtk3/css-overview.html#colors */
   color: @text;
-  font-family: "JetBrainsMono Nerd Font";
+  font-family: "Maple Mono NF CN";
   font-size: 12pt;
   font-weight: bold;
   border-radius: 8px;
@@ -149,4 +149,3 @@ tooltip label {
   padding-right: 8px;
   padding-left: 10px;
 }
-

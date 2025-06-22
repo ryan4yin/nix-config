@@ -22,7 +22,7 @@
     settings = {
       theme = "catppuccin-mocha";
 
-      font-family = "JetBrainsMono Nerd Font";
+      font-family = "Maple Mono NF CN";
       font-size = 13;
 
       background-opacity = 0.93;

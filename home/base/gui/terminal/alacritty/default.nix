@@ -43,10 +43,10 @@
         history = 10000;
       };
       font = {
-        bold = {family = "JetBrainsMono Nerd Font";};
-        italic = {family = "JetBrainsMono Nerd Font";};
-        normal = {family = "JetBrainsMono Nerd Font";};
-        bold_italic = {family = "JetBrainsMono Nerd Font";};
+        bold = {family = "Maple Mono NF CN";};
+        italic = {family = "Maple Mono NF CN";};
+        normal = {family = "Maple Mono NF CN";};
+        bold_italic = {family = "Maple Mono NF CN";};
         size =
           if pkgs.stdenv.isDarwin
           then 14
