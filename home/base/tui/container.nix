@@ -18,7 +18,7 @@
     kubectl-node-shell # exec into node
     kubepug # kubernetes pre upgrade checker
     k8sgpt
-    nur-ryan4yin.packages.${pkgs.system}.kubectl-ai # an ai helper opensourced by google
+    kubectl-ai # an ai helper opensourced by google
 
     kubebuilder
     istioctl
