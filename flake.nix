@@ -48,7 +48,6 @@
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-darwin";
     };
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -120,6 +119,11 @@
     };
 
     blender-bin.url = "github:edolstra/nix-warez?dir=blender";
+
+    nixos-apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon/release-2025-05-30";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     ########################  Some non-flake repositories  #########################################
 
