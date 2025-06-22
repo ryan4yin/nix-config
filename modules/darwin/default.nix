@@ -2,6 +2,6 @@
   imports =
     (mylib.scanPaths ./.)
     ++ [
-      ../base.nix
+      ../base
     ];
 }

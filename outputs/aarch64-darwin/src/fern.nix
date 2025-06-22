@@ -21,7 +21,12 @@
         # host specific
         "hosts/darwin-${name}"
       ])
-      ++ [];
+      ++ [
+        {
+          modules.desktop.fonts.enable = true;
+        }
+      ];
+
     home-modules = map mylib.relativeToRoot [
       "hosts/darwin-${name}/home.nix"
       "home/darwin"

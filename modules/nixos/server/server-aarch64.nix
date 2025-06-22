@@ -13,7 +13,7 @@
     ../base/ssh.nix
     ../base/user-group.nix
 
-    ../../base.nix
+    ../../base
   ];
 
   # Fix: jasper is marked as broken, refusing to evaluate.
