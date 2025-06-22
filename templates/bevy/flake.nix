@@ -18,7 +18,6 @@
     systems = [
       "x86_64-linux"
       "aarch64-linux"
-      "x86_64-darwin"
       "aarch64-darwin"
     ];
     # Helper function to generate a set of attributes for each system

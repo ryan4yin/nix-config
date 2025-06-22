@@ -1,21 +1,18 @@
 {
-  nixos-hardware,
+  nixos-apple-silicon,
   myvars,
   ...
 }:
 #############################################################
 #
-#  Shoukei - NixOS running on Macbook Pro 2020 I5 16G
-#   https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
+#  Shoukei - NixOS running on Macbook Pro 2022 M2 16G
 #
 #############################################################
 let
   hostName = "shoukei"; # Define your hostname.
 in {
   imports = [
-    nixos-hardware.nixosModules.apple-t2
-    ./apple-set-os-loader.nix
-    {hardware.myapple-t2.enableAppleSetOsLoader = true;}
+    nixos-apple-silicon.nixosModules.default
 
     ./hardware-configuration.nix
     ../idols-ai/impermanence.nix

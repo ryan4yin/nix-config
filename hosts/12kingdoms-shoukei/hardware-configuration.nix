@@ -7,28 +7,24 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}: let
+  device = "/dev/disk/by-uuid/to-be-add";
+in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  hardware.firmware = [
-    (import ./brcm-firmware {inherit pkgs;})
-  ];
-
-  boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [];
-
-  # Use the EFI boot loader.
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = false;
   # depending on how you configured your disk mounts, change this to /boot or /boot/efi.
   boot.loader.efi.efiSysMountPoint = "/boot";
-  boot.loader.systemd-boot.enable = true;
 
-  # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
-  boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
+  # For ` to < and ~ to > (for those with US keyboards)
+  # boot.extraModprobeConfig = ''
+  #   options hid_apple iso_layout=0
+  # '';
+
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = lib.mkForce [
     "ext4"
@@ -75,19 +71,19 @@
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
+    inherit device;
     fsType = "btrfs";
     options = ["subvol=@nix" "noatime" "compress-force=zstd:1"];
   };
 
   fileSystems."/tmp" = {
-    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
+    inherit device;
     fsType = "btrfs";
     options = ["subvol=@tmp" "noatime" "compress-force=zstd:1"];
   };
 
   fileSystems."/persistent" = {
-    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
+    inherit device;
     fsType = "btrfs";
     options = ["subvol=@persistent" "noatime" "compress-force=zstd:1"];
     # impermanence's data is required for booting.
@@ -95,14 +91,14 @@
   };
 
   fileSystems."/snapshots" = {
-    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
+    inherit device;
     fsType = "btrfs";
     options = ["subvol=@snapshots" "noatime" "compress-force=zstd:1"];
   };
 
   # mount swap subvolume in readonly mode.
   fileSystems."/swap" = {
-    device = "/dev/disk/by-uuid/2f4db246-e65d-4808-8ab4-5365f9dea1ef";
+    inherit device;
     fsType = "btrfs";
     options = ["subvol=@swap" "ro"];
   };
@@ -126,9 +122,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp230s0f1u1.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp229s0.useDHCP = lib.mkDefault true;
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

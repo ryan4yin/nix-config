@@ -4,56 +4,16 @@
 > machine :exclamation: Please write your own configuration from scratch, and use my configuration
 > and documentation for reference only.**
 
-> https://wiki.t2linux.org/distributions/nixos/installation/
-
-> https://github.com/NixOS/nixos-hardware/tree/master/apple/t2
-
 This flake prepares a Nix environment for setting my desktop
-[/hosts/12kingdoms_shoukei](/hosts/12kingdoms_shoukei)(in main flake) up on a new machine.
+[/hosts/12kingdoms-shoukei](/hosts/12kingdoms-shoukei)(in main flake) up on a new machine.
 
 ## Steps to Deploying
 
-First, create a USB install medium from Apple T2's NixOS installer image:
-https://github.com/t2linux/nixos-t2-iso.git
+### 1. Prepare & boot into the nixos installer
 
-### 2. Connecting to the Internet
+Just follow this Guide:
 
-1. configure wifi: <https://wiki.t2linux.org/guides/wifi-bluetooth/#on-macos>
-2. copy wifi firmware to the NixOS installer:
-
-```bash
-sudo mkdir -p /lib
-sudo tar -axvf ../hosts/12kingdoms_shoukei/brcm-firmware/firmware.tar.gz -C /lib/
-sudo modprobe -r brcmfmac && sudo modprobe brcmfmac
-
-# check whether the wifi firmware is loaded
-dmesg | tail
-
-# now start wpa_supplicant
-sudo systemctl start wpa_supplicant
-```
-
-connect to wifi via `wpa_cli`:
-
-```bash
-wpa_cli -i wlan0
-> scan
-> scan_results
-# add a new network, this command returns a network ID, which is 0 in this case.
-> add_network
-# associate the network with the network ID we just got
-# NOTE: the quotes are required!
-> set_network 0 ssid "<wifi_name>"
-# for a WPA2 network, set the passphrase
-# NOTE: the quotes are required!
-> set_network 0 psk "xxx"
-# enable the network
-> enable_network 0
-# save the configuration file
-> save_config
-# show the status
-> status
-```
+- https://github.com/nix-community/nixos-apple-silicon/blob/main/docs/uefi-standalone.md
 
 ### 2. Encrypting with LUKS(everything except ESP)
 
@@ -119,7 +79,7 @@ mount /dev/nvme0n1p1 /mnt/boot  # mount-1
 # create a swapfile on btrfs file system
 # This command will disable CoW / compression on the swap subvolume and then create a swapfile.
 # because the linux kernel requires that swapfile must not be compressed or have copy-on-write(CoW) enabled.
-btrfs filesystem mkswapfile --size 96g --uuid clear /mnt/swap/swapfile  # mount-1
+btrfs filesystem mkswapfile --size 16g --uuid clear /mnt/swap/swapfile  # mount-1
 
 # check whether the swap subvolume has CoW disabled
 # the output of `lsattr` for the swap subvolume should be:
@@ -235,7 +195,7 @@ that the new machine can pull my private secrets repo:
 
 ```bash
 # 1. Generate a new SSH key with a strong passphrase
-ssh-keygen -t ed25519 -a 256 -C "ryan@idols-ai" -f ~/.ssh/shoukei
+ssh-keygen -t ed25519 -a 256 -C "ryan@shoukei" -f ~/.ssh/shoukei
 # 2. Add the ssh key to the ssh-agent, so that nixos-rebuild can use it to pull my private secrets repo.
 ssh-add ~/.ssh/shoukei
 ```
