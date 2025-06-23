@@ -13,8 +13,27 @@
     rm -f ${config.home.homeDirectory}/.gitconfig
   '';
 
-  home.packages = with pkgs; [
-  ];
+  # GitHub CLI tool
+  # https://cli.github.com/manual/
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      prompt = "enabled";
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+    };
+    hosts = {
+      "github.com" = {
+        "users" = {
+          "ryan4yin" = null;
+        };
+        "user" = "ryan4yin";
+      };
+    };
+  };
 
   programs.git = {
     enable = true;
