@@ -7,9 +7,9 @@ export def nixos-switch [
     if "debug" == $mode {
         # show details via nix-output-monitor
         nom build $".#nixosConfigurations.($name).config.system.build.toplevel" --show-trace --verbose
-        nixos-rebuild switch --use-remote-sudo --flake $".#($name)" --show-trace --verbose
+        nixos-rebuild switch --sudo --flake $".#($name)" --show-trace --verbose
     } else {
-        nixos-rebuild switch --use-remote-sudo --flake $".#($name)"
+        nixos-rebuild switch --sudo --flake $".#($name)"
     }
 }
 
