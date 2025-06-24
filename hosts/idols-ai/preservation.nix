@@ -232,7 +232,6 @@ in {
         # Instant Messaging
         # ======================================
         ".config/QQ"
-        ".xwechat"
 
         ".local/share/TelegramDesktop"
 

@@ -81,4 +81,3 @@ provide a much higher level of security.
   - https://git.grimmauld.de/Grimmauld/grimm-nixos-laptop/src/branch/main/hardening
 - Others:
   - Directly via `buildFHSUserEnvBubblewrap`:
-    https://github.com/xddxdd/nur-packages/blob/master/pkgs/uncategorized/wechat-uos/default.nix
