@@ -782,22 +782,6 @@
         "url": "https://flakehub.com/f/NixOS/nixpkgs/0.1.%2A.tar.gz"
       }
     },
-    "nixpkgs_6": {
-      "locked": {
-        "lastModified": 1747610100,
-        "narHash": "sha256-rpR5ZPMkWzcnCcYYo3lScqfuzEw5Uyfh+R0EKZfroAc=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ca49c4304acf0973078db0a9d200fd2bae75676d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-25.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nuenv": {
       "inputs": {
         "nixpkgs": "nixpkgs_5",
@@ -819,14 +803,16 @@
     },
     "nur-ryan4yin": {
       "inputs": {
-        "nixpkgs": "nixpkgs_6"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1750521085,
-        "narHash": "sha256-LUFa9qQ6q6xjvMY+e3S8y0OgBW18T2qvFCJzwXJme9U=",
+        "lastModified": 1750953617,
+        "narHash": "sha256-gLWXbnpSphF8A36P3JjZcq0pY14Klv1REGC8AMb4F6c=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "3774a59e8ff3ecc620fbc133af7f41c82d302e6b",
+        "rev": "9fc62fad8a0c17f33d6edadc9fd96584ac99b323",
         "type": "github"
       },
       "original": {

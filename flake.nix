@@ -143,7 +143,10 @@
       flake = false;
     };
 
-    nur-ryan4yin.url = "github:ryan4yin/nur-packages";
+    nur-ryan4yin = {
+      url = "github:ryan4yin/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # for waydroid
     # nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
