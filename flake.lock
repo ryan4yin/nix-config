@@ -808,11 +808,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750953617,
-        "narHash": "sha256-gLWXbnpSphF8A36P3JjZcq0pY14Klv1REGC8AMb4F6c=",
+        "lastModified": 1751086727,
+        "narHash": "sha256-5y9aE/o+KwEg075R5m/13Z1mavtyWv+9DE5uppLdRlo=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "9fc62fad8a0c17f33d6edadc9fd96584ac99b323",
+        "rev": "a41be29389c8503f67b9f5cd47fa8b99a5bb3fe5",
         "type": "github"
       },
       "original": {
