@@ -114,6 +114,10 @@
           mode = "0700";
         }
         {
+          directory = ".aliyun";
+          mode = "0700";
+        }
+        {
           directory = ".config/gcloud";
           mode = "0700";
         }
