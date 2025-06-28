@@ -380,3 +380,29 @@ list-failed:
 [group('services')]
 list-systemd:
   systemctl list-units systemd-*
+
+
+# =================================================
+#
+# Nixpkgs Review via Github Action
+# https://github.com/ryan4yin/nixpkgs-review-gha
+#
+# =================================================
+
+# Run nixpkgs-review for PR
+[linux]
+[group('nixpkgs')]
+review pr:
+  gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f post-result=true -f pr={{pr}}
+
+# Run package tests for PR
+[linux]
+[group('nixpkgs')]
+test pr pname:
+  gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f post-result=true -f pr={{pr}} -f extra-args="-p {{pname}}.passthru.tests"
+
+# View the summary of a workflow
+[linux]
+[group('nixpkgs')]
+summary:
+  gh workflow view review.yml --repo ryan4yin/nixpkgs-review-gha
