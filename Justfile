@@ -393,13 +393,13 @@ list-systemd:
 [linux]
 [group('nixpkgs')]
 pkg-review pr:
-  gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f post-result=true -f pr={{pr}}
+  gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f x86_64-darwin=no -f post-result=true -f pr={{pr}}
 
 # Run package tests for PR
 [linux]
 [group('nixpkgs')]
 pkg-test pr pname:
-  gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f post-result=true -f pr={{pr}} -f extra-args="-p {{pname}}.passthru.tests"
+  gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f x86_64-darwin=no -f post-result=true -f pr={{pr}} -f extra-args="-p {{pname}}.passthru.tests"
 
 # View the summary of a workflow
 [linux]
