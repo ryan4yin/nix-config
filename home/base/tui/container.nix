@@ -17,8 +17,6 @@
     kubectl-tree # kubectl tree
     kubectl-node-shell # exec into node
     kubepug # kubernetes pre upgrade checker
-    k8sgpt
-    kubectl-ai # an ai helper opensourced by google
 
     kubebuilder
     istioctl
