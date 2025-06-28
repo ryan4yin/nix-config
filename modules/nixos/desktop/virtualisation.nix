@@ -23,17 +23,23 @@
   boot.kernelModules = ["vfio-pci"];
 
   virtualisation = {
-    docker = {
+    docker.enable = false;
+    podman = {
       enable = true;
-      daemon.settings = {
-        # enables pulling using containerd, which supports restarting from a partial pull
-        # https://docs.docker.com/storage/containerd/
-        "features" = {"containerd-snapshotter" = true;};
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+      # Periodically prune Podman resources
+      autoPrune = {
+        enable = true;
+        dates = "weekly";
+        flags = ["--all"];
       };
+    };
 
-      # start dockerd on boot.
-      # This is required for containers which are created with the `--restart=always` flag to work.
-      enableOnBoot = true;
+    oci-containers = {
+      backend = "podman";
     };
 
     # Usage: https://wiki.nixos.org/wiki/Waydroid
