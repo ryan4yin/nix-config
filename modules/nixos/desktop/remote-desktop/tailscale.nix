@@ -22,7 +22,7 @@
 # Status Data:
 #   `journalctl -u tailscaled` shows tailscaled's logs
 #   logs indicate that tailscale store its data in /var/lib/tailscale
-#   which is already persistent across reboots(via impermanence.nix)
+#   which is already persistent across reboots(via preservation)
 #
 # References:
 # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/networking/tailscale.nix

@@ -18,7 +18,7 @@ in {
     ./hardware-configuration.nix
     ./nvidia.nix
 
-    ./impermanence.nix
+    ./preservation.nix
     ./secureboot.nix
   ];
 
