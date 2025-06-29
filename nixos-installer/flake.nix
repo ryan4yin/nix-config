@@ -34,7 +34,7 @@
           ../modules/nixos/base/networking.nix
 
           ../hosts/idols-ai/hardware-configuration.nix
-          ../hosts/idols-ai/persistent.nix
+          ../hosts/idols-ai/preservation
         ];
       };
 
@@ -64,7 +64,7 @@
           ../modules/nixos/base/networking.nix
 
           ../hosts/12kingdoms-shoukei/hardware-configuration.nix
-          ../hosts/idols-ai/persistent.nix
+          ../hosts/idols-ai/preservation
         ];
       };
     };

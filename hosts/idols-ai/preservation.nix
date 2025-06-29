@@ -46,7 +46,10 @@ in {
       # system-core
       "/var/lib/nixos"
       "/var/lib/systemd"
-      "/var/lib/private"
+      {
+        directory = "/var/lib/private";
+        mode = "0700";
+      }
 
       # containers
       # "/var/lib/docker"

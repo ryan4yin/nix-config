@@ -39,7 +39,7 @@
           modules.desktop.fonts.enable = true;
           modules.desktop.wayland.enable = true;
           modules.secrets.desktop.enable = true;
-          modules.secrets.impermanence.enable = true;
+          modules.secrets.preservation.enable = true;
         }
       ]
       ++ base-modules.nixos-modules;
