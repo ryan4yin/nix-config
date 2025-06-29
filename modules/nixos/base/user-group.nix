@@ -8,7 +8,7 @@
 
   users.groups = {
     "${myvars.username}" = {};
-    docker = {};
+    podman = {};
     wireshark = {};
     # for android platform tools's udev rules
     adbusers = {};
@@ -30,7 +30,7 @@
       "users"
       "networkmanager"
       "wheel"
-      "docker"
+      "podman"
       "wireshark"
       "adbusers"
       "libvirtd"
