@@ -3,6 +3,11 @@
   pkgs,
   ...
 }: {
+  # TODO: migrate from impermanence to preservation.
+  # Currently initrd do not support read password from devices:
+  #   boot.initrd.luks.devices.<name>.fallbackToPassword is implied by systemd stage 1.
+  #
+  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/system/boot/luksroot.nix
   imports = [
     impermanence.nixosModules.impermanence
   ];
