@@ -43,6 +43,7 @@
   ];
 
   boot.initrd = {
+    systemd.enable = true;
     # unlocked luks devices via a keyfile or prompt a passphrase.
     luks.devices."crypted-nixos" = {
       # NOTE: DO NOT use device name here(like /dev/sda, /dev/nvme0n1p2, etc), use UUID instead.

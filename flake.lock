@@ -886,6 +886,21 @@
         "type": "github"
       }
     },
+    "preservation": {
+      "locked": {
+        "lastModified": 1738541138,
+        "narHash": "sha256-isT+jR8P8UFh5PJDzGHYXqVEHEZa0D5WvT5kfMf14AM=",
+        "owner": "nix-community",
+        "repo": "preservation",
+        "rev": "2f16754f9f6b766c1429375ab7417dc81cc90a63",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "preservation",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -912,6 +927,7 @@
         "nur-ryan4yin": "nur-ryan4yin",
         "polybar-themes": "polybar-themes",
         "pre-commit-hooks": "pre-commit-hooks",
+        "preservation": "preservation",
         "wallpapers": "wallpapers"
       }
     },
