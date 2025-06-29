@@ -31,7 +31,7 @@ in {
   #
   #  See also https://grahamc.com/blog/erase-your-darlings/
 
-  # NOTE: impermanence only mounts the directory/file list below to /persistent
+  # NOTE: preservation only mounts the directory/file list below to /persistent
   # If the directory/file already exists in the root filesystem you should
   # move those files/directories to /persistent first!
   preservation.preserveAt."/persistent" = {
