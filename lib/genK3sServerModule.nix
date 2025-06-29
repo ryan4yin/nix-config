@@ -11,6 +11,7 @@
   masterHost,
   clusterInit ? false,
   kubeletExtraArgs ? [],
+  k3sExtraArgs ? [],
   nodeLabels ? [],
   nodeTaints ? [],
   disableFlannel ? true,
@@ -35,7 +36,12 @@ in {
   ];
 
   # Kernel modules required by cilium
-  boot.kernelModules = ["ip6_tables" "ip6table_mangle" "ip6table_raw" "ip6table_filter"];
+  boot.kernelModules = [
+    "ip6_tables"
+    "ip6table_mangle"
+    "ip6table_raw"
+    "ip6table_filter"
+  ];
   networking.enableIPv6 = true;
   networking.nat = {
     enable = true;
@@ -71,7 +77,8 @@ in {
         ++ (map (label: "--node-label=${label}") nodeLabels)
         ++ (map (taint: "--node-taint=${taint}") nodeTaints)
         ++ (map (arg: "--kubelet-arg=${arg}") kubeletExtraArgs)
-        ++ (lib.optionals disableFlannel ["--flannel-backend=none"]);
+        ++ (lib.optionals disableFlannel ["--flannel-backend=none"])
+        ++ k3sExtraArgs;
     in
       lib.concatStringsSep " " flagList;
   };
