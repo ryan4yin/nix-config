@@ -5,7 +5,7 @@
 makeDesktopItem {
   name = "qq";
   desktopName = "QQ";
-  exec = "qq %U";
+  exec = "${qq}/bin/qq %U";
   terminal = false;
   # To find the icon name(nushell):
   #   let p = NIXPKGS_ALLOW_UNFREE=1 nix eval --impure nixpkgs#qq.outPath | str trim --char '"'
