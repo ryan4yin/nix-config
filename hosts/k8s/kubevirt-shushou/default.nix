@@ -45,7 +45,7 @@ in {
       disko.nixosModules.default
       ../disko-config/kubevirt-disko-fs.nix
       ../kubevirt-shoryu/hardware-configuration.nix
-      ../kubevirt-shoryu/impermanence.nix
+      ../kubevirt-shoryu/preservation.nix
       coreModule
       k3sModule
     ];
