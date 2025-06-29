@@ -45,7 +45,7 @@ in {
     server.webserver.enable = mkEnableOption "NixOS Secrets for Web Servers(contains tls cert keys)";
     server.storage.enable = mkEnableOption "NixOS Secrets for HDD Data's LUKS Encryption";
 
-    preservation.enable = mkEnableOption "whether use impermanence and ephemeral root file system";
+    preservation.enable = mkEnableOption "whether use preservation and ephemeral root file system";
   };
 
   config = mkIf (cfg.desktop.enable || enabledServerSecrets) (mkMerge [
@@ -59,7 +59,7 @@ in {
         if cfg.preservation.enable
         then [
           # To decrypt secrets on boot, this key should exists when the system is booting,
-          # so we should use the real key file path(prefixed by `/persistent/`) here, instead of the path mounted by impermanence.
+          # so we should use the real key file path(prefixed by `/persistent/`) here, instead of the path mounted by preservation.
           "/persistent/etc/ssh/ssh_host_ed25519_key" # Linux
         ]
         else [

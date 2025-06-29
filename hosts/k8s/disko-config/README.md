@@ -60,7 +60,7 @@ nixos-enter
 # NOTE: DO NOT skip this step!!!
 # copy the essential files into /persistent
 # otherwise the / will be cleared and data will lost
-## NOTE: impermanence just create links from / to /persistent
+## NOTE: preservation just create links from / to /persistent
 ##       We need to copy files into /persistent manually!!!
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/

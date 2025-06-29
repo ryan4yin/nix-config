@@ -1,5 +1,5 @@
 {
-  # required by impermanence
+  # required by preservation
   fileSystems."/persistent".neededForBoot = true;
 
   # contains the k3s's token

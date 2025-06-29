@@ -23,7 +23,7 @@ The configuration of the main flake, [/flake.nix](/flake.nix), is heavy, and it 
 
 1. Adjust & verify my `hardware-configuration.nix` modification quickly before deploying the main
    flake.
-2. Test some new filesystem related features on a NixOS virtual machine, such as impermanence,
+2. Test some new filesystem related features on a NixOS virtual machine, such as preservation,
    Secure Boot, TPM2, Encryption, etc.
 
 ## Steps to Deploying this flake
@@ -221,7 +221,7 @@ nixos-enter
 # NOTE: DO NOT skip this step!!!
 # copy the essential files into /persistent
 # otherwise the / will be cleared and data will lost
-## NOTE: impermanence just create links from / to /persistent
+## NOTE: preservation just create links from / to /persistent
 ##       We need to copy files into /persistent manually!!!
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/

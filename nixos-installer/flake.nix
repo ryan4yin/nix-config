@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    impermanence.url = "github:nix-community/impermanence";
+    preservation.url = "github:nix-community/preservation";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nuenv.url = "github:DeterminateSystems/nuenv";
   };
