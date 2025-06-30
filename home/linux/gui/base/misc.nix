@@ -21,7 +21,7 @@
     pkgs.nixpaks.qq
     pkgs.nixpaks.qq-desktop-item
     # qqmusic
-    # wechat-uos
+    pkgs.bwraps.wechat
   ];
 
   # allow fontconfig to discover fonts and configurations installed through home.packages
