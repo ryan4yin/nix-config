@@ -154,7 +154,7 @@ in {
 
     # `brew install --cask`
     casks = [
-      "squirrel" # input method for Chinese, rime-squirrel
+      "squirrel-app" # input method for Chinese, rime-squirrel
       "firefox"
       "google-chrome"
 
@@ -169,7 +169,7 @@ in {
       # https://joplinapp.org/help/
       "joplin" # note taking app
 
-      "tailscale" # tailscale macos app (with gui)
+      "tailscale-app" # tailscale macos app (with gui)
 
       # AI
       "lm-studio"
@@ -203,7 +203,7 @@ in {
       # Development
       "mitmproxy" # HTTP/HTTPS traffic inspector
       "insomnia" # REST client
-      "wireshark" # network analyzer
+      "wireshark-app" # network analyzer
       # "jdk-mission-control" # Java Mission Control
       # "google-cloud-sdk" # Google Cloud SDK
       "miniforge" # Miniconda's community-driven distribution
