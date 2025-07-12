@@ -19,6 +19,10 @@
       "modules/nixos/desktop.nix"
       # host specific
       "hosts/12kingdoms-${name}"
+      # nixos hardening
+      # "hardening/profiles/default.nix"
+      "hardening/nixpaks"
+      "hardening/bwraps"
     ];
     home-modules = map mylib.relativeToRoot [
       # common
