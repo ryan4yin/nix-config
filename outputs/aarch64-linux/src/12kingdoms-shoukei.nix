@@ -39,6 +39,9 @@
           modules.desktop.wayland.enable = true;
           modules.secrets.desktop.enable = true;
           modules.secrets.preservation.enable = true;
+
+          # TODO: remove this option
+          nixpkgs.config.allowUnsupportedSstem = true;
         }
       ]
       ++ base-modules.nixos-modules;
