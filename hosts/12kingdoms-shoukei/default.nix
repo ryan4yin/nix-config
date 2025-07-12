@@ -1,4 +1,4 @@
-{...}:
+{myvars, ...}:
 #############################################################
 #
 #  Shoukei - NixOS running on Macbook Pro 2022 M2 16G
@@ -14,6 +14,7 @@ in {
 
   networking = {
     inherit hostName;
+    inherit (myvars.networking) nameservers;
 
     # configures the network interface(include wireless) via `nmcli` & `nmtui`
     networkmanager.enable = true;
