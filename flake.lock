@@ -505,6 +505,23 @@
         "type": "github"
       }
     },
+    "my-asahi-firmware": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1752336609,
+        "narHash": "sha256-PeJXDQgKwmu6PEjEA+68I7nIOTTpwUUyO1b5PpQg4gc=",
+        "ref": "refs/heads/main",
+        "rev": "981583c8e101967ef6a66388ade54cab751f3a02",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/ryan4yin/asahi-firmware.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/ryan4yin/asahi-firmware.git"
+      }
+    },
     "mysecrets": {
       "flake": false,
       "locked": {
@@ -899,6 +916,7 @@
         "haumea": "haumea",
         "home-manager": "home-manager_2",
         "lanzaboote": "lanzaboote",
+        "my-asahi-firmware": "my-asahi-firmware",
         "mysecrets": "mysecrets",
         "nix-darwin": "nix-darwin",
         "nix-gaming": "nix-gaming",

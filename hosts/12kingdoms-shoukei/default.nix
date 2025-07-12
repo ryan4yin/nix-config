@@ -1,4 +1,4 @@
-{nixos-apple-silicon, ...}:
+{...}:
 #############################################################
 #
 #  Shoukei - NixOS running on Macbook Pro 2022 M2 16G
@@ -8,8 +8,6 @@ let
   hostName = "shoukei"; # Define your hostname.
 in {
   imports = [
-    nixos-apple-silicon.nixosModules.default
-
     ./hardware-configuration.nix
     ../idols-ai/preservation.nix
   ];

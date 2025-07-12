@@ -6,13 +6,19 @@
   lib,
   pkgs,
   modulesPath,
+  nixos-apple-silicon,
+  my-asahi-firmware,
   ...
 }: let
   device = "/dev/disk/by-uuid/c2e8b249-240e-4eef-bf4e-81e7dbbf4887";
 in {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    nixos-apple-silicon.nixosModules.default
   ];
+
+  # Specify path to peripheral firmware files.
+  hardware.asahi.peripheralFirmwareDirectory = "${my-asahi-firmware}/macbook-pro-m2-a2338";
 
   networking.wireless.iwd = {
     enable = true;

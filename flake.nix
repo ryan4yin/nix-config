@@ -158,6 +158,11 @@
       flake = false;
     };
 
+    my-asahi-firmware = {
+      url = "git+ssh://git@github.com/ryan4yin/asahi-firmware.git?shallow=1";
+      flake = false;
+    };
+
     # my wallpapers
     wallpapers = {
       url = "github:ryan4yin/wallpapers";

@@ -10,11 +10,17 @@
       url = "github:nix-community/nixos-apple-silicon/release-2025-05-30";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    my-asahi-firmware = {
+      url = "git+ssh://git@github.com/ryan4yin/asahi-firmware.git?shallow=1";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
     nixpkgs,
     nixos-apple-silicon,
+    my-asahi-firmware,
     ...
   }: let
     inherit (inputs.nixpkgs) lib;
@@ -50,7 +56,7 @@
         specialArgs =
           inputs
           // {
-            inherit mylib myvars;
+            inherit mylib myvars my-asahi-firmware;
           };
         modules = [
           {networking.hostName = "shoukei";}
