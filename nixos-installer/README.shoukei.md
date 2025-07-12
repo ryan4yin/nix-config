@@ -254,7 +254,7 @@ nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --ve
 
 # if you want to use a cache mirror, run this command instead
 # replace the mirror url with your own
-nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --verbose --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store" # install-2
+nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --verbose --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store  https://cache.nixos.org/" # install-2
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login
