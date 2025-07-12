@@ -22,7 +22,7 @@
       # nixos hardening
       # "hardening/profiles/default.nix"
       "hardening/nixpaks"
-      # "hardening/apparmor"
+      "hardening/bwraps"
     ];
     home-modules = map mylib.relativeToRoot [
       # common
