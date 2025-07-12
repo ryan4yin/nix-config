@@ -138,7 +138,8 @@
     };
 
     nixos-apple-silicon = {
-      url = "github:nix-community/nixos-apple-silicon/release-2025-05-30";
+      # 2025-07-04
+      url = "github:nix-community/nixos-apple-silicon/eba4b40c816e5aff8951ae231ac237e8aab8ec1d";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
