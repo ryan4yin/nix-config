@@ -67,6 +67,15 @@ in {
     };
   };
 
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/01CE-1DFD";
+    fsType = "vfat";
+    options = [
+      "fmask=0022"
+      "dmask=0022"
+    ];
+  };
+
   # equal to `mount -t tmpfs tmpfs /`
   fileSystems."/" = {
     device = "tmpfs";
@@ -77,11 +86,6 @@ in {
       "relatime"
       "mode=755"
     ];
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/nvme0n1p1";
-    fsType = "vfat";
   };
 
   fileSystems."/nix" = {

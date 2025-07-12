@@ -223,7 +223,7 @@ Clone this repository:
 
 ```bash
 # enter an shell with git/vim/ssh-agent/gnumake available
-nix-shell -p git neovim just --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store"
+nix-shell -p git neovim --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store"
 
 # clone this repository
 git clone https://github.com/ryan4yin/nix-config.git
@@ -287,7 +287,7 @@ cp -r ../nix-config /mnt/etc/nixos
 # sync the disk, unmount the partitions, and close the encrypted device
 sync
 swapoff /mnt/swap/swapfile
-umount -R /mnt
+umount -R /mnt/{nix,tmp,swap,persistent,snapshots,boot}
 cryptsetup close /dev/mapper/crypted-nixos
 reboot
 ```
