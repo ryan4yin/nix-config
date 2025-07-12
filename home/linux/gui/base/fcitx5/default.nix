@@ -7,7 +7,6 @@
       force = true;
     };
   };
-  catppuccin.fcitx5.enable = true;
 
   i18n.inputMethod = {
     enable = true;
