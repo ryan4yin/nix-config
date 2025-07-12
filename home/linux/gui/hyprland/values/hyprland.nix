@@ -1,8 +1,6 @@
 {
   pkgs,
   config,
-  lib,
-  nur-ryan4yin,
   ...
 }: let
   package = pkgs.hyprland;
@@ -23,18 +21,22 @@ in {
     enable = true;
     systemd.enable = true;
   };
+  # Disable catppuccin to avoid conflict with my non-nix config.
+  catppuccin.waybar.enable = false;
 
   # screen locker
   programs.hyprlock.enable = true;
 
   # Logout Menu
   programs.wlogout.enable = true;
+  catppuccin.wlogout.enable = false;
 
   # Hyprland idle daemon
   services.hypridle.enable = true;
 
   # notification daemon, the same as dunst
   services.mako.enable = true;
+  catppuccin.mako.enable = false;
 
   # NOTE:
   # We have to enable hyprland/i3's systemd user service in home-manager,
@@ -47,7 +49,6 @@ in {
       source = let
         configPath = "${config.home.homeDirectory}/.config/hypr/configs";
       in [
-        "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf"
         "${configPath}/exec.conf"
         "${configPath}/fcitx5.conf"
         "${configPath}/keybindings.conf"

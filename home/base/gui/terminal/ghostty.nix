@@ -20,8 +20,6 @@
     installBatSyntax = false;
     # installVimSyntax = true;
     settings = {
-      theme = "catppuccin-mocha";
-
       font-family = "Maple Mono NF CN";
       font-size = 13;
 

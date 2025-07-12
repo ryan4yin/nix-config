@@ -13,31 +13,20 @@
     pulsemixer
     imv # simple image viewer
 
-    nvtopPackages.full
-
     # video/audio tools
-    # cava # for visualizing audio
     libva-utils
     vdpauinfo
     vulkan-tools
     glxinfo
+    nvitop
 
     (zoom-us.override {hyprlandXdgDesktopPortalSupport = true;})
   ];
 
-  # https://github.com/catppuccin/cava
-  xdg.configFile."cava/config".text =
-    ''
-      # custom cava config
-    ''
-    + builtins.readFile "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-cava}/mocha.cava";
-
-  programs = {
-    mpv = {
-      enable = true;
-      defaultProfiles = ["gpu-hq"];
-      scripts = [pkgs.mpvScripts.mpris];
-    };
+  programs.mpv = {
+    enable = true;
+    defaultProfiles = ["gpu-hq"];
+    scripts = [pkgs.mpvScripts.mpris];
   };
 
   services = {

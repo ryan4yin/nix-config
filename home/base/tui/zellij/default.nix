@@ -7,6 +7,10 @@ in {
     enable = true;
     package = pkgs.zellij;
   };
+  xdg.configFile."zellij/config.kdl".source = ./config.kdl;
+  # Disable catppuccin to avoid conflict with my non-nix config.
+  catppuccin.zellij.enable = false;
+
   # auto start zellij in nushell
   programs.nushell.extraConfig = ''
     # auto start zellij
@@ -29,6 +33,4 @@ in {
   # only works in bash/zsh, not nushell
   home.shellAliases = shellAliases;
   programs.nushell.shellAliases = shellAliases;
-
-  xdg.configFile."zellij/config.kdl".source = ./config.kdl;
 }

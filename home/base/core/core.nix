@@ -1,8 +1,4 @@
-{
-  pkgs,
-  nur-ryan4yin,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # Misc
     cowsay
@@ -25,8 +21,6 @@
     sad # CLI search and replace, just like sed, but with diff preview.
     yq-go # yaml processor https://github.com/mikefarah/yq
     just # a command runner like make, but simpler
-    delta # A viewer for git and diff output
-    lazygit # Git terminal UI.
     hyperfine # command-line benchmarking tool
     gping # ping, but with a graph(TUI)
     doggo # DNS client for humans
@@ -53,103 +47,75 @@
     ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
   ];
 
-  programs = {
-    # A modern replacement for ‘ls’
-    # useful in bash/zsh prompt, not in nushell.
-    eza = {
-      enable = true;
-      # do not enable aliases in nushell!
-      enableNushellIntegration = false;
-      git = true;
-      icons = "auto";
-    };
+  # A modern replacement for ‘ls’
+  # useful in bash/zsh prompt, not in nushell.
+  programs.eza = {
+    enable = true;
+    # do not enable aliases in nushell!
+    enableNushellIntegration = false;
+    git = true;
+    icons = "auto";
+  };
 
-    # a cat(1) clone with syntax highlighting and Git integration.
-    bat = {
-      enable = true;
-      config = {
-        pager = "less -FR";
-        theme = "catppuccin-mocha";
-      };
-      themes = {
-        # https://raw.githubusercontent.com/catppuccin/bat/main/Catppuccin-mocha.tmTheme
-        catppuccin-mocha = {
-          src = nur-ryan4yin.packages.${pkgs.system}.catppuccin-bat;
-          file = "Catppuccin-mocha.tmTheme";
-        };
-      };
+  # a cat(1) clone with syntax highlighting and Git integration.
+  programs.bat = {
+    enable = true;
+    config = {
+      pager = "less -FR";
     };
+  };
 
-    # A command-line fuzzy finder
-    fzf = {
-      enable = true;
-      # https://github.com/catppuccin/fzf
-      # catppuccin-mocha
-      colors = {
-        "bg+" = "#313244";
-        "bg" = "#1e1e2e";
-        "spinner" = "#f5e0dc";
-        "hl" = "#f38ba8";
-        "fg" = "#cdd6f4";
-        "header" = "#f38ba8";
-        "info" = "#cba6f7";
-        "pointer" = "#f5e0dc";
-        "marker" = "#f5e0dc";
-        "fg+" = "#cdd6f4";
-        "prompt" = "#cba6f7";
-        "hl+" = "#f38ba8";
+  # A command-line fuzzy finder
+  programs.fzf.enable = true;
+
+  # very fast version of tldr in Rust
+  programs.tealdeer = {
+    enable = true;
+    enableAutoUpdates = true;
+    settings = {
+      display = {
+        compact = false;
+        use_pager = true;
+      };
+      updates = {
+        auto_update = false;
+        auto_update_interval_hours = 720;
       };
     };
+  };
 
-    # very fast version of tldr in Rust
-    tealdeer = {
-      enable = true;
-      enableAutoUpdates = true;
-      settings = {
-        display = {
-          compact = false;
-          use_pager = true;
-        };
-        updates = {
-          auto_update = false;
-          auto_update_interval_hours = 720;
-        };
-      };
-    };
+  # zoxide is a smarter cd command, inspired by z and autojump.
+  # It remembers which directories you use most frequently,
+  # so you can "jump" to them in just a few keystrokes.
+  # zoxide works on all major shells.
+  #
+  #   z foo              # cd into highest ranked directory matching foo
+  #   z foo bar          # cd into highest ranked directory matching foo and bar
+  #   z foo /            # cd into a subdirectory starting with foo
+  #
+  #   z ~/foo            # z also works like a regular cd command
+  #   z foo/             # cd into relative path
+  #   z ..               # cd one level up
+  #   z -                # cd into previous directory
+  #
+  #   zi foo             # cd with interactive selection (using fzf)
+  #
+  #   z foo<SPACE><TAB>  # show interactive completions (zoxide v0.8.0+, bash 4.4+/fish/zsh only)
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    enableNushellIntegration = true;
+  };
 
-    # zoxide is a smarter cd command, inspired by z and autojump.
-    # It remembers which directories you use most frequently,
-    # so you can "jump" to them in just a few keystrokes.
-    # zoxide works on all major shells.
-    #
-    #   z foo              # cd into highest ranked directory matching foo
-    #   z foo bar          # cd into highest ranked directory matching foo and bar
-    #   z foo /            # cd into a subdirectory starting with foo
-    #
-    #   z ~/foo            # z also works like a regular cd command
-    #   z foo/             # cd into relative path
-    #   z ..               # cd one level up
-    #   z -                # cd into previous directory
-    #
-    #   zi foo             # cd with interactive selection (using fzf)
-    #
-    #   z foo<SPACE><TAB>  # show interactive completions (zoxide v0.8.0+, bash 4.4+/fish/zsh only)
-    zoxide = {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      enableNushellIntegration = true;
-    };
-
-    # Atuin replaces your existing shell history with a SQLite database,
-    # and records additional context for your commands.
-    # Additionally, it provides optional and fully encrypted
-    # synchronisation of your history between machines, via an Atuin server.
-    atuin = {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      enableNushellIntegration = true;
-    };
+  # Atuin replaces your existing shell history with a SQLite database,
+  # and records additional context for your commands.
+  # Additionally, it provides optional and fully encrypted
+  # synchronisation of your history between machines, via an Atuin server.
+  programs.atuin = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    enableNushellIntegration = true;
   };
 }
