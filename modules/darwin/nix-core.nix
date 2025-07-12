@@ -1,4 +1,4 @@
-{
+{config, ...}: {
   ###################################################################################
   #
   #  Core configuration for nix-darwin
@@ -24,4 +24,8 @@
   nix.gc.automatic = false;
 
   system.stateVersion = 5;
+
+  nix.extraOptions = ''
+    !include ${config.age.secrets.nix-access-tokens.path}
+  '';
 }

@@ -72,6 +72,7 @@ in {
       "/var/lib/tailscale"
       "/var/lib/bluetooth"
       "/var/lib/NetworkManager"
+      "/var/lib/iwd"
     ];
     files = [
       # auto-generated machine ID

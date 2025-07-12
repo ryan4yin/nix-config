@@ -179,8 +179,8 @@ Filename				Type		Size		Used		Priority
 Clone this repository:
 
 ```bash
-# enter an shell with git/vim/ssh-agent/gnumake available
-nix-shell -p git vim gnumake
+# enter an shell with git/vim/ssh-agent available
+nix-shell -p git vim just
 
 # clone this repository
 git clone https://github.com/ryan4yin/nix-config.git
@@ -211,7 +211,7 @@ nixos-install --root /mnt --flake .#ai --no-root-password --show-trace --verbose
 
 # if you want to use a cache mirror, run this command instead
 # replace the mirror url with your own
-nixos-install --root /mnt --flake .#ai --no-root-password --show-trace --verbose --option substituters "https://mirror.sjtu.edu.cn/nix-channels/store"  # install-2
+nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --verbose --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store  https://cache.nixos.org/" # install-2
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login

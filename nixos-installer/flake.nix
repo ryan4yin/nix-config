@@ -4,25 +4,38 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     preservation.url = "github:nix-community/preservation";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nuenv.url = "github:DeterminateSystems/nuenv";
+
+    nixos-apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon/release-2025-05-30";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    my-asahi-firmware = {
+      url = "git+ssh://git@github.com/ryan4yin/asahi-firmware.git?shallow=1";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
     nixpkgs,
-    nixos-hardware,
-    nuenv,
+    nixos-apple-silicon,
+    my-asahi-firmware,
     ...
-  }: {
+  }: let
+    inherit (inputs.nixpkgs) lib;
+    mylib = import ../lib {inherit lib;};
+    myvars = import ../vars {inherit lib;};
+  in {
     nixosConfigurations = {
       ai = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs =
           inputs
           // {
-            myvars.username = "ryan";
-            myvars.userfullname = "Ryan Yin";
+            inherit mylib myvars;
           };
+
         modules = [
           {networking.hostName = "ai";}
 
@@ -31,7 +44,7 @@
           ../modules/base
           ../modules/nixos/base/i18n.nix
           ../modules/nixos/base/user-group.nix
-          ../modules/nixos/base/networking.nix
+          ../modules/nixos/base/ssh.nix
 
           ../hosts/idols-ai/hardware-configuration.nix
           ../hosts/idols-ai/preservation.nix
@@ -39,29 +52,22 @@
       };
 
       shoukei = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = "aarch64-linux";
         specialArgs =
           inputs
           // {
-            myvars.username = "ryan";
-            myvars.userfullname = "Ryan Yin";
+            inherit mylib myvars my-asahi-firmware;
           };
         modules = [
-          # Building on a USB installer is buggy, lack of disk space, memory, trublesome to setup substituteers, etc.
-          # so we disable apple-t2 module here to avoid build kernel during the initial installation, and enable it after the first boot.
-          # nixos-hardware.nixosModules.apple-t2
-          ({pkgs, ...}: {
-            networking.hostName = "shoukei";
-            boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest kernel for the initial installation.
-            # hardware.apple-t2.enableAppleSetOsLoader = true;
-          })
+          {networking.hostName = "shoukei";}
 
+          nixos-apple-silicon.nixosModules.default
           ./configuration.nix
 
           ../modules/base
           ../modules/nixos/base/i18n.nix
           ../modules/nixos/base/user-group.nix
-          ../modules/nixos/base/networking.nix
+          ../modules/nixos/base/ssh.nix
 
           ../hosts/12kingdoms-shoukei/hardware-configuration.nix
           ../hosts/idols-ai/preservation.nix

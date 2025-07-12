@@ -1,17 +1,15 @@
-{config, ...}: let
+{ config, ... }:
+let
   hostName = "shoukei"; # Define your hostname.
-in {
+in
+{
   modules.desktop.hyprland = {
     nvidia = false;
-    settings = {
-      # Configure your Display resolution, offset, scale and Monitors here, use `hyprctl monitors` to get the info.
-      #   highres:      get the best possible resolution
-      #   auto:         position automatically
-      #   1.5:          scale to 1.5 times
-      #   bitdepth,10:  enable 10 bit support
-      monitor = "eDP-1,highres,auto,1.5,bitdepth,10";
-    };
+    settings.source = [
+      "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/hypr-hardware.conf"
+    ];
   };
 
-  programs.ssh.matchBlocks."github.com".identityFile = "${config.home.homeDirectory}/.ssh/${hostName}";
+  programs.ssh.matchBlocks."github.com".identityFile =
+    "${config.home.homeDirectory}/.ssh/${hostName}";
 }

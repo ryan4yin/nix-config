@@ -8,7 +8,7 @@
     #   ~/.local/share/Steam/steamapps/common - The default Game install location
     #   ~/.steam/root        - A symlink to ~/.local/share/Steam
     #   ~/.steam             - Some Symlinks & user info
-    enable = true;
+    enable = pkgs.stdenv.isx86_64;
     # https://github.com/ValveSoftware/gamescope
     # enables features such as resolution upscaling and stretched aspect ratios (such as 4:3)
     gamescopeSession.enable = true;
