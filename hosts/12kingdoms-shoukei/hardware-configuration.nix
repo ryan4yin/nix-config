@@ -14,9 +14,14 @@ in {
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  networking.wireless.iwd = {
+    enable = true;
+    settings.General.EnableNetworkConfiguration = true;
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.canTouchEfiVariables = false;
   # depending on how you configured your disk mounts, change this to /boot or /boot/efi.
   boot.loader.efi.efiSysMountPoint = "/boot";
 
@@ -62,7 +67,10 @@ in {
     fsType = "tmpfs";
     # set mode to 755, otherwise systemd will set it to 777, which cause problems.
     # relatime: Update inode access times relative to modify or change time.
-    options = ["relatime" "mode=755"];
+    options = [
+      "relatime"
+      "mode=755"
+    ];
   };
 
   fileSystems."/boot" = {
@@ -73,19 +81,31 @@ in {
   fileSystems."/nix" = {
     inherit device;
     fsType = "btrfs";
-    options = ["subvol=@nix" "noatime" "compress-force=zstd:1"];
+    options = [
+      "subvol=@nix"
+      "noatime"
+      "compress-force=zstd:1"
+    ];
   };
 
   fileSystems."/tmp" = {
     inherit device;
     fsType = "btrfs";
-    options = ["subvol=@tmp" "noatime" "compress-force=zstd:1"];
+    options = [
+      "subvol=@tmp"
+      "noatime"
+      "compress-force=zstd:1"
+    ];
   };
 
   fileSystems."/persistent" = {
     inherit device;
     fsType = "btrfs";
-    options = ["subvol=@persistent" "noatime" "compress-force=zstd:1"];
+    options = [
+      "subvol=@persistent"
+      "noatime"
+      "compress-force=zstd:1"
+    ];
     # preservation's data is required for booting.
     neededForBoot = true;
   };
@@ -93,14 +113,21 @@ in {
   fileSystems."/snapshots" = {
     inherit device;
     fsType = "btrfs";
-    options = ["subvol=@snapshots" "noatime" "compress-force=zstd:1"];
+    options = [
+      "subvol=@snapshots"
+      "noatime"
+      "compress-force=zstd:1"
+    ];
   };
 
   # mount swap subvolume in readonly mode.
   fileSystems."/swap" = {
     inherit device;
     fsType = "btrfs";
-    options = ["subvol=@swap" "ro"];
+    options = [
+      "subvol=@swap"
+      "ro"
+    ];
   };
 
   # remount swapfile in read-write mode
@@ -110,7 +137,10 @@ in {
 
     device = "/swap/swapfile";
     fsType = "none";
-    options = ["bind" "rw"];
+    options = [
+      "bind"
+      "rw"
+    ];
   };
 
   swapDevices = [
