@@ -7,6 +7,7 @@ in {
     enable = true;
     package = pkgs.zellij;
   };
+
   # auto start zellij in nushell
   programs.nushell.extraConfig = ''
     # auto start zellij

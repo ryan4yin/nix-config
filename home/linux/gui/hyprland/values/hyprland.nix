@@ -1,8 +1,6 @@
 {
   pkgs,
   config,
-  lib,
-  nur-ryan4yin,
   ...
 }: let
   package = pkgs.hyprland;
@@ -47,7 +45,6 @@ in {
       source = let
         configPath = "${config.home.homeDirectory}/.config/hypr/configs";
       in [
-        "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-hyprland}/themes/mocha.conf"
         "${configPath}/exec.conf"
         "${configPath}/fcitx5.conf"
         "${configPath}/keybindings.conf"

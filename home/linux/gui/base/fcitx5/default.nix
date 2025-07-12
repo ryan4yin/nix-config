@@ -1,10 +1,4 @@
-{
-  pkgs,
-  nur-ryan4yin,
-  ...
-}: {
-  home.file.".local/share/fcitx5/themes".source = "${nur-ryan4yin.packages.${pkgs.system}.catppuccin-fcitx5}/src";
-
+{pkgs, ...}: {
   xdg.configFile = {
     "fcitx5/profile" = {
       source = ./profile;
@@ -12,8 +6,8 @@
       # so we need to force replace it in every rebuild to avoid file conflict.
       force = true;
     };
-    "fcitx5/conf/classicui.conf".source = ./classicui.conf;
   };
+  catppuccin.fcitx5.enable = true;
 
   i18n.inputMethod = {
     enable = true;
