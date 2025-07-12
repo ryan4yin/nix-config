@@ -5,9 +5,18 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     preservation.url = "github:nix-community/preservation";
     nuenv.url = "github:DeterminateSystems/nuenv";
+
+    nixos-apple-silicon = {
+      url = "github:nix-community/nixos-apple-silicon/release-2025-05-30";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ {nixpkgs, ...}: let
+  outputs = inputs @ {
+    nixpkgs,
+    nixos-apple-silicon,
+    ...
+  }: let
     inherit (inputs.nixpkgs) lib;
     mylib = import ../lib {inherit lib;};
     myvars = import ../vars {inherit lib;};
@@ -46,6 +55,7 @@
         modules = [
           {networking.hostName = "shoukei";}
 
+          nixos-apple-silicon.nixosModules.default
           ./configuration.nix
 
           ../modules/base
