@@ -44,7 +44,7 @@
           ../modules/base
           ../modules/nixos/base/i18n.nix
           ../modules/nixos/base/user-group.nix
-          ../modules/nixos/base/networking.nix
+          ../modules/nixos/base/ssh.nix
 
           ../hosts/idols-ai/hardware-configuration.nix
           ../hosts/idols-ai/preservation.nix
@@ -67,7 +67,7 @@
           ../modules/base
           ../modules/nixos/base/i18n.nix
           ../modules/nixos/base/user-group.nix
-          ../modules/nixos/base/networking.nix
+          ../modules/nixos/base/ssh.nix
 
           ../hosts/12kingdoms-shoukei/hardware-configuration.nix
           ../hosts/idols-ai/preservation.nix
