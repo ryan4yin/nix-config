@@ -1,11 +1,5 @@
 # Hosts
 
-1. `12kingdoms`:
-   1. `shoukei`: NixOS on Macbook Pro 2020 Intel i5, 13.3-inch, 16G RAM + 512G SSD.
-1. `darwin`(macOS)
-   1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for business.
-   1. `harmonica`: MacBook Pro 2020 13-inch i5 16G, for personal use.
-1. `k8s`: My Kubevirt & Kubernetes Clusters
 1. `idols`
    1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
    2. `aquamarine`: Kubevirt Virtual Machine.
@@ -13,6 +7,12 @@
         and other services.
    3. `ruby`: Not used now.
    4. `kana`: Not used now.
+1. `k8s`: My Kubevirt & Kubernetes Clusters
+1. `darwin`(macOS)
+   1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for personal use.
+   1. `frieren`: MacBook Pro 2024 14-inch M4Pro 48G, mainly for work.
+1. `12kingdoms`:
+   1. `shoukei`: NixOS on MacBook Pro 2022 M2.
 1. Other aarch64/riscv64 SBCs:
    [ryan4yin/nixos-config-sbc](https://github.com/ryan4yin/nixos-config-sbc)
 

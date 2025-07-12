@@ -72,7 +72,7 @@ You don't have to go through the pain I've experienced again! Check out my
 | **Text Editor**             | [Neovim][Neovim]                                                                                                    |
 | **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                            |
 | **Image Viewer**            | [imv][imv]                                                                                                          |
-| **Screenshot Software**     | [hyprshot][hyprshot]                                                                               |
+| **Screenshot Software**     | [hyprshot][hyprshot]                                                                                                |
 | **Screen Recording**        | [OBS][OBS]                                                                                                          |
 | **Filesystem & Encryption** | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
 | **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                            |
@@ -132,15 +132,11 @@ nix-shell -p just nushell
 # 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
 # 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
-# 4. deploy harmonica's configuration(macOS Intel)
-just ha
-
 # deploy fern's configuration(Apple Silicon)
 just fe
 
 # deploy with details
-just ha debug
-# just fe debug
+just fe debug
 ```
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
