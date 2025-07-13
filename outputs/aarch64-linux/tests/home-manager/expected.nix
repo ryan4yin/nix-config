@@ -4,7 +4,7 @@
 }: let
   username = myvars.username;
   hosts = [
-    "harmonica"
+    "shoukei-hyprland"
   ];
 in
-  lib.genAttrs hosts (_: "/Users/${username}")
+  lib.genAttrs hosts (_: "/home/${username}")

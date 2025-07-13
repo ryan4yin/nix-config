@@ -39,8 +39,4 @@
     ];
     builders-use-substitutes = true;
   };
-
-  nix.extraOptions = ''
-    !include ${config.age.secrets.nix-access-tokens.path}
-  '';
 }

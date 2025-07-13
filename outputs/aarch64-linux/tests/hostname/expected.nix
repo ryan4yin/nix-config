@@ -3,7 +3,7 @@
   outputs,
 }: let
   specialExpected = {
-    "ai-hyprland" = "ai";
+    "shoukei-hyprland" = "shoukei";
   };
   specialHostNames = builtins.attrNames specialExpected;
 

@@ -17,7 +17,7 @@
       main = {
         term = "foot"; # or "xterm-256color" for maximum compatibility
         font = "Maple Mono NF CN:size=14";
-        dpi-aware = "yes";
+        dpi-aware = "no"; # scale via window manager instead
 
         # Spawn a nushell in login mode via `bash`
         shell = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";

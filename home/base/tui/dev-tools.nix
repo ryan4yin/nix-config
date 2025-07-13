@@ -18,8 +18,8 @@
     colmena # nixos's remote deployment tool
 
     # db related
-    pkgs-unstable.mycli
-    pkgs-unstable.pgcli
+    mycli
+    pgcli
     mongosh
     sqlite
 
@@ -27,10 +27,10 @@
     minicom
 
     # ai related
-    pkgs-unstable.python313Packages.huggingface-hub # huggingface-cli
+    python313Packages.huggingface-hub # huggingface-cli
 
     # misc
-    pkgs-unstable.devbox
+    devbox
     bfg-repo-cleaner # remove large files from git history
     k6 # load testing tool
     protobuf # protocol buffer compiler
