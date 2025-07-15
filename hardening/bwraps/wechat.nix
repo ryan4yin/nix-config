@@ -81,8 +81,12 @@ in
       "--bind \${WECHAT_HOME_DIR} \${HOME}"
       "--bind \${WECHAT_FILES_DIR} \${WECHAT_FILES_DIR}"
       "--chdir \${HOME}"
-      "--setenv QT_QPA_PLATFORM wayland"
+      # wechat-universal only supports xcb
+      "--setenv QT_QPA_PLATFORM xcb"
       "--setenv QT_AUTO_SCREEN_SCALE_FACTOR 1"
+      # use fcitx as IME
+      "--setenv QT_IM_MODULE fcitx"
+      "--setenv GTK_IM_MODULE fcitx"
     ];
     chdirToPwd = false;
     unshareNet = false;
