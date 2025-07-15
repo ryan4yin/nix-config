@@ -18,7 +18,17 @@ in {
   ];
 
   # Specify path to peripheral firmware files.
-  hardware.asahi.peripheralFirmwareDirectory = "${my-asahi-firmware}/macbook-pro-m2-a2338";
+  hardware.asahi = {
+    enable = true;
+    peripheralFirmwareDirectory = "${my-asahi-firmware}/macbook-pro-m2-a2338";
+
+    # build the Asahi Linux Kernel with Rust support
+    withRust = true;
+    # use apple-silicon's GPU instead of CPU
+    useExperimentalGPUDriver = true;
+    # How to install the Asahi Mesa driver
+    experimentalGPUInstallMode = "driver"; # driver / replace(for non-flakes) / overlay
+  };
 
   networking.wireless.iwd = {
     enable = true;
