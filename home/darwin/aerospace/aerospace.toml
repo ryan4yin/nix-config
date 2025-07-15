@@ -226,11 +226,6 @@ run = 'move-node-to-workspace 3Work'
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'move-node-to-workspace 3Work'
 
-
-[[on-window-detected]]
-if.app-id = 'us.zoom.xos'
-run = 'move-node-to-workspace 3Work'
-
 [[on-window-detected]]
 if.app-id = 'org.mozilla.firefox'
 run = 'move-node-to-workspace 4Firefox'
@@ -286,6 +281,14 @@ if.app-id = 'com.apple.Preview'
 run = ['layout floating', 'move-node-to-workspace 9File']
 
 [[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = ['layout floating', 'move-node-to-workspace 9File']
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92' # Cursor AI Editor
+run = ['layout floating', 'move-node-to-workspace 9File']
+
+[[on-window-detected]]
 if.app-id = 'org.wireshark.Wireshark'
 run = ['layout floating', 'move-node-to-workspace 0Other']
 
@@ -294,8 +297,8 @@ if.app-id = 'ai.elementlabs.lmstudio'
 run = ['layout floating', 'move-node-to-workspace 0Other']
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.VSCode'
-run = ['layout floating', 'move-node-to-workspace 0Other']
+if.app-id = 'us.zoom.xos'
+run = 'move-node-to-workspace 0Other'
 
 # Auth UI - do not move it
 [[on-window-detected]]
