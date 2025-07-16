@@ -5,7 +5,7 @@
   pkgs-unstable,
   ...
 }: {
-  services.flatpak.enable = true;
+  boot.loader.timeout = lib.mkForce 10; # wait for x seconds to select the boot entry
 
   # add user's shell into /etc/shells
   environment.shells = with pkgs; [
@@ -27,6 +27,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     gnumake
+    wl-clipboard
   ];
 
   services = {
