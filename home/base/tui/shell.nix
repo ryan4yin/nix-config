@@ -14,6 +14,10 @@ in {
     extraConfig = ''
       source /etc/agenix/alias-for-work.nushell
 
+      # using claude-code with kimi k2
+      $env.ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic/"
+      $env.ANTHROPIC_API_KEY = $env.MOONSHOT_API_KEY
+
       # Directories in this constant are searched by the
       # `use` and `source` commands.
       const NU_LIB_DIRS = $NU_LIB_DIRS ++ ['${nu_scripts}/share/nu_scripts']
