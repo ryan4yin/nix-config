@@ -198,6 +198,9 @@ in {
         # python pipx
         ".local/pipx"
         ".local/bin"
+        # python uv
+        ".local/share/uv"
+        ".cache/uv"
 
         # ======================================
         # Security
@@ -257,6 +260,7 @@ in {
         # ======================================
         ".mozilla"
         ".config/google-chrome"
+        ".cache/google-chrome"
 
         # ======================================
         # CLI data
@@ -265,6 +269,7 @@ in {
         ".local/share/zoxide"
         ".local/share/direnv"
         ".local/share/k9s"
+        ".cache/tealdeer" # tldr
 
         # ======================================
         # Containers
@@ -333,6 +338,7 @@ in {
     };
   in {
     "/home/${username}/.config".d = permission;
+    "/home/${username}/.cache".d = permission;
     "/home/${username}/.local".d = permission;
     "/home/${username}/.local/share".d = permission;
     "/home/${username}/.local/state".d = permission;
