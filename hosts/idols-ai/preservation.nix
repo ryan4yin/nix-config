@@ -296,12 +296,6 @@ in {
           how = "symlink";
         }
         {
-          file = ".config/nushell/history.txt";
-          how = "symlink";
-          # create parent directory automatically
-          configureParent = true;
-        }
-        {
           file = ".config/zoomus.conf";
           how = "symlink";
         }

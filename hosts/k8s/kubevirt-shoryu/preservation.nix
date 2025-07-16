@@ -52,14 +52,6 @@ in {
         "nix-config"
         "tmp"
       ];
-      files = [
-        {
-          file = ".config/nushell/history.txt";
-          how = "symlink";
-          # create parent directory automatically
-          configureParent = true;
-        }
-      ];
     };
   };
 
