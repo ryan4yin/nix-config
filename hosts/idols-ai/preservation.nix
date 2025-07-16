@@ -136,6 +136,10 @@ in {
         ".config/zed"
         ".local/share/zed"
 
+        # ai agents
+        ".claude"
+        ".gemini"
+
         # nvim
         ".local/share/nvim"
         ".local/state/nvim"
@@ -297,6 +301,10 @@ in {
           file = ".config/zoom.conf";
           how = "symlink";
         }
+        {
+          file = ".claude.json";
+          how = "symlink";
+        }
       ];
     };
   };
@@ -325,6 +333,7 @@ in {
     "/home/${username}/.local".d = permission;
     "/home/${username}/.local/share".d = permission;
     "/home/${username}/.local/state".d = permission;
+    "/home/${username}/.local/state/nix".d = permission;
     "/home/${username}/.terraform.d".d = permission;
   };
 
