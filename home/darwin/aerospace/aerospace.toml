@@ -310,6 +310,11 @@ run = ['layout floating']
 if.app-id = 'com.apple.systempreferences'
 run = ['layout floating']
 
+# Clash Verge - has problem with floating
+[[on-window-detected]]
+if.app-id = 'io.github.clash-verge-rev.clash-verge-rev'
+run = ['move-node-to-workspace 0Other']
+
 # Make all windows float by default
 [[on-window-detected]]
 check-further-callbacks = true
