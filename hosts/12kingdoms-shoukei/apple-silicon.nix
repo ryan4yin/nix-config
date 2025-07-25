@@ -29,6 +29,7 @@
     experimentalGPUInstallMode = "driver"; # driver / replace(for non-flakes) / overlay
   };
 
+  # After adding this snippet, you need to restart the system for the touchbar to work.
   hardware.apple.touchBar = {
     enable = true;
     package = pkgs-unstable.tiny-dfr;
