@@ -6,45 +6,22 @@
   lib,
   pkgs,
   modulesPath,
-  nixos-apple-silicon,
-  my-asahi-firmware,
   ...
-}: let
+}:
+let
   device = "/dev/disk/by-uuid/c2e8b249-240e-4eef-bf4e-81e7dbbf4887";
-in {
+in
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    nixos-apple-silicon.nixosModules.default
+    ./apple-silicon.nix
   ];
-
-  # Specify path to peripheral firmware files.
-  hardware.asahi = {
-    enable = true;
-    peripheralFirmwareDirectory = "${my-asahi-firmware}/macbook-pro-m2-a2338";
-
-    # build the Asahi Linux Kernel with Rust support
-    withRust = true;
-    # use apple-silicon's GPU instead of CPU
-    useExperimentalGPUDriver = true;
-    # How to install the Asahi Mesa driver
-    experimentalGPUInstallMode = "driver"; # driver / replace(for non-flakes) / overlay
-  };
-
-  networking.wireless.iwd = {
-    enable = true;
-    settings.General.EnableNetworkConfiguration = true;
-  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = false;
   # depending on how you configured your disk mounts, change this to /boot or /boot/efi.
   boot.loader.efi.efiSysMountPoint = "/boot";
-
-  # For ` to < and ~ to > (for those with US keyboards)
-  # boot.extraModprobeConfig = ''
-  #   options hid_apple iso_layout=0
-  # '';
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = lib.mkForce [
@@ -153,7 +130,7 @@ in {
   # remount swapfile in read-write mode
   fileSystems."/swap/swapfile" = {
     # the swapfile is located in /swap subvolume, so we need to mount /swap first.
-    depends = ["/swap"];
+    depends = [ "/swap" ];
 
     device = "/swap/swapfile";
     fsType = "none";
@@ -164,7 +141,7 @@ in {
   };
 
   swapDevices = [
-    {device = "/swap/swapfile";}
+    { device = "/swap/swapfile"; }
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

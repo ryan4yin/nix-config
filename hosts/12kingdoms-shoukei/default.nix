@@ -1,4 +1,4 @@
-{myvars, ...}:
+{ myvars, ... }:
 #############################################################
 #
 #  Shoukei - NixOS running on Macbook Pro 2022 M2 16G
@@ -6,7 +6,8 @@
 #############################################################
 let
   hostName = "shoukei"; # Define your hostname.
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../idols-ai/preservation.nix
@@ -15,9 +16,6 @@ in {
   networking = {
     inherit hostName;
     inherit (myvars.networking) nameservers;
-
-    # configures the network interface(include wireless) via `nmcli` & `nmtui`
-    networkmanager.enable = true;
   };
 
   # This value determines the NixOS release from which the default
