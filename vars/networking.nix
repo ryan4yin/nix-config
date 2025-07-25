@@ -76,6 +76,13 @@
       iface = "end1";
       ipv4 = "192.168.5.107";
     };
+    shoukei = {
+      # Apple M2 + NixOS
+      # Used only when at home
+      iface = "wlan0";
+      ipv4 = "192.168.5.108";
+      ipv6 = "fe80::11"; # Link-local Address
+    };
     rakushun = {
       # Orange Pi 5 - ARM
       # RJ45 port 1 - enP4p65s0
@@ -171,30 +178,16 @@
     #   IdentityFile — the location of your SSH key authentication file for the account.
     # Format in details:
     #   https://www.ssh.com/academy/ssh/config
-    extraConfig =
-      ''
-        Host gtr5
-          HostName 192.168.5.172
-          Port 22
-
-        Host um560
-          HostName 192.168.5.173
-          Port 22
-
-        Host s500plus
-          HostName 192.168.5.174
-          Port 22
-      ''
-      + (lib.attrsets.foldlAttrs
-        (acc: host: val:
-          acc
-          + ''
-            Host ${host}
-              HostName ${val.ipv4}
-              Port 22
-          '')
-        ""
-        hostsAddr);
+    extraConfig = (lib.attrsets.foldlAttrs
+      (acc: host: val:
+        acc
+        + ''
+          Host ${host}
+            HostName ${val.ipv4}
+            Port 22
+        '')
+      ""
+      hostsAddr);
 
     # this config will be written to /etc/ssh/ssh_known_hosts
     knownHosts =
