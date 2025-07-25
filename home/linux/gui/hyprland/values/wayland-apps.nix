@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-stable,
   ...
 }: {
   home.packages = with pkgs; [
@@ -12,8 +11,8 @@
   programs = {
     # source code: https://github.com/nix-community/home-manager/blob/master/modules/programs/chromium.nix
     google-chrome = {
-      enable = pkgs.stdenv.isx86_64;
-      package = pkgs-stable.google-chrome;
+      enable = true;
+      package = if pkgs.stdenv.isAarch64 then pkgs.chromium else pkgs.google-chrome;
 
       # https://wiki.archlinux.org/title/Chromium#Native_Wayland_support
       commandLineArgs = [
