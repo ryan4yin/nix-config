@@ -133,10 +133,10 @@ nix-shell -p just nushell
 # 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
 # deploy fern's configuration(Apple Silicon)
-just fe
+just fr
 
 # deploy with details
-just fe debug
+just fr debug
 ```
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
