@@ -124,6 +124,15 @@
           Action = "F12";
         }
 
+        {
+          Text = "Home";
+          Action = "Home";
+        }
+        {
+          Text = "End";
+          Action = "End";
+        }
+
         # for screenshot shortcut
         {
           Text = "Print";
@@ -181,6 +190,16 @@
           Icon = "volume_up";
           Action = "VolumeUp";
         }
+
+        {
+          Text = "Home";
+          Action = "Home";
+        }
+        {
+          Text = "End";
+          Action = "End";
+        }
+
         # for screenshot shortcut
         {
           Text = "Print";
