@@ -6,10 +6,10 @@
   "modules-center": ["custom/playerctl"],
   "modules-right": [
     "pulseaudio",
-    "battery",
     "memory",
     "cpu",
     "network",
+    "battery",
     "clock",
     "idle_inhibitor",
     "custom/powermenu",
@@ -91,7 +91,7 @@
   "network": {
     "interval": 5,
     "format": "{ifname}",
-    "format-wifi": " {essid} ({signalStrength}%)  Up: {bandwidthUpBits} Down: {bandwidthDownBits}",
+    "format-wifi": "  {signalStrength}% Up: {bandwidthUpBits} Down: {bandwidthDownBits} {essid}",
     "format-ethernet": "  {ifname} Up: {bandwidthUpBits} Down: {bandwidthDownBits}",
     "format-disconnected": "Disconnected ⚠",
     "tooltip-format": " {ifname} via {gwaddri}",
@@ -138,8 +138,6 @@
     "spacing": 5,
   },
   "battery": {
-    "bat": "BAT0",
-    "adapter": "ADP0",
     "interval": 60,
     "states": {
       "warning": 30,
