@@ -52,7 +52,8 @@ return {
       "terraformls", -- terraform hcl
       "marksman", -- markdown ls
       "nickel_ls", -- nickel language server
-      "nil_ls", -- nix language server
+      -- "nil_ls", -- nix language server
+      "nixd", -- another nix language server
       "buf_ls", -- protocol buffer language server
       "dockerls", -- dockerfile
       "cmake", -- cmake language server
