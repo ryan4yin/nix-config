@@ -104,7 +104,10 @@ in {
       pre-commit-check = pre-commit-hooks.lib.${system}.run {
         src = mylib.relativeToRoot ".";
         hooks = {
-          alejandra.enable = true; # formatter
+          nixfmt-rfc-style = {
+            enable = true;
+            settings.width = 100;
+          };
           # Source code spell checker
           typos = {
             enable = true;
@@ -139,7 +142,7 @@ in {
           # fix `cc` replaced by clang, which causes nvim-treesitter compilation error
           gcc
           # Nix-related
-          alejandra
+          nixfmt
           deadnix
           statix
           # spell checker
@@ -157,7 +160,6 @@ in {
 
   # Format the nix code in this flake
   formatter = forAllSystems (
-    # alejandra is a nix formatter with a beautiful output
-    system: nixpkgs.legacyPackages.${system}.alejandra
+    system: nixpkgs.legacyPackages.${system}.nixfmt
   );
 }
