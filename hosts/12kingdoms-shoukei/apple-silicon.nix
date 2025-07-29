@@ -29,6 +29,27 @@
     experimentalGPUInstallMode = "driver"; # driver / replace(for non-flakes) / overlay
   };
 
+
+  # Lid & PowerKey settings
+  #
+  # Suspend: Store system state to RAM - fast, requires minimal power to maintain RAM.
+  # Hibernate: Store system state & RAM to Disk, and then poweroff the system.
+  #
+  # NOTE: Hibernate is not supported by Asahi Linux.
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "lock";
+    powerKey = "ignore";
+    powerKeyLongPress = "ignore";
+  };
+  systemd.targets.sleep.enable = true;
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=yes
+    AllowHibernate=no
+    AllowSuspendThenHibernate=no
+    HibernateDelaySec=5min
+  '';
+
   # After adding this snippet, you need to restart the system for the touchbar to work.
   hardware.apple.touchBar = {
     enable = true;
