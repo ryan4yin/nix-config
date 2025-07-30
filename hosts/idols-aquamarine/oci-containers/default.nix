@@ -2,7 +2,8 @@
   lib,
   mylib,
   ...
-}: {
+}:
+{
   imports = mylib.scanPaths ./.;
 
   virtualisation = {
@@ -17,7 +18,7 @@
       autoPrune = {
         enable = true;
         dates = "weekly";
-        flags = ["--all"];
+        flags = [ "--all" ];
       };
     };
 

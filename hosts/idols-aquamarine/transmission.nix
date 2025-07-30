@@ -2,10 +2,12 @@
   config,
   myvars,
   ...
-}: let
+}:
+let
   dataDir = "/data/fileshare/public/transmission";
   name = "transmission";
-in {
+in
+{
   # the headless Transmission BitTorrent daemon
   # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/torrent/transmission.nix
   # https://wiki.archlinux.org/title/transmission

@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # https://developer.hashicorp.com/terraform/cli/config/config-file
   home.file.".terraformrc".source = ./terraformrc;
 
@@ -30,9 +31,12 @@
     # digitalocean
     doctl
     # google cloud
-    (google-cloud-sdk.withExtraComponents (with google-cloud-sdk.components; [
-      gke-gcloud-auth-plugin
-    ]))
+    (google-cloud-sdk.withExtraComponents (
+      with google-cloud-sdk.components;
+      [
+        gke-gcloud-auth-plugin
+      ]
+    ))
 
     # cloud tools that nix do not have cache for.
     terraform

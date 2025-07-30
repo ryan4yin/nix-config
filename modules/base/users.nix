@@ -1,4 +1,5 @@
-{myvars, ...}: {
+{ myvars, ... }:
+{
   programs.ssh = myvars.networking.ssh;
 
   users.users.${myvars.username} = {

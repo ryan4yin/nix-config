@@ -20,7 +20,7 @@
 
   config = {
     # disable backups in the VM
-    services.btrbk.instances = lib.mkForce {};
+    services.btrbk.instances = lib.mkForce { };
 
     fileSystems."/" = {
       device = "/dev/disk/by-label/nixos";
@@ -29,7 +29,7 @@
     };
 
     boot.growPartition = true;
-    boot.kernelParams = ["console=ttyS0"];
+    boot.kernelParams = [ "console=ttyS0" ];
     boot.loader.grub.device = "/dev/vda";
 
     services.qemuGuest.enable = true; # qemu-guest-agent

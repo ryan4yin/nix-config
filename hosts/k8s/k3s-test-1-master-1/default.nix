@@ -4,7 +4,8 @@
   myvars,
   mylib,
   ...
-}: let
+}:
+let
   hostName = "k3s-test-1-master-1"; # Define your hostname.
 
   coreModule = mylib.genKubeVirtGuestModule {
@@ -29,11 +30,10 @@
     #   "--service-cidr=172.19.0.0/16,fdfd:cafe:00:8002::/112"
     # ];
   };
-in {
-  imports =
-    (mylib.scanPaths ./.)
-    ++ [
-      coreModule
-      k3sModule
-    ];
+in
+{
+  imports = (mylib.scanPaths ./.) ++ [
+    coreModule
+    k3sModule
+  ];
 }

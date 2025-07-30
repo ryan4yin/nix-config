@@ -9,7 +9,8 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   name = "fern";
 
   modules = {
@@ -34,7 +35,8 @@
   };
 
   systemArgs = modules // args;
-in {
+in
+{
   # macOS's configuration
   darwinConfigurations.${name} = mylib.macosSystem systemArgs;
 }

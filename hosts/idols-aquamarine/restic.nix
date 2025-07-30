@@ -1,8 +1,10 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   passwordFile = "/etc/agenix/restic-password";
   sshKeyPath = "/etc/agenix/ssh-key-for-restic-backup";
   rcloneConfigFile = "/etc/agenix/rclone-conf-for-restic-backup";
-in {
+in
+{
   # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/backup/restic.nix
   services.restic.backups = {
     homelab-backup = {
@@ -29,7 +31,7 @@ in {
       # Patterns to exclude when backing up. See
       #   https://restic.readthedocs.io/en/latest/040_backup.html#excluding-files
       # for details on syntax.
-      exclude = [];
+      exclude = [ ];
 
       # A script that must run before starting the backup process.
       backupPrepareCommand = ''

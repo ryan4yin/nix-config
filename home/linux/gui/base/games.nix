@@ -2,7 +2,8 @@
   pkgs,
   nix-gaming,
   ...
-}: {
+}:
+{
   home.packages = with pkgs; [
     # nix-gaming.packages.${pkgs.system}.osu-laser-bin
     gamescope # SteamOS session compositing window manager

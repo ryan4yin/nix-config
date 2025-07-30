@@ -2,7 +2,8 @@
   config,
   myvars,
   ...
-}: {
+}:
+{
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     # "cifs"

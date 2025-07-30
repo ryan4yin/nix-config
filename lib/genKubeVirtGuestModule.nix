@@ -3,11 +3,13 @@
   hostName,
   networking,
   ...
-}: let
+}:
+let
   inherit (networking) defaultGateway defaultGateway6 nameservers;
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
-in {
+in
+{
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
@@ -29,9 +31,9 @@ in {
   systemd.network.enable = true;
 
   systemd.network.networks."10-${iface}" = {
-    matchConfig.Name = [iface];
+    matchConfig.Name = [ iface ];
     networkConfig = {
-      Address = [ipv4WithMask];
+      Address = [ ipv4WithMask ];
       DNS = nameservers;
       DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
       IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)

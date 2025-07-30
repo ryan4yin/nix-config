@@ -7,7 +7,8 @@
   pkgs,
   modulesPath,
   ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -21,16 +22,26 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-intel"]; # kvm virtualization support
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "nvme"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+  ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ]; # kvm virtualization support
   boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = [ ];
   # clear /tmp on boot to get a stateless /tmp directory.
   boot.tmp.cleanOnBoot = true;
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
-  boot.binfmt.emulatedSystems = ["aarch64-linux" "riscv64-linux"];
+  boot.binfmt.emulatedSystems = [
+    "aarch64-linux"
+    "riscv64-linux"
+  ];
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
@@ -67,7 +78,7 @@
     fsType = "btrfs";
     # btrfs's top-level subvolume, internally has an id 5
     # we can access all other subvolumes from this subvolume.
-    options = ["subvolid=5"];
+    options = [ "subvolid=5" ];
   };
 
   # equal to `mount -t tmpfs tmpfs /`
@@ -76,26 +87,40 @@
     fsType = "tmpfs";
     # set mode to 755, otherwise systemd will set it to 777, which cause problems.
     # relatime: Update inode access times relative to modify or change time.
-    options = ["relatime" "mode=755"];
+    options = [
+      "relatime"
+      "mode=755"
+    ];
   };
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
-    options = ["subvol=@nix" "noatime" "compress-force=zstd:1"];
+    options = [
+      "subvol=@nix"
+      "noatime"
+      "compress-force=zstd:1"
+    ];
   };
 
   # for guix store, which use `/gnu/store` as its store directory.
   fileSystems."/gnu" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
-    options = ["subvol=@guix" "noatime" "compress-force=zstd:1"];
+    options = [
+      "subvol=@guix"
+      "noatime"
+      "compress-force=zstd:1"
+    ];
   };
 
   fileSystems."/persistent" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
-    options = ["subvol=@persistent" "compress-force=zstd:1"];
+    options = [
+      "subvol=@persistent"
+      "compress-force=zstd:1"
+    ];
     # preservation's data is required for booting.
     neededForBoot = true;
   };
@@ -103,30 +128,42 @@
   fileSystems."/snapshots" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
-    options = ["subvol=@snapshots" "compress-force=zstd:1"];
+    options = [
+      "subvol=@snapshots"
+      "compress-force=zstd:1"
+    ];
   };
 
   fileSystems."/tmp" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
-    options = ["subvol=@tmp" "compress-force=zstd:1"];
+    options = [
+      "subvol=@tmp"
+      "compress-force=zstd:1"
+    ];
   };
 
   # mount swap subvolume in readonly mode.
   fileSystems."/swap" = {
     device = "/dev/disk/by-uuid/1167076c-dee1-486c-83c1-4b1af37555cd";
     fsType = "btrfs";
-    options = ["subvol=@swap" "ro"];
+    options = [
+      "subvol=@swap"
+      "ro"
+    ];
   };
 
   # remount swapfile in read-write mode
   fileSystems."/swap/swapfile" = {
     # the swapfile is located in /swap subvolume, so we need to mount /swap first.
-    depends = ["/swap"];
+    depends = [ "/swap" ];
 
     device = "/swap/swapfile";
     fsType = "none";
-    options = ["bind" "rw"];
+    options = [
+      "bind"
+      "rw"
+    ];
   };
 
   fileSystems."/boot" = {
@@ -135,7 +172,7 @@
   };
 
   swapDevices = [
-    {device = "/swap/swapfile";}
+    { device = "/swap/swapfile"; }
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

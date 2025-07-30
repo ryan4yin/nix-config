@@ -9,7 +9,8 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   # Shoukei (祥瓊, Shōkei)
   name = "shoukei";
   base-modules = {
@@ -33,25 +34,24 @@
   };
 
   modules-hyprland = {
-    nixos-modules =
-      [
-        {
-          modules.desktop.wayland.enable = true;
-          modules.secrets.desktop.enable = true;
-          modules.secrets.preservation.enable = true;
+    nixos-modules = [
+      {
+        modules.desktop.wayland.enable = true;
+        modules.secrets.desktop.enable = true;
+        modules.secrets.preservation.enable = true;
 
-          # TODO: remove this option
-          nixpkgs.config.allowUnsupportedSstem = true;
-        }
-      ]
-      ++ base-modules.nixos-modules;
-    home-modules =
-      [
-        {modules.desktop.hyprland.enable = true;}
-      ]
-      ++ base-modules.home-modules;
+        # TODO: remove this option
+        nixpkgs.config.allowUnsupportedSstem = true;
+      }
+    ]
+    ++ base-modules.nixos-modules;
+    home-modules = [
+      { modules.desktop.hyprland.enable = true; }
+    ]
+    ++ base-modules.home-modules;
   };
-in {
+in
+{
   nixosConfigurations = {
     # host with hyprland compositor
     "${name}-hyprland" = mylib.nixosSystem (modules-hyprland // args);

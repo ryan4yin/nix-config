@@ -12,6 +12,6 @@ makeDesktopItem {
   #   tree $"($p)/share/icons"
   icon = "${qq}/share/icons/hicolor/512x512/apps/qq.png";
   type = "Application";
-  categories = ["Network"];
+  categories = [ "Network" ];
   comment = "QQ boxed";
 }

@@ -2,7 +2,8 @@
   lib,
   inputs,
   ...
-} @ args: let
+}@args:
+let
   inherit (inputs) haumea;
 
   # Contains all the flake outputs of this system architecture.
@@ -15,16 +16,20 @@
 
   # Merge all the machine's data into a single attribute set.
   outputs = {
-    darwinConfigurations = lib.attrsets.mergeAttrsList (map (it: it.darwinConfigurations or {}) dataWithoutPaths);
+    darwinConfigurations = lib.attrsets.mergeAttrsList (
+      map (it: it.darwinConfigurations or { }) dataWithoutPaths
+    );
   };
 in
-  outputs
-  // {
-    inherit data; # for debugging purposes
+outputs
+// {
+  inherit data; # for debugging purposes
 
-    # NixOS's unit tests.
-    evalTests = haumea.lib.loadEvalTests {
-      src = ./tests;
-      inputs = args // {inherit outputs;};
+  # NixOS's unit tests.
+  evalTests = haumea.lib.loadEvalTests {
+    src = ./tests;
+    inputs = args // {
+      inherit outputs;
     };
-  }
+  };
+}

@@ -3,7 +3,8 @@
   config,
   wallpapers,
   ...
-}: let
+}:
+let
   hostCommonConfig = ''
     encode zstd gzip
     tls ${../../certs/ecc-server.crt} ${config.age.secrets."caddy-ecc-server.key".path} {
@@ -11,7 +12,8 @@
       curves x25519 secp384r1 secp521r1
     }
   '';
-in {
+in
+{
   services.caddy = {
     enable = true;
     # Reload Caddy instead of restarting it when configuration file changes.
@@ -124,7 +126,10 @@ in {
     #   reverse_proxy http://localhost:9090
     # '';
   };
-  networking.firewall.allowedTCPPorts = [80 443];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   # Create Directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type

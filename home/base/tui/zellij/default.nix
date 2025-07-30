@@ -1,8 +1,10 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   shellAliases = {
     "zj" = "zellij";
   };
-in {
+in
+{
   programs.zellij = {
     enable = true;
     package = pkgs.zellij;

@@ -2,13 +2,15 @@
   pkgs,
   nixpkgs-ollama,
   ...
-}: let
+}:
+let
   pkgs-ollama = import nixpkgs-ollama {
     inherit (pkgs) system;
     # To use cuda, we need to allow the installation of non-free software
     config.allowUnfree = true;
   };
-in {
+in
+{
   services.ollama = rec {
     enable = true;
     package = pkgs-ollama.ollama;

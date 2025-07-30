@@ -3,9 +3,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   passwordStoreDir = "${config.xdg.dataHome}/password-store";
-in {
+in
+{
   programs.password-store = {
     enable = true;
     package = pkgs.pass.withExtensions (exts: [

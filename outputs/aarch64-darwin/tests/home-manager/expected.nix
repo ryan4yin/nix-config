@@ -1,11 +1,12 @@
 {
   myvars,
   lib,
-}: let
+}:
+let
   username = myvars.username;
   hosts = [
     "fern"
     "frieren"
   ];
 in
-  lib.genAttrs hosts (_: "/Users/${username}")
+lib.genAttrs hosts (_: "/Users/${username}")

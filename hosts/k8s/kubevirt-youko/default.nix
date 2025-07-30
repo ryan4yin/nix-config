@@ -5,7 +5,8 @@
   myvars,
   disko,
   ...
-}: let
+}:
+let
   hostName = "kubevirt-youko"; # Define your hostname.
 
   coreModule = mylib.genKubeVirtHostModule {
@@ -39,17 +40,16 @@
     ];
     disableFlannel = false;
   };
-in {
-  imports =
-    (mylib.scanPaths ./.)
-    ++ [
-      disko.nixosModules.default
-      ../disko-config/kubevirt-disko-fs.nix
-      ../kubevirt-shoryu/hardware-configuration.nix
-      ../kubevirt-shoryu/preservation.nix
-      coreModule
-      k3sModule
-    ];
+in
+{
+  imports = (mylib.scanPaths ./.) ++ [
+    disko.nixosModules.default
+    ../disko-config/kubevirt-disko-fs.nix
+    ../kubevirt-shoryu/hardware-configuration.nix
+    ../kubevirt-shoryu/preservation.nix
+    coreModule
+    k3sModule
+  ];
 
   boot.kernelParams = [
     # disable transparent hugepage(allocate hugepages dynamically)

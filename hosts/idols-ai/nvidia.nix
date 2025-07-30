@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   # ===============================================================================================
   # for Nvidia GPU
   # https://wiki.nixos.org/wiki/NVIDIA
@@ -10,7 +11,7 @@
     # enabling it is required to make Wayland compositors function properly.
     "nvidia-drm.fbdev=1"
   ];
-  services.xserver.videoDrivers = ["nvidia"]; # will install nvidia-vaapi-driver by default
+  services.xserver.videoDrivers = [ "nvidia" ]; # will install nvidia-vaapi-driver by default
   hardware.nvidia = {
     # Open-source kernel modules are preferred over and planned to steadily replace proprietary modules
     open = true;

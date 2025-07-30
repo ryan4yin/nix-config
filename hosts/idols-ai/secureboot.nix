@@ -3,7 +3,8 @@
   lib,
   lanzaboote,
   ...
-}: {
+}:
+{
   # How to enter setup mode - msi motherboard
   ## 1. enter BIOS via [Del] Key
   ## 2. <Advance mode> => <Settings> => <Security> => <Secure Boot>

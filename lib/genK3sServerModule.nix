@@ -10,16 +10,18 @@
   # this can be a domain name or an IP address(such as kube-vip's virtual IP)
   masterHost,
   clusterInit ? false,
-  kubeletExtraArgs ? [],
-  k3sExtraArgs ? [],
-  nodeLabels ? [],
-  nodeTaints ? [],
+  kubeletExtraArgs ? [ ],
+  k3sExtraArgs ? [ ],
+  nodeLabels ? [ ],
+  nodeTaints ? [ ],
   disableFlannel ? true,
   ...
-}: let
+}:
+let
   lib = pkgs.lib;
   package = pkgs.k3s;
-in {
+in
+{
   environment.systemPackages = with pkgs; [
     package
     k9s
@@ -50,16 +52,13 @@ in {
   services.k3s = {
     enable = true;
     inherit package tokenFile clusterInit;
-    serverAddr =
-      if clusterInit
-      then ""
-      else "https://${masterHost}:6443";
+    serverAddr = if clusterInit then "" else "https://${masterHost}:6443";
 
     role = "server";
     # https://docs.k3s.io/cli/server
-    extraFlags = let
-      flagList =
-        [
+    extraFlags =
+      let
+        flagList = [
           "--write-kubeconfig=${kubeconfigFile}"
           "--write-kubeconfig-mode=644"
           "--service-node-port-range=80-32767"
@@ -77,9 +76,9 @@ in {
         ++ (map (label: "--node-label=${label}") nodeLabels)
         ++ (map (taint: "--node-taint=${taint}") nodeTaints)
         ++ (map (arg: "--kubelet-arg=${arg}") kubeletExtraArgs)
-        ++ (lib.optionals disableFlannel ["--flannel-backend=none"])
+        ++ (lib.optionals disableFlannel [ "--flannel-backend=none" ])
         ++ k3sExtraArgs;
-    in
+      in
       lib.concatStringsSep " " flagList;
   };
 

@@ -5,9 +5,11 @@
   myvars,
   ...
 }:
-with lib; let
+with lib;
+let
   cfgWayland = config.modules.desktop.wayland;
-in {
+in
+{
   imports = [
     ./base
     ../base
@@ -45,7 +47,7 @@ in {
       };
 
       # fix https://github.com/ryan4yin/nix-config/issues/10
-      security.pam.services.hyprlock = {};
+      security.pam.services.hyprlock = { };
     })
   ];
 }

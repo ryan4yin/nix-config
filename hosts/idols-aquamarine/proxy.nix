@@ -5,7 +5,7 @@
     enable = true;
     config = {
       # for monitoring
-      "stats" = {};
+      "stats" = { };
       "api" = {
         "tag" = "api";
         "services" = [

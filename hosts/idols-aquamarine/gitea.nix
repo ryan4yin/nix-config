@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/misc/gitea.nix
   services.gitea = {
     enable = true;

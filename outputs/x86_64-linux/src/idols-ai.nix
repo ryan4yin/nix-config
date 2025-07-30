@@ -9,7 +9,8 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   # 星野 アイ, Hoshino Ai
   name = "ai";
   base-modules = {
@@ -33,23 +34,22 @@
   };
 
   modules-hyprland = {
-    nixos-modules =
-      [
-        {
-          modules.desktop.fonts.enable = true;
-          modules.desktop.wayland.enable = true;
-          modules.secrets.desktop.enable = true;
-          modules.secrets.preservation.enable = true;
-        }
-      ]
-      ++ base-modules.nixos-modules;
-    home-modules =
-      [
-        {modules.desktop.hyprland.enable = true;}
-      ]
-      ++ base-modules.home-modules;
+    nixos-modules = [
+      {
+        modules.desktop.fonts.enable = true;
+        modules.desktop.wayland.enable = true;
+        modules.secrets.desktop.enable = true;
+        modules.secrets.preservation.enable = true;
+      }
+    ]
+    ++ base-modules.nixos-modules;
+    home-modules = [
+      { modules.desktop.hyprland.enable = true; }
+    ]
+    ++ base-modules.home-modules;
   };
-in {
+in
+{
   nixosConfigurations = {
     # host with hyprland compositor
     "${name}-hyprland" = mylib.nixosSystem (modules-hyprland // args);

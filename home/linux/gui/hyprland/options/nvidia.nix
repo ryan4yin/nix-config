@@ -3,9 +3,11 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.desktop.hyprland;
-in {
+in
+{
   options.modules.desktop.hyprland = {
     nvidia = mkEnableOption "whether nvidia GPU is used";
   };
