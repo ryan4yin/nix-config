@@ -2,7 +2,8 @@
   config,
   myvars,
   ...
-}: {
+}:
+{
   services.grafana = {
     enable = true;
     dataDir = "/data/apps/grafana";

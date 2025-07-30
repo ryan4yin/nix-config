@@ -5,12 +5,14 @@
   pkgs,
   sloth,
   ...
-}: let
+}:
+let
   envSuffix = envKey: suffix: sloth.concat' (sloth.env envKey) suffix;
   # cursor & icon's theme should be the same as the host's one.
   cursorTheme = pkgs.bibata-cursors;
   iconTheme = pkgs.papirus-icon-theme;
-in {
+in
+{
   config = {
     dbus.policies = {
       "${config.flatpak.appId}" = "own";
@@ -89,15 +91,19 @@ in {
       ];
 
       env = {
-        XDG_DATA_DIRS = lib.mkForce (lib.makeSearchPath "share" [
-          iconTheme
-          cursorTheme
-          pkgs.shared-mime-info
-        ]);
-        XCURSOR_PATH = lib.mkForce (lib.concatStringsSep ":" [
-          "${cursorTheme}/share/icons"
-          "${cursorTheme}/share/pixmaps"
-        ]);
+        XDG_DATA_DIRS = lib.mkForce (
+          lib.makeSearchPath "share" [
+            iconTheme
+            cursorTheme
+            pkgs.shared-mime-info
+          ]
+        );
+        XCURSOR_PATH = lib.mkForce (
+          lib.concatStringsSep ":" [
+            "${cursorTheme}/share/icons"
+            "${cursorTheme}/share/pixmaps"
+          ]
+        );
       };
     };
   };

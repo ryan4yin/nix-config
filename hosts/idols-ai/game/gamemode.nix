@@ -5,7 +5,8 @@
   nix-gaming,
   lib,
   ...
-}: let
+}:
+let
   programs = lib.makeBinPath [
     config.programs.hyprland.package
     pkgs.coreutils
@@ -25,7 +26,8 @@
     hyprctl --batch 'keyword decoration:blur 1 ; keyword animations:enabled 1 ; keyword misc:vfr 1'
     powerprofilesctl set power-saver
   '';
-in {
+in
+{
   # Optimise Linux system performance on demand
   # https://github.com/FeralInteractive/GameMode
   # https://wiki.archlinux.org/title/Gamemode

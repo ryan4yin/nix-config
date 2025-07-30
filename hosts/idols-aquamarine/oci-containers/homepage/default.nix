@@ -2,11 +2,13 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   user = "homepage";
   configDir = "/data/apps/homepage-dashboard";
-in {
-  users.groups.${user} = {};
+in
+{
+  users.groups.${user} = { };
   users.users.${user} = {
     group = user;
     home = configDir;
@@ -26,7 +28,7 @@ in {
     homepage = {
       hostname = "homepage";
       image = "ghcr.io/gethomepage/homepage:latest";
-      ports = ["127.0.0.1:54401:3000"];
+      ports = [ "127.0.0.1:54401:3000" ];
       # https://github.com/louislam/uptime-kuma/wiki/Environment-Variables
       environment = {
         # "PUID" = config.users.users.${user}.uid;

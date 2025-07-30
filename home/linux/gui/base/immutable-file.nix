@@ -16,7 +16,8 @@
 #  TODO not used yet, need to test it.
 #
 ##############################################################################################
-with lib; let
+with lib;
+let
   cfg = config.home.immutable-file;
   immutableFileOpts = _: {
     options = {
@@ -42,24 +43,25 @@ with lib; let
     sudo cp $2 $1
     sudo chattr +i $1
   '';
-in {
+in
+{
   options.home.immutable-file = mkOption {
     type = with types; attrsOf (submodule immutableFileOpts);
-    default = {};
+    default = { };
   };
 
-  config = mkIf (cfg != {}) {
-    home.activation =
-      mapAttrs'
-      (name: {
+  config = mkIf (cfg != { }) {
+    home.activation = mapAttrs' (
+      name:
+      {
         src,
         dst,
       }:
-        nameValuePair
-        "make-immutable-${name}"
-        (lib.hm.dag.entryAfter ["writeBoundary"] ''
+      nameValuePair "make-immutable-${name}" (
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           ${mkImmutableFile} ${dst} ${src}
-        ''))
-      cfg;
+        ''
+      )
+    ) cfg;
   };
 }

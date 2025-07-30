@@ -1,4 +1,4 @@
-{makeDesktopItem}:
+{ makeDesktopItem }:
 makeDesktopItem {
   name = "firefox";
   desktopName = "firefox";
@@ -6,6 +6,6 @@ makeDesktopItem {
   terminal = false;
   icon = "firefox";
   type = "Application";
-  categories = ["Network"];
+  categories = [ "Network" ];
   comment = "firefox boxed";
 }

@@ -4,13 +4,15 @@
   lib,
   myvars,
   ...
-}: let
+}:
+let
   inherit (myvars) username;
 
   user = "postgres"; # postgresql's default system user
   package = pkgs.postgresql_16;
   dataDir = "/data/apps/postgresql/${package.psqlSchema}";
-in {
+in
+{
   # Create Directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
@@ -58,8 +60,8 @@ in {
       "--allow-group-access"
     ];
 
-    extraPlugins = ps:
-      with ps; [
+    extraPlugins =
+      ps: with ps; [
         # postgis
         # pg_repack
       ];

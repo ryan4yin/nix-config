@@ -2,13 +2,15 @@
   pkgs,
   masterHost,
   tokenFile,
-  nodeLabels ? [],
-  k3sExtraArgs ? [],
+  nodeLabels ? [ ],
+  k3sExtraArgs ? [ ],
   ...
-}: let
+}:
+let
   package = pkgs.k3s;
-in {
-  environment.systemPackages = [package];
+in
+{
+  environment.systemPackages = [ package ];
 
   # Kernel modules required by cilium
   boot.kernelModules = [
@@ -30,14 +32,14 @@ in {
     role = "agent";
     serverAddr = "https://${masterHost}:6443";
     # https://docs.k3s.io/cli/agent
-    extraFlags = let
-      flagList =
-        [
+    extraFlags =
+      let
+        flagList = [
           "--data-dir /var/lib/rancher/k3s"
         ]
         ++ (map (label: "--node-label=${label}") nodeLabels)
         ++ k3sExtraArgs;
-    in
+      in
       pkgs.lib.concatStringsSep " " flagList;
   };
 }

@@ -17,62 +17,61 @@
     };
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    nixos-apple-silicon,
-    my-asahi-firmware,
-    ...
-  }: let
-    inherit (inputs.nixpkgs) lib;
-    mylib = import ../lib {inherit lib;};
-    myvars = import ../vars {inherit lib;};
-  in {
-    nixosConfigurations = {
-      ai = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs =
-          inputs
-          // {
+  outputs =
+    inputs@{
+      nixpkgs,
+      nixos-apple-silicon,
+      my-asahi-firmware,
+      ...
+    }:
+    let
+      inherit (inputs.nixpkgs) lib;
+      mylib = import ../lib { inherit lib; };
+      myvars = import ../vars { inherit lib; };
+    in
+    {
+      nixosConfigurations = {
+        ai = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = inputs // {
             inherit mylib myvars;
           };
 
-        modules = [
-          {networking.hostName = "ai";}
+          modules = [
+            { networking.hostName = "ai"; }
 
-          ./configuration.nix
+            ./configuration.nix
 
-          ../modules/base
-          ../modules/nixos/base/i18n.nix
-          ../modules/nixos/base/user-group.nix
-          ../modules/nixos/base/ssh.nix
+            ../modules/base
+            ../modules/nixos/base/i18n.nix
+            ../modules/nixos/base/user-group.nix
+            ../modules/nixos/base/ssh.nix
 
-          ../hosts/idols-ai/hardware-configuration.nix
-          ../hosts/idols-ai/preservation.nix
-        ];
-      };
+            ../hosts/idols-ai/hardware-configuration.nix
+            ../hosts/idols-ai/preservation.nix
+          ];
+        };
 
-      shoukei = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs =
-          inputs
-          // {
+        shoukei = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = inputs // {
             inherit mylib myvars my-asahi-firmware;
           };
-        modules = [
-          {networking.hostName = "shoukei";}
+          modules = [
+            { networking.hostName = "shoukei"; }
 
-          nixos-apple-silicon.nixosModules.default
-          ./configuration.nix
+            nixos-apple-silicon.nixosModules.default
+            ./configuration.nix
 
-          ../modules/base
-          ../modules/nixos/base/i18n.nix
-          ../modules/nixos/base/user-group.nix
-          ../modules/nixos/base/ssh.nix
+            ../modules/base
+            ../modules/nixos/base/i18n.nix
+            ../modules/nixos/base/user-group.nix
+            ../modules/nixos/base/ssh.nix
 
-          ../hosts/12kingdoms-shoukei/hardware-configuration.nix
-          ../hosts/idols-ai/preservation.nix
-        ];
+            ../hosts/12kingdoms-shoukei/hardware-configuration.nix
+            ../hosts/idols-ai/preservation.nix
+          ];
+        };
       };
     };
-  };
 }

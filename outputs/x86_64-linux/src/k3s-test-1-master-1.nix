@@ -9,9 +9,10 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   name = "k3s-test-1-master-1";
-  tags = [name];
+  tags = [ name ];
   ssh-user = "root";
 
   modules = {
@@ -25,7 +26,7 @@
         "hosts/k8s/${name}"
       ])
       ++ [
-        {modules.secrets.server.kubernetes.enable = true;}
+        { modules.secrets.server.kubernetes.enable = true; }
       ];
     home-modules = map mylib.relativeToRoot [
       "home/linux/core.nix"
@@ -33,11 +34,11 @@
   };
 
   systemArgs = modules // args;
-in {
+in
+{
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
-  colmena.${name} =
-    mylib.colmenaSystem (systemArgs // {inherit tags ssh-user;});
+  colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
 
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
 }

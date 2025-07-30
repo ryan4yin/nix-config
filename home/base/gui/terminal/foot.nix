@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.foot = {
     # foot is designed only for Linux
     enable = pkgs.stdenv.isLinux;

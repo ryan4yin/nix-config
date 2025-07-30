@@ -6,8 +6,10 @@
   nur-ryan4yin,
   blender-bin,
   ...
-}: {
-  home.packages = with pkgs;
+}:
+{
+  home.packages =
+    with pkgs;
     [
       # creative
       # gimp      # image editing, I prefer using figma in browser instead of this one
@@ -41,7 +43,8 @@
     # live streaming
     obs-studio = {
       enable = pkgs.stdenv.isx86_64;
-      plugins = with pkgs.obs-studio-plugins;
+      plugins =
+        with pkgs.obs-studio-plugins;
         [
           # screen capture
           wlrobs

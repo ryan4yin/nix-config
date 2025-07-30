@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   modules.desktop = {
     hyprland = {
       nvidia = true;

@@ -5,33 +5,34 @@
   genSpecialArgs,
   nixos-modules,
   # TODO: test home-manager too.
-  home-modules ? [],
+  home-modules ? [ ],
   myvars,
   ...
-}: let
+}:
+let
   pkgs = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;
   };
 in
-  pkgs.testers.runNixOSTest {
-    name = "NixOS Tests for Idols Ruby";
+pkgs.testers.runNixOSTest {
+  name = "NixOS Tests for Idols Ruby";
 
-    node = {
-      inherit pkgs;
-      specialArgs = genSpecialArgs system;
-      pkgsReadOnly = false;
-    };
+  node = {
+    inherit pkgs;
+    specialArgs = genSpecialArgs system;
+    pkgsReadOnly = false;
+  };
 
-    nodes = {
-      ruby.imports = nixos-modules;
-    };
+  nodes = {
+    ruby.imports = nixos-modules;
+  };
 
-    # Note that machine1 and machine2 are now available as
-    # Python objects and also as hostnames in the virtual network
-    testScript = ''
-      ruby.wait_for_unit("network-online.target")
+  # Note that machine1 and machine2 are now available as
+  # Python objects and also as hostnames in the virtual network
+  testScript = ''
+    ruby.wait_for_unit("network-online.target")
 
-      ruby.succeed("curl https://baidu.com")
-    '';
-  }
+    ruby.succeed("curl https://baidu.com")
+  '';
+}

@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   services.prometheus.alertmanager = {
     enable = true;
     listenAddress = "127.0.0.1";
@@ -22,7 +23,7 @@
         receiver = "default";
         routes = [
           {
-            group_by = ["host"];
+            group_by = [ "host" ];
             group_wait = "5m";
             group_interval = "5m";
             repeat_interval = "4h";

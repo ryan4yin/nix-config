@@ -1,5 +1,6 @@
 # https://github.com/fufexan/dotfiles/blob/483680e/system/programs/steam.nix
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # https://wiki.archlinux.org/title/steam
   # Games installed by Steam works fine on NixOS, no other configuration needed.
   programs.steam = {
@@ -15,8 +16,8 @@
 
     # fix gamescope inside steam
     package = pkgs.steam.override {
-      extraPkgs = pkgs:
-        with pkgs; [
+      extraPkgs =
+        pkgs: with pkgs; [
           xorg.libXcursor
           xorg.libXi
           xorg.libXinerama

@@ -9,10 +9,14 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   # 星野 愛久愛海, Hoshino Akuamarin
   name = "aquamarine";
-  tags = ["aqua" "homelab-network"];
+  tags = [
+    "aqua"
+    "homelab-network"
+  ];
   ssh-user = "root";
 
   modules = {
@@ -26,10 +30,10 @@
         "hosts/idols-${name}"
       ])
       ++ [
-        {modules.secrets.server.application.enable = true;}
-        {modules.secrets.server.operation.enable = true;}
-        {modules.secrets.server.webserver.enable = true;}
-        {modules.secrets.server.storage.enable = true;}
+        { modules.secrets.server.application.enable = true; }
+        { modules.secrets.server.operation.enable = true; }
+        { modules.secrets.server.webserver.enable = true; }
+        { modules.secrets.server.storage.enable = true; }
       ];
     home-modules = map mylib.relativeToRoot [
       "home/linux/tui.nix"
@@ -37,11 +41,11 @@
   };
 
   systemArgs = modules // args;
-in {
+in
+{
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
-  colmena.${name} =
-    mylib.colmenaSystem (systemArgs // {inherit tags ssh-user;});
+  colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
 
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
 }

@@ -4,10 +4,12 @@
   lib,
   anyrun,
   ...
-} @ args:
-with lib; let
+}@args:
+with lib;
+let
   cfg = config.modules.desktop.hyprland;
-in {
+in
+{
   imports = [
     # anyrun.homeManagerModules.default # the module is already in hm now.
     ./options
@@ -16,32 +18,36 @@ in {
   options.modules.desktop.hyprland = {
     enable = mkEnableOption "hyprland compositor";
     settings = lib.mkOption {
-      type = with lib.types; let
-        valueType =
-          nullOr (oneOf [
-            bool
-            int
-            float
-            str
-            path
-            (attrsOf valueType)
-            (listOf valueType)
-          ])
-          // {
-            description = "Hyprland configuration value";
-          };
-      in
+      type =
+        with lib.types;
+        let
+          valueType =
+            nullOr (oneOf [
+              bool
+              int
+              float
+              str
+              path
+              (attrsOf valueType)
+              (listOf valueType)
+            ])
+            // {
+              description = "Hyprland configuration value";
+            };
+        in
         valueType;
-      default = {};
+      default = { };
     };
   };
 
   config = mkIf cfg.enable (
-    mkMerge ([
+    mkMerge (
+      [
         {
           wayland.windowManager.hyprland.settings = cfg.settings;
         }
       ]
-      ++ (import ./values args))
+      ++ (import ./values args)
+    )
   );
 }

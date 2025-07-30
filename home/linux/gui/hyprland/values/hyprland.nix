@@ -2,19 +2,23 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   package = pkgs.hyprland;
-in {
-  xdg.configFile = let
-    mkSymlink = config.lib.file.mkOutOfStoreSymlink;
-    hyprPath = "${config.home.homeDirectory}/nix-config/home/linux/gui/hyprland/conf";
-  in {
-    "mako".source = mkSymlink "${hyprPath}/mako";
-    "waybar".source = mkSymlink "${hyprPath}/waybar";
-    "wlogout".source = mkSymlink "${hyprPath}/wlogout";
-    "hypr/hypridle.conf".source = mkSymlink "${hyprPath}/hypridle.conf";
-    "hypr/configs".source = mkSymlink "${hyprPath}/configs";
-  };
+in
+{
+  xdg.configFile =
+    let
+      mkSymlink = config.lib.file.mkOutOfStoreSymlink;
+      hyprPath = "${config.home.homeDirectory}/nix-config/home/linux/gui/hyprland/conf";
+    in
+    {
+      "mako".source = mkSymlink "${hyprPath}/mako";
+      "waybar".source = mkSymlink "${hyprPath}/waybar";
+      "wlogout".source = mkSymlink "${hyprPath}/wlogout";
+      "hypr/hypridle.conf".source = mkSymlink "${hyprPath}/hypridle.conf";
+      "hypr/configs".source = mkSymlink "${hyprPath}/configs";
+    };
 
   # status bar
   programs.waybar = {
@@ -46,15 +50,17 @@ in {
     inherit package;
     enable = true;
     settings = {
-      source = let
-        configPath = "${config.home.homeDirectory}/.config/hypr/configs";
-      in [
-        "${configPath}/exec.conf"
-        "${configPath}/fcitx5.conf"
-        "${configPath}/keybindings.conf"
-        "${configPath}/settings.conf"
-        "${configPath}/windowrules.conf"
-      ];
+      source =
+        let
+          configPath = "${config.home.homeDirectory}/.config/hypr/configs";
+        in
+        [
+          "${configPath}/exec.conf"
+          "${configPath}/fcitx5.conf"
+          "${configPath}/keybindings.conf"
+          "${configPath}/settings.conf"
+          "${configPath}/windowrules.conf"
+        ];
       env = [
         "NIXOS_OZONE_WL,1" # for any ozone-based browser & electron apps to run on wayland
         "MOZ_ENABLE_WAYLAND,1" # for firefox to run on wayland
@@ -71,7 +77,7 @@ in {
     # gammastep/wallpaper-switcher need this to be enabled.
     systemd = {
       enable = true;
-      variables = ["--all"];
+      variables = [ "--all" ];
     };
   };
 

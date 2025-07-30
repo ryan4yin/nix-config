@@ -9,10 +9,14 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   # 星野 瑠美衣, Hoshino Rubii
   name = "ruby";
-  tags = [name "homelab-operation"];
+  tags = [
+    name
+    "homelab-operation"
+  ];
   ssh-user = "root";
 
   modules = {
@@ -33,11 +37,11 @@
   };
 
   systemArgs = modules // args;
-in {
+in
+{
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
-  colmena.${name} =
-    mylib.colmenaSystem (systemArgs // {inherit tags ssh-user;});
+  colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
 
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
 

@@ -1,4 +1,5 @@
-{catppuccin, ...}: {
+{ catppuccin, ... }:
+{
   # https://github.com/catppuccin/nix
   imports = [
     catppuccin.homeModules.catppuccin

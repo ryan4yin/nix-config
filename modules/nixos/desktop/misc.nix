@@ -4,7 +4,8 @@
   pkgs,
   pkgs-unstable,
   ...
-}: {
+}:
+{
   boot.loader.timeout = lib.mkForce 10; # wait for x seconds to select the boot entry
 
   # add user's shell into /etc/shells

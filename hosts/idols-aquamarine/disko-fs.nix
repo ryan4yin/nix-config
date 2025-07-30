@@ -3,8 +3,9 @@
 let
   cryptKeyFile = "/etc/agenix/hdd-luks-crypt-key";
   unlockDisk = "data-encrypted";
-in {
-  fileSystems."/data/fileshare/public".depends = ["/data/fileshare"];
+in
+{
+  fileSystems."/data/fileshare/public".depends = [ "/data/fileshare" ];
 
   # By adding this crypttab entry, the disk will be unlocked by systemd-cryptsetup@xxx.service at boot time.
   # This systemd service is running after agenix, so that the keyfile is already available.
@@ -59,7 +60,7 @@ in {
               ];
               content = {
                 type = "btrfs";
-                extraArgs = ["-f"]; # Force override existing partition
+                extraArgs = [ "-f" ]; # Force override existing partition
                 subvolumes = {
                   "@apps" = {
                     mountpoint = "/data/apps";
@@ -71,15 +72,27 @@ in {
                   };
                   "@fileshare" = {
                     mountpoint = "/data/fileshare";
-                    mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+                    mountOptions = [
+                      "compress-force=zstd:1"
+                      "noatime"
+                      "nofail"
+                    ];
                   };
                   "@backups" = {
                     mountpoint = "/data/backups";
-                    mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+                    mountOptions = [
+                      "compress-force=zstd:1"
+                      "noatime"
+                      "nofail"
+                    ];
                   };
                   "@snapshots" = {
                     mountpoint = "/data/apps-snapshots";
-                    mountOptions = ["compress-force=zstd:1" "noatime" "nofail"];
+                    mountOptions = [
+                      "compress-force=zstd:1"
+                      "noatime"
+                      "nofail"
+                    ];
                   };
                 };
               };
@@ -101,7 +114,10 @@ in {
             subvolumes = {
               "@persistent" = {
                 mountpoint = "/data/fileshare/public";
-                mountOptions = ["compress-force=zstd:1" "nofail"];
+                mountOptions = [
+                  "compress-force=zstd:1"
+                  "nofail"
+                ];
               };
             };
           };

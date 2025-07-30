@@ -3,16 +3,18 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.modules.desktop;
-in {
+in
+{
   options.modules.desktop = {
     fonts.enable = lib.mkEnableOption "Rich Fonts - Add NerdFonts Icons, emojis & CJK Fonts";
   };
 
-  config.fonts.packages = with pkgs;
-    lib.mkIf cfg.fonts.enable
-    [
+  config.fonts.packages =
+    with pkgs;
+    lib.mkIf cfg.fonts.enable [
       # icon fonts
       material-design-icons
       font-awesome

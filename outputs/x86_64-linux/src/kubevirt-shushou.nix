@@ -9,9 +9,13 @@
   system,
   genSpecialArgs,
   ...
-} @ args: let
+}@args:
+let
   name = "kubevirt-shushou";
-  tags = [name "virt-shushou"];
+  tags = [
+    name
+    "virt-shushou"
+  ];
   ssh-user = "root";
 
   modules = {
@@ -32,11 +36,11 @@
   };
 
   systemArgs = modules // args;
-in {
+in
+{
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
-  colmena.${name} =
-    mylib.colmenaSystem (systemArgs // {inherit tags ssh-user;});
+  colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
 
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.iso;
 }

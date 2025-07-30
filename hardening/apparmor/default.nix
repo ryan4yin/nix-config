@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   services.dbus.apparmor = "enabled";
   security.apparmor = {
     enable = true;

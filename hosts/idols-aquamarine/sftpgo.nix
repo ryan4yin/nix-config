@@ -1,7 +1,9 @@
-{config, ...}: let
+{ config, ... }:
+let
   user = "sftpgo";
   dataDir = "/data/apps/sftpgo";
-in {
+in
+{
   # Read SFTPGO_DEFAULT_ADMIN_USERNAME and SFTPGO_DEFAULT_ADMIN_PASSWORD from a file
   systemd.services.sftpgo.serviceConfig.EnvironmentFile = config.age.secrets."sftpgo.env".path;
 

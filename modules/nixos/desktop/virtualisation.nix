@@ -2,7 +2,8 @@
   pkgs,
   # nur-ataraxiasjel,
   ...
-}: {
+}:
+{
   ###################################################################################
   #
   #  Virtualisation - Libvirt(QEMU/KVM) / Docker / LXD / WayDroid
@@ -20,7 +21,7 @@
   # boot.kernelModules = ["kvm-intel"];
   # boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
 
-  boot.kernelModules = ["vfio-pci"];
+  boot.kernelModules = [ "vfio-pci" ];
 
   services.flatpak.enable = true;
 
@@ -36,7 +37,7 @@
       autoPrune = {
         enable = true;
         dates = "weekly";
-        flags = ["--all"];
+        flags = [ "--all" ];
       };
     };
 

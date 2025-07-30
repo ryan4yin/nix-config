@@ -3,7 +3,7 @@
   lib,
   inputs,
   nixos-modules,
-  home-modules ? [],
+  home-modules ? [ ],
   myvars,
   system,
   tags,
@@ -11,30 +11,29 @@
   genSpecialArgs,
   specialArgs ? (genSpecialArgs system),
   ...
-}: let
+}:
+let
   inherit (inputs) home-manager;
 in
-  {name, ...}: {
-    deployment = {
-      inherit tags;
-      targetUser = ssh-user;
-      targetHost = name; # hostName or IP address
-    };
+{ name, ... }:
+{
+  deployment = {
+    inherit tags;
+    targetUser = ssh-user;
+    targetHost = name; # hostName or IP address
+  };
 
-    imports =
-      nixos-modules
-      ++ (
-        lib.optionals ((lib.lists.length home-modules) > 0)
-        [
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "home-manager.backup";
+  imports =
+    nixos-modules
+    ++ (lib.optionals ((lib.lists.length home-modules) > 0) [
+      home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.backupFileExtension = "home-manager.backup";
 
-            home-manager.extraSpecialArgs = specialArgs;
-            home-manager.users."${myvars.username}".imports = home-modules;
-          }
-        ]
-      );
-  }
+        home-manager.extraSpecialArgs = specialArgs;
+        home-manager.users."${myvars.username}".imports = home-modules;
+      }
+    ]);
+}

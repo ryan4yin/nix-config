@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   # all fonts are linked to /nix/var/nix/profiles/system/sw/share/X11/fonts
   fonts = {
     # use fonts specified by user rather than default ones
@@ -37,7 +38,7 @@
           # 西文
           "JetBrainsMono Nerd Font"
         ];
-        emoji = ["Noto Color Emoji"];
+        emoji = [ "Noto Color Emoji" ];
       };
       antialias = true; # 抗锯齿
       hinting.enable = false; # 禁止字体微调 - 高分辨率下没这必要

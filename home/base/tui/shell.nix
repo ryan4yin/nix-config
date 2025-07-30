@@ -2,9 +2,11 @@
   config,
   pkgs-unstable,
   ...
-}: let
+}:
+let
   inherit (pkgs-unstable) nu_scripts;
-in {
+in
+{
   programs.nushell = {
     # load the alias file for work
     # the file must exist, otherwise nushell will complain about it!
