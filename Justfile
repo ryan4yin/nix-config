@@ -77,7 +77,7 @@ shell:
 [group('nix')]
 fmt:
   # format the nix files in this repo
-  nix fmt
+  ls **/*.nix | each { |it| nixfmt $it.name }
 
 # Show all the auto gc roots in the nix store
 [group('nix')]
