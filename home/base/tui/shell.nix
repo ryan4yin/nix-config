@@ -40,7 +40,7 @@ in
       # use custom-completions/zoxide/zoxide-completions.nu *
 
       # alias
-      use aliases/git/git-aliases.nu *
+      # use aliases/git/git-aliases.nu *
       use aliases/eza/eza-aliases.nu *
       use aliases/bat/bat-aliases.nu *
 
