@@ -47,7 +47,7 @@ in
       };
 
       # fix https://github.com/ryan4yin/nix-config/issues/10
-      security.pam.services.hyprlock = { };
+      security.pam.services.swaylock = { };
     })
   ];
 }

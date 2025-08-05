@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-stable,
   config,
   ...
 }:
@@ -29,7 +30,7 @@ in
   catppuccin.waybar.enable = false;
 
   # screen locker
-  programs.hyprlock.enable = true;
+  programs.swaylock.enable = true;
 
   # Logout Menu
   programs.wlogout.enable = true;
