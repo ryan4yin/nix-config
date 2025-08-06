@@ -289,6 +289,10 @@ in
         # Misc
         # ======================================
 
+        # Clash Verge Rev
+        ".local/share/io.github.clash-verge-rev.clash-verge-rev"
+        ".local/share/clash-verge"
+
         # Audio
         ".config/pulse"
         ".local/state/wireplumber"

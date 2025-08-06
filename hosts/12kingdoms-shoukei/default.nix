@@ -11,6 +11,8 @@ in
   imports = [
     ./hardware-configuration.nix
     ../idols-ai/preservation.nix
+
+    ./clash-verge.nix
   ];
 
   networking = {
