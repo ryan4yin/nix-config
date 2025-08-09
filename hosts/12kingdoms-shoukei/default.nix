@@ -1,4 +1,4 @@
-{ myvars, ... }:
+{ lib, myvars, ... }:
 #############################################################
 #
 #  Shoukei - NixOS running on Macbook Pro 2022 M2 16G
@@ -14,6 +14,8 @@ in
 
     ./clash-verge.nix
   ];
+
+  services.sunshine.enable = lib.mkForce false;
 
   networking = {
     inherit hostName;
