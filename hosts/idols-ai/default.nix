@@ -1,4 +1,4 @@
-{ myvars, ... }:
+{myvars, ...}:
 #############################################################
 #
 #  Ai - my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
@@ -7,12 +7,11 @@
 let
   hostName = "ai"; # Define your hostname.
 
-  inherit (myvars.networking) defaultGateway defaultGateway6 nameservers;
+  inherit (myvars.networking) mainGateway mainGateway6 nameservers;
   inherit (myvars.networking.hostsAddr.${hostName}) iface ipv4 ipv6;
   ipv4WithMask = "${ipv4}/24";
   ipv6WithMask = "${ipv6}/64";
-in
-{
+in {
   imports = [
     ./netdev-mount.nix
     # Include the results of the hardware scan.
@@ -36,7 +35,7 @@ in
   systemd.network.enable = true;
 
   systemd.network.networks."10-${iface}" = {
-    matchConfig.Name = [ iface ];
+    matchConfig.Name = [iface];
     networkConfig = {
       Address = [
         ipv4WithMask
@@ -50,11 +49,11 @@ in
     routes = [
       {
         Destination = "0.0.0.0/0";
-        Gateway = defaultGateway;
+        Gateway = mainGateway;
       }
       {
         Destination = "::/0";
-        Gateway = defaultGateway6;
+        Gateway = mainGateway6;
         GatewayOnLink = true; # it's a gateway on local link.
       }
     ];

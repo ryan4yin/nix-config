@@ -14,14 +14,15 @@
 let
   hostName = "aquamarine"; # Define your hostname.
 
-  inherit (myvars.networking) defaultGateway defaultGateway6 nameservers;
+  inherit (myvars.networking) proxyGateway proxyGateway6 nameservers;
   inherit (myvars.networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
-in
-{
-  imports = (mylib.scanPaths ./.) ++ [
-    disko.nixosModules.default
-  ];
+in {
+  imports =
+    (mylib.scanPaths ./.)
+    ++ [
+      disko.nixosModules.default
+    ];
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
@@ -41,7 +42,7 @@ in
   zramSwap.memoryPercent = lib.mkForce 100;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = ["kvm-amd"];
   boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   networking = {
@@ -56,9 +57,9 @@ in
   systemd.network.enable = true;
 
   systemd.network.networks."10-${iface}" = {
-    matchConfig.Name = [ iface ];
+    matchConfig.Name = [iface];
     networkConfig = {
-      Address = [ ipv4WithMask ];
+      Address = [ipv4WithMask];
       DNS = nameservers;
       DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
       IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
@@ -67,11 +68,11 @@ in
     routes = [
       {
         Destination = "0.0.0.0/0";
-        Gateway = defaultGateway;
+        Gateway = proxyGateway;
       }
       {
         Destination = "::/0";
-        Gateway = defaultGateway6;
+        Gateway = proxyGateway6;
         GatewayOnLink = true; # it's a gateway on local link.
       }
     ];

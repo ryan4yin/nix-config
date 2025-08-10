@@ -3,13 +3,11 @@
   hostName,
   networking,
   ...
-}:
-let
-  inherit (networking) defaultGateway defaultGateway6 nameservers;
+}: let
+  inherit (networking) proxyGateway proxyGateway6 nameservers;
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
-in
-{
+in {
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
@@ -98,7 +96,7 @@ in
     ovsbr1 = {
       # Attach the interfaces to OVS bridge
       # This interface should not used by the host itself!
-      interfaces.${iface} = { };
+      interfaces.${iface} = {};
     };
   };
 
@@ -107,9 +105,9 @@ in
   # Set the host's address on the OVS bridge interface instead of the physical interface!
   systemd.network.networks = {
     "10-ovsbr1" = {
-      matchConfig.Name = [ "ovsbr1" ];
+      matchConfig.Name = ["ovsbr1"];
       networkConfig = {
-        Address = [ ipv4WithMask ];
+        Address = [ipv4WithMask];
         DNS = nameservers;
         DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
         IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
@@ -118,18 +116,18 @@ in
       routes = [
         {
           Destination = "0.0.0.0/0";
-          Gateway = defaultGateway;
+          Gateway = proxyGateway;
         }
         {
           Destination = "::/0";
-          Gateway = defaultGateway6;
+          Gateway = proxyGateway6;
           GatewayOnLink = true; # it's a gateway on local link.
         }
       ];
       linkConfig.RequiredForOnline = "routable";
     };
     "20-${iface}" = {
-      matchConfig.Name = [ iface ];
+      matchConfig.Name = [iface];
       networkConfig.LinkLocalAddressing = "no";
       # tell networkd ignore this interface.
       # it's managed by openvswitch
