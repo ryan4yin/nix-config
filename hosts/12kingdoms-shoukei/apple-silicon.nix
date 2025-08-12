@@ -39,8 +39,12 @@
   services.logind = {
     lidSwitch = "suspend";
     lidSwitchExternalPower = "lock";
+    lidSwitchDocked = "ignore";
+    lidSwitchIgnoreInhibited = true;
+
     powerKey = "ignore";
     powerKeyLongPress = "ignore";
+    powerKeyIgnoreInhibited = true;
   };
   systemd.targets.sleep.enable = true;
   systemd.sleep.extraConfig = ''
@@ -203,30 +207,8 @@
           Icon = "volume_off";
           Action = "Mute";
         }
-        {
-          Icon = "volume_down";
-          Action = "VolumeDown";
-        }
-        {
-          Icon = "volume_up";
-          Action = "VolumeUp";
-        }
-
-        {
-          Text = "Home";
-          Action = "Home";
-        }
-        {
-          Text = "End";
-          Action = "End";
-        }
-
-        # for screenshot shortcut
-        {
-          Text = "Print";
-          Action = "Print";
-        }
       ];
+
     };
   };
 
