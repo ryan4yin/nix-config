@@ -8,12 +8,4 @@
   };
 
   boot.loader.timeout = lib.mkDefault 8; # wait for x seconds to select the boot entry
-
-  # for power management
-  services = {
-    power-profiles-daemon = {
-      enable = true;
-    };
-    upower.enable = true;
-  };
 }
