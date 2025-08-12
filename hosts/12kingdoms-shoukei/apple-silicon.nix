@@ -24,6 +24,29 @@
     # since mesa 25.1(already in nixpkgs), support for asahi is enabled by default.
   };
 
+  # Lid & PowerKey settings
+  #
+  # Suspend: Store system state to RAM - fast, requires minimal power to maintain RAM.
+  # Hibernate: Store system state & RAM to Disk, and then poweroff the system.
+  #
+  # NOTE: Hibernate is not supported by Asahi Linux.
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "lock";
+    # 'Docked' means: more than one display is connected or the system is inserted in a docking station
+    lidSwitchDocked = "ignore";
+
+    powerKey = "suspend";
+    powerKeyLongPress = "poweroff";
+  };
+  systemd.targets.sleep.enable = true;
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=yes
+    AllowHibernate=no
+    AllowSuspendThenHibernate=no
+    HibernateDelaySec=5min
+  '';
+
   # After adding this snippet, you need to restart the system for the touchbar to work.
   hardware.apple.touchBar = {
     enable = true;
