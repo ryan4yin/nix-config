@@ -17,7 +17,15 @@
 
 1. https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana
 
+## Loki Mixin
+
+An opinionated set of dashboards, alerts, and recording rules to monitor your Loki cluster. The
+mixin provides a comprehensive package for monitoring Loki in production.
+
+1. https://github.com/grafana/loki/tree/main/production/loki-mixin-compiled/dashboards
 
 ## Databases
+
+Requires Prometheus PostgreSQL exporter metrics. See: wrouesnel/postgres_exporter
 
 1. https://grafana.com/grafana/dashboards/9628-postgresql-database/
