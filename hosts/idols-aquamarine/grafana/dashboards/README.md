@@ -29,3 +29,4 @@ mixin provides a comprehensive package for monitoring Loki in production.
 Requires Prometheus PostgreSQL exporter metrics. See: wrouesnel/postgres_exporter
 
 1. https://grafana.com/grafana/dashboards/9628-postgresql-database/
+1. https://github.com/cloudnative-pg/grafana-dashboards/blob/main/charts/cluster/grafana-dashboard.json
