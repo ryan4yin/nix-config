@@ -18,6 +18,7 @@
     kubectl-tree # kubectl tree
     kubectl-node-shell # exec into node
     kubepug # kubernetes pre upgrade checker
+    kubectl-cnpg # cloudnative-pg's cli tool
 
     kubebuilder
     istioctl
