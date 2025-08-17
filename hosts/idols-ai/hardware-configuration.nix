@@ -19,6 +19,7 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.systemd-boot.enable = true;
 
+  # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/top-level/linux-kernels.nix
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
