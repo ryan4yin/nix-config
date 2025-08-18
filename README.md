@@ -116,7 +116,8 @@ For NixOS:
 sudo nixos-rebuild switch --flake .#ai-hyprland
 
 # deploy via `just`(a command runner with similar syntax to make) & Justfile
-just hypr  # deploy my pc with hyprland compositor
+# Deploy the hyprland nixosConfiguration by hostname match
+just hypr
 
 # or we can deploy with details
 just hypr debug
@@ -132,11 +133,11 @@ nix-shell -p just nushell
 # 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
 # 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
-# deploy fern's configuration(Apple Silicon)
-just fr
+# Deploy the darwinConfiguration by hostname match
+just local
 
 # deploy with details
-just fr debug
+just local debug
 ```
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
