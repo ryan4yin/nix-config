@@ -2,7 +2,6 @@
   pkgs,
   config,
   lib,
-  anyrun,
   ...
 }@args:
 with lib;
@@ -11,7 +10,6 @@ let
 in
 {
   imports = [
-    # anyrun.homeManagerModules.default # the module is already in hm now.
     ./options
   ];
 
