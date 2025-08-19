@@ -143,6 +143,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri.url = "github:sodiboo/niri-flake";
+
     ########################  Some non-flake repositories  #########################################
 
     polybar-themes = {

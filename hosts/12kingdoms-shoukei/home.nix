@@ -1,8 +1,11 @@
-{ config, ... }:
+{ config, niri, ... }:
 let
   hostName = "shoukei"; # Define your hostname.
 in
 {
+  programs.ssh.matchBlocks."github.com".identityFile =
+    "${config.home.homeDirectory}/.ssh/${hostName}";
+
   modules.desktop.hyprland = {
     nvidia = false;
     settings.source = [
@@ -10,6 +13,35 @@ in
     ];
   };
 
-  programs.ssh.matchBlocks."github.com".identityFile =
-    "${config.home.homeDirectory}/.ssh/${hostName}";
+  modules.desktop.niri = {
+    settings =
+      let
+        inherit (niri.lib.kdl)
+          node
+          plain
+          leaf
+          flag
+          ;
+      in
+      [
+        (node "output" "eDP-1" [
+          (leaf "scale" 1.5)
+          (leaf "transform" "normal")
+          (leaf "mode" "2560x1600@60")
+          (leaf "position" {
+            x = 0;
+            y = 0;
+          })
+        ])
+
+        # Settings for debugging. Not meant for normal use.
+        # These can change or stop working at any point with little notice.
+        (plain "debug" [
+          # Override the DRM device that niri will use for all rendering.
+          # Fix: niri fails to correctly detect the primary render device
+          (leaf "render-drm-device" "/dev/dri/renderD128")
+        ])
+      ];
+  };
+
 }
