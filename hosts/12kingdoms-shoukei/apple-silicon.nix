@@ -21,12 +21,7 @@
     enable = true;
     peripheralFirmwareDirectory = "${my-asahi-firmware}/macbook-pro-m2-a2338";
 
-    # build the Asahi Linux Kernel with Rust support
-    withRust = true;
-    # use apple-silicon's GPU instead of CPU
-    useExperimentalGPUDriver = true;
-    # How to install the Asahi Mesa driver
-    experimentalGPUInstallMode = "driver"; # driver / replace(for non-flakes) / overlay
+    # since mesa 25.1(already in nixpkgs), support for asahi is enabled by default.
   };
 
   # After adding this snippet, you need to restart the system for the touchbar to work.
