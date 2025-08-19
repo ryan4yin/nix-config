@@ -17,7 +17,7 @@
 
     # system monitoring
     sysstat
-    iotop
+    iotop-c
     iftop
     btop
     nmon
