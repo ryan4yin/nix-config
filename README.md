@@ -57,14 +57,14 @@ You don't have to go through the pain I've experienced again! Check out my
 |                             | NixOS(Wayland)                                                                                                      |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **Window Manager**          | [Hyprland][Hyprland] / [Niri][Niri]                                                                                 |
-| **Terminal Emulator**       | [Zellij][Zellij] + [Kitty][Kitty]                                                                                   |
+| **Terminal Emulator**       | [Zellij][Zellij] + [foot][foot]/[Kitty][Kitty]/[Alacritty][Alacritty]/[Ghostty][Ghostty]                            |
 | **Bar**                     | [Waybar][Waybar]                                                                                                    |
 | **Application Launcher**    | [anyrun][anyrun]                                                                                                    |
 | **Notification Daemon**     | [Mako][Mako]                                                                                                        |
-| **Display Manager**         | [GDM][GDM]                                                                                                          |
-| **Color Scheme**            | [Catppuccin][Catppuccin]                                                                                            |
+| **Display Manager**         | [tuigreet][tuigreet]                                                                                                |
+| **Color Scheme**            | [catppuccin-nix][catppuccin-nix]                                                                                    |
 | **network management tool** | [NetworkManager][NetworkManager]                                                                                    |
-| **Input method framework**  | [Fcitx5][Fcitx5]                                                                                                    |
+| **Input method framework**  | [Fcitx5][Fcitx5] + [rime][rime] + [小鹤音形 flypy][flypy]                                                           |
 | **System resource monitor** | [Btop][Btop]                                                                                                        |
 | **File Manager**            | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                           |
@@ -74,7 +74,7 @@ You don't have to go through the pain I've experienced again! Check out my
 | **Image Viewer**            | [imv][imv]                                                                                                          |
 | **Screenshot Software**     | [hyprshot][hyprshot]                                                                                                |
 | **Screen Recording**        | [OBS][OBS]                                                                                                          |
-| **Filesystem & Encryption** | tmpfs on `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
+| **Filesystem & Encryption** | tmpfs as `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
 | **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                            |
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
@@ -178,6 +178,9 @@ Other dotfiles that inspired me:
 [Hyprland]: https://github.com/hyprwm/Hyprland
 [Niri]: https://github.com/YaLTeR/niri
 [Kitty]: https://github.com/kovidgoyal/kitty
+[foot]: https://codeberg.org/dnkl/foot
+[Alacritty]: https://github.com/alacritty/alacritty
+[Ghostty]: https://github.com/ghostty-org/ghostty
 [Nushell]: https://github.com/nushell/nushell
 [Starship]: https://github.com/starship/starship
 [Waybar]: https://github.com/Alexays/Waybar
@@ -186,6 +189,8 @@ Other dotfiles that inspired me:
 [anyrun]: https://github.com/Kirottu/anyrun
 [Dunst]: https://github.com/dunst-project/dunst
 [Fcitx5]: https://github.com/fcitx/fcitx5
+[rime]: https://wiki.archlinux.org/title/Rime
+[flypy]: https://flypy.cc/
 [Btop]: https://github.com/aristocratos/btop
 [mpv]: https://github.com/mpv-player/mpv
 [Zellij]: https://github.com/zellij-org/zellij
@@ -196,10 +201,10 @@ Other dotfiles that inspired me:
 [OBS]: https://obsproject.com
 [Mako]: https://github.com/emersion/mako
 [Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
-[catppuccin]: https://github.com/catppuccin/catppuccin
+[catppuccin-nix]: https://github.com/catppuccin/nix
 [NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
 [wl-clipboard]: https://github.com/bugaevc/wl-clipboard
-[GDM]: https://wiki.archlinux.org/title/GDM
+[tuigreet]: https://github.com/apognu/tuigreet
 [thunar]: https://gitlab.xfce.org/xfce/thunar
 [Yazi]: https://github.com/sxyazi/yazi
 [Catppuccin]: https://github.com/catppuccin/catppuccin
