@@ -10,13 +10,12 @@
 #############################################################
 let
   hostName = "shoukei"; # Define your hostname.
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../idols-ai/preservation.nix
   ];
-
-  services.sunshine.enable = lib.mkForce false;
 
   networking = {
     inherit hostName;
