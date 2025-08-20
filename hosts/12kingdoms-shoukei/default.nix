@@ -17,6 +17,9 @@ in
     ../idols-ai/preservation.nix
   ];
 
+  # disable sunshine for securrity
+  services.sunshine.enable = lib.mkForce false;
+
   networking = {
     inherit hostName;
     inherit (myvars.networking) nameservers;
