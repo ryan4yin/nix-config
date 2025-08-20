@@ -37,6 +37,10 @@ in
   config = lib.mkIf cfg.enable (
     lib.mkMerge [
       {
+        home.packages = with pkgs; [
+          xwayland-satellite
+        ];
+
         programs.niri.config = cfg.settings;
 
         # NOTE: this executable is used by greetd to start a wayland session when system boot up

@@ -272,5 +272,11 @@ niri: {
           # (leaf "spring" { damping-ratio=0.6; stiffness=1000; epsilon=0.001; })
         ])
       ])
+
+      # xwayland
+      (leaf "spawn-at-startup" "xwayland-satellite")
+      (plain "environment" [
+        (leaf "DISPLAY" ":0")
+      ])
     ];
 }
