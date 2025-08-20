@@ -194,8 +194,11 @@ niri: {
         # (plain "Mod+Space"       [(leaf "switch-layout" "next")])
         # (plain "Mod+Shift+Space" [(leaf "switch-layout" "prev")])
 
+        # Take an area screenshot. Select the area to screenshot with mouse
         (plain "Print" [ (flag "screenshot") ])
+        # Take a screenshot of the focused monitor
         (plain "Ctrl+Print" [ (flag "screenshot-screen") ])
+        # Take a screenshot of the focused window
         (plain "Alt+Print" [ (flag "screenshot-window") ])
 
         # The quit action will show a confirmation dialog to avoid accidental exits.
