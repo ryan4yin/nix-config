@@ -34,6 +34,15 @@ in
           })
         ])
 
+        # ============= Named Workspaces =============
+        (node "workspace" "1terminal" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "2browser" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "3chat" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "4music" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "5mail" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "6file" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "0other" [ (leaf "open-on-output" "eDP-1") ])
+
         # Settings for debugging. Not meant for normal use.
         # These can change or stop working at any point with little notice.
         (plain "debug" [

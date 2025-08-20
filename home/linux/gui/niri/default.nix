@@ -209,15 +209,10 @@ in
           (leaf "center-focused-column" "never")
         ])
 
-        # Add lines like this to spawn processes at startup.
-        # Note that running niri as a session supports xdg-desktop-autostart,
-        # which may be more convenient to use.
-        # (leaf "spawn-at-startup" [ "alacritty" "-e" "fish" ])
-
         # You can override environment variables for processes spawned by niri.
         (plain "environment" [
           # Set a variable like this:
-          # (leaf "QT_QPA_PLATFORM" "wayland")
+          (leaf "QT_QPA_PLATFORM" "wayland")
 
           # Remove a variable by using null as the value:
           # (leaf "DISPLAY" null)
@@ -331,60 +326,77 @@ in
           ])
         ])
 
-        # Window rules let you adjust behavior for individual windows.
-        # They are processed in order of appearance in this file.
-        # (plain "window-rule" [
-        #   # Match directives control which windows this rule will apply to.
-        #   # You can match by app-id and by title.
-        #   # The window must match all properties of the match directive.
-        #   (leaf "match" {
-        #     app-id = "org.myapp.MyApp";
-        #     title = "My Cool App";
-        #   })
-        #
-        #   # There can be multiple match directives. A window must match any one
-        #   # of the rule's match directives.
-        #   #
-        #   # If there are no match directives, any window will match the rule.
-        #   (leaf "match" { title = "Second App"; })
-        #
-        #   # You can also add exclude directives which have the same properties.
-        #   # If a window matches any exclude directive, it won't match this rule.
-        #   #
-        #   # Both app-id and title are regular expressions.
-        #   # Literal nix strings can be helpful here.
-        #   (leaf "exclude" { app-id = ''\.unwanted\.''; })
-        #
-        #   # Here are the properties that you can set on a window rule.
-        #   # You can override the default column width.
-        #   (plain "default-column-width" [
-        #     (leaf "proportion" 0.75)
-        #   ])
-        #
-        #   # You can set the output that this window will initially open on.
-        #   # If such an output does not exist, it will open on the currently
-        #   # focused output as usual.
-        #   (leaf "open-on-output" "eDP-1")
-        #
-        #   # Make this window open as a maximized column.
-        #   (leaf "open-maximized" true)
-        #
-        #   # Make this window open fullscreen.
-        #   (leaf "open-fullscreen" true)
-        #   # You can also set this to false to prevent a window from opening fullscreen.
-        #   # (leaf "open-fullscreen" false)
-        # ])
-        #
-        # # Here's a useful example. Work around WezTerm's initial configure bug
-        # # by setting an empty default-column-width.
-        # (plain "window-rule" [
-        #   # This regular expression is intentionally made as specific as possible,
-        #   # since this is the default config, and we want no false positives.
-        #   # You can get away with just app-id="wezterm" if you want.
-        #   # The regular expression can match anywhere in the string.
-        #   (leaf "match" { app-id = ''^org\.wezfurlong\.wezterm$''; })
-        #   (plain "default-column-width" [ ])
-        # ])
+        # Add lines like this to spawn processes at startup.
+        # Note that running niri as a session supports xdg-desktop-autostart,
+        # which may be more convenient to use.
+        # --------------- Terminal ---------------
+        (leaf "spawn-at-startup" [ "foot" ])
+        (leaf "spawn-at-startup" [ "alacritty" ])
+        (leaf "spawn-at-startup" [ "ghostty" ])
+        # --------------- Networking ---------------
+        (leaf "spawn-at-startup" [ "clash-verge" ])
+        # --------------- Browser ---------------
+        (leaf "spawn-at-startup" [ "firefox" ])
+        (leaf "spawn-at-startup" [ "google-chrome-stable" ])
+        (leaf "spawn-at-startup" [ "chromium-browser" ])
+        # --------------- Chatting ---------------
+        (leaf "spawn-at-startup" [ "Telegram" ])
+
+        # ============= Window Rules =============
+        # Get all the window's information via:
+        #   niri msg windows
+
+        # --------------- Terminal ---------------
+        # foot → ws 13
+        (plain "window-rule" [
+          (leaf "match" { app-id = "foot"; })
+          (leaf "open-on-workspace" "1terminal")
+          (leaf "open-maximized" true)
+        ])
+
+        # Alacritty → ws 10
+        (plain "window-rule" [
+          (leaf "match" { app-id = "Alacritty"; })
+          (leaf "open-on-workspace" "1terminal")
+          (leaf "open-maximized" true)
+        ])
+
+        # Ghostty → ws 14
+        (plain "window-rule" [
+          (leaf "match" { app-id = "com.mitchellh.ghostty"; })
+          (leaf "open-on-workspace" "1terminal")
+          (leaf "open-maximized" true)
+        ])
+
+        # --------------- Networking ---------------
+
+        # Clash Verge → ws 7
+        (plain "window-rule" [
+          (leaf "match" { app-id = "clash-verge"; })
+          (leaf "open-on-workspace" "0other")
+        ])
+
+        # --------------- Browser ---------------
+
+        # Firefox → ws 11
+        (plain "window-rule" [
+          (leaf "match" { app-id = "firefox"; })
+          (leaf "open-on-workspace" "2browser")
+          (leaf "open-maximized" true)
+        ])
+        # Google Chrome → ws 12
+        (plain "window-rule" [
+          (leaf "match" { app-id = "google-chrome"; })
+          (leaf "open-on-workspace" "2browser")
+          (leaf "open-maximized" true)
+        ])
+
+        # --------------- Chatting ---------------
+        # Telegram → ws 6
+        (plain "window-rule" [
+          (leaf "match" { app-id = "org.telegram.desktop"; })
+          (leaf "open-on-workspace" "3chat")
+        ])
 
         (plain "binds" [
           # Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -512,24 +524,26 @@ in
           #
           # For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
           # will all refer to the 3rd workspace.
-          (plain "Mod+1" [ (leaf "focus-workspace" 1) ])
-          (plain "Mod+2" [ (leaf "focus-workspace" 2) ])
-          (plain "Mod+3" [ (leaf "focus-workspace" 3) ])
-          (plain "Mod+4" [ (leaf "focus-workspace" 4) ])
-          (plain "Mod+5" [ (leaf "focus-workspace" 5) ])
-          (plain "Mod+6" [ (leaf "focus-workspace" 6) ])
+          (plain "Mod+1" [ (leaf "focus-workspace" "1terminal") ])
+          (plain "Mod+2" [ (leaf "focus-workspace" "2browser") ])
+          (plain "Mod+3" [ (leaf "focus-workspace" "3chat") ])
+          (plain "Mod+4" [ (leaf "focus-workspace" "4music") ])
+          (plain "Mod+5" [ (leaf "focus-workspace" "5mail") ])
+          (plain "Mod+6" [ (leaf "focus-workspace" "6file") ])
           (plain "Mod+7" [ (leaf "focus-workspace" 7) ])
           (plain "Mod+8" [ (leaf "focus-workspace" 8) ])
           (plain "Mod+9" [ (leaf "focus-workspace" 9) ])
-          (plain "Mod+Ctrl+1" [ (leaf "move-column-to-workspace" 1) ])
-          (plain "Mod+Ctrl+2" [ (leaf "move-column-to-workspace" 2) ])
-          (plain "Mod+Ctrl+3" [ (leaf "move-column-to-workspace" 3) ])
-          (plain "Mod+Ctrl+4" [ (leaf "move-column-to-workspace" 4) ])
-          (plain "Mod+Ctrl+5" [ (leaf "move-column-to-workspace" 5) ])
-          (plain "Mod+Ctrl+6" [ (leaf "move-column-to-workspace" 6) ])
+          (plain "Mod+0" [ (leaf "focus-workspace" "0other") ])
+          (plain "Mod+Ctrl+1" [ (leaf "move-column-to-workspace" "1terminal") ])
+          (plain "Mod+Ctrl+2" [ (leaf "move-column-to-workspace" "2browser") ])
+          (plain "Mod+Ctrl+3" [ (leaf "move-column-to-workspace" "3chat") ])
+          (plain "Mod+Ctrl+4" [ (leaf "move-column-to-workspace" "4music") ])
+          (plain "Mod+Ctrl+5" [ (leaf "move-column-to-workspace" "5mail") ])
+          (plain "Mod+Ctrl+6" [ (leaf "move-column-to-workspace" "6file") ])
           (plain "Mod+Ctrl+7" [ (leaf "move-column-to-workspace" 7) ])
           (plain "Mod+Ctrl+8" [ (leaf "move-column-to-workspace" 8) ])
           (plain "Mod+Ctrl+9" [ (leaf "move-column-to-workspace" 9) ])
+          (plain "Mod+Ctrl+0" [ (leaf "move-column-to-workspace" "0other") ])
 
           # Alternatively, there are commands to move just a single window:
           # (plain "Mod+Ctrl+1" [(leaf "move-window-to-workspace" 1)])
