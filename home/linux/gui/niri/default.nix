@@ -209,15 +209,6 @@ in
           (leaf "center-focused-column" "never")
         ])
 
-        # You can override environment variables for processes spawned by niri.
-        (plain "environment" [
-          # Set a variable like this:
-          (leaf "QT_QPA_PLATFORM" "wayland")
-
-          # Remove a variable by using null as the value:
-          # (leaf "DISPLAY" null)
-        ])
-
         (plain "cursor" [
           # Change the theme and size of the cursor as well as set the
           # `XCURSOR_THEME` and `XCURSOR_SIZE` env variables.

@@ -6,12 +6,10 @@ in
   programs.ssh.matchBlocks."github.com".identityFile =
     "${config.home.homeDirectory}/.ssh/${hostName}";
 
-  modules.desktop.hyprland = {
-    nvidia = false;
-    settings.source = [
-      "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/hypr-hardware.conf"
-    ];
-  };
+  modules.desktop.nvidia.enable = false;
+  modules.desktop.hyprland.settings.source = [
+    "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/hypr-hardware.conf"
+  ];
 
   modules.desktop.niri = {
     settings =

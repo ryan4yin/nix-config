@@ -9,10 +9,6 @@ let
   cfg = config.modules.desktop.hyprland;
 in
 {
-  imports = [
-    ./options
-  ];
-
   options.modules.desktop.hyprland = {
     enable = mkEnableOption "hyprland compositor";
     settings = lib.mkOption {
@@ -38,14 +34,11 @@ in
     };
   };
 
-  config = mkIf cfg.enable (
-    mkMerge (
-      [
-        {
-          wayland.windowManager.hyprland.settings = cfg.settings;
-        }
-      ]
-      ++ (import ./values args)
-    )
-  );
+  config = mkIf cfg.enable (mkMerge ([
+    {
+      wayland.windowManager.hyprland.settings = cfg.settings;
+    }
+    (import ./hyprland.nix args)
+    (import ./xdg.nix args)
+  ]));
 }
