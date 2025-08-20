@@ -56,7 +56,7 @@ You don't have to go through the pain I've experienced again! Check out my
 
 |                             | NixOS(Wayland)                                                                                                      |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Window Manager**          | [Hyprland][Hyprland]                                                                                                |
+| **Window Manager**          | [Hyprland][Hyprland] / [Niri][Niri]                                                                                 |
 | **Terminal Emulator**       | [Zellij][Zellij] + [Kitty][Kitty]                                                                                   |
 | **Bar**                     | [Waybar][Waybar]                                                                                                    |
 | **Application Launcher**    | [anyrun][anyrun]                                                                                                    |
@@ -176,6 +176,7 @@ Other dotfiles that inspired me:
   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
 
 [Hyprland]: https://github.com/hyprwm/Hyprland
+[Niri]: https://github.com/YaLTeR/niri
 [Kitty]: https://github.com/kovidgoyal/kitty
 [Nushell]: https://github.com/nushell/nushell
 [Starship]: https://github.com/starship/starship
