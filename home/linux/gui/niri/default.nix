@@ -244,6 +244,11 @@ in
           # (flag "skip-at-startup")
         ])
 
+        (plain "layer-rule" [
+          (leaf "match" { namespace = "waybar"; })
+          (leaf "opacity" 0.8)
+        ])
+
         # Animation settings.
         (plain "animations" [
           # Uncomment to turn off all animations.
