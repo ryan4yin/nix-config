@@ -1,4 +1,4 @@
-{myvars, ...}:
+{ myvars, lib, ... }:
 #############################################################
 #
 #  Ai - my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
@@ -11,7 +11,8 @@ let
   inherit (myvars.networking.hostsAddr.${hostName}) iface ipv4 ipv6;
   ipv4WithMask = "${ipv4}/24";
   ipv6WithMask = "${ipv6}/64";
-in {
+in
+{
   imports = [
     ./netdev-mount.nix
     # Include the results of the hardware scan.
@@ -22,6 +23,8 @@ in {
     ./preservation.nix
     ./secureboot.nix
   ];
+
+  services.sunshine.enable = lib.mkForce true;
 
   networking = {
     inherit hostName;
@@ -35,7 +38,7 @@ in {
   systemd.network.enable = true;
 
   systemd.network.networks."10-${iface}" = {
-    matchConfig.Name = [iface];
+    matchConfig.Name = [ iface ];
     networkConfig = {
       Address = [
         ipv4WithMask
