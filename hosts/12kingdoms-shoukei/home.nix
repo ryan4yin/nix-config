@@ -6,12 +6,10 @@ in
   programs.ssh.matchBlocks."github.com".identityFile =
     "${config.home.homeDirectory}/.ssh/${hostName}";
 
-  modules.desktop.hyprland = {
-    nvidia = false;
-    settings.source = [
-      "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/hypr-hardware.conf"
-    ];
-  };
+  modules.desktop.nvidia.enable = false;
+  modules.desktop.hyprland.settings.source = [
+    "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/hypr-hardware.conf"
+  ];
 
   modules.desktop.niri = {
     settings =
@@ -33,6 +31,15 @@ in
             y = 0;
           })
         ])
+
+        # ============= Named Workspaces =============
+        (node "workspace" "1terminal" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "2browser" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "3chat" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "4music" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "5mail" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "6file" [ (leaf "open-on-output" "eDP-1") ])
+        (node "workspace" "0other" [ (leaf "open-on-output" "eDP-1") ])
 
         # Settings for debugging. Not meant for normal use.
         # These can change or stop working at any point with little notice.

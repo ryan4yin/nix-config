@@ -2,12 +2,11 @@
 {
   programs.ssh.matchBlocks."github.com".identityFile = "${config.home.homeDirectory}/.ssh/idols-ai";
 
-  modules.desktop.hyprland = {
-    nvidia = true;
-    settings.source = [
-      "${config.home.homeDirectory}/nix-config/hosts/idols-ai/hypr-hardware.conf"
-    ];
-  };
+  modules.desktop.nvidia.enable = true;
+
+  modules.desktop.hyprland.settings.source = [
+    "${config.home.homeDirectory}/nix-config/hosts/idols-ai/hypr-hardware.conf"
+  ];
 
   modules.desktop.niri = {
     settings =
@@ -63,6 +62,15 @@
             y = 0;
           })
         ])
+
+        # ============= Named Workspaces =============
+        (node "workspace" "1terminal" [ (leaf "open-on-output" "HDMI-A-1") ])
+        (node "workspace" "2browser" [ (leaf "open-on-output" "DP-2") ])
+        (node "workspace" "3chat" [ (leaf "open-on-output" "HDMI-A-1") ])
+        (node "workspace" "4music" [ (leaf "open-on-output" "DP-2") ])
+        (node "workspace" "5mail" [ (leaf "open-on-output" "DP-2") ])
+        (node "workspace" "6file" [ (leaf "open-on-output" "HDMI-A-1") ])
+        (node "workspace" "0other" [ (leaf "open-on-output" "HDMI-A-1") ])
       ];
   };
 }
