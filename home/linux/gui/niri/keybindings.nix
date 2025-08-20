@@ -201,10 +201,7 @@ niri: {
         # Take a screenshot of the focused window
         (plain "Alt+Print" [ (flag "screenshot-window") ])
 
-        # The quit action will show a confirmation dialog to avoid accidental exits.
-        # If you want to skip the confirmation dialog, set the flag like so:
-        # (plain "Mod+Shift+E" [(leaf "quit" { skip-confirmation=true; })])
-        (plain "Mod+Shift+E" [ (flag "quit") ])
+        (plain "Mod+Shift+E" [ (leaf "spawn" [ "wlogout" ]) ])
 
         (plain "Mod+Shift+P" [ (flag "power-off-monitors") ])
 
