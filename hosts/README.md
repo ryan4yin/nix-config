@@ -50,6 +50,10 @@ Named after "Twelve Kingdoms":
 - **SBCs**: aarch64/riscv64 single-board computers managed in
   [ryan4yin/nixos-config-sbc](https://github.com/ryan4yin/nixos-config-sbc)
 
+All my riscv64 hosts:
+
+![](/_img/nixos-riscv-cluster.webp)
+
 ## Naming Conventions
 
 - **idols**: Characters from "Oshi no Ko" anime/manga
@@ -103,10 +107,6 @@ Use existing hosts as templates. The key files typically include:
 - **Server systems**: See `kubevirt-shoryu/` for K8s/KubeVirt hosts
 - **macOS systems**: See `darwin-fern/` for macOS configurations
 - **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
-
-All my riscv64 hosts:
-
-![](/_img/nixos-riscv-cluster.webp)
 
 ## Distributed Building
 
