@@ -45,12 +45,6 @@ Named after "Twelve Kingdoms":
 - **K3s Production**: 3 masters + 3 workers for production workloads
 - **K3s Testing**: 3 masters for testing and development
 
-#### KubeVirt Host Systems
-
-- **kubevirt-shoryu** - Physical mini PC running KubeVirt/K3s cluster
-- **kubevirt-shushou** - Physical mini PC running KubeVirt/K3s cluster
-- **kubevirt-youko** - Physical mini PC running KubeVirt/K3s cluster
-
 ### External Systems
 
 - **SBCs**: aarch64/riscv64 single-board computers managed in
