@@ -12,14 +12,55 @@
   1. Accessing the network when they don't need to.
   1. Accessing hardware devices they don't need.
 
-## Current Status
+## Current Structure
 
-1. **System Level**:
-   - [ ] AppArmor
-   - [ ] Kernel & System Hardening
-1. **Per-App Level**:
-   - Nixpak (Bubblewrap, running at user-level)
-   - Firejail (a SUID program, meaning it's running as root)
+### 1. **System Level**
+
+- **AppArmor** (`apparmor/`): AppArmor profiles and configuration
+- **Kernel & System Hardening** (`profiles/`): System-wide hardening profiles
+
+### 2. **Per-App Level**
+
+- **Nixpak** (`nixpaks/`): Bubblewrap-based sandboxing for applications
+  - Firefox configuration
+  - QQ (Chinese messaging app) configuration
+  - Modular system with reusable components
+- **Firejail** (legacy): SUID-based sandboxing (not used)
+- **Bubblewrap** (`bwraps/`): Direct bubblewrap configurations
+  - WeChat sandboxing configuration
+
+## Current Implementation Status
+
+| Component         | Status    | Notes                          |
+| ----------------- | --------- | ------------------------------ |
+| AppArmor Profiles | 🚧 WIP    | Basic structure in place       |
+| Nixpak Firefox    | ✅ Active | Firefox sandboxing via nixpak  |
+| Nixpak QQ         | ✅ Active | QQ application sandboxing      |
+| Bubblewrap WeChat | ✅ Active | WeChat specific sandboxing     |
+| System Profiles   | 🚧 WIP    | Hardened system configurations |
+
+## Directory Structure
+
+```
+hardening/
+├── README.md
+├── apparmor/           # AppArmor security profiles
+│   └── default.nix
+├── bwraps/            # Direct bubblewrap configurations
+│   ├── default.nix
+│   └── wechat.nix
+├── nixpaks/           # Nixpak application sandboxing
+│   ├── default.nix
+│   ├── firefox.nix
+│   ├── firefox-desktop-item.nix
+│   ├── qq.nix
+│   ├── qq-desktop-item.nix
+│   └── modules/       # Reusable nixpak modules
+│       ├── gui-base.nix
+│       └── network.nix
+└── profiles/          # System hardening profiles
+    └── default.nix
+```
 
 ## Kernel Hardening
 
