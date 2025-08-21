@@ -1,13 +1,42 @@
 # Library
 
-Some helper functions, used by `flake.nix` to reduce code duplication and make it easier to add new
-machines:
+This directory contains helper functions used by `flake.nix` to reduce code duplication and make it
+easier to add new machines.
 
-1. `attrs.nix`: A set of functions to manipulate attribute sets.
-1. `macosSystem.nix`: A function to generate config(attribute set) for
-   macOS([nix-darwin](https://github.com/LnL7/nix-darwin)).
-1. `nixosSystem.nix`: A function to generate config(attribute set) for NixOS.
-1. `colmenaSystem.nix`: A function that generate config(another function) for remote deployment
-   using [colmena](https://github.com/zhaofengli/colmena).
-1. `default.nix`: import all the above functions, and some custom useful functions, and export them
-   as a single attribute set.
+## Current Functions
+
+### Core System Generators
+
+1. **`attrs.nix`** - Attribute set manipulation utilities
+2. **`macosSystem.nix`** - macOS configuration generator for
+   [nix-darwin](https://github.com/LnL7/nix-darwin)
+3. **`nixosSystem.nix`** - NixOS configuration generator
+4. **`colmenaSystem.nix`** - Remote deployment configuration for
+   [colmena](https://github.com/zhaofengli/colmena)
+
+### Specialized Module Generators
+
+5. **`genK3sAgentModule.nix`** - K3s agent node configuration generator
+6. **`genK3sServerModule.nix`** - K3s server node configuration generator
+7. **`genKubeVirtGuestModule.nix`** - KubeVirt guest VM configuration generator
+8. **`genKubeVirtHostModule.nix`** - KubeVirt host configuration generator
+
+### Entry Point
+
+9. **`default.nix`** - Main entry point that imports all functions and exports them as a single
+   attribute set
+
+## Usage
+
+These functions are designed to:
+
+- Generate consistent configurations across different architectures
+- Provide type-safe configuration for complex systems
+- Enable easy scaling of the infrastructure
+- Support both local development and production deployments
+
+## Architecture Support
+
+- **x86_64-linux**: Primary desktop systems
+- **aarch64-linux**: ARM64 Linux systems (Apple Silicon, SBCs)
+- **aarch64-darwin**: Apple Silicon macOS systems

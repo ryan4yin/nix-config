@@ -1,22 +1,81 @@
 # Hosts
 
-1. `idols`
-   1. `ai`: My main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
-   2. `aquamarine`: Kubevirt Virtual Machine.
-      - Monitoring(prometheus, grafana, exporters), CI/CD(gitea, runner), homepage, file browser,
-        and other services.
-   3. `ruby`: Not used now.
-   4. `kana`: Not used now.
-1. `k8s`: My Kubevirt & Kubernetes Clusters
-1. `darwin`(macOS)
-   1. `fern`: MacBook Pro 2022 13-inch M2 16G, mainly for personal use.
-   1. `frieren`: MacBook Pro 2024 14-inch M4Pro 48G, mainly for work.
-1. `12kingdoms`:
-   1. `shoukei`: NixOS on MacBook Pro 2022 M2.
-1. Other aarch64/riscv64 SBCs:
-   [ryan4yin/nixos-config-sbc](https://github.com/ryan4yin/nixos-config-sbc)
+This directory contains all host-specific configurations for my NixOS and macOS systems.
 
-## How to add a new host
+## Current Host Inventory
+
+### Physical Machines
+
+#### `idols` - Main Workstations
+
+Named after characters from "Oshi no Ko":
+
+| Host         | Platform    | Hardware              | Purpose               | Status      |
+| ------------ | ----------- | --------------------- | --------------------- | ----------- |
+| `ai`         | NixOS       | i5-13600KF + RTX 4090 | Gaming & Daily Use    | ✅ Active   |
+| `aquamarine` | KubeVirt VM | Virtual               | Monitoring & Services | ✅ Active   |
+| `kana`       | NixOS       | Virtual               | Reserved              | ⚪ Not Used |
+| `ruby`       | NixOS       | Virtual               | Reserved              | ⚪ Not Used |
+
+#### `darwin` - macOS Systems
+
+Named after characters from "Frieren: Beyond Journey's End":
+
+| Host      | Platform | Hardware                   | Purpose      | Status    |
+| --------- | -------- | -------------------------- | ------------ | --------- |
+| `fern`    | macOS    | MacBook Pro M2 13" 16GB    | Personal Use | ✅ Active |
+| `frieren` | macOS    | MacBook Pro M4Pro 14" 48GB | Work Use     | ✅ Active |
+
+#### `12kingdoms` - Homelab Servers & Apple Silicon Linux
+
+Named after "Twelve Kingdoms":
+
+| Host      | Platform | Hardware                               | Purpose                    | Status    |
+| --------- | -------- | -------------------------------------- | -------------------------- | --------- |
+| `shoukei` | NixOS    | MacBook Pro M2                         | NixOS on Apple Silicon     | ✅ Active |
+| `shoryu`  | NixOS    | MoreFine S500Plus (AMD Ryzen 9 5900HX) | KubeVirt Host & K3s Master | ✅ Active |
+| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U)   | KubeVirt Host & K3s Master | ✅ Active |
+| `youko`   | NixOS    | MinisForum HX99G (AMD Ryzen 9 6900HX)  | KubeVirt Host & K3s Master | ✅ Active |
+
+### Virtual Machines & Clusters
+
+#### `k8s` - Kubernetes Infrastructure
+
+- **KubeVirt Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
+- **K3s Production**: 3 masters + 3 workers for production workloads
+- **K3s Testing**: 3 masters for testing and development
+
+#### KubeVirt Host Systems
+
+- **kubevirt-shoryu** - Physical mini PC running KubeVirt/K3s cluster
+- **kubevirt-shushou** - Physical mini PC running KubeVirt/K3s cluster
+- **kubevirt-youko** - Physical mini PC running KubeVirt/K3s cluster
+
+### External Systems
+
+- **SBCs**: aarch64/riscv64 single-board computers managed in
+  [ryan4yin/nixos-config-sbc](https://github.com/ryan4yin/nixos-config-sbc)
+
+## Naming Conventions
+
+- **idols**: Characters from "Oshi no Ko" anime/manga
+- **12kingdoms**: Characters from "Twelve Kingdoms" anime/novel series
+- **darwin**: Characters from "Frieren: Beyond Journey's End" anime/manga
+- **k8s**: Kubernetes-related systems follow standard naming patterns
+
+## How to Add a New Host
+
+The easiest way to add a new host is to copy and adapt an existing similar configuration. All host
+configurations follow similar patterns but are customized for specific hardware and use cases.
+
+### General Process
+
+1. **Identify a similar existing host** from the directory structure above
+2. **Copy the entire directory** and rename it for your new host
+3. **Adapt the configuration files** for your specific hardware and requirements
+4. **Update references** in the flake outputs and networking configuration
+
+### Essential Steps
 
 1. Under `hosts/`
    1. Create a new folder under `hosts/` with the name of the new host.
@@ -36,13 +95,22 @@
    1. Add the new host's static IP address.
    1. Skip this step if the new host is not in the local network or is a mobile device.
 
-## idols - Oshi no Ko
+### File Templates
 
-These four servers are named after the four main characters of the mange/anime Oshi no Ko.
+Use existing hosts as templates. The key files typically include:
 
-## rolling girls
+- `default.nix` - Main host configuration
+- `hardware-configuration.nix` - Auto-generated hardware settings
+- Platform-specific files (e.g., `nvidia.nix`, `apple-silicon.nix`, etc.)
 
-My All RISCV64 hosts.
+### Examples to Reference
+
+- **Desktop systems**: See `idols-ai/` for gaming/workstation setup
+- **Server systems**: See `kubevirt-shoryu/` for K8s/KubeVirt hosts
+- **macOS systems**: See `darwin-fern/` for macOS configurations
+- **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
+
+All my riscv64 hosts:
 
 ![](/_img/nixos-riscv-cluster.webp)
 
