@@ -109,8 +109,6 @@ For NixOS:
 > To deploy this flake from NixOS's official ISO image (purest installation method), please refer to
 > [./nixos-installer/](./nixos-installer/)
 
-> Need to restart the machine when switching between `wayland` and `xorg`.
-
 ```bash
 # deploy one of the configuration based on the hostname
 sudo nixos-rebuild switch --flake .#ai-hyprland
