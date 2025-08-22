@@ -119,6 +119,9 @@ sudo nixos-rebuild switch --flake .#ai-hyprland
 # Deploy the hyprland nixosConfiguration by hostname match
 just hypr
 
+# Deploy the niri nixosConfiguration by hostname match
+just niri
+
 # or we can deploy with details
 just hypr debug
 ```
