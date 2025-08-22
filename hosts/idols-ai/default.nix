@@ -19,6 +19,7 @@ in
     ./hardware-configuration.nix
     ./nvidia.nix
     ./ai
+    ./game
 
     ./preservation.nix
     ./secureboot.nix
