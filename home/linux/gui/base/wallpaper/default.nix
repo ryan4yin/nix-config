@@ -10,8 +10,7 @@
     Unit = {
       Description = "Wallpaper Switcher daemon";
       After = [
-        "graphical-session-pre.target"
-        "xdg-desktop-autostart.target"
+        "graphical-session.target"
       ];
       Wants = [ "graphical-session-pre.target" ];
     };
