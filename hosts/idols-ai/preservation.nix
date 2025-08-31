@@ -251,12 +251,14 @@ in
         ".local/share/TelegramDesktop"
 
         # ======================================
-        # Meeting / Remote Desktop
+        # Meeting / Remote Desktop / Recording
         # ======================================
-        ".config/remmina"
-        ".config/freerdp"
         ".zoom"
+        ".config/obs-studio"
+        ".config/sunshine"
+        ".config/freerdp"
 
+        ".config/remmina"
         ".local/share/remmina"
 
         # ======================================
