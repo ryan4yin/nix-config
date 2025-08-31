@@ -32,10 +32,10 @@
       ldtk # A modern, versatile 2D level editor
 
       # fpga
-      python313Packages.apycula # gowin fpga
-      yosys # fpga synthesis
-      nextpnr # fpga place and route
-      openfpgaloader # fpga programming
+      # python313Packages.apycula # gowin fpga
+      # yosys # fpga synthesis
+      # nextpnr # fpga place and route
+      # openfpgaloader # fpga programming
       # nur-ryan4yin.packages.${pkgs.system}.gowin-eda-edu-ide # app: `gowin-env` => `gw_ide` / `gw_pack` / ...
     ]);
 

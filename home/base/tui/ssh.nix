@@ -9,8 +9,21 @@
   programs.ssh = {
     enable = true;
 
-    # "a private key that is used during authentication will be added to ssh-agent if it is running"
-    addKeysToAgent = "yes";
+    # default config
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      forwardAgent = false;
+      # "a private key that is used during authentication will be added to ssh-agent if it is running"
+      addKeysToAgent = "yes";
+      compression = true;
+      serverAliveInterval = 0;
+      serverAliveCountMax = 3;
+      hashKnownHosts = false;
+      userKnownHostsFile = "~/.ssh/known_hosts";
+      controlMaster = "no";
+      controlPath = "~/.ssh/master-%r@%n:%p";
+      controlPersist = "no";
+    };
 
     matchBlocks = {
       "github.com" = {
