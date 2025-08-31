@@ -28,12 +28,12 @@
     extraGroups = [
       myvars.username
       "users"
-      "networkmanager"
       "wheel"
+      "networkmanager" # for nmtui / nm-connection-editor
       "podman"
       "wireshark"
-      "adbusers"
-      "libvirtd"
+      "adbusers" # android debugging
+      "libvirtd" # virt-viewer / qemu
     ];
   };
 
