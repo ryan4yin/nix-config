@@ -1,10 +1,21 @@
 [files]
+# Respect .ignore files.
 ignore-dot = true
+# Respect ignore files.
 ignore-files = true
-extend-exclude = ["themes/", "data/", "static-surprises/", "resources/"]
+# Typos-specific ignore globs (gitignore syntax).
+# NOTE: This setting is ignored when you pass the path directly on the command line, as cachix/git-hooks.nix does.
+# To ignore those files, you must also exclude those directories via git-hooks.hooks.typos.settings.exclude.
+extend-exclude = [
+  "data/",
+  "rime-data/",
+]
 
 [default]
+# Check binary files as text.
 binary = false
+# Verify spelling in file names.
+check-filename = true
 # ignore some special identifiers(sha256, mac address, crypto keys, etc)
 extend-ignore-re = [
   "iterm2",

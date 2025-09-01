@@ -134,14 +134,15 @@ in
           enable = true;
           settings = {
             write = true; # Automatically fix typos
-            configPath = "./.typos.toml"; # relative to the flake root
+            configPath = ".typos.toml"; # relative to the flake root
+            exclude = "rime-data/";
           };
         };
         prettier = {
           enable = true;
           settings = {
             write = true; # Automatically format files
-            configPath = "./.prettierrc.yaml"; # relative to the flake root
+            configPath = ".prettierrc.yaml"; # relative to the flake root
           };
         };
         # deadnix.enable = true; # detect unused variable bindings in `*.nix`
@@ -173,9 +174,7 @@ in
           nodePackages.prettier
         ];
         name = "dots";
-        shellHook = ''
-          ${self.checks.${system}.pre-commit-check.shellHook}
-        '';
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
       };
     }
   );

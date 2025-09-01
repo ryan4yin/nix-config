@@ -21,7 +21,8 @@ ryan4yin@linux.com	mail
 https://thiscute.world	blog
 
 # [自定义]常用符号
-## 小鹤内置常用符号快捷键： https://xgr313l2jy.k.topthink.com/@xhrm/fh.html
+## 小鹤内置：希腊大写 ofxd 希腊小写 ofxx
+## https://en.wikipedia.org/wiki/Greek_alphabet
 α	alpa
 β	beta
 γ	gama
