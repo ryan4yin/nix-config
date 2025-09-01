@@ -660,17 +660,17 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1755124568,
-        "narHash": "sha256-8fXTYruAwE6OiIz/99P5qknQYag7ZX985pNT+jhIIrU=",
+        "lastModified": 1756110286,
+        "narHash": "sha256-NE0HwcQCQTgM+HuYqmiemPf/5e+3fjwowceAyJj+ikU=",
         "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "2f873fc3ef373e59cd3a7dad4087685fc8ce02ca",
+        "rev": "b99bf9bf7445416fe55da09034fc4a6cd733805c",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-2025-08-10",
         "repo": "nixos-apple-silicon",
+        "rev": "b99bf9bf7445416fe55da09034fc4a6cd733805c",
         "type": "github"
       }
     },

@@ -138,8 +138,8 @@
     };
 
     nixos-apple-silicon = {
-      # 2025-07-04
-      url = "github:nix-community/nixos-apple-silicon/release-2025-08-10";
+      # 2025-08-25 asahi-6.15.10-3
+      url = "github:nix-community/nixos-apple-silicon/b99bf9bf7445416fe55da09034fc4a6cd733805c";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
