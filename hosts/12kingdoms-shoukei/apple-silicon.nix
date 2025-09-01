@@ -30,7 +30,7 @@
   # Hibernate: Store system state & RAM to Disk, and then poweroff the system.
   #
   # NOTE: Hibernate is not supported by Asahi Linux.
-  services.logind = {
+  services.logind.settings.Login = {
     lidSwitch = "suspend";
     lidSwitchExternalPower = "lock";
     # 'Docked' means: more than one display is connected or the system is inserted in a docking station
