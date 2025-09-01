@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-patched,
   nixpak,
   ...
 }:
@@ -21,7 +22,7 @@ in
   nixpkgs.overlays = [
     (_: super: {
       nixpaks = {
-        qq = wrapper super ./qq.nix;
+        qq = wrapper pkgs-patched ./qq.nix;
         qq-desktop-item = super.callPackage ./qq-desktop-item.nix { };
 
         wechat = wrapper super ./wechat.nix;

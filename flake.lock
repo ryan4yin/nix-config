@@ -777,6 +777,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-patched": {
+      "locked": {
+        "lastModified": 1756707443,
+        "narHash": "sha256-1PZ8MF+VoG8jRrUF6+s5nArlytsGrOq54Tz5NAi2oM0=",
+        "owner": "ryan4yin",
+        "repo": "nixpkgs",
+        "rev": "361887dbb55312dd449193578200beedb6688fcf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "ref": "nixos-unstable-patched",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1730741070,
@@ -1029,6 +1045,7 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-ollama": "nixpkgs-ollama",
+        "nixpkgs-patched": "nixpkgs-patched",
         "nixpkgs-stable": "nixpkgs-stable_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nuenv": "nuenv",

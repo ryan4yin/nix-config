@@ -41,6 +41,8 @@
 
     nixpkgs-ollama.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
+
     # for macos
     # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";

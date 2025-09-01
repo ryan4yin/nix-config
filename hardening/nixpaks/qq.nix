@@ -14,10 +14,7 @@ mkNixPak {
     { sloth, ... }:
     {
       app = {
-        package = pkgs.qq.override {
-          # fix fcitx5 input method
-          commandLineArgs = lib.concatStringsSep " " [ "--enable-wayland-ime" ];
-        };
+        package = pkgs.qq;
         binPath = "bin/qq";
       };
       flatpak.appId = "com.tencent.qq";

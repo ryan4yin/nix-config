@@ -28,6 +28,11 @@ let
         # To use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
       };
+      pkgs-patched = import inputs.nixpkgs-patched {
+        inherit system;
+        # To use chrome, we need to allow the installation of non-free software
+        config.allowUnfree = true;
+      };
 
       pkgs-x64 = import nixpkgs {
         system = "x86_64-linux";
