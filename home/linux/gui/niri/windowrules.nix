@@ -44,6 +44,11 @@ niri: {
         (leaf "open-on-workspace" "2browser")
         (leaf "open-maximized" true)
       ])
+      (plain "window-rule" [
+        (leaf "match" { app-id = "chromium-browser"; })
+        (leaf "open-on-workspace" "2browser")
+        (leaf "open-maximized" true)
+      ])
 
       # --------------- Chatting ---------------
       (plain "window-rule" [
