@@ -80,7 +80,7 @@
 
     # anyrun - a wayland launcher
     anyrun = {
-      url = "github:/anyrun-org/anyrun/af1ffe4f17921825ff2a773995604dce2b2df3cd";
+      url = "github:/anyrun-org/anyrun/v25.9.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
