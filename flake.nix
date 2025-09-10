@@ -16,12 +16,10 @@
   nixConfig = {
     # substituers will be appended to the default substituters when fetching packages
     extra-substituters = [
-      "https://anyrun.cachix.org"
       # "https://nix-gaming.cachix.org"
       # "https://nixpkgs-wayland.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
       # "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     ];
@@ -79,9 +77,10 @@
 
     # community wayland nixpkgs
     # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+
     # anyrun - a wayland launcher
     anyrun = {
-      url = "github:Kirottu/anyrun";
+      url = "github:/anyrun-org/anyrun/af1ffe4f17921825ff2a773995604dce2b2df3cd";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
