@@ -3,9 +3,15 @@
   anyrun,
   ...
 }:
+
+let
+  anyrunPackages = anyrun.packages.${pkgs.system};
+in
 {
   programs.anyrun = {
     enable = true;
+    # The package should come from the same flake as all the plugins to avoid breakage.
+    package = anyrunPackages.anyrun;
     config = {
       # The horizontal position.
       # when using `fraction`, it sets a fraction of the width or height of the screen
@@ -24,7 +30,7 @@
       maxEntries = null;
 
       # https://github.com/anyrun-org/anyrun/tree/master/plugins
-      plugins = with anyrun.packages.${pkgs.system}; [
+      plugins = with anyrunPackages; [
         applications # Launch applications
         dictionary # Look up word definitions using the Free Dictionary API.
         nix-run # search & run graphical apps from nixpkgs via `nix run`, without installing it.
