@@ -69,7 +69,7 @@ groups:
         annotations:
           summary: Istio high 4xx error rate (instance {{ $labels.instance }})
           description:
-            "High percentage of HTTP 5xx responses in Istio (> 5%).\n  VALUE = {{ $value
+            "High percentage of HTTP 4xx responses in Istio (> 5%).\n  VALUE = {{ $value
             }}\n  LABELS = {{ $labels }}"
 
       - alert: IstioHigh5xxErrorRate

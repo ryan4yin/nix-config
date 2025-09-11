@@ -88,6 +88,11 @@ in
       encode zstd gzip
       reverse_proxy http://localhost:9093
     '';
+    virtualHosts."vmalert.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      encode zstd gzip
+      reverse_proxy http://localhost:8880
+    '';
     virtualHosts."minio.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
       encode zstd gzip

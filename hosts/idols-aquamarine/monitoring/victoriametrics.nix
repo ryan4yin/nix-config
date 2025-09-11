@@ -116,25 +116,4 @@
       ) [ ] myvars.networking.hostsAddr);
     };
   };
-
-  services.vmalert = {
-    enable = true;
-    settings = {
-      "datasource.url" = "http://localhost:9090";
-      "notifier.url" = [ "http://localhost:9093" ]; # alertmanager's api
-
-      # Whether to disable long-lived connections to the datasource.
-      "datasource.disableKeepAlive" = true;
-      # Whether to avoid stripping sensitive information such as auth headers or passwords
-      # from URLs in log messages or UI and exported metrics.
-      "datasource.showURL" = false;
-      rule = [
-        ./alert_rules/node-exporter.yml
-        ./alert_rules/kubestate-exporter.yml
-        ./alert_rules/etcd_embedded-exporter.yml
-        ./alert_rules/istio_embedded-exporter.yml
-        ./alert_rules/coredns_embedded-exporter.yml
-      ];
-    };
-  };
 }
