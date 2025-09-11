@@ -1,5 +1,5 @@
 groups:
-  - name: KubestateExporter
+  - name: kube-state-metrics Exporter
 
     rules:
       - alert: KubernetesNodeNotReady

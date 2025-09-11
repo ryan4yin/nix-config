@@ -1,5 +1,5 @@
 groups:
-  - name: EmbeddedExporter
+  - name: Istio Exporter
 
     rules:
       - alert: IstioKubernetesGatewayAvailabilityDrop
