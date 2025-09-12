@@ -45,19 +45,28 @@
             receiver = "telegram";
             # group alerts by labels
             group_by = [
-              "host"
-              "namespace"
-              "pod"
               "job"
+              # --- Alert labels ---
+              "alertname"
+              "alertgroup"
+              # --- kubernetes labels ---
+              "namespace"
+              "service"
+              # --- custom labels ---
+              "cluster"
+              "env"
+              "type"
+              "host"
             ];
             group_wait = "5m";
             group_interval = "5m";
             repeat_interval = "4h";
           }
           # {
-          #   # Route critical alerts to email (most severe alerts)
+          #   # Route only prod env's critical alerts to email (most severe alerts)
           #   match = {
           #     severity = "critical";
+          #     env = "prd";
           #   };
           #   receiver = "email";
           #   group_by = [
