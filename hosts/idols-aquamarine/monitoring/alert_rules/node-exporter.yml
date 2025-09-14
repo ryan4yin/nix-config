@@ -203,18 +203,18 @@ groups:
           summary: Host high CPU load (instance {{ $labels.instance }})
           description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
-      - alert: HostCpuIsUnderutilized
-        expr:
-          '(100 - (rate(node_cpu_seconds_total{mode="idle"}[30m]) * 100) < 20) * on(instance)
-          group_left (nodename) node_uname_info{nodename=~".+"}'
-        for: 1w
-        labels:
-          severity: info
-        annotations:
-          summary: Host CPU is underutilized (instance {{ $labels.instance }})
-          description:
-            "CPU load is < 20% for 1 week. Consider reducing the number of CPUs.\n  VALUE = {{
-            $value }}\n  LABELS = {{ $labels }}"
+      # - alert: HostCpuIsUnderutilized
+      #   expr:
+      #     '(100 - (rate(node_cpu_seconds_total{mode="idle"}[30m]) * 100) < 20) * on(instance)
+      #     group_left (nodename) node_uname_info{nodename=~".+"}'
+      #   for: 1w
+      #   labels:
+      #     severity: info
+      #   annotations:
+      #     summary: Host CPU is underutilized (instance {{ $labels.instance }})
+      #     description:
+      #       "CPU load is < 20% for 1 week. Consider reducing the number of CPUs.\n  VALUE = {{
+      #       $value }}\n  LABELS = {{ $labels }}"
 
       - alert: HostCpuStealNoisyNeighbor
         expr:

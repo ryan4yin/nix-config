@@ -73,16 +73,16 @@ groups:
             "PostgreSQL instance has too many connections (> 80%).\n  VALUE = {{ $value }}\n  LABELS
             = {{ $labels }}"
 
-      - alert: PostgresqlNotEnoughConnections
-        expr: 'sum by (datname) (pg_stat_activity_count{datname!~"template.*|postgres"}) < 5'
-        for: 2m
-        labels:
-          severity: critical
-        annotations:
-          summary: Postgresql not enough connections (instance {{ $labels.instance }})
-          description:
-            "PostgreSQL instance should have more connections (> 5)\n  VALUE = {{ $value
-            }}\n  LABELS = {{ $labels }}"
+      # - alert: PostgresqlNotEnoughConnections
+      #   expr: 'sum by (datname) (pg_stat_activity_count{datname!~"template.*|postgres"}) < 5'
+      #   for: 2m
+      #   labels:
+      #     severity: critical
+      #   annotations:
+      #     summary: Postgresql not enough connections (instance {{ $labels.instance }})
+      #     description:
+      #       "PostgreSQL instance should have more connections (> 5)\n  VALUE = {{ $value
+      #       }}\n  LABELS = {{ $labels }}"
 
       - alert: PostgresqlDeadLocks
         expr: 'increase(pg_stat_database_deadlocks{datname!~"template.*|postgres"}[1m]) > 5'
@@ -109,17 +109,17 @@ groups:
             "Ratio of transactions being aborted compared to committed is > 2 %\n  VALUE = {{ $value
             }}\n  LABELS = {{ $labels }}"
 
-      - alert: PostgresqlCommitRateLow
-        expr:
-          'increase(pg_stat_database_xact_commit{datname!~"template.*|postgres",datid!="0"}[5m]) < 5'
-        for: 2m
-        labels:
-          severity: critical
-        annotations:
-          summary: Postgresql commit rate low (instance {{ $labels.instance }})
-          description:
-            "Postgresql seems to be processing very few transactions\n  VALUE = {{ $value
-            }}\n  LABELS = {{ $labels }}"
+      # - alert: PostgresqlCommitRateLow
+      #   expr:
+      #     'increase(pg_stat_database_xact_commit{datname!~"template.*|postgres",datid!="0"}[5m]) < 5'
+      #   for: 2m
+      #   labels:
+      #     severity: critical
+      #   annotations:
+      #     summary: Postgresql commit rate low (instance {{ $labels.instance }})
+      #     description:
+      #       "Postgresql seems to be processing very few transactions\n  VALUE = {{ $value
+      #       }}\n  LABELS = {{ $labels }}"
 
       - alert: PostgresqlLowXidConsumption
         expr: "rate(pg_txid_current[1m]) < 5"

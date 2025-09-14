@@ -2,6 +2,6 @@
 {
   imports = [
     ./victoriametrics.nix
-    ./alertmanager.nix
+    ./alert.nix
   ];
 }

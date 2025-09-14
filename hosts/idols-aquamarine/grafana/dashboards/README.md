@@ -32,3 +32,7 @@ mixin provides a comprehensive package for monitoring Loki in production.
    - Instance:
      https://github.com/cloudnative-pg/grafana-dashboards/blob/main/charts/cluster/grafana-dashboard.json
    - Pooler(PGBouncer): https://github.com/cloudnative-pg/grafana-dashboards/issues/7
+
+## VictoriaMetrics
+
+- https://grafana.com/orgs/victoriametrics/dashboards
