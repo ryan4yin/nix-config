@@ -64,11 +64,12 @@
         ])
 
         # ============= Named Workspaces =============
-        (node "workspace" "1terminal" [ (leaf "open-on-output" "HDMI-A-1") ])
         (node "workspace" "2browser" [ (leaf "open-on-output" "DP-2") ])
+        (node "workspace" "4gaming" [ (leaf "open-on-output" "DP-2") ])
+        (node "workspace" "5music" [ (leaf "open-on-output" "DP-2") ])
+
+        (node "workspace" "1terminal" [ (leaf "open-on-output" "HDMI-A-1") ])
         (node "workspace" "3chat" [ (leaf "open-on-output" "HDMI-A-1") ])
-        (node "workspace" "4music" [ (leaf "open-on-output" "DP-2") ])
-        (node "workspace" "5mail" [ (leaf "open-on-output" "DP-2") ])
         (node "workspace" "6file" [ (leaf "open-on-output" "HDMI-A-1") ])
         (node "workspace" "0other" [ (leaf "open-on-output" "HDMI-A-1") ])
       ];

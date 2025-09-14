@@ -13,7 +13,7 @@ niri: {
       # Get all the window's information via:
       #   niri msg windows
 
-      # --------------- Terminal ---------------
+      # --------------- 1Terminal ---------------
       (plain "window-rule" [
         (leaf "match" { app-id = "foot"; })
         (leaf "open-on-workspace" "1terminal")
@@ -32,7 +32,7 @@ niri: {
         (leaf "open-maximized" true)
       ])
 
-      # --------------- Browser ---------------
+      # --------------- 2Browser ---------------
 
       (plain "window-rule" [
         (leaf "match" { app-id = "firefox"; })
@@ -50,7 +50,7 @@ niri: {
         (leaf "open-maximized" true)
       ])
 
-      # --------------- Chatting ---------------
+      # --------------- 3Chatting ---------------
       (plain "window-rule" [
         (leaf "match" { app-id = "org.telegram.desktop"; })
         (leaf "open-on-workspace" "3chat")
@@ -64,14 +64,55 @@ niri: {
         (leaf "open-on-workspace" "3chat")
       ])
 
-      # --------------- Networking ---------------
+      # --------------- 4Gaming ---------------
+
+      (plain "window-rule" [
+        (leaf "match" { app-id = "steam"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+      (plain "window-rule" [
+        (leaf "match" { app-id = "steam_app_default"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+      (plain "window-rule" [
+        (leaf "match" { app-id = "heroic"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+      (plain "window-rule" [
+        (leaf "match" { app-id = "net.lutris.Lutris"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+      (plain "window-rule" [
+        (leaf "match" { app-id = "com.vysp3r.ProtonPlus"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+      (plain "window-rule" [
+        # Run anime games on Linux
+        (leaf "match" { app-id = "^moe.launcher"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+      (plain "window-rule" [
+        # All *.exe (Windows APPs)
+        (leaf "match" { app-id = "\.exe$"; })
+        (leaf "open-on-workspace" "4gaming")
+      ])
+
+      # --------------- 6File ---------------
+      (plain "window-rule" [
+        (leaf "match" { app-id = "com.github.johnfactotum.Foliate"; })
+        (leaf "open-on-workspace" "6file")
+      ])
+      (plain "window-rule" [
+        (leaf "match" { app-id = "thunar"; })
+        (leaf "open-on-workspace" "6file")
+      ])
+
+      # --------------- 0Other ---------------
 
       (plain "window-rule" [
         (leaf "match" { app-id = "clash-verge"; })
         (leaf "open-on-workspace" "0other")
       ])
-
-      # --------------- Meeting ---------------
 
       (plain "window-rule" [
         (leaf "match" { app-id = "Zoom Workplace"; })

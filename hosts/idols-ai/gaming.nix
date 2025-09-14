@@ -1,6 +1,17 @@
-{ pkgs, nix-gaming, ... }:
 {
-  # https://wiki.archlinux.org/title/steam
+  pkgs,
+  nix-gaming,
+  aagl,
+  ...
+}:
+{
+  # ==========================================================================
+  # Gaming on Linux
+  #
+  #   <https://www.protondb.com/> can give you an idea what works where and how.
+  #   Begineer Guide: <https://www.reddit.com/r/linux_gaming/wiki/faq/>
+  # ==========================================================================
+
   # Games installed by Steam works fine on NixOS, no other configuration needed.
   programs.steam = {
     # Some location that should be persistent:
@@ -29,21 +40,9 @@
   imports = with nix-gaming.nixosModules; [
     pipewireLowLatency
     platformOptimizations
-  ];
 
-  # ==========================================================================
-  # Other Optimizations
-  # Usage:
-  #  Lutris - enable advanced options, go to the System options -> Command prefix, add: `mangohud`
-  #  Steam  - add this as a launch option: `mangohud %command%` / `gamemoderun %command%`
-  # ==========================================================================
-
-  environment.systemPackages = with pkgs; [
-    # https://github.com/flightlessmango/MangoHud
-    # a simple overlay program for monitoring FPS, temperature, CPU and GPU load, and more.
-    mangohud
-    # a GUI game launcher for Steam/GoG/Epic
-    lutris
+    # run anime games on Linux
+    aagl.nixosModules.default
   ];
 
   # Optimise Linux system performance on demand
@@ -55,4 +54,11 @@
   #      https://github.com/FeralInteractive/GameMode#apps-with-gamemode-integration
   #      simply running the game will automatically activate GameMode.
   programs.gamemode.enable = pkgs.stdenv.isx86_64;
+
+  # run anime games on Linux
+  # https://github.com/an-anime-team/
+  programs.anime-game-launcher.enable = true; # Genshin: Impact
+  programs.honkers-railway-launcher.enable = true; # Honkai: Star Rail
+  programs.honkers-launcher.enable = false; # Honkai: Impact 3
+  programs.sleepy-launcher.enable = false; # Zenless Zon Zero
 }
