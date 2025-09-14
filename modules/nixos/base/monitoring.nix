@@ -14,5 +14,18 @@
 
     # use either enabledCollectors or disabledCollectors
     # disabledCollectors = [];
+
+    extraFlags = [
+      # Exclude pseudo/ephemeral FS:
+      #   - /proc, /sys: kernel pseudo-FS, always size 0
+      #   - /dev: tmpfs/devices, not meaningful for disk usage
+      # Exclude container/runtime mounts:
+      #   - /var/lib/docker/, /var/lib/containers/ and /var/lib/kubelet/ → too much overlay/tmpfs mounts,
+      #     often EACCES (strict perms, namespaces) → false alerts
+      # Exclude user bind mounts:
+      #   - /home/ryan/.+ → bind-mounted from /persistent (NixOS tmpfs-root setup),
+      #     monitoring /persistent is sufficient
+      "--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
+    ];
   };
 }
