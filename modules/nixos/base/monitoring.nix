@@ -19,6 +19,9 @@
       # Exclude pseudo/ephemeral FS:
       #   - /proc, /sys: kernel pseudo-FS, always size 0
       #   - /dev: tmpfs/devices, not meaningful for disk usage
+      # Exclude system/runtime tmp dirs:
+      #   - /run/credentials/... → systemd service secrets (strict perms)
+      #   - /run/user/... → per-user tmpfs (0700, IPC sockets, not storage)
       # Exclude container/runtime mounts:
       #   - /var/lib/docker/, /var/lib/containers/ and /var/lib/kubelet/ → too much overlay/tmpfs mounts,
       #     often EACCES (strict perms, namespaces) → false alerts
@@ -27,7 +30,7 @@
       #     monitoring /persistent is sufficient
       # Note: ^(/|/persistent/) prefix ensures both root-level and
       #       /persistent-prefixed paths (used in NixOS's tmpfs-as-root setup) are excluded.
-      "--collector.filesystem.mount-points-exclude=^(/|/persistent/)(dev|proc|sys|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
+      "--collector.filesystem.mount-points-exclude=^(/|/persistent/)(dev|proc|sys|run/credentials/.+|run/user/.+|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
     ];
   };
 }
