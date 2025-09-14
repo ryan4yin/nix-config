@@ -25,7 +25,9 @@
       # Exclude user bind mounts:
       #   - /home/ryan/.+ → bind-mounted from /persistent (NixOS tmpfs-root setup),
       #     monitoring /persistent is sufficient
-      "--collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
+      # Note: ^(/|/persistent/) prefix ensures both root-level and
+      #       /persistent-prefixed paths (used in NixOS's tmpfs-as-root setup) are excluded.
+      "--collector.filesystem.mount-points-exclude=^(/|/persistent/)(dev|proc|sys|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
     ];
   };
 }
