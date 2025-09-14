@@ -8,3 +8,4 @@ logs/
 core*
 !core/
 !core.nix
+!coredns*
