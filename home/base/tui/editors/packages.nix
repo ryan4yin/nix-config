@@ -63,14 +63,15 @@
           vscode-extensions.vadimcn.vscode-lldb.adapter # codelldb - debugger
 
           #-- python
-          pipx # Install and Run Python Applications in Isolated Environments
-          uv # python project package manager
-          pyright # python language server
           (python313.withPackages (
             ps: with ps; [
+              # python language server
+              pyright
               ruff
+
+              pipx # Install and Run Python Applications in Isolated Environments
               black # python formatter
-              # debugpy
+              uv # python project package manager
 
               # my commonly used python packages
               jupyter
@@ -80,6 +81,10 @@
               pyquery
               pyyaml
               boto3
+
+              # misc
+              protobuf # protocol buffer compiler
+              numpy
             ]
           ))
 

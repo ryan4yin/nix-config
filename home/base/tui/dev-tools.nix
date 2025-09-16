@@ -36,7 +36,6 @@
     devbox
     bfg-repo-cleaner # remove large files from git history
     k6 # load testing tool
-    protobuf # protocol buffer compiler
 
     # solve coding extercises - learn by doing
     exercism
