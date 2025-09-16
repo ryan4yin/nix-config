@@ -18,7 +18,9 @@
       ];
     })
     # GUI for installing custom Proton versions like GE_Proton
+    # proton - a Wine distribution aimed at gaming
     protonplus
+    # Script to install various redistributable runtime libraries in Wine.
     winetricks
     # https://github.com/Open-Wine-Components/umu-launcher
     # a unified launcher for Windows games on Linux
