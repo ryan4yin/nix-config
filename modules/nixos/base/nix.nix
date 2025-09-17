@@ -1,9 +1,22 @@
 {
   config,
   lib,
+  determinate,
   ...
 }:
 {
+  # auto upgrade nix to the unstable version
+  # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/tools/package-management/nix/default.nix#L284
+  # nix.package = pkgs.nixVersions.latest;
+
+  # https://lix.systems/add-to-config/
+  # nix.package = pkgs.lix;
+
+  # we use determinate nix instead
+  imports = [
+    determinate.nixosModules.default
+  ];
+
   # to install chrome, you need to enable unfree packages
   nixpkgs.config.allowUnfree = lib.mkForce true;
 
