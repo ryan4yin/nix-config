@@ -40,7 +40,7 @@ in
         # a unified launcher for Windows games on Linux
         umu-launcher
       ])
-      ++ (with pkgs-64; [
+      ++ (with pkgs-x64; [
         # a game launcher - great for epic games and gog games
         (heroic.override {
           extraPkgs = _pkgs: [

@@ -35,6 +35,7 @@ in
     # ==========================================================================
 
     # Games installed by Steam works fine on NixOS, no other configuration needed.
+    # https://github.com/NixOS/nixpkgs/blob/master/doc/packages/steam.section.md
     programs.steam = {
       # Some location that should be persistent:
       #   ~/.local/share/Steam - The default Steam install location
@@ -42,6 +43,7 @@ in
       #   ~/.steam/root        - A symlink to ~/.local/share/Steam
       #   ~/.steam             - Some Symlinks & user info
       enable = true;
+      package = pkgs-x64.steam;
       # https://github.com/ValveSoftware/gamescope
       # Run a GameScope driven Steam session from your display-manager
       # fix resolution upscaling and stretched aspect ratios
@@ -71,10 +73,12 @@ in
     programs.gamemode.enable = true;
 
     # run anime games on Linux
-    # https://github.com/an-anime-team/
-    programs.anime-game-launcher.enable = true; # Genshin: Impact
-    programs.honkers-railway-launcher.enable = true; # Honkai: Star Rail
-    programs.honkers-launcher.enable = false; # Honkai: Impact 3
-    programs.sleepy-launcher.enable = false; # Zenless Zon Zero
+    # https://github.com/an-anime-team/r
+    networking.mihoyo-telemetry.block = true;
+    environment.systemPackages = with aagl.packages."x86_64-linux"; [
+      anime-game-launcher # Genshin: Impact
+      honkers-railway-launcher # Honkai: Star Rail
+      sleepy-launcher # Zenless Zon Zero
+    ];
   };
 }
