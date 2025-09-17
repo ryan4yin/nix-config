@@ -33,6 +33,7 @@ let
           modules.desktop.wayland.enable = true;
           modules.secrets.desktop.enable = true;
           modules.secrets.preservation.enable = true;
+          modules.desktop.gaming.enable = true;
         }
       ];
     home-modules = map mylib.relativeToRoot [
@@ -48,7 +49,10 @@ let
     ]
     ++ base-modules.nixos-modules;
     home-modules = [
-      { modules.desktop.hyprland.enable = true; }
+      {
+        modules.desktop.hyprland.enable = true;
+        modules.desktop.gaming.enable = true;
+      }
     ]
     ++ base-modules.home-modules;
   };

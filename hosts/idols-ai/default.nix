@@ -19,7 +19,6 @@ in
     ./hardware-configuration.nix
     ./nvidia.nix
     ./ai
-    ./gaming.nix
 
     ./preservation.nix
     ./secureboot.nix
