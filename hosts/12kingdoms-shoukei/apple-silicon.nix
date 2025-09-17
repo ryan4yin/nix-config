@@ -9,6 +9,13 @@
     nixos-apple-silicon.nixosModules.default
   ];
 
+  environment.systemPackages = with pkgs-unstable; [
+    box64 # Linux Userspace x86 and x86_64 Emulator, run x86_64 apps(such as games, gui apps) on aarch64.
+    # https://asahilinux.org/2024/12/muvm-x11-bridging/
+    # https://github.com/nix-community/nixos-apple-silicon/issues/237
+    muvm # run x86_64 Apps/Games in a microVM, used as a workaround of apple silicon's 16k page size.
+  ];
+
   networking.wireless.iwd = {
     enable = true;
     settings.General.EnableNetworkConfiguration = true;

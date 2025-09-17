@@ -34,14 +34,21 @@ let
           modules.desktop.wayland.enable = true;
           modules.secrets.desktop.enable = true;
           modules.secrets.preservation.enable = true;
+          modules.desktop.gaming.enable = true;
         }
       ];
-    home-modules = map mylib.relativeToRoot [
-      # common
-      "home/linux/gui.nix"
-      # host specific
-      "hosts/idols-${name}/home.nix"
-    ];
+    home-modules =
+      (map mylib.relativeToRoot [
+        # common
+        "home/linux/gui.nix"
+        # host specific
+        "hosts/idols-${name}/home.nix"
+      ])
+      ++ [
+        {
+          modules.desktop.gaming.enable = true;
+        }
+      ];
   };
 
   modules-hyprland = {

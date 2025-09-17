@@ -1,5 +1,6 @@
 {
   pkgs,
+  pkgs-x64,
   pkgs-unstable,
   nur-ryan4yin,
   ...
@@ -21,10 +22,8 @@
       vulkan-tools
       glxinfo
       nvitop
-    ]
-    ++ (lib.optionals pkgs.stdenv.isx86_64 [
-      (zoom-us.override { hyprlandXdgDesktopPortalSupport = true; })
-    ]);
+      (pkgs-x64.zoom-us.override { hyprlandXdgDesktopPortalSupport = true; })
+    ];
 
   programs.mpv = {
     enable = true;

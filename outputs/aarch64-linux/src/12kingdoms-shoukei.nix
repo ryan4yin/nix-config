@@ -33,14 +33,23 @@ let
           modules.desktop.wayland.enable = true;
           modules.secrets.desktop.enable = true;
           modules.secrets.preservation.enable = true;
+          # not supported yet
+          modules.desktop.gaming.enable = false;
         }
       ];
-    home-modules = map mylib.relativeToRoot [
-      # common
-      "home/linux/gui.nix"
-      # host specific
-      "hosts/12kingdoms-${name}/home.nix"
-    ];
+    home-modules =
+      (map mylib.relativeToRoot [
+        # common
+        "home/linux/gui.nix"
+        # host specific
+        "hosts/12kingdoms-${name}/home.nix"
+      ])
+      ++ [
+        {
+          # not supported yet
+          modules.desktop.gaming.enable = false;
+        }
+      ];
   };
 
   modules-hyprland = {
@@ -48,7 +57,9 @@ let
     ]
     ++ base-modules.nixos-modules;
     home-modules = [
-      { modules.desktop.hyprland.enable = true; }
+      {
+        modules.desktop.hyprland.enable = true;
+      }
     ]
     ++ base-modules.home-modules;
   };
