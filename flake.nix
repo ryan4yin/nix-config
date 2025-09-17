@@ -18,10 +18,12 @@
     extra-substituters = [
       # "https://nix-gaming.cachix.org"
       # "https://nixpkgs-wayland.cachix.org"
+      # "https://install.determinate.systems"
     ];
     extra-trusted-public-keys = [
       # "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      # "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
     ];
   };
 
@@ -59,6 +61,8 @@
       # to avoid problems caused by different versions of nixpkgs dependencies.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     # https://github.com/catppuccin/nix
     catppuccin = {
