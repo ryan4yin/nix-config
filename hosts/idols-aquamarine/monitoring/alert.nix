@@ -17,6 +17,11 @@
       rule = [
         "${./alert_rules}/*.yml"
       ];
+      # https://docs.victoriametrics.com/victoriametrics/vmalert/#link-to-alert-source
+      # Set this two args to generate the correct `.GeneratorURL`
+      "external.url" = "https://grafana.writefor.fun";
+      "external.alert.source" =
+        ''explore?left={"datasource":"{{ if eq .Type \"vlogs\" }}VictoriaLogs{{ else }}VictoriaMetrics{{ end }}","queries":[{"expr":{{ .Expr|jsonEscape|queryEscape }},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'';
     };
   };
 
@@ -58,9 +63,9 @@
               "type"
               "host"
             ];
-            group_wait = "5m";
-            group_interval = "5m";
-            repeat_interval = "4h";
+            group_wait = "3m"; # wait for other alerts to "group by" before send notification
+            group_interval = "5m"; # wait for an interval, before send a new alert in the same group
+            repeat_interval = "5h"; # avoiding repeating reminders too frequently
           }
           # {
           #   # Route only prod env's critical alerts to email (most severe alerts)
@@ -102,28 +107,30 @@
               send_resolved = true;
               # Disable notifications for resolved alerts
               disable_notifications = false;
-              # Parse mode for the message
-              parse_mode = "Markdown";
+              # Telegram's MarkdownV2 & Markdown are all very painful, we use html instead.
+              # https://core.telegram.org/bots/api#formatting-options
+              parse_mode = "HTML";
               # Message template
               message = ''
-                *Alert:* {{ .GroupLabels.alertname }}
-                *Status:* {{ .Status }}
-                *Severity:* {{ .CommonLabels.severity }}
-                {{ if .GroupLabels.namespace }}*Namespace:* {{ .GroupLabels.namespace }}{{ end }}
-                {{ if .GroupLabels.pod }}*Pod:* {{ .GroupLabels.pod }}{{ end }}
-                {{ if .GroupLabels.job }}*Job:* {{ .GroupLabels.job }}{{ end }}
-                {{ if .GroupLabels.host }}*Host:* {{ .GroupLabels.host }}{{ end }}
+                {{- if eq .Status "firing" }}
+                🟡 <b>告警触发</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}]
+                {{- else }}
+                🟢 <b>告警恢复</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}]
+                {{- end }}
 
-                {{ range .Alerts }}
-                *Alert:* {{ .Annotations.summary }}
-                *Description:* {{ .Annotations.description }}
-                {{ if .Labels.instance }}*Instance:* {{ .Labels.instance }}{{ end }}
-                {{ if .Labels.container }}*Container:* {{ .Labels.container }}{{ end }}
-                *Started:* {{ .StartsAt.Format "2006-01-02 15:04:05" }}
-                {{ if .EndsAt }}
-                *Ended:* {{ .EndsAt.Format "2006-01-02 15:04:05" }}
-                {{ end }}
-                {{ end }}
+                {{- range .Alerts }}
+
+                📊 <b>详情:</b>
+                • <b>告警组</b>: {{ .Labels.alertgroup }}
+                • <b>等级</b>: {{ if eq .Labels.severity "critical" }}🔴{{ else }}🟡 {{ end }} {{ .Labels.severity | title }}
+                • <b>查询</b>: <a href="{{ .GeneratorURL }}">Grafana Explore</a>
+                • <b>触发值</b>: {{ with .Annotations.value }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Env</b>: {{ with .Labels.env }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Cluster</b>: {{ with .Labels.cluster }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Namespace</b>: {{ with .Labels.namespace }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>标签</b>: {{ range .Labels.SortedPairs }}{{ .Name }}={{ .Value }},{{ end }}
+                • <b>触发时间</b>: {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+                {{- end }}
               '';
             }
           ];
