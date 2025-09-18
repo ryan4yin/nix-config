@@ -49,15 +49,6 @@ let
           #   just trace-access qq
           # See the Justfile in the root of this repository for more information.
           bind.rw = [
-            # given the read write permission to the following directories.
-            # NOTE: sloth.mkdir is used to create the directory if it does not exist!
-            (sloth.mkdir (
-              sloth.concat [
-                sloth.xdgConfigHome
-                "/QQ"
-              ]
-            ))
-
             sloth.xdgDocumentsDir
             sloth.xdgDownloadDir
             sloth.xdgMusicDir

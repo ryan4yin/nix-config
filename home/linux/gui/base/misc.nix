@@ -10,18 +10,16 @@
     # do not support .pdf
     foliate
 
-    # instant messaging
-    telegram-desktop
-    # discord # update too frequently, use the web version instead
-
     # remote desktop(rdp connect)
     remmina
     freerdp # required by remmina
 
     # my custom hardened packages
     pkgs.nixpaks.qq
+    pkgs.nixpaks.telegram-desktop
     # qqmusic
     pkgs.bwraps.wechat
+    # discord # update too frequently, use the web version instead
   ];
 
   # allow fontconfig to discover fonts and configurations installed through home.packages

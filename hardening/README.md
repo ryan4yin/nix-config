@@ -108,13 +108,6 @@ provide a much higher level of security.
 - [Paranoid NixOS Setup - xeiaso](https://xeiaso.net/blog/paranoid-nixos-2021-07-18/)
 - [nix-mineral](https://github.com/cynicsketch/nix-mineral): NixOS module for convenient system
   hardening.
-- nixpak configs:
-  - https://github.com/pokon548/OysterOS/tree/b97604d89953373d6316286b96f6a964af2c398d/desktop/application
-  - https://github.com/segment-tree/my-nixos/tree/ceb6041f73bd9edcb78a8818b27a28f7c629193b/hm/me/apps/nixpak
-  - https://github.com/Keksgesicht/nixos-config/tree/91cc77d8d6b598da7c4dbed143e0009c2dea6940/packages/nixpak
-  - https://github.com/bluskript/nix-config/blob/7ecb6a7254c1ac4969072f4c4febdc19f8b83b30/pkgs/nixpak/default.nix
-- firejail configs:
-  - https://github.com/stelcodes/nixos-config/blob/f8967c82a5e5f3d128eb1aaf7498b5f918f719ec/packages/overlay.nix#L261
 - apparmor configs:
   - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
   - https://git.grimmauld.de/Grimmauld/grimm-nixos-laptop/src/branch/main/hardening

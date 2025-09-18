@@ -249,13 +249,6 @@ in
         ".local/share/feral-interactive"
 
         # ======================================
-        # Instant Messaging
-        # ======================================
-        ".config/QQ"
-
-        ".local/share/TelegramDesktop"
-
-        # ======================================
         # Meeting / Remote Desktop / Recording
         # ======================================
         ".zoom"
@@ -289,7 +282,7 @@ in
         # ======================================
         ".local/share/containers"
         ".local/share/flatpak"
-        # flatpak app's data
+        # flatpak/nixpak app's data
         ".var"
 
         # ======================================
