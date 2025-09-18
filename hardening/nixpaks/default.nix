@@ -15,7 +15,7 @@ let
       (sloth.concat' sloth.homeDir mapdir)
     ];
   };
-  wrapper = _pkgs: path: (_pkgs.callPackage path callArgs).config.script;
+  wrapper = _pkgs: path: (_pkgs.callPackage path callArgs);
 in
 {
   # Add nixpaked Apps into nixpkgs, and reference them in home-manager or other nixos modules
@@ -23,13 +23,10 @@ in
     (_: super: {
       nixpaks = {
         qq = wrapper pkgs-patched ./qq.nix;
-        qq-desktop-item = super.callPackage ./qq-desktop-item.nix { };
 
         wechat = wrapper super ./wechat.nix;
-        wechat-desktop-item = super.callPackage ./wechat-desktop-item.nix { };
 
         firefox = wrapper super ./firefox.nix;
-        firefox-desktop-item = super.callPackage ./firefox-desktop-item.nix { };
       };
     })
   ];

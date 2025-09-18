@@ -52,9 +52,7 @@ hardening/
 ├── nixpaks/           # Nixpak application sandboxing
 │   ├── default.nix
 │   ├── firefox.nix
-│   ├── firefox-desktop-item.nix
 │   ├── qq.nix
-│   ├── qq-desktop-item.nix
 │   └── modules/       # Reusable nixpak modules
 │       ├── gui-base.nix
 │       └── network.nix

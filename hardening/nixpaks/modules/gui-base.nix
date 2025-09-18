@@ -16,15 +16,7 @@ in
   config = {
     dbus.policies = {
       "${config.flatpak.appId}" = "own";
-      "org.freedesktop.DBus" = "talk";
-      "org.gtk.vfs.*" = "talk";
-      "org.gtk.vfs" = "talk";
-      "ca.desrt.dconf" = "talk";
-      "org.a11y.Bus" = "talk";
-
-      # for default portal & gtk/hyprland's portal
-      "org.freedesktop.portal.*" = "talk";
-      "org.freedesktop.impl.portal.desktop.*" = "talk";
+      # we add other policies in ./common.nix
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gpu.nix
     # 1. bind readonly - /run/opengl-driver

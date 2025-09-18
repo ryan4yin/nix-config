@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     # firefox-wayland
     nixpaks.firefox
-    nixpaks.firefox-desktop-item
   ];
 
   programs = {

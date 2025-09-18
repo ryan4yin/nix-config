@@ -20,7 +20,6 @@
 
     # my custom hardened packages
     pkgs.nixpaks.qq
-    pkgs.nixpaks.qq-desktop-item
     # qqmusic
     pkgs.bwraps.wechat
   ];
