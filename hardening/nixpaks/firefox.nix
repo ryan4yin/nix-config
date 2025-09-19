@@ -99,10 +99,10 @@ buildEnv {
       genericName = "Firefox Boxed";
       comment = "Firefox Browser";
       exec = "${exePath} %U";
+      terminal = false;
       icon = "firefox";
       startupNotify = true;
       startupWMClass = "firefox";
-      terminal = false;
       type = "Application";
       categories = [
         "Network"

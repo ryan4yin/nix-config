@@ -62,6 +62,8 @@ buildEnv {
       tryExec = "${exePath}";
       exec = "${exePath} -- %u";
       icon = appId;
+      startupNotify = true;
+      startupWMClass = appId;
       terminal = false;
       type = "Application";
       categories = [
@@ -83,8 +85,19 @@ buildEnv {
         "sms"
         "tdesktop"
       ];
+      actions = {
+        quit = {
+          name = "Quit Telegram";
+          exec = "${exePath} -quit";
+          icon = "application-exit";
+        };
+      };
       extraConfig = {
         X-Flatpak = appId;
+        DBusActivatable = "true";
+        SingleMainWindow = "true";
+        X-GNOME-UsesNotifications = "true";
+        X-GNOME-SingleWindow = "true";
       };
     })
   ];

@@ -74,9 +74,9 @@ buildEnv {
       genericName = "QQ Boxed";
       comment = "Tencent QQ, also known as QQ, is an instant messaging software service and web portal developed by the Chinese technology company Tencent.";
       exec = "${exePath} %U";
-      startupNotify = true;
       terminal = false;
       icon = "${qq}/share/icons/hicolor/512x512/apps/qq.png";
+      startupNotify = true;
       startupWMClass = "QQ";
       type = "Application";
       categories = [
