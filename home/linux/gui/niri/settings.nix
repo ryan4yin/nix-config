@@ -34,17 +34,17 @@ niri: {
         # Next sections include libinput settings.
         # Omitting settings disables them, or leaves them at their default values.
         (plain "touchpad" [
-          (flag "tap")
-          # (flag "dwt")
-          # (flag "dwtp")
-          (flag "natural-scroll")
+          # (flag "tap")  # tap-to-click
+          (flag "dwt") # disable-when-typing.
+          # (flag "dwtp") # disable-when-trackpointing.
+          (flag "natural-scroll") # inverts the scrolling direction.
           # (leaf "accel-speed" 0.2)
           # (leaf "accel-profile" "flat")
           # (leaf "tap-button-map" "left-middle-right")
         ])
 
         (plain "mouse" [
-          # (flag "natural-scroll")
+          # (flag "natural-scroll") # inverts the scrolling direction.
           # (leaf "accel-speed" 0.2)
           # (leaf "accel-profile" "flat")
         ])
