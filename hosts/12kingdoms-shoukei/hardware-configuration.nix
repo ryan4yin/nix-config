@@ -41,6 +41,15 @@ in
         }
       );
     })
+    # https://github.com/NixOS/nixpkgs/issues/366902
+    (final: prev: {
+      qemu-user = prev.qemu-user.overrideAttrs (
+        old:
+        lib.optionalAttrs final.stdenv.hostPlatform.isStatic {
+          configureFlags = old.configureFlags ++ [ "--disable-pie" ];
+        }
+      );
+    })
   ];
 
   # supported file systems, so we can mount any removable disks with these filesystems
