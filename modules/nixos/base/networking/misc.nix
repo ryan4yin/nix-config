@@ -8,4 +8,9 @@
   # dynamically update /etc/hosts for testing
   # Note that changes made in this way will be discarded when switching configurations.
   environment.etc.hosts.mode = "0644";
+
+  networking.hosts."127.0.0.1" = [
+    # Block this domain to prevent QQ from auto-updating.
+    "qqpatch.gtimg.cn"
+  ];
 }
