@@ -14,15 +14,11 @@
         success_symbol = "[➜](bold green)";
         error_symbol = "[➜](bold red)";
       };
-      aws = {
-        symbol = "☁️ 🅰 ";
-      };
-      gcloud = {
-        # do not show the account/project's info
-        # to avoid the leak of sensitive information when sharing the terminal
-        format = "on [$symbol$active(\($region\))]($style) ";
-        symbol = "☁️ 🅶 ️";
-      };
+      # I never rely on the defaults, so this module is useless to me—disabled.
+      # I prefer adding --project, --region to very gcloud/aws command.
+      aws.disabled = true;
+      gcloud.disabled = true;
+
       kubernetes = {
         symbol = "⛵";
         disabled = false;
