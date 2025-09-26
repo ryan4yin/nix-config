@@ -5,10 +5,16 @@
   ...
 }:
 {
+
+  imports = [
+    ./dashboards.nix
+    ./datasources.nix
+  ];
+
   services.grafana = {
     enable = true;
     dataDir = "/data/apps/grafana";
-    # DeclarativePlugins = with pkgs.grafanaPlugins; [ grafana-piechart-panel ];
+    provision.enable = true;
     settings = {
       server = {
         http_addr = "127.0.0.1";
@@ -39,15 +45,6 @@
         # home_page = "";
         default_theme = "dark";
       };
-    };
-
-    # Declaratively provision Grafana's data sources, dashboards, and alerting rules.
-    # Grafana's alerting rules is not recommended to use, we use Prometheus alertmanager instead.
-    # https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources
-    provision = {
-      enable = true;
-      datasources.path = ./datasources.yml;
-      dashboards.path = ./dashboards.yml;
     };
 
     # https://github.com/NixOS/nixpkgs/tree/master/pkgs/servers/monitoring/grafana/plugins

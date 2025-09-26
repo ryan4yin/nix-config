@@ -1,0 +1,37 @@
+{
+
+  # Declaratively provision Grafana's data sources, dashboards, and alerting rules.
+  # Grafana's alerting rules is not recommended to use, we use Prometheus alertmanager instead.
+  # https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources
+  services.grafana.provision.dashboards.settings = {
+    apiVersion = 1;
+
+    providers = [
+      {
+        # <string> an unique provider name. Required
+        name = "Homelab";
+        # An organization is an entity that helps you isolate users and resources such as dashboards,
+        # annotations, and data sources from each other.
+        #
+        # <int> Org id. Default to 1
+        #
+        # If you want to customize this id, you need to create the organizations first.
+        orgId = 1;
+        # <string> provider type. Default to 'file'
+        type = "file";
+        # <bool> disable dashboard deletion
+        disableDeletion = true;
+        # <int> how often Grafana will scan for changed dashboards
+        updateIntervalSeconds = 20;
+        # <bool> allow updating provisioned dashboards from the UI
+        allowUiUpdates = false;
+        options = {
+          # <string, required> path to dashboard files on disk. Required when using the 'file' type
+          path = "/etc/grafana/dashboards/";
+          # <bool> use folder names from filesystem to create folders in Grafana
+          foldersFromFilesStructure = true;
+        };
+      }
+    ];
+  };
+}

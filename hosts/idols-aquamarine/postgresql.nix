@@ -35,23 +35,11 @@ in
 
     # Ensures that the specified databases exist.
     ensureDatabases = [
-      "mytestdb" # for testing
-      "juicefs"
-      # openobserve for every k8s clusters
-      "o2_k3s_test_1"
-      "o2_k3s_prod_1"
+      "playground" # for testing
     ];
     ensureUsers = [
       {
-        name = "o2_k3s_test_1";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "o2_k3s_prod_1";
-        ensureDBOwnership = true;
-      }
-      {
-        name = "juicefs";
+        name = "playground";
         ensureDBOwnership = true;
       }
     ];
@@ -94,9 +82,10 @@ in
       huge_pages = "try";
     };
 
-    # allow root & myself can login via `psql -U postgres` without other aauthentication
+    # Map the systemUser to the DBUser
+    # allow root & myself to log in via psql -U postgres without any additional authentication.
     identMap = ''
-      # ArbitraryMapName systemUser DBUser
+      # ArbitraryMapName systemUser          DBUser
       superuser_map      root                postgres
       superuser_map      postgres            postgres
       superuser_map      postgres-exporter   postgres
@@ -115,6 +104,7 @@ in
       host    all             all             127.0.0.1/32            trust
       # IPv6 local connections:
       host    all             all             ::1/128                 trust
+
       # Allow replication connections from localhost, by a user with the
       # replication privilege.
       local   replication     all                                     trust
