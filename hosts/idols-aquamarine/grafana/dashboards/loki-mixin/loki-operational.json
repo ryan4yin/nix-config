@@ -6701,6 +6701,6 @@
   },
   "timezone": "utc",
   "title": "Loki / Operational",
-  "uid": "operational",
+  "uid": "loki-operational",
   "version": 0
 }
