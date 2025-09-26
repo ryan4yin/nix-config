@@ -61,12 +61,10 @@
               "alertgroup"
               # --- kubernetes labels ---
               "namespace"
-              "service"
               # --- custom labels ---
               "cluster"
               "env"
               "type"
-              "host"
             ];
             group_wait = "3m"; # wait for other alerts to "group by" before send notification
             group_interval = "5m"; # wait for an interval, before send a new alert in the same group
