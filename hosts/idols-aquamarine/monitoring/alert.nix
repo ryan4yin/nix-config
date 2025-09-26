@@ -1,12 +1,16 @@
-{ config, lib, ... }:
+{ config, ... }:
 {
-  services.vmalert = {
+  # https://docs.victoriametrics.com/victoriametrics/vmalert/
+  services.vmalert.instances."homelab" = {
     enable = true;
     settings = {
       "httpListenAddr" = "127.0.0.1:8880";
 
       "datasource.url" = "http://localhost:9090";
       "notifier.url" = [ "http://localhost:9093" ]; # alertmanager's api
+      # Recording rules results are persisted via remote write.
+      "remoteWrite.url" = "http://localhost:9090";
+      "remoteRead.url" = "http://localhost:9090";
 
       # Whether to disable long-lived connections to the datasource.
       "datasource.disableKeepAlive" = true;
