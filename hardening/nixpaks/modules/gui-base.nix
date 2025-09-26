@@ -61,8 +61,8 @@ in
         (sloth.concat' sloth.xdgConfigHome "/fontconfig")
 
         "/etc/fonts" # for fontconfig
-        "/etc/machine-id"
-        "/etc/localtime"
+        "/etc/localtime" # this is a symlink to /etc/zoneinfo/xxx
+        "/etc/zoneinfo"
 
         # Fix: libEGL warning: egl: failed to create dri2 screen
         "/etc/egl"
