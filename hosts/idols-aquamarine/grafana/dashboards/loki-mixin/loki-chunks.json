@@ -1157,6 +1157,6 @@
   },
   "timezone": "utc",
   "title": "Loki / Chunks",
-  "uid": "chunks",
+  "uid": "loki-chunks",
   "version": 0
 }

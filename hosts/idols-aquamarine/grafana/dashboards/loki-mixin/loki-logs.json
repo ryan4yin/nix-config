@@ -1032,6 +1032,6 @@
   },
   "timezone": "utc",
   "title": "Loki / Logs",
-  "uid": "logs",
+  "uid": "loki-logs",
   "version": 0
 }

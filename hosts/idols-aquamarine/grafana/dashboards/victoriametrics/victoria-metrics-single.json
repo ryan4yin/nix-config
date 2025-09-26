@@ -6469,12 +6469,12 @@
           "type": "prometheus",
           "uid": "$ds"
         },
-        "definition": "label_values(vm_app_version{version=~\"victoria-metrics-.*\"}, job)",
+        "definition": "label_values(vm_app_version{}, job)",
         "includeAll": false,
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(vm_app_version{version=~\"victoria-metrics-.*\"}, job)",
+          "query": "label_values(vm_app_version{}, job)",
           "refId": "VictoriaMetrics-job-Variable-Query"
         },
         "refresh": 1,
@@ -6542,7 +6542,7 @@
   },
   "timezone": "",
   "title": "VictoriaMetrics - single-node",
-  "uid": "wNf0q_kZk",
+  "uid": "victoriametrics-single-node",
   "version": 1,
   "weekStart": "",
   "gnetId": 10229

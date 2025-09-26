@@ -50,6 +50,8 @@
               labels.type = "app";
               labels.app = "dnsmasq";
               labels.host = "suzi";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
             }
           ];
         }
@@ -64,6 +66,8 @@
               labels.type = "app";
               labels.app = "v2ray";
               labels.host = "aquamarine";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
             }
           ];
         }
@@ -77,6 +81,8 @@
               labels.type = "app";
               labels.app = "postgresql";
               labels.host = "aquamarine";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
             }
           ];
         }
@@ -90,6 +96,39 @@
               labels.type = "app";
               labels.app = "sftpgo";
               labels.host = "aquamarine";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
+        {
+          job_name = "alertmanager-embedded-exporter";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              targets = [ "localhost:9093" ];
+              labels.type = "app";
+              labels.app = "alertmanager";
+              labels.host = "aquamarine";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
+        {
+          job_name = "victoriametrics-embedded-exporter";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              # scrape vm itself
+              targets = [ "localhost:9090" ];
+              labels.type = "app";
+              labels.app = "victoriametrics";
+              labels.host = "aquamarine";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
             }
           ];
         }
@@ -109,6 +148,8 @@
                 targets = [ "${addr.ipv4}:9100" ];
                 labels.type = "node";
                 labels.host = hostname;
+                labels.env = "homelab";
+                labels.cluster = "homelab";
               }
             ];
           }

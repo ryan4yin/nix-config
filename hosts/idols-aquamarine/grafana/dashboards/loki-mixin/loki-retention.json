@@ -1464,6 +1464,6 @@
   },
   "timezone": "utc",
   "title": "Loki / Retention",
-  "uid": "retention",
+  "uid": "loki-retention",
   "version": 0
 }
