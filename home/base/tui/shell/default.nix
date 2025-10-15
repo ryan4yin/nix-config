@@ -43,6 +43,7 @@ in
       # use aliases/git/git-aliases.nu *
       use aliases/eza/eza-aliases.nu *
       use aliases/bat/bat-aliases.nu *
+      use ${./aliases/gcloud.nu} *
 
       # modules
       use modules/argx *
