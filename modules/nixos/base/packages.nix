@@ -22,6 +22,7 @@
     btop
     nmon
     sysbench
+    systemctl-tui
 
     # system tools
     psmisc # killall/pstree/prtstat/fuser/...
