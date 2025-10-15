@@ -6,7 +6,6 @@
     # system call monitoring
     strace # system call monitoring
     ltrace # library call monitoring
-    tcpdump # network sniffer
     lsof # list open files
 
     # ebpf related tools
@@ -19,7 +18,6 @@
     sysstat
     iotop-c
     iftop
-    btop
     nmon
     sysbench
     systemctl-tui

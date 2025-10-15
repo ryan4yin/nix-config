@@ -1,34 +1,6 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    # Misc
-    cowsay
-    gnupg
-    gnumake
-
-    # Modern cli tools, replacement of grep/sed/...
-
-    # Interactively filter its input using fuzzy searching, not limit to filenames.
-    fzf
-    # search for files by name, faster than find
-    fd
-    # search for files by its content, replacement of grep
-    (ripgrep.override { withPCRE2 = true; })
-
-    # A fast and polyglot tool for code searching, linting, rewriting at large scale
-    # supported languages: only some mainstream languages currently(do not support nix/nginx/yaml/toml/...)
-    ast-grep
-
-    sad # CLI search and replace, just like sed, but with diff preview.
-    yq-go # yaml processor https://github.com/mikefarah/yq
-    just # a command runner like make, but simpler
-    hyperfine # command-line benchmarking tool
-    gping # ping, but with a graph(TUI)
-    doggo # DNS client for humans
-    duf # Disk Usage/Free Utility - a better 'df' alternative
-    du-dust # A more intuitive version of `du` in rust
-    gdu # disk usage analyzer(replacement of `du`)
-
     # nix related
     #
     # it provides the command `nom` works just like `nix
@@ -42,10 +14,15 @@
     # https://github.com/utdemir/nix-tree
     nix-tree # A TUI to visualize the dependency graph of a nix derivation
 
-    # productivity
+    # misc
+    cowsay
+    gnupg
     caddy # A webserver with automatic HTTPS via Let's Encrypt(replacement of nginx)
-    croc # File transfer between computers securely and easily
-    ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
+    # A fast and polyglot tool for code searching, linting, rewriting at large scale
+    # supported languages: only some mainstream languages currently(do not support nix/nginx/yaml/toml/...)
+    ast-grep
+
+    # other core cli tools are installed at system-level
   ];
 
   # A modern replacement for ‘ls’
