@@ -27,7 +27,6 @@ in
       # completion
       use custom-completions/cargo/cargo-completions.nu *
       use custom-completions/curl/curl-completions.nu *
-      use custom-completions/git/git-completions.nu *
       use custom-completions/glow/glow-completions.nu *
       use custom-completions/just/just-completions.nu *
       use custom-completions/make/make-completions.nu *
@@ -37,10 +36,12 @@ in
       use custom-completions/tar/tar-completions.nu *
       use custom-completions/tcpdump/tcpdump-completions.nu *
       use custom-completions/zellij/zellij-completions.nu *
-      # use custom-completions/zoxide/zoxide-completions.nu *
+      use custom-completions/zoxide/zoxide-completions.nu *
+      # https://github.com/nushell/nu_scripts/pull/1181
+      use ${./completions/git-completions.nu} *
 
       # alias
-      # use aliases/git/git-aliases.nu *
+      use aliases/git/git-aliases.nu *
       use aliases/eza/eza-aliases.nu *
       use aliases/bat/bat-aliases.nu *
       use ${./aliases/gcloud.nu} *
