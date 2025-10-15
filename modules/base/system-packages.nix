@@ -13,6 +13,7 @@
     nushell # nushell
     git # used by nix flakes
     git-lfs # used by huggingface models
+    procs
 
     # archives
     zip
