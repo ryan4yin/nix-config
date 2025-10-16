@@ -7,7 +7,8 @@
     nuenv.url = "github:DeterminateSystems/nuenv";
 
     nixos-apple-silicon = {
-      url = "github:nix-community/nixos-apple-silicon/release-2025-05-30";
+      # 2025-10-07 asahi-6.16.8-1
+      url = "github:nix-community/nixos-apple-silicon/24ab28e47b586f741910b3a2f0428f3523a0fff3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
