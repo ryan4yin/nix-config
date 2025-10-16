@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  determinate,
   ...
 }:
 {
@@ -11,11 +10,6 @@
 
   # https://lix.systems/add-to-config/
   # nix.package = pkgs.lix;
-
-  # we use determinate nix instead
-  imports = [
-    determinate.nixosModules.default
-  ];
 
   # to install chrome, you need to enable unfree packages
   nixpkgs.config.allowUnfree = lib.mkForce true;

@@ -62,8 +62,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
     # https://github.com/catppuccin/nix
     catppuccin = {
       url = "github:catppuccin/nix";
