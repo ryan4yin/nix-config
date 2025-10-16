@@ -1162,6 +1162,22 @@
         "type": "github"
       }
     },
+    "nu_scripts": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1760525235,
+        "narHash": "sha256-tKMLaSNniylbo9f0wdUzUZm059RPqyFQlxMtiTPIkWQ=",
+        "owner": "nushell",
+        "repo": "nu_scripts",
+        "rev": "0b97c5e1444b13db7c263bee646dea1e1ffe4ddb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nushell",
+        "repo": "nu_scripts",
+        "type": "github"
+      }
+    },
     "nuenv": {
       "inputs": {
         "nixpkgs": [
@@ -1200,22 +1216,6 @@
       "original": {
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "type": "github"
-      }
-    },
-    "polybar-themes": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1753542051,
-        "narHash": "sha256-f/54m7RJnqNW6eC/75IrnFxmSWTY+zd5epm6TQsYeYA=",
-        "owner": "adi1090x",
-        "repo": "polybar-themes",
-        "rev": "e6326ff356b296256b7fac9c5bcc42a1ef4a4d5b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "adi1090x",
-        "repo": "polybar-themes",
         "type": "github"
       }
     },
@@ -1310,9 +1310,9 @@
         "nixpkgs-patched": "nixpkgs-patched",
         "nixpkgs-stable": "nixpkgs-stable_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nu_scripts": "nu_scripts",
         "nuenv": "nuenv",
         "nur-ryan4yin": "nur-ryan4yin",
-        "polybar-themes": "polybar-themes",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
         "wallpapers": "wallpapers"

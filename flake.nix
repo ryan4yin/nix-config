@@ -158,8 +158,8 @@
 
     ########################  Some non-flake repositories  #########################################
 
-    polybar-themes = {
-      url = "github:adi1090x/polybar-themes";
+    nu_scripts = {
+      url = "github:nushell/nu_scripts";
       flake = false;
     };
 
