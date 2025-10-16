@@ -9,6 +9,15 @@
     nixos-apple-silicon.nixosModules.default
   ];
 
+  nix.settings = {
+    extra-substituters = [
+      "https://nixos-apple-silicon.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "nixos-apple-silicon.cachix.org-1:8psDu5SA5dAD7qA0zMy5UT292TxeEPzIz8VVEr2Js20="
+    ];
+  };
+
   environment.systemPackages = with pkgs-unstable; [
     box64 # Linux Userspace x86 and x86_64 Emulator, run x86_64 apps(such as games, gui apps) on aarch64.
     # https://asahilinux.org/2024/12/muvm-x11-bridging/
