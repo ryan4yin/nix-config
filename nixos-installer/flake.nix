@@ -2,7 +2,7 @@
   description = "NixOS configuration of Ryan Yin";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     preservation.url = "github:nix-community/preservation";
     nuenv.url = "github:DeterminateSystems/nuenv";
 
