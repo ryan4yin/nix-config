@@ -38,7 +38,7 @@
       # `use` and `source` commands.
       const NU_LIB_DIRS = $NU_LIB_DIRS ++ ['${nu_scripts}']
 
-      # completion
+      # -*- completion -*-
       use custom-completions/cargo/cargo-completions.nu *
       use custom-completions/curl/curl-completions.nu *
       use custom-completions/git/git-completions.nu *
@@ -53,16 +53,20 @@
       use custom-completions/zellij/zellij-completions.nu *
       use custom-completions/zoxide/zoxide-completions.nu *
 
-      # alias
+      # -*- alias -*-
       use aliases/git/git-aliases.nu *
       use aliases/eza/eza-aliases.nu *
       use aliases/bat/bat-aliases.nu *
       use ${./aliases/gcloud.nu} *
 
-      # modules
+      # -*- modules -*-
+      # argx & lg is required by the kubernetes module
       use modules/argx *
       use modules/lg *
+      # k8s/helm aliases, completions, 
       use modules/kubernetes *
+      # a wrapper around the jc cli tool, convert cli outputs to nushell tables
+      # use modules/jc
     '';
   };
 }

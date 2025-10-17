@@ -35,6 +35,7 @@
 
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processor https://github.com/mikefarah/yq
+    jc # converts the output of popular cli tools & file-types to JSON, YAML
 
     # Interactively filter its input using fuzzy searching, not limit to filenames.
     fzf
