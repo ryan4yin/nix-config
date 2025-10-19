@@ -15,7 +15,7 @@
       defaultFonts = {
         serif = [
           # 西文: 衬线字体（笔画末端有修饰(衬线)的字体，通常用于印刷。）
-          "Source Sans 3"
+          "Source Serif 4"
           # 中文: 宋体（港台称明體）
           "Source Han Serif SC" # 思源宋体
           "Source Han Serif TC"
@@ -23,7 +23,7 @@
         # SansSerif 也简写做 Sans, Sans 在法语中就是「without」或者「无」的意思
         sansSerif = [
           # 西文: 无衬线字体（指笔画末端没有修饰(衬线)的字体，通常用于屏幕显示）
-          "Source Serif 4"
+          "Source Sans 3"
           # 中文: 黑体
           "LXGW WenKai Screen" # 霞鹜文楷 屏幕阅读版
           "Source Han Sans SC" # 思源黑体
