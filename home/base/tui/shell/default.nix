@@ -12,9 +12,29 @@
     extraConfig = ''
       source /etc/agenix/alias-for-work.nushell
 
+      $env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"
       # using claude-code with kimi k2
-      $env.ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic/"
-      $env.ANTHROPIC_API_KEY = $env.MOONSHOT_API_KEY
+      # https://platform.moonshot.cn/docs/guide/agent-support
+      # $env.ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic/"
+      # $env.ANTHROPIC_API_KEY = $env.MOONSHOT_API_KEY
+      # $env.ANTHROPIC_MODEL = "kimi-k2-0905-preview"
+      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "kimi-k2-turbo-preview"
+
+      # using claude-code with qwen llm
+      # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2949529
+      $env.ANTHROPIC_BASE_URL = "https://dashscope.aliyuncs.com/apps/anthropic"
+      $env.ANTHROPIC_API_KEY = $env.DASHSCOPE_API_KEY
+      $env.ANTHROPIC_MODEL = "qwen3-max"
+      $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "qwen-turbo"
+
+      # using claude-code with glm llm
+      # https://docs.bigmodel.cn/cn/coding-plan/tool/claude
+      # $env.ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/anthropic"
+      # $env.ANTHROPIC_API_KEY = $env.ZAI_API_KEY
+      # $env.ANTHROPIC_MODEL = "glm-4.6"
+      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-air"
+
+
 
       # Directories in this constant are searched by the
       # `use` and `source` commands.
