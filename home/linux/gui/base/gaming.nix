@@ -39,6 +39,10 @@ in
         # https://github.com/Open-Wine-Components/umu-launcher
         # a unified launcher for Windows games on Linux
         umu-launcher
+
+        # Sed-like editor for binary files
+        # required by some games to fix problems
+        bbe
       ])
       ++ (with pkgs-x64; [
         # a game launcher - great for epic games and gog games
