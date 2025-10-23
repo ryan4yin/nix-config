@@ -50,6 +50,7 @@ in
       ]);
 
     # a GUI game launcher for Steam/GoG/Epic
+    # https://lutris.net/games?ordering=-popularity
     programs.lutris = {
       enable = true;
       defaultWinePackage = pkgs-x64.proton-ge-bin;

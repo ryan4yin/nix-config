@@ -73,7 +73,7 @@ in
     programs.gamemode.enable = true;
 
     # run anime games on Linux
-    # https://github.com/an-anime-team/r
+    # https://github.com/an-anime-team/
     networking.mihoyo-telemetry.block = true;
     environment.systemPackages = with aagl.packages."x86_64-linux"; [
       anime-game-launcher # Genshin: Impact
