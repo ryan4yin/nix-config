@@ -34,20 +34,6 @@ let
           ./modules/common.nix
         ];
 
-        # list all dbus services:
-        #   ls -al /run/current-system/sw/share/dbus-1/services/
-        #   ls -al /etc/profiles/per-user/ryan/share/dbus-1/services/
-        dbus.policies = {
-          "org.mozilla.firefox.*" = "own"; # firefox
-          "org.mozilla.firefox_beta.*" = "own"; # firefox beta
-          "org.mpris.MediaPlayer2.firefox.*" = "own";
-
-          "org.gnome.Shell.Screencast" = "talk";
-          # System tray icon
-          "org.freedesktop.Notifications" = "talk";
-          "org.kde.StatusNotifierWatcher" = "talk";
-        };
-
         bubblewrap = {
           # To trace all the home files Firefox accesses, you can use the following nushell command:
           #   just trace-access firefox
@@ -61,6 +47,7 @@ let
             sloth.xdgDownloadDir
             sloth.xdgMusicDir
             sloth.xdgVideosDir
+            sloth.xdgPicturesDir
           ];
           bind.ro = [
             "/sys/bus/pci"

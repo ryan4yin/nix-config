@@ -31,19 +31,6 @@ let
           ./modules/common.nix
         ];
 
-        # list all dbus services:
-        #   ls -al /run/current-system/sw/share/dbus-1/services/
-        #   ls -al /etc/profiles/per-user/ryan/share/dbus-1/services/
-        dbus.policies = {
-          "org.gnome.Shell.Screencast" = "talk";
-          # System tray icon
-          "org.freedesktop.Notifications" = "talk";
-          "org.kde.StatusNotifierWatcher" = "talk";
-          # File Manager
-          "org.freedesktop.FileManager1" = "talk";
-          # Uses legacy StatusNotifier implementation
-          "org.kde.*" = "own";
-        };
         bubblewrap = {
           # To trace all the home files QQ accesses, you can use the following nushell command:
           #   just trace-access qq
@@ -53,6 +40,7 @@ let
             sloth.xdgDownloadDir
             sloth.xdgMusicDir
             sloth.xdgVideosDir
+            sloth.xdgPicturesDir
           ];
           sockets = {
             x11 = false;

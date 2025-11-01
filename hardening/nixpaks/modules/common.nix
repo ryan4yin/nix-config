@@ -1,5 +1,6 @@
 # https://github.com/mnixry/nixos-config/blob/74913c2b90d06e31170bbbaa0074f915721da224/desktop/packages/nixpaks-common.nix
 # https://github.com/Kraftland/portable/blob/09c4a4227538a3f42de208a6ecbdc938ac9c00dd/portable.sh
+# https://flatpak.github.io/xdg-desktop-portal/docs/api-reference.html
 {
   lib,
   sloth,
@@ -11,6 +12,9 @@ let
 in
 {
   config = {
+    # list all dbus services:
+    #   ls -al /run/current-system/sw/share/dbus-1/services/
+    #   ls -al /etc/profiles/per-user/ryan/share/dbus-1/services/
     dbus = {
       # `--see`: The bus name can be enumerated by the application.
       # `--talk`: The application can send messages to, and receive replies and signals from, the bus name.
@@ -41,6 +45,7 @@ in
         "org.freedesktop.FileManager1" = "talk";
         "org.freedesktop.Notifications" = "talk";
         "org.kde.StatusNotifierWatcher" = "talk";
+        "org.gnome.Shell.Screencast" = "talk";
 
         # --- Accessibility (a11y) 无障碍服务 ---
         "org.a11y.Bus" = "see";
