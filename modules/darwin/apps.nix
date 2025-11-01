@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 ##########################################################################
@@ -95,7 +94,7 @@ in
   programs.zsh.enable = true;
   environment.shells = [
     pkgs.zsh
-    pkgs-unstable.nushell # my custom shell
+    pkgs.nushell # my custom shell
   ];
 
   # homebrew need to be installed manually, see https://brew.sh

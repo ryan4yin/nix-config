@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs-master, ... }:
 {
-  home.packages = with pkgs; [
+  home.packages = with pkgs-master; [
     zed-editor
     (code-cursor.overrideAttrs (oldAttrs: rec {
       pname = "cursor";

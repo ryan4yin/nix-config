@@ -1,5 +1,5 @@
 {
-  pkgs-unstable,
+  pkgs,
   nixos-apple-silicon,
   my-asahi-firmware,
   ...
@@ -18,7 +18,7 @@
     ];
   };
 
-  environment.systemPackages = with pkgs-unstable; [
+  environment.systemPackages = with pkgs; [
     box64 # Linux Userspace x86 and x86_64 Emulator, run x86_64 apps(such as games, gui apps) on aarch64.
     # https://asahilinux.org/2024/12/muvm-x11-bridging/
     # https://github.com/nix-community/nixos-apple-silicon/issues/237
@@ -66,7 +66,7 @@
   # After adding this snippet, you need to restart the system for the touchbar to work.
   hardware.apple.touchBar = {
     enable = true;
-    package = pkgs-unstable.tiny-dfr;
+    package = pkgs.tiny-dfr;
     # https://github.com/WhatAmISupposedToPutHere/tiny-dfr/blob/master/share/tiny-dfr/config.toml
     settings = {
       # F{number} keys are shown when Fn is not pressed by default.
