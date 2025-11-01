@@ -35,11 +35,13 @@
 
     # Official NixOS package source, using nixos's unstable branch by default
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # nixpkgs with some custom patches
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
+    # get some latest packages from the master branch
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
     # for macos
     # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";

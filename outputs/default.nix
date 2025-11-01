@@ -18,11 +18,12 @@ let
       inherit mylib myvars;
 
       # use unstable branch for some packages to get the latest updates
-      pkgs-unstable = import inputs.nixpkgs-unstable {
-        inherit system; # refer the `system` parameter form outer scope recursively
-        # To use chrome, we need to allow the installation of non-free software
-        config.allowUnfree = true;
-      };
+      # pkgs-unstable = import inputs.nixpkgs-unstable {
+      #   inherit system; # refer the `system` parameter form outer scope recursively
+      #   # To use chrome, we need to allow the installation of non-free software
+      #   config.allowUnfree = true;
+      # };
+
       pkgs-stable = import inputs.nixpkgs-stable {
         inherit system;
         # To use chrome, we need to allow the installation of non-free software
@@ -30,7 +31,12 @@ let
       };
       pkgs-patched = import inputs.nixpkgs-patched {
         inherit system;
-        # To use chrome, we need to allow the installation of non-free software
+        # to use chrome, we need to allow the installation of non-free software
+        config.allowUnfree = true;
+      };
+      pkgs-master = import inputs.nixpkgs-master {
+        inherit system;
+        # to use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
       };
 

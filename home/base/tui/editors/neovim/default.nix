@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 ###############################################################################
@@ -29,7 +28,7 @@ in
 
   programs.neovim = {
     enable = true;
-    package = pkgs-unstable.neovim-unwrapped;
+    package = pkgs.neovim-unwrapped;
 
     # defaultEditor = true; # set EDITOR at system-wide level
     viAlias = true;
