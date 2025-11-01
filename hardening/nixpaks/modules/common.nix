@@ -1,3 +1,4 @@
+# https://github.com/mnixry/nixos-config/blob/74913c2b90d06e31170bbbaa0074f915721da224/desktop/packages/nixpaks-common.nix
 {
   lib,
   pkgs,
@@ -12,15 +13,14 @@
         inherit (config.flatpak) appId;
       in
       {
+        # same usage as --see, --talk, --own
         policies = {
           "${appId}" = "own";
           "${appId}.*" = "own";
           "org.freedesktop.DBus" = "talk";
-          "org.gtk.vfs.*" = "talk";
-          "org.gtk.vfs" = "talk";
           "ca.desrt.dconf" = "talk";
-          "org.freedesktop.portal.*" = "talk";
-          "org.a11y.Bus" = "talk";
+          "org.gtk.vfs" = "talk";
+          "org.gtk.vfs.*" = "talk";
           "org.freedesktop.appearance" = "talk";
           "org.freedesktop.appearance.*" = "talk";
         }
@@ -49,6 +49,7 @@
           "org.a11y.Bus" = "see";
 
           # --- Portal Access ---
+          # "org.freedesktop.portal.*" = "talk";
           "org.freedesktop.portal.Documents" = "talk";
           "org.freedesktop.portal.FileTransfer" = "talk";
           "org.freedesktop.portal.FileTransfer.*" = "talk";
