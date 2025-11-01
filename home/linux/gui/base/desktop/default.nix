@@ -30,11 +30,13 @@
     wl-clipboard # copying and pasting
     hyprpicker # color picker
     brightnessctl
-    hyprshot # screen shot
-    wf-recorder # screen recording
     # audio
     alsa-utils # provides amixer/alsamixer/...
     networkmanagerapplet # provide GUI app: nm-connection-editor
+    # screenshot/screencast
+    flameshot
+    hyprshot # screen shot
+    wf-recorder # screen recording
   ];
 
   xdg.configFile =
