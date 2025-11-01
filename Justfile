@@ -100,7 +100,7 @@ repair-store *paths:
 # Update all Nixpkgs inputs
 [group('nix')]
 up-nix:
-  nix flake update nixpkgs nixpkgs-stable nixpkgs-unstable nixpkgs-darwin nixpkgs-ollama
+  nix flake update nixpkgs nixpkgs-stable nixpkgs-unstable nixpkgs-darwin nixpkgs-patched
 
 ############################################################################
 #
