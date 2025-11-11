@@ -16,7 +16,7 @@
     libva-utils
     vdpauinfo
     vulkan-tools
-    glxinfo
+    mesa-demos
     nvitop
     (pkgs-x64.zoom-us.override { hyprlandXdgDesktopPortalSupport = true; })
   ];
