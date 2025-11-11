@@ -157,7 +157,7 @@
     ########################  Some non-flake repositories  #########################################
 
     nu_scripts = {
-      url = "github:nushell/nu_scripts";
+      url = "github:ryan4yin/nu_scripts";
       flake = false;
     };
 
