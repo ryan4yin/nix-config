@@ -143,6 +143,13 @@
 
     niri.url = "github:sodiboo/niri-flake";
 
+    helix = {
+      # Helix with steel as plugin system
+      # https://github.com/helix-editor/helix/pull/8675
+      url = "github:mattwparas/helix/steel-event-system";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # -------------- Gaming ---------------------
 
     nix-gaming = {

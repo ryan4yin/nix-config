@@ -1,8 +1,20 @@
-{ pkgs, ... }:
+{ pkgs, helix, ... }:
+
+let
+  helixPackages = helix.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
+  home.packages = with pkgs; [
+    steel
+  ];
+
   programs.helix = {
     enable = true;
-    package = pkgs.helix;
+    # https://github.com/helix-editor/helix/pull/8675
+    package = helixPackages.default.overrideAttrs (prevAttrs: {
+      # enable steel as the plugin system
+      cargoBuildFeatures = prevAttrs.cargoBuildFeatures or [ ] ++ [ "steel" ];
+    });
     settings = {
       editor = {
         line-number = "relative";

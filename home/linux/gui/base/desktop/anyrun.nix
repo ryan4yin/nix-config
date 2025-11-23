@@ -5,7 +5,7 @@
 }:
 
 let
-  anyrunPackages = anyrun.packages.${pkgs.system};
+  anyrunPackages = anyrun.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
 

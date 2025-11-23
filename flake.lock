@@ -449,6 +449,28 @@
         "type": "github"
       }
     },
+    "helix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_2"
+      },
+      "locked": {
+        "lastModified": 1763684023,
+        "narHash": "sha256-qqs3d78CjGiU/6kebCLnrZZ5RSe3d89dDNnWohYooII=",
+        "owner": "mattwparas",
+        "repo": "helix",
+        "rev": "9044221322996b579c75bc1733f55da27301ad05",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mattwparas",
+        "ref": "steel-event-system",
+        "repo": "helix",
+        "type": "github"
+      }
+    },
     "hercules-ci-effects": {
       "inputs": {
         "flake-parts": [
@@ -525,7 +547,7 @@
           "nixpkgs"
         ],
         "pre-commit-hooks-nix": "pre-commit-hooks-nix",
-        "rust-overlay": "rust-overlay_2"
+        "rust-overlay": "rust-overlay_3"
       },
       "locked": {
         "lastModified": 1762205063,
@@ -959,7 +981,7 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_3"
+        "rust-overlay": "rust-overlay_4"
       },
       "locked": {
         "lastModified": 1731006591,
@@ -1068,6 +1090,7 @@
         "disko": "disko",
         "ghostty": "ghostty",
         "haumea": "haumea",
+        "helix": "helix",
         "home-manager": "home-manager_2",
         "lanzaboote": "lanzaboote",
         "my-asahi-firmware": "my-asahi-firmware",
@@ -1112,6 +1135,27 @@
     "rust-overlay_2": {
       "inputs": {
         "nixpkgs": [
+          "helix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1759631821,
+        "narHash": "sha256-V8A1L0FaU/aSXZ1QNJScxC12uP4hANeRBgI4YdhHeRM=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "1d7cbdaad90f8a5255a89a6eddd8af24dc89cafe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_3": {
+      "inputs": {
+        "nixpkgs": [
           "lanzaboote",
           "nixpkgs"
         ]
@@ -1130,7 +1174,7 @@
         "type": "github"
       }
     },
-    "rust-overlay_3": {
+    "rust-overlay_4": {
       "inputs": {
         "flake-utils": "flake-utils_2",
         "nixpkgs": [
