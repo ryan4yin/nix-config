@@ -22,7 +22,7 @@ in
     chown -R ${user}:${user} ${configDir}
   '';
 
-  # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/virtualisation/oci-containers.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-25.11/nixos/modules/virtualisation/oci-containers.nix
   virtualisation.oci-containers.containers = {
     # check its logs via `journalctl -u podman-homepage`
     homepage = {

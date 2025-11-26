@@ -35,7 +35,7 @@
 
     # Official NixOS package source, using nixos's unstable branch by default
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # nixpkgs with some custom patches
@@ -44,7 +44,7 @@
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
     # for macos
-    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.05-darwin";
+    # nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-25.11-darwin";
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nix-darwin = {
       url = "github:lnl7/nix-darwin";
@@ -54,7 +54,7 @@
     # home-manager, used for managing user configuration
     home-manager = {
       url = "github:nix-community/home-manager/master";
-      # url = "github:nix-community/home-manager/release-25.05";
+      # url = "github:nix-community/home-manager/release-25.11";
 
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
@@ -82,7 +82,7 @@
 
     # anyrun - a wayland launcher
     anyrun = {
-      url = "github:/anyrun-org/anyrun/v25.9.0";
+      url = "github:/anyrun-org/anyrun/v25.9.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -127,7 +127,7 @@
     };
 
     ghostty = {
-      url = "github:ghostty-org/ghostty";
+      url = "github:ghostty-org/ghostty/tip"; # Latest Continuous Release
     };
 
     blender-bin = {
@@ -136,8 +136,8 @@
     };
 
     nixos-apple-silicon = {
-      # 2025-10-07 asahi-6.16.8-1
-      url = "github:nix-community/nixos-apple-silicon/24ab28e47b586f741910b3a2f0428f3523a0fff3";
+      # asahi-6.17.7-2
+      url = "github:nix-community/nixos-apple-silicon/release-2025-11-18";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -157,7 +157,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     aagl = {
-      url = "github:ezKEa/aagl-gtk-on-nix";
+      url = "github:ezKEa/aagl-gtk-on-nix/release-25.11";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
 
