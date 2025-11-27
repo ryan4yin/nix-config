@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/misc/gitea.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-25.11/nixos/modules/services/misc/gitea.nix
   services.gitea = {
     enable = true;
     user = "gitea";

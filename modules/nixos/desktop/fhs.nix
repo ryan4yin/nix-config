@@ -35,7 +35,7 @@
   # nix-ld's nixos module will set default values for `NIX_LD` and `NIX_LD_LIBRARY_PATH` environment variables, so
   # it can work out of the box:
   #
-  #  - https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/programs/nix-ld.nix#L37-L40
+  #  - https://github.com/NixOS/nixpkgs/blob/nixos-25.11/nixos/modules/programs/nix-ld.nix#L37-L40
   #
   # You can overwrite `NIX_LD_LIBRARY_PATH` in the environment where you run the non-NixOS binaries to customize the
   # search path for shared libraries.

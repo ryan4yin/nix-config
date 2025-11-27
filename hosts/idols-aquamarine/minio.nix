@@ -4,7 +4,7 @@ let
   configDir = "/data/apps/minio/config";
 in
 {
-  # https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/services/web-servers/minio.nix
+  # https://github.com/NixOS/nixpkgs/blob/nixos-25.11/nixos/modules/services/web-servers/minio.nix
   services.minio = {
     enable = true;
     browser = true; # Enable or disable access to web UI.
