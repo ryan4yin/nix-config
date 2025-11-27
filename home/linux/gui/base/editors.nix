@@ -1,4 +1,9 @@
-{ lib, pkgs-master, ... }:
+{
+  lib,
+  pkgs,
+  pkgs-master,
+  ...
+}:
 
 let
   vscodeCliArgs = [
@@ -14,7 +19,7 @@ let
     }).overrideAttrs
       (oldAttrs: rec {
         pname = "cursor";
-        version = "2.0.77";
+        version = "2.1.36";
         src =
           with pkgs-master;
           appimageTools.extract {
@@ -24,13 +29,13 @@ let
                 sources = {
                   x86_64-linux = fetchurl {
                     # curl -s https://api2.cursor.sh/updates/api/download/stable/linux-x64/cursor | jq
-                    url = "https://downloads.cursor.com/production/ba90f2f88e4911312761abab9492c42442117cfe/linux/x64/Cursor-2.0.77-x86_64.AppImage";
-                    hash = "sha256-/r7cmjgFhec7fEKUfFKw3vUoB9LJB2P/646cMeRKp/0=";
+                    url = "https://downloads.cursor.com/production/9cd7c8b6cebcbccc1242df211dee45a4b6fe15e4/linux/x64/Cursor-2.1.36-x86_64.AppImage";
+                    hash = "sha256-aaprRB2BAaUCHj7m5aGacCBHisjN2pVZ+Ca3u1ifxBA=";
                   };
                   aarch64-linux = fetchurl {
                     # curl -s https://api2.cursor.sh/updates/api/download/stable/linux-arm64/cursor | jq
-                    url = "https://downloads.cursor.com/production/ba90f2f88e4911312761abab9492c42442117cfe/linux/arm64/Cursor-2.0.77-aarch64.AppImage";
-                    hash = "sha256-VKN9FAHjFTcdkUeBO2cLs92w6qzAbPl2kypTluRxbBA=";
+                    url = "https://downloads.cursor.com/production/9cd7c8b6cebcbccc1242df211dee45a4b6fe15e4/linux/arm64/Cursor-2.1.36-aarch64.AppImage";
+                    hash = "sha256-S2vFYBI6m0zjBJEDbk7gc6/zFiKWyhM73OUm1xsNx6Q=";
                   };
                 };
               in
@@ -40,8 +45,8 @@ let
       });
 in
 {
-  home.packages = with pkgs-master; [
-    zed-editor
+  home.packages = [
+    pkgs.zed-editor
     code-cursor
   ];
 
