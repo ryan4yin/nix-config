@@ -124,5 +124,5 @@
   programs.lazygit.enable = true;
 
   # Yet another Git TUI (written in rust).
-  programs.gitui.enable = true;
+  programs.gitui.enable = false;
 }
