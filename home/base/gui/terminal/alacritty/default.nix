@@ -50,7 +50,7 @@
         bold_italic = {
           family = "Maple Mono NF CN";
         };
-        size = if pkgs.stdenv.isDarwin then 14 else 13;
+        size = 13;
       };
       terminal = {
         # Spawn a nushell in login mode via `bash`

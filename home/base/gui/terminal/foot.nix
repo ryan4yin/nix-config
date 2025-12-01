@@ -17,7 +17,7 @@
     settings = {
       main = {
         term = "foot"; # or "xterm-256color" for maximum compatibility
-        font = "Maple Mono NF CN:size=14";
+        font = "Maple Mono NF CN:size=13";
         dpi-aware = "no"; # scale via window manager instead
         resize-keep-grid = "no"; # do not resize the window on font resizing
 

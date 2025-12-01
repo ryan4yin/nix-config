@@ -19,7 +19,7 @@
     font = {
       name = "Maple Mono NF CN";
       # use different font size on macOS
-      size = if pkgs.stdenv.isDarwin then 14 else 13;
+      size = 13;
     };
 
     # consistent with other terminal emulators
