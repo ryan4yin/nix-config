@@ -130,8 +130,8 @@ alt-3 = 'workspace 3Work'
 alt-4 = 'workspace 4Firefox'
 alt-5 = 'workspace 5Chrome'
 alt-6 = 'workspace 6Chat'
-alt-7 = 'workspace 7Music'
-alt-8 = 'workspace 8Mail'
+alt-7 = 'workspace 7Work'
+alt-8 = 'workspace 8Music'
 alt-9 = 'workspace 9File'
 alt-0 = 'workspace 0Other'
 alt-a = 'workspace A'          # In your config, you can drop workspace bindings that you don't need
@@ -146,8 +146,8 @@ alt-shift-3 = 'move-node-to-workspace 3Work'
 alt-shift-4 = 'move-node-to-workspace 4Firefox'
 alt-shift-5 = 'move-node-to-workspace 5Chrome'
 alt-shift-6 = 'move-node-to-workspace 6Chat'
-alt-shift-7 = 'move-node-to-workspace 7Music'
-alt-shift-8 = 'move-node-to-workspace 8Mail'
+alt-shift-7 = 'move-node-to-workspace 7Work'
+alt-shift-8 = 'move-node-to-workspace 8Music'
 alt-shift-9 = 'move-node-to-workspace 9File'
 alt-shift-0 = 'move-node-to-workspace 0Other'
 alt-shift-a = 'move-node-to-workspace A'
@@ -247,21 +247,21 @@ if.app-id = 'com.tencent.qq'
 run = 'move-node-to-workspace 6Chat'
 
 [[on-window-detected]]
-if.app-id = 'com.tencent.QQMusicMac'
-run = 'move-node-to-workspace 7Music'
-
-[[on-window-detected]]
-if.app-id = 'com.netease.163music'
-run = 'move-node-to-workspace 7Music'
-
-[[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace 8Mail'
+run = 'move-node-to-workspace 7Work'
 
 # calendar
 [[on-window-detected]]
 if.app-id = 'com.apple.iCal'
-run = 'move-node-to-workspace 8Mail'
+run = 'move-node-to-workspace 7Work'
+
+[[on-window-detected]]
+if.app-id = 'com.tencent.QQMusicMac'
+run = 'move-node-to-workspace 8Music'
+
+[[on-window-detected]]
+if.app-id = 'com.netease.163music'
+run = 'move-node-to-workspace 8Music'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
@@ -296,6 +296,11 @@ run = ['layout floating', 'move-node-to-workspace 0Other']
 if.app-id = 'ai.elementlabs.lmstudio'
 run = ['layout floating', 'move-node-to-workspace 0Other']
 
+# Clash Verge - has problem with floating
+[[on-window-detected]]
+if.app-id = 'io.github.clash-verge-rev.clash-verge-rev'
+run = ['move-node-to-workspace 0Other']
+
 [[on-window-detected]]
 if.app-id = 'us.zoom.xos'
 run = 'move-node-to-workspace 0Other'
@@ -309,11 +314,6 @@ run = ['layout floating']
 [[on-window-detected]]
 if.app-id = 'com.apple.systempreferences'
 run = ['layout floating']
-
-# Clash Verge - has problem with floating
-[[on-window-detected]]
-if.app-id = 'io.github.clash-verge-rev.clash-verge-rev'
-run = ['move-node-to-workspace 0Other']
 
 # Make all windows float by default
 [[on-window-detected]]
@@ -331,7 +331,7 @@ run = ['layout floating']
 4Firefox = ['main']
 5Chrome = ['main']
 6Chat = ['built-in']
-7Music = ['built-in']
-8Mail = ['main']
+7Work = ['main']
+8Music = ['built-in']
 9File = ['main']
 0Other = ['main']
