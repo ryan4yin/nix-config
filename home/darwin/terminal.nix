@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  fontSize = 14;
+  fontSize = 15;
 in
 {
   programs.alacritty.settings.font.size = lib.mkForce fontSize;
