@@ -38,6 +38,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     # revert mesa to 25.2.6
     nixpkgs-mesa.url = "github:nixos/nixpkgs/2b1f0ea3ee3952e68b164efa0a1c5e394ef2e781";
+    nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
     # nixpkgs with some custom patches
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";

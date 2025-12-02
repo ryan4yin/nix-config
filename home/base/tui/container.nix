@@ -1,6 +1,6 @@
 {
   pkgs,
-  pkgs-stable,
+  pkgs-2505,
   nur-ryan4yin,
   ...
 }:
@@ -25,7 +25,7 @@
     istioctl
     clusterctl # for kubernetes cluster-api
     kubevirt # virtctl
-    pkgs-stable.kubernetes-helm
+    pkgs-2505.kubernetes-helm
     fluxcd
     argocd
 

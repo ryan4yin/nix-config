@@ -23,7 +23,11 @@ let
       #   # To use chrome, we need to allow the installation of non-free software
       #   config.allowUnfree = true;
       # };
-
+      pkgs-2505 = import inputs.nixpkgs-2505 {
+        inherit system;
+        # To use chrome, we need to allow the installation of non-free software
+        config.allowUnfree = true;
+      };
       pkgs-stable = import inputs.nixpkgs-stable {
         inherit system;
         # To use chrome, we need to allow the installation of non-free software

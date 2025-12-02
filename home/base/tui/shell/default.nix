@@ -17,8 +17,8 @@
       # https://platform.moonshot.cn/docs/guide/agent-support
       # $env.ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic/"
       # $env.ANTHROPIC_AUTH_TOKEN = $env.MOONSHOT_API_KEY
-      # $env.ANTHROPIC_MODEL = "kimi-k2-0905-preview"
-      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "kimi-k2-turbo-preview"
+      # $env.ANTHROPIC_MODEL = "kimi-k2-thinking"
+      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "kimi-k2-thinking-turbo"
 
       # using claude-code with glm llm
       # https://docs.bigmodel.cn/cn/coding-plan/tool/claude
