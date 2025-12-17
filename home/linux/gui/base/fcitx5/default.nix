@@ -14,13 +14,15 @@
     type = "fcitx5";
     fcitx5.waylandFrontend = true;
     fcitx5.addons = with pkgs; [
-      # for flypy chinese input method
-      fcitx5-rime
-      # needed enable rime using configtool after installed
-      qt6Packages.fcitx5-configtool
-      # fcitx5-chinese-addons # we use rime instead
-      # fcitx5-mozc    # japanese input method
+      qt6Packages.fcitx5-configtool # GUI for fcitx5
       fcitx5-gtk # gtk im module
+
+      # Chinese
+      fcitx5-rime # for flypy chinese input method
+      # fcitx5-chinese-addons # we use rime instead
+
+      # Japanese
+      fcitx5-mozc-ut
     ];
   };
 }
