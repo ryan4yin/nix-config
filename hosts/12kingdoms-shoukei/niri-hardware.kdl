@@ -1,0 +1,15 @@
+output "eDP-1" {
+    scale 1.500000
+    transform "normal"
+    mode "2560x1600@60"
+    position x=0 y=0
+}
+workspace "1terminal" { open-on-output "eDP-1"; }
+workspace "2browser" { open-on-output "eDP-1"; }
+workspace "3chat" { open-on-output "eDP-1"; }
+workspace "4music" { open-on-output "eDP-1"; }
+workspace "5mail" { open-on-output "eDP-1"; }
+workspace "6file" { open-on-output "eDP-1"; }
+workspace "0other" { open-on-output "eDP-1"; }
+debug { render-drm-device "/dev/dri/renderD128"; }
+

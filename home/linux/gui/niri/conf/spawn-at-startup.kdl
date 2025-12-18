@@ -1,0 +1,26 @@
+// Add lines like this to spawn processes at startup.
+// Note that running niri as a session supports xdg-desktop-autostart,
+// which may be more convenient to use.
+// See the binds section below for more spawn examples.
+
+// This line starts waybar, a commonly used bar for Wayland compositors.
+// spawn-at-startup "waybar"
+
+// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+// Terminal applications
+spawn-at-startup "foot"
+spawn-at-startup "alacritty"
+spawn-at-startup "ghostty"
+
+// Network proxy
+spawn-at-startup "clash-verge"
+
+// Web browsers
+spawn-at-startup "firefox"
+spawn-at-startup "google-chrome-stable"
+spawn-at-startup "chromium-browser"
+
+// Communication applications
+spawn-at-startup "Telegram"
