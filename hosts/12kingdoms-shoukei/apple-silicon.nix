@@ -200,10 +200,6 @@
           Action = "MicMute";
         }
         {
-          Icon = "search";
-          Action = "Search";
-        }
-        {
           Icon = "backlight_low";
           Action = "IllumDown";
         }
