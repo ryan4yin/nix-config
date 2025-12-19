@@ -79,7 +79,7 @@ tooltip label {
 #custom-playerctl,
 #backlight,
 #wireplumber,
-#wireplumber-source,
+#wireplumber.source,
 #network,
 #battery,
 #custom-powermenu {
@@ -133,7 +133,7 @@ tooltip label {
   color: rgb(245, 224, 220);
 }
 
-#wireplumber-source {
+#wireplumber.source {
   color: rgb(181, 232, 224);
 }
 
