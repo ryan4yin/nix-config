@@ -1,16 +1,15 @@
 {
   "position": "top",
   "layer": "top",
-
-  "modules-left": ["custom/launcher", "temperature", "backlight", "hyprland/workspaces"],
+  "modules-left": ["custom/launcher", "temperature", "backlight", "network"],
   "modules-center": ["custom/playerctl"],
   "modules-right": [
-    "pulseaudio",
-    "memory",
+    "wireplumber",
+    "wireplumber#source",
     "cpu",
-    "network",
-    "battery",
+    "memory",
     "clock",
+    "battery",
     "idle_inhibitor",
     "custom/powermenu",
     "tray",
@@ -33,7 +32,6 @@
       "default": "",
     },
   },
-
   "clock": {
     "interval": 60,
     "align": 0,
@@ -102,14 +100,11 @@
     "on-click-middle": "nm-connection-editor",
     "on-click-right": "foot nmtui",
   },
-  "pulseaudio": {
-    //"format": "{volume}% {icon} {format_source}",
+  "wireplumber": {
     "format": "{icon} {volume}%",
     "format-muted": " Mute",
-    "format-bluetooth": " {volume}% {format_source}",
+    "format-bluetooth": " {volume}%",
     "format-bluetooth-muted": " Mute",
-    "format-source": " {volume}%",
-    "format-source-muted": "",
     "format-icons": {
       "headphone": "",
       "hands-free": "",
@@ -120,10 +115,18 @@
       "default": ["", "", ""],
     },
     "scroll-step": 5.0,
-    // Commands to execute on events
-    "on-click": "amixer set Master toggle",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "on-click-right": "GSK_RENDERER=opengl pavucontrol",
     "smooth-scrolling-threshold": 1,
+  },
+  "wireplumber#source": {
+    "node-type": "Audio/Source",
+    "format": " {volume}%",
+    "format-muted": " Muted",
+    "tooltip": false,
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+    "on-click-right": "GSK_RENDERER=opengl pavucontrol",
+    "scroll-step": 5,
   },
   "temperature": {
     "format": "\uf2c9 {temperatureC}\u00b0C",
