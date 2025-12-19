@@ -250,6 +250,18 @@
           Text = "Print";
           Action = "Print";
         }
+        {
+          Text = "F1";
+          Action = "F1";
+        }
+        {
+          Text = "F2";
+          Action = "F2";
+        }
+        {
+          Text = "F12";
+          Action = "F12";
+        }
       ];
     };
   };
