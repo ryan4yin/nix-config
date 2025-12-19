@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   xdg.terminal-exec = {
     enable = true;
@@ -21,6 +21,13 @@
         niri = my_terminal_desktop;
         default = my_terminal_desktop;
       };
+  };
+
+  xdg = {
+    autostart.enable = lib.mkDefault true;
+    menus.enable = lib.mkDefault true;
+    mime.enable = lib.mkDefault true;
+    icons.enable = lib.mkDefault true;
   };
 
   xdg.portal = {
