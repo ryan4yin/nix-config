@@ -76,10 +76,10 @@ tooltip label {
 #memory,
 #temperature,
 #cpu,
-#custom-wall,
-#temperature,
+#custom-playerctl,
 #backlight,
-#pulseaudio,
+#wireplumber,
+#wireplumber-source,
 #network,
 #battery,
 #custom-powermenu {
@@ -123,17 +123,22 @@ tooltip label {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-#custom-wall {
-  color: #33ccff;
-}
 #temperature {
   color: rgb(150, 205, 251);
 }
 #backlight {
   color: rgb(248, 189, 150);
 }
-#pulseaudio {
+#wireplumber {
   color: rgb(245, 224, 220);
+}
+
+#wireplumber-source {
+  color: rgb(181, 232, 224);
+}
+
+#custom-playerctl {
+  color: rgb(166, 227, 161);
 }
 #network {
   color: #abe9b3;
