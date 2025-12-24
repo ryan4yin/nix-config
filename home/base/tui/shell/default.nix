@@ -24,7 +24,7 @@
       # https://docs.bigmodel.cn/cn/coding-plan/tool/claude
       $env.ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/anthropic"
       $env.ANTHROPIC_AUTH_TOKEN = $env.ZAI_API_KEY
-      $env.ANTHROPIC_MODEL = "glm-4.6"
+      $env.ANTHROPIC_MODEL = "glm-4.7"
       $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-air"
 
       # using claude-code with qwen llm
