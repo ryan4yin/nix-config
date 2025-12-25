@@ -39,8 +39,6 @@
     # update via nix flake update nixpkgs --override-input nixpkgs github:NixOS/nixpkgs/<commit-hash>
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-    # revert mesa to 25.2.6
-    nixpkgs-mesa.url = "github:nixos/nixpkgs/2b1f0ea3ee3952e68b164efa0a1c5e394ef2e781";
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
     # nixpkgs with some custom patches
@@ -142,7 +140,7 @@
 
     nixos-apple-silicon = {
       # asahi-6.17.7-2
-      url = "github:nix-community/nixos-apple-silicon/release-2025-11-18";
+      url = "github:nix-community/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
