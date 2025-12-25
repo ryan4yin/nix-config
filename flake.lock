@@ -687,16 +687,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1763596466,
-        "narHash": "sha256-CTSUc4Fk1lHMQZMJ5LczPDYGLq5UjXDFKLSpuA3mKmI=",
+        "lastModified": 1766064315,
+        "narHash": "sha256-aMoYLYIj+yYGhDKuSromj+VZYnMyN3lRRAZ+dk1IOiE=",
         "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "73b7103c4e3996e3e20868d510b0e8797f279323",
+        "rev": "f94f4496775f9ca6e8a9e9e83f5aa4e4210fbb5d",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-2025-11-18",
         "repo": "nixos-apple-silicon",
         "type": "github"
       }
@@ -820,22 +819,6 @@
         "owner": "nixos",
         "ref": "master",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-mesa": {
-      "locked": {
-        "lastModified": 1761817761,
-        "narHash": "sha256-qAEhDH77SIUUOUQC6DYYR+LGTAK+OctxBJPpo9rGMwc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "2b1f0ea3ee3952e68b164efa0a1c5e394ef2e781",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "2b1f0ea3ee3952e68b164efa0a1c5e394ef2e781",
         "type": "github"
       }
     },
@@ -1060,7 +1043,6 @@
         "nixpkgs-2505": "nixpkgs-2505",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-master": "nixpkgs-master",
-        "nixpkgs-mesa": "nixpkgs-mesa",
         "nixpkgs-patched": "nixpkgs-patched",
         "nixpkgs-stable": "nixpkgs-stable",
         "nu_scripts": "nu_scripts",

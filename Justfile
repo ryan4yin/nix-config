@@ -100,7 +100,12 @@ repair-store *paths:
 # Update all Nixpkgs inputs
 [group('nix')]
 up-nix:
-  nix flake update nixpkgs nixpkgs-stable nixpkgs-unstable nixpkgs-darwin nixpkgs-patched
+  nix flake update --commit-lock-file nixpkgs-stable nixpkgs-master nixpkgs-darwin nixpkgs-patched
+
+# override nixpkgs's commit hash
+[group('nix')]
+override-pkgs hash:
+  nix flake update --commit-lock-file nixpkgs --override-input nixpkgs github:NixOS/nixpkgs/{{hash}}
 
 ############################################################################
 #
