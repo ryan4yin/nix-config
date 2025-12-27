@@ -141,6 +141,9 @@ in
         ".config/zed"
         ".local/share/zed"
 
+        # google ai editor (antigravity)
+        ".config/Antigravity"
+
         # ai agents
         ".claude"
         ".gemini"
