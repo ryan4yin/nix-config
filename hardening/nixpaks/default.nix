@@ -23,7 +23,6 @@ in
     (_: super: {
       nixpaks = {
         qq = wrapper pkgs-master ./qq.nix;
-        wechat = wrapper super ./wechat.nix;
         telegram-desktop = wrapper super ./telegram-desktop.nix;
         firefox = wrapper super ./firefox.nix;
       };

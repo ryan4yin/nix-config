@@ -28,10 +28,10 @@
     muvm # run x86_64 Apps/Games in a microVM, used as a workaround of apple silicon's 16k page size.
   ];
 
-  networking.wireless.iwd = {
-    enable = true;
-    settings.General.EnableNetworkConfiguration = true;
-  };
+  # networking.wireless.iwd = {
+  #   enable = true;
+  #   settings.DriverQuirks.DefaultInterface = true;
+  # };
   # configures the network interface(include wireless) via `nmcli` & `nmtui`
   networking.networkmanager.enable = true;
 
