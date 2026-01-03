@@ -25,6 +25,7 @@ in
   ];
 
   services.sunshine.enable = lib.mkForce true;
+  services.tuned.ppdSettings.main.default = lib.mkForce "performance";
 
   networking = {
     inherit hostName;

@@ -19,6 +19,7 @@ in
 
   # disable sunshine for securrity
   services.sunshine.enable = lib.mkForce false;
+  services.tuned.ppdSettings.main.default = lib.mkForce "power-saver";
 
   networking = {
     inherit hostName;
