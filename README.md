@@ -151,8 +151,7 @@ Other dotfiles that inspired me:
   - [davidtwco/veritas](https://github.com/davidtwco/veritas)
   - [gvolpe/nix-config](https://github.com/gvolpe/nix-config)
   - [Ruixi-rebirth/flakes](https://github.com/Ruixi-rebirth/flakes)
-  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, anyrun,
-    etc.
+  - [fufexan/dotfiles](https://github.com/fufexan/dotfiles): gtk theme, xdg, git, media, etc.
   - [nix-community/srvos](https://github.com/nix-community/srvos): a collection of opinionated and
     sharable NixOS configurations for servers
 - Modularized NixOS Configuration

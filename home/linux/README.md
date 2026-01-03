@@ -28,6 +28,5 @@ cases.
 ## Usage
 
 - **Lightweight/Terminal**: Use `core.nix` or `tui.nix` for terminal-focused setups
-- **Desktops**: Use `gui.nix` for full desktop environments with window managers like Hyprland or
-  Niri
+- **Desktops**: Use `gui.nix` for full desktop environments with Noctalia Shell and Niri compositor
 - **Custom**: Mix and match configurations as needed for your specific use case
