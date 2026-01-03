@@ -6,7 +6,6 @@
 // This is the main configuration file that includes all other config files
 include "./keybindings.kdl"
 include "./windowrules.kdl"
-include "./spawn-at-startup.kdl"
 include "./niri-hardware.kdl"
 include "./noctalia-shell.kdl"
 
