@@ -7,9 +7,6 @@ in
 
   modules.desktop.nvidia.enable = true;
 
-  modules.desktop.hyprland.settings.source = [
-    "${config.home.homeDirectory}/nix-config/hosts/idols-ai/hypr-hardware.conf"
-  ];
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/idols-ai/niri-hardware.kdl";
 }

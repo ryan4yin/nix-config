@@ -7,15 +7,13 @@ Manager.
 
 ### Window Managers
 
-- **hyprland**: Hyprland compositor configuration with custom keybindings, settings, and window
-  rules
 - **niri**: Niri compositor configuration with custom settings, keybindings, spawn-at-startup rules,
   and window rules
 
 ### Base Desktop Environment
 
 - **base**: Common desktop configurations shared across all environments, including:
-  - Desktop applications (anyrun, mako, waybar, wlogout)
+  - Desktop applications (noctalia-shell)
   - Creative tools and media applications
   - Development tools
   - Eye protection utilities (gammastep)

@@ -8,6 +8,7 @@ include "./keybindings.kdl"
 include "./windowrules.kdl"
 include "./spawn-at-startup.kdl"
 include "./niri-hardware.kdl"
+include "./noctalia-shell.kdl"
 
 // Input device configuration.
 // Find the full list of options on the wiki:
@@ -225,8 +226,3 @@ animations {
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
-
-layer-rule {
-    match namespace="waybar"
-    opacity 0.800000
-}

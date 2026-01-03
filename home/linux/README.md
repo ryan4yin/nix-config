@@ -15,7 +15,6 @@ cases.
 ### Desktop Configurations
 
 - **gui/**: Desktop environment configurations
-  - **hyprland/**: Hyprland window manager with custom keybindings and settings
   - **niri/**: Niri compositor configuration
   - **base/**: Common desktop applications and services
   - **editors/**: Text editor configurations for desktop environments
