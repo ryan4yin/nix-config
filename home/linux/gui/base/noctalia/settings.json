@@ -168,8 +168,8 @@
     }
   },
   "brightness": {
-    "brightnessStep": 2,
-    "enableDdcSupport": true,
+    "brightnessStep": 5,
+    "enableDdcSupport": false,
     "enforceMinimum": true
   },
   "calendar": {
