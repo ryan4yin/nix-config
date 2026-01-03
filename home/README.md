@@ -22,7 +22,6 @@ home/
 ├── linux/             # Linux-specific home manager configurations
 │   ├── base/          # Linux base configurations
 │   ├── gui/           # Linux GUI applications
-│   │   ├── hyprland/  # Hyprland window manager
 │   │   ├── niri/      # Niri window manager
 │   │   └── ...
 │   ├── editors/       # Linux-specific editors

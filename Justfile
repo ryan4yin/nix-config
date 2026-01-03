@@ -121,14 +121,6 @@ local mode="default":
   use {{utils_nu}} *;
   nixos-switch (hostname) {{mode}}
 
-# Deploy the hyprland nixosConfiguration by hostname match
-[linux]
-[group('desktop')]
-hypr mode="default":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *;
-  nixos-switch $"(hostname)-hyprland" {{mode}}
-
 # Deploy the niri nixosConfiguration by hostname match
 [linux]
 [group('desktop')]

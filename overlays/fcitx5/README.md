@@ -18,5 +18,3 @@ Useful for Linux(fcitx5-rime) & macOS(squirrel).
 
 - [Fcitx5 - Arch Linux Wiki](https://wiki.archlinux.org/title/Fcitx5)
 - [Fcitx5 - Official Wiki](https://fcitx-im.org/wiki/Fcitx_5/zh-cn)
-- [discussion about using fcitx5 on hyprland](https://github.com/hyprwm/Hyprland/discussions/421)
-- [hyprland issue about fcitx5](https://github.com/hyprwm/Hyprland/discussions/421)

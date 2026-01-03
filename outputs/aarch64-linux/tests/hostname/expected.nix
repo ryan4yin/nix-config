@@ -4,7 +4,6 @@
 }:
 let
   specialExpected = {
-    "shoukei-hyprland" = "shoukei";
     "shoukei-niri" = "shoukei";
   };
   specialHostNames = builtins.attrNames specialExpected;

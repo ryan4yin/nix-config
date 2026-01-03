@@ -80,15 +80,6 @@
       url = "github:nix-community/preservation";
     };
 
-    # community wayland nixpkgs
-    # nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-
-    # anyrun - a wayland launcher
-    anyrun = {
-      url = "github:/anyrun-org/anyrun/v25.9.3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # generate iso/qcow2/docker/... image from nixos configuration
     nixos-generators = {
       url = "github:nix-community/nixos-generators";

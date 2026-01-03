@@ -23,7 +23,7 @@
 
 This repository is home to the nix code that builds my systems:
 
-1. NixOS Desktops: NixOS with home-manager, hyprland, agenix, etc.
+1. NixOS Desktops: NixOS with home-manager, niri, agenix, etc.
 2. macOS Desktops: nix-darwin with home-manager, share the same home-manager configuration with
    NixOS Desktops.
 3. NixOS Servers: virtual machines running on Proxmox/KubeVirt, with various services, such as
@@ -54,28 +54,26 @@ You don't have to go through the pain I've experienced again! Check out my
 
 ## Components
 
-|                             | NixOS(Wayland)                                                                                                      |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Window Manager**          | [Hyprland][Hyprland] / [Niri][Niri]                                                                                 |
-| **Terminal Emulator**       | [Zellij][Zellij] + [foot][foot]/[Kitty][Kitty]/[Alacritty][Alacritty]/[Ghostty][Ghostty]                            |
-| **Bar**                     | [Waybar][Waybar]                                                                                                    |
-| **Application Launcher**    | [anyrun][anyrun]                                                                                                    |
-| **Notification Daemon**     | [Mako][Mako]                                                                                                        |
-| **Display Manager**         | [tuigreet][tuigreet]                                                                                                |
-| **Color Scheme**            | [catppuccin-nix][catppuccin-nix]                                                                                    |
-| **network management tool** | [NetworkManager][NetworkManager]                                                                                    |
-| **Input method framework**  | [Fcitx5][Fcitx5] + [rime][rime] + [小鹤音形 flypy][flypy]                                                           |
-| **System resource monitor** | [Btop][Btop]                                                                                                        |
-| **File Manager**            | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
-| **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                           |
-| **Media Player**            | [mpv][mpv]                                                                                                          |
-| **Text Editor**             | [Neovim][Neovim]                                                                                                    |
-| **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                            |
-| **Image Viewer**            | [imv][imv]                                                                                                          |
-| **Screenshot Software**     | [hyprshot][hyprshot]                                                                                                |
-| **Screen Recording**        | [OBS][OBS]                                                                                                          |
-| **Filesystem & Encryption** | tmpfs as `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
-| **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                            |
+|                                                                | NixOS(Wayland)                                                                                                      |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **Window Manager**                                             | [Niri][Niri]                                                                                                        |
+| **Terminal Emulator**                                          | [Zellij][Zellij] + [foot][foot]/[Kitty][Kitty]/[Alacritty][Alacritty]/[Ghostty][Ghostty]                            |
+| **Status Bar** / **Notifier** / **Launcher** / **lockscreens** | [noctalia-shell][noctalia-shell]                                                                                    |
+| **Display Manager**                                            | [tuigreet][tuigreet]                                                                                                |
+| **Color Scheme**                                               | [catppuccin-nix][catppuccin-nix]                                                                                    |
+| **network management tool**                                    | [NetworkManager][NetworkManager]                                                                                    |
+| **Input method framework**                                     | [Fcitx5][Fcitx5] + [rime][rime] + [小鹤音形 flypy][flypy]                                                           |
+| **System resource monitor**                                    | [Btop][Btop]                                                                                                        |
+| **File Manager**                                               | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
+| **Shell**                                                      | [Nushell][Nushell] + [Starship][Starship]                                                                           |
+| **Media Player**                                               | [mpv][mpv]                                                                                                          |
+| **Text Editor**                                                | [Neovim][Neovim]                                                                                                    |
+| **Fonts**                                                      | [Nerd fonts][Nerd fonts]                                                                                            |
+| **Image Viewer**                                               | [imv][imv]                                                                                                          |
+| **Screenshot Software**                                        | Niri's builtin function                                                                                             |
+| **Screen Recording**                                           | [OBS][OBS]                                                                                                          |
+| **Filesystem & Encryption**                                    | tmpfs as `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
+| **Secure Boot**                                                | [lanzaboote][lanzaboote]                                                                                            |
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
 
@@ -111,17 +109,13 @@ For NixOS:
 
 ```bash
 # deploy one of the configuration based on the hostname
-sudo nixos-rebuild switch --flake .#ai-hyprland
-
-# deploy via `just`(a command runner with similar syntax to make) & Justfile
-# Deploy the hyprland nixosConfiguration by hostname match
-just hypr
+sudo nixos-rebuild switch --flake .#ai-niri
 
 # Deploy the niri nixosConfiguration by hostname match
 just niri
 
 # or we can deploy with details
-just hypr debug
+just niri debug
 ```
 
 For macOS:
@@ -164,19 +158,11 @@ Other dotfiles that inspired me:
 - Modularized NixOS Configuration
   - [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
   - [viperML/dotfiles](https://github.com/viperML/dotfiles)
-- Hyprland(wayland)
-  - [notwidow/hyprland](https://github.com/notwidow/hyprland): This is where I start my hyprland
-    journey.
-  - [HeinzDev/Hyprland-dotfiles](https://github.com/HeinzDev/Hyprland-dotfiles): Refer to the waybar
-    configuration here.
-  - [Zeioth/zeioth-hyprland-config](https://github.com/Zeioth/zeioth-hyprland-config)
-  - [linuxmobile/kaku](https://github.com/linuxmobile/kaku)
 - Neovim/AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
 - Misc
   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
 
-[Hyprland]: https://github.com/hyprwm/Hyprland
 [Niri]: https://github.com/YaLTeR/niri
 [Kitty]: https://github.com/kovidgoyal/kitty
 [foot]: https://codeberg.org/dnkl/foot
@@ -184,11 +170,6 @@ Other dotfiles that inspired me:
 [Ghostty]: https://github.com/ghostty-org/ghostty
 [Nushell]: https://github.com/nushell/nushell
 [Starship]: https://github.com/starship/starship
-[Waybar]: https://github.com/Alexays/Waybar
-[polybar]: https://github.com/polybar/polybar
-[rofi]: https://github.com/davatorium/rofi
-[anyrun]: https://github.com/Kirottu/anyrun
-[Dunst]: https://github.com/dunst-project/dunst
 [Fcitx5]: https://github.com/fcitx/fcitx5
 [rime]: https://wiki.archlinux.org/title/Rime
 [flypy]: https://flypy.cc/
@@ -197,10 +178,8 @@ Other dotfiles that inspired me:
 [Zellij]: https://github.com/zellij-org/zellij
 [Neovim]: https://github.com/neovim/neovim
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
-[Hyprshot]: https://github.com/Gustash/Hyprshot
 [imv]: https://sr.ht/~exec64/imv/
 [OBS]: https://obsproject.com
-[Mako]: https://github.com/emersion/mako
 [Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
 [catppuccin-nix]: https://github.com/catppuccin/nix
 [NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
@@ -212,3 +191,4 @@ Other dotfiles that inspired me:
 [Btrfs]: https://btrfs.readthedocs.io
 [LUKS]: https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system
 [lanzaboote]: https://github.com/nix-community/lanzaboote
+[noctalia-shell]: https://github.com/noctalia-dev/noctalia-shell
