@@ -1,7 +1,5 @@
 { mylib, pkgs, ... }:
 {
-  imports = mylib.scanPaths ./.;
-
   # wayland related
   home.sessionVariables = {
     "NIXOS_OZONE_WL" = "1"; # for any ozone-based browser & electron apps to run on wayland

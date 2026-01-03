@@ -13,16 +13,15 @@ Manager.
 ### Base Desktop Environment
 
 - **base**: Common desktop configurations shared across all environments, including:
-  - Desktop applications (noctalia-shell)
+  - **Noctalia Shell**: All-in-one Wayland desktop shell (replaces gammastep, swaylock, anyrun,
+    mako, waybar, wallpaper-switcher, wlogout, and other desktop tools)
   - Creative tools and media applications
   - Development tools
-  - Eye protection utilities (gammastep)
   - Fcitx5 input method framework
   - Games and gaming utilities
   - GTK theme configurations
   - Immutable file handling
   - Note-taking applications
-  - Wallpaper management with auto-switcher
   - Wayland applications
   - XDG desktop configurations
 
@@ -35,7 +34,7 @@ Manager.
 1. **Configuration Location**: Desktop environment configuration files are located in `~/.config`,
    which can be easily managed by Home Manager.
 
-2. **User-specific Services**: Many user-specific systemd services (gammastep, wallpaper-switcher,
+2. **User-specific Services**: User-specific systemd services (noctalia-shell, fcitx5, hypridle,
    etc.) can be easily managed by Home Manager. If desktop environments were configured via NixOS
    Module, these user-level services might fail to start automatically. With Home Manager modules,
    we can control systemd service dependency order more effectively.
