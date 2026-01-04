@@ -97,7 +97,7 @@
           "usePrimaryColor": false
         },
         {
-          "compactMode": true,
+          "compactMode": false,
           "diskPath": "/persistent",
           "id": "SystemMonitor",
           "showCpuTemp": false,
