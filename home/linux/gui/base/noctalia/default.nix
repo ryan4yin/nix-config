@@ -2,22 +2,24 @@
   lib,
   config,
   pkgs,
+  pkgs-patched,
   wallpapers,
   ...
 }:
 
+let
+  package = pkgs-patched.noctalia-shell;
+in
 {
 
-  home.packages =
-    with pkgs;
-    [
-      noctalia-shell
-      qt6Packages.qt6ct # for icon theme
-      app2unit # Launch Desktop Entries (or arbitrary commands) as Systemd user units
-    ]
-    ++ (lib.optionals pkgs.stdenv.isx86_64 [
-      gpu-screen-recorder # recoding screen
-    ]);
+  home.packages = [
+    package
+    pkgs.qt6Packages.qt6ct # for icon theme
+    pkgs.app2unit # Launch Desktop Entries (or arbitrary commands) as Systemd user units
+  ]
+  ++ (lib.optionals pkgs.stdenv.isx86_64 [
+    pkgs.gpu-screen-recorder # recoding screen
+  ]);
 
   home.file."Pictures/Wallpapers".source = wallpapers;
 
@@ -39,7 +41,7 @@
     };
 
     Service = {
-      ExecStart = lib.getExe pkgs.noctalia-shell;
+      ExecStart = lib.getExe package;
       Restart = "on-failure";
 
       Environment = [
