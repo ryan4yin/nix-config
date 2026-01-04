@@ -77,11 +77,9 @@ You don't have to go through the pain I've experienced again! Check out my
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
 
-## Hyprland + AstroNvim
+## Screenshots
 
-![](./_img/hyprland_2023-07-29_1.webp)
-
-![](./_img/hyprland_2023-07-29_2.webp)
+![](./_img/2026-01-04_niri-noctalia_nvim.webp) ![](./_img/2026-01-04_niri-noctalia_overview.webp)
 
 ## Neovim
 
