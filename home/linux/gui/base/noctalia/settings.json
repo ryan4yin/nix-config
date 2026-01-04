@@ -104,7 +104,7 @@
           "showCpuUsage": true,
           "showDiskUsage": true,
           "showGpuTemp": false,
-          "showLoadAverage": false,
+          "showLoadAverage": true,
           "showMemoryAsPercent": true,
           "showMemoryUsage": true,
           "showNetworkStats": true,
@@ -276,9 +276,48 @@
     }
   },
   "desktopWidgets": {
-    "enabled": false,
-    "gridSnap": false,
-    "monitorWidgets": []
+    "enabled": true,
+    "gridSnap": true,
+    "monitorWidgets": [
+      {
+        "name": "eDP-1",
+        "widgets": [
+          {
+            "clockStyle": "digital",
+            "customFont": "",
+            "format": "HH:mm\\nd MMMM yyyy",
+            "id": "Clock",
+            "roundedCorners": true,
+            "scale": 0.7378548922663623,
+            "showBackground": true,
+            "useCustomFont": false,
+            "usePrimaryColor": false,
+            "x": 92,
+            "y": 161
+          },
+          {
+            "hideMode": "visible",
+            "id": "MediaPlayer",
+            "roundedCorners": true,
+            "scale": 1.1501312913284876,
+            "showAlbumArt": true,
+            "showBackground": true,
+            "showButtons": true,
+            "showVisualizer": true,
+            "visualizerType": "linear",
+            "x": 92,
+            "y": 299
+          },
+          {
+            "id": "Weather",
+            "scale": 1.339282355295889,
+            "showBackground": true,
+            "x": 230,
+            "y": 161
+          }
+        ]
+      }
+    ]
   },
   "dock": {
     "animationSpeed": 1,
