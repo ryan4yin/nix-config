@@ -79,7 +79,11 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## Screenshots
 
-![](./_img/2026-01-04_niri-noctalia_nvim.webp) ![](./_img/2026-01-04_niri-noctalia_overview.webp)
+![desktop](./_img/2026-01-05_niri-noctalia_desktop.webp)
+
+![overview](./_img/2026-01-04_niri-noctalia_overview.webp)
+
+![nvim](./_img/2026-01-04_niri-noctalia_nvim.webp)
 
 ## Neovim
 
