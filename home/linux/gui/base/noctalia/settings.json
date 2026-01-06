@@ -400,7 +400,7 @@
     "autoHideMs": 2000,
     "backgroundOpacity": 1,
     "enabled": true,
-    "enabledTypes": [0, 1, 2, 4, 3],
+    "enabledTypes": [0, 1, 4, 3],
     "location": "top_right",
     "monitors": [],
     "overlayLayer": true
