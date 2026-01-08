@@ -50,6 +50,12 @@ Name=mozc
 # Layout
 Layout=
 
+[Groups/1/Items/3]
+# Name
+Name=hangul
+# Layout
+Layout=
+
 [GroupOrder]
 0=Default
 1=Intl

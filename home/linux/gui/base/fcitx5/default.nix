@@ -27,6 +27,9 @@
       # ctrl-i / F7 - convert to takakana
       # ctrl-u / F6 - convert to hiragana
       fcitx5-mozc-ut # Moze with UT dictionary
+
+      # Korean
+      fcitx5-hangul
     ];
   };
 }
