@@ -29,7 +29,9 @@ in
       confPath = "${config.home.homeDirectory}/nix-config/home/linux/gui/base/noctalia";
     in
     {
-      "noctalia/settings.json".source = mkSymlink "${confPath}/settings.json";
+      # NOTE: use config dir as noctalia config because config is not only settings.json
+      # https://github.com/noctalia-dev/noctalia-shell/blob/main/nix/home-module.nix#L211-L220
+      "noctalia".source = mkSymlink "${confPath}/config";
       "qt6ct/qt6ct.conf".source = mkSymlink "${confPath}/qt6ct.conf";
     };
 
