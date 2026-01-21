@@ -1,1 +1,11 @@
-{ "version": 1, "states": {}, "sources": [] }
+{
+  "sources": [
+    {
+      "enabled": true,
+      "name": "Official Noctalia Plugins",
+      "url": "https://github.com/noctalia-dev/noctalia-plugins"
+    }
+  ],
+  "states": {},
+  "version": 1
+}

@@ -539,7 +539,7 @@
     "panelPosition": "follow_bar",
     "randomEnabled": true,
     "randomIntervalSec": 600,
-    "recursiveSearch": false,
+    "recursiveSearch": true,
     "setWallpaperOnAllMonitors": true,
     "solidColor": "#1a1a2e",
     "transitionDuration": 1500,
