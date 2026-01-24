@@ -23,12 +23,13 @@ output "DP-2" {
     // The cursor can only move between directly adjacent outputs.
     // Output scale has to be taken into account for positioning:
     // outputs are sized in logical, or scaled, pixels.
-    // For example, a 3840×2160 output with scale 2.0 will have a logical size of 1920×1080,
+    // For example, a 3840Ã—2160 output with scale 2.0 will have a logical size of 1920Ã—1080,
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // It the position is unset or results in an overlap, the output is instead placed
     // automatically.
     position x=0 y=0
 }
+
 output "HDMI-A-1" {
     scale 1.5
     transform "normal"
