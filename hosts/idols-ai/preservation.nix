@@ -312,6 +312,9 @@ in
         ".config/mozc" # used by fcitx5-mozc
 
         ".config/nushell"
+
+        # noctalia shell
+        ".cache/noctalia"
       ];
       files = [
         {
