@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   # ===============================================================================================
   # for Nvidia GPU
@@ -15,13 +20,37 @@
   hardware.nvidia = {
     # Open-source kernel modules are preferred over and planned to steadily replace proprietary modules
     open = true;
+    nvidiaSettings = true;
+
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/os-specific/linux/nvidia-x11/default.nix
-    package = config.boot.kernelPackages.nvidiaPackages.production;
+    # package = config.boot.kernelPackages.nvidiaPackages.production;
+
+    # https://github.com/NixOS/nixpkgs/issues/489947
+    # Apply CachyOS kernel 6.19 patch to NVIDIA latest driver
+    package =
+      let
+        base = config.boot.kernelPackages.nvidiaPackages.latest;
+        cachyos-nvidia-patch = pkgs.fetchpatch {
+          url = "https://raw.githubusercontent.com/CachyOS/CachyOS-PKGBUILDS/master/nvidia/nvidia-utils/kernel-6.19.patch";
+          sha256 = "sha256-YuJjSUXE6jYSuZySYGnWSNG5sfVei7vvxDcHx3K+IN4=";
+        };
+
+        # Patch the appropriate driver based on config.hardware.nvidia.open
+        driverAttr = if config.hardware.nvidia.open then "open" else "bin";
+      in
+      base
+      // {
+        ${driverAttr} = base.${driverAttr}.overrideAttrs (oldAttrs: {
+          patches = (oldAttrs.patches or [ ]) ++ [ cachyos-nvidia-patch ];
+        });
+      };
 
     # required by most wayland compositors!
     modesetting.enable = true;
     powerManagement.enable = true;
+
+    dynamicBoost.enable = lib.mkForce true;
   };
 
   hardware.nvidia-container-toolkit.enable = true;
