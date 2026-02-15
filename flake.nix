@@ -130,7 +130,7 @@
     };
 
     nixos-apple-silicon = {
-      # asahi-6.17.7-2
+      # asahi-6.18.9
       url = "github:nix-community/nixos-apple-silicon";
       inputs.nixpkgs.follows = "nixpkgs";
     };
