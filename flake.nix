@@ -42,7 +42,7 @@
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
     # nixpkgs with some custom patches
-    nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
+    nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 

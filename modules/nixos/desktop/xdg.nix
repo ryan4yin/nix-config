@@ -2,7 +2,7 @@
 {
   xdg.terminal-exec = {
     enable = true;
-    package = pkgs.xdg-terminal-exec-mkhl;
+    package = pkgs.xdg-terminal-exec;
     settings =
       let
         my_terminal_desktop = [
