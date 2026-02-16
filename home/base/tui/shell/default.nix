@@ -31,7 +31,7 @@
       # https://bailian.console.aliyun.com/?tab=doc#/doc/?type=model&url=2949529
       # $env.ANTHROPIC_BASE_URL = "https://dashscope.aliyuncs.com/apps/anthropic"
       # $env.ANTHROPIC_AUTH_TOKEN = $env.DASHSCOPE_API_KEY
-      # $env.ANTHROPIC_MODEL = "qwen-plus" # 千万别用 qwen-max, 价格
+      # $env.ANTHROPIC_MODEL = "qwen-plus" # 千万别用 qwen-max, 超级无敌贵
       # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "qwen-turbo"
 
       # Directories in this constant are searched by the
