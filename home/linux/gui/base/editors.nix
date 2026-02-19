@@ -15,9 +15,9 @@ let
 in
 {
   home.packages = [
-    pkgs.zed-editor
     pkgs-master.code-cursor
-    pkgs-master.antigravity-fhs
+    # pkgs-master.zed-editor
+    # pkgs-master.antigravity-fhs
   ];
 
   programs.vscode = {
