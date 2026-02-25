@@ -19,7 +19,7 @@ let
       version = "4.1.0.13";
       src = fetchurl {
         url = "https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_arm64.AppImage";
-        hash = "";
+        hash = "sha256-o6a7773agYqrP4dXsjzSUT2Du77gZ4wN1F2e0uvEzVc=";
       };
     };
     x86_64-linux = {
