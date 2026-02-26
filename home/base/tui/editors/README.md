@@ -133,14 +133,12 @@ Misc:
 Advance Techs:
 
 - Add at the end of multiple lines: `:normal A<text>`
-
   - Execublock: `:A<text>`
   - visual block mode(ctrl + v)
   - Append text at the end of each line in the selected block
   - If position exceeds line end, neovim adds spaces automatically
 
 - Delete the last char of multivle lines: `:normal $x`
-
   - Execute `$x` on each line
   - visual mode(v)
   - `$` moves cursor to the end of line
