@@ -130,6 +130,7 @@ in
       "curl" # no not install curl via nixpkgs, it's not working well on macOS!
       "aria2" # download tool
       "wireguard-tools" # wireguard
+      "container" # https://github.com/apple/container
 
       # Usage:
       #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
@@ -164,6 +165,7 @@ in
 
       "aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
+      "orbstack" # docker & docker compose
 
       # https://joplinapp.org/help/
       "joplin" # note taking app
