@@ -27,6 +27,9 @@ in
     "fat"
     "vfat"
     "exfat"
+
+    # for file sharing between host & guests
+    "virtiofs"
   ];
 
   boot.initrd.availableKernelModules = [
