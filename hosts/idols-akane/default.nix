@@ -40,6 +40,10 @@ in
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
   networking = {
