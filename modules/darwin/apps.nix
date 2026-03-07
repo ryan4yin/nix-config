@@ -70,9 +70,6 @@ in
     nushell # my custom shell
     gnugrep # replacee macos's grep
     gnutar # replacee macos's tar
-
-    # darwin only apps
-    utm # virtual machine
   ];
   environment.variables = {
     # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues
@@ -165,7 +162,10 @@ in
 
       "aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
+
+      # container & vm
       "orbstack" # docker & docker compose
+      "utm" # vm
 
       # https://joplinapp.org/help/
       "joplin" # note taking app
