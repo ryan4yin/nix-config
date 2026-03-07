@@ -39,6 +39,4 @@ in
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
   colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
-
-  packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
 }
