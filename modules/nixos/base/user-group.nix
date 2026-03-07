@@ -10,6 +10,7 @@
   users.groups = {
     "${myvars.username}" = { };
     podman = { };
+    docker = { };
     wireshark = { };
     # for android platform tools's udev rules
     adbusers = { };
@@ -31,6 +32,7 @@
       "wheel"
       "networkmanager" # for nmtui / nm-connection-editor
       "podman"
+      "docker"
       "wireshark"
       "adbusers" # android debugging
       "libvirtd" # virt-viewer / qemu
