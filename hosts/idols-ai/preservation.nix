@@ -124,32 +124,21 @@ in
         # IDE / Editors
         # ======================================
 
-        # neovim plugins(wakatime & copilot)
+        # neovim plugins
         ".wakatime"
-        ".config/github-copilot"
 
         # vscode
         ".vscode"
         ".config/Code"
-        ".vscode-insiders"
-        ".config/Code - Insiders"
 
         # cursor ai editor
         ".cursor"
         ".config/Cursor"
 
-        # zed editor
-        ".config/zed"
-        ".local/share/zed"
-
-        # google ai editor (antigravity)
-        ".config/Antigravity"
-        ".antigravity"
-
         # ai agents
-        ".claude"
         ".gemini"
-        ".openclaw"
+        ".codex"
+        ".config/opencode"
 
         # nvim
         ".local/share/nvim"
@@ -157,12 +146,6 @@ in
 
         # helix & steel
         ".local/share/steel"
-
-        # doom-emacs
-        # "org" # org files
-        # ".config/emacs"
-        # ".local/share/doom"
-        # ".local/share/emacs"
 
         # Joplin
         ".config/joplin" # tui client
