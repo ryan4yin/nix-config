@@ -6,11 +6,10 @@
 
     #-- python
     conda
+    uv # python project package manager
+    pipx # Install and Run Python Applications in Isolated Environments
     (python313.withPackages (
       ps: with ps; [
-        pipx # Install and Run Python Applications in Isolated Environments
-        uv # python project package manager
-
         pandas
         requests
         pyquery
