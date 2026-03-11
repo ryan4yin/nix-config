@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, ... }:
 let
   envExtra = ''
     export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
@@ -34,6 +34,7 @@ in
   };
   programs.zsh = {
     enable = true;
+    dotDir = "${config.xdg.configHome}/zsh";
     inherit envExtra initContent;
   };
 }
