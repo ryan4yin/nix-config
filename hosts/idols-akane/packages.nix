@@ -16,7 +16,9 @@
         pyyaml
         numpy
 
-        huggingface-hub # huggingface-cli
+        # model downloaders
+        huggingface-hub
+        modelscope
       ]
     ))
 
