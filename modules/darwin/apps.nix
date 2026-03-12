@@ -143,6 +143,10 @@ in
       "terraformer"
     ];
 
+    taps = [
+      "nikitabobko/tap" # aerospace - an i3-like tiling window manager for macOS
+    ];
+
     # `brew install --cask`
     casks = [
       "squirrel-app" # input method for Chinese, rime-squirrel
