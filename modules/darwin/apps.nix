@@ -161,7 +161,6 @@ in
       "ghostty" # terminal emulator
 
       # container & vm
-      "orbstack" # docker & docker compose
       "utm" # vm
 
       # https://joplinapp.org/help/
