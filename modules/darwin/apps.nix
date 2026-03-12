@@ -115,12 +115,6 @@ in
       Wechat = 836500024;
     };
 
-    taps = [
-      "hashicorp/tap"
-      "nikitabobko/tap" # aerospace - an i3-like tiling window manager for macOS
-      "FelixKratz/formulae" # janky borders - highlight active window borders
-    ];
-
     brews = [
       # `brew install`
       "wget" # download tool
@@ -145,7 +139,7 @@ in
 
       # misc that nix do not have cache for.
       "git-trim"
-      "terraform"
+      "hashicorp/tap/terraform"
       "terraformer"
     ];
 
@@ -159,7 +153,7 @@ in
       "visual-studio-code"
       "cursor" # cursor ai editor
 
-      "aerospace" # an i3-like tiling window manager for macOS
+      "nikitabobko/tap/aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
 
       # container & vm
@@ -180,7 +174,7 @@ in
       "qq"
       "qqmusic"
       # "discord" # update too frequently, use the web version instead
-      "microsoft-remote-desktop"
+      "windows-app"
       # "moonlight" # remote desktop client
       # "rustdesk" # meeting
       # "tencent-meeting"
