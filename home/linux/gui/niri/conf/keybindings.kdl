@@ -154,9 +154,9 @@ binds {
     Mod+4 { focus-workspace "4music"; }
     Mod+5 { focus-workspace "5mail"; }
     Mod+6 { focus-workspace "6file"; }
-    Mod+7 { focus-workspace 7; }
-    Mod+8 { focus-workspace 8; }
-    Mod+9 { focus-workspace 9; }
+    Mod+7 { focus-workspace "7"; }
+    Mod+8 { focus-workspace "8"; }
+    Mod+9 { focus-workspace "9"; }
     Mod+0 { focus-workspace "0other"; }
     Mod+Ctrl+1 { move-column-to-workspace "1terminal"; }
     Mod+Ctrl+2 { move-column-to-workspace "2browser"; }
@@ -164,9 +164,9 @@ binds {
     Mod+Ctrl+4 { move-column-to-workspace "4music"; }
     Mod+Ctrl+5 { move-column-to-workspace "5mail"; }
     Mod+Ctrl+6 { move-column-to-workspace "6file"; }
-    Mod+Ctrl+7 { move-column-to-workspace 7; }
-    Mod+Ctrl+8 { move-column-to-workspace 8; }
-    Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Ctrl+7 { move-column-to-workspace "7"; }
+    Mod+Ctrl+8 { move-column-to-workspace "8"; }
+    Mod+Ctrl+9 { move-column-to-workspace "9"; }
     Mod+Ctrl+0 { move-column-to-workspace "0other"; }
 
     // Alternatively, there are commands to move just a single window:
