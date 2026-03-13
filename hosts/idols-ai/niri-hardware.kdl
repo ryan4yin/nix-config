@@ -45,4 +45,7 @@ workspace "5music" { open-on-output "DP-2"; }
 workspace "1terminal" { open-on-output "HDMI-A-1"; }
 workspace "3chat" { open-on-output "HDMI-A-1"; }
 workspace "6file" { open-on-output "HDMI-A-1"; }
+workspace "7" { open-on-output "HDMI-A-1"; }
+workspace "8" { open-on-output "HDMI-A-1"; }
+workspace "9" { open-on-output "HDMI-A-1"; }
 workspace "0other" { open-on-output "HDMI-A-1"; }

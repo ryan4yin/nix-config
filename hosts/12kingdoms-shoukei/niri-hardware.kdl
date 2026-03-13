@@ -10,6 +10,9 @@ workspace "3chat" { open-on-output "eDP-1"; }
 workspace "4music" { open-on-output "eDP-1"; }
 workspace "5mail" { open-on-output "eDP-1"; }
 workspace "6file" { open-on-output "eDP-1"; }
+workspace "7" { open-on-output "eDP-1"; }
+workspace "8" { open-on-output "eDP-1"; }
+workspace "9" { open-on-output "eDP-1"; }
 workspace "0other" { open-on-output "eDP-1"; }
 debug { render-drm-device "/dev/dri/renderD128"; }
 
