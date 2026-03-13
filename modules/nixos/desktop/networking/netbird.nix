@@ -19,7 +19,7 @@
 #
 # Status Data:
 #   `journalctl -u netbird-homelab` shows netbird's logs
-#   netbird client store its data in /var/lib/netbird-homelab
+#   netbird client store its data in /var/lib/netbird-homelab & /etc/netbird-homelab
 #   which is already persistent across reboots(via preservation)
 #
 # References:

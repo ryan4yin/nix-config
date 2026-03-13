@@ -72,11 +72,12 @@ in
       # "/var/lib/waydroid"
 
       # network
-      "/var/lib/tailscale"
-      "/var/lib/netbird-homelab" # netbird's homelab client
       "/var/lib/bluetooth"
       "/var/lib/NetworkManager"
       "/var/lib/iwd"
+      "/var/lib/tailscale"
+      "/var/lib/netbird-homelab" # netbird's homelab client
+      "/etc/netbird-homelab"
     ];
     files = [
       # auto-generated machine ID
