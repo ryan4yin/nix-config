@@ -9,6 +9,8 @@ include "./windowrules.kdl"
 include "./niri-hardware.kdl"
 include "./noctalia-shell.kdl"
 
+spawn-sh-at-startup "bash ~/nix-config/home/linux/gui/niri/reorder-workspaces.sh"
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
