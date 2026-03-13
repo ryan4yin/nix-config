@@ -102,6 +102,9 @@ in
         "Documents"
         "Videos"
 
+        # Keep .cache off tmpfs to avoid high RAM usage; many apps use it and it is storage-heavy.
+        ".cache"
+
         # ======================================
         # Codes / Work / Playground
         # ======================================
@@ -117,8 +120,6 @@ in
         ".local/state/home-manager"
         ".local/state/nix/profiles"
         ".local/share/nix"
-        ".cache/nix"
-        ".cache/nixpkgs-review"
 
         # ======================================
         # IDE / Editors
@@ -201,7 +202,6 @@ in
         ".local/bin"
         # python uv
         ".local/share/uv"
-        ".cache/uv"
 
         # ======================================
         # Security
@@ -266,9 +266,7 @@ in
         # ======================================
         ".mozilla"
         ".config/google-chrome"
-        ".cache/google-chrome"
         ".config/chromium"
-        ".cache/chromium"
 
         # ======================================
         # CLI data
@@ -277,7 +275,6 @@ in
         ".local/share/zoxide"
         ".local/share/direnv"
         ".local/share/k9s"
-        ".cache/tealdeer" # tldr
 
         # ======================================
         # Containers
@@ -309,13 +306,6 @@ in
         ".config/mozc" # used by fcitx5-mozc
 
         ".config/nushell"
-
-        # noctalia shell
-        ".cache/noctalia"
-
-        # AI
-        ".cache/modelscope"
-        ".cache/huggingface"
       ];
       files = [
         {
@@ -357,7 +347,6 @@ in
     in
     {
       "/home/${username}/.config".d = permission;
-      "/home/${username}/.cache".d = permission;
       "/home/${username}/.local".d = permission;
       "/home/${username}/.local/share".d = permission;
       "/home/${username}/.local/state".d = permission;
