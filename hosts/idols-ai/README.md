@@ -1,8 +1,12 @@
 # Host - AI
 
+Desktop (NixOS + preservation, LUKS + btrfs on nvme). Disk layout is declarative via
+[disko](./disko-fs.nix) (target device: **nvme1n1**).
+
 Related:
 
-- [/nixos-installer/README.md](/nixos-installer/README.md)
+- [nixos-installer README](/nixos-installer/README.md) – install from ISO using disko
+- [disko-fs.nix](./disko-fs.nix) – partition/layout definition (ESP + LUKS + btrfs)
 
 ## TODOs
 
@@ -10,7 +14,7 @@ Related:
 
 ## Info
 
-disk status & mountpoints:
+Current disk status and mountpoints (example; after migration layout is on nvme1n1):
 
 ```bash
 › df -Th
@@ -36,50 +40,129 @@ tmpfs                     tmpfs     100K     0  100K   0% /var/lib/lxd/devlxd
 ~
 › lsblk
 NAME              MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINTS
-zram0             253:0    0 15.6G  0 disk  [SWAP]
 nvme0n1           259:0    0  1.8T  0 disk
-├─nvme0n1p1       259:2    0  598M  0 part  /boot
-└─nvme0n1p2       259:3    0  1.8T  0 part
-  └─crypted-nixos 254:0    0  1.8T  0 crypt /tmp
-                                            /swap/swapfile
+├─nvme0n1p1       259:1    0  598M  0 part  /boot
+└─nvme0n1p2       259:2    0  1.8T  0 part
+  └─crypted-nixos 254:0    0  1.8T  0 crypt /swap/swapfile
+                                            /gnu/store
                                             /swap
+                                            /tmp
                                             /snapshots
-                                            /home/ryan/tmp
+                                            /gnu
+                                            /btr_pool
+                                            /var/log
+                                            /var/lib/qemu
+                                            /var/lib/tailscale
+                                            /var/lib/systemd
+                                            /var/lib/private
+                                            /var/lib/nixos
+                                            /var/lib/lxd
+                                            /var/lib/netbird-homelab
+                                            /var/lib/lxc
+                                            /var/lib/libvirt
+                                            /var/lib/iwd
+                                            /var/lib/flatpak
+                                            /var/lib/containers
+                                            /var/lib/cni
+                                            /var/lib/NetworkManager
+                                            /var/lib/bluetooth
+                                            /home/ryan/work
                                             /home/ryan/nix-config
+                                            /home/ryan/tmp
                                             /home/ryan/go
                                             /home/ryan/codes
                                             /home/ryan/Videos
                                             /home/ryan/Pictures
                                             /home/ryan/Music
+                                            /home/ryan/Games
                                             /home/ryan/Downloads
+                                            /home/ryan/.zoom
                                             /home/ryan/Documents
                                             /home/ryan/.wakatime
+                                            /home/ryan/.vscode
+                                            /home/ryan/.var
+                                            /home/ryan/.terraform.d/plugin-cache
+                                            /home/ryan/.steam
                                             /home/ryan/.ssh
+                                            /home/ryan/.pulumi
                                             /home/ryan/.pki
                                             /home/ryan/.npm
                                             /home/ryan/.mozilla
-                                            /home/ryan/.local/state
-                                            /home/ryan/.local/share
+                                            /home/ryan/.m2
+                                            /home/ryan/.local/state/wireplumber
+                                            /home/ryan/.local/state/nvim
+                                            /home/ryan/.local/state/home-manager
+                                            /home/ryan/.local/share/uv
+                                            /home/ryan/.local/state/Heroic
+                                            /home/ryan/.local/state/nix/profiles
+                                            /home/ryan/.local/share/zoxide
+                                            /home/ryan/.local/share/umu
+                                            /home/ryan/.local/share/tiled
+                                            /home/ryan/.local/share/steel
+                                            /home/ryan/.local/share/remmina
+                                            /home/ryan/.local/share/password-store
+                                            /home/ryan/.local/share/opencode
+                                            /home/ryan/.local/share/nvim
+                                            /home/ryan/.local/share/nix
+                                            /home/ryan/.local/share/krita
+                                            /home/ryan/.local/share/lutris
+                                            /home/ryan/.local/share/keyrings
+                                            /home/ryan/.local/share/k9s
+                                            /home/ryan/.local/share/jupyter
+                                            /home/ryan/.local/share/flatpak
+                                            /home/ryan/.local/share/io.github.clash-verge-rev.clash-verge-rev
+                                            /home/ryan/.local/share/feral-interactive
+                                            /home/ryan/.local/share/direnv
+                                            /home/ryan/.local/share/clash-verge
+                                            /home/ryan/.local/share/containers
+                                            /home/ryan/.local/share/atuin
+                                            /home/ryan/.local/share/Steam
+                                            /home/ryan/.local/share/StardewValley
+                                            /home/ryan/.local/share/GOG.com
+                                            /home/ryan/.local/bin
+                                            /home/ryan/.local/pipx
                                             /home/ryan/.kube
+                                            /home/ryan/.gradle
                                             /home/ryan/.gnupg
+                                            /home/ryan/.kimi
+                                            /home/ryan/.ipython
+                                            /home/ryan/.gemini
                                             /home/ryan/.docker
+                                            /home/ryan/.config/sunshine
+                                            /home/ryan/.cursor
+                                            /home/ryan/.context7
                                             /home/ryan/.config/remmina
                                             /home/ryan/.config/pulse
+                                            /home/ryan/.config/opencode
+                                            /home/ryan/.config/obs-studio
+                                            /home/ryan/.config/mozc
+                                            /home/ryan/.config/nushell
+                                            /home/ryan/.config/lutris
+                                            /home/ryan/.config/joplin
+                                            /home/ryan/.config/heroic
                                             /home/ryan/.config/google-chrome
-                                            /home/ryan/.config/github-copilot
+                                            /home/ryan/.config/gcloud
                                             /home/ryan/.config/freerdp
+                                            /home/ryan/.config/blender
+                                            /home/ryan/.config/chromium
+                                            /home/ryan/.config/LDtk
+                                            /home/ryan/.config/Joplin
+                                            /home/ryan/.config/Cursor
+                                            /home/ryan/.config/Code
+                                            /home/ryan/.conda
+                                            /home/ryan/.cargo
+                                            /home/ryan/.codex
+                                            /home/ryan/.cache
                                             /home/ryan/.aws
+                                            /home/ryan/.aliyun
                                             /etc/ssh
                                             /etc/secureboot
                                             /etc/nix/inputs
-                                            /etc/agenix
                                             /etc/NetworkManager/system-connections
-                                            /etc/machine-id
-                                            /home/ryan/.config/nushell/history.txt
-                                            /home/ryan/.wakatime.cfg
+                                            /etc/agenix
+                                            /etc/netbird-homelab
                                             /nix/store
-                                            /var/log
-                                            /var/lib
-                                            /nix
+                                            /etc/machine-id
                                             /persistent
+                                            /nix
 ```
