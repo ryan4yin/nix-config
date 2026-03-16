@@ -34,9 +34,17 @@ tmpfs; [preservation](https://github.com/nix-community/preservation) uses `/pers
 git clone https://github.com/ryan4yin/nix-config.git
 cd nix-config/nixos-installer
 
-# WARNING: destroys all data on nvme1n1. Layout is mounted at /mnt by default.
 sudo su
+
+# encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
+# WARNING: destroys all data on nvme1n1. Layout is mounted at /mnt by default.
 nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs.nix
+
+# Mount only (e.g. after first format, without wiping):
+# nix run github:nix-community/disko -- --mode mount ../hosts/idols-ai/disko-fs.nix
+
+# setup the automatic unlock via the tpm2 chip
+systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part-path>
 ```
 
 ### 2. Install NixOS
