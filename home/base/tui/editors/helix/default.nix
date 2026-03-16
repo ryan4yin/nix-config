@@ -1,4 +1,5 @@
 {
+  lib,
   config,
   pkgs,
   helix,
@@ -17,7 +18,7 @@ in
   ];
 
   programs.helix = {
-    enable = true;
+    enable = lib.mkForce false;
     # enable steel as the plugin system
     # https://github.com/helix-editor/helix/pull/8675
     # https://github.com/mattwparas/helix/blob/steel-event-system/STEEL.md
