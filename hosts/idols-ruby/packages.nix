@@ -51,5 +51,31 @@
     rustc
     cargo # rust package manager
     go
+
+    # cryptography
+    age
+    sops
+    rclone
+    gnupg
+
+    # cloud-native
+    kubectl
+    istioctl
+    kubevirt # virtctl
+    kubernetes-helm
+    fluxcd
+    terraform
+
+    # db related
+    pgcli
+    mongosh
+    sqlite
+
+    yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
+
+    # need to run `conda-install` before using it
+    # need to run `conda-shell` before using command `conda`
+    # conda is not available for MacOS
+    conda
   ];
 }

@@ -32,7 +32,8 @@ let
       ++ [
       ];
     home-modules = map mylib.relativeToRoot [
-      "home/linux/tui.nix"
+      # host specific
+      "hosts/idols-${name}/home.nix"
     ];
   };
 
