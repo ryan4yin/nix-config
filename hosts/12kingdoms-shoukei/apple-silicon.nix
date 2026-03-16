@@ -59,12 +59,12 @@
     powerKeyLongPress = "poweroff";
   };
   systemd.targets.sleep.enable = true;
-  systemd.sleep.extraConfig = ''
-    AllowSuspend=yes
-    AllowHibernate=no
-    AllowSuspendThenHibernate=no
-    HibernateDelaySec=5min
-  '';
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = "yes";
+    AllowHibernate = "no";
+    AllowSuspendThenHibernate = "no";
+    HibernateDelaySec = "5min";
+  };
 
   # After adding this snippet, you need to restart the system for the touchbar to work.
   hardware.apple.touchBar = {
