@@ -115,7 +115,6 @@
                   # Swap subvolume read-only; disko creates swapfile and adds swapDevices
                   "@swap" = {
                     mountpoint = "/swap";
-                    mountOptions = [ "ro" ];
                     swap.swapfile.size = "20G";
                   };
                 };
