@@ -1,3 +1,3 @@
 # Idols - Kana
 
-TODO
+Run AI Agents

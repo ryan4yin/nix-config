@@ -1,3 +1,3 @@
 # Idols - Ruby
 
-TODO
+Run AI Agents
