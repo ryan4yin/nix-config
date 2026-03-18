@@ -6,7 +6,10 @@ Desktop (NixOS + preservation, LUKS + btrfs on nvme). Disk layout is declarative
 Related:
 
 - [nixos-installer README](/nixos-installer/README.md) – install from ISO using disko
-- [disko-fs.nix](./disko-fs.nix) – partition/layout definition (ESP + LUKS + btrfs)
+- [disko-fs.nix](./disko-fs.nix) – main disk layout (ESP + LUKS + btrfs). From
+  `nix-config/nixos-installer`:  
+  `nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs.nix`
+- [disko-fs-media.nix](./disko-fs-media.nix) – media disk layout (LUKS + btrfs at /persistent/media)
 
 ## TODOs
 

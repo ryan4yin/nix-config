@@ -16,7 +16,7 @@ let
   k3sModule = mylib.genK3sServerModule {
     inherit pkgs;
     kubeconfigFile = "/home/${myvars.username}/.kube/config";
-    tokenFile = "/run/media/nixos_k3s/kubevirt-k3s-token";
+    tokenFile = "/persistent/kubevirt-k3s-token";
     # use my own domain & kube-vip's virtual IP for the API server
     # so that the API server can always be accessed even if some nodes are down
     masterHost = "kubevirt-cluster-1.writefor.fun";

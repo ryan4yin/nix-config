@@ -1,5 +1,7 @@
-# auto disk partitioning:
-#   nix run github:nix-community/disko -- --mode disko ./disko-fs.nix
+# Auto disk partitioning (from repo root: nix-config):
+#   nix run github:nix-community/disko -- --mode destroy,format,mount hosts/idols-aquamarine/disko-fs.nix
+# Mount only (after first format):
+#   nix run github:nix-community/disko -- --mode mount hosts/idols-aquamarine/disko-fs.nix
 let
   cryptKeyFile = "/etc/agenix/hdd-luks-crypt-key";
   unlockDisk = "data-encrypted";
