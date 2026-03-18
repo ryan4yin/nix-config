@@ -39,6 +39,7 @@
         # Use file provider to read the admin password from a file.
         # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#file-provider
         admin_password = "$__file{${config.age.secrets."grafana-admin-password".path}}";
+        secret_key = "$__file{${config.age.secrets."grafana-secret-key".path}}";
       };
       users = {
         allow_sign_up = false;

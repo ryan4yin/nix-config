@@ -203,6 +203,11 @@ in
           mode = "0400";
           owner = "grafana";
         };
+        "grafana-secret-key" = {
+          file = "${mysecrets}/server/grafana-secret-key.age";
+          mode = "0400";
+          owner = "grafana";
+        };
 
         "alertmanager.env" = {
           file = "${mysecrets}/server/alertmanager.env.age";
