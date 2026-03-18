@@ -134,9 +134,6 @@ cryptsetup luksOpen /dev/nvme0n1p6 crypted-nixos
 
 # show disk status
 lsblk
-
-# setup the automatic unlock via the tpm2 chip
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/nvme0n1p6
 ```
 
 Formatting the root partition:
