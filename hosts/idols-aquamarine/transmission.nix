@@ -1,6 +1,7 @@
 {
   config,
   myvars,
+  pkgs,
   ...
 }:
 let
@@ -13,6 +14,7 @@ in
   # https://wiki.archlinux.org/title/transmission
   services.transmission = {
     enable = true;
+    package = pkgs.transmission_4;
     user = name;
     group = name;
     home = dataDir;
