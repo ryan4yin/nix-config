@@ -2,13 +2,12 @@
   lib,
   config,
   pkgs,
-  pkgs-patched,
   wallpapers,
   ...
 }:
 
 let
-  package = pkgs-patched.noctalia-shell;
+  package = pkgs.noctalia-shell;
 in
 {
 
