@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   user = "sftpgo";
   dataDir = "/data/apps/sftpgo";
@@ -19,12 +19,14 @@ in
   # regardless of the creating process's primary group.
   systemd.tmpfiles.rules = [
     "d ${dataDir} 0755 ${user} ${user} -"
-    "d /data/fileshare/public 2775 root fileshare -"
   ];
 
   services.sftpgo = {
     enable = true;
     inherit user dataDir;
+    extraReadWriteDirs = [
+      "/data/fileshare"
+    ];
     extraArgs = [
       "--log-level"
       "info"

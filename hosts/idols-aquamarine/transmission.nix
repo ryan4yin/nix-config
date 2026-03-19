@@ -17,7 +17,14 @@ in
   # The setgid bit (2) causes all files created here to inherit the group
   # 'fileshare', regardless of which service creates them.
   systemd.tmpfiles.rules = [
+    # Keep shared parent owned by root to avoid tmpfiles "unsafe path transition"
+    # when another service creates subdirectories under /data/fileshare/public.
+    "d /data/fileshare 2775 root fileshare -"
+
     "d ${dataDir} 2775 ${name} fileshare -"
+    "d ${dataDir}/incomplete 2775 ${name} fileshare -"
+    "d ${dataDir}/downloads 2775 ${name} fileshare -"
+    "d ${dataDir}/watch 2775 ${name} fileshare -"
   ];
 
   # the headless Transmission BitTorrent daemon
@@ -28,9 +35,8 @@ in
     package = pkgs.transmission_4;
     user = name;
     group = name;
-    home = dataDir;
-    # 2770: setgid preserves fileshare group on download/incomplete dirs.
-    downloadDirPermissions = "2770";
+    # 2775: setgid preserves fileshare group on download/incomplete dirs.
+    downloadDirPermissions = "2775";
 
     # Whether to enable tweaking of kernel parameters to open many more connections at the same time.
     # Note that you may also want to increase peer-limit-global.
