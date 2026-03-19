@@ -13,7 +13,9 @@
     fsType = "davfs";
     options = [
       # https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html
-      "nofail,_netdev"
+      "nofail"
+      "_netdev" # Wait for network
+      "rw"
       "uid=1000,gid=100,dir_mode=0750,file_mode=0750"
     ];
   };

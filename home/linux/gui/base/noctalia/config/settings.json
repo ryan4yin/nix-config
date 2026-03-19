@@ -46,7 +46,7 @@
     "floating": false,
     "frameRadius": 12,
     "frameThickness": 8,
-    "hideOnOverview": false,
+    "hideOnOverview": true,
     "marginHorizontal": 5,
     "marginVertical": 5,
     "monitors": [],
