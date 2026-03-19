@@ -5,12 +5,21 @@ let
 in
 {
   # Read SFTPGO_DEFAULT_ADMIN_USERNAME and SFTPGO_DEFAULT_ADMIN_PASSWORD from a file
-  systemd.services.sftpgo.serviceConfig.EnvironmentFile = config.age.secrets."sftpgo.env".path;
+  systemd.services.sftpgo.serviceConfig = {
+    EnvironmentFile = config.age.secrets."sftpgo.env".path;
+  };
+
+  # Join the shared fileshare group (defined globally in user-group.nix) so
+  # sftpgo can read/write files created by transmission, and vice versa.
+  users.users.${user}.extraGroups = [ "fileshare" ];
 
   # Create Directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
+  # Mode 2775: setgid ensures new files/dirs inherit the 'fileshare' group
+  # regardless of the creating process's primary group.
   systemd.tmpfiles.rules = [
-    "d ${dataDir} 0755 ${user} ${user}"
+    "d ${dataDir} 0755 ${user} ${user} -"
+    "d /data/fileshare/public 2775 root fileshare -"
   ];
 
   services.sftpgo = {

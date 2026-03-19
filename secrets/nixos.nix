@@ -99,19 +99,11 @@ in
         }
         // noaccess;
 
-        # ---------------------------------------------
-        # only root can read this file.
-        # ---------------------------------------------
-
-        "wg-business.conf" = {
-          file = "${mysecrets}/wg-business.conf.age";
-        }
-        // high_security;
-
         # Used only by NixOS Modules
-        # smb-credentials is referenced in /etc/fstab, by ../hosts/ai/cifs-mount.nix
-        "smb-credentials" = {
-          file = "${mysecrets}/smb-credentials.age";
+
+        # referenced in /etc/fstab to mount davfs volume
+        "davfs-secrets" = {
+          file = "${mysecrets}/davfs-secrets.age";
         }
         // high_security;
 
@@ -138,11 +130,6 @@ in
 
       # place secrets in /etc/
       environment.etc = {
-        # wireguard config used with `wg-quick up wg-business`
-        "wireguard/wg-business.conf" = {
-          source = config.age.secrets."wg-business.conf".path;
-        };
-
         "agenix/rclone.conf" = {
           source = config.age.secrets."rclone.conf".path;
         };
