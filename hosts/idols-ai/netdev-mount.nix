@@ -4,7 +4,19 @@
 }:
 {
   # enable davfs2 driver for webdav
-  services.davfs2.enable = true;
+  services.davfs2 = {
+    enable = true;
+    # https://man.archlinux.org/man/davfs2.conf.5
+    settings = {
+      globalSection.use_locks = true;
+      sections = {
+        "/mnt/fileshare" = {
+          # try to get this information from all files in a directory with one PROPFIND request.
+          gui_optimize = true;
+        };
+      };
+    };
+  };
 
   # mount a webdav share
   # https://wiki.archlinux.org/title/Davfs2

@@ -48,6 +48,9 @@ in
 
       "/var/log"
 
+      # preserve davfs2 driver's cache to avoid large memory usage
+      "/var/cache/davfs2"
+
       # system-core
       "/var/lib/nixos"
       "/var/lib/systemd"
