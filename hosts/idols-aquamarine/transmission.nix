@@ -9,6 +9,17 @@ let
   name = "transmission";
 in
 {
+  # Join the shared fileshare group so transmission can read/write files
+  # created by sftpgo, and vice versa (via setgid directories).
+  users.users.${name}.extraGroups = [ "fileshare" ];
+
+  # Set up transmission's home dir with setgid + fileshare group ownership.
+  # The setgid bit (2) causes all files created here to inherit the group
+  # 'fileshare', regardless of which service creates them.
+  systemd.tmpfiles.rules = [
+    "d ${dataDir} 2775 ${name} fileshare -"
+  ];
+
   # the headless Transmission BitTorrent daemon
   # https://github.com/NixOS/nixpkgs/blob/nixos-25.11/nixos/modules/services/torrent/transmission.nix
   # https://wiki.archlinux.org/title/transmission
@@ -18,7 +29,8 @@ in
     user = name;
     group = name;
     home = dataDir;
-    downloadDirPermissions = "0770";
+    # 2770: setgid preserves fileshare group on download/incomplete dirs.
+    downloadDirPermissions = "2770";
 
     # Whether to enable tweaking of kernel parameters to open many more connections at the same time.
     # Note that you may also want to increase peer-limit-global.
