@@ -15,7 +15,7 @@ in
       # NOTE: Saving the password and OTP together runs counter to the purpose of secondary verification!
       # exts.pass-otp
 
-      exts.pass-import # a generic importer tool from other password managers
+      # exts.pass-import # a generic importer tool from other password managers
       exts.pass-update # an easy flow for updating passwords
     ]);
     # See the “Environment variables” section of pass(1) and the extension man pages for more information about the available keys.
