@@ -17,6 +17,7 @@
     nodev."/" = {
       fsType = "tmpfs";
       mountOptions = [
+        "size=4G"
         "relatime" # Update inode access times relative to modify/change time
         "mode=755"
       ];
