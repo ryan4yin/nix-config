@@ -25,7 +25,7 @@
         jsonnet
         jsonnet-language-server
         taplo # TOML language server / formatter / validator
-        nodePackages.yaml-language-server
+        yaml-language-server
         actionlint # GitHub Actions linter
 
         #-- dockerfile
@@ -120,18 +120,19 @@
           lua-language-server
 
           #-- bash
-          nodePackages.bash-language-server
+          bash-language-server
           shellcheck
           shfmt
         ]
       #-*- Web Development -*-#
       ++ [
-        nodePackages.nodejs
-        nodePackages.typescript
-        nodePackages.typescript-language-server
+        nodejs_24
+        pnpm
+        typescript
+        typescript-language-server
         # HTML/CSS/JSON/ESLint language servers extracted from vscode
-        nodePackages.vscode-langservers-extracted
-        nodePackages."@tailwindcss/language-server"
+        vscode-langservers-extracted
+        tailwindcss-language-server
         emmet-ls
       ]
       # -*- Lisp like Languages -*-#
@@ -152,7 +153,7 @@
         verible
 
         #-- Optional Requirements:
-        nodePackages.prettier # common code formatter
+        prettier # common code formatter
         fzf
         gdu # disk usage analyzer, required by AstroNvim
         (ripgrep.override { withPCRE2 = true; }) # recursively searches directories for a regex pattern
