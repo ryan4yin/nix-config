@@ -587,7 +587,7 @@
     "automationEnabled": true,
     "directory": "/home/ryan/Pictures/Wallpapers",
     "enableMultiMonitorDirectories": false,
-    "enabled": true,
+    "enabled": false,
     "favorites": [],
     "fillColor": "#000000",
     "fillMode": "crop",
