@@ -100,6 +100,7 @@ in
         # XDG Directories
         # ======================================
 
+        "Desktop"
         "Downloads"
         "Music"
         "Pictures"
