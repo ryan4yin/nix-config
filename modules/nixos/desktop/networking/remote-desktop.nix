@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     moonlight-qt # moonlight client, for streaming games/desktop from a PC
@@ -26,7 +26,7 @@
   #
   # ===============================================================================
   services.sunshine = {
-    enable = false; # default to false, for security reasons.
+    enable = lib.mkDefault false; # default to false, for security reasons.
     autoStart = true;
     capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
     openFirewall = true;
