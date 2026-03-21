@@ -18,10 +18,13 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 - MUST NOT read/write outside the approved workspace.
 - MUST NOT perform broad operations on the entire home directory.
-- MUST NOT run remote-mutating commands unless explicitly requested.
+- MUST NOT mutate remote Git state unless explicitly requested.
+  - Examples: `git push`, `git push --force`, creating/updating remote PRs.
+- MUST NOT auto-run remote-mutating commands unless explicitly requested.
   - Examples: `kubectl apply/delete`, `helm upgrade`, `terraform apply`, remote `ssh` mutation.
-- MUST NOT use destructive/force options unless explicitly requested.
-  - Examples: `--force`, `rm -rf`, `git reset --hard`, `git push --force`.
+- MUST NOT use destructive/force/delete options EVEN explicitly requested.
+  - Examples: `--force`, `rm -rf`, `git reset --hard`, `git push --force`, `gh repo delete`,
+    `gh issue delete`
 - MUST NOT expose or commit secrets (tokens, keys, kubeconfig credentials, passwords).
 
 ## 3) Security and Secrets Handling
@@ -46,21 +49,38 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 ## 6) Tooling Defaults
 
-- Prefer fast discovery tools (`rg`, `fd`) where available.
+- Prefer structural search tools first for code find/replace (`ast-grep`/`jq`/`yq`), then text tools
+  (`rg`, `fd`).
 - Prefer project task runners (`just`, `make`, `task`, `npm scripts`, etc.) over ad-hoc commands
   when equivalent.
-- If a required command is not already available, use only `nix run`, `nix shell`, the project's
-  `flake.nix`, or `shell.nix` to provide it.
+- If a required command is not already available, use only `nix run`, `flake.nix`/`shell.nix` or
+  `uv`/`pnpm` to provide it.
 - If that is still insufficient, stop and ask the user to prepare the environment instead of using
   any other installation method.
+- Use `gh` cli for github related operations.
 
-## 7) Communication Defaults
+## 7) Environment Defaults
+
+- Primary OS: NixOS.
+- Shell: default to `nushell`, `bash` also exists.
+
+## 8) Script Engineering Principles
+
+Treat scripts as interruptible jobs that must be diagnosable and safe to rerun:
+
+- Split workflows into explicit stages; allow running a selected stage via flags/arguments.
+- Make reruns idempotent; persist progress after each stage and support resume.
+- Cache external data with invalidation strategy to speed retries and improve reproducibility.
+- For HTTP flows, separate transport success from business success; support retry/backoff.
+- Provide independent verification commands/checks for key outputs (counts, samples, invariants).
+
+## 9) Communication Defaults
 
 - Respond in the language the user is currently using, prefer English & Chinese.
 - Code, commands, identifiers, and code comments: English.
 - Be concise, concrete, and action-oriented.
 
-## 8) Project Overlay
+## 10) Project Overlay
 
 Project-local policy may add stricter constraints (build/test/deploy/style/ownership/environment).
 It must not weaken this baseline.
