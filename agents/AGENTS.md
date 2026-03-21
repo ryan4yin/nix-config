@@ -22,7 +22,7 @@ If rules conflict, follow the higher-priority source and state the conflict brie
   - Examples: `git push`, creating/updating remote PRs/Issues via `gh`.
 - MUST NOT auto-run remote-mutating commands unless explicitly requested.
   - Examples: `kubectl apply/delete`, `helm upgrade`, `terraform apply`, remote `ssh` mutation.
-- MUST NOT use destructive/force/delete options EVEN explicitly requested.
+- MUST NOT use destructive/force/delete options EVEN if explicitly requested.
   - Examples: `--force`, `rm -rf`, `git reset --hard`, `gh repo delete`, `terraform destroy`
 - MUST NOT expose or commit secrets (tokens, keys, kubeconfig credentials, passwords).
 
