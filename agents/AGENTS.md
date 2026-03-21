@@ -19,12 +19,11 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 - MUST NOT read/write outside the approved workspace.
 - MUST NOT perform broad operations on the entire home directory.
 - MUST NOT mutate remote Git state unless explicitly requested.
-  - Examples: `git push`, `git push --force`, creating/updating remote PRs.
+  - Examples: `git push`, creating/updating remote PRs/Issues via `gh`.
 - MUST NOT auto-run remote-mutating commands unless explicitly requested.
   - Examples: `kubectl apply/delete`, `helm upgrade`, `terraform apply`, remote `ssh` mutation.
 - MUST NOT use destructive/force/delete options EVEN explicitly requested.
-  - Examples: `--force`, `rm -rf`, `git reset --hard`, `git push --force`, `gh repo delete`,
-    `gh issue delete`
+  - Examples: `--force`, `rm -rf`, `git reset --hard`, `gh repo delete`, `terraform destroy`
 - MUST NOT expose or commit secrets (tokens, keys, kubeconfig credentials, passwords).
 
 ## 3) Security and Secrets Handling
