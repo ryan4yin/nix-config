@@ -130,6 +130,7 @@
         pnpm
         typescript
         typescript-language-server
+        bun
         # HTML/CSS/JSON/ESLint language servers extracted from vscode
         vscode-langservers-extracted
         tailwindcss-language-server
