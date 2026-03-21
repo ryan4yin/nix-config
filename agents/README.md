@@ -1,59 +1,24 @@
 # agents
 
-This directory is a reusable home for agent-related files that can be shared across projects.
+Reusable, symlink-first agent resources shared across projects.
 
-The intended use is to symlink or copy files from here into different agent config directories,
-skill folders, or other agent runtimes. Treat it as a portable source of truth for important agent
-behavior and supporting materials.
+This directory is the canonical source for baseline agent rules and supporting command references.
+The primary workflow is to symlink files from here into each agent runtime/config location.
 
-It is intended to be a personal collection similar in spirit to
-[`github/awesome-copilot`](https://github.com/github/awesome-copilot), but maintained for my own
-agents, workflows, and preferences.
+## What this directory contains
 
-## Use Cases
+- `AGENTS.md`: global baseline rules for coding agents.
+- `install-rules.py`: installs the baseline by creating symlinks in supported agent config dirs.
+- `install-cli.md`: curated CLI install/update command snippets.
+- `install-skills.md`: curated `npx skills` command snippets.
 
-- shared agent rules
-- reusable prompts
-- skill definitions
-- agent templates
-- instruction packs
-- workflow notes
-- setup helpers
-- environment preparation docs
+## Core workflow
 
-## Current Files
+1. Maintain shared rules in `agents/AGENTS.md`.
+2. Run `install-rules.py` to refresh symlinks in local agent homes.
+3. Use `install-cli.md` and `install-skills.md` as reference snippets when needed.
 
-- `AGENTS.md`: baseline rules and operating constraints for agents.
-- `install-rules.py`: symlinks `AGENTS.md` into supported agent config directories.
-- `install-cli.sh`: command snippets for installing/updating common agent CLIs.
-- `install-skills.sh`: command snippets for listing/installing/updating shared skills.
-
-## Guidelines
-
-- Keep files portable across repositories when possible.
-- Prefer plain text and small reviewable files.
-- Document assumptions that downstream agent setups need to know.
-- Keep secrets and machine-specific credentials out of this directory.
-- Prefer reusable materials that can be copied, symlinked, or adapted by multiple agents.
-
-## Distribution
-
-You can:
-
-- symlink files from this directory into an agent's config or skills folder
-- copy selected files into another agent environment
-- treat this directory as the canonical source and sync outward from it
-
-## Utilities
-
-### Install shared baseline rules
-
-`install-rules.py` currently targets:
-
-- Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
-- OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
-- Claude Code: `AGENTS.md` -> `~/.claude/CLAUDE.md`
-- Gemini: `AGENTS.md` -> `~/.gemini/GEMINI.md`
+## Install baseline rules (symlink-based)
 
 Run:
 
@@ -61,29 +26,33 @@ Run:
 python3 agents/install-rules.py
 ```
 
-Notes:
+Current targets:
 
-- each target is handled independently
-- missing target directories are skipped
-- existing target file/symlink is replaced with a symlink to this repo copy
+- Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
+- OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
+- Claude Code: `AGENTS.md` -> `~/.claude/CLAUDE.md`
+- Gemini: `AGENTS.md` -> `~/.gemini/GEMINI.md`
 
-### Install or update agent CLIs
+Behavior:
 
-`install-cli.sh` is a command list (review before running):
+- Each target is handled independently.
+- Missing destination directories are skipped.
+- Existing destination file/symlink is replaced with a symlink to this repo source file.
 
-```bash
-bash agents/install-cli.sh
-```
+## About `install-cli.md` and `install-skills.md`
 
-### Install or update shared skills
+Use them as snippet libraries:
 
-`install-skills.sh` is a command list for `npx skills` workflows:
+- review the commands
+- select what you need
+- run selected commands manually
 
-```bash
-bash agents/install-skills.sh
-```
+## Conventions
+
+- Keep files portable and reviewable.
+- Keep secrets and machine-specific credentials out of this directory.
+- Keep guidance generic enough to reuse across multiple agent environments.
 
 ## Goal
 
-Build a personal, reusable library of agent resources that is easy to share across environments and
-easy to extend over time.
+Maintain one reusable source of truth for agent setup that stays simple to sync and easy to evolve.
