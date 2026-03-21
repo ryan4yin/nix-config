@@ -57,7 +57,7 @@ If rules conflict, follow the higher-priority source and state the conflict brie
   `uv`/`pnpm` to provide it.
 - If that is still insufficient, stop and ask the user to prepare the environment instead of using
   any other installation method.
-- Use `gh` cli for github related operations.
+- Use `gh` CLI for GitHub operations, especially code/PR/issue search and inspection.
 
 ## 7) Environment Defaults
 
