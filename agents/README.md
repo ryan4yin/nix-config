@@ -24,7 +24,9 @@ agents, workflows, and preferences.
 ## Current Files
 
 - `AGENTS.md`: baseline rules and operating constraints for agents.
-- `install-agents.py`: installs shared agent files into supported agent config directories.
+- `install-rules.py`: symlinks `AGENTS.md` into supported agent config directories.
+- `install-cli.sh`: command snippets for installing/updating common agent CLIs.
+- `install-skills.sh`: command snippets for listing/installing/updating shared skills.
 
 ## Guidelines
 
@@ -42,23 +44,44 @@ You can:
 - copy selected files into another agent environment
 - treat this directory as the canonical source and sync outward from it
 
-## Installation
+## Utilities
 
-Current install targets:
+### Install shared baseline rules
 
-- Codex: `AGENTS.md` -> `~/.codex/AGENTS.md`
-- OpenCode: `AGENTS.md` -> `~/.config/opencode/AGENTS.md`
+`install-rules.py` currently targets:
+
+- Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
+- OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
 - Claude Code: `AGENTS.md` -> `~/.claude/CLAUDE.md`
 - Gemini: `AGENTS.md` -> `~/.gemini/GEMINI.md`
 
 Run:
 
 ```bash
-python3 agents/install-agents.py
+python3 agents/install-rules.py
 ```
 
-The installer handles each target independently and skips it if the destination directory does not
-already exist.
+Notes:
+
+- each target is handled independently
+- missing target directories are skipped
+- existing target file/symlink is replaced with a symlink to this repo copy
+
+### Install or update agent CLIs
+
+`install-cli.sh` is a command list (review before running):
+
+```bash
+bash agents/install-cli.sh
+```
+
+### Install or update shared skills
+
+`install-skills.sh` is a command list for `npx skills` workflows:
+
+```bash
+bash agents/install-skills.sh
+```
 
 ## Goal
 
