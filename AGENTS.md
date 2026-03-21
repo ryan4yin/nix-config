@@ -28,6 +28,7 @@ High-level layout:
 ├── hosts/                       # Host-specific config
 ├── vars/                        # Shared variables
 ├── lib/                         # Helper functions
+├── agents/                      # Reusable cross-project agent files and installer
 └── secrets/                     # Agenix secret definitions
 ```
 
@@ -194,6 +195,7 @@ Before finishing, verify:
 ## References
 
 - [README.md](./README.md)
+- [agents/README.md](./agents/README.md)
 - [Justfile](./Justfile)
 - [outputs/README.md](./outputs/README.md)
 - [hosts/README.md](./hosts/README.md)

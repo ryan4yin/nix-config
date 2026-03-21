@@ -93,6 +93,10 @@ See [./home/base/tui/editors/neovim/](./home/base/tui/editors/neovim/) for detai
 
 See [./secrets](./secrets) for details.
 
+## Agents
+
+See [./agents](./agents) for my reusable cross-project agent files and installer script.
+
 ## How to Deploy this Flake?
 
 <!-- prettier-ignore -->
