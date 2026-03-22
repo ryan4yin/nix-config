@@ -335,7 +335,7 @@ list-systemd:
 
 [group('github')]
 gh-login:
-  gh auth login -h github.com --skip-ssh-key --git-protocol ssh --web
+  gh auth login -h github.com --skip-ssh-key --git-protocol ssh
 
 # Run nixpkgs-review for PR
 [group('nixpkgs')]

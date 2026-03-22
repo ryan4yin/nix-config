@@ -16,25 +16,7 @@
 
   # GitHub CLI tool
   # https://cli.github.com/manual/
-  programs.gh = {
-    enable = true;
-    settings = {
-      git_protocol = "ssh";
-      prompt = "enabled";
-      aliases = {
-        co = "pr checkout";
-        pv = "pr view";
-      };
-    };
-    hosts = {
-      "github.com" = {
-        "users" = {
-          "ryan4yin" = null;
-        };
-        "user" = "ryan4yin";
-      };
-    };
-  };
+  programs.gh.enable = true;
 
   programs.git = {
     enable = true;
