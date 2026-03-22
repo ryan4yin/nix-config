@@ -36,13 +36,13 @@ npx skills add vercel-labs/agent-skills --list
 npx skills add -g obra/superpowers --agent '*' --skill '*'
 
 # github skills
-npx skills add -g github/awesome-copilot --agent '*' --skill 'git-commit'
+npx skills add -g github/awesome-copilot --agent '*' --skill 'git-commit' --skill 'gh-cli'
 
 # find skills
 npx skills add -g vercel-labs/skills --agent '*'
 
-# skill-creator
-npx skills add -g anthropics/skills --agent '*' --skill 'skill-creator'
+# anthropic skills
+npx skills add -g anthropics/skills --agent '*' --skill 'skill-creator' --skill 'pdf'
 ```
 
 ## Optional packs
