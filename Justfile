@@ -44,14 +44,14 @@ history:
 repl:
   nix repl -f flake:nixpkgs
 
-# remove all generations older than 7 days
+# remove all old generations
 # on darwin, you may need to switch to root user to run this command
 [group('nix')]
 clean:
   # Wipe out NixOS's history
-  sudo nix profile wipe-history --profile /nix/var/nix/profiles/system  --older-than 7d
+  sudo nix profile wipe-history --profile /nix/var/nix/profiles/system
   # Wipe out home-manager's history
-  nix profile wipe-history --profile $"($env.XDG_STATE_HOME)/nix/profiles/home-manager" --older-than 7d
+  nix profile wipe-history --profile $"($env.XDG_STATE_HOME)/nix/profiles/home-manager"
 
 # Garbage collect all unused nix store entries
 [group('nix')]
@@ -328,30 +328,26 @@ list-systemd:
 
 # =================================================
 #
-# Nixpkgs Review via Github Action
+# GitHub CLI + Nixpkgs Review via Github Action
 # https://github.com/ryan4yin/nixpkgs-review-gha
 #
 # =================================================
 
-[linux]
-[group('nixpkgs')]
+[group('github')]
 gh-login:
   gh auth login -h github.com --skip-ssh-key --git-protocol ssh --web
 
 # Run nixpkgs-review for PR
-[linux]
 [group('nixpkgs')]
 pkg-review pr:
   gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f x86_64-darwin=no -f post-result=true -f pr={{pr}}
 
 # Run package tests for PR
-[linux]
 [group('nixpkgs')]
 pkg-test pr pname:
   gh workflow run review.yml --repo ryan4yin/nixpkgs-review-gha -f x86_64-darwin=no -f post-result=true -f pr={{pr}} -f extra-args="-p {{pname}}.passthru.tests"
 
 # View the summary of a workflow
-[linux]
 [group('nixpkgs')]
 pkg-summary:
   gh workflow view review.yml --repo ryan4yin/nixpkgs-review-gha
