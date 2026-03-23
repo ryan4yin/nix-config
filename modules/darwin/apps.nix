@@ -123,6 +123,9 @@ in
       "wireguard-tools" # wireguard
       "container" # https://github.com/apple/container
 
+      # ai
+      "cursor-cli"
+
       # Usage:
       #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
       # 1. `sudo tailscaled install-system-daemon`
