@@ -26,6 +26,9 @@ home/
 │   │   └── ...
 │   ├── editors/       # Linux-specific editors
 │   └── ...
+├── hosts/             # Host-specific home manager entry modules
+│   ├── linux/         # Linux host home modules (ai, shoukei, k3s-*, etc.)
+│   └── darwin/        # macOS host home modules (fern, frieren)
 └── darwin/            # macOS-specific home manager configurations
     ├── aerospace/     # macOS window manager
     ├── proxy/         # Proxy configurations
@@ -46,3 +49,8 @@ home/
 3. **darwin**: macOS-specific configuration
    - macOS applications and services
    - Platform-specific integrations (Aerospace, Squirrel, etc.)
+
+4. **hosts**: Host entry modules for Home Manager
+   - Each output should reference only one host home module file
+   - Host modules are responsible for importing shared stacks (`home/linux/*` or `home/darwin`) and
+     applying host overrides

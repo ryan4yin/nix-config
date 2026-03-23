@@ -36,18 +36,9 @@ let
           modules.desktop.gaming.enable = true;
         }
       ];
-    home-modules =
-      (map mylib.relativeToRoot [
-        # common
-        "home/linux/gui.nix"
-        # host specific
-        "hosts/idols-${name}/home.nix"
-      ])
-      ++ [
-        {
-          modules.desktop.gaming.enable = true;
-        }
-      ];
+    home-modules = map mylib.relativeToRoot [
+      "home/hosts/linux/idols-${name}.nix"
+    ];
   };
 
   modules-niri = {
@@ -55,10 +46,7 @@ let
       { programs.niri.enable = true; }
     ]
     ++ base-modules.nixos-modules;
-    home-modules = [
-      { modules.desktop.niri.enable = true; }
-    ]
-    ++ base-modules.home-modules;
+    home-modules = base-modules.home-modules;
   };
 in
 {

@@ -33,7 +33,7 @@ let
       ];
     home-modules = map mylib.relativeToRoot [
       # host specific
-      "hosts/idols-${name}/home.nix"
+      "home/hosts/linux/idols-${name}.nix"
     ];
   };
 

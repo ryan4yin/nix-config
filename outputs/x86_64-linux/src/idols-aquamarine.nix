@@ -36,7 +36,7 @@ let
         { modules.secrets.server.storage.enable = true; }
       ];
     home-modules = map mylib.relativeToRoot [
-      "home/linux/tui.nix"
+      "home/hosts/linux/idols-${name}.nix"
     ];
   };
 
