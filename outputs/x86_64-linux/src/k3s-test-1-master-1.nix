@@ -29,7 +29,7 @@ let
         { modules.secrets.server.kubernetes.enable = true; }
       ];
     home-modules = map mylib.relativeToRoot [
-      "home/linux/core.nix"
+      "home/hosts/linux/${name}.nix"
     ];
   };
 
