@@ -28,7 +28,7 @@ let
         }
       ];
     home-modules = map mylib.relativeToRoot [
-      "hosts/darwin-${name}/home.nix"
+      "home/darwin/hosts/darwin-${name}.nix"
       "home/darwin"
     ];
   };
