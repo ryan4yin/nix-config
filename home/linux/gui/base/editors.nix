@@ -16,6 +16,7 @@ in
 {
   home.packages = [
     pkgs-master.code-cursor
+    pkgs-master.cursor-cli
   ];
 
   programs.vscode = {

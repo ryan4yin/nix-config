@@ -137,8 +137,9 @@ in
         ".vscode"
         ".config/Code"
 
-        # cursor ai editor
+        # cursor ai editor / cli
         ".cursor"
+        ".config/cursor"
         ".config/Cursor"
 
         # ai agents
