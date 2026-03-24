@@ -123,9 +123,6 @@ in
       "wireguard-tools" # wireguard
       "container" # https://github.com/apple/container
 
-      # ai
-      "cursor-cli"
-
       # Usage:
       #  https://github.com/tailscale/tailscale/wiki/Tailscaled-on-macOS#run-the-tailscaled-daemon
       # 1. `sudo tailscaled install-system-daemon`
@@ -159,6 +156,7 @@ in
       # code editor
       "visual-studio-code"
       "cursor" # cursor ai editor
+      "cursor-cli"
       "claude-code"
 
       "nikitabobko/tap/aerospace" # an i3-like tiling window manager for macOS
