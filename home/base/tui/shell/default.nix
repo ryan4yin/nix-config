@@ -13,6 +13,7 @@
       source /etc/agenix/alias-for-work.nushell
 
       $env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"
+      $env.CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
       # using claude-code with kimi llm
       # https://platform.moonshot.cn/docs/guide/agent-support
       # $env.ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic/"
