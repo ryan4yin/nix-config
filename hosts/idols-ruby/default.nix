@@ -18,6 +18,7 @@ in
 {
   imports = [
     ./packages.nix
+    ./oci-containers
   ];
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
