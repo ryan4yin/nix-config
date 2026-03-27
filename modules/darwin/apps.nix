@@ -155,7 +155,6 @@ in
 
       # code editor
       "visual-studio-code"
-      "cursor" # cursor ai editor
       "cursor-cli"
       "claude-code"
 
