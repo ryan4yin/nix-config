@@ -25,6 +25,12 @@
       # Astronomy
       stellarium # See what you can see with your eyes, binoculars or a small telescope.
       celestia # Real-time 3D simulation of space, travel throughout the solar system.
+
+      # office
+      libreoffice-qt-still
+      hunspell # spell check for libreoffice
+      hunspellDicts.en_US # USA English
+      hyphenDicts.en_GB # British English
     ]
     ++ (lib.optionals pkgs.stdenv.isx86_64 [
       # https://github.com/edolstra/nix-warez/blob/master/blender/flake.nix
