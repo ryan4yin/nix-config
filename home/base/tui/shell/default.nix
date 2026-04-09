@@ -18,14 +18,16 @@
       # https://platform.moonshot.cn/docs/guide/agent-support
       # $env.ANTHROPIC_BASE_URL = "https://api.moonshot.cn/anthropic/"
       # $env.ANTHROPIC_AUTH_TOKEN = $env.MOONSHOT_API_KEY
-      # $env.ANTHROPIC_MODEL = "kimi-k2-thinking"
-      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "kimi-k2-thinking-turbo"
+      # $env.ANTHROPIC_DEFAULT_OPUS_MODEL = "kimi-k2.5"
+      # $env.ANTHROPIC_DEFAULT_SONNET_MODEL = "kimi-k2.5"
+      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "kimi-k2.5"
 
       # using claude-code with glm llm
       # https://docs.bigmodel.cn/cn/coding-plan/tool/claude
       # $env.ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/anthropic"
       # $env.ANTHROPIC_AUTH_TOKEN = $env.ZAI_API_KEY
-      # $env.ANTHROPIC_MODEL = "glm-4.7"
+      # $env.ANTHROPIC_DEFAULT_OPUS_MODEL = "glm-5.1"
+      # $env.ANTHROPIC_DEFAULT_SONNET_MODEL = "glm-5-turbo"
       # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-air"
 
       # using claude-code with minimax llm
@@ -33,7 +35,8 @@
       # $env.ANTHROPIC_BASE_URL = "https://api.minimax.io/anthropic"
       # $env.ANTHROPIC_AUTH_TOKEN = $env.MINIMAX_API_KEY
       # $env.ANTHROPIC_MODEL = "MiniMax-M2.7"
-      # $env.ANTHROPIC_SMALL_FAST_MODEL = "MiniMax-M2.7"
+      # $env.ANTHROPIC_DEFAULT_OPUS_MODEL = "MiniMax-M2.7"
+      # $env.ANTHROPIC_DEFAULT_SONNET_MODEL = "MiniMax-M2.7"
       # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "MiniMax-M2.7"
 
 
