@@ -74,6 +74,12 @@ shell:
 shell:
   nix shell nixpkgs#git nixpkgs#neovim
 
+# upgrade determinate nix
+[macos]
+[group('nix')]
+nix-upgrade:
+  sudo determinate-nixd upgrade
+
 [group('nix')]
 fmt:
   # format the nix files in this repo
