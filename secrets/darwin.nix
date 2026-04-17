@@ -57,11 +57,6 @@
       # only root can read this file.
       # ---------------------------------------------
 
-      "wg-business.conf" = {
-        file = "${mysecrets}/wg-business.conf.age";
-      }
-      // high_security;
-
       "rclone.conf" = {
         file = "${mysecrets}/rclone.conf.age";
       }
@@ -92,12 +87,6 @@
   # place secrets in /etc/
   # NOTE: this will fail for the first time. cause it's running before "activate-agenix"
   environment.etc = {
-    # wireguard config used with `wg-quick up wg-business`
-    # Fix DNS for WireGuard on macOS: https://github.com/ryan4yin/nix-config/issues/5
-    "wireguard/wg-business.conf" = {
-      source = config.age.secrets."wg-business.conf".path;
-    };
-
     "agenix/rclone.conf" = {
       source = config.age.secrets."rclone.conf".path;
     };
