@@ -1,13 +1,22 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  modulesPath,
+  ...
+}:
+{
+
+  imports = [
+    (modulesPath + "/hardware/cpu/intel-npu.nix")
+  ];
+
+  # Intel NPU support
+  hardware.cpu.intel.npu.enable = true;
+
   # kvm virtualization support
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModprobeConfig = "options kvm_intel nested=1";
   boot.extraModulePackages = [ ];
-
-  # Intel NPU support
-  hardware.cpu.intel.npu.enable = true;
 
   # Intel Graphics
   # https://wiki.nixos.org/wiki/Intel_Graphics

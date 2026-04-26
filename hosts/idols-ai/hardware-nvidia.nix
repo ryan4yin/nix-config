@@ -11,13 +11,21 @@
   # https://wiki.hyprland.org/Nvidia/
   # ===============================================================================================
 
-  # We use Intel's integrated card for display, Nvidia for Compute only.
-  # boot.kernelParams = [
-  #   # Since NVIDIA does not load kernel mode setting by default,
-  #   # enabling it is required to make Wayland compositors function properly.
-  #   "nvidia-drm.fbdev=1"
-  # ];
-  # services.xserver.videoDrivers = [ "nvidia" ]; # will install nvidia-vaapi-driver by default
+  # Hybrid graphics with PRIME[integrated GPU (iGPU) + dedicated GPU (dGPU)]
+  hardware.nvidia.prime = {
+    # puts dGPU(Nvidia) to sleep and lets the iGPU handle all tasks by default.
+    offload.enable = true;
+
+    intelBusId = "PCI:0@0:2:0";
+    nvidiaBusId = "PCI:2@0:0:0";
+  };
+
+  boot.kernelParams = [
+    # Since NVIDIA does not load kernel mode setting by default,
+    # enabling it is required to make Wayland compositors function properly.
+    "nvidia-drm.fbdev=1"
+  ];
+  services.xserver.videoDrivers = [ "nvidia" ]; # will install nvidia-vaapi-driver by default
 
   hardware.nvidia = {
     # Open-source kernel modules are preferred over and planned to steadily replace proprietary modules
