@@ -9,7 +9,7 @@ in
 
   modules.desktop.gaming.enable = true;
   modules.desktop.niri.enable = true;
-  modules.desktop.nvidia.enable = true;
+  modules.desktop.nvidia.enable = false;
 
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/idols-ai/niri-hardware.kdl";

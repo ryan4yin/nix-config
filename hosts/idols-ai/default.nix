@@ -27,11 +27,14 @@ in
 
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./nvidia.nix
-    ./ai
+    ./hardware-intel.nix
+    ./hardware-nvidia.nix
 
     ./preservation.nix
     ./secureboot.nix
+
+    # others
+    ./ai
   ];
 
   # Zram consumes physical memory for compression, which can cause a deadlock and system hang if the model size approaches the physical memory limit.

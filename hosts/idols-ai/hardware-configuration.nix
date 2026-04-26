@@ -51,10 +51,6 @@
     "usb_storage"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ]; # kvm virtualization support
-  boot.extraModprobeConfig = "options kvm_intel nested=1"; # for intel cpu
-  boot.extraModulePackages = [ ];
   # clear /tmp on boot to get a stateless /tmp directory.
   boot.tmp.cleanOnBoot = true;
 
