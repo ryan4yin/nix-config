@@ -38,7 +38,7 @@ rec {
     # ============================================
     ai = {
       # Desktop PC
-      iface = "enp5s0";
+      iface = "enp130s0";
       ipv4 = "192.168.5.100";
       ipv6 = "fe80::10"; # Link-local Address
     };
