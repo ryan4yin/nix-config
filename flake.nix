@@ -137,13 +137,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    helix = {
-      # Helix with steel as plugin system
-      # https://github.com/helix-editor/helix/pull/8675
-      url = "github:mattwparas/helix/steel-event-system";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # AI coding agents
     llm-agents.url = "github:numtide/llm-agents.nix";
 
