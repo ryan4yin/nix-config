@@ -100,7 +100,7 @@
           gomodifytags
           iferr # generate error handling code for go
           impl # generate function implementation for go
-          gotools # contains tools like: godoc, goimports, etc.
+          # gotools # contains tools like: godoc, goimports, etc.
           gopls # go language server
           delve # go debugger
 
