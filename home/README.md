@@ -15,7 +15,7 @@ home/
 │   │   ├── terminal/  # Terminal emulators (Kitty, Alacritty, etc.)
 │   │   └── ...
 │   ├── tui/           # Terminal/TUI applications
-│   │   ├── editors/   # TUI editors and related tools
+│   │   ├── editors/   # Heavy editor/tooling pkgs only (`packages.nix`; core editors live under `core/editors`)
 │   │   ├── encryption/ # GPG, password-store, etc.
 │   │   └── ...
 │   └── home.nix       # Main home manager entry point

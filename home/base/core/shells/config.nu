@@ -78,9 +78,9 @@ $env.config.recursion_limit = 50
 $env.config.edit_mode = "vi"
 
 # Command that will be used to edit the current line buffer with Ctrl+O.
-# If unset, uses $env.VISUAL and then $env.EDITOR
+# If unset, uses $env.VISUAL and then $env.EDITOR ($EDITOR is `hx` via session-env).
 #
-$env.config.buffer_editor = ["nvim", "--clean"]
+$env.config.buffer_editor = ["hx"]
 
 # cursor_shape_* (string)
 # -----------------------

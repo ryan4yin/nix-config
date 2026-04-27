@@ -87,7 +87,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## Neovim
 
-See [./home/base/tui/editors/neovim/](./home/base/tui/editors/neovim/) for details.
+See [./home/base/core/editors/neovim/](./home/base/core/editors/neovim/) for details.
 
 ## Secrets Management
 

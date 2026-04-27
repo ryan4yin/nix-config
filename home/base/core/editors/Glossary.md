@@ -71,5 +71,3 @@ Linting is distinct from Formatting because:
 
 Formatters and Linters process each file independently, they do not need to know about other files
 in the project.
-
-- [ ]
