@@ -30,6 +30,12 @@ in
     enable = true;
     package = pkgs.neovim-unwrapped;
 
+    # Whole `~/.config/nvim` is an out-of-store symlink (see `xdg.configFile.nvim` above).
+    # Home Manager's neovim module also wants to write `nvim/init.lua` for nix-managed plugins;
+    # that parent/child conflict makes the files builder fail with a misleading
+    # "Error installing file '.config/nvim/init.lua' outside $HOME" (see HM issues #5175, #5982).
+    sideloadInitLua = true;
+
     # defaultEditor = true; # set EDITOR at system-wide level
     viAlias = true;
     vimAlias = true;
