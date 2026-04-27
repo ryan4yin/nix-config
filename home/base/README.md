@@ -10,9 +10,7 @@ systems.
 - **core/**: Essential cross-platform configurations
   - **core.nix**: Minimal home-manager configuration
   - **shells/**: Shell configurations (bash, zsh, fish, nu)
-  - **editors/**: Text editor configurations
-    - **neovim/**: Neovim with custom plugins and settings
-    - **helix/**: Helix editor configuration
+  - **editors/**: Helix + Neovim (Home Manager) and usage docs (`README.md` per editor)
   - **btop.nix**: System monitoring tools
   - **git.nix**: Git configuration and aliases
   - **npm.nix**: Node.js package management
@@ -39,7 +37,7 @@ systems.
   - **cloud/**: Cloud development tools (Terraform, etc.)
   - **container.nix**: Container tools (Docker, Podman)
   - **dev-tools.nix**: Terminal-based development tools
-  - **editors/**: Terminal editor configurations
+  - **editors/**: Extra terminal editor Nix (see `core/editors/` for docs and baseline enables)
   - **encryption/**: Encryption and security tools
   - **gpg/**: GPG key management
   - **password-store/**: Password management with pass

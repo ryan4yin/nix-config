@@ -67,7 +67,7 @@ You don't have to go through the pain I've experienced again! Check out my
 | **File Manager**                                               | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
 | **Shell**                                                      | [Nushell][Nushell] + [Starship][Starship]                                                                           |
 | **Media Player**                                               | [mpv][mpv]                                                                                                          |
-| **Text Editor**                                                | [Neovim][Neovim]                                                                                                    |
+| **Editors / IDE**                                              | [Helix][Helix] (primary), [Neovim][Neovim] (backup) — [configuration & usage](./home/base/core/editors/)            |
 | **Fonts**                                                      | [Nerd fonts][Nerd fonts]                                                                                            |
 | **Image Viewer**                                               | [imv][imv]                                                                                                          |
 | **Screenshot Software**                                        | Niri's builtin function                                                                                             |
@@ -85,9 +85,14 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ![nvim](./_img/2026-01-04_niri-noctalia_nvim.webp)
 
-## Neovim
+## Editors / IDE
 
-See [./home/base/tui/editors/neovim/](./home/base/tui/editors/neovim/) for details.
+- **Terminal editors:** [./home/base/core/editors/](./home/base/core/editors/) — Helix / Neovim,
+  `$EDITOR`, docs.
+- **VS Code (GUI, Home Manager on NixOS):**
+  [./home/linux/gui/base/editors.nix](./home/linux/gui/base/editors.nix).
+- **LLM coding agents:** [./agents](./agents/) — rules, installers, CLI snippets; see
+  [./agents/README.md](./agents/README.md).
 
 ## Secrets Management
 
@@ -95,7 +100,7 @@ See [./secrets](./secrets) for details.
 
 ## Agents
 
-See [./agents](./agents) for my reusable cross-project agent files and installer script.
+Reusable coding-agent rules and installers: [./agents](./agents/) · [README](./agents/README.md).
 
 ## How to Deploy this Flake?
 
@@ -181,6 +186,7 @@ Other dotfiles that inspired me:
 [Btop]: https://github.com/aristocratos/btop
 [mpv]: https://github.com/mpv-player/mpv
 [Zellij]: https://github.com/zellij-org/zellij
+[Helix]: https://github.com/helix-editor/helix
 [Neovim]: https://github.com/neovim/neovim
 [AstroNvim]: https://github.com/AstroNvim/AstroNvim
 [imv]: https://sr.ht/~exec64/imv/

@@ -1,14 +1,19 @@
 { pkgs, ... }:
 {
-  # for security reasons, do not load neovim's user config
-  # since EDITOR may be used to edit some critical files
-  environment.variables.EDITOR = "nvim --clean";
+  # Default editor: Helix (`hx`). Privileged edits (`sudoedit`, …) prefer `nvim --clean`
+  # via `SUDO_EDITOR`; invoke `nvim --clean` manually for other sensitive workflows.
+  environment.variables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+    SUDO_EDITOR = "nvim --clean";
+  };
 
   environment.systemPackages = with pkgs; [
     # core tools
     nushell # nushell
     fastfetch
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    helix # default $EDITOR (`hx`)
+    neovim # backup editor; `nvim --clean` for sensitive / privileged edits (`$SUDO_EDITOR`)
     gnumake # Makefile
     just # a command runner like gnumake, but simpler
     git # used by nix flakes
