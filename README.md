@@ -98,10 +98,6 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 See [./secrets](./secrets) for details.
 
-## Agents
-
-Reusable coding-agent rules and installers: [./agents](./agents/) · [README](./agents/README.md).
-
 ## How to Deploy this Flake?
 
 <!-- prettier-ignore -->
