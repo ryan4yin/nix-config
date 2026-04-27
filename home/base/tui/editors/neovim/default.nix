@@ -19,7 +19,7 @@ let
   configPath = "${config.home.homeDirectory}/nix-config/home/base/tui/editors/neovim/nvim";
 in
 {
-  # xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink configPath;
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink configPath;
   # Disable catppuccin to avoid conflict with my non-nix config.
   catppuccin.nvim.enable = false;
 
