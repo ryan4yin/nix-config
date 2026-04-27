@@ -23,6 +23,9 @@ multi-cursor, surround), and a smaller moving part than a large Neovim plugin st
 1. Prefer **Zellij** for shells and panes; use **Helix** for buffers and text.
 1. On large codebases, navigation is often **by picker** (`Space f`, symbols, workspace search) or
    **by LSP** (`g` goto mode), complementing motion-based editing.
+1. After **git** operations (`checkout`, `merge`, `pull`, `rebase`) or whenever many files changed
+   on disk, run **`:reload-all`** (alias **`:rla`**) so every open buffer is refreshed from disk in
+   one step — much faster than revisiting each file or restarting Helix.
 
 ## Tutorial
 
@@ -46,22 +49,27 @@ Zellij shortcuts used often (same idea as in the Neovim notes):
 
 In Helix, `|` / `!` and variants pipe or insert shell output on selections (see **Changes**).
 
+This flake’s Helix Home Manager module keeps **almost all default keys**; the only remap is
+**`Ctrl+Shift+o`** → jump backward, because Zellij uses **`Ctrl+o`** for Session (see
+`home/base/core/editors/helix/default.nix`). For other Zellij clashes, use **locked mode**
+(`Ctrl+g`), **`:`** commands, or the built-in **`Space`** menu.
+
 ### Command mode (`:`)
 
 > <https://docs.helix-editor.com/commands.html>
 
-| Action                 | Command examples                           |
-| ---------------------- | ------------------------------------------ |
-| Write / write all      | `:w` / `:wa`                               |
-| Quit view / quit all   | `:q` / `:qa` — add `!` to discard changes  |
-| Write and quit         | `:wq`, `:x`                                |
-| Write all and quit all | `:wqa`, `:xa`                              |
-| Open file              | `:open path`, `:e path`                    |
-| Next / previous buffer | `:bn` / `:bp` (also `gn` / `gp` in normal) |
-| Close buffer           | `:bc` (add `!` to force)                   |
-| Reload from disk       | `:reload`                                  |
-| Change directory / pwd | `:cd` / `:pwd`                             |
-| Split open file        | `:vs path`, `:hs path`                     |
+| Action                 | Command examples                                                     |
+| ---------------------- | -------------------------------------------------------------------- |
+| Write / write all      | `:w` / `:wa`                                                         |
+| Quit view / quit all   | `:q` / `:qa` — add `!` to discard changes                            |
+| Write and quit         | `:wq`, `:x`                                                          |
+| Write all and quit all | `:wqa`, `:xa`                                                        |
+| Open file              | `:open path`, `:e path`                                              |
+| Next / previous buffer | `:bn` / `:bp` (also `gn` / `gp` in normal)                           |
+| Close buffer           | `:bc` (add `!` to force)                                             |
+| Reload from disk       | `:reload` (current buffer); `:reload-all` / **`:rla`** (all buffers) |
+| Change directory / pwd | `:cd` / `:pwd`                                                       |
+| Split open file        | `:vs path`, `:hs path`                                               |
 
 ### Movement (normal mode)
 
@@ -77,7 +85,7 @@ In Helix, `|` / `!` and variants pipe or insert shell output on selections (see 
 ### Selection & changes
 
 | Action                 | Keys / notes                                                      |
-| ---------------------- | ----------------------------------------------------------------- | ------------------- | -------------------------------------------- |
+| ---------------------- | ----------------------------------------------------------------- |
 | Extend selections      | `v` select mode; motions extend instead of moving                 |
 | Line selection         | `x` extend line; `X` line bounds                                  |
 | Select all / regex     | `%`; `s` regex in selections; `S` split on regex                  |
@@ -88,7 +96,6 @@ In Helix, `|` / `!` and variants pipe or insert shell output on selections (see 
 | Indent / format        | `>` / `<`; `=` format (LSP)                                       |
 | Case                   | `~` toggle; lower/upper case via grave / `Alt-grave` (see keymap) |
 | Join lines             | `J`; `Alt-J` join keeping space                                   |
-| Shell                  | `                                                                 | `pipe replace;`Alt- | `pipe to;`!` insert output before selections |
 
 ### Search
 
@@ -115,6 +122,7 @@ Helix has no vim-style `:%s` with preview. Typical patterns:
 | -------------------- | ---------------- |
 | File start / end     | `g` / `e`        |
 | Line start / end     | `h` / `l`        |
+| File / URL           | `f`              |
 | First non-whitespace | `s`              |
 | Definition / refs    | `d` / `r` (LSP)  |
 | Type / impl          | `y` / `i` (LSP)  |
