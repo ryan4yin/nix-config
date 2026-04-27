@@ -14,7 +14,10 @@
   # Hybrid graphics with PRIME[integrated GPU (iGPU) + dedicated GPU (dGPU)]
   hardware.nvidia.prime = {
     # puts dGPU(Nvidia) to sleep and lets the iGPU handle all tasks by default.
-    offload.enable = true;
+    offload = {
+      enable = true;
+      enableOffloadCmd = true; # generate a nvidia-offload command
+    };
 
     intelBusId = "PCI:0@0:2:0";
     nvidiaBusId = "PCI:2@0:0:0";
@@ -34,10 +37,7 @@
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/os-specific/linux/nvidia-x11/default.nix
-    # package = config.boot.kernelPackages.nvidiaPackages.production;
-
-    # https://github.com/NixOS/nixpkgs/issues/489947
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
 
     # required by most wayland compositors!
     modesetting.enable = true;
