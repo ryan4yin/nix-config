@@ -60,7 +60,6 @@
           # llvmPackages.clang-unwrapped
           clang-tools
           lldb
-          vscode-extensions.vadimcn.vscode-lldb.adapter # codelldb - debugger
 
           #-- python
           uv # python project package manager
