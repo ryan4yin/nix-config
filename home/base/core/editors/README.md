@@ -19,6 +19,8 @@ Terminal layout and files: **Zellij** and **Yazi** live under `core/zellij/` and
   Neovim notes.
 - [`neovim/README.md`](./neovim/README.md) — Vim/Neovim basics, cheatsheet, and official doc links.
 
-Nix modules in `helix/` and `neovim/` enable each editor via Home Manager.
+Nix modules in `helix/` and `neovim/` enable each editor via Home Manager. Language servers and
+other heavy editor-related packages are listed in
+[`../../tui/editors/`](../../tui/editors/README.md) (imported from `home/base/tui`).
 
 Editor terminology (LSP, tree-sitter): [`Glossary.md`](./Glossary.md).
