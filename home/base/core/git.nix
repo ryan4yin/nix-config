@@ -22,6 +22,7 @@
     enable = true;
     lfs.enable = true;
 
+    signing.format = "openpgp";
     # signing = {
     #   key = "xxx";
     #   signByDefault = true;

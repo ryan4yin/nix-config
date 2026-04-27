@@ -34,6 +34,9 @@ in
     viAlias = true;
     vimAlias = true;
 
+    withRuby = false;
+    withPython3 = false;
+
     # These environment variables are needed to build and run binaries
     # with external package managers like mason.nvim.
     #
