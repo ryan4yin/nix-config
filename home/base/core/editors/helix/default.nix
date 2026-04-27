@@ -11,6 +11,8 @@
         color-modes = true;
         scrolloff = 8;
 
+        # use system clipboard by default
+        default-yank-register = "+";
         # Wrap long lines to the viewport (word-wrap style; does not insert hard line endings)
         soft-wrap = {
           enable = true;
@@ -96,11 +98,23 @@
         indent-guides.render = true;
       };
 
-      # home/base/tui/zellij/config.kdl: Ctrl+o opens Zellij Session, so Helix never receives the
-      # default Ctrl+o (jump_backward). One remap restores backward jumplist; forward stays Ctrl+i.
-      # Other Zellij binds (Ctrl+s scroll, Ctrl+p pane, …): use built-in Space menu, :w / :rla, or
-      # Zellij locked mode — https://zellij.dev/tutorials/colliding-keybindings/
-      keys.normal."C-S-o" = "jump_backward";
+      keys.normal = {
+        space.space = ":reload-all";
+        esc = [
+          "collapse_selection"
+          "keep_primary_selection"
+        ];
+        space.w = ":w";
+        space.q = ":q";
+
+        # useful vim keybindings
+        "$" = "goto_line_end";
+        "0" = "goto_line_start";
+
+        # Ctrl+o opens Zellij Session
+        "C-S-o" = "jump_backward";
+      };
+
     };
   };
 }
