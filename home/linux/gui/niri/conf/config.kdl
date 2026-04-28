@@ -8,6 +8,7 @@ include "./keybindings.kdl"
 include "./windowrules.kdl"
 include "./niri-hardware.kdl"
 include "./noctalia-shell.kdl"
+include "./spawn-at-startup.kdl"
 
 spawn-sh-at-startup "bash ~/nix-config/home/linux/gui/niri/reorder-workspaces.sh"
 

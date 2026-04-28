@@ -1,0 +1,3 @@
+// Noctalia: use niri spawn-at-startup (systemd user service is deprecated upstream).
+// https://docs.noctalia.dev/getting-started/compositor-settings/niri/
+spawn-at-startup "noctalia-shell"

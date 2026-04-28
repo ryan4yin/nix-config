@@ -10,6 +10,13 @@ let
   package = pkgs.noctalia-shell;
 in
 {
+  # Qt for noctalia-shell (replaces former systemd user service Environment=)
+  home.sessionVariables = {
+    # Qt6: wayland primary, xcb fallback (QT_QPA_PLATFORM).
+    "QT_QPA_PLATFORM" = "wayland;xcb";
+    "QT_QPA_PLATFORMTHEME" = "qt6ct";
+    "QT_AUTO_SCREEN_SCALE_FACTOR" = "1";
+  };
 
   home.packages = [
     package
@@ -33,26 +40,4 @@ in
       "noctalia".source = mkSymlink "${confPath}/config";
       "qt6ct/qt6ct.conf".source = mkSymlink "${confPath}/qt6ct.conf";
     };
-
-  systemd.user.services.noctalia-shell = {
-    Unit = {
-      Description = "Noctalia Shell - Wayland desktop shell";
-      Documentation = "https://docs.noctalia.dev/docs";
-      PartOf = [ config.wayland.systemd.target ];
-      After = [ config.wayland.systemd.target ];
-    };
-
-    Service = {
-      ExecStart = lib.getExe package;
-      Restart = "on-failure";
-
-      Environment = [
-        "QT_QPA_PLATFORM=wayland;xcb"
-        "QT_QPA_PLATFORMTHEME=qt6ct"
-        "QT_AUTO_SCREEN_SCALE_FACTOR=1"
-      ];
-    };
-
-    Install.WantedBy = [ config.wayland.systemd.target ];
-  };
 }
