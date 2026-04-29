@@ -8,6 +8,7 @@ The primary workflow is to symlink files from here into each agent runtime/confi
 ## What this directory contains
 
 - `AGENTS.md`: global baseline rules for coding agents.
+- `permissions.md`: permission policies for agent tool access.
 - `install-rules.py`: installs the baseline by creating symlinks in supported agent config dirs.
 - `install-cli.md`: curated CLI install/update command snippets.
 - `install-skills.md`: curated `npx skills` command snippets.
@@ -15,8 +16,9 @@ The primary workflow is to symlink files from here into each agent runtime/confi
 ## Core workflow
 
 1. Maintain shared rules in `agents/AGENTS.md`.
-2. Run `install-rules.py` to refresh symlinks in local agent homes.
-3. Use `install-cli.md` and `install-skills.md` as reference snippets when needed.
+2. Define permission policies in `agents/permissions.md`.
+3. Run `install-rules.py` to refresh symlinks in local agent homes.
+4. Use `install-cli.md` and `install-skills.md` as reference snippets when needed.
 
 ## Install baseline rules (symlink-based)
 
