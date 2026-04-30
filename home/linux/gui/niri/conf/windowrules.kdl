@@ -102,3 +102,12 @@ window-rule {
     match app-id="Zoom Workplace"
     open-on-workspace "0other"
 }
+
+// Notifications shows top right
+window-rule {
+    match app-id=""
+    open-floating true
+    open-focused false
+    default-floating-position x=0 y=0 relative-to="top-right"
+}
+

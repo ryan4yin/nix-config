@@ -60,6 +60,7 @@ These tools run without prompting:
 - `kubectl api-resources`, `kubectl api-versions`
 - `kubectl config view`, `kubectl config get-contexts`
 - `kubectl kustomize`, `kustomize build`, `kustomize version`
+- `kubectl explain`
 
 **Terraform:**
 
@@ -130,6 +131,7 @@ These tools run without prompting:
 - `echo`, `pwd`, `date`, `env`, `printenv`
 - `file`, `stat`, `du`, `tree`, `bat`, `eza`
 - `jq`, `yq`, `tldr`
+- `mkdir`, `rmdir`, `grep`
 
 ### Requires Confirmation
 
