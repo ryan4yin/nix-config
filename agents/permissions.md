@@ -44,7 +44,11 @@ These tools run without prompting:
 - `lsp`
 - `question`
 - `skill`
+- `todowrite`
 - `webfetch`
+- `websearch`
+- `codesearch`
+- `edit` (covers `write` and `apply_patch`)
 
 ## Bash Command Permissions
 
@@ -59,8 +63,8 @@ These tools run without prompting:
 - `kubectl get`, `kubectl describe`, `kubectl logs`, `kubectl top`
 - `kubectl api-resources`, `kubectl api-versions`
 - `kubectl config view`, `kubectl config get-contexts`
-- `kubectl kustomize`, `kustomize build`, `kustomize version`
 - `kubectl explain`
+- `kubectl kustomize`, `kustomize build`, `kustomize version`
 
 **Terraform:**
 
@@ -170,18 +174,17 @@ For agents running in dedicated homelab VMs, permissions are significantly relax
 | Tool                 | Permission |
 | -------------------- | ---------- |
 | `edit`               | allow      |
-| `write`              | allow      |
 | `task`               | ask        |
 | `external_directory` | ask        |
 | `doom_loop`          | deny       |
 
 ## Summary
 
+- **Default policy**: All tools `ask` — only explicitly whitelisted tools auto-allow
 - **File operations**: `read`, `glob`, `grep`, `edit`, `write` all allowed in workspace
 - **Nix operations**: Build/eval/flake commands auto-allowed (writes to store only)
 - **Linting & formatting**: All check commands auto-allowed
 - **System diagnostics**: Read-only system info auto-allowed
 - **Sensitive files**: Credentials, keys, and cloud configs are blocked
-- **Destructive operations**: `rm` requires explicit user confirmation
-- **Privilege escalation**: `sudo` is completely blocked
+- **Bash commands**: Read-only ops auto-allowed; `rm` requires confirmation; `sudo` blocked
 - **Scope control**: `task` and `external_directory` require approval
