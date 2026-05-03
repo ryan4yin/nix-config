@@ -100,7 +100,16 @@ window-rule {
 }
 window-rule {
     match app-id="Zoom Workplace"
+    // Zoom Home Page
+    match title="^(Zoom Workplace)( - Free account)?$"
     open-on-workspace "0other"
+}
+window-rule {
+    match app-id="Zoom Workplace"
+    // Zoom - other windows
+    exclude title="^(Zoom Workplace)( - Free account)?$"
+    open-on-workspace "0other"
+    open-floating true
 }
 
 // Notifications shows top right
