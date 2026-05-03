@@ -49,6 +49,8 @@ let
 
         # To use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
+
+        overlays = import ../overlays args;
       };
     };
 

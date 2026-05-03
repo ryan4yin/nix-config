@@ -63,7 +63,7 @@ in
       winePackages = with pkgs-x64; [
         wineWow64Packages.full
       ];
-      extraPackages = with pkgs; [
+      extraPackages = with pkgs-x64; [
         winetricks
         gamescope
         gamemode
