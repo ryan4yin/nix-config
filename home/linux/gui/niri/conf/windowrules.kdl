@@ -2,21 +2,31 @@
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
-// Terminal applications - open in workspace 1
+// Terminal applications - open in workspace 1, with blur
 window-rule {
     match app-id="foot"
     open-on-workspace "1terminal"
     open-maximized true
+    // foot >= 1.26 uses native blur via ext-background-effect,
+    // no compositor-side blur needed
 }
 window-rule {
     match app-id="Alacritty"
     open-on-workspace "1terminal"
     open-maximized true
+    background-effect {
+        blur true
+    }
 }
 window-rule {
     match app-id="com.mitchellh.ghostty"
     open-on-workspace "1terminal"
     open-maximized true
+    // Ghostty native blur via ext-background-effect coming in v1.4;
+    // use compositor-side blur until then
+    background-effect {
+        blur true
+    }
 }
 
 // Web browsers - open in workspace 2

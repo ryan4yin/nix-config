@@ -25,6 +25,11 @@
         shell = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";
       };
 
+      colors-dark = {
+        alpha = 0.93; # background transparency
+        blur = true; # requires foot >= 1.26 and compositor support (e.g. niri v26.04+)
+      };
+
       mouse = {
         hide-when-typing = "yes";
       };
