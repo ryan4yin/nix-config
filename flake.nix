@@ -147,10 +147,6 @@
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    aagl = {
-      url = "github:ezKEa/aagl-gtk-on-nix/main";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     ########################  Some non-flake repositories  #########################################
 

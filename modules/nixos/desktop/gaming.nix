@@ -2,7 +2,6 @@
   pkgs,
   pkgs-x64,
   nix-gaming,
-  aagl,
   config,
   lib,
   ...
@@ -15,9 +14,6 @@ in
   imports = [
     nix-gaming.nixosModules.pipewireLowLatency
     nix-gaming.nixosModules.platformOptimizations
-
-    # run anime games on Linux
-    aagl.nixosModules.default
   ];
 
   options.modules.desktop = {
@@ -71,14 +67,5 @@ in
     #      https://github.com/FeralInteractive/GameMode#apps-with-gamemode-integration
     #      simply running the game will automatically activate GameMode.
     programs.gamemode.enable = true;
-
-    # run anime games on Linux
-    # https://github.com/an-anime-team/
-    networking.mihoyo-telemetry.block = true;
-    environment.systemPackages = with aagl.packages."x86_64-linux"; [
-      anime-game-launcher # Genshin: Impact
-      honkers-railway-launcher # Honkai: Star Rail
-      sleepy-launcher # Zenless Zon Zero
-    ];
   };
 }

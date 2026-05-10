@@ -244,14 +244,15 @@ in
         ".steam"
         ".config/blender"
         ".config/LDtk"
-        ".config/heroic"
-        ".config/lutris"
+
         ".local/share/umu"
 
         ".local/share/Steam"
         ".local/state/Heroic"
-
+        ".config/heroic"
+        ".config/lutris"
         ".local/share/lutris"
+
         ".local/share/tiled"
         ".local/share/GOG.com"
         ".local/share/StardewValley"
