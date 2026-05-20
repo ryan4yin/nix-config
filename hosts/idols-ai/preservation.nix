@@ -146,7 +146,6 @@ in
         ".agents" # skills for all agents
         ".config/agents"
         ".claude"
-        ".gemini"
         ".codex"
         ".config/opencode"
         ".local/share/opencode"

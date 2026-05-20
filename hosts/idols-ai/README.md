@@ -129,7 +129,7 @@ nvme0n1           259:0    0  1.8T  0 disk
                                             /home/ryan/.gnupg
                                             /home/ryan/.kimi
                                             /home/ryan/.ipython
-                                            /home/ryan/.gemini
+
                                             /home/ryan/.docker
                                             /home/ryan/.config/sunshine
                                             /home/ryan/.cursor

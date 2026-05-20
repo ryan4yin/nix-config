@@ -9,7 +9,6 @@ Installed via Nix:
 - codex
 - cursor-cli
 - claude-code
-- gemini-cli
 - opencode
 
 Install Manually:

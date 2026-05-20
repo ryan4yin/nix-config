@@ -12,7 +12,6 @@
       codex
       cursor-cli
       claude-code
-      gemini-cli
       opencode
 
       # Utilities

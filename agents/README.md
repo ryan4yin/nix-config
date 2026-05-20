@@ -33,7 +33,6 @@ Current targets:
 - Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
 - OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
 - Claude Code: `AGENTS.md` -> `~/.claude/CLAUDE.md`
-- Gemini: `AGENTS.md` -> `~/.gemini/GEMINI.md`
 
 Behavior:
 
