@@ -7,17 +7,9 @@ Reference commands for installing and updating agent CLIs. Run only the commands
 Installed via Nix:
 
 - codex
-- cursor-cli
-- claude-code
 - opencode
-
-Install Manually:
-
-```bash
-# kimi-cli
-uv tool install --python 3.13 kimi-cli
-uv tool upgrade kimi-cli --no-cache
-```
+- cursor-agent(cli)
+- claude-code
 
 ## Optional tooling
 

@@ -150,7 +150,7 @@ in
         ".config/opencode"
         ".local/share/opencode"
         ".local/state/opencode"
-        ".kimi" # kimi-cli
+
         ".context7" # up-to-date docs and code examples for for LLMs & agents
 
         # nvim
