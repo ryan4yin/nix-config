@@ -18,6 +18,15 @@ Installed via Nix:
 npx ctx7 setup
 ```
 
+rtk init:
+
+```bash
+rtk init -g # configure claude-code
+rtk init -g --codex
+rtk init -g --opencode
+rtk init -g --agent cursor
+```
+
 ## Update npm-installed agent tools
 
 ```bash
