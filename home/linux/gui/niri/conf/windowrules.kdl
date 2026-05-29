@@ -122,12 +122,12 @@ window-rule {
     open-floating true
 }
 
-// Notifications shows top right
+// Notifications shows bottom right
 window-rule {
    // match exactly empty string, avoid to be the default behavior
     match app-id="^$"
     open-floating true
     open-focused false
-    default-floating-position x=0 y=0 relative-to="top-right"
+    default-floating-position x=0 y=0 relative-to="bottom-right"
 }
 
