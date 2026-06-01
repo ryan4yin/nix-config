@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  pkgs-stable,
   ...
 }:
 {
@@ -31,8 +32,8 @@
     # digitalocean
     doctl
     # google cloud
-    (google-cloud-sdk.withExtraComponents (
-      with google-cloud-sdk.components;
+    (pkgs-stable.google-cloud-sdk.withExtraComponents (
+      with pkgs-stable.google-cloud-sdk.components;
       [
         gke-gcloud-auth-plugin
       ]
