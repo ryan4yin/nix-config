@@ -68,13 +68,13 @@
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # https://github.com/catppuccin/nix
     catppuccin = {
-      url = "github:catppuccin/nix";
+      url = "github:catppuccin/nix/v26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -87,11 +87,6 @@
       url = "github:nix-community/preservation";
     };
 
-    # generate iso/qcow2/docker/... image from nixos configuration
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # secrets management
     agenix = {
       # lock with git commit at May 18, 2025
