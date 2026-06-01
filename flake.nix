@@ -87,6 +87,11 @@
       url = "github:nix-community/preservation";
     };
 
+    # generate iso/qcow2/docker/... image from nixos configuration
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # secrets management
     agenix = {
       # lock with git commit at May 18, 2025
