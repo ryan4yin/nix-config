@@ -123,7 +123,6 @@ nvme0n1           259:0    0  1.8T  0 disk
                                             /home/ryan/.local/share/StardewValley
                                             /home/ryan/.local/share/GOG.com
                                             /home/ryan/.local/bin
-                                            /home/ryan/.local/pipx
                                             /home/ryan/.kube
                                             /home/ryan/.gradle
                                             /home/ryan/.gnupg
