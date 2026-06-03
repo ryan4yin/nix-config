@@ -12,9 +12,9 @@
     enable = true;
     package =
       if pkgs.stdenv.isDarwin then
-        pkgs.hello # pkgs.ghostty is currently broken on darwin
+        null # installed via Homebrew cask on darwin
       else
-        pkgs.ghostty; # the stable version
+        pkgs.ghostty;
     enableBashIntegration = false;
     installBatSyntax = false;
     # installVimSyntax = true;
