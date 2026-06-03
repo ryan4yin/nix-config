@@ -1,12 +1,13 @@
 {
   lib,
   pkgs,
+  pkgs-stable,
   blender-bin,
   ...
 }:
 {
   home.packages =
-    with pkgs;
+    with pkgs-stable;
     [
       # creative
       # gimp      # image editing, I prefer using figma in browser instead of this one

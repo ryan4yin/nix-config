@@ -176,8 +176,8 @@
           "unreadBadgeColor": "primary"
         },
         {
-          "deviceNativePath": "",
-          "displayMode": "alwaysShow",
+          "deviceNativePath": "__default__",
+          "displayMode": "icon-always",
           "hideIfIdle": false,
           "hideIfNotDetected": true,
           "id": "Battery",

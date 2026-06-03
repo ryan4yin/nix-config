@@ -14,6 +14,8 @@ export def nixos-switch [
         # show details via nix-output-monitor
         nom build $".#nixosConfigurations.($name).config.system.build.toplevel" --show-trace --verbose
         nixos-rebuild switch --sudo --flake $".#($name)" --show-trace --verbose
+    } else if "boot" == $mode {
+        nixos-rebuild boot --sudo --flake $".#($name)"
     } else {
         nixos-rebuild switch --sudo --flake $".#($name)"
     }
