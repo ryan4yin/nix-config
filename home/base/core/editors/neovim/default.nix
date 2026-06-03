@@ -1,4 +1,9 @@
-{ config, nixvim, ... }:
+{
+  config,
+  nixvim,
+  pkgs,
+  ...
+}:
 {
 
   imports = [ nixvim.homeModules.nixvim ];
@@ -11,7 +16,7 @@
   programs.nixvim = {
     enable = true;
 
-    clipboard.providers.wl-copy.enable = true;
+    clipboard.providers.wl-copy.enable = pkgs.stdenv.isLinux;
 
     opts = {
       number = true;
