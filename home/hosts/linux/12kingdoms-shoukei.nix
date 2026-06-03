@@ -6,8 +6,7 @@ in
 {
   imports = [ ../../linux/gui.nix ];
 
-  programs.ssh.matchBlocks."github.com".identityFile =
-    "${config.home.homeDirectory}/.ssh/${hostName}";
+  programs.ssh.settings."github.com".IdentityFile = "${config.home.homeDirectory}/.ssh/${hostName}";
 
   modules.desktop.gaming.enable = false;
   modules.desktop.niri.enable = true;
