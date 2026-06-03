@@ -1,3 +1,3 @@
 {
-  imports = [ ./idols-aquamarine.nix ];
+  imports = [ ../../linux/core.nix ];
 }

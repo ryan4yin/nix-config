@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, llm-agents, ... }:
 {
   # https://github.com/Mic92/nix-ld
   #
@@ -26,55 +26,68 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    nodejs_24
-    pnpm
+  environment.systemPackages =
+    with pkgs;
+    [
+      nodejs_24
+      pnpm
 
-    #-- python
-    conda
-    uv # python project package manager
-    (python313.withPackages (
-      ps: with ps; [
-        pandas
-        requests
-        pyquery
-        pyyaml
-        numpy
+      #-- python
+      conda
+      uv # python project package manager
+      (python313.withPackages (
+        ps: with ps; [
+          pandas
+          requests
+          pyquery
+          pyyaml
+          numpy
 
-        # model downloaders
-        huggingface-hub
-        modelscope
-      ]
-    ))
+          # model downloaders
+          huggingface-hub
+          modelscope
+        ]
+      ))
 
-    rustc
-    cargo # rust package manager
-    go
+      rustc
+      cargo # rust package manager
+      go
 
-    # cryptography
-    age
-    sops
-    rclone
-    gnupg
+      # cryptography
+      age
+      sops
+      rclone
+      gnupg
 
-    # cloud-native
-    kubectl
-    istioctl
-    kubevirt # virtctl
-    kubernetes-helm
-    fluxcd
-    terraform
+      # cloud-native
+      kubectl
+      istioctl
+      kubevirt # virtctl
+      kubernetes-helm
+      fluxcd
+      terraform
 
-    # db related
-    pgcli
-    mongosh
-    sqlite
+      # db related
+      pgcli
+      mongosh
+      sqlite
 
-    yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
+      yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
 
-    # need to run `conda-install` before using it
-    # need to run `conda-shell` before using command `conda`
-    # conda is not available for MacOS
-    conda
-  ];
+      # need to run `conda-install` before using it
+      # need to run `conda-shell` before using command `conda`
+      # conda is not available for MacOS
+      conda
+    ]
+    # AI Agent Tools
+    ++ (with llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+      # Agents
+      codex
+      cursor-cli
+      claude-code
+      opencode
+
+      # Utilities
+      rtk # CLI proxy that reduces LLM token consumption
+    ]);
 }

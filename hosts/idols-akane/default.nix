@@ -15,6 +15,9 @@ in
 {
   imports = (mylib.scanPaths ./.) ++ [
     disko.nixosModules.default
+
+    ../idols-ruby/packages.nix
+    ../idols-ruby/oci-containers
   ];
 
   # supported file systems, so we can mount any removable disks with these filesystems

@@ -27,6 +27,8 @@
     flameshot
     hyprshot # screen shot
     wf-recorder # screen recording
+
+    virt-viewer # vnc connect to VM, used by kubevirt
   ];
 
   # screen locker
@@ -34,4 +36,10 @@
 
   # Logout Menu
   programs.wlogout.enable = true;
+
+  # auto mount usb drives
+  services = {
+    udiskie.enable = true;
+    # syncthing.enable = true;
+  };
 }
