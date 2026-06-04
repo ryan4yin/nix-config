@@ -104,6 +104,7 @@ in
       upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
       # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
       cleanup = "zap";
+      extraFlags = [ "--force-cleanup" ];
     };
 
     # Applications to install from Mac App Store using mas.
@@ -111,6 +112,9 @@ in
     # otherwise Apple Store will refuse to install them.
     # For details, see https://github.com/mas-cli/mas
     masApps = {
+      Keynote = 409183694;
+      Slack = 803453959;
+      WireGuard = 1451685025;
       # Xcode = 497799835;
       Wechat = 836500024;
     };
