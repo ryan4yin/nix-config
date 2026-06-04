@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  catppuccin.zed.enable = false;
+  catppuccin.zed.enable = true;
 
   programs.zed-editor = {
     enable = true;
