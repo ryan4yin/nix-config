@@ -51,8 +51,7 @@ In Helix, `|` / `!` and variants pipe or insert shell output on selections (see 
 
 This flake’s Helix Home Manager module keeps **almost all default keys**; the only remap is
 **`Ctrl+Shift+o`** → jump backward, because Zellij uses **`Ctrl+o`** for Session (see
-`home/base/core/editors/helix/default.nix`). For other Zellij clashes, use **locked mode**
-(`Ctrl+g`), **`:`** commands, or the built-in **`Space`** menu.
+`home/base/core/editors/helix/default.nix`).
 
 ### Command mode (`:`)
 
@@ -64,6 +63,7 @@ This flake’s Helix Home Manager module keeps **almost all default keys**; the 
 | Quit view / quit all   | `:q` / `:qa` — add `!` to discard changes                            |
 | Write and quit         | `:wq`, `:x`                                                          |
 | Write all and quit all | `:wqa`, `:xa`                                                        |
+| Save to path           | `:w path`                                                            |
 | Open file              | `:open path`, `:e path`                                              |
 | Next / previous buffer | `:bn` / `:bp` (also `gn` / `gp` in normal)                           |
 | Close buffer           | `:bc` (add `!` to force)                                             |
@@ -73,37 +73,51 @@ This flake’s Helix Home Manager module keeps **almost all default keys**; the 
 
 ### Movement (normal mode)
 
-| Action                | Keys / notes                                        |
-| --------------------- | --------------------------------------------------- |
-| Arrow keys            | `h` `j` `k` `l`                                     |
-| Words                 | `w` `b` `e` — `W` `B` `E` for WORD-style            |
-| Find char / till char | `f` `F` `t` `T` (not limited to current line)       |
-| Line / file           | `Home` / `End`; `gg` start or goto line; `G` line   |
-| Half / full page      | `Ctrl-u` / `Ctrl-d`; `Ctrl-b` / `Ctrl-f`            |
-| Jumplist              | `Ctrl-o` back, `Ctrl-i` forward; `Ctrl-s` save spot |
+| Action                | Keys / notes                                                         |
+| --------------------- | -------------------------------------------------------------------- |
+| Arrow keys            | `h` `j` `k` `l`                                                      |
+| Words                 | `w` `b` `e` — `W` `B` `E` for WORD-style                             |
+| Counts                | Prefix motions with a count: `2w`, `3e`, `2b`, `2x`                  |
+| Find char / till char | `f` `F` `t` `T` (not limited to current line)                        |
+| Repeat find / till    | `Alt-.` repeats the last `f` / `t` selection                         |
+| Word-label jump       | `gw` shows two-character labels; type a label to jump, `Esc` cancels |
+| Line / file           | `Home` / `End`; `gg` start or goto line; `G` line                    |
+| Half / full page      | `Ctrl-u` / `Ctrl-d`; `Ctrl-b` / `Ctrl-f`                             |
+| Jumplist              | `Ctrl-o` back, `Ctrl-i` forward; `Ctrl-s` save spot                  |
 
 ### Selection & changes
 
-| Action                 | Keys / notes                                                      |
-| ---------------------- | ----------------------------------------------------------------- |
-| Extend selections      | `v` select mode; motions extend instead of moving                 |
-| Line selection         | `x` extend line; `X` line bounds                                  |
-| Select all / regex     | `%`; `s` regex in selections; `S` split on regex                  |
-| Undo / redo            | `u` / `U`                                                         |
-| Delete / change / yank | `d` / `c` / `y` — acts on selection                               |
-| Paste                  | `p` / `P`; registers `"` …                                        |
-| Insert                 | `i` `a` `I` `A` `o` `O`                                           |
-| Indent / format        | `>` / `<`; `=` format (LSP)                                       |
-| Case                   | `~` toggle; lower/upper case via grave / `Alt-grave` (see keymap) |
-| Join lines             | `J`; `Alt-J` join keeping space                                   |
+| Action                 | Keys / notes                                                                |
+| ---------------------- | --------------------------------------------------------------------------- |
+| Extend selections      | `v` select mode; motions extend instead of moving; `v` or `Esc` leaves mode |
+| Line selection         | `x` extend line; `X` line bounds; repeat or use a count for more lines      |
+| Collapse selections    | `;` collapse selections back to cursors                                     |
+| Select all / regex     | `%`; `s` regex in selections; `S` split on regex                            |
+| Multiple cursors       | `C` duplicate to next suitable line; `Alt-C` above; `,` remove one cursor   |
+| Align selections       | `&` align selection contents                                                |
+| Undo / redo            | `u` / `U`                                                                   |
+| Delete / change / yank | `d` / `c` / `y` — acts on selection                                         |
+| Replace with yank      | `R` replace selection with yanked text                                      |
+| Paste                  | `p` / `P`; registers `"` …                                                  |
+| Register prefix        | `"<char>` selects a register for yank/paste/macro operations                |
+| Insert                 | `i` `a` `I` `A` `o` `O`                                                     |
+| Repeat insert          | `.` repeat the last insertion                                               |
+| Replace selected chars | `r<char>`                                                                   |
+| Indent / format        | `>` / `<`; `=` format (LSP)                                                 |
+| Increment / decrement  | `Ctrl-a` / `Ctrl-x` on selected numbers                                     |
+| Case                   | `~` toggle; lower/upper case via grave / `Alt-grave` (see Alt caveat above) |
+| Join lines             | `J`; `Alt-J` join keeping space (see Alt caveat above)                      |
+| Toggle line comment    | `Ctrl-c`                                                                    |
+| Macro record / replay  | `Q` start/stop recording; `q` replay from the default `@` register          |
 
 ### Search
 
-| Action               | Keys                                     |
-| -------------------- | ---------------------------------------- |
-| Search / reverse     | `/` / `?`                                |
-| Next / prev match    | `n` / `N`                                |
-| Selection as pattern | `*` (word bounds); `Alt-*` raw selection |
+| Action               | Keys                                                            |
+| -------------------- | --------------------------------------------------------------- |
+| Search / reverse     | `/` / `?`                                                       |
+| Next / prev match    | `n` / `N`                                                       |
+| Selection as pattern | `*` (word bounds); `Alt-*` raw selection (see Alt caveat above) |
+| Split on newlines    | `Alt-s`                                                         |
 
 Use **extend mode** (`v`) with `n` / `N` to add matches to multi-cursors
 ([keymap](https://docs.helix-editor.com/keymap.html#select--extend-mode)).

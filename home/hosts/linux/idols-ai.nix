@@ -11,6 +11,13 @@ in
   modules.desktop.niri.enable = true;
   modules.desktop.nvidia.enable = true;
 
+  programs.zed-editor.userSettings = {
+    ui_font_size = 19.0;
+    buffer_font_size = 17.0;
+    agent_ui_font_size = 19.0;
+    agent_buffer_font_size = 18.0;
+  };
+
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/idols-ai/niri-hardware.kdl";
 }
