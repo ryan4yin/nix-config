@@ -157,9 +157,6 @@ in
       "firefox"
       "google-chrome"
 
-      # code editor
-      "visual-studio-code"
-
       "nikitabobko/tap/aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
 

@@ -133,9 +133,9 @@ in
         # neovim plugins
         ".wakatime"
 
-        # vscode
-        ".vscode"
-        ".config/Code"
+        # zed
+        ".config/zed"
+        ".local/share/zed"
 
         # cursor ai editor / cli
         ".cursor"

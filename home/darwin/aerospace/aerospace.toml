@@ -281,10 +281,6 @@ if.app-id = 'com.apple.Preview'
 run = ['layout floating', 'move-node-to-workspace 9File']
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.VSCode'
-run = ['layout floating', 'move-node-to-workspace 9File']
-
-[[on-window-detected]]
 if.app-id = 'com.todesktop.230313mzl4w4u92' # Cursor AI Editor
 run = ['layout floating', 'move-node-to-workspace 9File']
 
