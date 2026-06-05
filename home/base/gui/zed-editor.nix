@@ -55,8 +55,10 @@
         toggle_relative_line_numbers = true;
       };
 
-      # Font sizing
+      # Fonts
+      ui_font_family = lib.mkDefault "LXGW WenKai Screen";
       ui_font_size = lib.mkDefault 16.0;
+      buffer_font_family = lib.mkDefault "Maple Mono NF CN";
       buffer_font_size = lib.mkDefault 14.0;
       agent_ui_font_size = lib.mkDefault 16.0;
       agent_buffer_font_size = lib.mkDefault 15.0;
