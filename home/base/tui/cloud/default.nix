@@ -38,6 +38,8 @@
         gke-gcloud-auth-plugin
       ]
     ))
+    google-cloud-sql-proxy
+    google-alloydb-auth-proxy
 
     # cloud tools that nix do not have cache for.
     terraform
