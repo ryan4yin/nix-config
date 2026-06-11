@@ -143,6 +143,11 @@ niri mode="default":
 
 [macos]
 [group('desktop')]
+brew-upgrade:
+  brew upgrade --cask --greedy
+
+[macos]
+[group('desktop')]
 darwin-set-proxy:
   sudo python3 scripts/darwin_set_proxy.py
   sleep 1sec
