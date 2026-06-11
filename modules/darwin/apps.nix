@@ -169,9 +169,6 @@ in
       "tailscale-app" # tailscale macos app (with gui)
       # "netbirdio/tap/netbird-ui" # netbird gui app
 
-      # AI
-      "lm-studio"
-
       # IM & audio & remote desktop & meeting
       "telegram"
       "qq"
