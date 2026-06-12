@@ -221,7 +221,12 @@
     }
   },
   "brightness": {
-    "backlightDeviceMappings": [],
+    "backlightDeviceMappings": [
+      {
+        "device": "/sys/class/backlight/apple-panel-bl",
+        "output": "eDP-1"
+      }
+    ],
     "brightnessStep": 3,
     "enableDdcSupport": false,
     "enforceMinimum": true
