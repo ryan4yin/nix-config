@@ -16,9 +16,6 @@
         deadnix # Find and remove unused code in .nix source files
         nixfmt # Nix Code Formatter
 
-        #-- nickel lang
-        nickel
-
         #-- json like
         terraform-ls
         jsonnet
@@ -65,23 +62,18 @@
           (python313.withPackages (
             ps: with ps; [
               # python language server
-              pyright
+              ty
               ruff
-
-              black # python formatter
 
               # my commonly used python packages
               jupyter
               ipython
               pandas
+              numpy
               requests
               pyquery
               pyyaml
-              boto3
-
-              # misc
               protobuf # protocol buffer compiler
-              numpy
             ]
           ))
 
@@ -103,14 +95,11 @@
           delve # go debugger
 
           # -- java
-          jdk17
-          gradle
-          maven
-          spring-boot-cli
-          jdt-language-server
-
-          #-- zig
-          zls
+          # jdk25
+          # gradle
+          # maven
+          # spring-boot-cli
+          # jdt-language-server
 
           #-- lua
           stylua
@@ -133,22 +122,8 @@
         tailwindcss-language-server
         emmet-ls
       ]
-      # -*- Lisp like Languages -*-#
-      # ++ [
-      #   guile
-      #   racket-minimal
-      #   fnlfmt # fennel
-      #   (
-      #     if pkgs.stdenv.isLinux && pkgs.stdenv.isx86
-      #     then pkgs-master.akkuPackages.scheme-langserver
-      #     else pkgs.emptyDirectory
-      #   )
-      # ]
       ++ [
         proselint # English prose linter
-
-        #-- verilog / systemverilog
-        verible
 
         #-- Optional Requirements:
         prettier # common code formatter

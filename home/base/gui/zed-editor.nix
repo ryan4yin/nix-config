@@ -7,6 +7,46 @@
     mutableUserSettings = true;
 
     userSettings = {
+      # Language-specific settings
+      languages = {
+        Python = {
+          formatter.language_server.name = "ruff";
+          language_servers = [
+            "ty"
+            "ruff"
+            "!basedpyright"
+            "!pyrefly"
+            "!pyright"
+            "!pylsp"
+          ];
+        };
+        Rust = {
+          hard_tabs = false;
+          formatter.language_server.name = "rust-analyzer";
+          language_servers = [
+            "rust-analyzer"
+            "!rustc"
+          ];
+        };
+        Go = {
+          formatter.language_server.name = "gopls";
+          language_servers = [
+            "gopls"
+            "!goimports"
+          ];
+        };
+      };
+
+      # Terminal
+      terminal.shell.with_arguments = {
+        program = "bash";
+        args = [
+          "--login"
+          "-c"
+          "nu --login --interactive"
+        ];
+      };
+
       # Editor behavior
       auto_signature_help = true;
       autosave = "on_focus_change";
