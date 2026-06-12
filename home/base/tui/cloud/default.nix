@@ -21,16 +21,14 @@
     # pulumiPackages.pulumi-language-python
     # pulumiPackages.pulumi-language-nodejs
 
+    # doctl # digitalocean
+    aliyun-cli
     # aws
     awscli2
     ssm-session-manager-plugin # Amazon SSM Session Manager Plugin
     aws-iam-authenticator
     eksctl
 
-    # aliyun
-    aliyun-cli
-    # digitalocean
-    doctl
     # google cloud
     (pkgs-stable.google-cloud-sdk.withExtraComponents (
       with pkgs-stable.google-cloud-sdk.components;

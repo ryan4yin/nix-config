@@ -101,10 +101,9 @@ in
 
     onActivation = {
       autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
-      upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
+      upgrade = false; # Upgrade outdated casks, formulae, and App Store apps
       # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
       cleanup = "zap";
-      extraFlags = [ "--force-cleanup" ];
     };
 
     # Applications to install from Mac App Store using mas.
@@ -140,11 +139,6 @@ in
       # commands like `gsed` `gtar` are required by some tools
       "gnu-sed"
       "gnu-tar"
-
-      # misc that nix do not have cache for.
-      "git-trim"
-      "hashicorp/tap/terraform"
-      "terraformer"
     ];
 
     taps = [
@@ -157,7 +151,7 @@ in
       "firefox"
       "google-chrome"
 
-      "nikitabobko/tap/aerospace" # an i3-like tiling window manager for macOS
+      # "nikitabobko/tap/aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
 
       # container & vm
@@ -192,7 +186,6 @@ in
 
       # Development
       "mitmproxy" # HTTP/HTTPS traffic inspector
-      "insomnia" # REST client
       "wireshark-app" # network analyzer
       # "google-cloud-sdk" # Google Cloud SDK
       "miniforge" # Miniconda's community-driven distribution

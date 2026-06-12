@@ -4,20 +4,10 @@
 # ===================================================================
 let
   brokenPackages = [
-    "terraform"
-    "terraformer"
-    "packer"
-    "git-trim"
     "conda"
     "mitmproxy"
-    "insomnia"
     "wireshark"
-    "jsonnet"
-    "zls"
     "verible"
-    "gdb"
-    "ncdu"
-    "racket-minimal"
   ];
 in
 {
