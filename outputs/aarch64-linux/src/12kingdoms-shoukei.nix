@@ -56,6 +56,6 @@ in
 
   # generate iso image for hosts with desktop environment
   packages = {
-    "${name}-niri" = inputs.self.nixosConfigurations."${name}-niri".config.formats.iso;
+    "${name}-niri" = inputs.self.nixosConfigurations."${name}-niri".config.system.build.images.iso;
   };
 }

@@ -47,5 +47,5 @@ in
 
   colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
 
-  packages.${name} = inputs.self.nixosConfigurations.${name}.config.formats.kubevirt;
+  packages.${name} = inputs.self.nixosConfigurations.${name}.config.system.build.images.kubevirt;
 }
