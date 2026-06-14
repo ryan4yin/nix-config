@@ -6,7 +6,6 @@
     preservation.url = "github:nix-community/preservation";
     disko.url = "github:nix-community/disko/v1.11.0";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    nuenv.url = "github:DeterminateSystems/nuenv";
 
     nixos-apple-silicon = {
       # 2025-10-07 asahi-6.16.8-1
