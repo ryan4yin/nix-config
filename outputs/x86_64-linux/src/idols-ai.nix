@@ -34,6 +34,7 @@ let
           modules.secrets.desktop.enable = true;
           modules.secrets.preservation.enable = true;
           modules.desktop.gaming.enable = true;
+          modules.desktop.canokey.enable = true;
         }
       ];
     home-modules = map mylib.relativeToRoot [

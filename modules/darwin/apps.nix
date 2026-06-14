@@ -70,6 +70,8 @@ in
     nushell # my custom shell
     gnugrep # replacee macos's grep
     gnutar # replacee macos's tar
+    pcsclite
+    pcsc-tools
   ];
   environment.variables = {
     # Fix https://github.com/LnL7/nix-darwin/wiki/Terminfo-issues

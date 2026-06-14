@@ -39,6 +39,7 @@
       "wireshark"
       "adbusers" # android debugging
       "libvirtd" # virt-viewer / qemu
+      "plugdev" # canokey / openocd udev
       "fileshare"
     ];
   };
