@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ lib, ... }:
 {
   # auto upgrade nix to the unstable version
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/tools/package-management/nix/default.nix#L284
@@ -23,7 +19,20 @@
 
   # Manual optimise storage: nix-store --optimise
   # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
-  nix.settings.auto-optimise-store = true;
+  nix.settings = {
+    auto-optimise-store = true;
+
+    # Reference: https://github.com/NixOS/nixpkgs/pull/478109
+    # NixOS tests using systemd-nspawn containers require the Nix daemon to be
+    # configured with the following settings:
+    auto-allocate-uids = true;
+    extra-system-features = [ "uid-range" ];
+    experimental-features = [
+      "auto-allocate-uids"
+      "cgroups"
+    ];
+    sandbox-paths = [ "/dev/net" ];
+  };
 
   nix.channel.enable = false; # remove nix-channel related tools & configs, we use flakes instead.
 }
