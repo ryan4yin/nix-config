@@ -48,6 +48,7 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 ## 6) Tooling Defaults
 
+- Use Bash only for quick one-offs, Nushell for personal tooling, Python for everything else.
 - Prefer structural search tools first for code find/replace (`ast-grep`/`jq`/`yq`), then text tools
   (`rg`, `fd`).
 - Prefer project task runners (`just`, `make`, `npm scripts`, etc.) over ad-hoc commands when
@@ -65,7 +66,6 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 Treat scripts as interruptible jobs that must be diagnosable and safe to rerun:
 
-- Bash only for quick one-offs. Nushell for personal tooling. Python for everything else.
 - Verbose logging of progress, decisions, and errors.
 - Stage workflows with selective execution via cli flags.
 - Idempotent reruns; persist progress and support resume.
