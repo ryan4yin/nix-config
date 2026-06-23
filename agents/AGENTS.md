@@ -65,8 +65,7 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 Treat scripts as interruptible jobs that must be diagnosable and safe to rerun:
 
-- Prefer Python for complex or maintainable automation, Nushell for personal tooling. Use Bash only
-  for simple quick scripts.
+- Bash only for quick one-offs. Nushell for personal tooling. Python for everything else.
 - Verbose logging of progress, decisions, and errors.
 - Stage workflows with selective execution via cli flags.
 - Idempotent reruns; persist progress and support resume.
