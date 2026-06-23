@@ -31,7 +31,7 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 - Never write secret literals into tracked files.
 - Use environment variables, secret managers, or placeholders.
 - Redact sensitive output in logs and summaries.
-- For infra/IaC changes, prefer plan/eval/check before apply/switch.
+- For infra/IaC changes, prefer plan/eval/check before apply/deploy.
 
 ## 4) Scope Discipline
 
@@ -50,33 +50,34 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 - Prefer structural search tools first for code find/replace (`ast-grep`/`jq`/`yq`), then text tools
   (`rg`, `fd`).
-- Prefer project task runners (`just`, `make`, `task`, `npm scripts`, etc.) over ad-hoc commands
-  when equivalent.
-- If a required command is not already available, use only `nix run`, `flake.nix`/`shell.nix` or
-  `uv`/`pnpm` to provide it.
-- If that is still insufficient, stop and ask the user to prepare the environment instead of using
-  any other installation method.
+- Prefer project task runners (`just`, `make`, `npm scripts`, etc.) over ad-hoc commands when
+  equivalent.
+- Only use `nix run`, `flake.nix`/`shell.nix`, or `uv`/`pnpm` for missing commands & packages.
+  Otherwise, ask the user—never use another installer.
 - Use `gh` CLI for GitHub operations, especially code/PR/issue search and inspection.
 
 ## 7) Environment Defaults
 
-- Primary OS: NixOS.
-- Shell: default to `nushell`, `bash` also exists.
+- Primary OS: NixOS & macOS.
+- Shell: default to Nushell, Bash also exists.
 
 ## 8) Script Engineering Principles
 
 Treat scripts as interruptible jobs that must be diagnosable and safe to rerun:
 
-- Split workflows into explicit stages; allow running a selected stage via flags/arguments.
-- Make reruns idempotent; persist progress after each stage and support resume.
-- Cache external data with invalidation strategy to speed retries and improve reproducibility.
-- For HTTP flows, separate transport success from business success; support retry/backoff.
-- Provide independent verification commands/checks for key outputs (counts, samples, invariants).
+- Prefer Python for complex or maintainable automation, Nushell for personal tooling. Use Bash only
+  for simple quick scripts.
+- Verbose logging of progress, decisions, and errors.
+- Stage workflows with selective execution via cli flags.
+- Idempotent reruns; persist progress and support resume.
+- Cache external data with invalidation.
+- Separate HTTP transport from business success; retry with backoff.
+- Verify key outputs independently.
 
 ## 9) Communication Defaults
 
 - Respond in the language the user is currently using, prefer English & Chinese.
-- Code, commands, identifiers, and code comments: English.
+- Code, commands, identifiers, and code comments: Prefer English.
 - Be concise, concrete, and action-oriented.
 
 ## 10) Project Overlay
