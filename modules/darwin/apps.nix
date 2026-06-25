@@ -177,6 +177,7 @@ in
       # Misc
       "iina" # video player
       "stats" # beautiful system status monitor in menu bar
+      "orcaslicer" # 3d printer slicer app
 
       # "reaper"  # audio editor
       # "tencent-lemon" # macOS cleaner
