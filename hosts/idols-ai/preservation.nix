@@ -300,6 +300,10 @@ in
         ".local/share/io.github.clash-verge-rev.clash-verge-rev"
         ".local/share/clash-verge"
 
+        # Orca Slicer - 3D Printer Slicer
+        ".local/share/orca-slicer"
+        ".config/OrcaSlicer"
+
         # Audio
         ".config/pulse"
         ".local/state/wireplumber"

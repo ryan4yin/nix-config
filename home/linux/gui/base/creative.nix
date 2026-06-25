@@ -14,6 +14,7 @@
       inkscape # vector graphics
       krita # digital painting
       musescore # music notation
+      orca-slicer # 3d printer slicer app
       # reaper # audio production
       # sonic-pi # music programming
 
