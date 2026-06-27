@@ -8,9 +8,11 @@ rec {
   proxyGateway6 = "fe80::8";
   nameservers = [
     # IPv4
-    "119.29.29.29" # DNSPod
+    "119.29.29.29" # DNSPod https://www.dnspod.cn/Products/publicdns
     "223.5.5.5" # AliDNS
+    "1.1.1.1" # Cloudflare https://one.one.one.one/dns/
     # IPv6
+    "2402:4e00::" # DNSPod
     "2400:3200::1" # Alidns
     "2606:4700:4700::1111" # Cloudflare
   ];
