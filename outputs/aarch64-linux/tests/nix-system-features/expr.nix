@@ -16,6 +16,7 @@ lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (
       settings.experimental-features or [ ]
     );
     hasCgroupsFeature = builtins.elem "cgroups" (settings.experimental-features or [ ]);
-    hasDevNetSandboxPath = builtins.elem "/dev/net" (settings.sandbox-paths or [ ]);
+    hasNoExplicitSandboxPaths = !(settings ? sandbox-paths);
+    hasDevNetExtraSandboxPath = builtins.elem "/dev/net" (settings.extra-sandbox-paths or [ ]);
   }
 )

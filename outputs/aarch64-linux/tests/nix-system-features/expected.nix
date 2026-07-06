@@ -7,5 +7,6 @@ lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (_: {
   hasUidRange = true;
   hasAutoAllocateUidsFeature = true;
   hasCgroupsFeature = true;
-  hasDevNetSandboxPath = true;
+  hasNoExplicitSandboxPaths = true;
+  hasDevNetExtraSandboxPath = true;
 })

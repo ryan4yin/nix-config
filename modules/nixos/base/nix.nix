@@ -31,7 +31,15 @@
       "auto-allocate-uids"
       "cgroups"
     ];
-    sandbox-paths = [ "/dev/net" ];
+    # Use extra-sandbox-paths instead of sandbox-paths here. The plain
+    # sandbox-paths setting replaces Nix's compiled sandbox defaults, including
+    # the sandbox shell that provides /bin/sh for builders with legacy shebangs.
+    # extra-sandbox-paths keeps those defaults and only adds the paths we need.
+    # After deploying, verify the effective daemon config with:
+    #   nix config show | grep sandbox-paths
+    extra-sandbox-paths = [
+      "/dev/net"
+    ];
   };
 
   nix.channel.enable = false; # remove nix-channel related tools & configs, we use flakes instead.
