@@ -19,14 +19,6 @@
       $env.ANTHROPIC_BASE_URL = $env.WORK_ANTHROPIC_BASE_URL
       $env.ANTHROPIC_AUTH_TOKEN = $env.WORK_ANTHROPIC_AUTH_TOKEN
 
-      # using claude-code with glm llm
-      # https://docs.bigmodel.cn/cn/coding-plan/tool/claude
-      # $env.ANTHROPIC_BASE_URL = "https://open.bigmodel.cn/api/anthropic"
-      # $env.ANTHROPIC_AUTH_TOKEN = $env.ZAI_API_KEY
-      # $env.ANTHROPIC_DEFAULT_OPUS_MODEL = "glm-5.1"
-      # $env.ANTHROPIC_DEFAULT_SONNET_MODEL = "glm-5-turbo"
-      # $env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "glm-4.5-air"
-
       # Directories in this constant are searched by the
       # `use` and `source` commands.
       const NU_LIB_DIRS = $NU_LIB_DIRS ++ ['${nu_scripts}']
