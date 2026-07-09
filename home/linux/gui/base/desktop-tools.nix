@@ -33,6 +33,7 @@
 
   # screen locker
   programs.swaylock.enable = true;
+  catppuccin.swaylock.enable = false;
 
   # Logout Menu
   programs.wlogout.enable = true;

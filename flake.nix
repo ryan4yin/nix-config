@@ -17,12 +17,14 @@
     # substituers will be appended to the default substituters when fetching packages
     extra-substituters = [
       "https://cache.numtide.com"
+      "https://catppuccin.cachix.org"
       # "https://nix-gaming.cachix.org"
       # "https://nixpkgs-wayland.cachix.org"
       # "https://install.determinate.systems"
     ];
     extra-trusted-public-keys = [
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
       # "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
       # "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
