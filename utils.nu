@@ -12,12 +12,12 @@ export def nixos-switch [
     print (repeat-str "=" 50)
     if "debug" == $mode {
         # show details via nix-output-monitor
-        nom build $".#nixosConfigurations.($name).config.system.build.toplevel" --show-trace --verbose
-        nixos-rebuild switch --sudo --flake $".#($name)" --show-trace --verbose
+        nom build $".#nixosConfigurations.($name).config.system.build.toplevel" --accept-flake-config --show-trace --verbose
+        nixos-rebuild switch --sudo --flake $".#($name)" --accept-flake-config --show-trace --verbose
     } else if "boot" == $mode {
-        nixos-rebuild boot --sudo --flake $".#($name)"
+        nixos-rebuild boot --sudo --flake $".#($name)" --accept-flake-config
     } else {
-        nixos-rebuild switch --sudo --flake $".#($name)"
+        nixos-rebuild switch --sudo --flake $".#($name)" --accept-flake-config
     }
 }
 
@@ -86,4 +86,3 @@ export def upload-vm [
     let remote = $"root@192.168.5.178:/data/caddy/fileserver/vms/kubevirt-($name).qcow2"
     rsync -avz --progress --copy-links --checksum result/nixos-image-*.qcow2 $remote
 }
-
