@@ -2,6 +2,7 @@
   lib,
   pkgs,
   pkgs-stable,
+  pkgs-master,
   blender-bin,
   ...
 }:
@@ -14,8 +15,8 @@
       inkscape # vector graphics
       krita # digital painting
       musescore # music notation
-      orca-slicer # 3d printer slicer app
-      bambu-studio # bambu 3d printer slicer app
+      pkgs-master.orca-slicer # 3d printer slicer app
+      pkgs-master.bambu-studio # bambu 3d printer slicer app
       # reaper # audio production
       # sonic-pi # music programming
 
