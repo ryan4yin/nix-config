@@ -1,6 +1,5 @@
 {
   config,
-  nixpkgs,
   nixvim,
   pkgs,
   ...
@@ -9,7 +8,7 @@
 
   imports = [ nixvim.homeModules.nixvim ];
 
-  programs.nixvim.nixpkgs.source = nixpkgs;
+  programs.nixvim.nixpkgs.useGlobalPackages = true;
   home.shellAliases = {
 
     vi = "nvim";

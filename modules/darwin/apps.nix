@@ -111,7 +111,6 @@ in
     # otherwise Apple Store will refuse to install them.
     # For details, see https://github.com/mas-cli/mas
     masApps = {
-      Keynote = 409183694;
       Slack = 803453959;
       WireGuard = 1451685025;
       # Xcode = 497799835;
