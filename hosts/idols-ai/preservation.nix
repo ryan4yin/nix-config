@@ -304,6 +304,10 @@ in
         ".local/share/orca-slicer"
         ".config/OrcaSlicer"
 
+        # Bambu Studio - 3D Printer Slicer
+        ".local/share/bambu-studio"
+        ".config/BambuStudio"
+
         # Audio
         ".config/pulse"
         ".local/state/wireplumber"
