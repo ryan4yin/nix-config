@@ -147,6 +147,7 @@ in
         ".config/agents"
         ".claude"
         ".codex"
+        ".kimi-code"
         ".config/opencode"
         ".local/share/opencode"
         ".local/state/opencode"
