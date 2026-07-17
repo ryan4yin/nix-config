@@ -33,6 +33,7 @@ Current targets:
 - Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
 - OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
 - Claude Code: `AGENTS.md` -> `~/.claude/CLAUDE.md`
+- Generic cross-tool (read by Kimi Code): `AGENTS.md` -> `~/.agents/AGENTS.md`
 
 Behavior:
 

@@ -31,9 +31,11 @@ def main() -> int:
     xdg_config_home = Path(os.environ.get("XDG_CONFIG_HOME", "~/.config")).expanduser()
     opencode_dir = xdg_config_home / "opencode"
     claude_dir = Path("~/.claude").expanduser()
+    agents_dir = Path("~/.agents").expanduser()
     install_one(codex_dir, agents_file, "AGENTS.md")
     install_one(opencode_dir, agents_file, "AGENTS.md")
     install_one(claude_dir, agents_file, "CLAUDE.md")
+    install_one(agents_dir, agents_file, "AGENTS.md")
 
     return 0
 

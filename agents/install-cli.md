@@ -10,6 +10,7 @@ Installed via Nix:
 - opencode
 - cursor-agent(cli)
 - claude-code
+- kimi-code
 
 ## Optional tooling
 
