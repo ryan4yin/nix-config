@@ -86,6 +86,7 @@
       cursor-cli
       claude-code
       opencode
+      kimi-code
 
       # Utilities
       rtk # CLI proxy that reduces LLM token consumption
