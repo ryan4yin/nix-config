@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  pkgs-master,
+  lib,
+  ...
+}:
 {
   # XDG autostart entries - ensures apps start after portal services are ready
   xdg.autostart.enable = true;
@@ -8,7 +13,7 @@
     "${pkgs.alacritty}/share/applications/Alacritty.desktop"
     "${pkgs.ghostty}/share/applications/com.mitchellh.ghostty.desktop"
 
-    "${pkgs.clash-verge-rev}/share/applications/clash-verge.desktop"
+    "${pkgs-master.clash-verge-rev}/share/applications/clash-verge.desktop"
 
     # nixpaks
     "${pkgs.nixpaks.firefox}/share/applications/org.mozilla.firefox.desktop"
