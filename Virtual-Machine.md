@@ -20,6 +20,9 @@ commands:
 just col aquamarine
 just col kubevirt-shoryu
 just col k3s-test-1-master-1
+
+# Set a configuration for the next boot instead of switching immediately
+just col aquamarine boot
 ```
 
 If you're not familiar with remote deployment, please read this tutorial first:

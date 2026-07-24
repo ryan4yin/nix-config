@@ -86,19 +86,27 @@ just up-nix                 # update nixpkgs-related inputs
 ### Local deploy commands
 
 ```bash
-just local                  # deploy config for current hostname
-just local debug            # same with verbose/debug mode
-just niri                   # deploy "<hostname>-niri" on Linux
-just niri debug             # debug mode
+just local                  # Linux: switch config for current hostname
+just local boot             # Linux: set the next boot config without switching
+just local switch debug     # Linux: switch with detailed output
+just local boot debug       # Linux: boot mode with detailed output
+just niri                   # Linux: switch "<hostname>-niri"
+just niri boot              # Linux: set "<hostname>-niri" for the next boot
+just niri switch debug      # Linux: switch niri config with detailed output
+just local debug            # macOS: switch with detailed output
 ```
 
 ### Remote deploy commands (colmena)
 
 ```bash
-just col <tag>              # deploy nodes matching tag
-just lab                    # deploy all kubevirt nodes
-just k3s-prod               # deploy k3s production nodes
-just k3s-test               # deploy k3s test nodes
+just col <tag>              # switch nodes matching tag
+just col <tag> boot         # set matching nodes' next boot configuration
+just lab                    # switch all kubevirt nodes
+just lab boot               # set all kubevirt nodes for the next boot
+just k3s-prod               # switch k3s production nodes
+just k3s-prod boot          # set k3s production nodes for the next boot
+just k3s-test               # switch k3s test nodes
+just k3s-test boot          # set k3s test nodes for the next boot
 ```
 
 ### Useful direct commands

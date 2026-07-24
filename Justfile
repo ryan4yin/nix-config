@@ -122,18 +122,18 @@ override-pkgs hash:
 # Deploy the nixosConfiguration by hostname match
 [linux]
 [group('homelab')]
-local mode="default":
+local mode="switch" verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
-  nixos-switch (hostname) {{mode}}
+  nixos-switch (hostname) {{mode}} {{verbosity}}
 
 # Deploy the niri nixosConfiguration by hostname match
 [linux]
 [group('desktop')]
-niri mode="default":
+niri mode="switch" verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
-  nixos-switch $"(hostname)-niri" {{mode}}
+  nixos-switch $"(hostname)-niri" {{mode}} {{verbosity}}
 
 ############################################################################
 #
@@ -162,11 +162,11 @@ darwin-rollback:
 # Deploy the darwinConfiguration by hostname match
 [macos]
 [group('desktop')]
-local mode="default": 
+local verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
-  darwin-build (hostname) {{mode}};
-  darwin-switch (hostname) {{mode}}
+  darwin-build (hostname) {{verbosity}};
+  darwin-switch (hostname) {{verbosity}}
 
 
 # Reset launchpad to force it to reindex Applications
@@ -185,37 +185,37 @@ reset-launchpad:
 # Remote deployment via colmena
 [linux]
 [group('homelab')]
-col tag:
-  colmena apply --on '@{{tag}}' --verbose --show-trace
+col tag mode="switch":
+  colmena apply {{mode}} --on '@{{tag}}' --verbose --show-trace
 
 # Build and upload a vm image
 [linux]
 [group('homelab')]
-upload-vm name mode="default":
+upload-vm name verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
-  upload-vm {{name}} {{mode}}
+  upload-vm {{name}} {{verbosity}}
 
 # Deploy all the KubeVirt nodes(Physical machines running KubeVirt)
 [linux]
 [group('homelab')]
-lab:
-  colmena apply --on '@virt-*' --verbose --show-trace
+lab mode="switch":
+  colmena apply {{mode}} --on '@virt-*' --verbose --show-trace
 
 [linux]
 [group('homelab')]
-shoryu:
-  colmena apply --on '@kubevirt-shoryu' --verbose --show-trace
+shoryu mode="switch":
+  colmena apply {{mode}} --on '@kubevirt-shoryu' --verbose --show-trace
 
 [linux]
 [group('homelab')]
-shushou:
-  colmena apply --on '@kubevirt-shushou' --verbose --show-trace
+shushou mode="switch":
+  colmena apply {{mode}} --on '@kubevirt-shushou' --verbose --show-trace
 
 [linux]
 [group('homelab')]
-youko:
-  colmena apply --on '@kubevirt-youko' --verbose --show-trace
+youko mode="switch":
+  colmena apply {{mode}} --on '@kubevirt-youko' --verbose --show-trace
 
 ############################################################################
 #
@@ -226,27 +226,27 @@ youko:
 # Build and upload a vm image
 [linux]
 [group('homelab')]
-upload-idols mode="default":
+upload-idols verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
-  upload-vm aquamarine {{mode}}
-  upload-vm ruby {{mode}}
-  upload-vm kana {{mode}}
+  upload-vm aquamarine {{verbosity}}
+  upload-vm ruby {{verbosity}}
+  upload-vm kana {{verbosity}}
 
 [linux]
 [group('homelab')]
-aqua:
-  colmena apply --on '@aqua' --verbose --show-trace
+aqua mode="switch":
+  colmena apply {{mode}} --on '@aqua' --verbose --show-trace
 
 [linux]
 [group('homelab')]
-ruby:
-  colmena apply --on '@ruby' --verbose --show-trace
+ruby mode="switch":
+  colmena apply {{mode}} --on '@ruby' --verbose --show-trace
 
 [linux]
 [group('homelab')]
-kana:
-  colmena apply --on '@kana' --verbose --show-trace
+kana mode="switch":
+  colmena apply {{mode}} --on '@kana' --verbose --show-trace
 
 ############################################################################
 #
@@ -257,34 +257,34 @@ kana:
 # Build and upload a vm image
 [linux]
 [group('homelab')]
-upload-k3s-prod mode="default":
+upload-k3s-prod verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
-  upload-vm k3s-prod-1-master-1 {{mode}}; 
-  upload-vm k3s-prod-1-master-2 {{mode}}; 
-  upload-vm k3s-prod-1-master-3 {{mode}}; 
-  upload-vm k3s-prod-1-worker-1 {{mode}}; 
-  upload-vm k3s-prod-1-worker-2 {{mode}}; 
-  upload-vm k3s-prod-1-worker-3 {{mode}};
+  upload-vm k3s-prod-1-master-1 {{verbosity}};
+  upload-vm k3s-prod-1-master-2 {{verbosity}};
+  upload-vm k3s-prod-1-master-3 {{verbosity}};
+  upload-vm k3s-prod-1-worker-1 {{verbosity}};
+  upload-vm k3s-prod-1-worker-2 {{verbosity}};
+  upload-vm k3s-prod-1-worker-3 {{verbosity}};
 
 [linux]
 [group('homelab')]
-upload-k3s-test mode="default":
+upload-k3s-test verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
-  upload-vm k3s-test-1-master-1 {{mode}}; 
-  upload-vm k3s-test-1-master-2 {{mode}}; 
-  upload-vm k3s-test-1-master-3 {{mode}};
+  upload-vm k3s-test-1-master-1 {{verbosity}};
+  upload-vm k3s-test-1-master-2 {{verbosity}};
+  upload-vm k3s-test-1-master-3 {{verbosity}};
 
 [linux]
 [group('homelab')]
-k3s-prod:
-  colmena apply --on '@k3s-prod-*' --verbose --show-trace
+k3s-prod mode="switch":
+  colmena apply {{mode}} --on '@k3s-prod-*' --verbose --show-trace
 
 [linux]
 [group('homelab')]
-k3s-test:
-  colmena apply --on '@k3s-test-*' --verbose --show-trace
+k3s-test mode="switch":
+  colmena apply {{mode}} --on '@k3s-test-*' --verbose --show-trace
 
 # =================================================
 #

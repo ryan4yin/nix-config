@@ -118,11 +118,22 @@ For NixOS:
 # deploy one of the configuration based on the hostname
 sudo nixos-rebuild switch --flake .#ai-niri
 
+# Deploy the nixosConfiguration matching the hostname immediately
+just local
+
+# Set it as the next boot configuration without switching immediately
+just local boot
+
+# Deploy with detailed output; use `boot debug` to combine both options
+just local switch debug
+
 # Deploy the niri nixosConfiguration by hostname match
 just niri
 
-# or we can deploy with details
-just niri debug
+# The niri recipe accepts the same mode and verbosity arguments
+just niri boot
+just niri switch debug
+just niri boot debug
 ```
 
 For macOS:
@@ -138,7 +149,7 @@ nix-shell -p just nushell
 # Deploy the darwinConfiguration by hostname match
 just local
 
-# deploy with details
+# Deploy with details (macOS has no switch/boot mode argument)
 just local debug
 ```
 
