@@ -58,11 +58,6 @@
         href: "https://sftpgo.writefor.fun/web/admin/folders"
         description: WebDAV & SFTP server
         siteMonitor: https://sftpgo.writefor.fun/
-    - MinIO:
-        icon: minio.png
-        href: "https://minio-ui.writefor.fun/"
-        description: S3 compatible object storage
-        siteMonitor: "https://minio-ui.writefor.fun/"
     - Gitea:
         icon: gitea.png
         href: "https://git.writefor.fun/"
