@@ -52,6 +52,12 @@
         receiver = "telegram";
         routes = [
           {
+            # Watchdog & InfoInhibitor are meta alerts that should never notify,
+            # route them to a null receiver.
+            receiver = "null";
+            matchers = [ ''severity = "none"'' ];
+          }
+          {
             receiver = "telegram";
             # group alerts by labels
             group_by = [
@@ -90,6 +96,10 @@
         ];
       };
       receivers = [
+        {
+          # Discards all notifications (for meta alerts that should never notify).
+          name = "null";
+        }
         # {
         #   name = "email";
         #   email_configs = [
@@ -114,25 +124,34 @@
               # https://core.telegram.org/bots/api#formatting-options
               parse_mode = "HTML";
               # Message template
+              # Telegram limits a message to 4096 chars, so only render the first 5 alerts
+              # in a group and keep the fields minimal (no full label dump).
               message = ''
                 {{- if eq .Status "firing" }}
-                🟡 <b>告警触发</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}]
+                🟡 <b>告警触发</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}] (共 {{ len .Alerts }} 条)
                 {{- else }}
                 🟢 <b>告警恢复</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}]
                 {{- end }}
 
-                {{- range .Alerts }}
+                {{- range $i, $a := .Alerts }}
+                {{- if lt $i 5 }}
 
                 📊 <b>详情:</b>
-                • <b>告警组</b>: {{ .Labels.alertgroup }}
-                • <b>等级</b>: {{ if eq .Labels.severity "critical" }}🔴{{ else }}🟡 {{ end }} {{ .Labels.severity | title }}
-                • <b>查询</b>: <a href="{{ .GeneratorURL }}">Grafana Explore</a>
-                • <b>触发值</b>: {{ with .Annotations.value }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Env</b>: {{ with .Labels.env }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Cluster</b>: {{ with .Labels.cluster }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Namespace</b>: {{ with .Labels.namespace }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>标签</b>: {{ range .Labels.SortedPairs }}{{ .Name }}={{ .Value }},{{ end }}
-                • <b>触发时间</b>: {{ .StartsAt.Format "2006-01-02 15:04:05" }}
+                • <b>告警组</b>: {{ $a.Labels.alertgroup }}
+                • <b>等级</b>: {{ if eq $a.Labels.severity "critical" }}🔴{{ else }}🟡 {{ end }} {{ $a.Labels.severity | title }}
+                • <b>实例</b>: {{ with $a.Labels.instance }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Pod</b>: {{ with $a.Labels.pod }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>查询</b>: <a href="{{ $a.GeneratorURL }}">Grafana Explore</a>
+                • <b>触发值</b>: {{ with $a.Annotations.value }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Env</b>: {{ with $a.Labels.env }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Cluster</b>: {{ with $a.Labels.cluster }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Namespace</b>: {{ with $a.Labels.namespace }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>触发时间</b>: {{ $a.StartsAt.Format "2006-01-02 15:04:05" }}
+                {{- end }}
+                {{- end }}
+                {{- if gt (len .Alerts) 5 }}
+
+                ⚠️ 另有 {{ len (slice .Alerts 5) }} 条同组告警未列出，请查看 Alertmanager。
                 {{- end }}
               '';
             }
