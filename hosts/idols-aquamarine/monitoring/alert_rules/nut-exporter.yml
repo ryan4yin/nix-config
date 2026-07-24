@@ -1,0 +1,28 @@
+groups:
+  - name: nut-exporter.rules
+    rules:
+      - alert: UPSOnBattery
+        annotations:
+          description:
+            UPS on {{ $labels.host }} ({{ $labels.instance }}) is running on battery power.
+          summary: UPS is running on battery power.
+        expr: network_ups_tools_ups_status{flag="OB"} == 1
+        for: 1m
+        labels:
+          severity: warning
+      - alert: UPSLowBattery
+        annotations:
+          description: UPS on {{ $labels.host }} ({{ $labels.instance }}) reports a low battery.
+          summary: UPS battery is low.
+        expr: network_ups_tools_ups_status{flag="LB"} == 1
+        for: 1m
+        labels:
+          severity: critical
+      - alert: UPSOverload
+        annotations:
+          description: UPS on {{ $labels.host }} ({{ $labels.instance }}) reports an overload.
+          summary: UPS is overloaded.
+        expr: network_ups_tools_ups_status{flag="OVER"} == 1
+        for: 1m
+        labels:
+          severity: critical

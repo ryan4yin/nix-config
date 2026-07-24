@@ -350,7 +350,6 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -386,101 +385,7 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "area"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 10,
-        "x": 3,
-        "y": 4
-      },
-      "id": 11,
-      "options": {
-        "alertThreshold": true,
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.3.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "expr": "network_ups_tools_output_voltage{instance=~\"$instance\",job=~\"$job\"}",
-          "interval": "",
-          "legendFormat": "Output Voltage History",
-          "refId": "A"
-        }
-      ],
-      "title": "Output Voltage History",
-      "transparent": true,
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 50,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
+              "mode": "dashed"
             }
           },
           "mappings": [],
@@ -494,8 +399,8 @@
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "yellow",
+                "value": 70
               }
             ]
           },
@@ -505,8 +410,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 11,
-        "x": 13,
+        "w": 21,
+        "x": 3,
         "y": 4
       },
       "id": 15,
@@ -711,7 +616,7 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "dashed"
             }
           },
           "mappings": [],
@@ -721,12 +626,47 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 200
+              },
+              {
+                "color": "yellow",
+                "value": 240
               }
             ]
           },
           "unit": "volt"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Nominal input voltage / 输入额定电压"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [10, 10],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 6,
@@ -741,7 +681,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -757,12 +697,34 @@
           },
           "expr": "network_ups_tools_input_voltage{instance=~\"$instance\",job=~\"$job\"}",
           "interval": "",
-          "legendFormat": "Input voltage",
+          "legendFormat": "Input voltage / 输入电压",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "network_ups_tools_output_voltage{instance=~\"$instance\",job=~\"$job\"}",
+          "interval": "",
+          "legendFormat": "Output voltage / 输出电压",
+          "refId": "B",
+          "range": true
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "network_ups_tools_input_voltage_nominal{instance=~\"$instance\",job=~\"$job\"}",
+          "interval": "",
+          "legendFormat": "Nominal input voltage / 输入额定电压",
+          "refId": "C",
+          "range": true
         }
       ],
-      "title": "Input Voltage History",
+      "title": "Input / Output Voltage History",
       "transparent": true,
       "type": "timeseries"
     },
@@ -939,7 +901,86 @@
           },
           "unit": "volt"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Low battery voltage / 电池低电压"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [10, 10],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Nominal battery voltage / 电池额定电压"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [10, 10],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Full-charge battery voltage / 电池满电电压"
+            },
+            "properties": [
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [10, 10],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 6,
@@ -954,7 +995,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
@@ -971,46 +1012,41 @@
           "editorMode": "code",
           "expr": "network_ups_tools_battery_voltage{instance=~\"$instance\",job=~\"$job\"}",
           "interval": "",
-          "legendFormat": "Battery voltage",
+          "legendFormat": "Battery voltage / 电池电压",
           "refId": "A"
-        }
-      ],
-      "transformations": [
-        {
-          "id": "configFromData",
-          "options": {
-            "configRefId": "B",
-            "mappings": [
-              {
-                "fieldName": "voltage",
-                "handlerKey": "min"
-              }
-            ]
-          }
         },
         {
-          "id": "configFromData",
-          "options": {
-            "configRefId": "C",
-            "mappings": [
-              {
-                "fieldName": "voltage",
-                "handlerKey": "max"
-              }
-            ]
-          }
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "network_ups_tools_battery_voltage_low{instance=~\"$instance\",job=~\"$job\"}",
+          "interval": "",
+          "legendFormat": "Low battery voltage / 电池低电压",
+          "refId": "B"
         },
         {
-          "id": "configFromData",
-          "options": {
-            "configRefId": "D",
-            "mappings": [
-              {
-                "fieldName": "voltage",
-                "handlerKey": "threshold1"
-              }
-            ]
-          }
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "network_ups_tools_battery_voltage_nominal{instance=~\"$instance\",job=~\"$job\"}",
+          "interval": "",
+          "legendFormat": "Nominal battery voltage / 电池额定电压",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "editorMode": "code",
+          "expr": "network_ups_tools_battery_voltage_high{instance=~\"$instance\",job=~\"$job\"}",
+          "interval": "",
+          "legendFormat": "Full-charge battery voltage / 电池满电电压",
+          "refId": "D"
         }
       ],
       "title": "Battery Voltage History",
