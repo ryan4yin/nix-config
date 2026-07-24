@@ -72,6 +72,22 @@
           ];
         }
         {
+          job_name = "nut-exporter-homelab-ups";
+          scrape_interval = "30s";
+          metrics_path = "/ups_metrics";
+          params.ups = [ "homelab" ];
+          static_configs = [
+            {
+              targets = [ "${myvars.networking.hostsAddr.kubevirt-shushou.ipv4}:9199" ];
+              labels.type = "app";
+              labels.app = "nut";
+              labels.host = "kubevirt-shushou";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
+        {
           job_name = "postgres-exporter";
           scrape_interval = "30s";
           metrics_path = "/metrics";
