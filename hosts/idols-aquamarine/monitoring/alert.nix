@@ -128,25 +128,24 @@
               # in a group and keep the fields minimal (no full label dump).
               message = ''
                 {{- if eq .Status "firing" }}
-                🟡 <b>告警触发</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}] (共 {{ len .Alerts }} 条)
+                🟡 <b>告警触发</b> [{{ .CommonLabels.severity | title }}] <b>{{ .CommonLabels.alertname }}</b> (共 {{ len .Alerts }} 条)
                 {{- else }}
-                🟢 <b>告警恢复</b>  {{ .CommonLabels.alertname }} [{{ index .CommonLabels "severity" | title }}]
+                🟢 <b>告警恢复</b> [{{ .CommonLabels.severity | title }}] <b>{{ .CommonLabels.alertname }}</b>
                 {{- end }}
 
+                • <b>告警组</b>: {{ .CommonLabels.alertgroup }}
+                • <b>Cluster</b>: {{ with .CommonLabels.cluster }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Env</b>: {{ with .CommonLabels.env }}{{ . }}{{ else }}N/A{{ end }}
+                • <b>Namespace</b>: {{ with .CommonLabels.namespace }}{{ . }}{{ else }}N/A{{ end }}
                 {{- range $i, $a := .Alerts }}
                 {{- if lt $i 5 }}
 
-                📊 <b>详情:</b>
-                • <b>告警组</b>: {{ $a.Labels.alertgroup }}
-                • <b>等级</b>: {{ if eq $a.Labels.severity "critical" }}🔴{{ else }}🟡 {{ end }} {{ $a.Labels.severity | title }}
-                • <b>实例</b>: {{ with $a.Labels.instance }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Pod</b>: {{ with $a.Labels.pod }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>查询</b>: <a href="{{ $a.GeneratorURL }}">Grafana Explore</a>
-                • <b>触发值</b>: {{ with $a.Annotations.value }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Env</b>: {{ with $a.Labels.env }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Cluster</b>: {{ with $a.Labels.cluster }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>Namespace</b>: {{ with $a.Labels.namespace }}{{ . }}{{ else }}N/A{{ end }}
-                • <b>触发时间</b>: {{ $a.StartsAt.Format "2006-01-02 15:04:05" }}
+                ━━━━━━━━
+                📌 {{ with $a.Annotations.summary }}<b>{{ . }}</b>{{ else }}<b>{{ $a.Labels.instance }}</b>{{ end }}
+                {{- with $a.Labels.nodename }}
+                🏠 {{ . }}
+                {{- end }}
+                🔗 <a href="{{ $a.GeneratorURL }}">Grafana Explore</a> · ⏱ {{ $a.StartsAt.Format "2006-01-02 15:04:05" }}
                 {{- end }}
                 {{- end }}
                 {{- if gt (len .Alerts) 5 }}
