@@ -24,28 +24,6 @@
         "type": "github"
       }
     },
-    "blender-bin": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "blender",
-        "lastModified": 1766785730,
-        "narHash": "sha256-R0SImlpvVtp4gBCjWtrjyWlir2vMEs03XdVBJtsryUU=",
-        "owner": "edolstra",
-        "repo": "nix-warez",
-        "rev": "32a73188c4026cea3f8ed97078ace45bf9f7f578",
-        "type": "github"
-      },
-      "original": {
-        "dir": "blender",
-        "owner": "edolstra",
-        "repo": "nix-warez",
-        "type": "github"
-      }
-    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -675,6 +653,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-blender": {
+      "locked": {
+        "lastModified": 1784871293,
+        "narHash": "sha256-bf8Gay/Vopie4kGiw1qg1PQBKL4MNU7Li9ThI80JE1c=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "596a0d7dc02bb847b5f4cb44a20a15ff12275bb3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-darwin": {
       "locked": {
         "lastModified": 1780030872,
@@ -892,7 +886,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "blender-bin": "blender-bin",
         "catppuccin": "catppuccin",
         "disko": "disko",
         "haumea": "haumea",
@@ -907,6 +900,7 @@
         "nixpak": "nixpak",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-2505": "nixpkgs-2505",
+        "nixpkgs-blender": "nixpkgs-blender",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-patched": "nixpkgs-patched",

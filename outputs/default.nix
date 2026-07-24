@@ -13,9 +13,15 @@ let
   # so that I can use them in all my nixos/home-manager/darwin modules.
   genSpecialArgs =
     system:
+    let
+      pkgs-stable = import inputs.nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    in
     inputs
     // {
-      inherit mylib myvars;
+      inherit mylib myvars pkgs-stable;
 
       # use unstable branch for some packages to get the latest updates
       # pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -24,11 +30,6 @@ let
       #   config.allowUnfree = true;
       # };
       pkgs-2505 = import inputs.nixpkgs-2505 {
-        inherit system;
-        # To use chrome, we need to allow the installation of non-free software
-        config.allowUnfree = true;
-      };
-      pkgs-stable = import inputs.nixpkgs-stable {
         inherit system;
         # To use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
@@ -42,6 +43,23 @@ let
         inherit system;
         # to use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
+      };
+      pkgs-blender = import inputs.nixpkgs-blender {
+        inherit system;
+        config = lib.optionalAttrs (system == "x86_64-linux") {
+          allowUnfree = true;
+          cudaSupport = true;
+          # CUDA compute capability 8.9 targets the RTX 4090 (Ada) and avoids building kernels
+          # for unrelated GPU architectures.
+          cudaCapabilities = [ "8.9" ];
+        };
+        overlays = lib.optional (system == "x86_64-linux") (
+          _: prev: {
+            # CMake 4.2+ breaks OIDN's nested CUDA build with nixpkgs' split CUDAToolkit_ROOT.
+            # https://github.com/NixOS/nixpkgs/issues/544701
+            openimagedenoise = prev.openimagedenoise.override { cmake = pkgs-stable.cmake; };
+          }
+        );
       };
 
       pkgs-x64 = import nixpkgs {

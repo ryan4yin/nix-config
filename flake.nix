@@ -119,10 +119,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    blender-bin = {
-      url = "github:edolstra/nix-warez?dir=blender";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # Track Blender from master while keeping its lock entry independent from regular nixpkgs.
+    nixpkgs-blender.url = "github:nixos/nixpkgs/master";
 
     nixos-apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon";

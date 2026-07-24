@@ -3,7 +3,7 @@
   pkgs,
   pkgs-stable,
   pkgs-master,
-  blender-bin,
+  pkgs-blender,
   ...
 }:
 {
@@ -17,6 +17,7 @@
       musescore # music notation
       pkgs-master.orca-slicer # 3d printer slicer app
       pkgs-master.bambu-studio # bambu 3d printer slicer app
+      pkgs-blender.blender # 3d modeling
       # reaper # audio production
       # sonic-pi # music programming
 
@@ -37,9 +38,6 @@
       hyphenDicts.en_GB # British English
     ]
     ++ (lib.optionals pkgs.stdenv.isx86_64 [
-      # https://github.com/edolstra/nix-warez/blob/master/blender/flake.nix
-      blender-bin.packages.${pkgs.stdenv.hostPlatform.system}.blender_4_2 # 3d modeling
-
       ldtk # A modern, versatile 2D level editor
 
       # fpga
