@@ -3,6 +3,29 @@
   myvars,
   ...
 }:
+let
+  # Hosts that should not be scraped:
+  # - powered-off machines (SBCs and the whole k3s-prod-1 cluster), to avoid TargetDown
+  #   noise; remove entries from this list when the machines come back online.
+  # - shoukei (a laptop on untrusted networks), its node-exporter is disabled on the
+  #   machine itself, so there is nothing to scrape.
+  offlineHosts = [
+    "shoukei"
+    "suzu"
+    "suzi"
+    "yukina"
+    "nozomi"
+    "chiaya"
+    "rakushun"
+    "mitsuha"
+    "k3s-prod-1-master-1"
+    "k3s-prod-1-master-2"
+    "k3s-prod-1-master-3"
+    "k3s-prod-1-worker-1"
+    "k3s-prod-1-worker-2"
+    "k3s-prod-1-worker-3"
+  ];
+in
 {
   # Since victoriametrics use DynamicUser, the user & group do not exists before the service starts.
   # this group is used as a supplementary Unix group for the service to access our data dir(/data/apps/xxx)
@@ -40,21 +63,24 @@
       scrape_configs = [
         # --- Homelab Applications --- #
 
-        {
-          job_name = "dnsmasq-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              targets = [ "${myvars.networking.hostsAddr.suzi.ipv4}:9153" ];
-              labels.type = "app";
-              labels.app = "dnsmasq";
-              labels.host = "suzi";
-              labels.env = "homelab";
-              labels.cluster = "homelab";
-            }
-          ];
-        }
+        # suzi is powered off, disable scraping until it comes back online.
+        /*
+          {
+            job_name = "dnsmasq-exporter";
+            scrape_interval = "30s";
+            metrics_path = "/metrics";
+            static_configs = [
+              {
+                targets = [ "${myvars.networking.hostsAddr.suzi.ipv4}:9153" ];
+                labels.type = "app";
+                labels.app = "dnsmasq";
+                labels.host = "suzi";
+                labels.env = "homelab";
+                labels.cluster = "homelab";
+              }
+            ];
+          }
+        */
 
         {
           job_name = "v2ray-exporter";
@@ -150,27 +176,31 @@
         }
       ]
       # --- Hosts --- #
-      ++ (lib.attrsets.foldlAttrs (
-        acc: hostname: addr:
-        acc
-        ++ [
-          {
-            job_name = "node-exporter-${hostname}";
-            scrape_interval = "30s";
-            metrics_path = "/metrics";
-            static_configs = [
-              {
-                # All my NixOS hosts.
-                targets = [ "${addr.ipv4}:9100" ];
-                labels.type = "node";
-                labels.host = hostname;
-                labels.env = "homelab";
-                labels.cluster = "homelab";
-              }
-            ];
-          }
-        ]
-      ) [ ] myvars.networking.hostsAddr);
+      ++ (lib.attrsets.foldlAttrs
+        (
+          acc: hostname: addr:
+          acc
+          ++ [
+            {
+              job_name = "node-exporter-${hostname}";
+              scrape_interval = "30s";
+              metrics_path = "/metrics";
+              static_configs = [
+                {
+                  # All my NixOS hosts.
+                  targets = [ "${addr.ipv4}:9100" ];
+                  labels.type = "node";
+                  labels.host = hostname;
+                  labels.env = "homelab";
+                  labels.cluster = "homelab";
+                }
+              ];
+            }
+          ]
+        )
+        [ ]
+        (lib.attrsets.filterAttrs (n: _: !(builtins.elem n offlineHosts)) myvars.networking.hostsAddr)
+      );
     };
   };
 }

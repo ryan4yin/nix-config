@@ -52,10 +52,10 @@
         receiver = "telegram";
         routes = [
           {
-            # Watchdog & InfoInhibitor are meta alerts that should never notify,
-            # route them to a null receiver.
+            # Meta alerts like Watchdog & InfoInhibitor should never notify,
+            # and info-level alerts are too noisy; route them to a null receiver.
             receiver = "null";
-            matchers = [ ''severity = "none"'' ];
+            matchers = [ ''severity =~ "none|info"'' ];
           }
           {
             receiver = "telegram";

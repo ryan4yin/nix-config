@@ -21,6 +21,11 @@ in
   services.sunshine.enable = lib.mkForce false;
   services.tuned.ppdSettings.main.default = lib.mkForce "power-saver";
 
+  # This laptop joins untrusted networks and the firewall is disabled
+  # (modules/nixos/base/ssh.nix), so a 0.0.0.0:9100 node-exporter would be exposed
+  # to whatever network it is on. It is no longer scraped anyway - disable it.
+  services.prometheus.exporters.node.enable = lib.mkForce false;
+
   networking = {
     inherit hostName;
     inherit (myvars.networking) nameservers;
