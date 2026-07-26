@@ -29,5 +29,9 @@
 
   services = {
     playerctld.enable = true;
+    # PipeWire audio effects daemon, used for loudness normalization (e.g. bilibili
+    # videos with inconsistent volume). Configure plugins (autogain + limiter) once
+    # in the GUI; the daemon then auto-applies the preset at login.
+    easyeffects.enable = true;
   };
 }
