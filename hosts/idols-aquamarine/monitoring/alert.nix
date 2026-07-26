@@ -126,6 +126,13 @@
               # Message template
               # Telegram limits a message to 4096 chars, so only render the first 5 alerts
               # in a group and keep the fields minimal (no full label dump).
+              #
+              # WARNING: never use template variables ($i, $a, ...) here. The NixOS
+              # alertmanager module pipes the generated config through `envsubst`
+              # (to inject $TELEGRAM_BOT_TOKEN etc.), which silently replaces any
+              # $var in this template with an empty string and breaks rendering at
+              # notify time. Use `{{ range .Alerts }}` + dot, and `define`/`template`
+              # for reuse instead.
               message = ''
                 {{- if eq .Status "firing" }}
                 🟡 <b>告警触发</b> [{{ .CommonLabels.severity | title }}] <b>{{ .CommonLabels.alertname }}</b> (共 {{ len .Alerts }} 条)
@@ -137,18 +144,21 @@
                 • <b>Cluster</b>: {{ with .CommonLabels.cluster }}{{ . }}{{ else }}N/A{{ end }}
                 • <b>Env</b>: {{ with .CommonLabels.env }}{{ . }}{{ else }}N/A{{ end }}
                 • <b>Namespace</b>: {{ with .CommonLabels.namespace }}{{ . }}{{ else }}N/A{{ end }}
-                {{- range $i, $a := .Alerts }}
-                {{- if lt $i 5 }}
+                {{- define "alert" }}
 
                 ━━━━━━━━
-                📌 {{ with $a.Annotations.summary }}<b>{{ . }}</b>{{ else }}<b>{{ $a.Labels.instance }}</b>{{ end }}
-                {{- with $a.Labels.nodename }}
+                📌 {{ with .Annotations.summary }}<b>{{ . }}</b>{{ else }}<b>{{ .Labels.instance }}</b>{{ end }}
+                {{- with .Labels.nodename }}
                 🏠 {{ . }}
                 {{- end }}
-                🔗 <a href="{{ $a.GeneratorURL }}">Grafana Explore</a> · ⏱ {{ $a.StartsAt.Format "2006-01-02 15:04:05" }}
+                🔗 <a href="{{ .GeneratorURL }}">Grafana Explore</a> · ⏱ {{ .StartsAt.Format "2006-01-02 15:04:05" }}
                 {{- end }}
+                {{- if le (len .Alerts) 5 }}
+                {{- range .Alerts }}{{ template "alert" . }}
                 {{- end }}
-                {{- if gt (len .Alerts) 5 }}
+                {{- else }}
+                {{- range slice .Alerts 0 5 }}{{ template "alert" . }}
+                {{- end }}
 
                 ⚠️ 另有 {{ len (slice .Alerts 5) }} 条同组告警未列出，请查看 Alertmanager。
                 {{- end }}
