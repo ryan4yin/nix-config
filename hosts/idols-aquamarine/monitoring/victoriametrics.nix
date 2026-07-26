@@ -4,11 +4,8 @@
   ...
 }:
 let
-  # Hosts that should not be scraped:
-  # - powered-off machines (SBCs and the whole k3s-prod-1 cluster), to avoid TargetDown
-  #   noise; remove entries from this list when the machines come back online.
-  # - shoukei (a laptop on untrusted networks), its node-exporter is disabled on the
-  #   machine itself, so there is nothing to scrape.
+  # Powered-off hosts (SBCs, k3s-prod-1) plus shoukei (exporter disabled on the
+  # machine); remove entries when they come back online.
   offlineHosts = [
     "shoukei"
     "suzu"

@@ -52,8 +52,7 @@
         receiver = "telegram";
         routes = [
           {
-            # Meta alerts like Watchdog & InfoInhibitor should never notify,
-            # and info-level alerts are too noisy; route them to a null receiver.
+            # Meta alerts (Watchdog, InfoInhibitor) and info-level noise never notify.
             receiver = "null";
             matchers = [ ''severity =~ "none|info"'' ];
           }
