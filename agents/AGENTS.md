@@ -33,6 +33,13 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 - Redact sensitive output in logs and summaries.
 - For infra/IaC changes, prefer plan/eval/check before apply/deploy.
 
+### Secret Access
+
+- Commands or API calls that retrieve secret values or payloads are forbidden, even with explicit
+  user authorization and regardless of how their output is processed.
+- Metadata and key names are allowed only through commands verified not to return values, such as
+  `kubectl describe secret`.
+
 ## 4) Scope Discipline
 
 - Keep changes strictly within requested scope.
