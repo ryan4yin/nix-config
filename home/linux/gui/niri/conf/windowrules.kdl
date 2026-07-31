@@ -121,6 +121,14 @@ window-rule {
     open-on-workspace "0other"
     open-floating true
 }
+window-rule {
+    match app-id="^Zoom$" title="^as_toolbar$"
+    open-floating true
+}
+window-rule {
+    match app-id="^Zoom$" title="^zoom_linux_float_video_window$"
+    open-fullscreen true
+}
 
 // Notifications shows bottom right
 window-rule {
