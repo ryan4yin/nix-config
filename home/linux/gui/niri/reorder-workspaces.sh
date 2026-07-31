@@ -1,17 +1,38 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Reorder named workspaces so indices match their numeric prefixes:
-# 1 → "1terminal", 2 → "2browser", ..., 6 → "6file", 10 → "0other".
-# Requires a running niri session and the `niri msg` command in PATH.
+# Niri keeps a separate workspace index sequence on each output.
+case "$(hostname)" in
+  ai)
+    workspace_order=(
+      "4entertainment:1"
+      "2browser:2"
+      "0other:3"
+      "1terminal:1"
+      "3chat:2"
+      "6utility:3"
+    )
+    ;;
+  shoukei)
+    workspace_order=(
+      "1terminal:1"
+      "2browser:2"
+      "3chat:3"
+      "4entertainment:4"
+      "5mail:5"
+      "6utility:6"
+      "0other:7"
+    )
+    ;;
+  *)
+    printf 'No workspace order configured for host %s\n' "$(hostname)" >&2
+    exit 0
+    ;;
+esac
 
-niri msg action move-workspace-to-index 1 --reference "1terminal"
-niri msg action move-workspace-to-index 2 --reference "2browser"
-niri msg action move-workspace-to-index 3 --reference "3chat"
-niri msg action move-workspace-to-index 4 --reference "4music"
-niri msg action move-workspace-to-index 5 --reference "5mail"
-niri msg action move-workspace-to-index 6 --reference "6file"
-niri msg action move-workspace-to-index 7 --reference "7"
-niri msg action move-workspace-to-index 8 --reference "8"
-niri msg action move-workspace-to-index 9 --reference "9"
-niri msg action move-workspace-to-index 10 --reference "0other"
+for entry in "${workspace_order[@]}"; do
+  workspace="${entry%%:*}"
+  index="${entry##*:}"
+  printf 'Moving workspace %s to index %s\n' "$workspace" "$index"
+  niri msg action move-workspace-to-index "$index" --reference "$workspace"
+done

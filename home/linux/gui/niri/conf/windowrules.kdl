@@ -61,65 +61,76 @@ window-rule {
     open-on-workspace "3chat"
 }
 
-// Gaming applications - open in workspace 4
+// Entertainment applications - open in workspace 4
 window-rule {
     match app-id="steam"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
 }
 window-rule {
     match app-id="steam_app_default"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
 }
 window-rule {
     match app-id="heroic"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
 }
 window-rule {
     match app-id="net.lutris.Lutris"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
 }
 window-rule {
     match app-id="com.vysp3r.ProtonPlus"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
 }
 window-rule {
     // Run anime games on Linux
     match app-id="^moe.launcher"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
 }
 window-rule {
     // All *.exe (Windows applications)
     match app-id=".exe$"
-    open-on-workspace "4gaming"
+    open-on-workspace "4entertainment"
+}
+window-rule {
+    match app-id="^mpv$"
+    open-on-workspace "4entertainment"
 }
 
-// File management applications - open in workspace 6
+// Utility applications - open in workspace 6
 window-rule {
     match app-id="com.github.johnfactotum.Foliate"
-    open-on-workspace "6file"
+    open-on-workspace "6utility"
 }
 window-rule {
     match app-id="thunar"
-    open-on-workspace "6file"
+    open-on-workspace "6utility"
 }
-
-// Other applications - open in workspace 0
 window-rule {
-    match app-id="Clash-verge"
-    open-on-workspace "0other"
+    match app-id="^Clash-verge$"
+    match app-id="^[.]clash-verge-wrapped$"
+    open-on-workspace "6utility"
+}
+window-rule {
+    match app-id="^org[.]kde[.]easyeffects$"
+    open-on-workspace "6utility"
 }
 window-rule {
     match app-id="Zoom Workplace"
     // Zoom Home Page
     match title="^(Zoom Workplace)( - Free account)?$"
-    open-on-workspace "0other"
+    open-on-workspace "6utility"
 }
 window-rule {
     match app-id="Zoom Workplace"
     // Zoom - other windows
     exclude title="^(Zoom Workplace)( - Free account)?$"
-    open-on-workspace "0other"
+    open-on-workspace "6utility"
     open-floating true
+}
+window-rule {
+    match app-id="^Zoom$"
+    open-on-workspace "6utility"
 }
 window-rule {
     match app-id="^Zoom$" title="^as_toolbar$"
