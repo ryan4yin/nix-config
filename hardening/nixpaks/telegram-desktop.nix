@@ -31,6 +31,8 @@ let
         };
 
         bubblewrap = {
+          # nixpak exposes /.flatpak-info, so Telegram uses FLATPAK_ID as its Wayland app ID.
+          env.FLATPAK_ID = appId;
           bind.rw = [
             sloth.xdgDocumentsDir
             sloth.xdgDownloadDir
