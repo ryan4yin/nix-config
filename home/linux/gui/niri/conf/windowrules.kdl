@@ -124,6 +124,7 @@ window-rule {
 window-rule {
     match app-id="^Zoom$" title="^as_toolbar$"
     open-floating true
+    default-floating-position x=0 y=16 relative-to="bottom"
 }
 window-rule {
     match app-id="^Zoom$" title="^zoom_linux_float_video_window$"
