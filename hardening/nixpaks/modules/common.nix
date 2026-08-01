@@ -205,6 +205,10 @@ in
           xdgCacheHome
         ]
 
+        # FileChooser may return a Document Portal path even for a directly mapped XDG directory;
+        # keep the FUSE mount writable so SaveFile can create the selected file.
+        (sloth.concat' sloth.runtimeDir "/doc")
+
         (sloth.concat [
           sloth.runtimeDir
           "/"
@@ -220,7 +224,6 @@ in
         (sloth.concat' sloth.xdgCacheHome "/radv_builtin_shaders")
       ];
       bind.ro = [
-        (sloth.concat' sloth.runtimeDir "/doc")
         (sloth.concat' sloth.xdgConfigHome "/kdeglobals")
         (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
