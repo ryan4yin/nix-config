@@ -2,6 +2,7 @@
   disko,
   myvars,
   lib,
+  pkgs,
   ...
 }:
 #############################################################
@@ -42,6 +43,12 @@ in
 
   services.sunshine.enable = false;
   services.tuned.ppdSettings.main.default = lib.mkForce "performance";
+
+  powerManagement.resumeCommands = ''
+    # Insta360 Link may stay enumerated with a stalled UVC endpoint after S3 resume.
+    ${pkgs.coreutils}/bin/sleep 1
+    ${pkgs.usbutils}/bin/usbreset 2e1a:4c01 || true
+  '';
 
   networking = {
     inherit hostName;
