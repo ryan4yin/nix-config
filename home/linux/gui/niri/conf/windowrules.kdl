@@ -97,40 +97,50 @@ window-rule {
     open-on-workspace "4entertainment"
 }
 
-// Utility applications - open in workspace 6
+// Utility applications - open in workspace 5
 window-rule {
     match app-id="com.github.johnfactotum.Foliate"
-    open-on-workspace "6utility"
+    open-on-workspace "5utility"
 }
 window-rule {
     match app-id="thunar"
-    open-on-workspace "6utility"
+    open-on-workspace "5utility"
 }
 window-rule {
     match app-id="^Clash-verge$"
     match app-id="^[.]clash-verge-wrapped$"
-    open-on-workspace "6utility"
+    open-on-workspace "5utility"
 }
 window-rule {
     match app-id="^org[.]kde[.]easyeffects$"
-    open-on-workspace "6utility"
+    open-on-workspace "5utility"
+}
+
+// Other applications - open in workspace 0
+window-rule {
+    match app-id="BambuStudio"
+    open-on-workspace "0other"
+}
+window-rule {
+    match app-id="OrcaSlicer"
+    open-on-workspace "0other"
 }
 window-rule {
     match app-id="Zoom Workplace"
     // Zoom Home Page
     match title="^(Zoom Workplace)( - Free account)?$"
-    open-on-workspace "6utility"
+    open-on-workspace "0other"
 }
 window-rule {
     match app-id="Zoom Workplace"
     // Zoom - other windows
     exclude title="^(Zoom Workplace)( - Free account)?$"
-    open-on-workspace "6utility"
+    open-on-workspace "0other"
     open-floating true
 }
 window-rule {
     match app-id="^Zoom$"
-    open-on-workspace "6utility"
+    open-on-workspace "0other"
 }
 window-rule {
     match app-id="^Zoom$" title="^as_toolbar$"
@@ -150,4 +160,3 @@ window-rule {
     open-focused false
     default-floating-position x=0 y=0 relative-to="bottom-right"
 }
-

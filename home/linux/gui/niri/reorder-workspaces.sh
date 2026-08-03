@@ -7,10 +7,10 @@ case "$(hostname)" in
     workspace_order=(
       "4entertainment:1"
       "2browser:2"
+      "5utility:3"
+      "3chat:1"
+      "1terminal:2"
       "0other:3"
-      "1terminal:1"
-      "3chat:2"
-      "6utility:3"
     )
     ;;
   shoukei)
@@ -19,9 +19,8 @@ case "$(hostname)" in
       "2browser:2"
       "3chat:3"
       "4entertainment:4"
-      "5mail:5"
-      "6utility:6"
-      "0other:7"
+      "5utility:5"
+      "0other:6"
     )
     ;;
   *)

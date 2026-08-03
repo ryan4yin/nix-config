@@ -152,15 +152,13 @@ binds {
     Mod+2 { focus-workspace "2browser"; }
     Mod+3 { focus-workspace "3chat"; }
     Mod+4 { focus-workspace "4entertainment"; }
-    Mod+5 { focus-workspace "5mail"; }
-    Mod+6 { focus-workspace "6utility"; }
+    Mod+5 { focus-workspace "5utility"; }
     Mod+0 { focus-workspace "0other"; }
     Mod+Ctrl+1 { move-column-to-workspace "1terminal"; }
     Mod+Ctrl+2 { move-column-to-workspace "2browser"; }
     Mod+Ctrl+3 { move-column-to-workspace "3chat"; }
     Mod+Ctrl+4 { move-column-to-workspace "4entertainment"; }
-    Mod+Ctrl+5 { move-column-to-workspace "5mail"; }
-    Mod+Ctrl+6 { move-column-to-workspace "6utility"; }
+    Mod+Ctrl+5 { move-column-to-workspace "5utility"; }
     Mod+Ctrl+0 { move-column-to-workspace "0other"; }
 
     // Alternatively, there are commands to move just a single window:
