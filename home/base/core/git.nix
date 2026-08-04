@@ -16,7 +16,7 @@
 
   # GitHub CLI tool
   # https://cli.github.com/manual/
-  programs.gh.enable = true;
+  home.packages = [ pkgs.gh ];
 
   programs.git = {
     enable = true;
