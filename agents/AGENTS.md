@@ -37,10 +37,13 @@ If rules conflict, follow the higher-priority source and state the conflict brie
 
 ### Secret Access
 
-- Commands or API calls that retrieve secret values or payloads are forbidden, even with explicit
-  user authorization and regardless of how their output is processed.
-- Metadata and key names are allowed only through commands verified not to return values, such as
-  `kubectl describe secret`.
+- When explicitly requested, an authentication client or command MAY consume a user-designated
+  secret source solely to authenticate to the specified service (e.g. an API, `redis-cli`, `psql`,
+  or `pgcli`).
+- Secrets MUST remain opaque to the agent and must not be exposed in arguments, output, or logs;
+  copied, cached, or persisted; or sent anywhere except the intended authentication target.
+- All other secret-value access is forbidden. Metadata and identifiers MAY be queried only with
+  operations verified not to reveal secret values, such as `kubectl describe secret`.
 
 ## 4) Scope Discipline
 
