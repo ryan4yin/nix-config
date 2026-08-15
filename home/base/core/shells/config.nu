@@ -70,6 +70,24 @@ $env.config.rm.always_trash = true
 # before an error will be generated.
 $env.config.recursion_limit = 50
 
+# ----------------------
+# Classic-style commands
+# ----------------------
+# Nushell drops table columns that don't fit the terminal width and replaces
+# them with "...". These wrappers render the table at a fixed width so no
+# column (e.g. `size`, `apparent`, `physical`) is ever hidden.
+def lsa [] {
+  ls -al | table --width 350
+}
+
+def dus [path: string = ""] {
+  if $path == "" {
+    du | table --width 350
+  } else {
+    du $path | table --width 350
+  }
+}
+
 # ---------------------------
 # Commandline Editor Settings
 # ---------------------------
