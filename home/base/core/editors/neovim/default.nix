@@ -16,7 +16,9 @@
   };
 
   programs.nixvim = {
-    enable = true;
+    # temporarily disabled: nixvim's manpage pulls nixos-render-docs from nixpkgs,
+    # which is broken (patch fails to apply) on the current nixpkgs pin
+    enable = false;
 
     clipboard.providers.wl-copy.enable = pkgs.stdenv.isLinux;
 
