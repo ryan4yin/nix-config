@@ -1,7 +1,6 @@
 {
   pkgs,
   pkgs-master,
-  pkgs-patched,
   nixpak,
   ...
 }:
@@ -23,7 +22,7 @@ in
   nixpkgs.overlays = [
     (_: super: {
       nixpaks = {
-        qq = wrapper pkgs-patched ./qq.nix;
+        qq = wrapper pkgs-master ./qq.nix;
         telegram-desktop = wrapper super ./telegram-desktop.nix;
         firefox = wrapper super ./firefox.nix;
       };
