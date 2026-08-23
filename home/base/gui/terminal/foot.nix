@@ -2,7 +2,7 @@
 {
   programs.foot = {
     # foot is designed only for Linux
-    enable = pkgs.stdenv.isLinux;
+    enable = pkgs.stdenv.hostPlatform.isLinux;
 
     # foot can also be run in a server mode. In this mode, one process hosts multiple windows.
     # All Wayland communication, VT parsing and rendering is done in the server process.

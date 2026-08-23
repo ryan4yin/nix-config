@@ -20,7 +20,7 @@
     # which is broken (patch fails to apply) on the current nixpkgs pin
     enable = false;
 
-    clipboard.providers.wl-copy.enable = pkgs.stdenv.isLinux;
+    clipboard.providers.wl-copy.enable = pkgs.stdenv.hostPlatform.isLinux;
 
     opts = {
       number = true;

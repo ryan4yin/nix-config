@@ -49,7 +49,7 @@ in
       hunspellDicts.en_US # USA English
       hyphenDicts.en_GB # British English
     ]
-    ++ (lib.optionals pkgs.stdenv.isx86_64 [
+    ++ (lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
       ldtk # A modern, versatile 2D level editor
 
       # fpga
@@ -63,7 +63,7 @@ in
   programs = {
     # live streaming
     obs-studio = {
-      enable = pkgs.stdenv.isx86_64;
+      enable = pkgs.stdenv.hostPlatform.isx86_64;
       plugins = with pkgs.obs-studio-plugins; [
         # screen capture
         wlrobs

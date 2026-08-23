@@ -23,7 +23,7 @@ in
     pkgs.qt6Packages.qt6ct # for icon theme
     pkgs.app2unit # Launch Desktop Entries (or arbitrary commands) as Systemd user units
   ]
-  ++ (lib.optionals pkgs.stdenv.isx86_64 [
+  ++ (lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
     pkgs.gpu-screen-recorder # recoding screen
   ]);
 
