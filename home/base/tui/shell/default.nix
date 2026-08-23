@@ -46,8 +46,11 @@
 
       # -*- modules -*-
       # argx & lg is required by the kubernetes module
-      use modules/argx *
-      use modules/lg *
+      # NOTE: use a prefixed import (not `*`), otherwise argx's `parse` command
+      # would shadow nushell's builtin `parse`, breaking scripts that rely on
+      # the builtin (e.g. fzf's nushell integration uses `parse --regex`)
+      use modules/argx
+      use modules/lg
       # k8s/helm aliases, completions, 
       use modules/kubernetes *
       # a wrapper around the jc cli tool, convert cli outputs to nushell tables
