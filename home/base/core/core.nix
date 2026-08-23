@@ -44,7 +44,11 @@
   };
 
   # A command-line fuzzy finder
-  programs.fzf.enable = true;
+  programs.fzf = {
+    enable = true;
+    # atuin (sourced after fzf) owns Ctrl-R; keep fzf from binding it too
+    historyWidget.command = "";
+  };
 
   # very fast version of tldr in Rust
   programs.tealdeer = {
