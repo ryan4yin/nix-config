@@ -86,5 +86,6 @@
     which
     tree
     tealdeer # a very fast version of tldr
+    trash-cli # freedesktop trash can CLI: trash-list / trash-restore / trash-put / trash-empty
   ];
 }
