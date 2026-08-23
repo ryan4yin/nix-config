@@ -55,11 +55,6 @@
       use modules/kubernetes *
       # a wrapper around the jc cli tool, convert cli outputs to nushell tables
       # use modules/jc
-      # move files/dirs to ~/.local/share/Trash (freedesktop trash spec
-      # "failsafe" mode); on a tmpfs root with bind-mounted persistent dirs
-      # the built-in `rm --trash` scatters items into per-mount .Trash-$uid
-      # dirs that file managers never show
-      use ${./modules/trash.nu}
     '';
   };
 }
