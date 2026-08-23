@@ -110,6 +110,10 @@ in
         # Keep .cache off tmpfs to avoid high RAM usage; many apps use it and it is storage-heavy.
         ".cache"
 
+        # Trash can must live on persistent storage: with a tmpfs root the
+        # home trash (~/.local/share/Trash) would be lost on every reboot.
+        ".local/share/Trash"
+
         # ======================================
         # Codes / Work / Playground
         # ======================================
