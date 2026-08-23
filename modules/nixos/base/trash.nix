@@ -31,7 +31,15 @@ in
     script = ''
       ${pkgs.trash-cli}/bin/trash-empty ${toString retentionDays} -f
     '';
-    after = [ "local-fs.target" ];
+    # The scattered .Trash-$uid dirs live inside the preservation bind mounts, so we
+    # must run after preservation.target (reached only once all those mounts are up).
+    # preservation.mount units use DefaultDependencies=no, so they are NOT ordered
+    # after local-fs.target on their own; list both to be safe on every host.
+    # On hosts without preservation, the After=preservation.target edge is a no-op.
+    after = [
+      "local-fs.target"
+      "preservation.target"
+    ];
     serviceConfig = {
       Type = "oneshot";
       User = myvars.username;
