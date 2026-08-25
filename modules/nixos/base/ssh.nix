@@ -1,7 +1,8 @@
 { lib, ... }:
 {
-  # Or disable the firewall altogether.
-  networking.firewall.enable = lib.mkDefault false;
+  # Secure by default: firewall ON everywhere unless a host explicitly disables it
+  # (servers disable it in modules/nixos/server/{server,server-aarch64}.nix).
+  networking.firewall.enable = lib.mkDefault true;
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
