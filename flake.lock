@@ -464,10 +464,10 @@
     "my-asahi-firmware": {
       "flake": false,
       "locked": {
-        "lastModified": 1752336609,
-        "narHash": "sha256-PeJXDQgKwmu6PEjEA+68I7nIOTTpwUUyO1b5PpQg4gc=",
+        "lastModified": 1787666632,
+        "narHash": "sha256-oVtl+urIP+wLhJH0MMc03luuSu5qEMMOLSi7yA46o2Y=",
         "ref": "refs/heads/main",
-        "rev": "981583c8e101967ef6a66388ade54cab751f3a02",
+        "rev": "2c54750244b152ab7a23f92d061260f0d7b2350b",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/ryan4yin/asahi-firmware.git"
