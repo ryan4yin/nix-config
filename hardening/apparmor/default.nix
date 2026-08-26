@@ -17,8 +17,11 @@
     killUnconfinedConfinables = false;
 
     # Packages contributing to AppArmor's include path (abstractions).
-    # NOTE: these are FHS-oriented; nixpkgs adds FHS->NixOS aliases so they mostly work,
-    # but treat resulting profiles as complain-only until verified.
+    # NOTE: these abstractions are FHS-oriented and reference FHS paths. nixpkgs does NOT
+    # provide a broad FHS->store alias layer (only /run/current-system, /usr/bin/env and
+    # /bin/sh are created), so some referenced paths do not resolve on NixOS and the
+    # resulting profiles are incomplete. They are safe only because they run in complain
+    # mode (log-only, no blocking); see hardening/README.md.
     packages = [ pkgs.apparmor-profiles ];
 
     policies = {
