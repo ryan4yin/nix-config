@@ -1,7 +1,7 @@
 # Agent Skills Commands
 
-Reference commands for listing, installing, and updating skills via `npx skills`. Run only the
-commands you need.
+Reference commands for listing, installing, and updating skills via `npx skills`. Keep the global
+set small and install task-specific skills in the relevant project.
 
 ## Inspect and update installed skills
 
@@ -17,47 +17,66 @@ npx skills check
 
 # update all installed skills
 npx skills update
-
-# remove from global scope
-npx skills remove --global web-design-guidelines
 ```
 
 ## Discover skills from repositories
 
 ```bash
 # list skills in a repository
-npx skills add vercel-labs/agent-skills --list
+npx skills add anthropics/skills --list
 ```
 
-## Install commonly used skill packs
+## Global baseline
 
 ```bash
-# superpowers
+# structured planning, testing, debugging, review, and verification workflows
 npx skills add -g obra/superpowers --skill '*'
 
-# github skills
-npx skills add -g github/awesome-copilot --skill 'git-commit' --skill 'gh-cli'
-
-# find skills
-npx skills add -g vercel-labs/skills
-
-# anthropic skills
-npx skills add -g anthropics/skills --skill 'skill-creator' --skill 'pdf'
+# discover task-specific skills when needed
+npx skills add -g vercel-labs/skills --skill 'find-skills'
 ```
 
-## Optional packs
+`find-docs` is also installed globally from a local source, so it has no upstream install command.
+
+## Optional global skills
 
 ```bash
-npx skills add -g pbakaus/impeccable --skill '*'
+# rewrite prose to sound natural while preserving claims and technical meaning
+npx skills add -g blader/humanizer --skill 'humanizer'
 
-npx skills add -g coreyhaines31/marketingskills --skill '*'
+# review code for unnecessary abstractions and over-engineering
+npx skills add -g DietrichGebert/ponytail --skill 'ponytail-review'
 
-npx skills add -g phuryn/pm-skills --skill '*'
+# enable a terse response mode when context or token usage matters
+npx skills add -g JuliusBrussee/caveman --skill 'caveman'
+```
+
+## Optional project skills
+
+Run these commands from the project root. They intentionally omit `-g`, so the skills apply only to
+the current project. Check `git status` after installation and commit the generated files only when
+the whole team should use them.
+
+```bash
+# design distinctive UI and demo pages
+npx skills add anthropics/skills --skill 'frontend-design'
+
+# test local web applications with Playwright
+npx skills add anthropics/skills --skill 'webapp-testing'
+
+# read, create, edit, or validate PDF files
+npx skills add anthropics/skills --skill 'pdf'
+
+# run CodeQL and Semgrep on repositories written in supported languages; not for pure Nix projects
+npx skills add trailofbits/skills --skill 'codeql' --skill 'semgrep'
 ```
 
 References:
 
+- https://github.com/obra/superpowers
 - https://github.com/vercel-labs/skills
-- https://github.com/pbakaus/impeccable
-- https://github.com/coreyhaines31/marketingskills
-- https://github.com/phuryn/pm-skills
+- https://github.com/blader/humanizer
+- https://github.com/DietrichGebert/ponytail
+- https://github.com/JuliusBrussee/caveman
+- https://github.com/anthropics/skills
+- https://github.com/trailofbits/skills

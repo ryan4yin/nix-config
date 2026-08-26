@@ -1,110 +1,108 @@
-# Personal Global Agent Rules
+# Personal global agent rules
 
-This file defines my global defaults and safety boundaries for coding agents.
+These rules define my default safety boundaries and working preferences for coding agents.
 
-## 1) Instruction Priority
+## Scope and precedence
 
 Apply instructions in this order:
 
-1. Runtime system/developer instructions
-2. User task request
-3. Project-local policy (`AGENTS.md`, `CLAUDE.md`, repo docs)
-4. These global rules
+1. Runtime system and developer instructions
+2. The current user request
+3. Safety and secret-handling rules in this file
+4. Project-local policy (`AGENTS.md`, `CLAUDE.md`, and repository documentation)
+5. Other defaults in this file
 
-If rules conflict, follow the higher-priority source and state the conflict briefly.
+Project-local policy may override global defaults but must not weaken safety or secret handling.
+Follow the higher-priority source when rules conflict and state the conflict briefly.
 
-## 2) Hard Safety Boundaries (MUST NOT)
+## Safety and authorization
 
-- MUST NOT read/write outside the approved workspace.
-- MUST NOT perform broad operations on the entire home directory.
-- MUST NOT mutate remote Git state unless explicitly requested.
-  - Examples: `git push`, creating/updating remote PRs/Issues via `gh`.
-- MUST NOT auto-run remote-mutating commands unless explicitly requested.
-  - Examples: `kubectl apply/delete`, `helm upgrade`, `terraform apply`, remote `ssh` mutation.
-- MUST NOT perform destructive or irreversible operations, or use force options (e.g. `rm -rf`,
-  `terraform destroy`).
-- MAY perform explicitly requested, verified, and recoverable cleanup (e.g. `git branch -d` for a
-  fully merged branch).
-- MUST NOT expose or commit secrets (tokens, keys, kubeconfig credentials, passwords).
+### Workspace access
 
-## 3) Security and Secrets Handling
+- Access only runtime-approved roots and paths explicitly placed in scope.
+- Do not perform broad operations on the entire home directory.
 
-- Never write secret literals into tracked files.
-- Use environment variables, secret managers, or placeholders.
-- Redact sensitive output in logs and summaries.
-- For infra/IaC changes, prefer plan/eval/check before apply/deploy.
+### Remote changes
 
-### Secret Access
+- Do not mutate remote state unless the user explicitly requests it.
+- Remote mutations include `git push`, creating or updating remote PRs and Issues via `gh`,
+  `kubectl apply/delete`, `helm upgrade`, `terraform apply`, and remote `ssh` changes.
+- For infrastructure and IaC changes, prefer plan, eval, or check commands before applying or
+  deploying.
 
-- When explicitly requested, an authentication client or command MAY consume a user-designated
-  secret source solely to authenticate to the specified service (e.g. an API, `redis-cli`, `psql`,
-  or `pgcli`).
-- Secrets MUST remain opaque to the agent and must not be exposed in arguments, output, or logs;
-  copied, cached, or persisted; or sent anywhere except the intended authentication target.
-- All other secret-value access is forbidden. Metadata and identifiers MAY be queried only with
-  operations verified not to reveal secret values, such as `kubectl describe secret`.
+### Destructive and force operations
 
-## 4) Scope Discipline
+- Avoid irreversible operations.
+- Use destructive or force options only when the user explicitly requests or approves them, the
+  exact target and scope have been verified, and a recovery path or safety guard is available.
+- Prefer recoverable alternatives and safeguards such as `git branch -d` and
+  `git push --force-with-lease`.
 
-- Keep changes strictly within requested scope.
-- Do not refactor unrelated areas unless user asks.
-- Preserve backward compatibility unless a breaking change is explicitly requested.
+### Secrets and authentication
 
-## 5) Change Hygiene
+- Never expose or commit tokens, keys, passwords, kubeconfig credentials, or other secrets.
+- Never write secret literals into tracked files. Use environment variables, secret managers, or
+  placeholders.
+- Redact sensitive values from command output, logs, and summaries.
+- When explicitly requested, an authentication client may consume a user-designated secret source
+  only to authenticate to the specified service.
+- Keep secrets opaque. Do not expose them in arguments or output, copy them, cache them, persist
+  them, or send them anywhere except the intended authentication target.
+- Do not access secret values for any other purpose. Query metadata or identifiers only with
+  commands verified not to reveal values, such as `kubectl describe secret`.
 
-- Keep diffs minimal and reviewable.
-- Group logically related edits together.
-- Do not revert user/unrelated changes unless explicitly asked.
-- Do not claim verification you did not run.
+## Repository state
 
-## 6) Tooling Defaults
+At the start of repository work:
 
-- Use Nushell for personal tooling, Bash for simple one-off commands, and Python for scripts or
-  complex control flow.
-- Prefer structural search tools first for code find/replace (`ast-grep`/`jq`/`yq`), then text tools
-  (`rg`, `fd`).
-- Prefer project task runners (`just`, `make`, `npm scripts`, etc.) over ad-hoc commands when
-  equivalent.
-- On NixOS, do not assume FHS paths or conventional system/package installers: they may not work and
-  can pollute the managed environment. For missing tools or dependencies, use `nix run`, the
-  project's flake/dev shell, or its existing `uv`/`pnpm` workflow; otherwise, ask the user.
-- Use `gh` CLI for authorized GitHub operations, especially code/PR/issue search and inspection.
-- Keep waits bounded and observable: avoid long uninterrupted sleeps and unbounded loops.
-- For waits or potentially blocking operations, use short polling intervals with progress output and
-  explicit timeouts or bounds; do not treat a timeout as proof that the underlying process is still
-  running. Prefer Python over Bash for custom polling logic.
-- For subprocesses that may fork or daemonize, verify that inherited stdout/stderr pipes cannot keep
-  the parent blocked; avoid unconditional `capture_output` when output is not needed.
+- Fetch `origin` when available and use its latest default branch as the baseline.
+- If local history differs, ask which state to use before editing.
 
-## 7) Environment Defaults
+## Change discipline
 
-- Primary OS: NixOS & macOS.
-- Shell: default to Nushell, Bash also exists.
-- Common project locations:
-  - Open-source project sources: `~/codes/src/`
-  - Personal Git repositories: `~/codes/`
-  - Work-related projects: `~/work/`
-- These paths are location hints only; access them only when they are explicitly in scope or
-  approved.
+- Keep work within the requested scope. Do not refactor unrelated areas unless asked.
+- Preserve backward compatibility unless the user explicitly requests a breaking change.
+- Keep diffs minimal, reviewable, and grouped by logical purpose.
+- Do not revert user changes or unrelated changes unless explicitly asked.
+- Verify changes in proportion to their risk. Never claim a check passed unless it was run.
 
-## 8) Script Engineering Principles
+### Commit messages
 
-Treat scripts as interruptible jobs that must be diagnosable and safe to rerun:
+- Follow the repository convention. Otherwise, use Conventional Commits.
+- Derive the message from the staged diff and use an imperative subject no longer than 72
+  characters.
+- Keep one logical change per commit. Do not amend commits or skip hooks unless explicitly
+  requested.
 
-- Verbose logging of progress, decisions, and errors.
-- Stage workflows with selective execution via cli flags.
-- Idempotent reruns; persist progress and support resume.
-- Cache external data with invalidation.
-- Separate HTTP transport from business success; retry with backoff.
-- Verify key outputs independently.
+## Tools and environment
 
-## 9) Communication Defaults
+- Primary platforms are NixOS and macOS.
+- Use Nushell for personal tooling and Bash for simple one-off commands. Prefer Python for scripts,
+  complex control flow, polling, and process supervision.
+- Use `rg` and `fd` for discovery, `ast-grep` for syntax-aware code work, and `jq` or `yq` for
+  structured data.
+- Prefer project task runners such as `just`, `make`, and package scripts over equivalent ad hoc
+  commands.
+- On NixOS, do not assume FHS paths or conventional system package installers. Use `nix run`, the
+  project flake or dev shell, or the project's existing `uv` or `pnpm` workflow. Ask before using a
+  different installation method.
+- `npx` is allowed for temporary or skill-provided CLIs when it does not modify project dependencies
+  or lock files.
+- Use `gh` for authorized GitHub operations, especially code, PR, and Issue search or inspection.
 
-- Respond in the user's language; prefer English or Chinese.
-- Code, commands, identifiers, and code comments: Prefer English.
+## Commands and scripts
+
+- Prefer native wait or subscription tools. Otherwise, poll with progress and an explicit deadline,
+  using intervals of a few seconds for short-lived local validation. A timeout does not prove the
+  process is still running.
+- For processes started by the agent, track and wait on the child PID or process handle directly. Do
+  not infer liveness by matching `ps` or `pgrep` output.
+- For long-running, batch, networked, or expensive jobs, log progress; support selective stages,
+  idempotent reruns, and resume; define cache invalidation; distinguish HTTP success from business
+  success; retry transient failures with backoff; and verify important outputs independently.
+
+## Communication
+
+- Respond in the user's language. If the language is unclear, default to English or Chinese.
+- Prefer English for code, commands, identifiers, and code comments.
 - Be concise, concrete, and action-oriented.
-
-## 10) Project Overlay
-
-Project-local policy may add stricter constraints (build/test/deploy/style/ownership/environment).
-It must not weaken this baseline.
