@@ -85,7 +85,8 @@ in
           metrics_path = "/metrics";
           static_configs = [
             {
-              targets = [ "${myvars.networking.hostsAddr.aquamarine.ipv4}:9153" ];
+              # same-host exporter bound to loopback (127.0.0.1:9153)
+              targets = [ "127.0.0.1:9153" ];
               labels.type = "app";
               labels.app = "v2ray";
               labels.host = "aquamarine";
@@ -116,7 +117,8 @@ in
           metrics_path = "/metrics";
           static_configs = [
             {
-              targets = [ "${myvars.networking.hostsAddr.aquamarine.ipv4}:9187" ];
+              # same-host exporter bound to loopback (127.0.0.1:9187)
+              targets = [ "127.0.0.1:9187" ];
               labels.type = "app";
               labels.app = "postgresql";
               labels.host = "aquamarine";
@@ -131,7 +133,8 @@ in
           metrics_path = "/metrics";
           static_configs = [
             {
-              targets = [ "${myvars.networking.hostsAddr.aquamarine.ipv4}:10000" ];
+              # same-host exporter bound to loopback (127.0.0.1:10000)
+              targets = [ "127.0.0.1:10000" ];
               labels.type = "app";
               labels.app = "sftpgo";
               labels.host = "aquamarine";
