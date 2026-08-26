@@ -60,7 +60,7 @@ in
       let
         flagList = [
           "--write-kubeconfig=${kubeconfigFile}"
-          "--write-kubeconfig-mode=644"
+          "--write-kubeconfig-mode=600"
           "--service-node-port-range=80-32767"
           "--kube-apiserver-arg='--allow-privileged=true'" # required by kubevirt
           "--data-dir /var/lib/rancher/k3s"
