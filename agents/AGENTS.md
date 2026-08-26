@@ -89,6 +89,8 @@ At the start of repository work:
 - `npx` is allowed for temporary or skill-provided CLIs when it does not modify project dependencies
   or lock files.
 - Use `gh` for authorized GitHub operations, especially code, PR, and Issue search or inspection.
+- Use SSH URLs for GitHub Git remotes. If Clash TUN mode's DNS rewriting causes sandbox network
+  checks to reject a request, retry it with elevated permission.
 
 ## Commands and scripts
 
