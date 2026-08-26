@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  mylib,
   ...
 }:
 {
@@ -15,6 +16,9 @@
     ../base/user-group.nix
 
     ../../base
+    # AppArmor is wired via modules/nixos/base/default.nix for other hosts; this
+    # aarch64 server imports base files individually, so add it explicitly.
+    (mylib.relativeToRoot "hardening/apparmor")
   ];
 
   # Servers run on the trusted internal LAN (NAT'd; WAN protected at the router).
