@@ -7,7 +7,9 @@
   services.openssh = {
     enable = true;
     settings = {
-      X11Forwarding = true;
+      # Secure by default: X11 forwarding off everywhere; desktops re-enable it
+      # in modules/nixos/desktop/ssh.nix (needed for GUI forwarding).
+      X11Forwarding = lib.mkDefault false;
       # root user is used for remote deployment, so we need to allow it
       PermitRootLogin = "prohibit-password";
       PasswordAuthentication = false; # disable password login
