@@ -82,7 +82,8 @@
   # https://github.com/wi1dcard/v2ray-exporter
   services.prometheus.exporters.v2ray = {
     enable = true;
-    listenAddress = "0.0.0.0";
+    # loopback only: scraped by VictoriaMetrics on the same host
+    listenAddress = "127.0.0.1";
     port = 9153;
     openFirewall = false;
     v2rayEndpoint = "127.0.0.1:54321";
