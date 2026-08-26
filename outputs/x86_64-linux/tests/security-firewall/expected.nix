@@ -1,7 +1,7 @@
-{ outputs, ... }:
-let
-  inherit (outputs) nixosConfigurations;
-in
-builtins.mapAttrs (name: {
-  enabled = name == "ai-niri" || name == "shoukei-niri";
-}) nixosConfigurations
+{
+  lib,
+  outputs,
+}:
+lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (
+  name: name == "ai-niri" || name == "shoukei-niri"
+)

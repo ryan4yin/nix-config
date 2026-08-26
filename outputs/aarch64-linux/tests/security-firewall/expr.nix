@@ -1,7 +1,7 @@
-{ outputs, ... }:
-let
-  inherit (outputs) nixosConfigurations;
-in
-builtins.mapAttrs (name: {
-  enabled = nixosConfigurations.${name}.config.networking.firewall.enable;
-}) nixosConfigurations
+{
+  lib,
+  outputs,
+}:
+lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (
+  name: outputs.nixosConfigurations.${name}.config.networking.firewall.enable
+)
