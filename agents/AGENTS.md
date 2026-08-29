@@ -64,6 +64,8 @@ At the start of repository work:
 - Preserve backward compatibility unless the user explicitly requests a breaking change.
 - Keep diffs minimal, reviewable, and grouped by logical purpose.
 - Do not revert user changes or unrelated changes unless explicitly asked.
+- Write for the intended reader and make documentation self-contained. Omit prior states, mistakes,
+  and surrounding context unless they are relevant and necessary for the reader's task.
 - Verify changes in proportion to their risk. Never claim a check passed unless it was run.
 
 ### Commit messages
