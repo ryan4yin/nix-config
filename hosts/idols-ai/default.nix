@@ -39,7 +39,8 @@ in
   ];
 
   # Zram consumes physical memory for compression, which can cause a deadlock and system hang if the model size approaches the physical memory limit.
-  zramSwap.enable = lib.mkForce false;
+  # Disable the whole module (zram device + its swappiness=180 sysctl tunings); this host uses a disk swapfile instead.
+  modules.zram.enable = false;
 
   services.sunshine.enable = false;
   services.tuned.ppdSettings.main.default = lib.mkForce "performance";
