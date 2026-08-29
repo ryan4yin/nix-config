@@ -11,13 +11,6 @@ This directory contains macOS-specific Home Manager configurations for Darwin sy
 - **rime-squirrel.nix**: [Rime Squirrel](https://github.com/rime/squirrel) input method
   configuration
 
-### Window Management
-
-- **aerospace/**: [Aerospace](https://github.com/nikitabobko/AeroSpace) tiling window manager
-  configuration
-  - Custom keybindings and workspace management
-  - Application-specific window rules
-
 ### Network Configuration
 
 - **proxy/**: Network proxy configurations
