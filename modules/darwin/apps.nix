@@ -153,6 +153,9 @@ in
       # "nikitabobko/tap/aerospace" # an i3-like tiling window manager for macOS
       "ghostty" # terminal emulator
 
+      # code editor
+      "visual-studio-code"
+
       # AI agents
       "codex-app" # codex desktop app
       "claude" # claude desktop app
