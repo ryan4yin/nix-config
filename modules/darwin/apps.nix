@@ -170,7 +170,7 @@ in
       "qqmusic"
       # "discord" # update too frequently, use the web version instead
       # "windows-app"
-      # "moonlight" # remote desktop client
+      "moonlight" # remote desktop client (Sunshine/Moonlight game-stream based)
       # "rustdesk" # meeting
       # "tencent-meeting"
       "zoom" # meeting

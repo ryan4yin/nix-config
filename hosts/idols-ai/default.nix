@@ -56,7 +56,7 @@ in
     maxPoolPercent = 10;
   };
 
-  services.sunshine.enable = false;
+  services.sunshine.enable = true;
   services.tuned.ppdSettings.main.default = lib.mkForce "performance";
 
   powerManagement.resumeCommands = ''
