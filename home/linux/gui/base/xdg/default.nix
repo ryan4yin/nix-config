@@ -16,21 +16,12 @@
     xdg-user-dirs
   ];
 
-  xdg = {
+  xdg.userDirs = {
     enable = true;
-
-    cacheHome = "${config.home.homeDirectory}/.cache";
-    configHome = "${config.home.homeDirectory}/.config";
-    dataHome = "${config.home.homeDirectory}/.local/share";
-    stateHome = "${config.home.homeDirectory}/.local/state";
-
-    userDirs = {
-      enable = true;
-      setSessionVariables = true;
-      createDirectories = true;
-      extraConfig = {
-        SCREENSHOTS = "${config.xdg.userDirs.pictures}/Screenshots";
-      };
+    setSessionVariables = true;
+    createDirectories = true;
+    extraConfig = {
+      SCREENSHOTS = "${config.xdg.userDirs.pictures}/Screenshots";
     };
   };
 }
