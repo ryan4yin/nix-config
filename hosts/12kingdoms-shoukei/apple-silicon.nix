@@ -10,9 +10,9 @@
     nixos-apple-silicon.nixosModules.default
   ];
 
-  # NOTE:macbook do not have a tpm2 device for luks auto unlock
-  # we have to enter the luks passphrase on boot, so remove login manager here to reduce the pain.
-  services.greetd.settings.default_session.command = lib.mkForce "$HOME/.wayland-session";
+  # NOTE: do NOT autologin here (a bare session command = greetd restarts the desktop
+  # without any authentication whenever the session exits, e.g. logout from the lock
+  # screen would bypass it entirely). Keep tuigreet from modules/nixos/desktop.nix.
 
   zramSwap.memoryPercent = lib.mkForce 75;
 
