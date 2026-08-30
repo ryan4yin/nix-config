@@ -39,9 +39,14 @@
           abi <abi/4.0>,
           include <tunables/global>
 
+          # NOTE: exec must use the `ix` (inherit) modifier here: abstractions/base
+          # pulls in nested rules like `rix` on specific binaries (via xdg-open etc.),
+          # and AppArmor 5.0's parser rejects merged rules with conflicting exec
+          # modifiers ("profile has merged rule with conflicting x modifiers") when a
+          # broad rule uses Ux over those paths.
           profile ${pkgs.sudo}/bin/sudo {
             include <abstractions/base>
-            file /** rwlkUx,
+            file /** rwlkix,
           }
         '';
       };
