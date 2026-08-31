@@ -4,7 +4,10 @@ let
   mkSymlink = config.lib.file.mkOutOfStoreSymlink;
 in
 {
-  imports = [ ../../linux/gui.nix ];
+  imports = [
+    ../../linux/gui.nix
+    ./12kingdoms-shoukei/wluma.nix
+  ];
 
   programs.ssh.settings."github.com".IdentityFile = "${config.home.homeDirectory}/.ssh/${hostName}";
 
