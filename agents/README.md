@@ -8,6 +8,7 @@ The primary workflow is to symlink files from here into each agent runtime/confi
 ## What this directory contains
 
 - `AGENTS.md`: global baseline rules for coding agents.
+- `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
 - `permissions.md`: permission policies for agent tool access.
 - `install-rules.py`: installs the baseline by creating symlinks in supported agent config dirs.
 - `install-cli.md`: curated CLI install/update command snippets.
