@@ -64,12 +64,12 @@ briefly.
   solely to authenticate to the specified service.
 - Agents MUST keep secrets opaque. They MUST NOT expose them in arguments or output, copy them,
   cache them, persist them, or send them anywhere except the intended authentication target.
-- Agents MUST NOT access secret values for any other purpose. They MUST query metadata or
-  identifiers only with commands verified not to reveal values, such as `kubectl describe secret`.
+- Agents MUST NOT access secret values for any other purpose. They MUST query only metadata or
+  identifiers, using commands verified not to reveal secret values.
 
 ## Repository state
 
-Once at the start of each repository session, agents SHOULD fetch `origin` when it exists and
+When the task depends on current remote state, agents SHOULD fetch `origin` when it exists and
 network access is available, then SHOULD use its latest default branch as the baseline. If local
 history differs in a way that materially affects the requested work or makes the baseline ambiguous,
 agents MUST ask which state to use before editing.
@@ -78,7 +78,8 @@ agents MUST ask which state to use before editing.
 
 - Agents MUST keep work within the requested scope and MUST NOT refactor unrelated areas unless
   asked.
-- Agents MUST preserve backward compatibility unless the user explicitly requests a breaking change.
+- Agents SHOULD preserve backward compatibility. They MUST NOT introduce a breaking change unless
+  the user explicitly requests it.
 - Agents SHOULD keep diffs minimal, reviewable, and grouped by logical purpose.
 - Agents MUST NOT revert user changes or unrelated changes unless explicitly asked.
 - Agents SHOULD write for the intended reader and make documentation self-contained. Documentation
@@ -107,39 +108,36 @@ agents MUST ask which state to use before editing.
   dependencies or lock files.
 - Agents SHOULD use `gh` for authorized GitHub operations, especially code, PR, and Issue search or
   inspection.
-- Agents MUST use SSH URLs for GitHub Git remotes and MUST preserve the existing SSH config. They
-  MUST NOT override it with `ssh -F /dev/null` or `GIT_SSH_COMMAND`. If sandbox ownership checks
-  reject the Nix-managed config, agents MUST rerun the original Git command with elevated
-  permission.
+- Agents SHOULD prefer SSH for GitHub Git remotes.
 
 ## Shell and scripts
 
-- Agents SHOULD invoke an executable directly when one command is sufficient; direct invocations are
-  shell-neutral and need no wrapper.
-- Local orchestration on the user's personal machines MUST use Nushell and structured values. Any
-  pipeline evaluated on the user's personal machine MUST use Nushell. Agents MUST NOT use POSIX
-  text-pipeline orchestration locally, such as `command | grep ... | sed ... | head ...` (it is
-  fragile around whitespace, newlines, escaping, exit codes, binary data, and platform differences).
-- For local command execution, agents SHOULD choose tools in the following order:
-  1. Native CLI filtering and output options
-  2. Nushell structured pipelines
+### Local commands on personal machines
+
+- Agents SHOULD choose tools in the following order:
+  1. Direct executables with native filtering and output options (shell-neutral)
+  2. Nushell for pipelines and lightweight orchestration
   3. Python for substantial logic
-- Commands evaluated on remote hosts, CI, or containers MUST use the target environment's shell.
-- Project scripts intended to run outside the user's personal machines MUST follow the project's
-  existing language and target environment.
-- Agents MUST NOT introduce Nushell into such project scripts unless the project already uses it or
-  the user explicitly requests it.
-- When a project has no existing convention, agents SHOULD use Bash for simple portable scripts and
-  Python for substantial logic.
-- Agents SHOULD use native wait or subscription tools. Otherwise, they MUST poll with progress and
-  an explicit deadline, using intervals of a few seconds for short-lived local validation. A timeout
-  does not prove the process is still running.
-- For processes started by the agent, agents MUST track and wait on the child PID or process handle
-  directly and MUST NOT infer liveness by matching `ps` or `pgrep` output.
-- For long-running, batch, networked, or expensive jobs, agents SHOULD log progress and, when
-  practical, SHOULD support selective stages, idempotent reruns, resume, cache invalidation, and
-  transient retries. Agents SHOULD distinguish HTTP success from business success and SHOULD verify
-  important outputs independently.
+- Local orchestration MUST use Nushell or Python; local pipelines MUST use Nushell. Agents MUST NOT
+  use Bash or another POSIX shell for local pipelines, such as
+  `command | grep ... | sed ... | head ...` (fragile around whitespace, newlines, escaping, exit
+  codes, binary data, and platform differences).
+
+### Project and target-environment scripts
+
+- Project scripts and commands evaluated on remote hosts, CI, or containers MUST follow the
+  project's language and target environment, including its shell.
+- Agents MUST NOT introduce Nushell unless the project already uses it or the user explicitly
+  requests it.
+- When no project convention exists, agents SHOULD use Python by default and Bash only for simple
+  portable scripts.
+
+### Script and job reliability
+
+- Multi-step, long-running, networked, or expensive scripts and jobs SHOULD report progress, bound
+  retries, support safe resumption when practical, and verify outcomes independently.
+- Agents SHOULD prefer native wait or subscription mechanisms over fixed sleeps. Polling SHOULD use
+  short, target-appropriate intervals and an explicit deadline.
 
 ## Communication
 
