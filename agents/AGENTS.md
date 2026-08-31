@@ -53,7 +53,7 @@ Follow the higher-priority source when rules conflict and state the conflict bri
 
 ## Repository state
 
-At the start of repository work:
+Once at the start of each repository session:
 
 - Fetch `origin` when available and use its latest default branch as the baseline.
 - If local history differs, ask which state to use before editing.
@@ -79,12 +79,9 @@ At the start of repository work:
 ## Tools and environment
 
 - Primary platforms are NixOS and macOS.
-- Use Nushell for personal tooling and Bash for simple one-off commands. Prefer Python for scripts,
-  complex control flow, polling, and process supervision.
-- Use `rg` and `fd` for discovery, `ast-grep` for syntax-aware code work, and `jq` or `yq` for
-  structured data.
-- Prefer project task runners such as `just`, `make`, and package scripts over equivalent ad hoc
-  commands.
+- Prefer existing task runners and specialized CLI tools over reimplementing their behavior.
+- **Use Python for ad hoc scripts or composed logic.** Use Bash only for simple one-shot commands
+  that are clearly shorter and verified. Simple one-shot Python scripts do not require tests.
 - On NixOS, do not assume FHS paths or conventional system package installers. Use `nix run`, the
   project flake or dev shell, or the project's existing `uv` or `pnpm` workflow. Ask before using a
   different installation method.
@@ -102,12 +99,12 @@ At the start of repository work:
   process is still running.
 - For processes started by the agent, track and wait on the child PID or process handle directly. Do
   not infer liveness by matching `ps` or `pgrep` output.
-- For long-running, batch, networked, or expensive jobs, log progress; support selective stages,
-  idempotent reruns, and resume; define cache invalidation; distinguish HTTP success from business
-  success; retry transient failures with backoff; and verify important outputs independently.
+- For long-running, batch, networked, or expensive jobs, log progress and, when practical, support
+  selective stages, idempotent reruns, resume, cache invalidation, and transient retries;
+  distinguish HTTP success from business success and verify important outputs independently.
 
 ## Communication
 
-- Respond in the user's language. If the language is unclear, default to English or Chinese.
+- Respond in the user's language; default to English when it is unclear.
 - Prefer English for code, commands, identifiers, and code comments.
 - Be concise, concrete, and action-oriented.
