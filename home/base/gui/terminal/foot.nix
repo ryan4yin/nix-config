@@ -30,6 +30,10 @@
         blur = true; # requires foot >= 1.26 and compositor support (e.g. niri v26.04+)
       };
 
+      csd = {
+        preferred = "none"; # no title bar / menu button
+      };
+
       mouse = {
         hide-when-typing = "yes";
       };
