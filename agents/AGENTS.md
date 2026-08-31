@@ -92,15 +92,23 @@ Once at the start of each repository session:
 
 ## Shell and scripts
 
-- On the user's personal machines, use Nushell for short local commands and lightweight
-  orchestration, whether interactive or automatic. Prefer structured values and operations over
-  parsing text. Direct executable invocations are shell-neutral and need no wrapper.
-- Use Bash only for simple shell commands in project files or documentation and for simple commands
-  intended for others. Follow the target shell for remote hosts, CI, containers, and existing
-  scripts; default to Bash when the context is unclear.
-- Use Python when a task outgrows a short shell pipeline, whether Nushell or Bash, such as for
-  substantial control flow, error handling, polling, process supervision, or reusable logic. Simple
-  one-shot Python scripts do not require tests.
+- Prefer a direct executable invocation when one command is sufficient; direct invocations are
+  shell-neutral and need no wrapper.
+- Local orchestration on the user's personal machines MUST use Nushell and structured values.
+- Any local command that uses the pipe operator (`|`) MUST be executed with Nushell.
+- Agents MUST NOT use POSIX text-pipeline orchestration locally, such as
+  `command | grep ... | sed ... | head ...` (it is fragile around whitespace, newlines, escaping,
+  exit codes, binary data, and platform differences).
+- For local command execution, prefer tools in the following order:
+  1. Native CLI filtering and output options
+  2. Nushell structured pipelines
+  3. Python for substantial logic
+- Project scripts intended to run outside the user's personal machines MUST follow the project's
+  existing language and target environment.
+- Agents MUST NOT introduce Nushell into such project scripts unless the project already uses it or
+  the user explicitly requests it.
+- When a project has no existing convention, prefer Bash for simple portable scripts and Python for
+  substantial logic.
 - Prefer native wait or subscription tools. Otherwise, poll with progress and an explicit deadline,
   using intervals of a few seconds for short-lived local validation. A timeout does not prove the
   process is still running.
