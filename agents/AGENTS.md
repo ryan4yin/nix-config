@@ -80,8 +80,6 @@ Once at the start of each repository session:
 
 - Primary platforms are NixOS and macOS.
 - Prefer existing task runners and specialized CLI tools over reimplementing their behavior.
-- **Use Python for ad hoc scripts or composed logic.** Use Bash only for simple one-shot commands
-  that are clearly shorter and verified. Simple one-shot Python scripts do not require tests.
 - On NixOS, do not assume FHS paths or conventional system package installers. Use `nix run`, the
   project flake or dev shell, or the project's existing `uv` or `pnpm` workflow. Ask before using a
   different installation method.
@@ -92,8 +90,17 @@ Once at the start of each repository session:
   `ssh -F /dev/null` or `GIT_SSH_COMMAND`. If sandbox ownership checks reject the Nix-managed
   config, rerun the original Git command with elevated permission.
 
-## Commands and scripts
+## Shell and scripts
 
+- On the user's personal machines, use Nushell for short local commands and lightweight
+  orchestration, whether interactive or automatic. Prefer structured values and operations over
+  parsing text. Direct executable invocations are shell-neutral and need no wrapper.
+- Use Bash only for simple shell commands in project files or documentation and for simple commands
+  intended for others. Follow the target shell for remote hosts, CI, containers, and existing
+  scripts; default to Bash when the context is unclear.
+- Use Python when a task outgrows a short shell pipeline, whether Nushell or Bash, such as for
+  substantial control flow, error handling, polling, process supervision, or reusable logic. Simple
+  one-shot Python scripts do not require tests.
 - Prefer native wait or subscription tools. Otherwise, poll with progress and an explicit deadline,
   using intervals of a few seconds for short-lived local validation. A timeout does not prove the
   process is still running.
