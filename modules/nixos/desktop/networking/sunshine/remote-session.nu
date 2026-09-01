@@ -63,6 +63,21 @@ def wait-ready [user: string, machine: string] {
   error make { msg: 'Remote session did not become ready within 30 seconds; inspect journalctl -u greetd-sunshine.service' }
 }
 
+def wait-niri [user: string] {
+  for _ in 1..30 {
+    let greetd = ((^systemctl is-active greetd-sunshine.service | complete).stdout | str trim) == 'active'
+    let niri = ((^pgrep -u $user -x niri | complete).exit_code) == 0
+    if $greetd and $niri { return }
+    sleep 1sec
+  }
+  error make { msg: 'Niri did not become ready within 30 seconds; inspect journalctl -u greetd-sunshine.service' }
+}
+
+def start-sunshine [machine: string] {
+  ^systemctl --machine $machine --user reset-failed sunshine.service
+  ^systemctl --machine $machine --user start sunshine.service
+}
+
 def main [
   --user (-u): string = 'ryan'
   --tty (-t): string = '/dev/tty1'
@@ -86,16 +101,13 @@ def main [
       print 'Aborted.'
       return
     }
+    ^systemctl --machine $user_machine --user stop sunshine.service
     stop-niri $session_user $user_machine
   }
 
   let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
   write-greetd-config $config $session_user $tty $command $runtime.default_session
   systemctl stop greetd.service
-  job spawn {
-    # Sunshine waits for the Wayland socket in its pre-start hook.
-    ^systemctl --machine $user_machine --user start sunshine.service
-  }
   (^systemd-run
     --unit greetd-sunshine
     --collect
@@ -107,6 +119,8 @@ def main [
     $runtime.greetd
     --config $config)
 
+  wait-niri $session_user
+  start-sunshine $user_machine
   wait-ready $session_user $user_machine
   print 'Remote Niri and Sunshine session is ready.'
 }
