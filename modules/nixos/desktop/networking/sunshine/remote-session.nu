@@ -4,19 +4,41 @@ def user-machine [user: string] {
   $'($user)@.host'
 }
 
-def niri-running [user: string, machine: string] {
-  let service = ((^systemctl --machine $machine --user is-active niri.service | complete).stdout | str trim) == 'active'
-  let process = ((^pgrep -u $user -x niri | complete).exit_code) == 0
-  $service or $process
+def niri-source [user: string] {
+  let process = (^pgrep -o -u $user -x niri | complete)
+  if $process.exit_code != 0 { return 'none' }
+
+  let pid = ($process.stdout | str trim)
+  let cgroup = (open --raw $'/proc/($pid)/cgroup')
+  if ($cgroup | str contains '/greetd-sunshine.service/') { return 'remote session' }
+  if ($cgroup | str contains '/niri.service') { return 'user niri.service' }
+  'standalone process'
 }
 
-def stop-niri [user: string, machine: string] {
-  ^systemctl --machine $machine --user stop niri.service
-  ^pkill -TERM -u $user -x niri
+def stop-niri [user: string, machine: string, source: string] {
+  match $source {
+    'remote session' => { stop-transient-session }
+    'user niri.service' => { ^systemctl --machine $machine --user stop niri.service }
+    'standalone process' => { ^pkill -TERM -u $user -x niri }
+  }
 }
 
-def confirm-replacement [] {
-  (input 'Niri is already running. Terminate it and start a remote session? [y/N] '
+def stop-transient-session [] {
+  let loaded = ((^systemctl show greetd-sunshine.service -p LoadState --value | complete).stdout | str trim)
+  if $loaded == 'not-found' or $loaded == '' { return }
+
+  ^systemctl stop greetd-sunshine.service
+  let _ = (^systemctl reset-failed greetd-sunshine.service | complete)
+  for _ in 1..50 {
+    let state = ((^systemctl show greetd-sunshine.service -p LoadState --value | complete).stdout | str trim)
+    if $state == 'not-found' or $state == '' { return }
+    sleep 100ms
+  }
+  error make { msg: 'Previous greetd-sunshine.service was stopped but not unloaded' }
+}
+
+def confirm-replacement [source: string] {
+  (input $'Niri is already running via ($source). Terminate it and start a remote session? [y/N] '
     | str lowercase) == 'y'
 }
 
@@ -96,14 +118,17 @@ def main [
     return
   }
 
-  if (niri-running $session_user $user_machine) {
-    if not $force and not (confirm-replacement) {
+  let source = (niri-source $session_user)
+  if $source != 'none' {
+    if not $force and not (confirm-replacement $source) {
       print 'Aborted.'
       return
     }
     ^systemctl --machine $user_machine --user stop sunshine.service
-    stop-niri $session_user $user_machine
+    stop-niri $session_user $user_machine $source
   }
+  # A previous helper may have exited after Niri but left its greeter running.
+  stop-transient-session
 
   let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
   write-greetd-config $config $session_user $tty $command $runtime.default_session
