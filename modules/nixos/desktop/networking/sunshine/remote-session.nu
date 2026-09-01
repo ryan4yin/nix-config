@@ -17,14 +17,36 @@ def stop-niri [user: string, machine: string] {
 
 def confirm-replacement [] {
   (input 'Niri is already running. Terminate it and start a remote session? [y/N] '
-    | str downcase) == 'y'
+    | str lowercase) == 'y'
 }
 
-def write-greetd-config [path: string, user: string, tty: string, command: string, tuigreet: string] {
+def preflight [tty: string, command: string] {
+  let command_binary = ($command | split row ' ' | first)
+  if not ($command_binary | path exists) {
+    error make { msg: $'Wayland session command not found: ($command_binary)' }
+  }
+  if not ($tty | path exists) {
+    error make { msg: $'TTY not found: ($tty)' }
+  }
+
+  let exec_start = (^systemctl show greetd.service -p ExecStart --value)
+  let greetd = ($exec_start
+    | parse --regex 'path=(?<path>[^ ;]+)'
+    | get path
+    | first)
+  let system_config = ($exec_start
+    | parse --regex '--config (?<path>[^ ;]+)'
+    | get path
+    | first)
+  let default_session = (open $system_config | get default_session)
+  { greetd: $greetd, default_session: $default_session }
+}
+
+def write-greetd-config [path: string, user: string, tty: string, command: string, default_session: record] {
   {
     general: { runfile: $'($path).run' }
     initial_session: { command: $command, user: $user }
-    default_session: { command: $'($tuigreet) --time --cmd ($command)', user: $user }
+    default_session: $default_session
     terminal: { vt: ($tty | path basename | str replace 'tty' '') }
   } | to toml | save --force $path
   chmod 600 $path
@@ -46,9 +68,19 @@ def main [
   --tty (-t): string = '/dev/tty1'
   --command (-c): string = ''
   --force (-f)
+  --check
 ] {
   let session_user = ($env.SUDO_USER? | default $user)
   let user_machine = (user-machine $session_user)
+  # niri-session starts niri.service through the user manager. Run the
+  # compositor directly so greetd owns this temporary session.
+  let command = if $command == '' { '/run/current-system/sw/bin/niri --session' } else { $command }
+  let runtime = (preflight $tty $command)
+  if $check {
+    print 'Remote session prerequisites are valid.'
+    return
+  }
+
   if (niri-running $session_user $user_machine) {
     if not $force and not (confirm-replacement) {
       print 'Aborted.'
@@ -56,22 +88,10 @@ def main [
     }
     stop-niri $session_user $user_machine
   }
-  # niri-session starts niri.service through the user manager. Run the
-  # compositor directly so greetd owns this temporary session.
-  let command = if $command == '' { '/run/current-system/sw/bin/niri --session' } else { $command }
-  let command_binary = ($command | split row ' ' | first)
-  if not ($command_binary | path exists) {
-    error make { msg: $'Wayland session command not found: ($command_binary)' }
-  }
 
   let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
-  let tuigreet = (which tuigreet | get path | first)
-  write-greetd-config $config $session_user $tty $command $tuigreet
+  write-greetd-config $config $session_user $tty $command $runtime.default_session
   systemctl stop greetd.service
-  let greetd = (systemctl show greetd.service -p ExecStart --value
-    | parse --regex 'path=(?<path>[^ ;]+)'
-    | get path
-    | first)
   job spawn {
     # Sunshine waits for the Wayland socket in its pre-start hook.
     ^systemctl --machine $user_machine --user start sunshine.service
@@ -84,7 +104,7 @@ def main [
     --property StandardOutput=tty
     --property StandardError=journal
     --
-    $greetd
+    $runtime.greetd
     --config $config)
 
   wait-ready $session_user $user_machine
