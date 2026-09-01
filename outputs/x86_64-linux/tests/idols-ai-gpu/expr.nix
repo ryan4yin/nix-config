@@ -19,6 +19,7 @@ in
   loadsVirtualDisplay = builtins.elem "vkms" cfg.boot.kernelModules;
   createsVirtualDisplay = lib.hasInfix "options vkms create_default_dev=1" cfg.boot.extraModprobeConfig;
   niriUsesIntelRenderer = lib.hasInfix "/dev/dri/by-path/pci-0000:00:02.0-render" niriHardware;
+  sunshineUserHasInputAccess = builtins.elem "input" cfg.users.users.ryan.extraGroups;
   sunshine = {
     adapter_name = cfg.services.sunshine.settings.adapter_name or null;
     encoder = cfg.services.sunshine.settings.encoder or null;

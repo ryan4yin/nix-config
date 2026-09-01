@@ -3,6 +3,7 @@
   loadsVirtualDisplay = true;
   createsVirtualDisplay = true;
   niriUsesIntelRenderer = true;
+  sunshineUserHasInputAccess = true;
   sunshine = {
     adapter_name = "/dev/dri/by-path/pci-0000:00:02.0-render";
     encoder = "vaapi";
