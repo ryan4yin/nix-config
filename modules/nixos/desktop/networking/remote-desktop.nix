@@ -35,6 +35,7 @@
     capSysAdmin = false;
     openFirewall = true;
     settings = {
+      capture = "wlr";
       # pc  - Only localhost may access the web ui
       # lan - Only LAN devices may access the web ui
       origin_web_ui_allowed = "pc";

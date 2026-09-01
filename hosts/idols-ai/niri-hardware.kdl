@@ -47,9 +47,9 @@ output "Virtual-1" {
     // Created by vkms in hardware-intel.nix. Sunshine captures this output when
     // the NVIDIA-attached physical monitors are off. It remains available in
     // normal physical sessions, with minor idle GPU and framebuffer overhead.
-    scale 1
+    scale 1.5
     transform "normal"
-    mode "2560x1600@60"
+    mode "2560x1600"
     position x=0 y=0
 }
 
