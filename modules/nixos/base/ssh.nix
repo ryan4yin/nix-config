@@ -11,7 +11,7 @@
       # in modules/nixos/desktop/ssh.nix (needed for GUI forwarding).
       X11Forwarding = lib.mkDefault false;
       # root user is used for remote deployment, so we need to allow it
-      PermitRootLogin = "prohibit-password";
+      PermitRootLogin = lib.mkDefault "prohibit-password";
       PasswordAuthentication = false; # disable password login
     };
     openFirewall = true;

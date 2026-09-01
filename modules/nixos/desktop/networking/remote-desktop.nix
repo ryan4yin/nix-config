@@ -1,7 +1,5 @@
 {
-  config,
   lib,
-  myvars,
   pkgs,
   ...
 }:
@@ -34,7 +32,7 @@
   services.sunshine = {
     enable = lib.mkDefault false; # default to false, for security reasons.
     autoStart = true;
-    capSysAdmin = true; # only needed for Wayland -- omit this when using with Xorg
+    capSysAdmin = false;
     openFirewall = true;
     settings = {
       # pc  - Only localhost may access the web ui
@@ -45,6 +43,4 @@
       wan_encryption_mode = 2;
     };
   };
-
-  users.users."${myvars.username}".extraGroups = lib.mkIf config.services.sunshine.enable [ "input" ];
 }

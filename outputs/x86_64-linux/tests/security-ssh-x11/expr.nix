@@ -3,5 +3,11 @@
   outputs,
 }:
 lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (
-  name: outputs.nixosConfigurations.${name}.config.services.openssh.settings.X11Forwarding
+  name:
+  let
+    settings = outputs.nixosConfigurations.${name}.config.services.openssh.settings;
+  in
+  {
+    inherit (settings) PermitRootLogin X11Forwarding;
+  }
 )

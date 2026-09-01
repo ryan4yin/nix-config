@@ -2,7 +2,8 @@
   loadsVirtualDisplay = true;
   createsVirtualDisplay = true;
   niriUsesIntelRenderer = true;
-  sunshineUserHasInputAccess = true;
+  sunshineUserHasInputAccess = false;
+  sunshineHasSysAdmin = false;
   sunshineStartsAfterNiri = true;
   sunshineWaitsForNiriOutput = true;
 }
