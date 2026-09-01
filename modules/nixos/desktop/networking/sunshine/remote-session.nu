@@ -13,8 +13,10 @@ def main [
   }
 
   let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
+  let tuigreet = (which tuigreet | get path | first)
   let greetd_config = {
-    default_session: { command: $command, user: $session_user }
+    initial_session: { command: $command, user: $session_user }
+    default_session: { command: $'($tuigreet) --time --cmd ($command)', user: $session_user }
     terminal: { vt: ($tty | path basename | str replace 'tty' '') }
   }
   $greetd_config | to toml | save --force $config
