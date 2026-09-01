@@ -59,8 +59,8 @@ input {
 
     mouse {
         // natural-scroll // inverts the scrolling direction.
-        // accel-speed 0.2
-        // accel-profile "flat"
+        accel-speed -0.5
+        accel-profile "flat"
     }
 
     // Uncomment this to make the mouse warp to the center of newly focused windows.
