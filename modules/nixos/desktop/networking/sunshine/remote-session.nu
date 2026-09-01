@@ -13,7 +13,7 @@ def main [
   }
 
   let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
-  $'[initial_session]\ncommand = "($command)"\nuser = "($session_user)"\n\n[terminal]\nvt = (($tty | path basename | str replace \'tty\' \'\'))\n' | save --force $config
+  $"[initial_session]\ncommand = \"($command)\"\nuser = \"($session_user)\"\n\n[terminal]\nvt = (($tty | path basename | str replace 'tty' ''))\n" | save --force $config
   chmod 600 $config
   systemctl stop greetd.service
   let greetd = (systemctl show greetd.service -p ExecStart --value
