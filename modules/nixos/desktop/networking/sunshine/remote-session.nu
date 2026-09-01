@@ -26,5 +26,13 @@ def main [
     | parse --regex 'path=(?<path>[^ ;]+)'
     | get path
     | first)
-  ^$greetd --config $config
+  systemd-run
+    --unit greetd-sunshine
+    --collect
+    --wait
+    --property $'TTYPath=($tty)'
+    --property StandardInput=tty
+    --property StandardOutput=tty
+    --property StandardError=journal
+    -- $greetd --config $config
 }

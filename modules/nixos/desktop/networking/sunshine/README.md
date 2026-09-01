@@ -8,8 +8,8 @@ the persistent NixOS configuration:
 sudo nu ./remote-session.nu
 ```
 
-The helper stops the normal `greetd` service, starts a temporary `greetd`
-configuration on `/dev/tty1`, and runs the invoking user's
+The helper stops the normal `greetd` service, starts a temporary systemd-managed
+`greetd` configuration on `/dev/tty1`, and runs the invoking user's
 `~/.wayland-session`. It removes the temporary configuration when the process
 exits. Tailscale is a system service and is not stopped.
 
