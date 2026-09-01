@@ -43,6 +43,13 @@ output "HDMI-A-2" {
     position x=2560 y=0 // on the right of DP-2
 }
 
+output "Virtual-1" {
+    scale 1
+    transform "normal"
+    mode "2560x1600@60"
+    position x=0 y=0
+}
+
 // ============= Named Workspaces =============
 workspace "4entertainment" { open-on-output "DP-1"; }
 workspace "2browser" { open-on-output "DP-1"; }
