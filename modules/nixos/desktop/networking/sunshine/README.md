@@ -1,11 +1,11 @@
 # Temporary remote session recovery
 
-When a remote-only machine is stuck at the `greetd` TUI, run the helper from an
+When a remote-only machine is stuck at the `greetd` TUI, run the Nushell helper from an
 SSH session to start one complete PAM/logind Wayland session without changing
 the persistent NixOS configuration:
 
 ```bash
-sudo ./remote-session.sh
+sudo nu ./remote-session.nu
 ```
 
 The helper stops the normal `greetd` service, starts a temporary `greetd`
