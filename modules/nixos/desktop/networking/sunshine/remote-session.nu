@@ -1,5 +1,46 @@
 #!/usr/bin/env nu
 
+def user-machine [user: string] {
+  $'($user)@.host'
+}
+
+def niri-running [user: string, machine: string] {
+  let service = ((^systemctl --machine $machine --user is-active niri.service | complete).stdout | str trim) == 'active'
+  let process = ((^pgrep -u $user -x niri | complete).exit_code) == 0
+  $service or $process
+}
+
+def stop-niri [user: string, machine: string] {
+  ^systemctl --machine $machine --user stop niri.service
+  ^pkill -TERM -u $user -x niri
+}
+
+def confirm-replacement [] {
+  (input 'Niri is already running. Terminate it and start a remote session? [y/N] '
+    | str downcase) == 'y'
+}
+
+def write-greetd-config [path: string, user: string, tty: string, command: string, tuigreet: string] {
+  {
+    general: { runfile: $'($path).run' }
+    initial_session: { command: $command, user: $user }
+    default_session: { command: $'($tuigreet) --time --cmd ($command)', user: $user }
+    terminal: { vt: ($tty | path basename | str replace 'tty' '') }
+  } | to toml | save --force $path
+  chmod 600 $path
+}
+
+def wait-ready [user: string, machine: string] {
+  for _ in 1..30 {
+    let greetd = ((^systemctl is-active greetd-sunshine.service | complete).stdout | str trim) == 'active'
+    let niri = ((^pgrep -u $user -x niri | complete).exit_code) == 0
+    let sunshine = ((^systemctl --machine $machine --user is-active sunshine.service | complete).stdout | str trim) == 'active'
+    if $greetd and $niri and $sunshine { return }
+    sleep 1sec
+  }
+  error make { msg: 'Remote session did not become ready within 30 seconds; inspect journalctl -u greetd-sunshine.service' }
+}
+
 def main [
   --user (-u): string = 'ryan'
   --tty (-t): string = '/dev/tty1'
@@ -7,23 +48,14 @@ def main [
   --force (-f)
 ] {
   let session_user = ($env.SUDO_USER? | default $user)
-  let user_machine = $'($session_user)@.host'
-  let old_niri = (^systemctl --machine $user_machine --user is-active niri.service | complete).stdout | str trim
-  let old_niri_process = ((^pgrep -u $session_user -x niri | complete).exit_code) == 0
-  if ($old_niri == 'active' or $old_niri_process) and not $force {
-    let answer = (input 'Niri is already running. Terminate it and start a remote session? [y/N] ')
-    if ($answer | str downcase) != 'y' {
+  let user_machine = (user-machine $session_user)
+  if (niri-running $session_user $user_machine) {
+    if not $force and not (confirm-replacement) {
       print 'Aborted.'
       return
     }
+    stop-niri $session_user $user_machine
   }
-  if $old_niri == 'active' {
-    ^systemctl --machine $user_machine --user stop niri.service
-  }
-  if $old_niri_process {
-    ^pkill -TERM -u $session_user -x niri
-  }
-  let home = (getent passwd $session_user | split row ':' | get 5)
   # niri-session starts niri.service through the user manager. Run the
   # compositor directly so greetd owns this temporary session.
   let command = if $command == '' { '/run/current-system/sw/bin/niri --session' } else { $command }
@@ -34,14 +66,7 @@ def main [
 
   let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
   let tuigreet = (which tuigreet | get path | first)
-  let greetd_config = {
-    general: { runfile: $'($config).run' }
-    initial_session: { command: $command, user: $session_user }
-    default_session: { command: $'($tuigreet) --time --cmd ($command)', user: $session_user }
-    terminal: { vt: ($tty | path basename | str replace 'tty' '') }
-  }
-  $greetd_config | to toml | save --force $config
-  chmod 600 $config
+  write-greetd-config $config $session_user $tty $command $tuigreet
   systemctl stop greetd.service
   let greetd = (systemctl show greetd.service -p ExecStart --value
     | parse --regex 'path=(?<path>[^ ;]+)'
@@ -62,19 +87,6 @@ def main [
     $greetd
     --config $config)
 
-  mut ready = false
-  for _ in 1..30 {
-    let greetd_active = ((^systemctl is-active greetd-sunshine.service | complete).stdout | str trim) == 'active'
-    let niri_active = ((^pgrep -u $session_user -x niri | complete).exit_code) == 0
-    let sunshine_active = ((^systemctl --machine $user_machine --user is-active sunshine.service | complete).stdout | str trim) == 'active'
-    if $greetd_active and $niri_active and $sunshine_active {
-      $ready = true
-      break
-    }
-    sleep 1sec
-  }
-  if not $ready {
-    error make { msg: 'Remote session did not become ready within 30 seconds; inspect journalctl -u greetd-sunshine.service' }
-  }
+  wait-ready $session_user $user_machine
   print 'Remote Niri and Sunshine session is ready.'
 }
