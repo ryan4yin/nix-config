@@ -14,8 +14,14 @@
 
   # kvm virtualization support
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModprobeConfig = "options kvm_intel nested=1";
+  boot.kernelModules = [
+    "kvm-intel"
+    "vkms"
+  ];
+  boot.extraModprobeConfig = ''
+    options kvm_intel nested=1
+    options vkms create_default_dev=1
+  '';
   boot.extraModulePackages = [ ];
 
   # Intel Graphics

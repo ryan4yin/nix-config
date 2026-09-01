@@ -1,4 +1,10 @@
 // running `niri msg outputs` to find outputs
+debug {
+    // Keep desktop rendering and ordinary applications on the Intel iGPU.
+    // Physical outputs remain on the NVIDIA GPU and use cross-GPU scanout.
+    render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"
+}
+
 output "DP-1" {
     // Uncomment this line to disable this output.
     // off

@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -42,8 +41,6 @@
     # required by most wayland compositors!
     modesetting.enable = true;
     powerManagement.enable = true;
-
-    dynamicBoost.enable = lib.mkForce true;
   };
 
   hardware.nvidia-container-toolkit.enable = true;
@@ -54,9 +51,24 @@
   };
 
   services.sunshine.settings = {
+    adapter_name = "/dev/dri/by-path/pci-0000:00:02.0-render"; # Intel iGPU
+    encoder = "vaapi";
     max_bitrate = 20000; # in Kbps
-    # NVIDIA NVENC Encoder
-    nvenc_preset = 3; # 1(fastest + worst quality) - 7(slowest + best quality)
-    nvenc_twopass = "full_res"; # quarter_res / full_res.
+  };
+
+  systemd.user.services.sunshine = {
+    after = [ "niri.service" ];
+    environment.LIBVA_DRIVER_NAME = "iHD";
+    preStart = ''
+      for _ in {1..20}; do
+        if ${config.programs.niri.package}/bin/niri msg outputs | ${pkgs.gnugrep}/bin/grep -q '^Output '; then
+          exit 0
+        fi
+        sleep 0.5
+      done
+
+      echo "Sunshine requires at least one Niri output" >&2
+      exit 1
+    '';
   };
 }
