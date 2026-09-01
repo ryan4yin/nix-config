@@ -1,4 +1,10 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  myvars,
+  pkgs,
+  ...
+}:
 {
   environment.systemPackages = with pkgs; [
     moonlight-qt # moonlight client, for streaming games/desktop from a PC
@@ -39,4 +45,6 @@
       wan_encryption_mode = 2;
     };
   };
+
+  users.users."${myvars.username}".extraGroups = lib.mkIf config.services.sunshine.enable [ "input" ];
 }

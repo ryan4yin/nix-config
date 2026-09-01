@@ -14,8 +14,17 @@
 
   # kvm virtualization support
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModprobeConfig = "options kvm_intel nested=1";
+  boot.kernelModules = [
+    "kvm-intel"
+    # Provide a connected DRM output when the NVIDIA-attached monitors are off.
+    # Niri exposes it as Virtual-1 for headless Sunshine sessions.
+    "vkms"
+  ];
+  boot.extraModprobeConfig = ''
+    options kvm_intel nested=1
+    # Create Virtual-1 as soon as vkms loads, including during normal physical sessions.
+    options vkms create_default_dev=1
+  '';
   boot.extraModulePackages = [ ];
 
   # Intel Graphics

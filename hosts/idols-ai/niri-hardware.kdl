@@ -1,4 +1,10 @@
 // running `niri msg outputs` to find outputs
+debug {
+    // Keep desktop rendering and ordinary applications on the Intel iGPU.
+    // Physical outputs remain on the NVIDIA GPU and use cross-GPU scanout.
+    render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"
+}
+
 output "DP-1" {
     // Uncomment this line to disable this output.
     // off
@@ -35,6 +41,16 @@ output "HDMI-A-2" {
     transform "normal"
     mode "3840x2160@60"
     position x=2560 y=0 // on the right of DP-2
+}
+
+output "Virtual-1" {
+    // Created by vkms in hardware-intel.nix. Sunshine captures this output when
+    // the NVIDIA-attached physical monitors are off. It remains available in
+    // normal physical sessions, with minor idle GPU and framebuffer overhead.
+    scale 1
+    transform "normal"
+    mode "2560x1600@60"
+    position x=0 y=0
 }
 
 // ============= Named Workspaces =============

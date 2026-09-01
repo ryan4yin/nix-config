@@ -9,7 +9,6 @@ in
 
   modules.desktop.gaming.enable = true;
   modules.desktop.niri.enable = true;
-  modules.desktop.nvidia.enable = true;
 
   programs.zed-editor.userSettings = {
     ui_font_size = 18.0;
