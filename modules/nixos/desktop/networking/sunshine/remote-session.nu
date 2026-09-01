@@ -16,5 +16,5 @@ def main [
   $'[initial_session]\ncommand = "($command)"\nuser = "($session_user)"\n\n[terminal]\nvt = (($tty | path basename | str replace \'tty\' \'\'))\n' | save --force $config
   chmod 600 $config
   systemctl stop greetd.service
-  exec /run/current-system/sw/bin/greetd --config $config
+  ^/run/current-system/sw/bin/greetd --config $config
 }
