@@ -12,7 +12,7 @@ def main [
     error make { msg: $'Wayland session command not found: ($command)' }
   }
 
-  let config = (mktemp /run/greetd-sunshine.XXXXXX.toml)
+  let config = (mktemp --tmpdir-path /run greetd-sunshine.XXXXXX.toml)
   $'[initial_session]\ncommand = "($command)"\nuser = "($session_user)"\n\n[terminal]\nvt = (($tty | path basename | str replace \'tty\' \'\'))\n' | save --force $config
   chmod 600 $config
   systemctl stop greetd.service
