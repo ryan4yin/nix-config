@@ -54,13 +54,13 @@
   #
   # NOTE: Hibernate is not supported by Asahi Linux.
   services.logind.settings.Login = {
-    lidSwitch = "suspend";
-    lidSwitchExternalPower = "lock";
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
     # 'Docked' means: more than one display is connected or the system is inserted in a docking station
-    lidSwitchDocked = "ignore";
+    HandleLidSwitchDocked = "ignore";
 
-    powerKey = "suspend";
-    powerKeyLongPress = "poweroff";
+    HandlePowerKey = "suspend";
+    HandlePowerKeyLongPress = "poweroff";
   };
   systemd.targets.sleep.enable = true;
   systemd.sleep.settings.Sleep = {
