@@ -277,6 +277,7 @@ in
         # ======================================
         ".zoom"
         ".config/obs-studio"
+        ".config/Moonlight Game Streaming Project"
         ".config/sunshine"
         ".config/freerdp"
 
