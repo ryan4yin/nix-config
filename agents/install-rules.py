@@ -47,12 +47,21 @@ def main() -> int:
     opencode_dir = xdg_config_home / "opencode"
     claude_dir = Path("~/.claude").expanduser()
     agents_dir = Path("~/.agents").expanduser()
-    install_one(codex_dir, agents_file, "AGENTS.md")
-    install_one(opencode_dir, agents_file, "AGENTS.md")
-    install_one(claude_dir, agents_file, "CLAUDE.md")
-    install_one(agents_dir, agents_file, "AGENTS.md")
+    targets = (
+        (codex_dir, "AGENTS.md"),
+        (opencode_dir, "AGENTS.md"),
+        (claude_dir, "CLAUDE.md"),
+        (agents_dir, "AGENTS.md"),
+    )
+    failed = False
+    for target_dir, target_name in targets:
+        try:
+            install_one(target_dir, agents_file, target_name)
+        except OSError as error:
+            print(f"failed  {target_dir / target_name}: {error}", file=sys.stderr)
+            failed = True
 
-    return 0
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

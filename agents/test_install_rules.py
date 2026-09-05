@@ -1,4 +1,5 @@
 import importlib.util
+import io
 import tempfile
 import unittest
 from pathlib import Path
@@ -13,6 +14,22 @@ spec.loader.exec_module(installer)
 
 
 class InstallRulesTests(unittest.TestCase):
+    def test_target_failure_does_not_stop_remaining_targets(self):
+        with (
+            patch.object(
+                installer, "install_one", side_effect=[PermissionError("denied"), None, None, None]
+            ) as install,
+            patch("sys.stderr", new_callable=io.StringIO) as stderr,
+        ):
+            self.assertEqual(installer.main(), 1)
+            self.assertEqual(install.call_count, 4)
+            self.assertIn("denied", stderr.getvalue())
+
+    def test_successful_targets_return_success(self):
+        with patch.object(installer, "install_one") as install:
+            self.assertEqual(installer.main(), 0)
+            self.assertEqual(install.call_count, 4)
+
     def test_existing_file_is_backed_up_without_overwriting_backup(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
