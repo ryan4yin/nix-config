@@ -39,7 +39,8 @@ Behavior:
 
 - Each target is handled independently.
 - Missing destination directories are skipped.
-- Existing destination file/symlink is replaced with a symlink to this repo source file.
+- Existing regular files are preserved as `.bak` backups (numbered when a backup already exists).
+- Destination links are replaced atomically; a failed link creation leaves the destination intact.
 
 The installer links only `AGENTS.md`; it does not install permission configuration, skills, or CLIs.
 The repository-root `AGENTS.md` contains guidance for this Nix configuration repository. It is not
