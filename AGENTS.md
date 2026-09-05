@@ -1,212 +1,67 @@
-# AGENTS.md - Guidelines for AI Coding Agents
+# Repository Agent Guide
 
-This file defines the default operating guide for AI agents working in this Nix Flake repository.
-Keep changes minimal, verifiable, and safe for multi-host deployments.
+This flake manages NixOS hosts, macOS via nix-darwin, shared Home Manager profiles, and Colmena
+deployments. Keep repository guidance here; reusable global rules live in `agents/AGENTS.md`. See
+[agents/README.md](./agents/README.md) for their scope and symlink installation targets.
 
-## Scope and Repository Model
+## Where Changes Belong
 
-This repository manages:
+- `flake.nix` defines inputs; `outputs/default.nix` composes outputs for `x86_64-linux`,
+  `aarch64-linux`, and `aarch64-darwin`.
+- `modules/` contains system modules; `home/` contains Home Manager modules. Put shared behavior
+  here rather than duplicating it in host configurations.
+- `hosts/` contains host-specific configuration; `outputs/<system>/src/` wires hosts into outputs.
+- `vars/` and `lib/` provide shared values and helpers. Use `myvars` and existing abstractions
+  instead of hardcoding usernames or paths.
+- `secrets/` contains agenix definitions; secret material also comes from a private external repo.
 
-- NixOS hosts (desktop + servers)
-- macOS hosts via nix-darwin
-- Home Manager profiles shared across platforms
-- Remote deployments via colmena
+## Commands and Platforms
 
-High-level layout:
+- Prefer recipes in [Justfile](./Justfile); use `just --list` to discover available commands and
+  `just --show <recipe>` to inspect behavior before running them.
+- The Justfile uses Nushell. Preserve `[linux]` / `[macos]` guards and host naming conventions.
+- `just local` uses `nixos-switch` on Linux and `darwin-build` / `darwin-switch` on macOS; their
+  arguments differ. Check both platforms when changing shared behavior.
+- `nix develop` provides formatters and linters. If needed, `nix shell nixpkgs#just nixpkgs#nushell`
+  provides the task runner and its shell.
 
-```text
-.
-├── flake.nix                    # Flake entry; outputs composed in ./outputs
-├── Justfile                     # Primary command entrypoint (uses nushell)
-├── outputs/
-│   ├── default.nix
-│   ├── x86_64-linux/
-│   ├── aarch64-linux/
-│   └── aarch64-darwin/
-├── modules/                     # NixOS + darwin modules
-├── home/                        # Home Manager modules
-├── hosts/                       # Host-specific config
-├── vars/                        # Shared variables
-├── lib/                         # Helper functions
-├── agents/                      # Reusable cross-project agent files and installer
-└── secrets/                     # Agenix secret definitions
-```
+## Validation
 
-## Ground Rules for Agents
+- For Nix changes, run `just fmt` and inspect the diff: it formats all Nix files. Nix style is
+  `nixfmt` with width 100.
+- For supported non-Nix files, use `prettier --write <file>` and `prettier --check <file>`;
+  configuration lives in `.prettierrc.yaml`. Spelling checks use `typos` and `.typos.toml`.
+- Run `just test` for configuration changes. It evaluates `.#evalTests` across Linux and Darwin; the
+  output must be `true`. Exit code zero with `false` is a failed suite.
+- Eval tests are `expr.nix` / `expected.nix` pairs under `outputs/<system>/tests/`. Update focused
+  cases when changing behavior covered by those tests.
+- Use `nix flake check` for broader flake checks. A host build can validate changes beyond eval:
+  `nix build .#nixosConfigurations.<host>.config.system.build.toplevel`.
+- Documentation-only changes need formatting checks and `git diff --check`; Nix tests may be
+  skipped. Report checks run, skipped, or blocked, including the command and reason for failures.
 
-- Prefer `just` tasks over ad-hoc commands when an equivalent task exists.
-- Make the smallest reasonable change; avoid drive-by refactors.
-- Do not commit secrets, generated credentials, or private keys.
-- Preserve platform guards (`[linux]`, `[macos]`) and host naming conventions.
-- Run formatting and evaluation checks for touched areas before finishing.
+## Nix Conventions
 
-## Quick Start Workflow (Recommended)
-
-1. Inspect context:
-
-```bash
-just --list
-rg -n "<symbol-or-option>" modules home hosts outputs
-```
-
-2. Implement the change.
-3. Format:
-
-```bash
-just fmt
-```
-
-4. Validate:
-
-```bash
-just test
-```
-
-5. If deployment behavior changed, provide the exact `just` command the user should run (do not run
-   remote deploys unless explicitly requested).
-
-## Canonical Commands
-
-### Core quality loop
-
-```bash
-just fmt                    # format Nix files
-just test                   # run eval tests: nix eval .#evalTests ...
-nix flake check             # run flake checks + pre-commit style checks
-```
-
-### Dependency/input updates
-
-```bash
-just up                     # update all inputs and commit lock file
-just upp <input>            # update one input and commit lock file
-just up-nix                 # update nixpkgs-related inputs
-```
-
-### Local deploy commands
-
-```bash
-just local                  # Linux: switch config for current hostname
-just local boot             # Linux: set the next boot config without switching
-just local switch debug     # Linux: switch with detailed output
-just local boot debug       # Linux: boot mode with detailed output
-just niri                   # Linux: switch "<hostname>-niri"
-just niri boot              # Linux: set "<hostname>-niri" for the next boot
-just niri switch debug      # Linux: switch niri config with detailed output
-just local debug            # macOS: switch with detailed output
-```
-
-### Remote deploy commands (colmena)
-
-```bash
-just col <tag>              # switch nodes matching tag
-just col <tag> boot         # set matching nodes' next boot configuration
-just lab                    # switch all kubevirt nodes
-just lab boot               # set all kubevirt nodes for the next boot
-just k3s-prod               # switch k3s production nodes
-just k3s-prod boot          # set k3s production nodes for the next boot
-just k3s-test               # switch k3s test nodes
-just k3s-test boot          # set k3s test nodes for the next boot
-```
-
-### Useful direct commands
-
-```bash
-nix eval .#evalTests --show-trace --print-build-logs --verbose
-nix build .#nixosConfigurations.<host>.config.system.build.toplevel
-nixos-rebuild switch --flake .#<hostname>
-```
-
-## Test Structure and Expectations
-
-Eval tests live under:
-
-- `outputs/x86_64-linux/tests/`
-- `outputs/aarch64-linux/tests/`
-- `outputs/aarch64-darwin/tests/`
-
-Typical test pair:
-
-- `expr.nix`
-- `expected.nix`
-
-Agent expectations:
-
-- If logic changes affect shared modules, run `just test`.
-- If only docs/comments changed, tests may be skipped, but say so explicitly.
-- If tests cannot run, report why and include the exact failing command.
-
-## Formatting and Style
-
-### Formatting tools
-
-- Nix: `nixfmt` (RFC style, width 100)
-- Non-Nix: `prettier` (see `.prettierrc.yaml`)
-- Spelling: `typos` (see `.typos.toml`)
-
-### Nix style conventions
-
-- Files use `kebab-case.nix`.
-- Prefer `inherit (...)` for attribute imports.
-- Prefer `lib.mkIf`, `lib.optional`, `lib.optionals` for conditional config.
+- Use `kebab-case.nix` filenames and `inherit (...)` for attribute imports.
+- Prefer `lib.mkIf`, `lib.optional`, and `lib.optionals` for conditional configuration.
 - Use `lib.mkDefault` for defaults and `lib.mkForce` only when necessary.
-- Keep module options documented with `description`.
+- Give module options a `description` and preserve platform-specific conditions.
 
-Module pattern:
+## Command Hazards
 
-```nix
-{ lib, config, ... }:
-{
-  options.myFeature = {
-    enable = lib.mkEnableOption "my feature";
-  };
+- `just up`, `just upp`, and `just up-nix` use `--commit-lock-file`. When a commit is not
+  authorized, use `nix flake update <input>` for a scoped input update without committing.
+- Deployment and upload recipes change systems; use eval/build commands for validation. Remote
+  deployment requires an explicit request. When deployment behavior changes, report the exact `just`
+  command to run.
+- `just clean`, `just gc`, `just ggc`, and `just game` remove history or amend commits; they are not
+  validation steps and require explicit authorization for their target and scope.
+- Do not use `just penvof` for process inspection: it can expose secret values.
 
-  config = lib.mkIf config.myFeature.enable {
-    # ...
-  };
-}
-```
+## Further Context
 
-## Platform Notes
-
-- `Justfile` uses `nu` (`set shell := ["nu", "-c"]`).
-- Some tasks exist only on Linux or macOS via `[linux]` / `[macos]` guards.
-- `just local` has different implementations per platform:
-  - Linux: `nixos-switch`
-  - macOS: `darwin-build` + `darwin-switch`
-
-## Secrets and Safety
-
-- Secrets are managed with agenix and an external private secrets repo.
-- Never inline secret values in Nix files, tests, or docs.
-- Do not run broad remote deploy commands unless requested.
-- Prefer build/eval validation first, deploy second.
-
-## Change Review Checklist (for agents)
-
-Before finishing, verify:
-
-1. Change is scoped to requested behavior.
-2. `just fmt` applied (or not needed, stated explicitly).
-3. `just test` run for config changes (or limitation explained).
-4. No secrets or machine-specific artifacts added.
-5. User-facing summary includes what changed and what was validated.
-
-## Common Pitfalls
-
-- Editing host-specific files when the change belongs in shared module layers (`modules/` or
-  `home/`).
-- Forgetting to update both Linux and darwin paths when touching shared abstractions.
-- Running deployment commands to validate syntax when `nix eval`/`nix build` would be safer.
-- Introducing hardcoded usernames/paths instead of using `myvars` and existing abstractions.
-
-## References
-
-- [README.md](./README.md)
-- [agents/README.md](./agents/README.md)
-- [Justfile](./Justfile)
-- [outputs/README.md](./outputs/README.md)
-- [hosts/README.md](./hosts/README.md)
-- [home/README.md](./home/README.md)
-- [modules/README.md](./modules/README.md)
-- [secrets/README.md](./secrets/README.md)
+- [Repository overview](./README.md)
+- [Outputs and tests](./outputs/README.md)
+- [Hosts](./hosts/README.md), [system modules](./modules/README.md), and
+  [Home Manager](./home/README.md)
+- [Secrets](./secrets/README.md)

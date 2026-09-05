@@ -9,7 +9,6 @@ The primary workflow is to symlink files from here into each agent runtime/confi
 
 - `AGENTS.md`: global baseline rules for coding agents.
 - `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
-- `permissions.md`: permission policies for agent tool access.
 - `install-rules.py`: installs the baseline by creating symlinks in supported agent config dirs.
 - `install-cli.md`: curated CLI install/update command snippets.
 - `install-skills.md`: curated `npx skills` command snippets.
@@ -17,7 +16,7 @@ The primary workflow is to symlink files from here into each agent runtime/confi
 ## Core workflow
 
 1. Maintain shared rules in `agents/AGENTS.md`.
-2. Define permission policies in `agents/permissions.md`.
+2. Configure permissions directly in the agent runtime; auto-approval is generally used.
 3. Run `install-rules.py` to refresh symlinks in local agent homes.
 4. Use `install-cli.md` and `install-skills.md` as reference snippets when needed.
 
@@ -41,6 +40,13 @@ Behavior:
 - Each target is handled independently.
 - Missing destination directories are skipped.
 - Existing destination file/symlink is replaced with a symlink to this repo source file.
+
+The installer links only `AGENTS.md`; it does not install permission configuration, skills, or CLIs.
+The repository-root `AGENTS.md` contains guidance for this Nix configuration repository. It is not
+the global rules source and is not installed by this script.
+
+Auto-approval controls tool prompting. The global rules still define task authorization, safety, and
+secret handling.
 
 ## About `install-cli.md` and `install-skills.md`
 
