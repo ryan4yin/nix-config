@@ -24,6 +24,7 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
   modifying files or external state unless changes are also requested.
 - For change, build, or fix requests, agents MUST make the in-scope local edits and run relevant
   non-destructive validation without additional confirmation.
+- Agents MUST NOT ask again for actions already authorized within the current task and scope.
 - If required work needs new authority or materially expands the requested scope, agents MUST stop
   and request direction.
 
@@ -59,9 +60,9 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
 
 ## Repository and change discipline
 
-When a task depends on remote state, agents SHOULD fetch `origin` when available and use its latest
-default branch as the baseline. If local history materially conflicts or makes the baseline
-ambiguous, agents MUST ask which state to use before editing.
+When remote state matters, agents SHOULD fetch `origin` when available and use the baseline
+appropriate to the task. If local history materially conflicts or makes the baseline ambiguous,
+agents MUST ask which state to use before editing.
 
 - Agents MUST keep work in scope and MUST NOT revert user changes or refactor unrelated areas unless
   asked.
