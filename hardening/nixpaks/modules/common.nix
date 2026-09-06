@@ -179,7 +179,6 @@ in
       args = [
         "--filter"
         "--sloppy-names"
-        "--log"
       ];
     };
 

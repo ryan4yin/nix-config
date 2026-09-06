@@ -19,12 +19,14 @@ in
       # we add other policies in ./common.nix
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gpu.nix
-    # 1. bind readonly - /run/opengl-driver
-    # 2. bind device   - /dev/dri
+    # The NixOS provider exposes host drivers at /run/opengl-driver (read-only)
+    # and all /dev/dri nodes (device access), including Intel, AMD and Asahi DRM devices.
+    # Nixpak also maps /sys/dev/char and /sys/devices/pci0000:00 read-only for discovery.
+    # These mappings grant access; they do not select the GPU used by an application.
     gpu = {
       enable = lib.mkDefault true;
       provider = "nixos";
-      bundlePackage = pkgs.mesa.drivers; # for amd & intel
+      bundlePackage = pkgs.mesa.drivers;
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gui/fonts.nix
     # it works not well, bind system's /etc/fonts directly instead
@@ -32,6 +34,8 @@ in
     # https://github.com/nixpak/nixpak/blob/master/modules/locale.nix
     locale.enable = true;
     bubblewrap = {
+      # Nixpak uses --ro-bind-try / --dev-bind-try: absent host paths are skipped,
+      # so shared mappings work on Intel/NVIDIA hosts and Apple Silicon alike.
       network = lib.mkDefault false;
       bind.rw = [
         [
@@ -63,18 +67,23 @@ in
         "/etc/localtime" # this is a symlink to /etc/zoneinfo/xxx
         "/etc/zoneinfo"
 
-        # Fix: libEGL warning: egl: failed to create dri2 screen
+        # Host EGL configuration (read-only); needed by some driver setups.
         "/etc/egl"
         "/etc/static/egl"
+
+        # Asahi GPU discovery follows /sys/dev/char links into platform devices.
+        # Expose their targets read-only; this includes non-GPU platform metadata too.
+        "/sys/devices/platform"
       ];
       bind.dev = [
         "/dev/shm" # Shared Memory
 
-        # seems required when using nvidia as primary gpu
-        "/dev/nvidia0"
-        "/dev/nvidiactl"
-        "/dev/nvidia-modeset"
-        "/dev/nvidia-uvm"
+        # Additional NVIDIA interfaces, retained for primary-GPU and offload use.
+        # Unlike /dev/dri above, numbered NVIDIA nodes are not mapped as a directory.
+        "/dev/nvidia0" # GPU index 0; additional GPUs need explicit mappings.
+        "/dev/nvidiactl" # Driver control interface.
+        "/dev/nvidia-modeset" # Display mode setting.
+        "/dev/nvidia-uvm" # Unified virtual memory.
       ];
 
       tmpfs = [
