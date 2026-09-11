@@ -1,6 +1,7 @@
 # Personal global agent rules
 
-These rules define my default safety boundaries and working preferences for coding agents.
+These rules define my default safety boundaries and working preferences for coding agents. Safety
+and secret handling take precedence over task completion.
 
 The uppercase terms `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are normative and carry
 the meanings defined in RFC 2119 and RFC 8174.
@@ -97,10 +98,12 @@ agents MUST ask which state to use before editing.
 
 - Agents SHOULD choose tools in the following order:
   1. Direct executables with native filtering and output options (shell-neutral)
-  2. Nushell for pipelines and lightweight orchestration
+  2. Nushell for lightweight orchestration
   3. Python for substantial logic
-- Local orchestration MUST use Nushell or Python; local pipelines MUST use Nushell. Agents MUST NOT
-  use Bash or another POSIX shell for local pipelines.
+- POSIX shell (e.g. Bash) is glue only. Agents MUST use Nushell or Python as soon as the logic needs
+  any of: quoting discipline, pipefail-style error handling, structured parsing (JSON/CSV/regex),
+  floats/dates, retries/timeouts, or cross-platform flags — i.e., anything ShellCheck or
+  BashPitfalls warns about.
 
 ### Project and target-environment scripts
 
