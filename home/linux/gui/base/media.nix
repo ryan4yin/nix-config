@@ -30,9 +30,42 @@
 
   services = {
     playerctld.enable = true;
-    # PipeWire audio effects daemon, used for loudness normalization (e.g. bilibili
-    # videos with inconsistent volume). Configure plugins (autogain + limiter) once
-    # in the GUI; the daemon then auto-applies the preset at login.
-    easyeffects.enable = true;
+
+    # PipeWire audio effects daemon for output loudness normalization (e.g.
+    # bilibili videos with inconsistent volume).
+    #
+    # The chain is declared here instead of configured in the GUI: autogain
+    # normalizes loudness, limiter is a transparent safety net against peaks.
+    # EasyEffects follows the system default output device by default
+    # (`useDefaultOutputDevice`), so no GUI state needs to be persisted.
+    easyeffects = {
+      enable = true;
+
+      extraPresets.loudness-normalization.output = {
+        blocklist = [ ];
+        "plugins_order" = [
+          "autogain#0"
+          "limiter#0"
+        ];
+        "autogain#0" = {
+          bypass = false;
+          # EasyEffects defaults to -23 dB (the EBU R128 broadcast standard),
+          # which is too quiet for playback. -12 dB is a common value in
+          # community presets (e.g. JackHack96's "Advanced Auto Gain") and
+          # still leaves enough headroom for the limiter below.
+          target = -12.0;
+        };
+        "limiter#0" = {
+          bypass = false;
+          # Pure brick-wall safety net: leave 1 dB of ceiling margin and add no
+          # makeup gain, so autogain stays in charge of loudness.
+          threshold = -1.0;
+          gain-boost = false;
+        };
+      };
+
+      # Load the preset on the output pipeline when the daemon starts.
+      preset.output = "loudness-normalization";
+    };
   };
 }
