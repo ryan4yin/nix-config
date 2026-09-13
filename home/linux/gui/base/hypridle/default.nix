@@ -32,7 +32,10 @@ in
         general = {
           lock_cmd = "noctalia-shell ipc call lockScreen lock";
           before_sleep_cmd = "noctalia-shell ipc call lockScreen lock";
-          ignore_dbus_inhibit = false;
+          # niri already owns org.freedesktop.ScreenSaver and feeds its
+          # inhibitors into the compositor idle notifier, so hypridle must not
+          # try to claim the interface (it would log "already providing...").
+          ignore_dbus_inhibit = true;
         };
 
         listener = [
