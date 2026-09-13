@@ -49,11 +49,10 @@
         ];
         "autogain#0" = {
           bypass = false;
-          # EasyEffects defaults to -23 dB (the EBU R128 broadcast standard),
-          # which is too quiet for playback. -12 dB is a common value in
-          # community presets (e.g. JackHack96's "Advanced Auto Gain") and
-          # still leaves enough headroom for the limiter below.
-          target = -12.0;
+          # target is set per host (home/hosts/linux/*.nix) because the
+          # comfortable loudness depends on the physical output device:
+          # -23 dB (EBU R128 broadcast standard) on desktop speakers,
+          # -12 dB on quiet laptop speakers. EasyEffects' own default is -23.
         };
         "limiter#0" = {
           bypass = false;

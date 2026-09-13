@@ -19,4 +19,7 @@ in
 
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/idols-ai/niri-hardware.kdl";
+
+  # The desktop speakers are already loud, so use the broadcast-standard -23 dB.
+  services.easyeffects.extraPresets."loudness-normalization".output."autogain#0".target = -23.0;
 }
