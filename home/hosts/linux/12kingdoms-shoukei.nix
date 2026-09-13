@@ -14,6 +14,13 @@ in
   modules.desktop.gaming.enable = false;
   modules.desktop.niri.enable = true;
 
+  # Laptop defaults: backlight 3 min, screen off 6 min, lock 20 min.
+  modules.desktop.hypridle = {
+    keyboardBacklightTimeout = 180;
+    screenOffTimeout = 360;
+    lockTimeout = 1200;
+  };
+
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/niri-hardware.kdl";
 
