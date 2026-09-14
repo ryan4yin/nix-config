@@ -1,6 +1,8 @@
 # Personal global agent rules
 
-These rules define my default safety boundaries and working preferences for coding agents.
+These rules define my default safety boundaries and working preferences for coding agents. I work as
+an SRE/DevOps engineer, so favor operational safety, reproducibility, and disciplined production
+changes.
 
 The uppercase terms `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are normative and carry
 the meanings defined in RFC 2119 and RFC 8174.
