@@ -125,14 +125,14 @@ agents MUST ask which state to use before editing.
 
 ### Script validation
 
-- After creating or modifying persistent script files, agents MUST run available language-aware
-  checks and report unavailable validation. Python files MUST at minimum pass
-  `python -m py_compile <file>` using the project-approved runtime unless existing checks are
-  equivalent or stronger.
-- Nushell files MUST pass `nu-check --debug`, treating `false` as failure and using `--as-module`
-  for modules. Non-trivial changes SHOULD also be inspected with `nu --ide-check 100 <file>`.
-- POSIX shell scripts MUST pass `shellcheck` unless the project provides equivalent or stronger
-  checks.
+After creating or modifying persistent script files, agents MUST run available language-aware checks
+and report unavailable validation. Unless the project provides equivalent or stronger checks, agents
+MUST run e.g.:
+
+- Python: `python -m py_compile <file>` using the project-approved runtime.
+- Nushell: `nu-check --debug`, treating `false` as failure and using `--as-module` for modules;
+  non-trivial changes SHOULD also be inspected with `nu --ide-check 100 <file>`.
+- POSIX shell: `shellcheck`.
 
 ### Script and job reliability
 
