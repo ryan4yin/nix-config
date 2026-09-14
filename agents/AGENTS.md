@@ -38,34 +38,32 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
 
 ### Remote changes
 
-- Agents MUST NOT mutate remote state unless the user explicitly requests it. This includes
-  `git push`, remote PR or Issue changes, deployments, applies, upgrades, and remote `ssh` changes.
-- For production or shared environments, authorization MUST identify the target environment, account
-  or project, region, cluster, namespace/workspace, resource scope, and action, and covers only that
-  boundary. Authorizing one change (e.g. "deploy to staging") does not authorize other environments,
-  shared IAM, DNS, database migrations, or cleanup. If the target is unclear, agents MUST stop
-  rather than infer it from the current CLI context.
-- Infrastructure and IaC changes MUST be previewed with plan, diff, or equivalent before any apply,
-  deploy, sync, or upgrade, except low-risk local changes. Any change to configuration, variables,
-  dependency locks, target, or remote state invalidates the preview. When the tool can save a plan
-  artifact, agents MUST apply that reviewed artifact rather than recompute.
+- Agents MUST NOT mutate remote state unless the user explicitly requests it, including `git push`,
+  deployments, and remote `ssh`.
+- Authorization MUST identify the precise target and scope — e.g. environment, project, resource
+  scope, and action — and covers only that boundary. One approved change (e.g. "deploy to staging")
+  does not extend to other environments or shared resources (e.g. IAM, DNS). If the target is
+  unclear, agents MUST confirm it with the user rather than act on an inference from the current CLI
+  context.
+- Infrastructure and IaC changes MUST be previewed with plan, diff, dry-run, or equivalent before
+  any apply, deploy, sync, or upgrade, except low-risk local changes. Any change to configuration,
+  variables, dependency locks, target, or remote state invalidates the preview. When the tool can
+  save a plan artifact, agents MUST apply that reviewed artifact rather than recompute.
 
 ### Target identity confirmation
 
-Before any write to a cloud platform, Kubernetes, Terraform/OpenTofu, database, or deployment
-system, agents MUST confirm the actual target with read-only commands — account/project, region,
-cluster, namespace/workspace, backend, and database/role. Where a tool accepts parameters for these
-(context, namespace, region, workspace, backend, profile, etc.), agents MUST pass them explicitly
-and MUST NOT rely on environment defaults. Agents MUST NOT trust directory names, variable names, or
-previous session state. If the confirmed identity does not match the authorized boundary, agents
-MUST stop.
+Before any write to an infrastructure system (e.g. cloud, Kubernetes, Terraform/OpenTofu), agents
+MUST confirm the actual target identity with read-only commands, and pass target parameters
+(context, region, namespace, etc.) explicitly rather than rely on environment defaults. Agents MUST
+NOT trust directory names, variable names, or previous session state. If the confirmed identity does
+not match the authorized boundary, agents MUST stop.
 
 ### Destructive and high-impact operations
 
-- Agents MUST treat any operation that can affect shared-environment availability, security
-  boundaries, data persistence, access control, traffic paths, or cost as high-impact, even without
-  `delete`, `force`, or `destroy`. High-impact operations require a precise target, blast radius,
-  recovery/rollback path, observable success criteria, and explicit authorization.
+- Agents MUST treat any operation that can affect availability, security, data, or cost as
+  high-impact, even without `delete`, `force`, or `destroy`. High-impact operations require a
+  precise target, blast radius, recovery/rollback path, observable success criteria, and explicit
+  authorization.
 - Agents SHOULD avoid irreversible operations and prefer recoverable alternatives. They MUST NOT use
   destructive or force operations unless the user explicitly requests or approves them, the exact
   target and scope are verified, and a recovery path or safety guard exists. Unpublished local
@@ -97,10 +95,10 @@ agents MUST ask which state to use before editing.
 - Documentation SHOULD be self-contained for its intended reader and omit irrelevant history.
 - Agents SHOULD verify changes in proportion to their risk and MUST NOT claim a check passed unless
   it was run.
-- Production or shared-environment changes MUST be verified read-after-write against system state
-  and user-visible outcomes, not just command exit codes. Agents MUST NOT claim a deployment
-  succeeded because a rollout or apply exited zero; they MUST confirm the defined health conditions
-  or state explicitly which observation window was skipped.
+- Changes to remote or deployed systems MUST be verified read-after-write against system state and
+  user-visible outcomes, not just command exit codes. Agents MUST NOT claim a deployment succeeded
+  because a rollout or apply exited zero; they MUST confirm the defined health conditions or state
+  explicitly which observation window was skipped.
 
 ### Commit messages
 
@@ -110,9 +108,9 @@ agents MUST ask which state to use before editing.
 - Each commit SHOULD contain one logical change and leave the tree in a working state. Group changes
   only when they cannot stand alone, and explain the scope in the body.
 - Agents MUST NOT skip hooks unless explicitly requested.
-- Agents MAY rewrite unpublished history they created in the current task (e.g., amend, reword,
-  squash, fixup, soft reset) when it keeps the history clean; rewriting pushed commits or commits
-  authored by others requires explicit request.
+- Agents MAY rewrite unpublished history they created in the current task (e.g., amend, rebase,
+  squash) when it keeps the history clean; rewriting pushed commits or commits authored by others
+  requires explicit request.
 
 ## Tools and environment
 
@@ -121,9 +119,9 @@ agents MUST ask which state to use before editing.
   system package installers. When a project depends on binaries or otherwise expects FHS, agents
   MUST use `flake.nix`/`default.nix` (creating one if absent), and MUST ask before installing by
   another method.
-- Agents MAY use temporary or isolated CLI runners such as `npx`, `pnpm dlx`, `uvx`, or `pipx` when
-  they do not modify project dependencies or lock files. This is permitted on NixOS and is not a
-  system installation.
+- Agents MAY use temporary or isolated CLI runners such as `npx`, `pnpm dlx`, or `uvx` when they do
+  not modify project dependencies or lock files. This is permitted on NixOS and is not a system
+  installation.
 - Agents SHOULD use `gh` for authorized GitHub operations and SSH for GitHub Git remotes.
 
 ## Shell and scripts
