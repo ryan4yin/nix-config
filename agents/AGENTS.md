@@ -106,11 +106,10 @@ agents MUST ask which state to use before editing.
 
 ### Local ad-hoc commands
 
-- Agents SHOULD prefer a direct executable with native options over hand-written glue, and keep
-  POSIX shell (e.g. Bash) to single-line ad-hoc glue only.
-- Once a task needs anything ShellCheck or BashPitfalls warns about — e.g. quoting discipline, error
-  handling, structured parsing (JSON/CSV/regex), dates/floats, retries/timeouts, or cross-platform
-  flags — agents MUST move to Nushell or Python.
+- Agents SHOULD prefer a direct executable with native options over hand-written glue.
+- POSIX shell (e.g. Bash) is limited to invoking a single command with arguments. Any glue — pipes,
+  chaining (`;`, `&&`), substitution, or redirection — or anything ShellCheck or BashPitfalls warns
+  about MUST be done in Nushell or Python instead (e.g. `nu -c`, `python -c`).
 - Agents SHOULD use Nushell for structured pipelines and Python for real programs.
 
 ### Project-owned scripts
