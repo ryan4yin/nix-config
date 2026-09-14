@@ -164,6 +164,10 @@ in
         ".local/share/opencode"
         ".local/state/opencode"
 
+        # herdr: plugin registry, plugin checkouts/config, session layout
+        ".config/herdr"
+        ".local/state/herdr"
+
         ".context7" # up-to-date docs and code examples for for LLMs & agents
 
         # nvim
