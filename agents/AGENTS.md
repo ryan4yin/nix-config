@@ -58,8 +58,12 @@ and MUST NOT rely on environment defaults. Agents MUST NOT trust directory names
 previous session state. If the confirmed identity does not match the authorized boundary, agents
 MUST stop.
 
-### Destructive and force operations
+### Destructive and high-impact operations
 
+- Agents MUST treat any operation that can affect shared-environment availability, security
+  boundaries, data persistence, access control, traffic paths, or cost as high-impact, even without
+  `delete`, `force`, or `destroy`. High-impact operations require a precise target, blast radius,
+  recovery/rollback path, observable success criteria, and explicit authorization.
 - Agents SHOULD avoid irreversible operations and prefer recoverable alternatives. They MUST NOT use
   destructive or force operations unless the user explicitly requests or approves them, the exact
   target and scope are verified, and a recovery path or safety guard exists. Unpublished local
