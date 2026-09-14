@@ -45,6 +45,9 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
   does not extend to other environments or shared resources (e.g. IAM, DNS). If the target is
   unclear, agents MUST confirm it with the user rather than act on an inference from the current CLI
   context.
+
+### Infrastructure changes
+
 - Infrastructure and IaC changes MUST be previewed with plan, diff, dry-run, or equivalent before
   any apply, deploy, sync, or upgrade, except low-risk local changes. Any change to configuration,
   variables, dependency locks, target, or remote state invalidates the preview. When the tool can
@@ -94,11 +97,10 @@ agents MUST ask which state to use before editing.
   reasonable path, agents MUST stop and request explicit approval before proceeding.
 - Documentation SHOULD be self-contained for its intended reader and omit irrelevant history.
 - Agents SHOULD verify changes in proportion to their risk and MUST NOT claim a check passed unless
-  it was run.
-- Changes to remote or deployed systems MUST be verified read-after-write against system state and
-  user-visible outcomes, not just command exit codes. Agents MUST NOT claim a deployment succeeded
-  because a rollout or apply exited zero; they MUST confirm the defined health conditions or state
-  explicitly which observation window was skipped.
+  it was run; changes to remote or deployed systems MUST be verified read-after-write against system
+  state and user-visible outcomes, not just exit codes. Agents MUST NOT claim a deployment succeeded
+  because a rollout or apply exited zero — confirm the defined health conditions, or state which
+  observation window was skipped.
 
 ### Commit messages
 
@@ -114,58 +116,40 @@ agents MUST ask which state to use before editing.
 
 ## Tools and environment
 
-- Agents SHOULD prefer existing task runners and specialized CLIs over reimplementation.
 - On NixOS, because the environment is non-FHS, agents MUST NOT assume FHS paths or use conventional
   system package installers. When a project depends on binaries or otherwise expects FHS, agents
   MUST use `flake.nix`/`default.nix` (creating one if absent), and MUST ask before installing by
   another method.
-- Agents MAY use temporary or isolated CLI runners such as `npx`, `pnpm dlx`, or `uvx` when they do
-  not modify project dependencies or lock files. This is permitted on NixOS and is not a system
-  installation.
 - Agents SHOULD use `gh` for authorized GitHub operations and SSH for GitHub Git remotes.
 
 ## Shell and scripts
 
 ### Local ad-hoc commands
 
-- Agents SHOULD prefer a direct executable with native filtering and output options over
-  hand-written glue or scripts (shell-neutral).
-- Agents SHOULD keep POSIX shell (e.g. Bash) to single-line ad-hoc glue only. Once a task needs
-  anything ShellCheck or BashPitfalls warns about — e.g. quoting discipline, error handling,
-  structured parsing (JSON/CSV/regex), dates/floats, retries/timeouts, or cross-platform flags —
-  agents MUST move to Nushell or Python.
-- Agents SHOULD use Nushell for structured pipelines — the middle ground between POSIX shell and
-  Python.
-- Agents SHOULD use Python when a task is a program rather than a pipeline.
+- Agents SHOULD prefer a direct executable with native options over hand-written glue, and keep
+  POSIX shell (e.g. Bash) to single-line ad-hoc glue only.
+- Once a task needs anything ShellCheck or BashPitfalls warns about — e.g. quoting discipline, error
+  handling, structured parsing (JSON/CSV/regex), dates/floats, retries/timeouts, or cross-platform
+  flags — agents MUST move to Nushell or Python.
+- Agents SHOULD use Nushell for structured pipelines and Python for real programs.
 
 ### Project-owned scripts
 
-- Agents MUST follow the project's language and target environment, including its shell, whether run
-  locally or on remote hosts, CI, or containers. Agents MUST NOT introduce Nushell unless already
-  used or explicitly requested.
-- Without a project convention, agents SHOULD default to Python, keep Bash to single-line ad-hoc
-  commands, and prefer `#!/usr/bin/env <interpreter>` over absolute interpreter paths.
+- Agents MUST follow the project's language and target environment, defaulting to Python when there
+  is no convention, and MUST NOT introduce Nushell unless already used or explicitly requested.
 
 ### Script validation
 
-After creating or modifying persistent script files, agents MUST run available language-aware checks
-and report unavailable validation. Unless the project provides equivalent or stronger checks, agents
-MUST run e.g.:
-
-- Python: `python -m py_compile <file>` using the project-approved runtime.
-- Nushell: `nu-check --debug`, treating `false` as failure and using `--as-module` for modules;
-  non-trivial changes SHOULD also be inspected with `nu --ide-check 100 <file>`.
-- POSIX shell: `shellcheck`.
+Script files agents create or modify — including temporary ones — MUST pass the available
+language-aware checks (e.g. `shellcheck`, `nu-check`, `py_compile`); agents MUST report any check
+that is unavailable.
 
 ### Script and job reliability
 
-- Multi-step, long-running, networked, or expensive jobs SHOULD report progress, bound retries,
-  support safe resumption when practical, and verify outcomes independently.
-- Agents SHOULD prefer native wait or subscription mechanisms over fixed sleeps. Any polling SHOULD
-  use target-appropriate intervals and an explicit deadline.
+- Multi-step or long-running jobs SHOULD report progress, bound retries, and prefer native wait or
+  subscription mechanisms over fixed sleeps.
 
 ## Communication
 
-- Agents MUST respond in the user's language, defaulting to English when unclear, and SHOULD be
-  concise, concrete, and action-oriented.
-- Code, commands, identifiers, and code comments SHOULD use English.
+- Agents MUST respond in the user's language (default English when unclear) and SHOULD be concise,
+  concrete, and action-oriented; code, commands, identifiers, and comments SHOULD use English.
