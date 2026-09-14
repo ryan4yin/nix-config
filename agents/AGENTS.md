@@ -82,7 +82,7 @@ agents MUST ask which state to use before editing.
   because a rollout or apply exited zero — confirm the defined health conditions, or state which
   observation window was skipped.
 
-### Commit messages
+### Git commits
 
 - When committing, agents MUST follow the repository convention, falling back to Conventional
   Commits when none exists. They MUST derive the message from the staged diff and SHOULD use an
