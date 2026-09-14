@@ -49,6 +49,9 @@ npx skills add -g DietrichGebert/ponytail --skill 'ponytail-review'
 
 # enable a terse response mode when context or token usage matters
 npx skills add -g JuliusBrussee/caveman --skill 'caveman'
+
+# inspect and control herdr panes, tabs, workspaces, agents, and commands from a herdr pane
+npx skills add -g herdrdev/herdr --skill 'herdr'
 ```
 
 ## Optional project skills
@@ -78,5 +81,6 @@ References:
 - https://github.com/blader/humanizer
 - https://github.com/DietrichGebert/ponytail
 - https://github.com/JuliusBrussee/caveman
+- https://github.com/herdrdev/herdr
 - https://github.com/anthropics/skills
 - https://github.com/trailofbits/skills

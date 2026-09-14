@@ -65,6 +65,23 @@ Use them as snippet libraries:
 - select what you need
 - run selected commands manually
 
+## TODO
+
+Ideas worth adopting once a concrete need appears; nothing here is implemented yet, and the install
+scripts above do not cover it.
+
+- **Shared instructions and skills.** Deploy one rules body plus declared skills to every agent
+  (Claude Code, Codex, OpenCode) instead of maintaining a copy per agent. Reference:
+  `mirkolenz/infra` `options/home-manager/agents.nix` (custom `programs.agents`, follows the Agent
+  Skills spec) and `khaneliman/khanelinix` `modules/common/ai-tools/`.
+- **Single-source permissions.** Keep allow/ask/deny command lists and agent role definitions in one
+  place and render them per harness. Reference: `khaneliman/khanelinix`
+  `modules/common/ai-tools/{permissions,agents}.nix`.
+- **MCP from one definition.** Define MCP servers once and project them into each client. Home
+  Manager ships `programs.mcp` (writes `$XDG_CONFIG_HOME/mcp/mcp.json`), but consumers still render
+  it per agent. References: Home Manager `modules/programs/mcp.nix`, `jevy/home-manager-nix-config`
+  `modules/dev/mcp.nix`, `dryvist/nix-ai` `modules/mcp/`.
+
 ## Conventions
 
 - Keep files portable and reviewable.
