@@ -48,6 +48,16 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
 - Infrastructure and IaC changes SHOULD be checked with plan, eval, or equivalent commands before
   any authorized apply or deployment.
 
+### Target identity confirmation
+
+Before any write to a cloud platform, Kubernetes, Terraform/OpenTofu, database, or deployment
+system, agents MUST confirm the actual target with read-only commands — account/project, region,
+cluster, namespace/workspace, backend, and database/role. Where a tool accepts parameters for these
+(context, namespace, region, workspace, backend, profile, etc.), agents MUST pass them explicitly
+and MUST NOT rely on environment defaults. Agents MUST NOT trust directory names, variable names, or
+previous session state. If the confirmed identity does not match the authorized boundary, agents
+MUST stop.
+
 ### Destructive and force operations
 
 - Agents SHOULD avoid irreversible operations and prefer recoverable alternatives. They MUST NOT use
