@@ -109,7 +109,8 @@ agents MUST ask which state to use before editing.
 - Agents SHOULD prefer a direct executable with native options over hand-written glue.
 - POSIX shell (e.g. Bash) is limited to invoking a single command with arguments. Any glue — pipes,
   chaining (`;`, `&&`), substitution, or redirection — or anything ShellCheck or BashPitfalls warns
-  about MUST be done in Nushell or Python instead (e.g. `nu -c`, `python -c`).
+  about MUST be done in Nushell or Python instead (e.g. `nu -c '...'`, `python -c '...'`, with the
+  inline code in single quotes so the shell does not expand it).
 - Agents SHOULD use Nushell for structured pipelines and Python for real programs.
 
 ### Project-owned scripts
