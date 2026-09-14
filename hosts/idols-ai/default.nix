@@ -76,6 +76,13 @@ in
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
+  # networkd removes routing policy rules not defined in .network files
+  # (ManageForeignRoutingPolicyRules defaults to yes) each time it reconfigures
+  # a link. On S3 resume it reconfigures enp130s0, which wiped mihomo's
+  # (9000-9010) and Tailscale's rules and briefly broke routing. Keep foreign
+  # rules so the VPN/TUN rules survive.
+  systemd.network.config.networkConfig.ManageForeignRoutingPolicyRules = false;
+
   systemd.network.networks."10-${iface}" = {
     matchConfig.Name = [ iface ];
     networkConfig = {
@@ -87,6 +94,10 @@ in
       DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
       IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
       LinkLocalAddressing = "ipv6";
+      # r8169 drops carrier on S3 resume; without this, networkd tears down the
+      # static address/route and clash's TUN auto-detect briefly loses its
+      # outbound interface, leaving routing broken until clash is restarted.
+      IgnoreCarrierLoss = "10s";
     };
     routes = [
       {
