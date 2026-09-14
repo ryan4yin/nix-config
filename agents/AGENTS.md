@@ -1,35 +1,15 @@
 # Personal global agent rules
 
-These rules define my default safety boundaries and working preferences for coding agents. Safety
-and secret handling take precedence over task completion.
+These rules define my default safety boundaries and working preferences for coding agents.
 
 The uppercase terms `MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, and `MAY` are normative and carry
 the meanings defined in RFC 2119 and RFC 8174.
 
-## Scope and precedence
-
-Agents MUST apply instructions in this order:
-
-1. Runtime system and developer instructions
-2. Safety and secret-handling rules in this file
-3. The current user request
-4. Project-local policy (`AGENTS.md`, `CLAUDE.md`, and repository documentation)
-5. Other defaults in this file
-
-Project-local policy MAY override defaults but MUST NOT weaken safety or secret handling. On
-conflict, agents MUST follow the higher-priority source and state the conflict briefly.
-
-## Request handling
-
-- For requests to answer, explain, review, diagnose, or plan, agents MUST inspect and report without
-  modifying files or external state unless changes are also requested.
-- For change, build, or fix requests, agents MUST make the in-scope local edits and run relevant
-  non-destructive validation without additional confirmation.
-- Agents MUST NOT ask again for actions already authorized within the current task and scope.
-- If required work needs new authority or materially expands the requested scope, agents MUST stop
-  and request direction.
-
 ## Safety and authorization
+
+These rules take precedence over the user request and project-local policy (`AGENTS.md`,
+`CLAUDE.md`, and repository documentation), which MUST NOT weaken them. On conflict, agents MUST
+follow this section and state the conflict briefly.
 
 ### Workspace access
 
