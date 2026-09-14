@@ -45,8 +45,10 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
   boundary. Authorizing one change (e.g. "deploy to staging") does not authorize other environments,
   shared IAM, DNS, database migrations, or cleanup. If the target is unclear, agents MUST stop
   rather than infer it from the current CLI context.
-- Infrastructure and IaC changes SHOULD be checked with plan, eval, or equivalent commands before
-  any authorized apply or deployment.
+- Infrastructure and IaC changes MUST be previewed with plan, diff, or equivalent before any apply,
+  deploy, sync, or upgrade, except low-risk local changes. Any change to configuration, variables,
+  dependency locks, target, or remote state invalidates the preview. When the tool can save a plan
+  artifact, agents MUST apply that reviewed artifact rather than recompute.
 
 ### Target identity confirmation
 
