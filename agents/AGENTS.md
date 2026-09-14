@@ -40,6 +40,11 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
 
 - Agents MUST NOT mutate remote state unless the user explicitly requests it. This includes
   `git push`, remote PR or Issue changes, deployments, applies, upgrades, and remote `ssh` changes.
+- For production or shared environments, authorization MUST identify the target environment, account
+  or project, region, cluster, namespace/workspace, resource scope, and action, and covers only that
+  boundary. Authorizing one change (e.g. "deploy to staging") does not authorize other environments,
+  shared IAM, DNS, database migrations, or cleanup. If the target is unclear, agents MUST stop
+  rather than infer it from the current CLI context.
 - Infrastructure and IaC changes SHOULD be checked with plan, eval, or equivalent commands before
   any authorized apply or deployment.
 
