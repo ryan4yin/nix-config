@@ -97,6 +97,10 @@ agents MUST ask which state to use before editing.
 - Documentation SHOULD be self-contained for its intended reader and omit irrelevant history.
 - Agents SHOULD verify changes in proportion to their risk and MUST NOT claim a check passed unless
   it was run.
+- Production or shared-environment changes MUST be verified read-after-write against system state
+  and user-visible outcomes, not just command exit codes. Agents MUST NOT claim a deployment
+  succeeded because a rollout or apply exited zero; they MUST confirm the defined health conditions
+  or state explicitly which observation window was skipped.
 
 ### Commit messages
 
