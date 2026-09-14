@@ -82,7 +82,8 @@ agents MUST ask which state to use before editing.
 - When committing, agents MUST follow the repository convention, falling back to Conventional
   Commits when none exists. They MUST derive the message from the staged diff and SHOULD use an
   imperative subject within 72 characters, exceeding that only when necessary for clarity.
-- Each commit MUST contain one logical change.
+- Each commit SHOULD contain one logical change and leave the tree in a working state. Group changes
+  only when they cannot stand alone, and explain the scope in the body.
 - Agents MUST NOT skip hooks unless explicitly requested.
 - Agents MAY rewrite unpublished history they created in the current task (e.g., amend, reword,
   squash, fixup, soft reset) when it keeps the history clean; rewriting pushed commits or commits
