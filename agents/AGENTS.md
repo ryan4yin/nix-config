@@ -47,12 +47,15 @@ conflict, agents MUST follow the higher-priority source and state the conflict b
 
 - Agents SHOULD avoid irreversible operations and prefer recoverable alternatives. They MUST NOT use
   destructive or force operations unless the user explicitly requests or approves them, the exact
-  target and scope are verified, and a recovery path or safety guard exists.
+  target and scope are verified, and a recovery path or safety guard exists. Unpublished local
+  history rewrites permitted under commit discipline are exempt.
 
 ### Secrets and authentication
 
 - Agents MUST NOT expose, commit, or write secret literals. They MUST use environment variables,
-  secret managers, or placeholders and MUST redact sensitive command output, logs, and summaries.
+  secret managers, or placeholders, and MUST redact sensitive command output, logs, and summaries.
+- Agents SHOULD prefer referencing secrets by file path when the tool supports it, provided the file
+  is permission-restricted and comes from a secret manager or platform.
 - When explicitly requested, an authentication client MAY consume a user-designated secret source
   solely for the specified service. Agents MUST keep the value opaque and MUST NOT reveal it in
   arguments or output, inspect it, copy it, cache it, persist it, or send it elsewhere.
@@ -68,7 +71,8 @@ agents MUST ask which state to use before editing.
 - Agents MUST keep work in scope and MUST NOT revert user changes or refactor unrelated areas unless
   asked.
 - Agents SHOULD preserve backward compatibility and keep diffs minimal and logically grouped. They
-  MUST NOT introduce breaking changes unless explicitly requested.
+  MUST NOT introduce breaking changes unless explicitly requested. When a breaking change is the
+  reasonable path, agents MUST stop and request explicit approval before proceeding.
 - Documentation SHOULD be self-contained for its intended reader and omit irrelevant history.
 - Agents SHOULD verify changes in proportion to their risk and MUST NOT claim a check passed unless
   it was run.
@@ -76,42 +80,47 @@ agents MUST ask which state to use before editing.
 ### Commit messages
 
 - When committing, agents MUST follow the repository convention, falling back to Conventional
-  Commits when none exists. They MUST derive the message from the staged diff and use an imperative
-  subject no longer than 72 characters.
-- Each commit MUST contain one logical change. Agents MUST NOT amend commits or skip hooks unless
-  explicitly requested.
+  Commits when none exists. They MUST derive the message from the staged diff and SHOULD use an
+  imperative subject within 72 characters, exceeding that only when necessary for clarity.
+- Each commit MUST contain one logical change.
+- Agents MUST NOT skip hooks unless explicitly requested.
+- Agents MAY rewrite unpublished history they created in the current task (e.g., amend, reword,
+  squash, fixup, soft reset) when it keeps the history clean; rewriting pushed commits or commits
+  authored by others requires explicit request.
 
 ## Tools and environment
 
-- On the primary NixOS and macOS platforms, agents SHOULD prefer existing task runners and
-  specialized CLIs over reimplementation.
-- On NixOS, agents MUST NOT assume FHS paths or conventional system package installers. They MUST
-  use `nix run`, the project flake or dev shell, or an existing `uv` or `pnpm` workflow, and ask
-  before using another installation method.
-- Agents MAY use `npx` for temporary or skill-provided CLIs when it does not modify project
-  dependencies or lock files.
+- Agents SHOULD prefer existing task runners and specialized CLIs over reimplementation.
+- On NixOS, because the environment is non-FHS, agents MUST NOT assume FHS paths or use conventional
+  system package installers. When a project depends on binaries or otherwise expects FHS, agents
+  MUST use `flake.nix`/`default.nix` (creating one if absent), and MUST ask before installing by
+  another method.
+- Agents MAY use temporary or isolated CLI runners such as `npx`, `pnpm dlx`, `uvx`, or `pipx` when
+  they do not modify project dependencies or lock files. This is permitted on NixOS and is not a
+  system installation.
 - Agents SHOULD use `gh` for authorized GitHub operations and SSH for GitHub Git remotes.
 
 ## Shell and scripts
 
-### Local commands on personal machines
+### Local ad-hoc commands
 
-- Agents SHOULD choose tools in the following order:
-  1. Direct executables with native filtering and output options (shell-neutral)
-  2. Nushell for lightweight orchestration
-  3. Python for substantial logic
-- POSIX shell (e.g. Bash) is glue only. Agents MUST use Nushell or Python as soon as the logic needs
-  any of: quoting discipline, pipefail-style error handling, structured parsing (JSON/CSV/regex),
-  floats/dates, retries/timeouts, or cross-platform flags — i.e., anything ShellCheck or
-  BashPitfalls warns about.
+- Agents SHOULD prefer a direct executable with native filtering and output options over
+  hand-written glue or scripts (shell-neutral).
+- Agents SHOULD keep POSIX shell (e.g. Bash) to single-line ad-hoc glue only. Once a task needs
+  anything ShellCheck or BashPitfalls warns about — e.g. quoting discipline, error handling,
+  structured parsing (JSON/CSV/regex), dates/floats, retries/timeouts, or cross-platform flags —
+  agents MUST move to Nushell or Python.
+- Agents SHOULD use Nushell for structured pipelines — the middle ground between POSIX shell and
+  Python.
+- Agents SHOULD use Python when a task is a program rather than a pipeline.
 
-### Project and target-environment scripts
+### Project-owned scripts
 
-- Scripts and commands evaluated on remote hosts, CI, or containers MUST follow the project's
-  language and target environment, including its shell. Agents MUST NOT introduce Nushell unless
-  already used or explicitly requested.
-- Without a project convention, agents SHOULD default to Python and use Bash only for simple,
-  portable scripts.
+- Agents MUST follow the project's language and target environment, including its shell, whether run
+  locally or on remote hosts, CI, or containers. Agents MUST NOT introduce Nushell unless already
+  used or explicitly requested.
+- Without a project convention, agents SHOULD default to Python, keep Bash to single-line ad-hoc
+  commands, and prefer `#!/usr/bin/env <interpreter>` over absolute interpreter paths.
 
 ### Script validation
 
@@ -121,6 +130,8 @@ agents MUST ask which state to use before editing.
   equivalent or stronger.
 - Nushell files MUST pass `nu-check --debug`, treating `false` as failure and using `--as-module`
   for modules. Non-trivial changes SHOULD also be inspected with `nu --ide-check 100 <file>`.
+- POSIX shell scripts MUST pass `shellcheck` unless the project provides equivalent or stronger
+  checks.
 
 ### Script and job reliability
 
