@@ -294,6 +294,8 @@ in
         ".mozilla"
         ".config/google-chrome"
         ".config/chromium"
+        ".config/BraveSoftware/Brave-Origin"
+        ".config/microsoft-edge"
 
         # ======================================
         # CLI data
