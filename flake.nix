@@ -171,7 +171,7 @@
 
     # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri)
     pyclipsync = {
-      url = "github:ryan4yin/pyclipsync";
+      url = "github:ryan4yin/pyclipsync/v0.1.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
