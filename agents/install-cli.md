@@ -10,6 +10,8 @@ Installed via Nix:
 - opencode
 - cursor-agent(cli)
 - kimi-code
+- pi
+- omp
 
 ## Optional tooling
 

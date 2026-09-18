@@ -1,5 +1,6 @@
 import importlib.util
 import io
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -14,21 +15,44 @@ spec.loader.exec_module(installer)
 
 
 class InstallRulesTests(unittest.TestCase):
+    def test_main_links_all_supported_agent_targets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            home = Path(directory)
+            target_names = (
+                (home / ".codex", "AGENTS.md"),
+                (home / ".config" / "opencode", "AGENTS.md"),
+                (home / ".pi" / "agent", "AGENTS.md"),
+                (home / ".omp" / "agent", "AGENTS.md"),
+                (home / ".agents", "AGENTS.md"),
+            )
+            for target_dir, _ in target_names:
+                target_dir.mkdir(parents=True)
+
+            with patch.dict(os.environ, {"HOME": str(home)}, clear=True):
+                self.assertEqual(installer.main(), 0)
+
+            for target_dir, target_name in target_names:
+                target = target_dir / target_name
+                self.assertTrue(target.is_symlink(), target)
+                self.assertEqual(target.resolve(), installer.Path(__file__).with_name("AGENTS.md"))
+
     def test_target_failure_does_not_stop_remaining_targets(self):
         with (
             patch.object(
-                installer, "install_one", side_effect=[PermissionError("denied"), None, None]
+                installer,
+                "install_one",
+                side_effect=[PermissionError("denied"), None, None, None, None],
             ) as install,
             patch("sys.stderr", new_callable=io.StringIO) as stderr,
         ):
             self.assertEqual(installer.main(), 1)
-            self.assertEqual(install.call_count, 3)
+            self.assertEqual(install.call_count, 5)
             self.assertIn("denied", stderr.getvalue())
 
     def test_successful_targets_return_success(self):
         with patch.object(installer, "install_one") as install:
             self.assertEqual(installer.main(), 0)
-            self.assertEqual(install.call_count, 3)
+            self.assertEqual(install.call_count, 5)
 
     def test_existing_file_is_backed_up_without_overwriting_backup(self):
         with tempfile.TemporaryDirectory() as directory:
