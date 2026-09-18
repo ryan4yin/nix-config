@@ -85,6 +85,7 @@ in
     # AI Agent Tools
     ++ [
       # Agents
+      agentPackages.codex
       agentPackages.opencode
       agentPackages.kimi-code
       agentPackages.pi
