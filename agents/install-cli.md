@@ -12,6 +12,7 @@ Installed via Nix:
 - kimi-code
 - pi
 - omp
+- crush
 
 ## Optional tooling
 
