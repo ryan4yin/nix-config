@@ -14,6 +14,8 @@
       cursor-cli
       opencode
       kimi-code
+      pi
+      omp
 
       # Utilities
       rtk # CLI proxy that reduces LLM token consumption

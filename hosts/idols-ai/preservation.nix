@@ -159,6 +159,8 @@ in
         ".config/agents"
         ".codex"
         ".kimi-code"
+        ".pi"
+        ".omp"
         ".config/opencode"
         ".local/share/opencode"
         ".local/state/opencode"
