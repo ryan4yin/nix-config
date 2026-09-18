@@ -149,11 +149,6 @@ in
         ".config/zed"
         ".local/share/zed"
 
-        # cursor ai editor / cli
-        ".cursor"
-        ".config/cursor"
-        ".config/Cursor"
-
         # ai agents
         ".agents" # skills for all agents
         ".config/agents"

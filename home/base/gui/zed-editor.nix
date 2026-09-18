@@ -111,7 +111,6 @@
       agent.play_sound_when_agent_done = "when_hidden";
       agent_servers = {
         opencode.type = "registry";
-        cursor.type = "registry";
         codex-acp.type = "registry";
       };
 

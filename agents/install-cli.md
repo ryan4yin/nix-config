@@ -8,7 +8,6 @@ Installed via Nix:
 
 - codex
 - opencode
-- cursor-agent(cli)
 - kimi-code
 - pi
 - omp
@@ -26,7 +25,6 @@ rtk init:
 ```bash
 rtk init -g --codex
 rtk init -g --opencode
-rtk init -g --agent cursor
 ```
 
 ## Update npm-installed agent tools

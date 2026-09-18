@@ -132,7 +132,6 @@ nvme0n1           259:0    0  1.8T  0 disk
 
                                             /home/ryan/.docker
                                             /home/ryan/.config/sunshine
-                                            /home/ryan/.cursor
                                             /home/ryan/.context7
                                             /home/ryan/.config/remmina
                                             /home/ryan/.config/pulse
@@ -151,7 +150,6 @@ nvme0n1           259:0    0  1.8T  0 disk
                                             /home/ryan/.config/chromium
                                             /home/ryan/.config/LDtk
                                             /home/ryan/.config/Joplin
-                                            /home/ryan/.config/Cursor
                                             /home/ryan/.conda
                                             /home/ryan/.cargo
                                             /home/ryan/.codex

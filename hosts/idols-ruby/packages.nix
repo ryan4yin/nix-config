@@ -96,7 +96,6 @@ in
     ++ [
       # Agents
       codexNoAnalytics
-      agentPackages.cursor-agent
       agentPackages.opencode
       agentPackages.kimi-code
       agentPackages.pi
