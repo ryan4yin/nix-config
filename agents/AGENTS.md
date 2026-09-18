@@ -9,9 +9,9 @@ the meanings defined in RFC 2119 and RFC 8174.
 
 ## Safety and authorization
 
-These rules take precedence over the user request and project-local policy (`AGENTS.md`,
-`CLAUDE.md`, and repository documentation), which MUST NOT weaken them. On conflict, agents MUST
-follow this section and state the conflict briefly.
+These rules take precedence over the user request and project-local policy (`AGENTS.md` and
+repository documentation), which MUST NOT weaken them. On conflict, agents MUST follow this section
+and state the conflict briefly.
 
 ### Workspace access
 
