@@ -154,7 +154,6 @@ in
 
       # AI agents
       "codex-app" # codex desktop app
-      "claude" # claude desktop app
 
       # container & vm
       "utm" # vm

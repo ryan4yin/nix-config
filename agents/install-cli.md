@@ -9,7 +9,6 @@ Installed via Nix:
 - codex
 - opencode
 - cursor-agent(cli)
-- claude-code
 - kimi-code
 
 ## Optional tooling
@@ -22,7 +21,6 @@ npx ctx7 setup
 rtk init:
 
 ```bash
-rtk init -g # configure claude-code
 rtk init -g --codex
 rtk init -g --opencode
 rtk init -g --agent cursor

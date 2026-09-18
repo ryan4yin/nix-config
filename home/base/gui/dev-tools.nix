@@ -12,7 +12,6 @@
       # Agents
       codex
       cursor-cli
-      claude-code
       opencode
       kimi-code
 

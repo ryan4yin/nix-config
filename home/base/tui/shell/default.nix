@@ -12,13 +12,6 @@
     extraConfig = ''
       source /etc/agenix/alias-for-work.nushell
 
-      $env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1"
-      $env.CLAUDE_CODE_ATTRIBUTION_HEADER = "0"
-
-      # for work
-      $env.ANTHROPIC_BASE_URL = $env.WORK_ANTHROPIC_BASE_URL
-      $env.ANTHROPIC_AUTH_TOKEN = $env.WORK_ANTHROPIC_AUTH_TOKEN
-
       # Directories in this constant are searched by the
       # `use` and `source` commands.
       const NU_LIB_DIRS = $NU_LIB_DIRS ++ ['${nu_scripts}']

@@ -45,12 +45,10 @@ def main() -> int:
     codex_dir = Path(os.environ.get("CODEX_HOME", "~/.codex")).expanduser()
     xdg_config_home = Path(os.environ.get("XDG_CONFIG_HOME", "~/.config")).expanduser()
     opencode_dir = xdg_config_home / "opencode"
-    claude_dir = Path("~/.claude").expanduser()
     agents_dir = Path("~/.agents").expanduser()
     targets = (
         (codex_dir, "AGENTS.md"),
         (opencode_dir, "AGENTS.md"),
-        (claude_dir, "CLAUDE.md"),
         (agents_dir, "AGENTS.md"),
     )
     failed = False

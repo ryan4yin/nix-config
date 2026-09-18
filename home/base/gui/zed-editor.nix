@@ -113,7 +113,6 @@
         opencode.type = "registry";
         cursor.type = "registry";
         codex-acp.type = "registry";
-        claude-acp.type = "registry";
       };
 
       # Privacy
