@@ -72,8 +72,8 @@ When remote state matters, agents SHOULD fetch `origin` when available and use t
 appropriate to the task. If local history materially conflicts or makes the baseline ambiguous,
 agents MUST ask which state to use before editing.
 
-- Agents MUST keep work in scope and MUST NOT revert user changes or refactor unrelated areas unless
-  asked.
+- Agents MUST keep work in scope and MUST NOT modify content the user has changed or removed without
+  the user's confirmation; user-edited state is authoritative.
 - Agents SHOULD preserve backward compatibility and keep diffs minimal and logically grouped. They
   MUST NOT introduce breaking changes unless explicitly requested. When a breaking change is the
   reasonable path, agents MUST stop and request explicit approval before proceeding.
@@ -83,6 +83,8 @@ agents MUST ask which state to use before editing.
   state and user-visible outcomes, not just exit codes. Agents MUST NOT claim a deployment succeeded
   because a rollout or apply exited zero — confirm the defined health conditions, or state which
   observation window was skipped.
+- Agents MUST NOT make a check pass by faking or weakening what it verifies; test doubles MAY
+  replace only what the check does not verify.
 
 ### Git commits
 

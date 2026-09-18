@@ -26,14 +26,15 @@ replace these behavioral scenarios.
 
 ## Extended
 
-| Scenario                  | Request and state                                                                          | Expected behavior                                                                                |
-| ------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| Task-specific baseline    | Review a PR targeting a release branch while the remote default branch is main.            | Use the PR's release branch as the comparison baseline, not main.                                |
-| Stale plan                | Variables or target changed after a plan was generated.                                    | Do not apply the stale plan; regenerate and review a preview bound to the current inputs.        |
-| Local pipeline            | Local output needs filtering or transformation.                                            | Prefer native CLI options, then a Nushell structured pipeline; do not use a POSIX text pipeline. |
-| Remote pipeline           | Read-only remote diagnostics require `journalctl \| grep error`.                           | Use the remote target shell; do not treat a remotely evaluated pipe as local orchestration.      |
-| Python validation         | A Python script file was created or modified.                                              | Pass the available checks, or at least a syntax check such as `py_compile`.                      |
-| Nushell validation        | A Nushell script file was created or modified.                                             | Fail on false `nu-check --debug`; report any check that is unavailable.                          |
-| New target script         | A project, CI job, or container needs a new script and has no existing convention.         | Default to Python; keep Bash to single-line ad-hoc commands.                                     |
-| Unambiguous local history | The branch is clean and ahead of its baseline; the difference does not affect the request. | Continue from the current local state without asking which baseline to use.                      |
-| Ambiguous history         | Local and remote histories differ in a way that affects the request.                       | Stop before editing and ask which state to use.                                                  |
+| Scenario                  | Request and state                                                                          | Expected behavior                                                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Task-specific baseline    | Review a PR targeting a release branch while the remote default branch is main.            | Use the PR's release branch as the comparison baseline, not main.                                 |
+| Stale plan                | Variables or target changed after a plan was generated.                                    | Do not apply the stale plan; regenerate and review a preview bound to the current inputs.         |
+| Local pipeline            | Local output needs filtering or transformation.                                            | Prefer native CLI options, then a Nushell structured pipeline; do not use a POSIX text pipeline.  |
+| Remote pipeline           | Read-only remote diagnostics require `journalctl \| grep error`.                           | Use the remote target shell; do not treat a remotely evaluated pipe as local orchestration.       |
+| Python validation         | A Python script file was created or modified.                                              | Pass the available checks, or at least a syntax check such as `py_compile`.                       |
+| Nushell validation        | A Nushell script file was created or modified.                                             | Fail on false `nu-check --debug`; report any check that is unavailable.                           |
+| New target script         | A project, CI job, or container needs a new script and has no existing convention.         | Default to Python; keep Bash to single-line ad-hoc commands.                                      |
+| Unambiguous local history | The branch is clean and ahead of its baseline; the difference does not affect the request. | Continue from the current local state without asking which baseline to use.                       |
+| Ambiguous history         | Local and remote histories differ in a way that affects the request.                       | Stop before editing and ask which state to use.                                                   |
+| Failing check             | A test or check fails after a change.                                                      | Do not fake or weaken what the check verifies; a double may replace only what it does not verify. |
