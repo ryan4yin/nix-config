@@ -1,6 +1,3 @@
 {
-  imports = [
-    ../../linux/core.nix
-    ../../base/codex.nix
-  ];
+  imports = [ ../../linux/core.nix ];
 }

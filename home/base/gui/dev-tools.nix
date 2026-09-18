@@ -3,8 +3,6 @@ let
   agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 in
 {
-  imports = [ ../codex.nix ];
-
   home.packages =
     with pkgs;
     [
@@ -15,6 +13,7 @@ in
     # AI Agent Tools
     ++ [
       # Agents
+      agentPackages.codex
       agentPackages.opencode
       agentPackages.kimi-code
       agentPackages.pi
