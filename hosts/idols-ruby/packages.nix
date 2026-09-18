@@ -1,16 +1,6 @@
 { pkgs, llm-agents, ... }:
 let
   agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
-  codexNoAnalytics = pkgs.writeShellApplication {
-    name = "codex";
-    text = ''
-      exec ${agentPackages.codex}/bin/codex \
-        --config analytics.enabled=false \
-        --config feedback.enabled=false \
-        --config check_for_update_on_startup=false \
-        "$@"
-    '';
-  };
 in
 {
   # https://github.com/Mic92/nix-ld
@@ -95,7 +85,6 @@ in
     # AI Agent Tools
     ++ [
       # Agents
-      codexNoAnalytics
       agentPackages.opencode
       agentPackages.kimi-code
       agentPackages.pi

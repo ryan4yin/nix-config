@@ -1,7 +1,5 @@
 {
   home.sessionVariables = {
-    DO_NOT_TRACK = "1";
-
     KIMI_DISABLE_TELEMETRY = "1";
 
     PI_TELEMETRY = "0";
