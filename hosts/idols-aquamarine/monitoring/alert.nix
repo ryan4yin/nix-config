@@ -20,7 +20,9 @@
       # Path to the files with alerting and/or recording rules.
       rule = [
         "${./alert_rules}/*.yml"
+        "${./alert_rules}/*.yaml"
         "${./recoding_rules}/*.yml"
+        "${./recoding_rules}/*.yaml"
       ];
       # https://docs.victoriametrics.com/victoriametrics/vmalert/#link-to-alert-source
       # Set this two args to generate the correct `.GeneratorURL`
