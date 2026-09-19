@@ -29,6 +29,14 @@ in
     inherit (myvars.networking) nameservers;
   };
 
+  fileSystems."/btr_pool" = {
+    device = "/dev/disk/by-uuid/c2e8b249-240e-4eef-bf4e-81e7dbbf4887";
+    fsType = "btrfs";
+    options = [ "subvolid=5" ];
+  };
+
+  modules.btrbk.enable = true;
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
