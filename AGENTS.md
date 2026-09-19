@@ -14,14 +14,20 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - `vars/` and `lib/` provide shared values and helpers. Use `myvars` and existing abstractions
   instead of hardcoding usernames or paths.
 - `secrets/` contains agenix definitions; secret material also comes from a private external repo.
+- `overlays/` and `hardening/` hold package overlays and hardened (nixpak/bwrap) wrappers.
+- Noctalia (the Wayland shell) is configured in `home/linux/gui/base/noctalia/config/config.toml`,
+  which the `programs.noctalia` module validates at build time. Host-specific overrides go in a
+  `host-<name>.toml` there (merged after `config.toml`).
 
 ## Commands and Platforms
 
 - Prefer recipes in [Justfile](./Justfile); use `just --list` to discover available commands and
   `just --show <recipe>` to inspect behavior before running them.
 - The Justfile uses Nushell. Preserve `[linux]` / `[macos]` guards and host naming conventions.
-- `just local` uses `nixos-switch` on Linux and `darwin-build` / `darwin-switch` on macOS; their
-  arguments differ. Check both platforms when changing shared behavior.
+- Deploy by hostname: NixOS desktops are `<hostname>-niri` (`just niri`); other NixOS hosts, VMs,
+  and macOS hosts use the bare hostname (`just local`, mapping to `nixos-switch`, or `darwin-build`
+  / `darwin-switch` on macOS). Arguments differ per platform; check both when changing shared
+  behavior.
 - `nix develop` provides formatters and linters. If needed, `nix shell nixpkgs#just nixpkgs#nushell`
   provides the task runner and its shell.
 
