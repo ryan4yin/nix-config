@@ -16,26 +16,19 @@
   };
 
   home.packages = with pkgs; [
-    swaybg # the wallpaper
     wl-clipboard # copying and pasting
     hyprpicker # color picker
     brightnessctl
     # audio
     alsa-utils # provides amixer/alsamixer/...
     networkmanagerapplet # provide GUI app: nm-connection-editor
-    # screenshot/screencast
-    flameshot
-    hyprshot # screen shot
+    # screen recording
     wf-recorder # screen recording
 
     virt-viewer # vnc connect to VM, used by kubevirt
   ];
 
-  # screen locker
-  programs.swaylock.enable = true;
-  catppuccin.swaylock.enable = false;
-
-  # Logout Menu
+  # Emergency session-menu fallback; the normal flow uses Noctalia's session panel.
   programs.wlogout.enable = true;
 
   # auto mount usb drives

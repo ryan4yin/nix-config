@@ -12,40 +12,54 @@ The configuration is organized into modular components that can be selectively e
 - **Development Tools**: IDEs and development utilities
 - **System Integration**: Input methods, theming, XDG specifications, GPU settings
 
-## Noctalia Shell
+## Noctalia
 
-**Noctalia Shell** is an all-in-one Wayland desktop shell that replaces multiple separate tools with
-a single, unified solution. It provides:
+**Noctalia** (v5) is a native C++/Wayland all-in-one desktop shell that replaces multiple separate
+tools with a single, unified solution. It is installed and configured through the upstream
+[`programs.noctalia`](https://docs.noctalia.dev/noctalia/getting-started/nixos/) Home Manager
+module, which validates the TOML at build time.
 
-- **Unified Configuration**: All components configured in a single `settings.json` file
-- **Consistent Experience**: Cohesive visual design and interaction patterns
-- **Reduced Complexity**: No need to maintain multiple separate config files
+### Configuration
+
+Noctalia merges **every `*.toml` in the config directory** (`~/.config/noctalia/`), sorted
+alphabetically, and then layers the Settings UI's own overrides on top:
+
+| Layer                | Location                                                          | Notes                                           |
+| -------------------- | ----------------------------------------------------------------- | ----------------------------------------------- |
+| Declarative baseline | `~/.config/noctalia/*.toml` (repo: `noctalia/config/config.toml`) | Merged alphabetically; `[include]` supported    |
+| GUI overrides        | `~/.local/state/noctalia/settings.toml`                           | Written by the Settings UI; loads last and wins |
+
+`noctalia config export merged` prints the effective user config and `noctalia config validate`
+checks a file. Application theming stays with `catppuccin/nix`, so Noctalia's theme templates are
+disabled.
 
 ### Component Replacement
 
-Noctalia Shell consolidates functionality that previously required multiple tools:
+Noctalia consolidates functionality that previously required multiple tools:
 
-| Traditional Component  | Purpose              | Noctalia Replacement           |
-| ---------------------- | -------------------- | ------------------------------ |
-| **gammastep**          | Blue light filter    | `nightLight` configuration     |
-| **swaylock**           | Screen locker        | Built-in lock screen           |
-| **anyrun**             | Application launcher | `appLauncher`                  |
-| **mako**               | Notification daemon  | `notifications`                |
-| **waybar**             | Status bar           | `bar` (with widgets)           |
-| **wallpaper-switcher** | Wallpaper management | `wallpaper` (with transitions) |
-| **wlogout**            | Session menu         | `sessionMenu`                  |
-| **wl-clipboard**       | Clipboard management | Built-in clipboard manager     |
+| Traditional Component  | Purpose                  | Noctalia counterpart                              |
+| ---------------------- | ------------------------ | ------------------------------------------------- |
+| **gammastep**          | Blue light filter        | `[nightlight]`                                    |
+| **swaylock**           | Screen locker            | built-in lock screen (`[lockscreen]`)             |
+| **anyrun**             | Application launcher     | launcher panel (`[shell.launcher]`)               |
+| **mako**               | Notification daemon      | `[notification]`                                  |
+| **waybar**             | Status bar               | `[bar]` + `[widget.*]`                            |
+| **wallpaper-switcher** | Wallpaper management     | `[wallpaper]`                                     |
+| **wlogout**            | Session menu             | `[shell.session]`                                 |
+| **wl-clipboard**       | Clipboard management     | built-in clipboard (encrypted history)            |
+| **grim/slurp/satty**   | Screenshots + annotation | built-in `[shell.screenshot]` + annotation editor |
 
 ## Configuration Modules
 
 ### Desktop Shell
 
-- **[`noctalia/default.nix`](./noctalia/default.nix)**: Package installation and systemd service
-- **[`noctalia/settings.json`](./noctalia/settings.json)**: Main configuration with all settings
+- **[`noctalia/default.nix`](./noctalia/default.nix)**: enables the upstream `programs.noctalia`
+  module
+- **[`noctalia/config/config.toml`](./noctalia/config/config.toml)**: declarative baseline (v5 TOML)
 
-  Key features: bar, control center, night light, wallpaper, session menu, system monitor,
-  audio/volume, brightness, screen recorder, calendar, color schemes, dock, notifications, OSD, and
-  more.
+  Key features: bar and widgets, control center, desktop widgets, night light, wallpaper, session
+  panel, screenshots with annotation, system monitor, audio/volume, brightness, calendar/weather,
+  color schemes, dock, notifications, OSD, clipboard, and more.
 
 - **[`hypridle/`](./hypridle/)**: Idle management
 
@@ -61,7 +75,8 @@ Noctalia Shell consolidates functionality that previously required multiple tool
 
 ### Applications
 
-- **[`desktop-tools.nix`](./desktop-tools.nix)**: Daily GUI apps (foliate, remmina, messaging)
+- **[`desktop-tools.nix`](./desktop-tools.nix)**: Wayland session tools (clipboard, color picker,
+  brightness, audio, screen recording, auto-mount, `wlogout` emergency fallback)
 - **[`browsers.nix`](./browsers.nix)**: Web browsers
 - **[`editors.nix`](./editors.nix)**: Desktop text editors
 - **[`media.nix`](./media.nix)**: Media players
@@ -75,10 +90,10 @@ Noctalia Shell consolidates functionality that previously required multiple tool
 
 ### System Utilities
 
-- **[`misc.nix`](./misc.nix)**: Wayland tools (screenshots, screen recording, color picker, audio)
+- **[`misc.nix`](./misc.nix)**: Misc GUI apps (e-book reader, remote desktop, hardened IM clients)
 - **[`immutable-file.nix`](./immutable-file.nix)**: Immutable file handling
 
 ## Related Documentation
 
-- Noctalia Shell: https://docs.noctalia.dev/docs
+- Noctalia Shell: https://docs.noctalia.dev/noctalia/
 - Parent: [`../README.md`](../README.md)

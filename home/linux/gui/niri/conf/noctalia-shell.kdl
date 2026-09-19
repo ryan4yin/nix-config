@@ -1,4 +1,4 @@
-// https://docs.noctalia.dev/getting-started/compositor-settings/niri/
+// https://docs.noctalia.dev/noctalia/compositor-settings/niri/
 
 window-rule {
   // Rounded corners for a modern look.
@@ -13,8 +13,8 @@ debug {
   honor-xdg-activation-with-invalid-serial
 }
 
-// Set the overview wallpaper on the backdrop.
+// Set the overview wallpaper on the backdrop (v5 namespace).
 layer-rule {
-  match namespace="^noctalia-overview*"
+  match namespace="^noctalia-backdrop"
   place-within-backdrop true
 }

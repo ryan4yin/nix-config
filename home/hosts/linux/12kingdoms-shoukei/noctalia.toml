@@ -1,0 +1,8 @@
+# shoukei (laptop) specific Noctalia config.
+# Installed as ~/.config/noctalia/host-shoukei.toml, which sorts after
+# config.toml in Noctalia's alphabetical merge, so it can override the shared
+# baseline.
+
+[brightness.monitor.eDP-1]
+backend = "backlight"
+backlight_device = "apple-panel-bl"

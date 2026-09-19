@@ -30,8 +30,8 @@ in
 
       settings = {
         general = {
-          lock_cmd = "noctalia-shell ipc call lockScreen lock";
-          before_sleep_cmd = "noctalia-shell ipc call lockScreen lock";
+          lock_cmd = "noctalia msg session lock";
+          before_sleep_cmd = "noctalia msg session lock";
           # niri already owns org.freedesktop.ScreenSaver and feeds its
           # inhibitors into the compositor idle notifier, so hypridle must not
           # try to claim the interface (it would log "already providing...").
@@ -63,7 +63,7 @@ in
             # Skip while media is playing, same as screen-off above.
             condition_cmd = "! playerctl -a status 2>/dev/null | grep -q '^Playing$'";
             condition_retry = 30;
-            on-timeout = "noctalia-shell ipc call lockScreen lock";
+            on-timeout = "noctalia msg session lock";
           }
         ];
       };
