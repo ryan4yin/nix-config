@@ -65,6 +65,10 @@ start = [ "launcher", "wallpaper", "workspaces", "cpu", "ram", "disk", "net_rx",
 type = "clock"
 format = "{:%Y-%m-%d %A %H:%M}"
 
+# Media: hide when idle instead of showing the "Nothing Playing" placeholder.
+[widget.media]
+hide_when_no_media = true
+
 [widget.cpu]
 type = "sysmon"
 stat = "cpu_usage"
