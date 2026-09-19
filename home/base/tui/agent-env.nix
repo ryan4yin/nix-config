@@ -8,9 +8,14 @@
     CRUSH_DISABLE_METRICS = "1";
     CRUSH_DISABLE_PROVIDER_AUTO_UPDATE = "1";
 
-    OPENCODE_CONFIG_CONTENT = builtins.toJSON {
-      share = "disabled";
-    };
     OPENCODE_DISABLE_AUTOUPDATE = "1";
   };
+
+  # home.sessionVariables wraps every value in double quotes without escaping
+  # them (home-manager's lib.shell.export), which turns JSON like
+  # {"share":"disabled"} into the shell word {share:disabled}. Emit the export
+  # by hand so the quotes survive.
+  home.sessionVariablesExtra = ''
+    export OPENCODE_CONFIG_CONTENT='{"share":"disabled"}'
+  '';
 }
