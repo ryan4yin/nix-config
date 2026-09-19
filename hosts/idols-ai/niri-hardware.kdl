@@ -1,11 +1,15 @@
-// running `niri msg outputs` to find outputs
+// Outputs are matched by monitor manufacturer/model/serial instead of the
+// connector name: the kernel/NVIDIA driver decides DRM connector numbering by
+// probe order, so Intel's connectors were renamed DP-1 -> DP-4 and
+// HDMI-A-2 -> HDMI-A-3 on the 2026-09 nixpkgs update. Run `niri msg outputs`
+// to read the exact "make model serial" string.
 debug {
     // Keep desktop rendering and ordinary applications on the Intel iGPU.
     // Physical outputs remain on the NVIDIA GPU and use cross-GPU scanout.
     render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"
 }
 
-output "DP-1" {
+output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000" {
     // Uncomment this line to disable this output.
     // off
 
@@ -36,7 +40,7 @@ output "DP-1" {
     position x=0 y=0
 }
 
-output "HDMI-A-2" {
+output "Guangxi Century Innovation Display Electronics Co., Ltd 27D1U 0000000000000" {
     scale 1.5
     transform "normal"
     mode "3840x2160@60"
@@ -54,10 +58,10 @@ output "Virtual-1" {
 }
 
 // ============= Named Workspaces =============
-workspace "4entertainment" { open-on-output "DP-1"; }
-workspace "2browser" { open-on-output "DP-1"; }
-workspace "5utility" { open-on-output "DP-1"; }
+workspace "4entertainment" { open-on-output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000"; }
+workspace "2browser" { open-on-output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000"; }
+workspace "5utility" { open-on-output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000"; }
 
-workspace "3chat" { open-on-output "HDMI-A-2"; }
-workspace "1terminal" { open-on-output "HDMI-A-2"; }
-workspace "0other" { open-on-output "HDMI-A-2"; }
+workspace "3chat" { open-on-output "Guangxi Century Innovation Display Electronics Co., Ltd 27D1U 0000000000000"; }
+workspace "1terminal" { open-on-output "Guangxi Century Innovation Display Electronics Co., Ltd 27D1U 0000000000000"; }
+workspace "0other" { open-on-output "Guangxi Century Innovation Display Electronics Co., Ltd 27D1U 0000000000000"; }
