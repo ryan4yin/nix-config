@@ -8,7 +8,7 @@
 	<a href="https://github.com/ryan4yin/nix-config/stargazers">
 		<img alt="Stargazers" src="https://img.shields.io/github/stars/ryan4yin/nix-config?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41"></a>
     <a href="https://nixos.org/">
-        <img src="https://img.shields.io/badge/NixOS-26.05-informational.svg?style=for-the-badge&logo=nixos&color=F2CDCD&logoColor=D9E0EE&labelColor=302D41"></a>
+        <img src="https://img.shields.io/badge/NixOS-26.11-informational.svg?style=for-the-badge&logo=nixos&color=F2CDCD&logoColor=D9E0EE&labelColor=302D41"></a>
     <a href="https://github.com/ryan4yin/nixos-and-flakes-book">
         <img src="https://img.shields.io/badge/Nix%20Flakes-learning-informational.svg?style=for-the-badge&logo=nixos&color=F2CDCD&logoColor=D9E0EE&labelColor=302D41"></a>
   </a>
@@ -21,18 +21,18 @@
 > [i3-kickstarter](https://github.com/ryan4yin/nix-config/tree/i3-kickstarter), which will be much
 > easier to understand**.
 
-This repository is home to the nix code that builds my systems:
+This repository is home to the Nix code that builds all of my systems:
 
-1. NixOS Desktops: NixOS with home-manager, niri, agenix, etc.
-2. macOS Desktops: nix-darwin with home-manager, share the same home-manager configuration with
-   NixOS Desktops.
-3. NixOS Servers: virtual machines running on Proxmox/KubeVirt, with various services, such as
-   kubernetes, homepage, prometheus, grafana, etc.
+1. **NixOS desktops** — Home Manager, [Niri][Niri] (Wayland), the [Noctalia][noctalia] shell,
+   agenix.
+2. **macOS desktops** — nix-darwin + Home Manager, sharing the same `home/` configuration with the
+   NixOS desktops.
+3. **NixOS servers** — KubeVirt VMs running on three physical mini PCs, hosting K3s clusters,
+   monitoring, and other self-hosted services.
 
-See [./hosts](./hosts) for details of each host.
-
-See [./Virtual-Machine.md](./Virtual-Machine.md) for details of how to create & manage KubeVirt's
-Virtual Machine from this flake.
+See [./hosts](./hosts) for the host inventory, [./outputs](./outputs) for how the flake outputs are
+composed, [./Virtual-Machine.md](./Virtual-Machine.md) for creating & managing KubeVirt VMs, and
+[./AGENTS.md](./AGENTS.md) for the repository conventions.
 
 ## Why NixOS & Flakes?
 
@@ -54,26 +54,27 @@ You don't have to go through the pain I've experienced again! Check out my
 
 ## Components
 
-|                                                                | NixOS(Wayland)                                                                                                      |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| **Window Manager**                                             | [Niri][Niri]                                                                                                        |
-| **Terminal Emulator**                                          | [Zellij][Zellij] + [foot][foot]/[Kitty][Kitty]/[Alacritty][Alacritty]/[Ghostty][Ghostty]                            |
-| **Status Bar** / **Notifier** / **Launcher** / **lockscreens** | [noctalia][noctalia]                                                                                                |
-| **Display Manager**                                            | [tuigreet][tuigreet]                                                                                                |
-| **Color Scheme**                                               | [catppuccin-nix][catppuccin-nix]                                                                                    |
-| **network management tool**                                    | [NetworkManager][NetworkManager]                                                                                    |
-| **Input method framework**                                     | [Fcitx5][Fcitx5] + [rime][rime] + [小鹤音形 flypy][flypy]                                                           |
-| **System resource monitor**                                    | [Btop][Btop]                                                                                                        |
-| **File Manager**                                               | [Yazi][Yazi] + [thunar][thunar]                                                                                     |
-| **Shell**                                                      | [Nushell][Nushell] + [Starship][Starship]                                                                           |
-| **Media Player**                                               | [mpv][mpv]                                                                                                          |
-| **Editors / IDE**                                              | [Helix][Helix] (primary), [Neovim][Neovim] (backup) — [configuration & usage](./home/base/core/editors/)            |
-| **Fonts**                                                      | [Nerd fonts][Nerd fonts]                                                                                            |
-| **Image Viewer**                                               | [imv][imv]                                                                                                          |
-| **Screenshot Software**                                        | Niri's builtin function                                                                                             |
-| **Screen Recording**                                           | [OBS][OBS]                                                                                                          |
-| **Filesystem & Encryption**                                    | tmpfs as `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent, unlock via passphrase |
-| **Secure Boot**                                                | [lanzaboote][lanzaboote]                                                                                            |
+|                             | NixOS (Wayland)                                                                                                          |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Display Manager**         | [greetd][greetd] + [tuigreet][tuigreet]                                                                                  |
+| **Window Manager**          | [Niri][Niri]                                                                                                             |
+| **Desktop Shell**           | [Noctalia][noctalia] — bar/notifications/launcher/lock screen/control center/power menu/screenshots, one native shell    |
+| **Terminal Emulators**      | [foot][foot], [Kitty][Kitty], [Alacritty][Alacritty], [Ghostty][Ghostty]                                                 |
+| **Terminal Multiplexer**    | [Zellij][Zellij]                                                                                                         |
+| **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                                |
+| **Editors / IDE**           | [Zed][Zed] (GUI, primary), VS Code (GUI); [Helix][Helix] (TUI, primary), [Neovim][Neovim] (TUI, backup)                  |
+| **Color Scheme**            | [catppuccin-nix][catppuccin-nix]                                                                                         |
+| **Networking**              | systemd-networkd / [NetworkManager][NetworkManager]                                                                      |
+| **Input Method**            | [Fcitx5][Fcitx5] + [rime][rime] + [小鹤音形 flypy][flypy]                                                                |
+| **System Monitor**          | [Btop][Btop] (+ Noctalia's built-in sysmon widgets)                                                                      |
+| **File Manager**            | [Yazi][Yazi] (TUI) + [thunar][thunar] (GUI)                                                                              |
+| **Media Player**            | [mpv][mpv]                                                                                                               |
+| **Image Viewer**            | [imv][imv]                                                                                                               |
+| **Screenshots**             | Native Noctalia capture: region / fullscreen / display picker, with a built-in annotation editor                         |
+| **Screen Recording**        | [OBS][OBS], gpu-screen-recorder, wf-recorder                                                                             |
+| **Fonts**                   | [Nerd fonts][Nerd fonts]                                                                                                 |
+| **Filesystem & Encryption** | tmpfs as `/`, [Btrfs][Btrfs] subvolumes on a [LUKS][LUKS] encrypted partition for persistent data; unlock via passphrase |
+| **Secure Boot**             | [lanzaboote][lanzaboote]                                                                                                 |
 
 Wallpapers: https://github.com/ryan4yin/wallpapers
 
@@ -102,41 +103,33 @@ See [./secrets](./secrets) for details.
 
 <!-- prettier-ignore -->
 > :red_circle: **IMPORTANT**: **You should NOT deploy this flake directly on your machine :exclamation:
-> It will not succeed.** This flake contains my hardware configuration(such as
+> It will not succeed.** This flake contains my hardware configuration (such as
 > [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix),
-> [Nvidia Support](https://github.com/ryan4yin/nix-config/blob/v0.1.1/hosts/idols-ai/default.nix#L77-L91),
-> etc.) which is not suitable for your hardware, and requires my private secrets repository
+> [Nvidia support](hosts/idols-ai/hardware-nvidia.nix), etc.) which is not suitable for your
+> hardware, and requires my private secrets repository
 > [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy. You
 > may use this repo as a reference to build your own configuration.
+
+Run `just --list` to see every recipe.
 
 For NixOS:
 
 > To deploy this flake from NixOS's official ISO image (purest installation method), please refer to
-> [./nixos-installer/](./nixos-installer/)
+> [./nixos-installer/](./nixos-installer)
 
 ```bash
-# deploy one of the configuration based on the hostname
-sudo nixos-rebuild switch --flake .#ai-niri
+# Desktops: deploy the <hostname>-niri nixosConfiguration (e.g. ai-niri, shoukei-niri)
+just niri           # equals `sudo nixos-rebuild switch --flake .#<hostname>-niri`
+just niri boot      # set as the next boot configuration without switching
+just niri switch debug  # detailed output
 
-# Deploy the nixosConfiguration matching the hostname immediately
+# Other hosts (servers, VMs): deploy the nixosConfiguration matching the bare hostname
 just local
-
-# Set it as the next boot configuration without switching immediately
 just local boot
-
-# Deploy with detailed output; use `boot debug` to combine both options
 just local switch debug
-
-# Deploy the niri nixosConfiguration by hostname match
-just niri
-
-# The niri recipe accepts the same mode and verbosity arguments
-just niri boot
-just niri switch debug
-just niri boot debug
 ```
 
-For macOS:
+For macOS (nix-darwin):
 
 ```bash
 # If you are deploying for the first time,
@@ -146,15 +139,31 @@ nix-shell -p just nushell
 # 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
 # 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
-# Deploy the darwinConfiguration by hostname match
+# Deploy the darwinConfiguration by hostname match (fern, frieren)
 just local
-
-# Deploy with details (macOS has no switch/boot mode argument)
-just local debug
+just local debug  # detailed output (macOS has no switch/boot mode)
 ```
+
+Remote / cluster hosts are deployed with [Colmena](https://github.com/zhaofengli/colmena) on top of
+the same flake, e.g. `just col <tag>`, `just k3s-prod`, `just lab`.
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
 > (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
+
+## Validation & Development
+
+`nix develop` provides the formatters and linters used by the repository. The most useful commands:
+
+```bash
+just test    # eval tests across Linux & Darwin; the output must be `true`
+just fmt     # format all Nix files with nixfmt
+just --list  # all recipes
+
+nix flake check   # broader flake checks
+```
+
+For Nix changes, run `just test` and inspect `just fmt`'s diff before committing. Non-Nix files are
+formatted with `prettier`; spelling is checked with `typos`.
 
 ## References
 
@@ -175,12 +184,13 @@ Other dotfiles that inspired me:
 - Modularized NixOS Configuration
   - [hlissner/dotfiles](https://github.com/hlissner/dotfiles)
   - [viperML/dotfiles](https://github.com/viperML/dotfiles)
-- Neovim/AstroNvim
+- Neovim / AstroNvim
   - [maxbrunet/dotfiles](https://github.com/maxbrunet/dotfiles): astronvim with nix flakes.
 - Misc
   - [1amSimp1e/dots](https://github.com/1amSimp1e/dots)
 
 [Niri]: https://github.com/YaLTeR/niri
+[greetd]: https://github.com/kennylevinsen/greetd
 [Kitty]: https://github.com/kovidgoyal/kitty
 [foot]: https://codeberg.org/dnkl/foot
 [Alacritty]: https://github.com/alacritty/alacritty
@@ -195,6 +205,7 @@ Other dotfiles that inspired me:
 [Zellij]: https://github.com/zellij-org/zellij
 [Helix]: https://github.com/helix-editor/helix
 [Neovim]: https://github.com/neovim/neovim
+[Zed]: https://zed.dev
 [imv]: https://sr.ht/~exec64/imv/
 [OBS]: https://obsproject.com
 [Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
