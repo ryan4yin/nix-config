@@ -20,7 +20,7 @@
 
   config = {
     # disable backups in the VM
-    services.btrbk.instances = lib.mkForce { };
+    modules.btrbk.enable = lib.mkForce false;
 
     boot.growPartition = true;
     boot.kernelParams = [ "console=ttyS0" ];

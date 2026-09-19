@@ -1,47 +1,103 @@
 {
+  config,
+  lib,
+  ...
+}:
+let
+  cfg = config.modules.btrbk;
+in
+{
   # ==================================================================
   #
-  # Tool for creating snapshots and remote backups of btrfs subvolumes
+  # btrbk - scheduled LOCAL btrfs snapshots.
   #   https://github.com/digint/btrbk
   #
-  # Usage:
-  #   1. btrbk will create snapshots on schedule
-  #   2. we can use `btrbk run` command to create a backup manually
+  # Snapshots are created in `snapshotDir` (relative to the btrfs top-level
+  # subvolume mounted at `volume`) and pruned by `snapshot_preserve`. With the
+  # defaults they land in the @snapshots subvolume (mounted at /snapshots):
   #
-  # How to restore a snapshot:
-  #   1. Find the snapshot you want to restore in /snapshots
-  #   2. Use `btrfs subvol delete /btr_pool/@persistent` to delete the current subvolume
-  #   3. Use `btrfs subvol snapshot /snapshots/2021-01-01 /btr_pool/@persistent` to restore the snapshot
-  #   4. reboot the system or remount the filesystem to see the changes
+  #   /btr_pool/@snapshots/@persistent.<timestamp>
+  #
+  # These are same-filesystem snapshots: they protect against accidental
+  # deletion and bad edits, NOT against disk loss. Set `target` (plus
+  # `services.btrbk.sshAccess` on the receiving host) for off-host backups.
+  #
+  # The host MUST mount the btrfs top-level subvolume (subvolid=5) at `volume`;
+  # this is enforced by an assertion so a missing mount fails evaluation instead
+  # of failing silently at 3am.
+  #
+  # Restore a snapshot (offline; stop writers first):
+  #   1. btrfs subvolume delete /btr_pool/@persistent
+  #   2. btrfs subvolume snapshot /btr_pool/@snapshots/@persistent.<timestamp> \
+  #        /btr_pool/@persistent
+  #   3. reboot, or remount /persistent, to pick up the restored subvolume.
   #
   # ==================================================================
+  options.modules.btrbk = {
+    enable = lib.mkEnableOption "scheduled btrfs snapshots via btrbk";
 
-  services.btrbk.instances.btrbk = {
-    # How often this btrbk instance is started. See systemd.time(7) for more information about the format.
-    onCalendar = "Tue,Sat *-*-* 3:45:20";
-    settings = {
-      # how to prune local snapshots:
-      # 1. keep daily snapshots for xx days
-      snapshot_preserve = "7d";
-      # 2. keep all snapshots for 2 days, no matter how frequently you (or your cron job) run btrbk
-      snapshot_preserve_min = "2d";
+    volume = lib.mkOption {
+      type = lib.types.str;
+      default = "/btr_pool";
+      description = "Mount point of the btrfs top-level subvolume (subvolid=5).";
+    };
 
-      # hot to prune remote incremental baqckups:
-      # keep daily backups for 9 days, weekly backups for 4 weeks, and monthly backups for 2 months
-      target_preserve = "9d 4w 2m";
-      target_preserve_min = "no";
+    subvolume = lib.mkOption {
+      type = lib.types.str;
+      default = "@persistent";
+      description = "Source subvolume to snapshot, relative to {option}`modules.btrbk.volume`.";
+    };
 
-      volume = {
-        "/btr_pool" = {
-          subvolume = {
-            "@persistent" = {
-              snapshot_create = "always";
-            };
+    snapshotDir = lib.mkOption {
+      type = lib.types.str;
+      default = "@snapshots";
+      description = "Directory the snapshots are created in, relative to {option}`modules.btrbk.volume`.";
+    };
+
+    target = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = ''
+        Optional off-host btrbk backup target (`target` in btrbk.conf). When
+        null, only local snapshots are kept, which does not protect against
+        disk loss.
+      '';
+    };
+
+    onCalendar = lib.mkOption {
+      type = lib.types.str;
+      default = "Tue,Sat *-*-* 3:45:20";
+      description = "systemd calendar expression for the snapshot timer.";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = builtins.hasAttr cfg.volume config.fileSystems;
+        message = "modules.btrbk: no filesystem is mounted at `${cfg.volume}`; mount the btrfs top-level subvolume (subvolid=5) there so btrbk can snapshot `${cfg.volume}/${cfg.subvolume}`.";
+      }
+    ];
+
+    services.btrbk.instances.btrbk = {
+      onCalendar = cfg.onCalendar;
+      settings = {
+        # keep daily snapshots for 7 days, and always keep 2 days worth.
+        snapshot_preserve = "7d";
+        snapshot_preserve_min = "2d";
+
+        # retention for an optional off-host target.
+        target_preserve = "9d 4w 2m";
+        target_preserve_min = "no";
+
+        volume.${cfg.volume} = {
+          snapshot_dir = cfg.snapshotDir;
+          subvolume.${cfg.subvolume} = {
+            snapshot_create = "always";
           };
-
-          # backup to a remote server or a local directory
-          # its prune policy is defined by `target_preserve` and `target_preserve_min`
-          # target = "/snapshots";
+        }
+        // lib.optionalAttrs (cfg.target != null) {
+          target = cfg.target;
         };
       };
     };

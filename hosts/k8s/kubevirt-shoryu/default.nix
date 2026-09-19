@@ -57,6 +57,8 @@ in
     k3sModule
   ];
 
+  modules.btrbk.enable = true;
+
   boot.kernelParams = [
     # disable transparent hugepage(allocate hugepages dynamically)
     "transparent_hugepage=never"
