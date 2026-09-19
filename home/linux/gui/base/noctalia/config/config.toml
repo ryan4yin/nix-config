@@ -52,3 +52,36 @@ force = true
 background_opacity = 0.2
 # Text-only bump; `scale` would enlarge glyphs and spacing too.
 font_scale = 1.1
+# Keep the default sections and append resource/network monitors after the
+# workspaces, mirroring the old v4 SystemMonitor widget.
+start = [ "launcher", "wallpaper", "workspaces", "cpu", "ram", "disk", "net_rx", "net_tx" ]
+
+# Clock: year-month-day first, then full English weekday and 24h time
+# (e.g. "2026-09-19 Saturday 16:06"). Weekday names follow LC_TIME.
+[widget.clock]
+type = "clock"
+format = "{:%Y-%m-%d %A %H:%M}"
+
+[widget.cpu]
+type = "sysmon"
+stat = "cpu_usage"
+
+[widget.ram]
+type = "sysmon"
+stat = "ram_pct"
+
+[widget.disk]
+type = "sysmon"
+stat = "disk_used_pct"
+path = "/persistent"
+
+# Download/upload throughput; compact units ("1.2M") keep the width stable.
+[widget.net_rx]
+type = "sysmon"
+stat = "net_rx"
+network_speed_compact = true
+
+[widget.net_tx]
+type = "sysmon"
+stat = "net_tx"
+network_speed_compact = true
