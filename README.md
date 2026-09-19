@@ -58,7 +58,7 @@ You don't have to go through the pain I've experienced again! Check out my
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | **Window Manager**                                             | [Niri][Niri]                                                                                                        |
 | **Terminal Emulator**                                          | [Zellij][Zellij] + [foot][foot]/[Kitty][Kitty]/[Alacritty][Alacritty]/[Ghostty][Ghostty]                            |
-| **Status Bar** / **Notifier** / **Launcher** / **lockscreens** | [noctalia-shell][noctalia-shell]                                                                                    |
+| **Status Bar** / **Notifier** / **Launcher** / **lockscreens** | [noctalia][noctalia]                                                                                                |
 | **Display Manager**                                            | [tuigreet][tuigreet]                                                                                                |
 | **Color Scheme**                                               | [catppuccin-nix][catppuccin-nix]                                                                                    |
 | **network management tool**                                    | [NetworkManager][NetworkManager]                                                                                    |
@@ -209,4 +209,4 @@ Other dotfiles that inspired me:
 [Btrfs]: https://btrfs.readthedocs.io
 [LUKS]: https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system
 [lanzaboote]: https://github.com/nix-community/lanzaboote
-[noctalia-shell]: https://github.com/noctalia-dev/noctalia-shell
+[noctalia]: https://github.com/noctalia-dev/noctalia

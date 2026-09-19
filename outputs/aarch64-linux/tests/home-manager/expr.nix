@@ -16,7 +16,7 @@ lib.genAttrs hosts (
     listeners = hm.services.hypridle.settings.listener;
     findByAction = action: lib.findFirst (l: (l."on-timeout" or "") == action) { } listeners;
     screenOff = findByAction "niri msg action power-off-monitors";
-    lock = findByAction "noctalia-shell ipc call lockScreen lock";
+    lock = findByAction "noctalia msg session lock";
   in
   {
     homeDirectory = hm.home.homeDirectory;

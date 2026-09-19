@@ -1,0 +1,54 @@
+# Noctalia v5 — minimal declarative baseline.
+# Everything else is tuned in the Settings UI: those changes go to
+# ~/.local/state/noctalia/settings.toml (persisted) and take precedence.
+
+[accessibility]
+# Content scale for panels and other non-bar shell UI.
+ui_scale = 1.1
+
+[shell]
+font_family = "Maple Mono NF CN"
+avatar_path = "~/nix-config/_img/myself.jpg"
+# Declarative deployment: state (~/.local/state/noctalia) is not persisted, so do
+# not auto-open the first-run wizard every boot.
+setup_wizard_enabled = false
+
+[shell.screenshot]
+# Capture a region, then open the built-in annotation editor (replaces grim/slurp/satty).
+annotate = true
+directory = "~/Pictures/Screenshots"
+
+[theme]
+source = "builtin"
+builtin = "Catppuccin"
+
+# Application theming is managed by catppuccin/nix, so Noctalia templates stay off.
+[theme.templates]
+enable_builtin_templates = false
+enable_community_templates = false
+
+[wallpaper]
+directory = "/home/ryan/Pictures/Wallpapers"
+
+[wallpaper.automation]
+enabled = true
+interval_seconds = 600
+
+[wallpaper.default]
+path = "/home/ryan/Pictures/Wallpapers/rolling-girls_lalala.png"
+
+[location]
+address = "Changsha"
+
+[weather]
+enabled = true
+
+# Eye protection: hold the warm night temperature all the time.
+[nightlight]
+enabled = true
+force = true
+
+[bar.main]
+background_opacity = 0.2
+# Text-only bump; `scale` would enlarge glyphs and spacing too.
+font_scale = 1.1
