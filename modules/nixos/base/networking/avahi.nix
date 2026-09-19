@@ -12,4 +12,10 @@
       userServices = true;
     };
   };
+
+  # avahi and systemd-resolved both run an mDNS responder, which makes mDNS
+  # unreliable ("Detected another IPv4/IPv6 mDNS stack running on this host").
+  # Keep avahi (needed for DNS-SD, e.g. CUPS printer discovery) and turn off
+  # resolved's own mDNS.
+  services.resolved.settings.Resolve.MulticastDNS = false;
 }
