@@ -19,8 +19,5 @@ in
       agentPackages.pi
       agentPackages.omp
       agentPackages.crush
-
-      # Utilities
-      agentPackages.rtk # CLI proxy that reduces LLM token consumption
     ];
 }
