@@ -89,8 +89,8 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 - **Terminal editors:** [./home/base/core/editors/](./home/base/core/editors/) — Helix / Neovim,
   `$EDITOR`, docs.
-- **VS Code (GUI, Home Manager on NixOS):**
-  [./home/linux/gui/base/editors.nix](./home/linux/gui/base/editors.nix).
+- **GUI editors:** [Zed](./home/base/gui/zed-editor.nix) (primary) and
+  [VS Code](./home/linux/gui/base/vscode.nix).
 - **LLM coding agents:** [./agents](./agents/) — rules, installers, CLI snippets; see
   [./agents/README.md](./agents/README.md).
 
@@ -195,17 +195,14 @@ Other dotfiles that inspired me:
 [Zellij]: https://github.com/zellij-org/zellij
 [Helix]: https://github.com/helix-editor/helix
 [Neovim]: https://github.com/neovim/neovim
-[AstroNvim]: https://github.com/AstroNvim/AstroNvim
 [imv]: https://sr.ht/~exec64/imv/
 [OBS]: https://obsproject.com
 [Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
 [catppuccin-nix]: https://github.com/catppuccin/nix
 [NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
-[wl-clipboard]: https://github.com/bugaevc/wl-clipboard
 [tuigreet]: https://github.com/apognu/tuigreet
 [thunar]: https://gitlab.xfce.org/xfce/thunar
 [Yazi]: https://github.com/sxyazi/yazi
-[Catppuccin]: https://github.com/catppuccin/catppuccin
 [Btrfs]: https://btrfs.readthedocs.io
 [LUKS]: https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system
 [lanzaboote]: https://github.com/nix-community/lanzaboote

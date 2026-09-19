@@ -66,8 +66,7 @@ Noctalia consolidates functionality that previously required multiple tools:
 ### Desktop Environment
 
 - **[`gtk.nix`](./gtk.nix)**: GTK theme configuration
-- **[`xdg.nix`](./xdg.nix)**: XDG specifications
-- **[`nvidia.nix`](./nvidia.nix)**: NVIDIA GPU settings
+- **[`xdg/`](./xdg/)**: XDG specifications
 
 ### Input & Localization
 
@@ -78,7 +77,8 @@ Noctalia consolidates functionality that previously required multiple tools:
 - **[`desktop-tools.nix`](./desktop-tools.nix)**: Wayland session tools (clipboard, color picker,
   brightness, audio, screen recording, auto-mount, `wlogout` emergency fallback)
 - **[`browsers.nix`](./browsers.nix)**: Web browsers
-- **[`editors.nix`](./editors.nix)**: Desktop text editors
+- **[`vscode.nix`](./vscode.nix)**: VS Code (GUI editor; the primary Zed config is shared from
+  [`home/base/gui/zed-editor.nix`](../../../base/gui/zed-editor.nix))
 - **[`media.nix`](./media.nix)**: Media players
 - **[`gaming.nix`](./gaming.nix)**: Gaming applications
 - **[`creative.nix`](./creative.nix)**: Creative software
