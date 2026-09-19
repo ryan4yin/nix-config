@@ -74,7 +74,7 @@
     "exfat"
   ];
 
-  # LUKS initrd, all fileSystems (/, /boot, /btr_pool, /nix, /gnu, /persistent, /snapshots, /tmp, /swap)
+  # LUKS initrd, all fileSystems (/, /boot, /btr_pool, /nix, /persistent, /snapshots, /tmp, /swap)
   # and swap (including /swap/swapfile bind and swapDevices) are managed by disko (disko-fs.nix).
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
