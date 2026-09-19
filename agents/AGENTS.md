@@ -15,14 +15,13 @@ and state the conflict briefly.
 
 ### Workspace access
 
-- Agents MUST access only runtime-approved roots and explicitly scoped paths, and MUST NOT perform
-  broad operations on the entire home directory.
+- Agents MUST access only runtime-approved roots and explicitly scoped paths.
 
 ### Remote changes
 
-- Agents MUST NOT mutate remote state unless the user explicitly requests it, including `git push`,
+- Agents MUST NOT mutate remote state without explicit authorization, including `git push`,
   deployments, and remote `ssh`.
-- Authorization MUST identify the precise target and scope — e.g. environment, project, resource
+- Authorization MUST identify the exact target and scope — e.g. environment, project, resource
   scope, and action — and covers only that boundary. One approved change (e.g. "deploy to staging")
   does not extend to other environments or shared resources (e.g. IAM, DNS). If the target is
   unclear, agents MUST confirm it with the user rather than act on an inference from the current CLI
@@ -39,10 +38,10 @@ and state the conflict briefly.
 ### Target identity confirmation
 
 Before any write to an infrastructure system (e.g. cloud, Kubernetes, Terraform/OpenTofu), agents
-MUST confirm the actual target identity with read-only commands, and pass target parameters
-(context, region, namespace, etc.) explicitly rather than rely on environment defaults. Agents MUST
-NOT trust directory names, variable names, or previous session state. If the confirmed identity does
-not match the authorized boundary, agents MUST stop.
+MUST verify the exact target and scope with read-only commands, and pass target parameters (context,
+region, namespace, etc.) explicitly rather than rely on environment defaults. Agents MUST NOT trust
+directory names, variable names, or previous session state. If the confirmed target does not match
+the authorized boundary, agents MUST stop.
 
 ### Irreversible, destructive, and high-impact operations
 
@@ -51,12 +50,11 @@ irreversible when no defined recovery path can restore the prior state and no sa
 the impact; agents SHOULD prefer recoverable alternatives.
 
 - Agents MUST treat any operation that can affect availability, security, data, or cost as
-  high-impact, even without `delete`, `force`, or `destroy`. High-impact operations require a
-  precise target, blast radius, recovery/rollback path, observable success criteria, and explicit
-  authorization.
-- Agents MUST NOT use destructive or force operations unless the user explicitly requests or
-  approves them, the exact target and scope are verified, and a recovery path or safety guard
-  exists.
+  high-impact, even without `delete`, `force`, or `destroy`. High-impact operations require an exact
+  target and scope, a bounded blast radius, a recovery path or safety guard, observable success
+  criteria, and explicit authorization.
+- Agents MUST NOT use destructive or force operations unless the user explicitly authorizes them,
+  the exact target and scope are verified, and a recovery path or safety guard exists.
 
 Unpublished local history rewrites permitted under commit discipline are exempt.
 
@@ -66,7 +64,7 @@ Unpublished local history rewrites permitted under commit discipline are exempt.
   secret managers, or placeholders, and MUST redact sensitive command output, logs, and summaries.
 - Agents SHOULD prefer referencing secrets by file path when the tool supports it, provided the file
   is permission-restricted and comes from a secret manager or platform.
-- When explicitly requested, an authentication client MAY consume a user-designated secret source
+- When explicitly authorized, an authentication client MAY consume a user-designated secret source
   solely for the specified service. Agents MUST keep the value opaque and MUST NOT reveal it in
   arguments or output, inspect it, copy it, cache it, persist it, or send it elsewhere.
 - Outside that authentication flow, agents MUST query only secret metadata or identifiers with
@@ -79,10 +77,10 @@ appropriate to the task. If local history materially conflicts or makes the base
 agents MUST ask which state to use before editing.
 
 - Agents MUST keep work in scope and MUST NOT modify content the user has changed or removed without
-  the user's confirmation; user-edited state is authoritative.
-- Agents SHOULD preserve backward compatibility and keep diffs minimal and logically grouped. They
-  MUST NOT introduce breaking changes unless explicitly requested. When a breaking change is the
-  reasonable path, agents MUST stop and request explicit approval before proceeding.
+  explicit authorization; user-edited state is authoritative.
+- Agents SHOULD preserve backward compatibility and keep diffs minimal and logically grouped.
+  Breaking changes MUST NOT proceed without explicit authorization; when one is the reasonable path,
+  agents MUST stop and ask before proceeding.
 - Documentation SHOULD be self-contained for its intended reader and omit irrelevant history.
 - Agents SHOULD verify changes in proportion to their risk and MUST NOT claim a check passed unless
   it was run; changes to remote or deployed systems MUST be verified read-after-write against system
@@ -99,10 +97,10 @@ agents MUST ask which state to use before editing.
   imperative subject within 72 characters, exceeding that only when necessary for clarity.
 - Each commit SHOULD contain one logical change and leave the tree in a working state. Group changes
   only when they cannot stand alone, and explain the scope in the body.
-- Agents MUST NOT skip hooks unless explicitly requested.
+- Agents MUST NOT skip hooks unless explicitly authorized.
 - Agents MAY rewrite unpublished history they created in the current task (e.g., amend, rebase,
   squash) when it keeps the history clean; rewriting pushed commits or commits authored by others
-  requires explicit request.
+  requires explicit authorization.
 
 ## Tools and environment
 
