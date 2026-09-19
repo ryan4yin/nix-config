@@ -87,13 +87,6 @@
                       "noatime"
                     ];
                   };
-                  "@guix" = {
-                    mountpoint = "/gnu";
-                    mountOptions = [
-                      "compress-force=zstd:1"
-                      "noatime"
-                    ];
-                  };
                   "@persistent" = {
                     mountpoint = "/persistent";
                     mountOptions = [

@@ -20,7 +20,7 @@
         http_addr = "127.0.0.1";
         http_port = 3351;
         protocol = "http";
-        domain = "grafana.writefo.fun";
+        domain = "grafana.writefor.fun";
         # Redirect to correct domain if the host header does not match the domain. Prevents DNS rebinding attacks.
         serve_from_sub_path = false;
         # Add subpath to the root_url if serve_from_sub_path is true

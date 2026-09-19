@@ -88,31 +88,37 @@
         };
         editable = false;
       }
-      {
-        # https://grafana.com/docs/grafana/latest/datasources/postgres/configure/
-        name = "postgres-playground";
-        type = "postgres";
-        url = "postgres.writefor.fun:5432";
-        user = "playground";
-        secureJsonData = {
-          password = "$__file{${config.age.secrets."grafana-admin-password".path}}";
-        };
-        jsonData = {
-          database = "playground";
-          sslmode = "verify-full"; # disable/require/verify-ca/verify-full
-          maxOpenConns = 50;
-          maxIdleConns = 250;
-          maxIdleConnsAuto = true;
-          connMaxLifetime = 14400;
-          timeInterval = "1m";
-          timescaledb = false;
-          postgresVersion = 1500; # 15.xx
-          # tls
-          tlsConfigurationMethod = "file-path";
-          sslRootCertFile = ../../../certs/ecc-ca.crt;
-        };
-        editable = false;
-      }
+      # Disabled: the `playground` role has no password and remote logins
+      # require scram-sha-256, so this datasource could never authenticate.
+      # Re-enable once a `playground` DB password is provisioned
+      # (docs/system-audit-2026-09-19.md, item 1.5).
+      /*
+        {
+          # https://grafana.com/docs/grafana/latest/datasources/postgres/configure/
+          name = "postgres-playground";
+          type = "postgres";
+          url = "postgres.writefor.fun:5432";
+          user = "playground";
+          secureJsonData = {
+            password = "$__file{${config.age.secrets."postgres-playground-password".path}}";
+          };
+          jsonData = {
+            database = "playground";
+            sslmode = "verify-full"; # disable/require/verify-ca/verify-full
+            maxOpenConns = 50;
+            maxIdleConns = 250;
+            maxIdleConnsAuto = true;
+            connMaxLifetime = 14400;
+            timeInterval = "1m";
+            timescaledb = false;
+            postgresVersion = 1500; # 15.xx
+            # tls
+            tlsConfigurationMethod = "file-path";
+            sslRootCertFile = ../../../certs/ecc-ca.crt;
+          };
+          editable = false;
+        }
+      */
       {
         name = "infinity-dataviewer";
         type = "yesoreyeram-infinity-datasource";

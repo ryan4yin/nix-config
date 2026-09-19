@@ -154,8 +154,19 @@ in
   evalTests = lib.lists.all (it: it.evalTests == { }) allSystemValues;
 
   checks = forAllSystems (system: {
-    # eval-tests per system
-    eval-tests = allSystems.${system}.evalTests == { };
+    # eval-tests per system. `nix flake check` requires every check to be a
+    # derivation, so wrap the boolean result in one instead of returning a bool.
+    eval-tests =
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        results = allSystems.${system}.evalTests;
+      in
+      pkgs.runCommand "eval-tests" { } (
+        if results == { } then
+          "touch $out"
+        else
+          "echo 'eval tests failed: evalTests is not empty' >&2; exit 1"
+      );
 
     pre-commit-check = pre-commit-hooks.lib.${system}.run {
       src = mylib.relativeToRoot ".";

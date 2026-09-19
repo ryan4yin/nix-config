@@ -56,6 +56,8 @@ in
     timerConfig = {
       OnCalendar = "daily";
       RandomizedDelaySec = "15min";
+      # run the skipped purge on the next boot if the host was off/suspended.
+      Persistent = true;
     };
   };
 }
