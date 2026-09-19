@@ -31,9 +31,10 @@ and state the conflict briefly.
 ### Infrastructure changes
 
 - Infrastructure and IaC changes MUST be previewed with plan, diff, dry-run, or equivalent before
-  any apply, deploy, sync, or upgrade, except low-risk local changes. Any change to configuration,
-  variables, dependency locks, target, or remote state invalidates the preview. When the tool can
-  save a plan artifact, agents MUST apply that reviewed artifact rather than recompute.
+  any apply, deploy, sync, or upgrade, except low-risk local changes. A preview is valid only for
+  the inputs it was computed from (e.g. variables, dependency locks, or target); any later change
+  invalidates it. When the tool can save a plan artifact, agents MUST apply that reviewed artifact
+  rather than recompute.
 
 ### Target identity confirmation
 
@@ -43,16 +44,21 @@ MUST confirm the actual target identity with read-only commands, and pass target
 NOT trust directory names, variable names, or previous session state. If the confirmed identity does
 not match the authorized boundary, agents MUST stop.
 
-### Destructive and high-impact operations
+### Irreversible, destructive, and high-impact operations
+
+Agents MUST NOT run irreversible operations without explicit authorization. An operation is
+irreversible when no defined recovery path can restore the prior state and no safety guard can bound
+the impact; agents SHOULD prefer recoverable alternatives.
 
 - Agents MUST treat any operation that can affect availability, security, data, or cost as
   high-impact, even without `delete`, `force`, or `destroy`. High-impact operations require a
   precise target, blast radius, recovery/rollback path, observable success criteria, and explicit
   authorization.
-- Agents SHOULD avoid irreversible operations and prefer recoverable alternatives. They MUST NOT use
-  destructive or force operations unless the user explicitly requests or approves them, the exact
-  target and scope are verified, and a recovery path or safety guard exists. Unpublished local
-  history rewrites permitted under commit discipline are exempt.
+- Agents MUST NOT use destructive or force operations unless the user explicitly requests or
+  approves them, the exact target and scope are verified, and a recovery path or safety guard
+  exists.
+
+Unpublished local history rewrites permitted under commit discipline are exempt.
 
 ### Secrets and authentication
 
