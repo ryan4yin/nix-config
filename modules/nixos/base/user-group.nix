@@ -33,7 +33,7 @@
       myvars.username
       "users"
       "wheel"
-      "networkmanager" # for nmtui / nm-connection-editor
+      "networkmanager" # for nmtui / nmcli
       "wireshark"
       "adbusers" # android debugging
       "libvirtd" # virt-viewer / qemu

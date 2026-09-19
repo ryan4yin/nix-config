@@ -21,7 +21,6 @@
     brightnessctl
     # audio
     alsa-utils # provides amixer/alsamixer/...
-    networkmanagerapplet # provide GUI app: nm-connection-editor
     # screen recording
     wf-recorder # screen recording
 

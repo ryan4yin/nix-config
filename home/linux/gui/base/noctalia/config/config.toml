@@ -52,6 +52,9 @@ force = true
 background_opacity = 0.2
 # Text-only bump; `scale` would enlarge glyphs and spacing too.
 font_scale = 1.1
+# Widen the bar body so the centered clock clears the end-lane media widget: the
+# default 100 left too little room once the sysmon widgets and dated clock landed.
+margin_ends = 20
 # Keep the default sections and append resource/network monitors after the
 # workspaces, mirroring the old v4 SystemMonitor widget.
 start = [ "launcher", "wallpaper", "workspaces", "cpu", "ram", "disk", "net_rx", "net_tx" ]
@@ -85,3 +88,8 @@ network_speed_compact = true
 type = "sysmon"
 stat = "net_tx"
 network_speed_compact = true
+
+# Network: keep the status glyph but drop the SSID/interface text, which is too
+# long for the bar. Hover tooltip still shows the full network name.
+[widget.network]
+show_label = false
