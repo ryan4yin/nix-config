@@ -293,6 +293,17 @@ groups:
           summary: Host systemd service crashed (instance {{ $labels.instance }})
           description: "systemd service crashed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
+      - alert: HostBtrbkSnapshotFailed
+        expr: 'node_systemd_unit_state{name="btrbk-btrbk.service",state="failed"} == 1'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host btrbk snapshot/backup failed (instance {{ $labels.instance }})
+          description:
+            "btrbk-btrbk.service is in a failed state; btrfs snapshots are not being
+            created.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
       - alert: HostPhysicalComponentTooHot
         expr:
           '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
