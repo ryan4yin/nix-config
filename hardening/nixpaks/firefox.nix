@@ -31,7 +31,7 @@ let
         imports = [
           ./modules/gui-base.nix
           ./modules/network.nix
-          ./modules/common.nix
+          ./modules/custom-policy.nix
         ];
 
         bubblewrap = {
@@ -81,12 +81,6 @@ let
             # Unsure
             (sloth.concat' sloth.xdgConfigHome "/dconf")
           ];
-
-          sockets = {
-            x11 = false;
-            wayland = true;
-            pipewire = true;
-          };
         };
       };
   };

@@ -28,7 +28,7 @@ let
         imports = [
           ./modules/gui-base.nix
           ./modules/network.nix
-          ./modules/common.nix
+          ./modules/custom-policy.nix
         ];
 
         bubblewrap = {
@@ -42,11 +42,6 @@ let
             sloth.xdgVideosDir
             sloth.xdgPicturesDir
           ];
-          sockets = {
-            x11 = false;
-            wayland = true;
-            pipewire = true;
-          };
         };
       };
   };

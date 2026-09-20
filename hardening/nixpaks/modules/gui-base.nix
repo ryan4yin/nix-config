@@ -1,3 +1,9 @@
+# Fork of nixpak/pkgs's gui-base.nix: the shared GUI runtime plumbing (GPU,
+# fonts, desktop caches, /dev/shm, and the audio/display sockets) that lets a
+# GUI app run under bubblewrap. Paths bound here must not be bound again in
+# ./custom-policy.nix or the app configs: nixpak emits read-only binds last, so
+# a duplicate read-only bind would silently shadow a writable one.
+#
 # https://github.com/nixpak/pkgs/blob/master/pkgs/modules/gui-base.nix
 {
   config,
@@ -16,7 +22,7 @@ in
   config = {
     dbus.policies = {
       "${config.flatpak.appId}" = "own";
-      # we add other policies in ./common.nix
+      # we add other policies in ./custom-policy.nix
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gpu.nix
     # The NixOS provider exposes host drivers at /run/opengl-driver (read-only)
@@ -37,6 +43,18 @@ in
       # Nixpak uses --ro-bind-try / --dev-bind-try: absent host paths are skipped,
       # so shared mappings work on Intel/NVIDIA hosts and Apple Silicon alike.
       network = lib.mkDefault false;
+
+      # nixpak binds sockets read-only, which is sufficient: connect() only needs
+      # the socket inode's write bit, and the kernel's read-only-filesystem check
+      # does not apply to sockets. PulseAudio is the exception (see bind.rw).
+      # Every app here is Wayland-only, so X11 stays disabled (the nixpak default,
+      # spelled out for intent) and PipeWire is shared for screensharing.
+      sockets = {
+        wayland = true;
+        pipewire = true;
+        x11 = false;
+      };
+
       bind.rw = [
         [
           (envSuffix "HOME" "/.var/app/${config.flatpak.appId}/cache")
@@ -45,19 +63,23 @@ in
         (sloth.concat' sloth.xdgCacheHome "/fontconfig")
         (sloth.concat' sloth.xdgCacheHome "/mesa_shader_cache")
 
-        (sloth.concat [
-          (sloth.env "XDG_RUNTIME_DIR")
-          "/"
-          (sloth.envOr "WAYLAND_DISPLAY" "no")
-        ])
-
-        (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
+        # gvfsd is a directory that holds FUSE mounts, not a socket, so it must
+        # stay writable.
         (envSuffix "XDG_RUNTIME_DIR" "/gvfsd")
-        (envSuffix "XDG_RUNTIME_DIR" "/pulse")
 
-        "/run/dbus"
+        # libpulse prepares its runtime dir before connecting (mkdir + chmod 0700),
+        # so this directory must be writable. nixpak's built-in `sockets.pulse`
+        # binds it read-only instead, and libpulse then aborts with EROFS when the
+        # directory is not already 0700 (e.g. pipewire-pulse has not started yet).
+        # Keep this the only bind of $XDG_RUNTIME_DIR/pulse.
+        (envSuffix "XDG_RUNTIME_DIR" "/pulse")
       ];
       bind.ro = [
+        # Sockets only need to be connectable, and connect() works on a read-only
+        # bind (see the note on `sockets` above).
+        (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
+        "/run/dbus"
+
         (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-4.0")
