@@ -185,10 +185,12 @@ in
     etc.sslCertificates.enable = true;
     bubblewrap = {
       network = lib.mkDefault true;
-      sockets = {
-        wayland = true;
-      };
 
+      # Desktop-wide mounts (Wayland/at-spi/gvfsd, the app cache, fontconfig and
+      # Mesa caches, GTK config, /dev/shm) are provided by ./gui-base.nix, so
+      # each path is bound exactly once. This is what keeps a read-only bind
+      # from shadowing a writable one (see the note on the PulseAudio runtime
+      # dir there). Only app-specific mounts belong in this file.
       bind.rw = with sloth; [
         [
           (mkdir appDataDir)
@@ -198,38 +200,21 @@ in
           (mkdir appConfigDir)
           xdgConfigHome
         ]
-        [
-          (mkdir appCacheDir)
-          xdgCacheHome
-        ]
 
         # FileChooser may return a Document Portal path even for a directly mapped XDG directory;
         # keep the FUSE mount writable so SaveFile can create the selected file.
         (sloth.concat' sloth.runtimeDir "/doc")
 
-        (sloth.concat [
-          sloth.runtimeDir
-          "/"
-          (sloth.envOr "WAYLAND_DISPLAY" "no")
-        ])
-        (sloth.concat' sloth.runtimeDir "/at-spi/bus")
-        (sloth.concat' sloth.runtimeDir "/gvfsd")
         (sloth.concat' sloth.runtimeDir "/dconf")
 
-        (sloth.concat' sloth.xdgCacheHome "/fontconfig")
-        (sloth.concat' sloth.xdgCacheHome "/mesa_shader_cache")
         (sloth.concat' sloth.xdgCacheHome "/mesa_shader_cache_db")
         (sloth.concat' sloth.xdgCacheHome "/radv_builtin_shaders")
       ];
       bind.ro = [
         (sloth.concat' sloth.xdgConfigHome "/kdeglobals")
-        (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
-        (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
-        (sloth.concat' sloth.xdgConfigHome "/gtk-4.0")
-        (sloth.concat' sloth.xdgConfigHome "/fontconfig")
         (sloth.concat' sloth.xdgConfigHome "/dconf")
       ];
-      bind.dev = [ "/dev/shm" ] ++ (map (id: "/dev/video${toString id}") (lib.lists.range 0 9));
+      bind.dev = map (id: "/dev/video${toString id}") (lib.lists.range 0 9);
     };
   };
 }

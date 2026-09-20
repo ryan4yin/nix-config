@@ -42,9 +42,10 @@ let
             sloth.xdgVideosDir
             sloth.xdgPicturesDir
           ];
+          # Wayland is bound read-write by ./modules/gui-base.nix; enabling
+          # nixpak's `sockets.wayland` would add a read-only bind that shadows it.
           sockets = {
             x11 = false;
-            wayland = true;
             pipewire = true;
           };
         };
