@@ -109,6 +109,24 @@ Use existing hosts as templates. The key files typically include:
 - **macOS systems**: See `darwin-fern/` for macOS configurations
 - **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
 
+## Deploying KubeVirt Hosts
+
+The three KubeVirt hosts (`kubevirt-shoryu`, `kubevirt-shushou`, `kubevirt-youko`) run the KubeVirt
+cluster and, through the `ovs-cni` plugin, carry the VM network on the `ovsbr1` Open vSwitch bridge.
+
+- **Deploy them with `boot`, then reboot — do not use `switch`.** `colmena apply switch` restarts
+  `ovs-vswitchd.service` and the generated `ovsbr1-netdev.service`; the latter runs
+  `ovs-vsctl del-br ovsbr1` on start/stop, which deletes the runtime ports added by `ovs-cni` and
+  cuts off every VM on the host. `boot` activates nothing, so the following reboot rebuilds the
+  bridge before the VMs start and the CNI re-adds the ports.
+  - `colmena apply boot --on '@virt-*' -p 1`
+  - Reboot the hosts **one at a time** (serial deployment and serial reboot both keep the k3s
+    control plane's etcd quorum), waiting for each host to become healthy before the next.
+- `networking.vswitches` only models the static `interfaces`; it is unaware of the dynamic `ovs-cni`
+  ports, so any mid-flight restart of the bridge service is destructive.
+- Recovery if a host ever loses VM networking after a `switch`: re-add the host-side veths
+  (`ovs-vsctl add-port ovsbr1 <veth>`) or simply reboot the host.
+
 ## Distributed Building
 
 I usually run the build command on `Ai` and nix will distribute the build to other NixOS machines,

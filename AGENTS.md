@@ -61,6 +61,9 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - Deployment and upload recipes change systems; use eval/build commands for validation. Remote
   deployment requires an explicit request. When deployment behavior changes, report the exact `just`
   command to run.
+- KubeVirt hosts (`kubevirt-shoryu`/`shushou`/`youko`): deploy with `boot` + serial reboot, never
+  `switch` — `switch` restarts the OVS bridge service and drops the VM network. See
+  [hosts/README.md](./hosts/README.md#deploying-kubevirt-hosts).
 - `just clean`, `just gc`, `just ggc`, and `just game` remove history or amend commits; they are not
   validation steps and require explicit authorization for their target and scope.
 - Do not use `just penvof` for process inspection: it can expose secret values.
