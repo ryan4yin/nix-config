@@ -187,7 +187,6 @@ in
       network = lib.mkDefault true;
       sockets = {
         wayland = true;
-        pulse = true;
       };
 
       bind.rw = with sloth; [

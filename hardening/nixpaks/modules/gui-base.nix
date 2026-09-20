@@ -53,6 +53,12 @@ in
 
         (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
         (envSuffix "XDG_RUNTIME_DIR" "/gvfsd")
+
+        # libpulse prepares its runtime dir before connecting (mkdir + chmod 0700),
+        # so this directory must be writable. nixpak's built-in `sockets.pulse`
+        # binds it read-only instead, and libpulse then aborts with EROFS when the
+        # directory is not already 0700 (e.g. pipewire-pulse has not started yet).
+        # Keep this the only bind of $XDG_RUNTIME_DIR/pulse.
         (envSuffix "XDG_RUNTIME_DIR" "/pulse")
 
         "/run/dbus"
