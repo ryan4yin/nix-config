@@ -48,7 +48,7 @@ in
       "--allow-group-access"
     ];
 
-    extraPlugins =
+    extensions =
       ps: with ps; [
         # postgis
         # pg_repack

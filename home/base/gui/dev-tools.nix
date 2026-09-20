@@ -1,4 +1,9 @@
-{ pkgs, llm-agents, ... }:
+{
+  pkgs,
+  lib,
+  llm-agents,
+  ...
+}:
 let
   agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 in
@@ -6,9 +11,13 @@ in
   home.packages =
     with pkgs;
     [
+      qrtool # decode/encode qr code
+    ]
+    # mitmproxy & wireshark don't build on darwin
+    # (removed there, see modules/darwin/broken-packages.nix)
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       mitmproxy # http/https proxy tool
       wireshark # network analyzer
-      qrtool # decode/encode qr code
     ]
     # AI Agent Tools
     ++ [
