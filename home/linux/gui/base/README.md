@@ -15,23 +15,27 @@ The configuration is organized into modular components that can be selectively e
 ## Noctalia
 
 **Noctalia** (v5) is a native C++/Wayland all-in-one desktop shell that replaces multiple separate
-tools with a single, unified solution. It is installed and configured through the upstream
+tools with a single, unified solution. It is installed through the upstream
 [`programs.noctalia`](https://docs.noctalia.dev/noctalia/getting-started/nixos/) Home Manager
-module, which validates the TOML at build time.
+module.
 
 ### Configuration
 
 Noctalia merges **every `*.toml` in the config directory** (`~/.config/noctalia/`), sorted
-alphabetically, and then layers the Settings UI's own overrides on top:
+alphabetically, and then layers the state directory's `settings.toml` on top:
 
-| Layer                | Location                                                          | Notes                                           |
-| -------------------- | ----------------------------------------------------------------- | ----------------------------------------------- |
-| Declarative baseline | `~/.config/noctalia/*.toml` (repo: `noctalia/config/config.toml`) | Merged alphabetically; `[include]` supported    |
-| GUI overrides        | `~/.local/state/noctalia/settings.toml`                           | Written by the Settings UI; loads last and wins |
+| Layer  | Location                                | Notes                                                                 |
+| ------ | --------------------------------------- | --------------------------------------------------------------------- |
+| Config | `~/.config/noctalia/*.toml`             | Merged alphabetically; `[include]` supported; host-specific overrides |
+| State  | `~/.local/state/noctalia/settings.toml` | Written by the Settings UI; loads last and wins                       |
 
-`noctalia config export merged` prints the effective user config and `noctalia config validate`
-checks a file. Application theming stays with `catppuccin/nix`, so Noctalia's theme templates are
-disabled.
+The shared baseline (`noctalia/config/config.toml`) is deployed as an **out-of-store symlink**, so
+manual edits hot-reload without a `home-manager switch`. Noctalia never rewrites files in the config
+layer, so volatile runtime data (wallpaper rotation, widget geometry) stays in the state file and
+out of the repository.
+
+`noctalia config export` prints the merged user config and `noctalia config validate` checks a file.
+Application theming stays with `catppuccin/nix`, so Noctalia's theme templates are disabled.
 
 ### Component Replacement
 
@@ -54,8 +58,9 @@ Noctalia consolidates functionality that previously required multiple tools:
 ### Desktop Shell
 
 - **[`noctalia/default.nix`](./noctalia/default.nix)**: enables the upstream `programs.noctalia`
-  module
-- **[`noctalia/config/config.toml`](./noctalia/config/config.toml)**: declarative baseline (v5 TOML)
+  module and symlinks the baseline out of store
+- **[`noctalia/config/config.toml`](./noctalia/config/config.toml)**: declarative baseline (v5
+  TOML), tracked in the repo and hot-reloaded
 
   Key features: bar and widgets, control center, desktop widgets, night light, wallpaper, session
   panel, screenshots with annotation, system monitor, audio/volume, brightness, calendar/weather,

@@ -1,6 +1,9 @@
-# Noctalia v5 — minimal declarative baseline.
-# Everything else is tuned in the Settings UI: those changes go to
-# ~/.local/state/noctalia/settings.toml (persisted) and take precedence.
+# Noctalia v5 declarative baseline.
+#
+# This file is symlinked out of store into ~/.config/noctalia/config.toml, so
+# edits hot-reload without a home-manager switch. Noctalia never rewrites files
+# in the config layer; Settings UI changes go to
+# ~/.local/state/noctalia/settings.toml, which loads after this file and wins.
 
 [accessibility]
 # Content scale for panels and other non-bar shell UI.

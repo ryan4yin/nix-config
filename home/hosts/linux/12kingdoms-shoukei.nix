@@ -24,7 +24,8 @@ in
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/12kingdoms-shoukei/niri-hardware.kdl";
 
-  # Host-specific Noctalia config; merges after the shared config.toml.
+  # Host-specific Noctalia config; sorts after the shared config.toml, so it can
+  # override the shared baseline.
   xdg.configFile."noctalia/host-shoukei.toml".source = ./12kingdoms-shoukei/noctalia.toml;
 
   # The built-in laptop speakers are quiet, so boost above the -23 dB default.

@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   wallpapers,
@@ -6,16 +7,19 @@
 }:
 
 {
-  # Use the upstream Home Manager module (shipped by home-manager itself): it
-  # installs pkgs.noctalia, validates the TOML at build time via `checkConfig`,
-  # and handles custom palettes. Runtime changes made in the Settings UI keep
-  # working: they go to ~/.local/state/noctalia/settings.toml, which loads after
-  # this file and wins.
+  # Use the upstream Home Manager module (shipped by home-manager itself) for
+  # the package. The config file is not deployed through `programs.noctalia.settings`:
+  # that writes a store symlink, so every edit needs a home-manager switch.
   # https://docs.noctalia.dev/noctalia/getting-started/nixos/#home-manager
-  programs.noctalia = {
-    enable = true;
-    settings = ./config/config.toml;
-  };
+  programs.noctalia.enable = true;
+  # Deploy the baseline as an out-of-store symlink in the config layer. Noctalia
+  # never rewrites files under ~/.config/noctalia/, so manual edits hot-reload
+  # without a switch, while Settings UI changes stay in the state layer
+  # (~/.local/state/noctalia/settings.toml), which loads last and wins - keeping
+  # volatile runtime data (wallpaper rotation, widget geometry) out of the repo.
+  # Host-specific tweaks are separate config-layer files (~/.config/noctalia/host-<host>.toml).
+  xdg.configFile."noctalia/config.toml".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/linux/gui/base/noctalia/config/config.toml";
 
   # Noctalia v5 is started by niri's spawn-at-startup (see the niri conf), so
   # app2unit is still used to launch desktop entries as systemd user units.

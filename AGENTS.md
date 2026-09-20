@@ -15,9 +15,10 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   instead of hardcoding usernames or paths.
 - `secrets/` contains agenix definitions; secret material also comes from a private external repo.
 - `overlays/` and `hardening/` hold package overlays and hardened (nixpak/bwrap) wrappers.
-- Noctalia (the Wayland shell) is configured in `home/linux/gui/base/noctalia/config/config.toml`,
-  which the `programs.noctalia` module validates at build time. Host-specific overrides go in a
-  `host-<name>.toml` there (merged after `config.toml`).
+- Noctalia (the Wayland shell) baseline is `home/linux/gui/base/noctalia/config/config.toml`,
+  symlinked out of store into `~/.config/noctalia/` so edits hot reload without a rebuild. Settings
+  UI changes stay in the state layer (`~/.local/state/noctalia/settings.toml`, loads last). Host
+  overrides go in a `host-<name>.toml` there (merged after `config.toml`).
 
 ## Commands and Platforms
 
