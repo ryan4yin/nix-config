@@ -52,7 +52,9 @@ enabled = true
 force = true
 
 [bar.main]
-background_opacity = 0.2
+# Too transparent and dark wallpapers show through the light-mode surface,
+# making the dark light-mode text unreadable; keep enough fill for contrast.
+background_opacity = 0.61
 # Text-only bump; `scale` would enlarge glyphs and spacing too.
 font_scale = 1.1
 # Widen the bar body so the centered clock clears the end-lane media widget: the
