@@ -50,6 +50,11 @@ in
     extraOptions = [
       # Allowed percent of system memory VictoriaMetrics caches may occupy.
       "-memory.allowedPercent=50"
+      # Deduplicate samples with the same timestamp within one scrape interval
+      # (e.g. from vmagent retries/HA replicas). Without this the storage rejects
+      # them with "duplicate sample for timestamp; overrides not allowed".
+      # Keep it >= the senders' scrapeInterval (vmagent 20s, in-cluster 30s).
+      "-dedup.minScrapeInterval=30s"
     ];
     # Directory below /var/lib to store victoriametrics metrics data.
     stateDir = "victoriametrics";
