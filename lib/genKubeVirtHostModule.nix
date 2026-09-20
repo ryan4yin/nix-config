@@ -58,11 +58,8 @@ in
 
   # zram itself is provided by modules/nixos/base/zram.nix (enabled by default).
   # Kill the greediest process before the host starts thrashing / gets OOM-killed.
-  services.earlyoom = {
-    enable = true;
-    freeMemThresholdPercent = 5;
-    freeSwapThresholdPercent = 5;
-  };
+  # (defaults: trigger at 10% free mem / swap, kill hard at half of that.)
+  services.earlyoom.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Validate Hardware Virtualization Support via:
