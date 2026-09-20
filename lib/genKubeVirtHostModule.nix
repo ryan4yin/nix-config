@@ -50,8 +50,18 @@ in
     # ----- IPv6 ----- #
     "net.ipv6.conf.all.forwarding" = 1; # Enable forwarding
 
-    # --- memory --- #
-    "vm.swappiness" = 0; # don't swap unless absolutely necessary
+    # NOTE: vm.swappiness is intentionally NOT set here; it comes from
+    # modules/nixos/base/zram.nix (mkDefault 180, tuned for the zram device).
+    # The previous hard-coded 0 disabled swapping entirely, so the zram device
+    # (already enabled by that module) was never used.
+  };
+
+  # zram itself is provided by modules/nixos/base/zram.nix (enabled by default).
+  # Kill the greediest process before the host starts thrashing / gets OOM-killed.
+  services.earlyoom = {
+    enable = true;
+    freeMemThresholdPercent = 5;
+    freeSwapThresholdPercent = 5;
   };
 
   environment.systemPackages = with pkgs; [
