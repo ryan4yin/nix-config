@@ -57,15 +57,10 @@ in
   modules.btrbk.enable = true;
 
   boot.kernelParams = [
-    # disable transparent hugepage(allocate hugepages dynamically)
-    "transparent_hugepage=never"
-
-    # https://kubevirt.io/user-guide/compute/hugepages/
-    #
-    # pre-allocate hugepages manually(for kubevirt guest vms)
-    # NOTE: the hugepages allocated here can not be used for other purposes!
-    # so we should left some memory for the host OS and other vms that don't use hugepages
-    "hugepagesz=1G"
-    "hugepages=48" # use 75% of the total memory for hugepages
+    # Use transparent huge pages on demand (madvise) instead of a fixed 1G hugetlb
+    # pool. The static pool cannot be overcommitted or shared with the host /
+    # other VMs, which stranded memory and blocked scheduling; the VMs now use
+    # ordinary memory (see the instancetypes in k8s-gitops).
+    "transparent_hugepage=madvise"
   ];
 }
