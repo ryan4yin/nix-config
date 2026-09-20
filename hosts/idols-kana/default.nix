@@ -71,6 +71,13 @@ in
     linkConfig.RequiredForOnline = "routable";
   };
 
+  # systemd-journal - reduce disk usage
+  # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html
+  services.journald.settings.Journal = {
+    SystemMaxUse = "2G";
+    RuntimeMaxUse = "256M";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
