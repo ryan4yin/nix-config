@@ -59,7 +59,8 @@ in
         (sloth.concat' sloth.xdgCacheHome "/fontconfig")
         (sloth.concat' sloth.xdgCacheHome "/mesa_shader_cache")
 
-        (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
+        # gvfsd is a directory that holds FUSE mounts, not a socket, so it must
+        # stay writable.
         (envSuffix "XDG_RUNTIME_DIR" "/gvfsd")
 
         # libpulse prepares its runtime dir before connecting (mkdir + chmod 0700),
@@ -68,10 +69,13 @@ in
         # directory is not already 0700 (e.g. pipewire-pulse has not started yet).
         # Keep this the only bind of $XDG_RUNTIME_DIR/pulse.
         (envSuffix "XDG_RUNTIME_DIR" "/pulse")
-
-        "/run/dbus"
       ];
       bind.ro = [
+        # Sockets only need to be connectable, and connect() works on a read-only
+        # bind (see the note on `sockets` above).
+        (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
+        "/run/dbus"
+
         (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-4.0")
