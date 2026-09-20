@@ -59,10 +59,6 @@ in
     #   virt-host-validate qemu
     libvirt
     kubevirt # virtctl
-
-    # used by kubernetes' ovs-cni plugin
-    # https://github.com/k8snetworkplumbingwg/multus-cni
-    multus-cni
   ];
 
   # Workaround for longhorn running on NixOS
@@ -86,28 +82,22 @@ in
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
-  # Enable the Open vSwitch as a systemd service
-  # It's required by kubernetes' ovs-cni plugin.
-  virtualisation.vswitch = {
-    enable = true;
-    # reset the Open vSwitch configuration database to a default configuration on every start of the systemd ovsdb.service
-    resetOnStart = false;
-  };
-  networking.vswitches = {
-    # https://github.com/k8snetworkplumbingwg/ovs-cni/blob/main/docs/demo.md
-    ovsbr1 = {
-      # Attach the interfaces to OVS bridge
-      # This interface should not used by the host itself!
-      interfaces.${iface} = { };
+  # Linux bridge for the VMs' secondary network. It replaces the previous OVS
+  # bridge: the `bridge` CNI plugin attaches the VM taps to br0, and the host
+  # keeps its own address on br0 (the physical NIC is just a bridge port).
+  systemd.network.netdevs."10-br0" = {
+    netdevConfig = {
+      Name = "br0";
+      Kind = "bridge";
     };
   };
 
   # systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
 
-  # Set the host's address on the OVS bridge interface instead of the physical interface!
+  # Set the host's address on the bridge interface instead of the physical interface!
   systemd.network.networks = {
-    "10-ovsbr1" = {
-      matchConfig.Name = [ "ovsbr1" ];
+    "10-br0" = {
+      matchConfig.Name = [ "br0" ];
       networkConfig = {
         Address = [ ipv4WithMask ];
         # DNS = nameservers;
@@ -131,9 +121,11 @@ in
     };
     "20-${iface}" = {
       matchConfig.Name = [ iface ];
-      networkConfig.LinkLocalAddressing = "no";
-      # tell networkd ignore this interface.
-      # it's managed by openvswitch
+      networkConfig = {
+        LinkLocalAddressing = "no";
+        # attach the physical NIC to the Linux bridge br0
+        Bridge = "br0";
+      };
       linkConfig.RequiredForOnline = "no";
     };
   };

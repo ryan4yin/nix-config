@@ -38,7 +38,7 @@ let
     nodeLabels = [
       "node-purpose=kubevirt"
     ];
-    disableFlannel = false;
+    # flannel is disabled; Cilium provides the pod network.
   };
 in
 {

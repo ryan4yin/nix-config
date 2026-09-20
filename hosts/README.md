@@ -111,16 +111,15 @@ Use existing hosts as templates. The key files typically include:
 
 ## Deploying KubeVirt Hosts
 
-The three KubeVirt hosts (`kubevirt-shoryu`, `kubevirt-shushou`, `kubevirt-youko`) carry the VM
-network on the `ovsbr1` Open vSwitch bridge via `ovs-cni`.
+The three KubeVirt hosts (`kubevirt-shoryu`, `kubevirt-shushou`, `kubevirt-youko`) put their VMs'
+secondary network on the Linux bridge `br0` (attached by the `bridge` CNI plugin); the pod network
+is Cilium (flannel disabled).
 
-- `switch` is fine for changes that don't touch the OVS/network stack (e.g. journald or other
-  service settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.
-- Use `boot` + a serial reboot when the change can restart the OVS units (`ovs-vswitchd` /
-  `ovsbr1-netdev`) — nixpkgs/Open vSwitch updates, `networking.vswitches` or `systemd.network`
-  edits, or any broad rebuild. Restarting them recreates the bridge and drops the VM ports.
-- If a host loses VM networking, re-add the host-side veths (`ovs-vsctl add-port ovsbr1 <veth>`) or
-  reboot it.
+- `switch` is fine for changes that don't touch the network stack (e.g. journald or other service
+  settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.
+- Use `boot` + a serial reboot for anything that can drop the network mid-flight — `systemd.network`
+  / `br0` changes, nixpkgs updates, or any broad rebuild.
+- If a host loses VM networking, check `br0` and the VM taps, or reboot the host.
 
 ## Distributed Building
 
