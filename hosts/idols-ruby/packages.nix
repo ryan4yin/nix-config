@@ -48,7 +48,6 @@ in
 
           # model downloaders
           huggingface-hub
-          modelscope
         ]
       ))
 
