@@ -1,6 +1,14 @@
-# https://github.com/mnixry/nixos-config/blob/74913c2b90d06e31170bbbaa0074f915721da224/desktop/packages/nixpaks-common.nix
-# https://github.com/Kraftland/portable/blob/09c4a4227538a3f42de208a6ecbdc938ac9c00dd/portable.sh
-# https://flatpak.github.io/xdg-desktop-portal/docs/api-reference.html
+# Custom, repo-local policy for the sandboxed desktop apps (Firefox, QQ,
+# Telegram). Unlike ./gui-base.nix, which forks nixpak/pkgs's gui-base and is
+# meant to track upstream, this file is hand-written for this repository: it
+# grants the D-Bus surface those apps need (portals, MPRIS, tray, input
+# methods, a11y), redirects the XDG dirs Flatpak-style, and adds the remaining
+# document/device mounts. Keep only app-specific mounts in the app files.
+#
+# Adapted from:
+# - https://github.com/mnixry/nixos-config/blob/74913c2b90d06e31170bbbaa0074f915721da224/desktop/packages/nixpaks-common.nix
+# - https://github.com/Kraftland/portable/blob/09c4a4227538a3f42de208a6ecbdc938ac9c00dd/portable.sh
+# - https://flatpak.github.io/xdg-desktop-portal/docs/api-reference.html
 {
   lib,
   sloth,

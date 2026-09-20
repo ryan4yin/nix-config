@@ -1,3 +1,9 @@
+# Fork of nixpak/pkgs's gui-base.nix: the shared GUI runtime plumbing (GPU,
+# fonts, display/audio sockets, desktop caches, /dev/shm) that lets a GUI app
+# run under bubblewrap. Paths bound here must not be bound again in
+# ./custom-policy.nix or the app configs: nixpak emits read-only binds last, so
+# a duplicate read-only bind would silently shadow a writable one.
+#
 # https://github.com/nixpak/pkgs/blob/master/pkgs/modules/gui-base.nix
 {
   config,
@@ -16,7 +22,7 @@ in
   config = {
     dbus.policies = {
       "${config.flatpak.appId}" = "own";
-      # we add other policies in ./common.nix
+      # we add other policies in ./custom-policy.nix
     };
     # https://github.com/nixpak/nixpak/blob/master/modules/gpu.nix
     # The NixOS provider exposes host drivers at /run/opengl-driver (read-only)
