@@ -24,6 +24,8 @@ directory = "~/Pictures/Screenshots"
 [theme]
 source = "builtin"
 builtin = "Catppuccin"
+# Follow the sunrise/sunset schedule from [location].
+mode = "auto"
 
 # Application theming is managed by catppuccin/nix, so Noctalia templates stay off.
 [theme.templates]
