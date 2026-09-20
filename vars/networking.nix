@@ -84,13 +84,6 @@ rec {
       iface = "end1";
       ipv4 = "192.168.5.107";
     };
-    shoukei = {
-      # Apple M2 + NixOS
-      # Used only when at home
-      iface = "wlan0";
-      ipv4 = "192.168.5.108";
-      ipv6 = "fe80::11"; # Link-local Address
-    };
     rakushun = {
       # Orange Pi 5 - ARM
       # RJ45 port 1 - enP4p65s0

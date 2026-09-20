@@ -2,6 +2,9 @@
 
 This is NixOS's configuration for my Macbook Pro 2022 M2, 16G RAM.
 
+This laptop joins untrusted networks and uses DHCP instead of a static IP, so it has no entry in
+`vars/networking.nix`.
+
 Related:
 
 - [M2 Series Feature Support - Asahi Linux](https://asahilinux.org/docs/platform/feature-support/m2/)
