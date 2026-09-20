@@ -47,8 +47,12 @@ in
       # nixpak binds sockets read-only, which is sufficient: connect() only needs
       # the socket inode's write bit, and the kernel's read-only-filesystem check
       # does not apply to sockets. PulseAudio is the exception (see bind.rw).
+      # Every app here is Wayland-only, so X11 stays disabled (the nixpak default,
+      # spelled out for intent) and PipeWire is shared for screensharing.
       sockets = {
         wayland = true;
+        pipewire = true;
+        x11 = false;
       };
 
       bind.rw = [

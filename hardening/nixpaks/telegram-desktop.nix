@@ -40,12 +40,6 @@ let
             sloth.xdgVideosDir
             sloth.xdgPicturesDir
           ];
-          # Wayland is provided by ./modules/gui-base.nix as a read-only socket
-          # bind.
-          sockets = {
-            x11 = false;
-            pipewire = true;
-          };
         };
       };
   };
