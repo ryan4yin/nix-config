@@ -82,8 +82,8 @@ let
             (sloth.concat' sloth.xdgConfigHome "/dconf")
           ];
 
-          # Wayland is bound read-write by ./modules/gui-base.nix; enabling
-          # nixpak's `sockets.wayland` would add a read-only bind that shadows it.
+          # Wayland is provided by ./modules/gui-base.nix as a read-only socket
+          # bind.
           sockets = {
             x11 = false;
             pipewire = true;

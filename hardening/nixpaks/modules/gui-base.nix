@@ -1,6 +1,6 @@
 # Fork of nixpak/pkgs's gui-base.nix: the shared GUI runtime plumbing (GPU,
-# fonts, display/audio sockets, desktop caches, /dev/shm) that lets a GUI app
-# run under bubblewrap. Paths bound here must not be bound again in
+# fonts, desktop caches, /dev/shm, and the audio/display sockets) that lets a
+# GUI app run under bubblewrap. Paths bound here must not be bound again in
 # ./custom-policy.nix or the app configs: nixpak emits read-only binds last, so
 # a duplicate read-only bind would silently shadow a writable one.
 #
@@ -43,6 +43,14 @@ in
       # Nixpak uses --ro-bind-try / --dev-bind-try: absent host paths are skipped,
       # so shared mappings work on Intel/NVIDIA hosts and Apple Silicon alike.
       network = lib.mkDefault false;
+
+      # nixpak binds sockets read-only, which is sufficient: connect() only needs
+      # the socket inode's write bit, and the kernel's read-only-filesystem check
+      # does not apply to sockets. PulseAudio is the exception (see bind.rw).
+      sockets = {
+        wayland = true;
+      };
+
       bind.rw = [
         [
           (envSuffix "HOME" "/.var/app/${config.flatpak.appId}/cache")
@@ -50,12 +58,6 @@ in
         ]
         (sloth.concat' sloth.xdgCacheHome "/fontconfig")
         (sloth.concat' sloth.xdgCacheHome "/mesa_shader_cache")
-
-        (sloth.concat [
-          (sloth.env "XDG_RUNTIME_DIR")
-          "/"
-          (sloth.envOr "WAYLAND_DISPLAY" "no")
-        ])
 
         (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
         (envSuffix "XDG_RUNTIME_DIR" "/gvfsd")
