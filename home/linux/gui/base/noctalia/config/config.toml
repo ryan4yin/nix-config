@@ -21,6 +21,13 @@ setup_wizard_enabled = false
 annotate = true
 directory = "~/Pictures/Screenshots"
 
+# On-screen display popups: move the input-method/keyboard-layout OSD (shown on
+# every IM change, e.g. focusing an input box) out of the top-center lane and
+# pair it with notifications in the top-right corner. Also moves volume,
+# brightness, and the other OSD kinds; notifications keep their own position.
+[osd]
+position = "top_right"
+
 [theme]
 source = "builtin"
 builtin = "Catppuccin"
