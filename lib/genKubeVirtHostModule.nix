@@ -138,6 +138,14 @@ in
     };
   };
 
+  # systemd-journal - cap disk usage, but keep plenty of history on the big
+  # persistent disk (/var/log is preserved to /persistent).
+  # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html
+  services.journald.settings.Journal = {
+    SystemMaxUse = "10G";
+    RuntimeMaxUse = "256M";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
