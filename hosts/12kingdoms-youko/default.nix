@@ -40,7 +40,6 @@ in
     # It is a JMicron JMS567 that resets and throws link (UDMA-CRC) + I/O errors.
     "usbcore.autosuspend=-1" # no USB autosuspend
     "usb-storage.delay_use=10" # give the bridge time to settle after probing
-    "pcie_aspm=off" # ASPM can also make the link flap
   ];
 
   # Keep the bridge powered: a suspended device is what most often triggers a
@@ -50,7 +49,10 @@ in
   '';
 
   # A spindown/spinup is a common trigger for the bridge resetting, so disable
-  # APM/standby on the HDDs. Best effort: hdparm may not get through the bridge.
+  # APM/standby on the HDDs. sdb in particular has ~1M load cycles (WD
+  # Intellipark), so stopping the idle head-parking also saves its mechanism.
+  # Read the settings back into the journal, and re-assert them hourly: the
+  # bridge or the disk's own firmware can drop them.
   systemd.services.hdd-no-spindown = {
     description = "Disable APM/standby on the USB HDDs";
     after = [ "local-fs.target" ];
@@ -60,9 +62,22 @@ in
       RemainAfterExit = true;
     };
     script = ''
-      ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 ${hddPublic} || true
-      ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 ${hddEncrypted} || true
+      for d in ${hddPublic} ${hddEncrypted}; do
+        echo "== $d =="
+        ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 "$d" || true
+        ${pkgs.hdparm}/bin/hdparm -B "$d" || true
+        ${pkgs.hdparm}/bin/hdparm -C "$d" || true
+      done
     '';
+  };
+
+  systemd.timers.hdd-no-spindown = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "10min";
+      OnUnitActiveSec = "1h";
+      Persistent = true;
+    };
   };
 
   # Watch the disks with SMART. UDMA_CRC_Error_Count growth is the early warning
