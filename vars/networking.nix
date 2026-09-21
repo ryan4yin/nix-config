@@ -187,6 +187,8 @@ rec {
           # Define the root user's host key for remote builders, so that nix can verify all the remote builders
 
           aquamarine.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEOXFhFu9Duzp6ZBE288gDZ6VLrNaeWL4kDrFUh9Neic root@aquamarine";
+          # the restic backup server
+          youko.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEs8b3CmxM+utXZVKvJBssXBupBXvvzjHP40HcY7PSyZ root@youko";
           # ruby.publicKey = "";
           # kana.publicKey = "";
 

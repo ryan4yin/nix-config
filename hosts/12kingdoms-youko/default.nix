@@ -36,9 +36,40 @@ in
     repository = "/data/backups/restic/youko";
     snapshotSource = "/btr_pool/@persistent";
     requiresMountsFor = "/data/backups";
+    exclude = [
+      # regenerable, huge, or unsuitable for file-level backup
+      #
+      # the whole podman storage tree: the image layers are re-pullable, and its
+      # storage DB is not consistent when copied from a running podman.
+      # (uptime-kuma uses a named volume under here; its data is not wanted.)
+      "var/lib/containers"
+      "var/lib/microvms"
+      "var/lib/libvirt"
+      "nfs"
+      "var/cache"
+      "var/tmp"
+      "var/log"
+      "*.qcow2"
+    ];
   };
 
   modules.btrbk.enable = true;
+
+  # The restic REST server the desktops push their backups to. Append-only, so
+  # a compromised client still cannot delete history; private repos, so each
+  # client only reaches the repository named after its user. Credentials come
+  # from agenix; caddy terminates TLS in front of it.
+  services.restic.server = {
+    enable = true;
+    listenAddress = "127.0.0.1:8000";
+    dataDir = "/data/backups/rest-server";
+    appendOnly = true;
+    privateRepos = true;
+    "htpasswd-file" = config.age.secrets."restic-rest-htpasswd".path;
+  };
+
+  # repositories live on the HDD, which has to be mounted first
+  systemd.services.restic-rest-server.unitConfig.RequiresMountsFor = "/data/backups";
 
   boot.kernelParams = [
     # Use transparent huge pages on demand (madvise) instead of a fixed 1G hugetlb
