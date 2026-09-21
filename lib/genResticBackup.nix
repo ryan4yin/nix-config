@@ -19,7 +19,10 @@
     inherit repository;
     initialize = true;
     passwordFile = "/etc/agenix/restic-password";
-    paths = [ "/etc/agenix" ] ++ paths;
+    # NOTE: no keys/credentials are ever included. Besides the obvious risk,
+    # restic's own password lives in /etc/agenix - backing that up would store
+    # the repository's password inside the repository itself.
+    paths = paths;
 
     # Regenerable, huge, or unsuitable for file-level backup:
     # - podman's overlay/image layers (re-pull the images); its named volumes
@@ -38,6 +41,13 @@
       "/persistent/var/tmp"
       "/persistent/var/log"
       "*.qcow2"
+      # keys and credentials are never backed up
+      "/persistent/etc/agenix"
+      "/persistent/etc/ssh/ssh_host_*"
+      "**/.ssh"
+      "**/.gnupg"
+      "**/.aws"
+      "**/.config/gcloud"
     ];
 
     timerConfig = {
