@@ -20,7 +20,7 @@ How this fleet is backed up, where the data lives, and how to restore it.
    ([`modules/nixos/base/restic-backup.nix`](./modules/nixos/base/restic-backup.nix)). Encryption
    happens on the client, so the server only ever stores ciphertext. youko runs `restic-rest-server`
    with `--append-only` and `--private-repos`, authenticated by htpasswd, published behind caddy as
-   `backup.writefor.fun`.
+   `restic.writefor.fun`.
 3. **cloud copy** (planned). youko will copy the homelab repositories with `restic copy` (it holds
    that password). Desktops copy their own: youko does not hold the desktop password.
 
@@ -95,7 +95,7 @@ Remote (REST) repositories also need the service credentials:
 
 ```bash
 set -a; . /run/agenix/restic-rest-credentials; set +a
-restic -r rest:https://backup.writefor.fun/idols-ai/ \
+restic -r rest:https://restic.writefor.fun/idols-ai/ \
   --password-file /run/agenix/restic-password snapshots
 ```
 
@@ -131,6 +131,6 @@ Restoring a btrbk snapshot (offline; stop writers first):
 | [`modules/nixos/base/restic-backup.nix`](./modules/nixos/base/restic-backup.nix) | client module: repository, paths, excludes, schedule |
 | [`modules/nixos/base/btrbk.nix`](./modules/nixos/base/btrbk.nix)                 | local btrfs snapshots                                |
 | `hosts/12kingdoms-youko/default.nix`                                             | the REST server and youko's own backup               |
-| `hosts/12kingdoms-youko/homelab-services/caddy.nix`                              | the `backup.writefor.fun` vhost                      |
+| `hosts/12kingdoms-youko/homelab-services/caddy.nix`                              | the `restic.writefor.fun` vhost                      |
 | `secrets/nixos.nix`                                                              | which secret is defined on which host                |
 | `hosts/<host>/restic.nix`                                                        | per-host backup configuration                        |

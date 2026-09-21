@@ -17,7 +17,7 @@
   # credentials come from a systemd EnvironmentFile so they stay out of the URL.
   modules.restic-backup = {
     enable = true;
-    repository = "rest:https://backup.writefor.fun/idols-ai/";
+    repository = "rest:https://restic.writefor.fun/idols-ai/";
     environmentFile = config.age.secrets."restic-rest-credentials".path;
 
     paths = [
