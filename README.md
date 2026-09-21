@@ -27,12 +27,11 @@ This repository is home to the Nix code that builds all of my systems:
    agenix.
 2. **macOS desktops** — nix-darwin + Home Manager, sharing the same `home/` configuration with the
    NixOS desktops.
-3. **NixOS servers** — VMs running on three physical mini PCs, hosting K3s clusters,
-   monitoring, and other self-hosted services.
+3. **NixOS servers** — three physical mini PCs running the VMs (libvirt and microVMs), the K3s test
+   cluster and the self-hosted services.
 
 See [./hosts](./hosts) for the host inventory, [./outputs](./outputs) for how the flake outputs are
-composed, [./Virtual-Machine.md](./Virtual-Machine.md) for creating & managing VMs, and
-[./AGENTS.md](./AGENTS.md) for the repository conventions.
+composed, and [./AGENTS.md](./AGENTS.md) for the repository conventions.
 
 ## Why NixOS & Flakes?
 
