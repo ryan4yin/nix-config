@@ -5,12 +5,12 @@
 }:
 ##############################################################################
 #
-#  Template for KubeVirt's VM, mainly based on:
+#  Template for the VM guests (formerly KubeVirt), mainly based on:
 #    https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/virtualisation/kubevirt.nix
 #
 #  We write our hardware-configuration.nix, so that we can do some customization more easily.
 #
-#  the url above is used by `nixos-generator` to generate the KubeVirt's qcow2 image file.
+#  the url above is used by `nixos-generator` to generate the guest's qcow2 image file.
 #
 ##############################################################################
 {

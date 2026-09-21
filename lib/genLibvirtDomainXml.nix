@@ -2,7 +2,7 @@
 # (BIOS/q35, virtio disk, bridged NIC, VNC display).
 #
 # The NIC is pinned to q35 PCI bus 0x02 and the disk to bus 0x04 so the guest
-# sees the same interface name it did under KubeVirt (enp2s0) and the same
+# sees the same interface name it did under the former KubeVirt (enp2s0) and the same
 # device ordering.
 { lib }:
 {

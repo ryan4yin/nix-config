@@ -2,7 +2,7 @@
   pkgs,
   hostName,
   networking,
-  # vCPU count and RAM (MiB) -- mirrors the KubeVirt instancetype
+  # vCPU count and RAM (MiB) -- mirrors the former KubeVirt instancetype
   vcpu,
   mem,
   # persistent volume sizes in MiB

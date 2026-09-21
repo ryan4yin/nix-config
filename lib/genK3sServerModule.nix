@@ -62,7 +62,7 @@ in
           "--write-kubeconfig=${kubeconfigFile}"
           "--write-kubeconfig-mode=600"
           "--service-node-port-range=80-32767"
-          "--kube-apiserver-arg='--allow-privileged=true'" # required by kubevirt
+          "--kube-apiserver-arg='--allow-privileged=true'" # required by the former KubeVirt VMs
           "--data-dir /var/lib/rancher/k3s"
           "--etcd-expose-metrics=true"
           "--etcd-snapshot-schedule-cron='0 */12 * * *'"

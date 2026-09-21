@@ -154,15 +154,6 @@ in
       };
     })
 
-    (mkIf cfg.server.network.enable {
-      age.secrets = {
-        "dae-subscription.dae" = {
-          file = "${mysecrets}/server/dae-subscription.dae.age";
-        }
-        // high_security;
-      };
-    })
-
     (mkIf cfg.server.application.enable {
       age.secrets = {
         "transmission-credentials.json" = {

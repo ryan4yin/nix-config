@@ -34,5 +34,4 @@ mv /etc/ssh /persistent/etc/
 mkdir -p /persistent/home/ryan
 chown -R ryan:ryan /persistent/home/ryan
 
-# add your k3s token at /persistent/kubevirt-k3s-token
 ```

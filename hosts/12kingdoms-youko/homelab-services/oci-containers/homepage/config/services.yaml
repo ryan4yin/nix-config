@@ -7,25 +7,22 @@
 #   2. mdi-XXX:   https://pictogrammers.com/library/mdi/
 #   3. si-XXX:    https://simpleicons.org/
 
-- KubeVirt 虚拟化集群:
-    - KubeVirt-Shoryu:
+- 虚拟化宿主机:
+    - Shoryu:
         icon: mdi-server
         description: "CPU: R7-5825U / MEM: 64G / DISK: 1T"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.181:9100
-    - KubeVirt-Shushou:
+    - Shushou:
         icon: mdi-server
         description: "CPU: R9-5900HX / MEM: 64G / DISK: 1T"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
-    - KubeVirt-Youko:
+    - Youko:
         icon: mdi-server
         description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
-    - LongHorn-Storage:
-        icon: longhorn.svg
-        href: http://longhorn.writefor.fun/
 
     # remote write to main prometheus, disable those two
     # - Victoria-Metrics:

@@ -57,7 +57,7 @@ modules/
     │   ├── virtualisation.nix # Virtualization support
     │   └── xdg.nix       # XDG base directory settings
     └── server/             # Server-specific modules
-        ├── kubevirt-hardware-configuration.nix
+        ├── qemu-guest-hardware-configuration.nix
         ├── server-aarch64.nix
         ├── server-riscv64.nix
         └── server.nix
