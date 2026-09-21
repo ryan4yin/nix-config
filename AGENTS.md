@@ -68,6 +68,10 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - `just clean`, `just gc`, `just ggc`, and `just game` remove history or amend commits; they are not
   validation steps and require explicit authorization for their target and scope.
 - Do not use `just penvof` for process inspection: it can expose secret values.
+- MicroVM guests (`k3s-test-1-master-*`) keep their state in
+  `/var/lib/microvms/<name>/{etc,var,home}.img` on their host. Deleting or recreating an image loses
+  the node's identity and cluster state; to resize one, stop the guest and grow the image in place
+  (`truncate` + `e2fsck -f` + `resize2fs`) rather than re-creating it.
 
 ## Further Context
 

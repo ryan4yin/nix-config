@@ -229,3 +229,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# the library modules under lib/ must stay tracked
+!lib/*.nix

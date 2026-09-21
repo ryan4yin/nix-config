@@ -17,26 +17,34 @@ cluster, including other Kubernetes clusters.
 
 ## K3s Clusters
 
-Clusters running as virtual machines on the KubeVirt cluster, for testing and development.
+The control plane runs as NixOS **microVMs** ([microvm.nix]) on the physical hosts, not as KubeVirt
+VMs. Each guest keeps its state in three sparse ext4 images under the host's
+`/var/lib/microvms/<name>/`:
 
-![](_img/2024-02-18_k8s-nodes-overview.webp)
+- `etc.img` (64M) — the ssh host key (also the agenix age identity) and `machine-id`
+- `var.img` (20G) — k3s state (`/var/lib/rancher/k3s`) and the NixOS uid/gid maps
+- `home.img` (4G) — the user's home
 
-1. `k3s-test-1-master-1`
-1. `k3s-test-1-master-2`
-1. `k3s-test-1-master-3`
-1. `k3s-test-1-worker-1`
-1. `k3s-test-1-worker-2`
-1. `k3s-test-1-worker-3`
+The guest's root is a tmpfs and `/nix/store` is the host's store shared read-only (virtiofs), so no
+image has to be built or uploaded; only the volumes above persist. The guest's tap interface is
+bridged onto `br0`, and its name is derived from the guest IP (e.g. `192.168.5.114` -> `vm114`, as
+`IFNAMSIZ` caps interface names at 15 characters).
+
+To move an existing KubeVirt VM over in place, copy the host key and `machine-id` from its disk into
+`etc.img`, and `/var/lib/rancher/k3s/server` into `var.img`, **before the first boot** — then it
+keeps its identity and etcd membership instead of bootstraping a new cluster.
+
+1. `k3s-test-1-master-{1,2,3}` — running as microVMs
+1. `k3s-test-1-worker-{1,2,3}` — to be re-added as microVMs
 
 ## TODO / Known issues
 
+- **Retire KubeVirt.** aquamarine now runs natively on `kubevirt-youko`, and the k3s-test masters
+  run as microVMs. Remove KubeVirt/CDI/multus from the cluster (k8s-gitops) once nothing else needs
+  them, and the Windows VM is the only KubeVirt VM left to move.
 - **The USB HDD bridge is flaky.** aquamarine's two HDDs sit behind a JMicron JMS567 USB-SATA bridge
   that keeps resetting (`dmesg` on `kubevirt-youko`). Find out how often it resets and how much it
   matters before putting anything critical (e.g. an NFS export) on it.
-- **Move aquamarine out of KubeVirt.** It is a "core" machine, so it should not depend on the
-  k8s/KubeVirt control plane; run it as a NixOS microVM on `kubevirt-youko` (`microvm.nix`) instead,
-  reusing its current disk. Consider consolidating the NFS server onto it afterwards (with a fast
-  and a slow tier).
 
 ## Kubernetes Resources
 
@@ -44,5 +52,6 @@ Kubernetes resources are deployed and managed separately through
 [ryan4yin/k8s-gitops](https://github.com/ryan4yin/k8s-gitops).
 
 [k3s]: https://github.com/k3s-io/k3s/
+[microvm.nix]: https://github.com/microvm-nix/microvm.nix
 [what-have-k3s-removed-from-upstream-kubernetes]:
   https://github.com/k3s-io/k3s/?tab=readme-ov-file#what-have-you-removed-from-upstream-kubernetes
