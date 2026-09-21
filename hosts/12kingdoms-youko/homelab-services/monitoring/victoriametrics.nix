@@ -78,6 +78,22 @@ in
         */
 
         {
+          job_name = "restic-rest-server";
+          scrape_interval = "60s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              # same-host rest-server bound to loopback (127.0.0.1:8000)
+              targets = [ "127.0.0.1:8000" ];
+              labels.type = "app";
+              labels.app = "restic";
+              labels.host = "youko";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
+        {
           job_name = "v2ray-exporter";
           scrape_interval = "30s";
           metrics_path = "/metrics";

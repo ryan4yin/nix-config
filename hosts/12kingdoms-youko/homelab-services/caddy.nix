@@ -66,6 +66,9 @@ in
     # the restic REST server the backup clients push to
     virtualHosts."restic.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
+      # metrics are scraped over loopback only, never through this vhost
+      @metrics path /metrics
+      respond @metrics 403
       reverse_proxy http://localhost:8000
     '';
     # Every other name is not a service on this host: answer 404 instead of
