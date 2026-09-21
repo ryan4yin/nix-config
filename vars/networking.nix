@@ -119,6 +119,21 @@ rec {
       iface = "enp2s0";
       ipv4 = "192.168.5.116";
     };
+    k3s-test-1-worker-1 = {
+      # KubeVirt VM
+      iface = "enp2s0";
+      ipv4 = "192.168.5.111";
+    };
+    k3s-test-1-worker-2 = {
+      # KubeVirt VM
+      iface = "enp2s0";
+      ipv4 = "192.168.5.112";
+    };
+    k3s-test-1-worker-3 = {
+      # KubeVirt VM
+      iface = "enp2s0";
+      ipv4 = "192.168.5.113";
+    };
   };
 
   hostsInterface = lib.attrsets.mapAttrs (key: val: {
