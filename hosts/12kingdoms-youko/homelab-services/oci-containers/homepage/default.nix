@@ -29,10 +29,11 @@ in
       hostname = "homepage";
       image = "ghcr.io/gethomepage/homepage:latest";
       ports = [ "127.0.0.1:54401:3000" ];
-      # https://github.com/louislam/uptime-kuma/wiki/Environment-Variables
+      # https://github.com/gethomepage/homepage#environment-variables
       environment = {
-        # "PUID" = config.users.users.${user}.uid;
-        # "PGID" = config.users.groups.${user}.gid;
+        # homepage rejects requests whose Host header it does not know about.
+        # caddy proxies with the original Host (`home.writefor.fun`).
+        HOMEPAGE_ALLOWED_HOSTS = "home.writefor.fun";
       };
       volumes = [
         "${configDir}:/app/config"
