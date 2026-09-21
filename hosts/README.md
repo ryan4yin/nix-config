@@ -10,14 +10,15 @@ This directory contains all host-specific configurations for my NixOS and macOS 
 
 Named after characters from "Oshi no Ko":
 
-| Host    | Platform        | Hardware              | Purpose            | Status    |
-| ------- | --------------- | --------------------- | ------------------ | --------- |
-| `ai`    | NixOS           | i5-13600KF + RTX 4090 | Gaming & Daily Use | ✅ Active |
-| `kana`  | NixOS (libvirt) | Virtual               | Run AI Agents      | ✅ Active |
-| `ruby`  | NixOS (libvirt) | Virtual               | Run AI Agents      | ✅ Active |
-| `akane` | NixOS (aarch64) | Virtual (UTM)         | aarch64 test VM    | ✅ Active |
+| Host         | Platform        | Hardware              | Purpose               | Status      |
+| ------------ | --------------- | --------------------- | --------------------- | ----------- |
+| `ai`         | NixOS           | i5-13600KF + RTX 4090 | Gaming & Daily Use    | ✅ Active   |
+| `aquamarine` | NixOS (libvirt) | Virtual               | Monitoring & Services | ⚪ Not Used |
+| `kana`       | NixOS (libvirt) | Virtual               | Run AI Agents         | ✅ Active   |
+| `ruby`       | NixOS (libvirt) | Virtual               | Run AI Agents         | ✅ Active   |
+| `akane`      | NixOS (aarch64) | Virtual (UTM)         | aarch64 test VM       | ✅ Active   |
 
-`aquamarine` was retired; its services now run directly on `youko`
+`aquamarine` is retired; its services now run directly on `youko`
 (`hosts/12kingdoms-youko/homelab-services/`).
 
 #### `darwin` - macOS Systems
