@@ -36,6 +36,10 @@ in
     repository = "/data/backups/restic/youko";
     snapshotSource = "/btr_pool/@persistent";
     requiresMountsFor = "/data/backups";
+    # This host both receives the desktops' pushes and backs itself up, and
+    # btrbk runs at 03:45 on Tue/Sat. The desktop pushes at 01:30, so run here
+    # at 02:30: staggered, and clear of both.
+    onCalendar = "02:30";
     exclude = [
       # regenerable, huge, or unsuitable for file-level backup
       #

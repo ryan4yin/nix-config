@@ -92,6 +92,23 @@ in
       '';
     };
 
+    onCalendar = lib.mkOption {
+      type = lib.types.str;
+      default = "01:30";
+      description = ''
+        systemd calendar expression for the backup timer. Give every host its
+        own slot rather than relying on the random delay: a client's off-host
+        push, the backup server's own run and btrbk (Tue/Sat 03:45:20 by
+        default) all contend for the same disks otherwise.
+      '';
+    };
+
+    randomizedDelaySec = lib.mkOption {
+      type = lib.types.str;
+      default = "15m";
+      description = "Extra random delay on top of {option}`onCalendar`, to smooth load.";
+    };
+
     pruneOpts = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
@@ -136,8 +153,7 @@ in
       ++ cfg.exclude;
 
       timerConfig = {
-        OnCalendar = "01:30";
-        RandomizedDelaySec = "1h";
+        inherit (cfg) onCalendar randomizedDelaySec;
       };
 
       inherit (cfg) pruneOpts;
