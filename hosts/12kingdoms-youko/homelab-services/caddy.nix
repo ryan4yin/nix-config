@@ -64,7 +64,7 @@ in
       reverse_proxy http://localhost:3303
     '';
     # the restic REST server the backup clients push to
-    virtualHosts."backup.writefor.fun".extraConfig = ''
+    virtualHosts."restic.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
       reverse_proxy http://localhost:8000
     '';
