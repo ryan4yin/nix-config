@@ -20,6 +20,14 @@ let
       mac = "52:54:00:5a:51:02";
       vncPort = 5902;
     };
+    idols-ruby = {
+      uuid = "3a959d02-11de-498d-bce7-85f78713ca63";
+      vcpu = 4;
+      memoryGiB = 8;
+      disk = "/var/lib/libvirt/images/idols-ruby.img";
+      mac = "52:54:00:5a:51:03";
+      vncPort = 5903;
+    };
   };
 in
 {
