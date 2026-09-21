@@ -18,6 +18,23 @@ rec {
   ];
   prefixLength = 24;
 
+  # Dedicated VIP block for the k3s clusters, outside the router's DHCP pool
+  # (.2-.99). One /29 per cluster, handed to kube-vip: the first usable address
+  # is the control-plane API VIP, the rest are LoadBalancer service VIPs.
+  k8sVip = {
+    cidr = "192.168.5.192/27";
+    clusters = {
+      k3s-test-1 = {
+        cidr = "192.168.5.192/29";
+        apiVip = "192.168.5.193";
+      };
+      # Reserved for future clusters:
+      #   .200/29  apiVip .201
+      #   .208/29  apiVip .209
+      #   .216/29  apiVip .217
+    };
+  };
+
   hostsAddr = {
     # ============================================
     # Homelab's Physical Machines (VM hosts)
