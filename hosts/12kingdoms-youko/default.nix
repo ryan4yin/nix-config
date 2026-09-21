@@ -28,15 +28,14 @@ in
     coreModule
   ];
 
-  # the whole preserved tree; the module's excludes drop the regenerable bulk
-  # (podman's overlay layers, the microVM/libvirt images, nfs, logs, caches)
-  # and all keys/credentials
+  # Back up the preserved tree through a short-lived read-only snapshot, so the
+  # backup is a consistent point-in-time; the module's excludes drop the
+  # regenerable bulk and all keys/credentials.
   modules.restic-backup = {
     enable = true;
     repository = "/data/backups/restic/youko";
-    paths = [ "/persistent" ];
+    snapshotSource = "/btr_pool/@persistent";
     requiresMountsFor = "/data/backups";
-    postgresDump = true;
   };
 
   modules.btrbk.enable = true;

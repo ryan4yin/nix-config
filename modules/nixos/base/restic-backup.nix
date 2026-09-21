@@ -6,6 +6,12 @@
 }:
 let
   cfg = config.modules.restic-backup;
+
+  # A short-lived, read-only btrfs snapshot taken by the backup itself, so the
+  # backup is a consistent point-in-time (a live copy of, say, a running
+  # postgres data directory is only crash-consistent). It is deleted right
+  # after, so it is not a second backup - just a consistency step.
+  snapshotPath = "${builtins.dirOf cfg.snapshotSource}/@restic-snapshot";
 in
 {
   # ==================================================================
@@ -14,8 +20,8 @@ in
   #
   # Part 2 (copying the critical snapshots to a cloud object store with
   # `restic copy`) is a later step. btrbk keeps making the cheap local btrfs
-  # snapshots; it works at the subvolume level, so off-host copies are restic's
-  # job (restic can exclude the regenerable bulk at the file level).
+  # snapshots for rollbacks; off-host copies are restic's job (restic can
+  # exclude the regenerable bulk at the file level).
   #
   # Keys and credentials are NEVER included: restic's own password lives in
   # /etc/agenix, so backing that up would store the repository's password
@@ -31,16 +37,26 @@ in
       description = "Restic repository, e.g. a path under a mounted backup disk.";
     };
 
+    snapshotSource = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "/btr_pool/@persistent";
+      description = ''
+        btrfs subvolume to back up through a short-lived read-only snapshot.
+        When null, `paths` is backed up directly.
+      '';
+    };
+
     paths = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
-      description = "Paths to back up.";
+      description = "Paths to back up (used when {option}`snapshotSource` is null).";
     };
 
     exclude = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
-      description = "Patterns to exclude, in addition to the keys/credentials below.";
+      description = "Extra exclude patterns, on top of the built-in ones.";
     };
 
     requiresMountsFor = lib.mkOption {
@@ -52,15 +68,6 @@ in
         not-yet-mounted directory.
       '';
     };
-
-    postgresDump = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = ''
-        Dump all postgres databases before the backup, so the restore has a
-        consistent SQL artifact next to the (crash-consistent) data directory.
-      '';
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -68,25 +75,28 @@ in
       inherit (cfg) repository;
       initialize = true;
       passwordFile = "/etc/agenix/restic-password";
-      inherit (cfg) paths;
+
+      paths = if cfg.snapshotSource != null then [ snapshotPath ] else cfg.paths;
+
+      # Relative to the backed-up tree, so they work for both the snapshot and
+      # a direct path.
       exclude = [
         # regenerable, huge, or unsuitable for file-level backup
         #
         # the whole podman storage tree: the image layers are re-pullable, and
-        # its storage DB is not consistent when backed up from a running podman.
-        # (uptime-kuma uses a named volume under here; its data is intentionally
-        # not preserved.)
-        "/persistent/var/lib/containers"
-        "/persistent/var/lib/microvms"
-        "/persistent/var/lib/libvirt"
-        "/persistent/nfs"
-        "/persistent/var/cache"
-        "/persistent/var/tmp"
-        "/persistent/var/log"
+        # its storage DB is not consistent when copied from a running podman.
+        # (uptime-kuma uses a named volume under here; its data is not wanted.)
+        "var/lib/containers"
+        "var/lib/microvms"
+        "var/lib/libvirt"
+        "nfs"
+        "var/cache"
+        "var/tmp"
+        "var/log"
         "*.qcow2"
         # keys and credentials are never backed up
-        "/persistent/etc/agenix"
-        "/persistent/etc/ssh/ssh_host_*"
+        "etc/agenix"
+        "etc/ssh/ssh_host_*"
         "**/.ssh"
         "**/.gnupg"
         "**/.aws"
@@ -105,12 +115,13 @@ in
         "--keep-monthly 2"
       ];
     }
-    // lib.optionalAttrs cfg.postgresDump {
+    // lib.optionalAttrs (cfg.snapshotSource != null) {
       backupPrepareCommand = ''
-        ${pkgs.sudo}/bin/sudo -u postgres ${pkgs.postgresql_16}/bin/pg_dumpall --clean \
-          > /var/lib/postgresql/all-databases.sql
+        ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r ${cfg.snapshotSource} ${snapshotPath}
       '';
-      backupCleanupCommand = "rm -f /var/lib/postgresql/all-databases.sql";
+      backupCleanupCommand = ''
+        ${pkgs.btrfs-progs}/bin/btrfs subvolume delete ${snapshotPath}
+      '';
     };
 
     systemd.services.restic-backups-homelab.unitConfig =
