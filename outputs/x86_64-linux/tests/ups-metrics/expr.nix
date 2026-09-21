@@ -4,8 +4,8 @@
   ...
 }:
 let
-  shushou = outputs.nixosConfigurations.kubevirt-shushou.config;
-  aquamarine = outputs.nixosConfigurations.kubevirt-youko.config;
+  shushou = outputs.nixosConfigurations.shushou.config;
+  aquamarine = outputs.nixosConfigurations.youko.config;
   ups = shushou.power.ups.ups.homelab or { };
   exporter = shushou.services.prometheus.exporters.nut;
   exporterService =

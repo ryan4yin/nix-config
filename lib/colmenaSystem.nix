@@ -8,6 +8,9 @@
   system,
   tags,
   ssh-user,
+  # optional override; defaults to the host name. Use an IP when the host's
+  # DNS name is not resolvable yet (e.g. right after a hostname change).
+  targetHost ? null,
   genSpecialArgs,
   specialArgs ? (genSpecialArgs system),
   ...
@@ -20,7 +23,7 @@ in
   deployment = {
     inherit tags;
     targetUser = ssh-user;
-    targetHost = name; # hostName or IP address
+    targetHost = if targetHost != null then targetHost else name;
   };
 
   imports =

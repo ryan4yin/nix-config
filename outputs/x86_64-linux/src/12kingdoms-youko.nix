@@ -11,7 +11,7 @@
   ...
 }@args:
 let
-  name = "kubevirt-youko";
+  name = "youko";
   tags = [
     name
     "virt-youko"
@@ -25,7 +25,7 @@ let
         "secrets/nixos.nix"
         "modules/nixos/server/server.nix"
         # host specific
-        "hosts/k8s/${name}"
+        "hosts/12kingdoms-${name}"
       ])
       ++ [
         {
@@ -40,7 +40,14 @@ in
 {
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
-  colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
+  colmena.${name} = mylib.colmenaSystem (
+    systemArgs
+    // {
+      inherit tags ssh-user;
+      # reach the host by IP: its DNS name changes with the hostname
+      targetHost = myvars.networking.hostsAddr.${name}.ipv4;
+    }
+  );
 
   packages.${name} = inputs.self.nixosConfigurations.${name}.config.system.build.images.iso;
 }

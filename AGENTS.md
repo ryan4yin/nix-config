@@ -61,7 +61,7 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - Deployment and upload recipes change systems; use eval/build commands for validation. Remote
   deployment requires an explicit request. When deployment behavior changes, report the exact `just`
   command to run.
-- KubeVirt hosts (`kubevirt-shoryu`/`shushou`/`youko`): avoid mid-flight restarts of the network
+- KubeVirt hosts (`shoryu`/`shushou`/`youko`): avoid mid-flight restarts of the network
   stack (`systemd-networkd` / the `br0` bridge) — that can drop the VM network. Use `boot` + serial
   reboot for networking or nixpkgs changes. See
   [hosts/README.md](./hosts/README.md#deploying-kubevirt-hosts).

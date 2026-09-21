@@ -39,11 +39,11 @@ keeps its identity and etcd membership instead of bootstraping a new cluster.
 
 ## TODO / Known issues
 
-- **Retire KubeVirt.** aquamarine now runs natively on `kubevirt-youko`, and the k3s-test masters
+- **Retire KubeVirt.** aquamarine now runs natively on `youko`, and the k3s-test masters
   run as microVMs. Remove KubeVirt/CDI/multus from the cluster (k8s-gitops) once nothing else needs
   them, and the Windows VM is the only KubeVirt VM left to move.
 - **The USB HDD bridge is flaky.** aquamarine's two HDDs sit behind a JMicron JMS567 USB-SATA bridge
-  that keeps resetting (`dmesg` on `kubevirt-youko`). Find out how often it resets and how much it
+  that keeps resetting (`dmesg` on `youko`). Find out how often it resets and how much it
   matters before putting anything critical (e.g. an NFS export) on it.
 
 ## Kubernetes Resources

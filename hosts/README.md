@@ -104,13 +104,13 @@ Use existing hosts as templates. The key files typically include:
 ### Examples to Reference
 
 - **Desktop systems**: See `idols-ai/` for gaming/workstation setup
-- **Server systems**: See `kubevirt-shoryu/` for K8s/KubeVirt hosts
+- **Server systems**: See `shoryu/` for K8s/KubeVirt hosts
 - **macOS systems**: See `darwin-fern/` for macOS configurations
 - **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
 
 ## Deploying KubeVirt Hosts
 
-The three KubeVirt hosts (`kubevirt-shoryu`, `kubevirt-shushou`, `kubevirt-youko`) put their VMs'
+The three KubeVirt hosts (`shoryu`, `shushou`, `youko`) put their VMs'
 secondary network on the Linux bridge `br0` (attached by the `bridge` CNI plugin); the pod network
 is Cilium (flannel disabled).
 

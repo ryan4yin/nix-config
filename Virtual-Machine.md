@@ -1,6 +1,6 @@
 ## How to create & managage KubeVirt's Virtual Machine from this flake?
 
-> [!NOTE] KubeVirt is being retired. aquamarine runs natively on `kubevirt-youko` and the k3s-test
+> [!NOTE] KubeVirt is being retired. aquamarine runs natively on `youko` and the k3s-test
 > nodes run as [microVMs](./hosts/k8s/README.md); this document only covers the KubeVirt VMs that
 > are left to move (currently the Windows VM).
 
@@ -22,7 +22,7 @@ commands:
 
 ```shell
 just col aquamarine
-just col kubevirt-shoryu
+just col shoryu
 
 # Set a configuration for the next boot instead of switching immediately
 just col aquamarine boot

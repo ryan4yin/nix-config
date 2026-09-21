@@ -17,7 +17,7 @@ sudo nix --experimental-features "nix-command flakes" run github:nix-community/d
 systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part-path>
 
 ## 3. install nixos
-sudo nixos-install --root /mnt --no-root-password --show-trace --verbose --flake .#kubevirt-shoryu
+sudo nixos-install --root /mnt --no-root-password --show-trace --verbose --flake .#shoryu
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login

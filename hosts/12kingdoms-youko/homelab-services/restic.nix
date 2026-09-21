@@ -44,9 +44,9 @@ in
         backupPrepareCommand = ''
           ${pkgs.nushell}/bin/nu -c '
             let kubevirt_nodes = [
-              "kubevirt-shoryu"
-              "kubevirt-shushou"
-              "kubevirt-youko"
+              "shoryu"
+              "shushou"
+              "youko"
             ]
 
             kubevirt_nodes | each {|it|
