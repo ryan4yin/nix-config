@@ -74,7 +74,8 @@ in
     services.restic.backups.homelab = {
       inherit (cfg) repository;
       initialize = true;
-      passwordFile = "/etc/agenix/restic-password";
+      # agenix's default location (the decrypted secret lives in a tmpfs)
+      passwordFile = "/run/agenix/restic-password";
 
       paths = if cfg.snapshotSource != null then [ snapshotPath ] else cfg.paths;
 
