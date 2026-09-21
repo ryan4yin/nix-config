@@ -25,7 +25,7 @@ let
         # common
         "secrets/nixos.nix"
         "modules/nixos/server/server.nix"
-        "modules/nixos/server/kubevirt-hardware-configuration.nix"
+        "modules/nixos/server/qemu-guest-hardware-configuration.nix"
         # host specific
         "hosts/idols-${name}"
       ])
