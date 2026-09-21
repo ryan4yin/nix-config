@@ -5,6 +5,10 @@
   # vCPU count and RAM (MiB) -- mirrors the KubeVirt instancetype
   vcpu,
   mem,
+  # persistent volume sizes in MiB
+  etcSize ? 64,
+  varSize ? 4096,
+  homeSize ? 4096,
   # extra stateful mounts (e.g. aquamarine's /data on the passed-through HDDs)
   extraVolumes ? [ ],
   ...
@@ -60,17 +64,17 @@ in
       {
         mountPoint = "/etc"; # ssh host keys (the agenix age identity!), machine-id
         image = "etc.img";
-        size = 64;
+        size = etcSize;
       }
       {
         mountPoint = "/var"; # k3s data (/var/lib/rancher/k3s), nixos uid/gid maps
         image = "var.img";
-        size = 4096;
+        size = varSize;
       }
       {
         mountPoint = "/home"; # user data
         image = "home.img";
-        size = 4096;
+        size = homeSize;
       }
     ]
     ++ extraVolumes;
