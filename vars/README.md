@@ -37,7 +37,7 @@ Comprehensive network configuration including:
 The networking configuration covers:
 
 - **Physical machines**: Desktop PCs, Apple Silicon systems, SBCs
-- **Virtual machines**: KubeVirt guests, K3s nodes
+- **Virtual machines**: VM guests, K3s nodes
 - **Kubernetes clusters**: Production and testing environments
 - **Network infrastructure**: Routers, gateways, and DNS configuration
 

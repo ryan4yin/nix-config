@@ -61,10 +61,10 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - Deployment and upload recipes change systems; use eval/build commands for validation. Remote
   deployment requires an explicit request. When deployment behavior changes, report the exact `just`
   command to run.
-- KubeVirt hosts (`shoryu`/`shushou`/`youko`): avoid mid-flight restarts of the network
+- VM hosts (`shoryu`/`shushou`/`youko`): avoid mid-flight restarts of the network
   stack (`systemd-networkd` / the `br0` bridge) — that can drop the VM network. Use `boot` + serial
   reboot for networking or nixpkgs changes. See
-  [hosts/README.md](./hosts/README.md#deploying-kubevirt-hosts).
+  [hosts/README.md](./hosts/README.md#deploying-vm-hosts).
 - `just clean`, `just gc`, `just ggc`, and `just game` remove history or amend commits; they are not
   validation steps and require explicit authorization for their target and scope.
 - Do not use `just penvof` for process inspection: it can expose secret values.

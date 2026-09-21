@@ -179,7 +179,7 @@ reset-launchpad:
 
 ############################################################################
 #
-#  Homelab - Kubevirt Cluster related commands
+#  Homelab - VM host related commands
 #
 ############################################################################
 
@@ -188,14 +188,6 @@ reset-launchpad:
 [group('homelab')]
 col tag mode="switch":
   colmena apply {{mode}} --on '@{{tag}}' --verbose --show-trace
-
-# Build and upload a vm image
-[linux]
-[group('homelab')]
-upload-vm name size verbosity="normal":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *;
-  upload-vm {{name}} {{size}} {{verbosity}}
 
 # Deploy all the VM hosts (physical machines running the VMs)
 [linux]
@@ -224,15 +216,6 @@ youko mode="switch":
 #
 ############################################################################
 
-# Build and upload a vm image
-[linux]
-[group('homelab')]
-upload-idols verbosity="normal":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *; 
-  upload-vm ruby 100Gi {{verbosity}}
-  upload-vm kana 100Gi {{verbosity}}
-
 [linux]
 [group('homelab')]
 ruby mode="switch":
@@ -248,19 +231,6 @@ kana mode="switch":
 # Kubernetes related commands
 #
 ############################################################################
-
-# Build and upload a vm image
-[linux]
-[group('homelab')]
-upload-k3s-test verbosity="normal":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *; 
-  upload-vm k3s-test-1-master-1 50Gi {{verbosity}};
-  upload-vm k3s-test-1-master-2 50Gi {{verbosity}};
-  upload-vm k3s-test-1-master-3 50Gi {{verbosity}};
-  upload-vm k3s-test-1-worker-1 50Gi {{verbosity}};
-  upload-vm k3s-test-1-worker-2 50Gi {{verbosity}};
-  upload-vm k3s-test-1-worker-3 50Gi {{verbosity}};
 
 [linux]
 [group('homelab')]

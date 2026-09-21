@@ -18,8 +18,6 @@ easier to add new machines.
 
 5. **`genK3sAgentModule.nix`** - K3s agent node configuration generator
 6. **`genK3sServerModule.nix`** - K3s server node configuration generator
-7. **`genKubeVirtGuestModule.nix`** - KubeVirt guest VM configuration generator
-8. **`genKubeVirtHostModule.nix`** - KubeVirt host configuration generator
 
 ### Entry Point
 

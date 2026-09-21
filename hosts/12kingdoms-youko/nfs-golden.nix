@@ -2,7 +2,7 @@
   ...
 }:
 let
-  # Shared golden-image store for the KubeVirt cluster. It is exported over
+  # Shared golden-image store for the VM cluster. It is exported over
   # NFSv4 so the cluster's NFS CSI driver can hand out RWX volumes to every
   # node, and VM disks are cloned from it into local-path.
   #
@@ -10,7 +10,7 @@ let
   # free space on this host.
   goldenDir = "/persistent/nfs/golden";
 
-  # Only the homelab LAN may mount the export. The KubeVirt nodes are the
+  # Only the homelab LAN may mount the export. The VM hosts are the
   # clients (the CSI node plugin mounts from the node, not from the pod).
   clientCidr = "192.168.5.0/24";
 in

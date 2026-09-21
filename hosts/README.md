@@ -13,7 +13,7 @@ Named after characters from "Oshi no Ko":
 | Host         | Platform    | Hardware              | Purpose               | Status      |
 | ------------ | ----------- | --------------------- | --------------------- | ----------- |
 | `ai`         | NixOS       | i5-13600KF + RTX 4090 | Gaming & Daily Use    | ✅ Active   |
-| `aquamarine` | KubeVirt VM | Virtual               | Monitoring & Services | ✅ Active   |
+| `aquamarine` | VM | Virtual               | Monitoring & Services | ✅ Active   |
 | `kana`       | NixOS       | Virtual               | Reserved              | ⚪ Not Used |
 | `ruby`       | NixOS       | Virtual               | Reserved              | ⚪ Not Used |
 
@@ -33,15 +33,15 @@ Named after "Twelve Kingdoms":
 | Host      | Platform | Hardware                               | Purpose                    | Status    |
 | --------- | -------- | -------------------------------------- | -------------------------- | --------- |
 | `shoukei` | NixOS    | MacBook Pro M2                         | NixOS on Apple Silicon     | ✅ Active |
-| `shoryu`  | NixOS    | MoreFine S500Plus (AMD Ryzen 9 5900HX) | KubeVirt Host & K3s Master | ✅ Active |
-| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U)   | KubeVirt Host & K3s Master | ✅ Active |
-| `youko`   | NixOS    | MinisForum HX99G (AMD Ryzen 9 6900HX)  | KubeVirt Host & K3s Master | ✅ Active |
+| `shoryu`  | NixOS    | MoreFine S500Plus (AMD Ryzen 9 5900HX) | VM Host | ✅ Active |
+| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U)   | VM Host | ✅ Active |
+| `youko`   | NixOS    | MinisForum HX99G (AMD Ryzen 9 6900HX)  | VM Host | ✅ Active |
 
 ### Virtual Machines & Clusters
 
 #### `k8s` - Kubernetes Infrastructure
 
-- **KubeVirt Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
+- **VM Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
 - **K3s Testing**: 3 masters + 3 workers for testing and development
 
 ### External Systems
@@ -104,13 +104,13 @@ Use existing hosts as templates. The key files typically include:
 ### Examples to Reference
 
 - **Desktop systems**: See `idols-ai/` for gaming/workstation setup
-- **Server systems**: See `shoryu/` for K8s/KubeVirt hosts
+- **Server systems**: See `shoryu/` for K8s/VM hosts
 - **macOS systems**: See `darwin-fern/` for macOS configurations
 - **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
 
-## Deploying KubeVirt Hosts
+## Deploying VM Hosts
 
-The three KubeVirt hosts (`shoryu`, `shushou`, `youko`) put their VMs'
+The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs'
 secondary network on the Linux bridge `br0` (attached by the `bridge` CNI plugin); the pod network
 is Cilium (flannel disabled).
 

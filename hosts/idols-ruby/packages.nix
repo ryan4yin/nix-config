@@ -64,7 +64,6 @@ in
       # cloud-native
       kubectl
       istioctl
-      kubevirt # virtctl
       kubernetes-helm
       fluxcd
       terraform

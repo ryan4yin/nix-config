@@ -96,7 +96,7 @@ export def upload-vm [
     # node the VM is pinned to.
     #
     # Requires the CDI upload proxy to be reachable from here; it is exposed
-    # as a NodePort by the cluster (see infra/configs/base/kubevirt).
+    # as a NodePort by the cluster.
     let uploadProxyUrl = "https://192.168.5.181:30443"
     let image = (glob result/nixos-image-*.qcow2 | first)
     virtctl image-upload dv $"($name)-disk" -n vms --size $size --image-path $image --uploadproxy-url $uploadProxyUrl --insecure

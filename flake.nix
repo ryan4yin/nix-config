@@ -50,7 +50,7 @@
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
-    # NixOS MicroVMs -- run the VMs directly on the hosts, replacing KubeVirt
+    # NixOS MicroVMs -- run the VMs directly on the hosts, replacing the former KubeVirt
     microvm = {
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";

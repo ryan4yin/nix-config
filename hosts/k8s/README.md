@@ -7,13 +7,11 @@ I'm running a Kubernetes cluster for testing and development.
 I prefer to use [k3s] as the Kubernetes distribution, because it's lightweight, easy to install, and
 full featured(see [what-have-k3s-removed-from-upstream-kubernetes] for details).
 
-## KubeVirt Cluster
+## VM Cluster
 
-The KubeVirt cluster is running on physical machines, all my virtual machines are running on this
+The VM cluster is running on physical machines, all my virtual machines are running on this
 cluster, including other Kubernetes clusters.
 
-![](../../_img/2024-04-02_kubevirt-cluster-nodes.webp)
-![](../../_img/2024-04-02_kubevirt-cluster-pods.webp)
 
 ## K3s Clusters
 
@@ -30,7 +28,7 @@ image has to be built or uploaded; only the volumes above persist. The guest's t
 bridged onto `br0`, and its name is derived from the guest IP (e.g. `192.168.5.114` -> `vm114`, as
 `IFNAMSIZ` caps interface names at 15 characters).
 
-To move an existing KubeVirt VM over in place, copy the host key and `machine-id` from its disk into
+To move an existing VM over in place, copy the host key and `machine-id` from its disk into
 `etc.img`, and `/var/lib/rancher/k3s/server` into `var.img`, **before the first boot** — then it
 keeps its identity and etcd membership instead of bootstraping a new cluster.
 
@@ -41,7 +39,7 @@ keeps its identity and etcd membership instead of bootstraping a new cluster.
 
 - **Retire KubeVirt.** aquamarine now runs natively on `youko`, and the k3s-test masters
   run as microVMs. Remove KubeVirt/CDI/multus from the cluster (k8s-gitops) once nothing else needs
-  them, and the Windows VM is the only KubeVirt VM left to move.
+  them, and the Windows VM is the only VM left to move.
 - **The USB HDD bridge is flaky.** aquamarine's two HDDs sit behind a JMicron JMS567 USB-SATA bridge
   that keeps resetting (`dmesg` on `youko`). Find out how often it resets and how much it
   matters before putting anything critical (e.g. an NFS export) on it.
