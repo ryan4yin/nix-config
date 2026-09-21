@@ -71,10 +71,12 @@ in
       inherit (cfg) paths;
       exclude = [
         # regenerable, huge, or unsuitable for file-level backup
-        "/persistent/var/lib/containers/storage/overlay"
-        "/persistent/var/lib/containers/storage/overlay-layers"
-        "/persistent/var/lib/containers/storage/overlay-images"
-        "/persistent/var/lib/containers/storage/overlay-containers"
+        #
+        # the whole podman storage tree: the image layers are re-pullable, and
+        # its storage DB is not consistent when backed up from a running podman.
+        # (uptime-kuma uses a named volume under here; its data is intentionally
+        # not preserved.)
+        "/persistent/var/lib/containers"
         "/persistent/var/lib/microvms"
         "/persistent/var/lib/libvirt"
         "/persistent/nfs"
@@ -99,9 +101,8 @@ in
 
       pruneOpts = [
         "--keep-daily 3"
-        "--keep-weekly 3"
-        "--keep-monthly 3"
-        "--keep-yearly 3"
+        "--keep-weekly 2"
+        "--keep-monthly 2"
       ];
     }
     // lib.optionalAttrs cfg.postgresDump {
