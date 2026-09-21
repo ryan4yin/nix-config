@@ -88,6 +88,12 @@ def dus [path: string = ""] {
   }
 }
 
+# Generate a secure random base64 password of `length` characters (default 12).
+def genpass [length: int = 12] {
+  let bytes = (($length * 3 + 2) / 4 | math ceil) + 3
+  ^openssl rand -base64 $bytes | str trim | str substring 0..<$length
+}
+
 # ---------------------------
 # Commandline Editor Settings
 # ---------------------------
