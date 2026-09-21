@@ -10,6 +10,7 @@
   genK3sAgentModule = import ./genK3sAgentModule.nix;
   genKubeVirtHostModule = import ./genKubeVirtHostModule.nix;
   genKubeVirtGuestModule = import ./genKubeVirtGuestModule.nix;
+  genMicrovmGuestModule = import ./genMicrovmGuestModule.nix;
 
   # use path relative to the root of the project
   relativeToRoot = lib.path.append ../.;
