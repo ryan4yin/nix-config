@@ -89,6 +89,14 @@ export def upload-vm [
         nix build $target
     }
 
-    let remote = $"root@192.168.5.178:/data/caddy/fileserver/vms/kubevirt-($name).qcow2"
-    rsync -avz --progress --copy-links --checksum result/nixos-image-*.qcow2 $remote
+    # Push the freshly built image into its golden-image PVC. The PVC is
+    # declared in k8s-gitops (vms/golden-images) and lives on the shared NFS
+    # store exported by kubevirt-youko, so every node can clone it when a VM
+    # is (re)created.
+    #
+    # Requires the CDI upload proxy to be reachable from here; it is exposed
+    # as a NodePort by the cluster (see infra/configs/base/kubevirt).
+    let uploadProxyUrl = "https://192.168.5.181:30443"
+    let image = (glob result/nixos-image-*.qcow2 | first)
+    virtctl image-upload pvc $"golden-($name)" -n vms --image-path $image --uploadproxy-url $uploadProxyUrl --insecure
 }
