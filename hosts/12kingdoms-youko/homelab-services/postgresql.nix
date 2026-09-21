@@ -11,22 +11,14 @@ let
 
   user = "postgres"; # postgresql's default system user
   package = pkgs.postgresql_16;
-  dataDir = "/persistent/apps/postgresql/${package.psqlSchema}";
 in
 {
-  # Create Directories
-  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
-  systemd.tmpfiles.rules = [
-    "d /persistent/apps/postgresql 0700 ${user} ${user}"
-    "d ${dataDir} 0700 ${user} ${user}"
-  ];
-
   # https://wiki.nixos.org/wiki/PostgreSQL
   # https://search.nixos.org/options?channel=unstable&query=services.postgresql.
   # https://www.postgresql.org/docs/
   services.postgresql = {
     enable = true;
-    inherit package dataDir;
+    inherit package;
     # https://www.postgresql.org/docs/16/jit.html
     # JIT compilation is beneficial primarily for long-running CPU-bound queries.
     # Frequently these will be analytical queries. For short queries the added overhead
