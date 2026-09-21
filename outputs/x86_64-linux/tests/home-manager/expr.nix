@@ -8,7 +8,7 @@ let
   hosts = [
     "ai-niri"
     "ruby"
-    "k3s-prod-1-master-1"
+    "k3s-test-1-master-1"
   ];
 in
 lib.genAttrs hosts (
