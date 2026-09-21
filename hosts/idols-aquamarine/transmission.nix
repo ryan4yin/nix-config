@@ -136,4 +136,9 @@ in
       seed-queue-size = 10;
     };
   };
+
+  # The /data mounts are `nofail`, so nothing orders transmission after them;
+  # without this the unit can start before /data/fileshare/public is mounted and
+  # fail its mount-namespace setup (seen on the host, where the tasks race).
+  systemd.services.transmission.unitConfig.RequiresMountsFor = "/data/fileshare/public";
 }
