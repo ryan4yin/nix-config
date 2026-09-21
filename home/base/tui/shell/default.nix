@@ -10,7 +10,7 @@
     # currently, nushell does not support conditional sourcing of files
     # https://github.com/nushell/nushell/issues/8214
     extraConfig = ''
-      # decrypted secret: AI agents must not read the sourced file, only reference the path
+      # decrypted secret: AI agents must not read it
       source /etc/agenix/nushell-secrets.nu
 
       # Directories in this constant are searched by the
