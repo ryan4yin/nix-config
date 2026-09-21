@@ -1,8 +1,8 @@
 { ... }:
 {
-  # aquamarine's service modules (caddy, gitea, grafana, monitoring, oci
+  # The homelab service modules (caddy, gitea, grafana, monitoring, oci
   # containers, postgresql, restic, sftpgo, transmission, and the HDD disko
-  # config) live in ./aquamarine/ and are auto-imported by this host's
+  # config) live in ./homelab-services/ and are auto-imported by this host's
   # scanPaths. Its HDD disko config only defines the two data disks (no root
   # disk), so it is imported as-is -- disko's NixOS module only generates the
   # fileSystems/mounts, it never reformats.

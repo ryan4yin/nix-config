@@ -1,7 +1,7 @@
 # Auto disk partitioning (from repo root: nix-config):
-#   nix run github:nix-community/disko -- --mode destroy,format,mount hosts/k8s/kubevirt-youko/aquamarine/disko-fs.nix
+#   nix run github:nix-community/disko -- --mode destroy,format,mount hosts/k8s/kubevirt-youko/homelab-services/disko-fs.nix
 # Mount only (after first format):
-#   nix run github:nix-community/disko -- --mode mount hosts/k8s/kubevirt-youko/aquamarine/disko-fs.nix
+#   nix run github:nix-community/disko -- --mode mount hosts/k8s/kubevirt-youko/homelab-services/disko-fs.nix
 let
   cryptKeyFile = "/etc/agenix/hdd-luks-crypt-key";
   unlockDisk = "data-encrypted";
