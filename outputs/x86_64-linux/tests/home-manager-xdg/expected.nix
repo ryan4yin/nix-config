@@ -5,7 +5,6 @@ in
 lib.genAttrs
   [
     "ai-niri"
-    "aquamarine"
     "ruby"
   ]
   (_: {

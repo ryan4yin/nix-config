@@ -7,7 +7,6 @@ let
   username = myvars.username;
   hosts = [
     "ai-niri"
-    "aquamarine"
     "ruby"
   ];
 in

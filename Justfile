@@ -230,14 +230,8 @@ youko mode="switch":
 upload-idols verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
-  upload-vm aquamarine 80Gi {{verbosity}}
   upload-vm ruby 100Gi {{verbosity}}
   upload-vm kana 100Gi {{verbosity}}
-
-[linux]
-[group('homelab')]
-aqua mode="switch":
-  colmena apply {{mode}} --on '@aqua' --verbose --show-trace
 
 [linux]
 [group('homelab')]
