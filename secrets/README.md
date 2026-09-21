@@ -22,17 +22,15 @@ decrypt all my secrets via `agenix`. Then, I can use them in this flake.
 
 ## Which Keys Go on a Secret
 
-Changing a secret's recipients is **two** questions, and both have to be answered:
+**Every secret must be decryptable by the desktops.** The desktops hold the trusted admin keys, and
+they are where secrets are added, edited and rekeyed — including `agenix -r`, which has to decrypt
+every secret in this repository first. Narrowing a secret to the servers alone breaks that.
 
-- **Who must be able to read it?** Only the hosts that actually need it. Splitting by trust domain
-  (desktops, servers, one application) keeps a compromised host from reading secrets it has no
-  business reading.
-- **How is it recovered when those hosts are gone?** Every set must keep `recovery_key`. It is held
-  offline and on no machine, so it does not widen who can read a secret — but without it, the secret
-  is unrecoverable once the machines that could decrypt it are lost.
+So every recipient set is `desktop_keys ++ <the hosts that need it>`, and `desktop_keys` carries the
+offline `recovery_key`; a lost host therefore never makes a secret unrecoverable.
 
-Narrowing a secret's recipients is where this bites: it is easy to drop the offline key along with
-the hosts being removed. Re-check both questions after any recipient change.
+The one exception is the desktop's own restic repository password (`restic-password-desktop.age`):
+`desktop_keys` alone, because the backup servers must not be able to read desktop data.
 
 ## Adding or Updating Secrets
 

@@ -47,6 +47,10 @@ Consequences worth remembering:
   is the only way to restore its data.
 - restic's own password is never stored inside a backed-up tree: `etc/agenix` and all key material
   are excluded (see below).
+- Recipients follow the secrets repository's rule: every secret is decryptable by the desktops
+  (`desktop_keys`, which also carries the offline `recovery_key`), so a desktop can edit or rekey
+  anything and no secret becomes unrecoverable when a host is lost. The desktop repository password
+  is the one secret the servers do not get.
 
 ## Schedule
 
@@ -139,9 +143,6 @@ Restoring a btrbk snapshot (offline; stop writers first):
   is the layer which survives a compromised host.
 - **`restic check` timer**: periodic integrity verification, on the host that holds the password.
 - **Metrics**: run rest-server with `--prometheus` and chart repository growth in Grafana.
-- **Recovery key for the homelab password**: `restic-password-homelab.age` is encrypted only to the
-  storage hosts' keys, so losing youko's host key makes it unrecoverable. Adding the offline
-  `recovery_key` to that group fixes it without weakening the desktop/homelab split.
 
 ## Components
 
