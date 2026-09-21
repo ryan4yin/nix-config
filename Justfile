@@ -258,18 +258,6 @@ kana mode="switch":
 # Build and upload a vm image
 [linux]
 [group('homelab')]
-upload-k3s-prod verbosity="normal":
-  #!/usr/bin/env nu
-  use {{utils_nu}} *; 
-  upload-vm k3s-prod-1-master-1 {{verbosity}};
-  upload-vm k3s-prod-1-master-2 {{verbosity}};
-  upload-vm k3s-prod-1-master-3 {{verbosity}};
-  upload-vm k3s-prod-1-worker-1 {{verbosity}};
-  upload-vm k3s-prod-1-worker-2 {{verbosity}};
-  upload-vm k3s-prod-1-worker-3 {{verbosity}};
-
-[linux]
-[group('homelab')]
 upload-k3s-test verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
@@ -279,11 +267,6 @@ upload-k3s-test verbosity="normal":
   upload-vm k3s-test-1-worker-1 {{verbosity}};
   upload-vm k3s-test-1-worker-2 {{verbosity}};
   upload-vm k3s-test-1-worker-3 {{verbosity}};
-
-[linux]
-[group('homelab')]
-k3s-prod mode="switch":
-  colmena apply {{mode}} --on '@k3s-prod-*' --verbose --show-trace
 
 [linux]
 [group('homelab')]

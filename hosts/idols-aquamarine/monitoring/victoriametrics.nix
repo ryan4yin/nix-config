@@ -4,7 +4,7 @@
   ...
 }:
 let
-  # Powered-off hosts (SBCs, k3s-prod-1) plus shoukei (exporter disabled on the
+  # Powered-off hosts (SBCs) plus shoukei (exporter disabled on the
   # machine); remove entries when they come back online.
   offlineHosts = [
     "shoukei"
@@ -15,12 +15,6 @@ let
     "chiaya"
     "rakushun"
     "mitsuha"
-    "k3s-prod-1-master-1"
-    "k3s-prod-1-master-2"
-    "k3s-prod-1-master-3"
-    "k3s-prod-1-worker-1"
-    "k3s-prod-1-worker-2"
-    "k3s-prod-1-worker-3"
   ];
 in
 {

@@ -2,7 +2,7 @@
 
 > WIP, not finished yet.
 
-I'm running two Kubernetes clusters, one for production and one for testing.
+I'm running a Kubernetes cluster for testing and development.
 
 I prefer to use [k3s] as the Kubernetes distribution, because it's lightweight, easy to install, and
 full featured(see [what-have-k3s-removed-from-upstream-kubernetes] for details).
@@ -17,21 +17,16 @@ cluster, including other Kubernetes clusters.
 
 ## K3s Clusters
 
-Clusters running as virtual machines on the KubeVirt cluster, for testing and production.
+Clusters running as virtual machines on the KubeVirt cluster, for testing and development.
 
-![](/_img/2024-02-18_k8s-nodes-overview.webp)
+![](_img/2024-02-18_k8s-nodes-overview.webp)
 
-1. For production:
-   1. `k3s-prod-1-master-1`
-   1. `k3s-prod-1-master-2`
-   1. `k3s-prod-1-master-3`
-   1. `k3s-prod-1-worker-1`
-   1. `k3s-prod-1-worker-2`
-   1. `k3s-prod-1-worker-3`
-1. For testing:
-   1. `k3s-test-1-master-1`
-   2. `k3s-test-1-master-2`
-   3. `k3s-test-1-master-3`
+1. `k3s-test-1-master-1`
+1. `k3s-test-1-master-2`
+1. `k3s-test-1-master-3`
+1. `k3s-test-1-worker-1`
+1. `k3s-test-1-worker-2`
+1. `k3s-test-1-worker-3`
 
 ## Kubernetes Resources
 

@@ -91,12 +91,12 @@ All the outputs of this flake are defined here.
     │   ├── idols-aquamarine.nix
     │   ├── idols-kana.nix
     │   ├── idols-ruby.nix
-    │   ├── k3s-prod-1-master-1.nix
-    │   ├── k3s-prod-1-master-2.nix
-    │   ├── k3s-prod-1-master-3.nix
-    │   ├── k3s-prod-1-worker-1.nix
-    │   ├── k3s-prod-1-worker-2.nix
-    │   ├── k3s-prod-1-worker-3.nix
+    │   ├── k3s-test-1-master-1.nix
+    │   ├── k3s-test-1-master-2.nix
+    │   ├── k3s-test-1-master-3.nix
+    │   ├── k3s-test-1-worker-1.nix
+    │   ├── k3s-test-1-worker-2.nix
+    │   ├── k3s-test-1-worker-3.nix
     │   ├── kubevirt-shoryu.nix
     │   ├── kubevirt-shushou.nix
     │   └── kubevirt-youko.nix

@@ -145,7 +145,7 @@ just local debug  # detailed output (macOS has no switch/boot mode)
 ```
 
 Remote / cluster hosts are deployed with [Colmena](https://github.com/zhaofengli/colmena) on top of
-the same flake, e.g. `just col <tag>`, `just k3s-prod`, `just lab`.
+the same flake, e.g. `just col <tag>`, `just k3s-test`, `just lab`.
 
 > [What y'all will need when Nix drives you to drink.](https://www.youtube.com/watch?v=Eni9PPPPBpg)
 > (copy from hlissner's dotfiles, it really matches my feelings when I first started using NixOS...)
