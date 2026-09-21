@@ -34,6 +34,8 @@ in
     ./preservation.nix
     ./secureboot.nix
 
+    ./restic.nix
+
     # others
     ./ai
   ];
