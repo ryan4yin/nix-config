@@ -20,6 +20,20 @@ repository.
 This directory contains this `README.md`, and a `nixos.nix`/`darwin.nix` file that is used to
 decrypt all my secrets via `agenix`. Then, I can use them in this flake.
 
+## Which Keys Go on a Secret
+
+Changing a secret's recipients is **two** questions, and both have to be answered:
+
+- **Who must be able to read it?** Only the hosts that actually need it. Splitting by trust domain
+  (desktops, servers, one application) keeps a compromised host from reading secrets it has no
+  business reading.
+- **How is it recovered when those hosts are gone?** Every set must keep `recovery_key`. It is held
+  offline and on no machine, so it does not widen who can read a secret — but without it, the secret
+  is unrecoverable once the machines that could decrypt it are lost.
+
+Narrowing a secret's recipients is where this bites: it is easy to drop the offline key along with
+the hosts being removed. Re-check both questions after any recipient change.
+
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.
