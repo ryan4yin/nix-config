@@ -18,6 +18,7 @@ in
 {
   imports = [
     ./packages.nix
+    ./computer-use.nix
     ./oci-containers
   ];
 

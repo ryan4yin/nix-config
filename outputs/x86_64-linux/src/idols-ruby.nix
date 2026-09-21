@@ -26,6 +26,8 @@ let
         "secrets/nixos.nix"
         "modules/nixos/server/server.nix"
         "modules/nixos/server/qemu-guest-hardware-configuration.nix"
+        # headless computer-use environment (sway + desktop automation)
+        "modules/nixos/desktop/computer-use.nix"
         # host specific
         "hosts/idols-${name}"
       ])

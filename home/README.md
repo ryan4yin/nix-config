@@ -22,6 +22,7 @@ home/
 ├── linux/             # Linux-specific home manager configurations
 │   ├── base/          # Linux base configurations
 │   ├── gui/           # Linux GUI applications
+│   │   ├── i3/        # i3 — headless computer-use session (see i3/README.md)
 │   │   ├── niri/      # Niri window manager
 │   │   └── ...
 │   ├── editors/       # Linux-specific editors
@@ -42,6 +43,7 @@ home/
 
 2. **linux**: Linux-specific configuration
    - Desktop environments (Noctalia Shell, Niri compositor)
+   - Headless computer-use session (`gui/i3`, Xvfb + i3; see `gui/i3/README.md`)
    - Linux-specific GUI applications
    - System integration tools
 
