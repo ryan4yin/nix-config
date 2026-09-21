@@ -213,6 +213,16 @@ in
       };
     })
 
+    (mkIf (cfg.desktop.enable || cfg.server.storage.enable) {
+      # the restic repository password, needed by modules.restic-backup on both
+      # the homelab servers and the desktops
+      age.secrets."restic-password" = {
+        file = "${mysecrets}/restic-password.age";
+        mode = "0400";
+        owner = "root";
+      };
+    })
+
     (mkIf cfg.server.storage.enable {
       age.secrets = {
         "hdd-luks-crypt-key" = {
@@ -220,12 +230,8 @@ in
           mode = "0400";
           owner = "root";
         };
-        # restic repository password (used by modules.restic-backup)
-        "restic-password" = {
-          file = "${mysecrets}/restic-password.age";
-          mode = "0400";
-          owner = "root";
-        };
+        # restic repository password (used by modules.restic-backup). Gated
+        # separately below so desktops get it without enabling a server group.
       };
 
       # place secrets in /etc/
