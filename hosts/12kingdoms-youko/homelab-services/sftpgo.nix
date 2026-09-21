@@ -1,7 +1,7 @@
 { config, lib, ... }:
 let
   user = "sftpgo";
-  dataDir = "/data/apps/sftpgo";
+  dataDir = "/persistent/apps/sftpgo";
 in
 {
   # Read SFTPGO_DEFAULT_ADMIN_USERNAME and SFTPGO_DEFAULT_ADMIN_PASSWORD from a file

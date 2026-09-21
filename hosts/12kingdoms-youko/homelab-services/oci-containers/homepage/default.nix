@@ -5,7 +5,7 @@
 }:
 let
   user = "homepage";
-  configDir = "/data/apps/homepage-dashboard";
+  configDir = "/persistent/apps/homepage-dashboard";
 in
 {
   users.groups.${user} = { };
