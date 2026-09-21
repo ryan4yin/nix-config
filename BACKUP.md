@@ -130,6 +130,10 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - `restic-rest-server`'s log must not print `Invalid htpasswd entry`: that means the client's REST
   password and the server's htpasswd disagree, and the credentials pair needs rebuilding from one
   password.
+- Metrics: the rest-server exposes the Go/promhttp defaults on loopback (scraped as the
+  `restic-rest-server` job; `/metrics` is blocked on the public vhost). Repository growth is charted
+  from `node-exporter`'s filesystem metrics for youko's `/data` mount instead — rest-server itself
+  has no per-repository size metrics.
 - Failures are not silent: a failed `restic-backups-homelab` starts `restic-backup-notify`, which
   posts to alertmanager and, above info severity, on to telegram. alertmanager clears it after
   `resolve_timeout`.
@@ -142,7 +146,6 @@ Restoring a btrbk snapshot (offline; stop writers first):
   The target must not live in the homelab, and should be immutable or versioned (object lock) — that
   is the layer which survives a compromised host.
 - **`restic check` timer**: periodic integrity verification, on the host that holds the password.
-- **Metrics**: run rest-server with `--prometheus` and chart repository growth in Grafana.
 
 ## Components
 
