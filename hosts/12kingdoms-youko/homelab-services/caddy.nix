@@ -63,6 +63,11 @@ in
       encode zstd gzip
       reverse_proxy http://localhost:3303
     '';
+    # the restic REST server the backup clients push to
+    virtualHosts."backup.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      reverse_proxy http://localhost:8000
+    '';
     virtualHosts."transmission.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
       encode zstd gzip
