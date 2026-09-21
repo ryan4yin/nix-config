@@ -42,8 +42,7 @@ Named after "Twelve Kingdoms":
 #### `k8s` - Kubernetes Infrastructure
 
 - **KubeVirt Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
-- **K3s Production**: 3 masters + 3 workers for production workloads
-- **K3s Testing**: 3 masters for testing and development
+- **K3s Testing**: 3 masters + 3 workers for testing and development
 
 ### External Systems
 

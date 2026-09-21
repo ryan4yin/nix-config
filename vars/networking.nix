@@ -104,37 +104,6 @@ rec {
     # ============================================
     # Kubernetes Clusters
     # ============================================
-    k3s-prod-1-master-1 = {
-      # VM
-      iface = "enp2s0";
-      ipv4 = "192.168.5.108";
-    };
-    k3s-prod-1-master-2 = {
-      # VM
-      iface = "enp2s0";
-      ipv4 = "192.168.5.109";
-    };
-    k3s-prod-1-master-3 = {
-      # VM
-      iface = "enp2s0";
-      ipv4 = "192.168.5.110";
-    };
-    k3s-prod-1-worker-1 = {
-      # VM
-      iface = "enp2s0";
-      ipv4 = "192.168.5.111";
-    };
-    k3s-prod-1-worker-2 = {
-      # VM
-      iface = "enp2s0";
-      ipv4 = "192.168.5.112";
-    };
-    k3s-prod-1-worker-3 = {
-      # VM
-      iface = "enp2s0";
-      ipv4 = "192.168.5.113";
-    };
-
     k3s-test-1-master-1 = {
       # KubeVirt VM
       iface = "enp2s0";
