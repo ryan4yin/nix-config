@@ -1,7 +1,7 @@
 # Secrets Management
 
 > For Website/App's passwords, see
-> [/home/base/tui/password-store](/home/base/tui/password-store/README.md) for more details.
+> [../home/base/tui/password-store](../home/base/tui/password-store/README.md) for more details.
 
 All my secrets are safely encrypted via agenix, and stored in a separate private GitHub repository
 and referenced as a flake input in this flake.
@@ -112,11 +112,17 @@ sub modules via `specialArgs`:
   inputs = {
     # ......
 
-    # secrets management, lock with git commit at 2023/5/15
-    agenix.url = "github:ryantm/agenix/db5637d10f797bb251b94ef9040b237f4702cde3";
+    # secrets management, lock with git commit at May 18, 2025
+    agenix = {
+      url = "github:ryantm/agenix/4835b1dc898959d8547a871ef484930675cb47f1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # my private secrets, it's a private repository, you need to replace it with your own.
-    mysecrets = { url = "github:ryan4yin/nix-secrets"; flake = false; };
+    mysecrets = {
+      url = "git+ssh://git@github.com/ryan4yin/nix-secrets.git?shallow=1";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }: {
@@ -131,7 +137,7 @@ sub modules via `specialArgs`:
           # ......
 
           # import & decrypt secrets in `mysecrets` in this module
-          ./secrets/default.nix
+          ./secrets/nixos.nix
         ];
       };
     };
@@ -139,7 +145,7 @@ sub modules via `specialArgs`:
 }
 ```
 
-Then, create `./secrets/default.nix` with the following content:
+Then, create `./secrets/nixos.nix` (or `./secrets/darwin.nix` on macOS) with the following content:
 
 ```nix
 # import & decrypt secrets in `mysecrets` in this module

@@ -49,9 +49,10 @@ Zellij shortcuts used often (same idea as in the Neovim notes):
 
 In Helix, `|` / `!` and variants pipe or insert shell output on selections (see **Changes**).
 
-This flake’s Helix Home Manager module keeps **almost all default keys**; the only remap is
-**`Ctrl+Shift+o`** → jump backward, because Zellij uses **`Ctrl+o`** for Session (see
-`home/base/core/editors/helix/default.nix`).
+This flake’s Helix Home Manager module keeps **almost all default keys** but adds several
+normal-mode remaps: **`Ctrl+Shift+o`** → jump backward (because Zellij uses **`Ctrl+o`** for
+Session), `Space Space` → `:reload-all`, `Space w` / `Space q` → `:w` / `:q`, `Esc` → collapse
+selection, and `$` / `0` line jumps (see `home/base/core/editors/helix/default.nix`).
 
 ### Command mode (`:`)
 

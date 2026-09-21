@@ -20,7 +20,7 @@ in
   #
   # These are same-filesystem snapshots: they protect against accidental
   # deletion and bad edits, NOT against disk loss. Off-host copies are handled
-  # by restic (lib/genResticBackup.nix), which can exclude the regenerable bulk
+  # by restic (modules/nixos/base/restic-backup.nix), which can exclude the regenerable bulk
   # at the file level; btrbk works at the subvolume level, so a `target` would
   # also ship podman's overlay storage and the VM disk images. Set `target`
   # (plus `services.btrbk.sshAccess` on the receiving host) only if you want

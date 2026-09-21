@@ -13,10 +13,6 @@
 
 1. https://github.com/istio/istio/tree/1.23.0/manifests/addons/dashboards
 
-## Kubevirt
-
-1. https://github.com/kubevirt/monitoring/tree/main/dashboards/grafana
-
 ## Loki Mixin
 
 An opinionated set of dashboards, alerts, and recording rules to monitor your Loki cluster. The

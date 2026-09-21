@@ -5,14 +5,14 @@ Useful for Linux(fcitx5-rime) & macOS(squirrel).
 ## Linux(fcitx5-rime)
 
 1. `~/.config/fcitx5/profile` is linked to
-   [home/linux/gui/base/fcitx5/profile](/home/linux/gui/base/fcitx5/profile), which hardcode rime as
-   the default input method, so you do not need to use fcitx-configtool to adjust fcitx5's input
-   method.
+   [home/linux/gui/base/fcitx5/profile](../../home/linux/gui/base/fcitx5/profile), which hardcode
+   rime as the default input method, so you do not need to use fcitx-configtool to adjust fcitx5's
+   input method.
 
 ## macOS(squirrel)
 
 1. ` ~/Library/Rime/` is force linked to this rime-data, see
-   [home/darwin/rime-squirrel.nix](/home/darwin/rime-squirrel.nix) for details.
+   [home/darwin/rime-squirrel.nix](../../home/darwin/rime-squirrel.nix) for details.
 
 ## Docs about fcitx5
 

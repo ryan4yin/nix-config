@@ -18,6 +18,8 @@ My current terminal emulators are:
    1. It's really suitable for tiling window manager or zellij users!
 3. alacritty: A cross-platform, GPU-accelerated terminal emulator.
    1. alacritty is really fast, I use it as a backup terminal emulator on all my desktops.
+4. ghostty: A cross-platform, GPU-accelerated terminal emulator with native platform UI.
+   1. ghostty is the newest addition, configured in `ghostty.nix`.
 
 ## 'xterm-kitty': unknown terminal type when `ssh` into a remote host or `sudo xxx`
 

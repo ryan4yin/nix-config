@@ -10,12 +10,16 @@ This directory contains all host-specific configurations for my NixOS and macOS 
 
 Named after characters from "Oshi no Ko":
 
-| Host         | Platform    | Hardware              | Purpose               | Status      |
-| ------------ | ----------- | --------------------- | --------------------- | ----------- |
-| `ai`         | NixOS       | i5-13600KF + RTX 4090 | Gaming & Daily Use    | ✅ Active   |
-| `aquamarine` | VM | Virtual               | Monitoring & Services | ✅ Active   |
-| `kana`       | NixOS       | Virtual               | Reserved              | ⚪ Not Used |
-| `ruby`       | NixOS       | Virtual               | Reserved              | ⚪ Not Used |
+| Host         | Platform        | Hardware              | Purpose               | Status      |
+| ------------ | --------------- | --------------------- | --------------------- | ----------- |
+| `ai`         | NixOS           | i5-13600KF + RTX 4090 | Gaming & Daily Use    | ✅ Active   |
+| `aquamarine` | NixOS (libvirt) | Virtual               | Monitoring & Services | ⚪ Not Used |
+| `kana`       | NixOS (libvirt) | Virtual               | Run AI Agents         | ✅ Active   |
+| `ruby`       | NixOS (libvirt) | Virtual               | Run AI Agents         | ✅ Active   |
+| `akane`      | NixOS (aarch64) | Virtual (UTM)         | aarch64 test VM       | ✅ Active   |
+
+`aquamarine` is retired; its services now run directly on `youko`
+(`hosts/12kingdoms-youko/homelab-services/`).
 
 #### `darwin` - macOS Systems
 
@@ -30,19 +34,19 @@ Named after characters from "Frieren: Beyond Journey's End":
 
 Named after "Twelve Kingdoms":
 
-| Host      | Platform | Hardware                               | Purpose                    | Status    |
-| --------- | -------- | -------------------------------------- | -------------------------- | --------- |
-| `shoukei` | NixOS    | MacBook Pro M2                         | NixOS on Apple Silicon     | ✅ Active |
-| `shoryu`  | NixOS    | MoreFine S500Plus (AMD Ryzen 9 5900HX) | VM Host | ✅ Active |
-| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U)   | VM Host | ✅ Active |
-| `youko`   | NixOS    | MinisForum HX99G (AMD Ryzen 9 6900HX)  | VM Host | ✅ Active |
+| Host      | Platform | Hardware                               | Purpose                | Status    |
+| --------- | -------- | -------------------------------------- | ---------------------- | --------- |
+| `shoukei` | NixOS    | MacBook Pro M2                         | NixOS on Apple Silicon | ✅ Active |
+| `shoryu`  | NixOS    | MoreFine S500Plus (AMD Ryzen 9 5900HX) | VM Host                | ✅ Active |
+| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U)   | VM Host                | ✅ Active |
+| `youko`   | NixOS    | MinisForum HX99G (AMD Ryzen 9 6900HX)  | VM Host                | ✅ Active |
 
 ### Virtual Machines & Clusters
 
 #### `k8s` - Kubernetes Infrastructure
 
 - **VM Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
-- **K3s Testing**: 3 masters + 3 workers for testing and development
+- **K3s Testing**: `k3s-test-1-master-{1,2,3}`, running as microVMs on those hosts
 
 ### External Systems
 
@@ -104,15 +108,15 @@ Use existing hosts as templates. The key files typically include:
 ### Examples to Reference
 
 - **Desktop systems**: See `idols-ai/` for gaming/workstation setup
-- **Server systems**: See `shoryu/` for K8s/VM hosts
+- **Server systems**: See `12kingdoms-shoryu/` for VM hosts
 - **macOS systems**: See `darwin-fern/` for macOS configurations
 - **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
 
 ## Deploying VM Hosts
 
-The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs'
-secondary network on the Linux bridge `br0` (attached by the `bridge` CNI plugin); the pod network
-is Cilium (flannel disabled).
+The three VM hosts (`shoryu`, `shushou`, `youko`) attach their VMs (microVM taps and libvirt
+domains) to the Linux bridge `br0`, with the physical NIC as a bridge port. The `k3s-test-1` cluster
+runs as microVMs on top, using Cilium as its pod network (flannel disabled).
 
 - `switch` is fine for changes that don't touch the network stack (e.g. journald or other service
   settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.

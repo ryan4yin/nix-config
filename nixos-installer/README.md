@@ -109,7 +109,7 @@ After the first boot:
    sudo mv /etc/nixos ~/nix-config
    sudo chown -R ryan:ryan ~/nix-config
    cd ~/nix-config
-   just hypr
+   just niri
    ```
 
 4. **Secure Boot**: follow

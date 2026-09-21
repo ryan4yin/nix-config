@@ -13,8 +13,8 @@ modules/
 │   ├── fonts.nix           # System font configuration
 │   ├── nix.nix            # Nix package manager settings
 │   ├── overlays.nix       # Package overlays
+│   ├── packages.nix       # Essential system packages
 │   ├── security.nix       # Basic security settings
-│   ├── system-packages.nix # Essential system packages
 │   └── users.nix          # User management
 ├── darwin/                  # macOS-specific modules
 │   ├── README.md
@@ -29,36 +29,39 @@ modules/
 └── nixos/                   # NixOS-specific modules
     ├── base/               # Base NixOS configuration
     │   ├── btrbk.nix      # Local btrfs snapshots
-    │   ├── restic-backup.nix # Encrypted off-host backups (see ./BACKUP.md)
     │   ├── core.nix       # Core system settings
     │   ├── default.nix
     │   ├── i18n.nix       # Internationalization
+    │   ├── kernel-hardening.nix # Kernel hardening (module blacklisting)
     │   ├── monitoring.nix # System monitoring
-    │   ├── networking.nix # Network configuration
+    │   ├── networking/    # Network configuration
     │   ├── nix.nix        # Nix settings
     │   ├── packages.nix   # System packages
     │   ├── remote-building.nix # Remote build setup
+    │   ├── restic-backup.nix # Encrypted off-host backups (see ../BACKUP.md)
     │   ├── ssh.nix        # SSH daemon configuration
+    │   ├── trash.nix      # Trash retention cleanup
     │   ├── user-group.nix # User and group management
     │   └── zram.nix       # ZRAM swap configuration
     ├── desktop.nix         # Desktop environment configuration
     ├── desktop/            # Desktop-specific modules
+    │   ├── computer-use.nix # Headless X11/i3 session for AI agents
     │   ├── default.nix
     │   ├── fhs.nix        # FHS environment
     │   ├── fonts.nix      # Desktop fonts
-    │   ├── guix.nix       # GNU Guix integration
+    │   ├── gaming.nix     # Gaming support
     │   ├── misc.nix       # Miscellaneous desktop settings
     │   ├── networking/    # Network-related desktop configs
-    │   │   ├── clash-verge.nix
-    │   │   ├── default.nix
-    │   │   ├── remote-desktop.nix
-    │   │   └── tailscale.nix
+    │   ├── nix.nix        # Desktop Nix settings
     │   ├── peripherals.nix # Peripheral device configuration
+    │   ├── power.nix      # Power management
     │   ├── security.nix   # Desktop security settings
+    │   ├── ssh.nix        # Desktop SSH configuration
     │   ├── virtualisation.nix # Virtualization support
     │   └── xdg.nix       # XDG base directory settings
     └── server/             # Server-specific modules
         ├── qemu-guest-hardware-configuration.nix
+        ├── qemu-guest.nix  # VM guest base module (libvirt/QEMU guests)
         ├── server-aarch64.nix
         ├── server-riscv64.nix
         └── server.nix

@@ -16,8 +16,8 @@ cases.
 
 - **gui/**: Desktop environment configurations
   - **niri/**: Niri compositor configuration
+  - **i3/**: Headless X11 computer-use session (Xvfb + i3)
   - **base/**: Common desktop applications and services
-  - **editors/**: Text editor configurations for desktop environments
 
 ### Available Entry Points
 

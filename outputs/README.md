@@ -7,7 +7,7 @@ There is no need to do this when you have a small number of machines.
 But when you have a large number of machines, it is necessary to manage them in a fine-grained way,
 otherwise, it will be difficult to manage and maintain them.
 
-The number of my machines has grown to more than 20, and the increase in scale has shown signs of
+The number of my machines has grown past a dozen, and the increase in scale has shown signs of
 getting out of control of complexity, so it is a natural and reasonable choice to use this
 fine-grained architecture to manage.
 
@@ -32,7 +32,7 @@ Related projects & docs:
 
 Eval Tests evaluate the expressions and compare the results with the expected results. It runs fast,
 but it doesn't build a real machine. We use eval tests to ensure that some attributes are correctly
-set for each NixOS host(not Darwin).
+set for each NixOS and nix-darwin host.
 
 How to run all the eval tests:
 
@@ -74,40 +74,30 @@ All the outputs of this flake are defined here.
 ├── default.nix       # The entry point, all the outputs are composed here.
 ├── README.md
 ├── aarch64-darwin    # All outputs for macOS Apple Silicon
-│   ├── default.nix
-│   └── src           # every host has its own file in this directory
-│       ├── frieren.nix
-│       └── fern.nix
+│   ├── default.nix
+│   ├── src           # every host has its own file in this directory
+│   │   ├── fern.nix
+│   │   └── frieren.nix
+│   └── tests         # eval tests
 ├── aarch64-linux     # All outputs for Linux ARM64
-│   ├── default.nix
-│   ├── src           # every host has its own file in this directory
-│   │   ├── 12kingdoms-shoukei.nix
-│   └── tests         # eval tests
+│   ├── default.nix
+│   ├── src           # every host has its own file in this directory
+│   │   ├── 12kingdoms-shoukei.nix
+│   │   └── idols-akane.nix
+│   └── tests         # eval tests
 └── x86_64-linux      # All outputs for Linux x86_64
     ├── default.nix
     ├── nixos-tests
     ├── src           # every host has its own file in this directory
-    │   ├── idols-ai.nix
-    │   ├── idols-aquamarine.nix
-    │   ├── idols-kana.nix
-    │   ├── idols-ruby.nix
+    │   ├── 12kingdoms-shoryu.nix
+    │   ├── 12kingdoms-shushou.nix
+    │   ├── 12kingdoms-youko.nix
+    │   ├── idols-ai.nix
+    │   ├── idols-kana.nix
+    │   ├── idols-ruby.nix
     │   ├── k3s-test-1-master-1.nix
     │   ├── k3s-test-1-master-2.nix
-    │   ├── k3s-test-1-master-3.nix
-    │   ├── k3s-test-1-worker-1.nix
-    │   ├── k3s-test-1-worker-2.nix
-    │   ├── k3s-test-1-worker-3.nix
-    │   ├── shoryu.nix
-    │   ├── shushou.nix
-    │   └── youko.nix
-    └── tests         # eval tests
-        ├── home-manager
-        │   ├── expected.nix
-        │   └── expr.nix
-        ├── hostname
-        │   ├── expected.nix
-        │   └── expr.nix
-        └── kernel
-            ├── expected.nix
-            └── expr.nix
+    │   └── k3s-test-1-master-3.nix
+    └── tests         # eval tests (btrbk, computer-use-headless, hostname,
+                      # kernel, security-*, ups-metrics, ...)
 ```

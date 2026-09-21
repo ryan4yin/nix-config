@@ -8,7 +8,7 @@ features a versatile key management system as well as access modules for all kin
 directories.
 
 > In the following content, we will use GPG to refer to GnuPG tool, and PGP to refer to various
-> concepts defined in the OepnPGP standard(e.g. PGP key, PGP key server).
+> concepts defined in the OpenPGP standard(e.g. PGP key, PGP key server).
 
 Key functions of GnuPG:
 
@@ -602,7 +602,7 @@ But in OpenPGP:
   the keypair. But OpenPGP standard **DO NOT provide a way to distribute this certificate to
   others**.
   - Not to mention some key status query protocol like OCSP in Web PKI.
-  - Users has to pulish their revocation certificate to their blog, github profile or somewhere
+  - Users has to publish their revocation certificate to their blog, github profile or somewhere
     else, and others has to check it and run `gpg --import <revocation-certificate>` to revoke the
     keypair manually.
 

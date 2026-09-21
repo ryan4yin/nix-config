@@ -12,7 +12,7 @@ cd nix-config
 
 ## 1. partition & format the disk via disko
 # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode destroy,format,mount hosts/k8s/disko-config/kubevirt-disko-fs.nix
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode destroy,format,mount hosts/k8s/disko-config/host-disko-fs.nix
 ## 2. setup the automatic unlock via the tpm2 chip
 systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part-path>
 
