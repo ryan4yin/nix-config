@@ -9,6 +9,8 @@ Manager.
 
 - **niri**: Niri compositor configuration with custom settings, keybindings, spawn-at-startup rules,
   and window rules
+- **i3**: Headless X11 session for the computer-use VMs (`idols-ruby`, `idols-kana`); see
+  [`i3/README.md`](./i3/README.md)
 
 ### Base Desktop Environment
 
@@ -25,19 +27,15 @@ Manager.
   - Wayland applications
   - XDG desktop configurations
 
-### Editor Configurations
-
-- **editors**: Text editor configurations and integrations
-
 ## Why install Desktop Environments in Home Manager instead of NixOS Module?
 
 1. **Configuration Location**: Desktop environment configuration files are located in `~/.config`,
    which can be easily managed by Home Manager.
 
-2. **User-specific Services**: User-specific systemd services (noctalia, fcitx5, hypridle, etc.) can
-   be easily managed by Home Manager. If desktop environments were configured via NixOS Module,
-   these user-level services might fail to start automatically. With Home Manager modules, we can
-   control systemd service dependency order more effectively.
+2. **User-specific Services**: User-specific systemd services (fcitx5, hypridle, etc.) can be easily
+   managed by Home Manager. If desktop environments were configured via NixOS Module, these
+   user-level services might fail to start automatically. With Home Manager modules, we can control
+   systemd service dependency order more effectively.
 
 3. **System Benefits**: By minimizing package installation through NixOS Module:
    - Makes the NixOS system more secure and stable

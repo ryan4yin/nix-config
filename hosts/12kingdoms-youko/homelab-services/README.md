@@ -1,23 +1,25 @@
-# Idols - Aquamarine
+# Youko - Homelab Services
 
-Storage, operation and maintenance related services are running on this host:
+Storage, operation and maintenance related services are running on this host (migrated here from the
+retired `idols-aquamarine` guest):
 
-1. Storage such as git server, file server/browser, torrent downloader,, etc.
-1. Backup or sync my personal data to cloud or NAS.
-   - For safety, those data should be encrypted before sending to the cloud or my NAS.
-1. Collect and monitor the metrics/logs of my homelab.
+1. Storage such as a git server, file server, torrent downloader, etc.
+1. Back up my personal data with restic; the data is encrypted on the client.
+1. Collect and monitor the metrics of my homelab.
 
 ## Features
 
 Services:
 
-1. prometheus + alertmanager + grafana + loki: Monitor the metrics/logs of my homelab.
-1. restic: Backup my personal data to cloud or NAS.
-1. synthing: Sync file between android/macbook/PC and NAS.
+1. caddy: Reverse proxy / TLS front end and the `file.writefor.fun` file server.
 1. gitea: Self-hosted git service.
-1. sftpgo: SFTP server.
-1. transmission & AriaNg: Torrent downloader and HTTP downloader
-1. alist/filebrower: File browser for local/SMB/Cloud
+1. sftpgo: SFTP / WebDAV server.
+1. transmission: BitTorrent client.
+1. postgresql: Database for the homelab services.
+1. v2ray: HTTP/SOCKS proxy for the homelab.
+1. restic: Encrypted backups; hosts the REST server the desktops push to.
+1. victoriametrics + vmalert + alertmanager + grafana: Monitor the metrics of my homelab.
+1. homepage + uptime-kuma: Service dashboard and uptime checks.
 
 All the services assumes a reverse proxy to be setup in the front, they are all listening on
 localhost, and a caddy service is listening on the local network interface and proxy the requests to

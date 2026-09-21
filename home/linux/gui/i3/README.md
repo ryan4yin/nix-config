@@ -20,8 +20,9 @@ is XWayland/X11-based, so a native X11 session is simpler and better supported t
   services: `xvfb` → `i3` → (`x11vnc`, `cua-driver serve`).
 - `modules/nixos/desktop/computer-use.nix` provides the system side (`linger`, AT-SPI, fonts, Mesa,
   Clash Verge proxy, proxy-region timezone).
-- `computer-use-init.sh` (exec'd by i3) publishes `DISPLAY`/`XDG_SESSION_TYPE` to the systemd user
-  manager, clears any stale `WAYLAND_DISPLAY`, and enables the AT-SPI bridge via a gsettings key.
+- the generated `computer-use-init` script (exec'd by i3) publishes `DISPLAY`/`XDG_SESSION_TYPE` to
+  the systemd user manager, clears any stale `WAYLAND_DISPLAY`, and enables the AT-SPI bridge via a
+  gsettings key.
 - Drivers live in `overlays/cua-driver.nix` and `overlays/computer-use-linux.nix`.
 - Host wiring: `home/hosts/linux/idols-ruby.nix`, `home/hosts/linux/idols-kana.nix`.
 
@@ -32,7 +33,7 @@ The generated config is intentionally minimal:
 - `font pango:monospace 10`
 - `default_border normal` — keeps title bars, so the client area is slightly smaller than the
   screen. That matches a real desktop and avoids a full-screen-sized viewport.
-- `exec --no-startup-id .../computer-use-init.sh` — one-time session setup, see above.
+- `exec --no-startup-id .../computer-use-init` — one-time session setup, see above.
 
 There are no keybindings, bars or autostarted apps: agents drive the session through the drivers,
 not the keyboard. Manual inspection is done over VNC (`x11vnc`, bound to `127.0.0.1`; reach it

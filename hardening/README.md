@@ -24,6 +24,7 @@
 - **Nixpak** (`nixpaks/`): Bubblewrap-based sandboxing for applications
   - Firefox configuration
   - QQ (Chinese messaging app) configuration
+  - Telegram Desktop configuration
   - Modular system with reusable components
 - **Firejail** (legacy): SUID-based sandboxing (not used)
 - **Bubblewrap** (`bwraps/`): Direct bubblewrap configurations
@@ -36,6 +37,7 @@
 | AppArmor Profiles | 🚧 WIP    | Basic structure in place       |
 | Nixpak Firefox    | ✅ Active | Firefox sandboxing via nixpak  |
 | Nixpak QQ         | ✅ Active | QQ application sandboxing      |
+| Nixpak Telegram   | ✅ Active | Telegram Desktop sandboxing    |
 | Bubblewrap WeChat | ✅ Active | WeChat specific sandboxing     |
 | System Profiles   | 🚧 WIP    | Hardened system configurations |
 
@@ -53,7 +55,9 @@ hardening/
 │   ├── default.nix
 │   ├── firefox.nix
 │   ├── qq.nix
+│   ├── telegram-desktop.nix
 │   └── modules/       # Reusable nixpak modules
+│       ├── custom-policy.nix
 │       ├── gui-base.nix
 │       └── network.nix
 └── profiles/          # System hardening profiles

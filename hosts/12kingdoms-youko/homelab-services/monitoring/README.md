@@ -16,6 +16,6 @@
   Alertmanager.
 - **Backup freshness**: nothing alerts on "no recent successful backup". The systemd `failed` state
   only catches crashes, not a job that never ran or a backup that is silently stale. Export the last
-  successful backup timestamp (restic prometheus exporter; btrfs snapshot time via the node-exporter
-  textfile collector) and alert when it exceeds the SLO, and add an off-host btrbk `target` so local
-  snapshots are not the only copy.
+  successful backup timestamp (the restic rest-server already exposes Go/promhttp metrics; btrfs
+  snapshot time via the node-exporter textfile collector) and alert when it exceeds the SLO.
+  Off-host copies are already restic's job (see `BACKUP.md`), so no btrbk `target` is needed.

@@ -32,12 +32,12 @@ How this fleet is backed up, where the data lives, and how to restore it.
 
 Two independent repository passwords, deliberately not shared:
 
-| Group       | Secret                        | Recipients    | Decrypts             |
-| ----------- | ----------------------------- | ------------- | -------------------- |
-| desktop     | `restic-password-desktop.age` | desktops      | desktop repositories |
-| homelab     | `restic-password-homelab.age` | homelab hosts | homelab repositories |
-| REST access | `restic-rest-credentials.age` | desktops      | nothing (auth only)  |
-| REST access | `restic-rest-htpasswd.age`    | all hosts     | nothing (auth only)  |
+| Group       | Secret                        | Recipients              | Decrypts             |
+| ----------- | ----------------------------- | ----------------------- | -------------------- |
+| desktop     | `restic-password-desktop.age` | desktops                | desktop repositories |
+| homelab     | `restic-password-homelab.age` | homelab hosts           | homelab repositories |
+| REST access | `restic-rest-credentials.age` | desktops                | nothing (auth only)  |
+| REST access | `restic-rest-htpasswd.age`    | the REST server (youko) | nothing (auth only)  |
 
 Consequences worth remembering:
 
@@ -62,7 +62,6 @@ collisions.
 | 01:30 + 15m      | desktops push to youko              |
 | 02:30 + 15m      | youko backs itself up               |
 | 03:45:20 Tue/Sat | btrbk local snapshots               |
-| other slots      | other homelab hosts, before 03:30   |
 | 06:00 (planned)  | youko copies homelab repos to cloud |
 
 Set per host via `modules.restic-backup.onCalendar` and `randomizedDelaySec`.
@@ -156,4 +155,4 @@ Restoring a btrbk snapshot (offline; stop writers first):
 | `hosts/12kingdoms-youko/default.nix`                                             | the REST server and youko's own backup               |
 | `hosts/12kingdoms-youko/homelab-services/caddy.nix`                              | the `restic.writefor.fun` vhost                      |
 | `secrets/nixos.nix`                                                              | which secret is defined on which host                |
-| `hosts/<host>/restic.nix`                                                        | per-host backup configuration                        |
+| `hosts/idols-ai/restic.nix`, `hosts/12kingdoms-youko/default.nix`                | per-host backup configuration                        |

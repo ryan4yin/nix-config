@@ -9,7 +9,7 @@ home/
 ├── base/              # Cross-platform home manager configurations
 │   ├── core/          # Essential applications and settings
 │   │   ├── editors/   # Editor configurations (Neovim, Helix)
-│   │   ├── shells/    # Shell configurations (Nushell, Zellij)
+│   │   ├── shells/    # Shell configurations (bash, Nushell)
 │   │   └── ...
 │   ├── gui/           # GUI applications and desktop settings
 │   │   ├── terminal/  # Terminal emulators (Kitty, Alacritty, etc.)
@@ -25,10 +25,9 @@ home/
 │   │   ├── i3/        # i3 — headless computer-use session (see i3/README.md)
 │   │   ├── niri/      # Niri window manager
 │   │   └── ...
-│   ├── editors/       # Linux-specific editors
 │   └── ...
 ├── hosts/             # Host-specific home manager entry modules
-│   ├── linux/         # Linux host home modules (ai, shoukei, k3s-*, etc.)
+│   ├── linux/         # Linux host home modules (ai, shoukei, kana, ruby, k3s-*, etc.)
 │   └── darwin/        # macOS host home modules (fern, frieren)
 └── darwin/            # macOS-specific home manager configurations
     ├── proxy/         # Proxy configurations

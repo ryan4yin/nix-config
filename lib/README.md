@@ -1,7 +1,7 @@
 # Library
 
-This directory contains helper functions used by `flake.nix` to reduce code duplication and make it
-easier to add new machines.
+This directory contains helper functions used by `outputs/default.nix` (and the installer flake) to
+reduce code duplication and make it easier to add new machines.
 
 ## Current Functions
 
@@ -16,13 +16,15 @@ easier to add new machines.
 
 ### Specialized Module Generators
 
-5. **`genK3sAgentModule.nix`** - K3s agent node configuration generator
-6. **`genK3sServerModule.nix`** - K3s server node configuration generator
+5. **`genK3sServerModule.nix`** - K3s server node configuration generator
+6. **`genVmHostModule.nix`** - physical VM host (bridge + libvirt) configuration generator
+7. **`genMicrovmGuestModule.nix`** - NixOS microVM guest configuration generator
+8. **`genLibvirtDomainXml.nix`** - libvirt domain XML generator (imported directly by host configs)
 
 ### Entry Point
 
-9. **`default.nix`** - Main entry point that imports all functions and exports them as a single
-   attribute set
+9. **`default.nix`** - Main entry point that imports the generators and exports them as a single
+   attribute set, plus the `relativeToRoot` and `scanPaths` helpers
 
 ## Usage
 
