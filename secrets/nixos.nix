@@ -220,6 +220,12 @@ in
           mode = "0400";
           owner = "root";
         };
+        # restic repository password (used by modules.restic-backup)
+        "restic-password" = {
+          file = "${mysecrets}/restic-password.age";
+          mode = "0400";
+          owner = "root";
+        };
       };
 
       # place secrets in /etc/
