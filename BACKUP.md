@@ -4,12 +4,12 @@ How this fleet is backed up, where the data lives, and how to restore it.
 
 ## What protects against what
 
-| Threat                        | Defence                                                              |
-| ----------------------------- | -------------------------------------------------------------------- |
-| accidental deletion, bad edit | btrbk: local btrfs snapshots                                         |
-| disk or host loss             | restic: encrypted copies on youko                                    |
-| a compromised backup server   | desktop repositories use a password youko never holds                |
-| a compromised host            | not defended yet: the immutable offsite copy (planned) is that layer |
+| Threat                        | Defence                                                            |
+| ----------------------------- | ------------------------------------------------------------------ |
+| accidental deletion, bad edit | btrbk: local btrfs snapshots                                       |
+| disk or host loss             | restic: encrypted copies on youko                                  |
+| a compromised backup server   | desktop repositories use a password youko never holds              |
+| a compromised host            | not defended yet: the immutable cloud copy (planned) is that layer |
 
 ## Layers
 
@@ -114,7 +114,7 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - btrbk: automatic, 7 days with a 2 day minimum.
 - youko's own restic repository: automatic, `--keep-daily 3 --keep-weekly 2 --keep-monthly 2`.
 - Desktop restic repositories: automatic, the module defaults
-  (`--keep-daily 3 --keep-weekly 2 --keep-monthly 2`). Immutability is the offsite copy's job
+  (`--keep-daily 3 --keep-weekly 2 --keep-monthly 2`). Immutability is the cloud copy's job
   (planned), not the local server's.
 
 ## Verifying
@@ -134,9 +134,9 @@ Restoring a btrbk snapshot (offline; stop writers first):
 
 - **Restore drill**: actually restore a file from a restic snapshot and from a btrbk snapshot, on a
   schedule. An unverified restore is not a backup.
-- **Offsite copy**: youko copies the homelab repositories with `restic copy`; desktops copy their
-  own. Use an immutable or versioned target (object lock) — that is the layer which survives a
-  compromised host.
+- **Cloud copy**: youko copies the homelab repositories with `restic copy`; desktops copy their own.
+  The target must not live in the homelab, and should be immutable or versioned (object lock) — that
+  is the layer which survives a compromised host.
 - **`restic check` timer**: periodic integrity verification, on the host that holds the password.
 - **Metrics**: run rest-server with `--prometheus` and chart repository growth in Grafana.
 - **Recovery key for the homelab password**: `restic-password-homelab.age` is encrypted only to the
