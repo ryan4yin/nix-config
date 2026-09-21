@@ -18,6 +18,19 @@ let
     inherit pkgs hostName;
     inherit (myvars) networking;
   };
+  resticModule = mylib.genResticBackup {
+    inherit pkgs hostName;
+    postgresDump = true;
+    paths = [
+      "/persistent/var/lib/gitea"
+      "/persistent/var/lib/postgresql"
+      "/persistent/var/lib/grafana"
+      "/persistent/var/lib/victoriametrics"
+      "/persistent/var/lib/homepage-dashboard"
+      "/persistent/var/lib/sftpgo"
+      "/persistent/var/lib/caddy"
+    ];
+  };
 in
 {
   imports = (mylib.scanPaths ./.) ++ [

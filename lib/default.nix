@@ -8,6 +8,7 @@
 
   genK3sServerModule = import ./genK3sServerModule.nix;
   genVmHostModule = import ./genVmHostModule.nix;
+  genResticBackup = import ./genResticBackup.nix;
   genMicrovmGuestModule = import ./genMicrovmGuestModule.nix;
 
   # use path relative to the root of the project
