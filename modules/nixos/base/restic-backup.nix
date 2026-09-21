@@ -68,6 +68,44 @@ in
         not-yet-mounted directory.
       '';
     };
+
+    excludeLargerThan = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "500M";
+      description = ''
+        Skip any file larger than this (restic's `--exclude-larger-than`). A size
+        cap is more reliable than guessing file types when the tree contains
+        large re-downloadable artifacts.
+      '';
+    };
+
+    environmentFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      example = config.age.secrets."restic-rest-credentials".path;
+      description = ''
+        systemd `EnvironmentFile` with restic environment variables. Needed for
+        a `rest:` repository, whose credentials are environment-only
+        (`RESTIC_REST_USERNAME` / `RESTIC_REST_PASSWORD`) and must not appear in
+        the repository URL.
+      '';
+    };
+
+    pruneOpts = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [
+        "--keep-daily 3"
+        "--keep-weekly 2"
+        "--keep-monthly 2"
+      ];
+      description = ''
+        Retention passed to `restic forget --prune`. Leave it empty when the
+        repository is an append-only server: that server rejects deletion, so
+        the client cannot forget or prune (the backup would otherwise fail
+        after uploading).
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -82,20 +120,12 @@ in
       # Relative to the backed-up tree, so they work for both the snapshot and
       # a direct path.
       exclude = [
-        # regenerable, huge, or unsuitable for file-level backup
+        # Universal: keys and credentials are never backed up, on any host.
+        # (restic's own password lives in /etc/agenix, so backing that up would
+        # store the repository's password inside the repository.)
         #
-        # the whole podman storage tree: the image layers are re-pullable, and
-        # its storage DB is not consistent when copied from a running podman.
-        # (uptime-kuma uses a named volume under here; its data is not wanted.)
-        "var/lib/containers"
-        "var/lib/microvms"
-        "var/lib/libvirt"
-        "nfs"
-        "var/cache"
-        "var/tmp"
-        "var/log"
-        "*.qcow2"
-        # keys and credentials are never backed up
+        # Host-specific excludes (regenerable bulk, VM images, ...) belong in
+        # the host's own config.
         "etc/agenix"
         "etc/ssh/ssh_host_*"
         "**/.ssh"
@@ -110,12 +140,19 @@ in
         RandomizedDelaySec = "1h";
       };
 
-      pruneOpts = [
-        "--keep-daily 3"
-        "--keep-weekly 2"
-        "--keep-monthly 2"
+      inherit (cfg) pruneOpts;
+    }
+    // lib.optionalAttrs (cfg.excludeLargerThan != null) {
+      extraBackupArgs = [
+        "--exclude-larger-than"
+        cfg.excludeLargerThan
       ];
     }
+
+    // lib.optionalAttrs (cfg.environmentFile != null) {
+      inherit (cfg) environmentFile;
+    }
+
     // lib.optionalAttrs (cfg.snapshotSource != null) {
       backupPrepareCommand = ''
         ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r ${cfg.snapshotSource} ${snapshotPath}

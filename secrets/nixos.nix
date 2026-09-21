@@ -213,13 +213,37 @@ in
       };
     })
 
-    (mkIf (cfg.desktop.enable || cfg.server.storage.enable) {
-      # the restic repository password, needed by modules.restic-backup on both
-      # the homelab servers and the desktops
+    (mkIf cfg.desktop.enable {
+      # Desktops use their own restic repository password, NOT the homelab's:
+      # the backup server holds the homelab one, so a shared password would let
+      # that server decrypt desktop data.
       age.secrets."restic-password" = {
-        file = "${mysecrets}/restic-password.age";
+        file = "${mysecrets}/restic-password-desktop.age";
         mode = "0400";
         owner = "root";
+      };
+      # credentials for the restic REST server that receives this backup
+      age.secrets."restic-rest-credentials" = {
+        file = "${mysecrets}/restic-rest-credentials.age";
+        mode = "0400";
+        owner = "root";
+      };
+    })
+
+    (mkIf cfg.server.storage.enable {
+      # the homelab's restic repository password, shared by the homelab hosts
+      # (this host holds it, so it can copy/verify homelab repositories)
+      age.secrets."restic-password" = {
+        file = "${mysecrets}/restic-password-homelab.age";
+        mode = "0400";
+        owner = "root";
+      };
+      # htpasswd for the restic REST server this host runs; the service runs as
+      # the unprivileged `restic` user, which must be able to read it
+      age.secrets."restic-rest-htpasswd" = {
+        file = "${mysecrets}/restic-rest-htpasswd.age";
+        mode = "0400";
+        owner = "restic";
       };
     })
 
