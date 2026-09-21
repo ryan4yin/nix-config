@@ -13,6 +13,7 @@ let
   #                     /var/lib/libvirt/images/<vm>.img
   domains = {
     idols-kana = {
+      uuid = "e744f563-7c7d-45e6-bc71-61980790208d";
       vcpu = 4;
       memoryGiB = 8;
       disk = "/var/lib/libvirt/images/idols-kana.img";

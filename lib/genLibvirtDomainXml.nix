@@ -7,6 +7,7 @@
 { lib }:
 {
   name,
+  uuid,
   vcpu,
   memoryGiB,
   disk,
@@ -17,6 +18,7 @@
 ''
   <domain type='kvm'>
     <name>${name}</name>
+    <uuid>${uuid}</uuid>
     <memory unit='GiB'>${toString memoryGiB}</memory>
     <vcpu>${toString vcpu}</vcpu>
     <os>
