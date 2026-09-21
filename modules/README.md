@@ -28,7 +28,8 @@ modules/
 │   └── users.nix         # macOS user management
 └── nixos/                   # NixOS-specific modules
     ├── base/               # Base NixOS configuration
-    │   ├── btrbk.nix      # Backup configuration
+    │   ├── btrbk.nix      # Local btrfs snapshots
+    │   ├── restic-backup.nix # Encrypted off-host backups (see ./BACKUP.md)
     │   ├── core.nix       # Core system settings
     │   ├── default.nix
     │   ├── i18n.nix       # Internationalization
