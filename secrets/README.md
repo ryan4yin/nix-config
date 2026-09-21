@@ -22,12 +22,14 @@ decrypt all my secrets via `agenix`. Then, I can use them in this flake.
 
 ## Which Keys Go on a Secret
 
-**Every secret must be decryptable by the desktops.** The desktops hold the trusted admin keys, and
-they are where secrets are added, edited and rekeyed — including `agenix -r`, which has to decrypt
-every secret in this repository first. Narrowing a secret to the servers alone breaks that.
+**Every secret is decryptable by the desktops and by the offline `recovery_key`, and those two have
+identical access.** The desktops hold the trusted admin keys and are where secrets are added, edited
+and rekeyed — including `agenix -r`, which has to decrypt every secret in this repository first.
+`recovery_key` is a member of `desktop_keys`, so one rule covers both: every recipient set is
+`desktop_keys ++ <the hosts that need it>`.
 
-So every recipient set is `desktop_keys ++ <the hosts that need it>`, and `desktop_keys` carries the
-offline `recovery_key`; a lost host therefore never makes a secret unrecoverable.
+That also means a lost host never makes a secret unrecoverable, and that narrowing a set to the
+servers alone breaks the desktops and the recovery key together.
 
 The one exception is the desktop's own restic repository password (`restic-password-desktop.age`):
 `desktop_keys` alone, because the backup servers must not be able to read desktop data.
