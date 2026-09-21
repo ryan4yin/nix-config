@@ -59,15 +59,18 @@ in
 
   modules.btrbk.enable = true;
 
-  # The restic REST server the desktops push their backups to. Append-only, so
-  # a compromised client still cannot delete history; private repos, so each
-  # client only reaches the repository named after its user. Credentials come
-  # from agenix; caddy terminates TLS in front of it.
+  # The restic REST server the desktops push their backups to. Private repos,
+  # so each client only reaches the repository named after its user. Credentials
+  # come from agenix; caddy terminates TLS in front of it.
+  #
+  # Deliberately NOT append-only: a desktop holds both the plaintext and the
+  # repository password, so protecting its backups from deletion buys little
+  # (a compromise is a compromise) while blocking the automatic retention the
+  # client needs. Immutability belongs in the offsite copy instead.
   services.restic.server = {
     enable = true;
     listenAddress = "127.0.0.1:8000";
     dataDir = "/data/backups/rest-server";
-    appendOnly = true;
     privateRepos = true;
     "htpasswd-file" = config.age.secrets."restic-rest-htpasswd".path;
   };
