@@ -64,8 +64,10 @@ in
     script = ''
       for d in ${hddPublic} ${hddEncrypted}; do
         echo "== $d =="
-        ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 "$d" || true
+        # -B 255: APM off; -S 0: no standby timer; -J 0: WD idle3 (Intellipark) off
+        ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 -J 0 "$d" || true
         ${pkgs.hdparm}/bin/hdparm -B "$d" || true
+        ${pkgs.hdparm}/bin/hdparm -J "$d" || true
         ${pkgs.hdparm}/bin/hdparm -C "$d" || true
       done
     '';
