@@ -18,14 +18,6 @@ let
     inherit pkgs hostName;
     inherit (myvars) networking;
   };
-  resticModule = mylib.genResticBackup {
-    inherit pkgs;
-    repository = "/data/backups/restic/youko";
-    postgresDump = true;
-    # the whole preserved tree; the module's excludes drop the regenerable bulk
-    # (podman's overlay layers, the microvm/libvirt images, nfs, logs, caches)
-    paths = [ "/persistent" ];
-  };
 in
 {
   imports = (mylib.scanPaths ./.) ++ [
@@ -34,8 +26,18 @@ in
     ../12kingdoms-shoryu/hardware-configuration.nix
     ../12kingdoms-shoryu/preservation.nix
     coreModule
-    resticModule
   ];
+
+  # the whole preserved tree; the module's excludes drop the regenerable bulk
+  # (podman's overlay layers, the microVM/libvirt images, nfs, logs, caches)
+  # and all keys/credentials
+  modules.restic-backup = {
+    enable = true;
+    repository = "/data/backups/restic/youko";
+    paths = [ "/persistent" ];
+    requiresMountsFor = "/data/backups";
+    postgresDump = true;
+  };
 
   modules.btrbk.enable = true;
 
