@@ -28,6 +28,16 @@ Clusters running as virtual machines on the KubeVirt cluster, for testing and de
 1. `k3s-test-1-worker-2`
 1. `k3s-test-1-worker-3`
 
+## TODO / Known issues
+
+- **The USB HDD bridge is flaky.** aquamarine's two HDDs sit behind a JMicron JMS567 USB-SATA bridge
+  that keeps resetting (`dmesg` on `kubevirt-youko`). Find out how often it resets and how much it
+  matters before putting anything critical (e.g. an NFS export) on it.
+- **Move aquamarine out of KubeVirt.** It is a "core" machine, so it should not depend on the
+  k8s/KubeVirt control plane; run it as a NixOS microVM on `kubevirt-youko` (`microvm.nix`) instead,
+  reusing its current disk. Consider consolidating the NFS server onto it afterwards (with a fast
+  and a slow tier).
+
 ## Kubernetes Resources
 
 Kubernetes resources are deployed and managed separately through
