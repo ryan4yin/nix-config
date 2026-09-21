@@ -150,6 +150,23 @@ rec {
       iface = "enp2s0";
       ipv4 = "192.168.5.116";
     };
+    k3s-test-1-worker-1 = {
+      # KubeVirt VM
+      # NOTE: .111-.113 are still held by the (never-deployed, to-be-removed)
+      # k3s-prod-1-worker-* entries, so use the next free addresses for now.
+      iface = "enp2s0";
+      ipv4 = "192.168.5.117";
+    };
+    k3s-test-1-worker-2 = {
+      # KubeVirt VM
+      iface = "enp2s0";
+      ipv4 = "192.168.5.118";
+    };
+    k3s-test-1-worker-3 = {
+      # KubeVirt VM
+      iface = "enp2s0";
+      ipv4 = "192.168.5.119";
+    };
   };
 
   hostsInterface = lib.attrsets.mapAttrs (key: val: {

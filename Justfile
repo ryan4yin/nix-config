@@ -276,6 +276,9 @@ upload-k3s-test verbosity="normal":
   upload-vm k3s-test-1-master-1 {{verbosity}};
   upload-vm k3s-test-1-master-2 {{verbosity}};
   upload-vm k3s-test-1-master-3 {{verbosity}};
+  upload-vm k3s-test-1-worker-1 {{verbosity}};
+  upload-vm k3s-test-1-worker-2 {{verbosity}};
+  upload-vm k3s-test-1-worker-3 {{verbosity}};
 
 [linux]
 [group('homelab')]
