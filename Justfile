@@ -192,10 +192,10 @@ col tag mode="switch":
 # Build and upload a vm image
 [linux]
 [group('homelab')]
-upload-vm name verbosity="normal":
+upload-vm name size verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *;
-  upload-vm {{name}} {{verbosity}}
+  upload-vm {{name}} {{size}} {{verbosity}}
 
 # Deploy all the KubeVirt nodes(Physical machines running KubeVirt)
 [linux]
@@ -230,9 +230,9 @@ youko mode="switch":
 upload-idols verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
-  upload-vm aquamarine {{verbosity}}
-  upload-vm ruby {{verbosity}}
-  upload-vm kana {{verbosity}}
+  upload-vm aquamarine 80Gi {{verbosity}}
+  upload-vm ruby 100Gi {{verbosity}}
+  upload-vm kana 100Gi {{verbosity}}
 
 [linux]
 [group('homelab')]
@@ -261,12 +261,12 @@ kana mode="switch":
 upload-k3s-test verbosity="normal":
   #!/usr/bin/env nu
   use {{utils_nu}} *; 
-  upload-vm k3s-test-1-master-1 {{verbosity}};
-  upload-vm k3s-test-1-master-2 {{verbosity}};
-  upload-vm k3s-test-1-master-3 {{verbosity}};
-  upload-vm k3s-test-1-worker-1 {{verbosity}};
-  upload-vm k3s-test-1-worker-2 {{verbosity}};
-  upload-vm k3s-test-1-worker-3 {{verbosity}};
+  upload-vm k3s-test-1-master-1 50Gi {{verbosity}};
+  upload-vm k3s-test-1-master-2 50Gi {{verbosity}};
+  upload-vm k3s-test-1-master-3 50Gi {{verbosity}};
+  upload-vm k3s-test-1-worker-1 50Gi {{verbosity}};
+  upload-vm k3s-test-1-worker-2 50Gi {{verbosity}};
+  upload-vm k3s-test-1-worker-3 50Gi {{verbosity}};
 
 [linux]
 [group('homelab')]

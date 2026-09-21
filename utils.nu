@@ -78,6 +78,7 @@ export def darwin-rollback [] {
 # Build and upload a VM image
 export def upload-vm [
     name: string
+    size: string
     verbosity: string
 ] {
     print $"upload-vm '($name)' with '($verbosity)' verbosity..."
@@ -89,14 +90,14 @@ export def upload-vm [
         nix build $target
     }
 
-    # Push the freshly built image into its golden-image PVC. The PVC is
-    # declared in k8s-gitops (vms/golden-images) and lives on the shared NFS
-    # store exported by kubevirt-youko, so every node can clone it when a VM
-    # is (re)created.
+    # Write the freshly built image straight into the VM's own root disk (a
+    # DataVolume with `source: upload` in k8s-gitops). CDI only accepts an
+    # upload into a DataVolume, and this way the disk is populated once, on the
+    # node the VM is pinned to.
     #
     # Requires the CDI upload proxy to be reachable from here; it is exposed
     # as a NodePort by the cluster (see infra/configs/base/kubevirt).
     let uploadProxyUrl = "https://192.168.5.181:30443"
     let image = (glob result/nixos-image-*.qcow2 | first)
-    virtctl image-upload pvc $"golden-($name)" -n vms --image-path $image --uploadproxy-url $uploadProxyUrl --insecure
+    virtctl image-upload dv $"($name)-disk" -n vms --size $size --image-path $image --uploadproxy-url $uploadProxyUrl --insecure
 }
