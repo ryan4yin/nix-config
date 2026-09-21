@@ -14,9 +14,6 @@ let
     inherit pkgs hostName;
     inherit (myvars) networking;
   };
-  resticModule = mylib.genResticBackup {
-    inherit pkgs hostName;
-  };
 in
 {
   imports = (mylib.scanPaths ./.) ++ [

@@ -19,8 +19,12 @@ in
   #   /btr_pool/@snapshots/@persistent.<timestamp>
   #
   # These are same-filesystem snapshots: they protect against accidental
-  # deletion and bad edits, NOT against disk loss. Set `target` (plus
-  # `services.btrbk.sshAccess` on the receiving host) for off-host backups.
+  # deletion and bad edits, NOT against disk loss. Off-host copies are handled
+  # by restic (lib/genResticBackup.nix), which can exclude the regenerable bulk
+  # at the file level; btrbk works at the subvolume level, so a `target` would
+  # also ship podman's overlay storage and the VM disk images. Set `target`
+  # (plus `services.btrbk.sshAccess` on the receiving host) only if you want
+  # that.
   #
   # The host MUST mount the btrfs top-level subvolume (subvolid=5) at `volume`;
   # this is enforced by an assertion so a missing mount fails evaluation instead
