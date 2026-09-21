@@ -33,13 +33,6 @@
     # archives); a size cap beats guessing file types
     excludeLargerThan = "500M";
 
-    # The server is append-only (it rejects deletion), so the client cannot
-    # forget or prune: retention has to be applied by hand, by running
-    # `restic forget --prune` while the server is temporarily not in
-    # append-only mode. Snapshots therefore accumulate here; deduplication
-    # keeps that cheap.
-    pruneOpts = [ ];
-
     exclude = [
       # Generic patterns only; this repository is public.
       #

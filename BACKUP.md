@@ -4,12 +4,12 @@ How this fleet is backed up, where the data lives, and how to restore it.
 
 ## What protects against what
 
-| Threat                        | Defence                                                        |
-| ----------------------------- | -------------------------------------------------------------- |
-| accidental deletion, bad edit | btrbk: local btrfs snapshots                                   |
-| disk or host loss             | restic: encrypted copies on youko                              |
-| a compromised backed-up host  | `rest-server --append-only`: a client can never delete history |
-| a compromised backup server   | desktop repositories use a password youko never holds          |
+| Threat                        | Defence                                                              |
+| ----------------------------- | -------------------------------------------------------------------- |
+| accidental deletion, bad edit | btrbk: local btrfs snapshots                                         |
+| disk or host loss             | restic: encrypted copies on youko                                    |
+| a compromised backup server   | desktop repositories use a password youko never holds                |
+| a compromised host            | not defended yet: the immutable offsite copy (planned) is that layer |
 
 ## Layers
 
@@ -19,10 +19,14 @@ How this fleet is backed up, where the data lives, and how to restore it.
 2. **restic — encrypted copies on youko**
    ([`modules/nixos/base/restic-backup.nix`](./modules/nixos/base/restic-backup.nix)). Encryption
    happens on the client, so the server only ever stores ciphertext. youko runs `restic-rest-server`
-   with `--append-only` and `--private-repos`, authenticated by htpasswd, published behind caddy as
-   `restic.writefor.fun`.
+   with `--private-repos`, authenticated by htpasswd, published behind caddy as
+   `restic.writefor.fun`. Deliberately not append-only: a desktop holds both the plaintext and the
+   repository password, so blocking deletion there protects little while denying the client the
+   automatic retention it needs.
 3. **cloud copy** (planned). youko will copy the homelab repositories with `restic copy` (it holds
-   that password). Desktops copy their own: youko does not hold the desktop password.
+   that password). Desktops copy their own: youko does not hold the desktop password. This layer is
+   what protects history against a compromised host, so the target should be immutable or versioned
+   (object lock or equivalent) rather than a plain bucket.
 
 ## Password model
 
@@ -109,10 +113,9 @@ Restoring a btrbk snapshot (offline; stop writers first):
 
 - btrbk: automatic, 7 days with a 2 day minimum.
 - youko's own restic repository: automatic, `--keep-daily 3 --keep-weekly 2 --keep-monthly 2`.
-- Desktop restic repositories: **none**. The append-only server rejects deletion, so the client
-  cannot forget or prune. Snapshots accumulate (deduplication keeps that cheap). To reclaim space,
-  run the server temporarily without `--append-only`, `restic forget --prune` from the desktop, then
-  re-enable it.
+- Desktop restic repositories: automatic, the module defaults
+  (`--keep-daily 3 --keep-weekly 2 --keep-monthly 2`). Immutability is the offsite copy's job
+  (planned), not the local server's.
 
 ## Verifying
 
