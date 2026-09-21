@@ -106,16 +106,8 @@ in
     443
   ];
 
-  # Create Directories
-  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
-  systemd.tmpfiles.rules = [
-    "d /var/lib/caddy/fileserver/ 0755 caddy caddy"
-    # directory for virtual machine's images
-    "d /var/lib/caddy/fileserver/vms 0755 caddy caddy"
-  ];
-
-  # Add all my wallpapers into /var/lib/caddy/fileserver/wallpapers
-  # Install the homepage-dashboard configuration files
+  # Serve the wallpapers from the file server. `mkdir -p` here covers the
+  # whole fileserver tree; caddy's dataDir itself is created by the module.
   system.activationScripts.installCaddyWallpapers = ''
     mkdir -p /var/lib/caddy/fileserver/wallpapers
     ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F644 ${wallpapers}/ /var/lib/caddy/fileserver/wallpapers/
