@@ -1,0 +1,3 @@
+{
+  imports = [ ../../linux/core.nix ];
+}

@@ -46,7 +46,8 @@ Named after "Twelve Kingdoms":
 #### `k8s` - Kubernetes Infrastructure
 
 - **VM Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
-- **K3s Testing**: `k3s-test-1-master-{1,2,3}`, running as microVMs on those hosts
+- **K3s Testing**: `k3s-test-1-master-{1,2,3}` (control plane) + `k3s-test-1-worker-{1,2,3}`
+  (workloads; two on `shushou`, one on `shoryu`), running as microVMs
 
 ### External Systems
 
