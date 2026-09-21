@@ -462,6 +462,27 @@
         "type": "github"
       }
     },
+    "microvm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "spectrum": "spectrum"
+      },
+      "locked": {
+        "lastModified": 1789506833,
+        "narHash": "sha256-4L8SOCF84de1irB72Ka9VHcu9wrAJ9Amuey4lU9oh4Y=",
+        "owner": "microvm-nix",
+        "repo": "microvm.nix",
+        "rev": "187b0a390ee054028106a674e7b01b1cb940cbba",
+        "type": "github"
+      },
+      "original": {
+        "owner": "microvm-nix",
+        "repo": "microvm.nix",
+        "type": "github"
+      }
+    },
     "my-asahi-firmware": {
       "flake": false,
       "locked": {
@@ -873,6 +894,7 @@
         "home-manager": "home-manager_2",
         "lanzaboote": "lanzaboote",
         "llm-agents": "llm-agents",
+        "microvm": "microvm",
         "my-asahi-firmware": "my-asahi-firmware",
         "mysecrets": "mysecrets",
         "nix-darwin": "nix-darwin",
@@ -914,6 +936,22 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "spectrum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786032750,
+        "narHash": "sha256-+Ba/kIn5BjvV7PN8bWOo7RoqgTY/Yv2M7qeMf3wS2Ag=",
+        "ref": "refs/heads/main",
+        "rev": "77d2389874bb092b8dbf05ecc5b1030372e80e98",
+        "revCount": 1417,
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
       }
     },
     "systems": {
