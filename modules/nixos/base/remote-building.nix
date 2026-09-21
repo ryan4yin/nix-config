@@ -17,7 +17,7 @@
   nix.buildMachines =
     let
       sshUser = myvars.username;
-      # ssh key's path on local machine
+      # ssh key's path on local machine; a decrypted secret AI agents must not read
       sshKey = "/etc/agenix/ssh-key-romantic";
       systems = [
         # native arch
