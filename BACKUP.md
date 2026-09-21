@@ -126,6 +126,22 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - `restic-rest-server`'s log must not print `Invalid htpasswd entry`: that means the client's REST
   password and the server's htpasswd disagree, and the credentials pair needs rebuilding from one
   password.
+- Failures are not silent: a failed `restic-backups-homelab` starts `restic-backup-notify`, which
+  posts to alertmanager and, above info severity, on to telegram. alertmanager clears it after
+  `resolve_timeout`.
+
+## Planned
+
+- **Restore drill**: actually restore a file from a restic snapshot and from a btrbk snapshot, on a
+  schedule. An unverified restore is not a backup.
+- **Offsite copy**: youko copies the homelab repositories with `restic copy`; desktops copy their
+  own. Use an immutable or versioned target (object lock) — that is the layer which survives a
+  compromised host.
+- **`restic check` timer**: periodic integrity verification, on the host that holds the password.
+- **Metrics**: run rest-server with `--prometheus` and chart repository growth in Grafana.
+- **Recovery key for the homelab password**: `restic-password-homelab.age` is encrypted only to the
+  storage hosts' keys, so losing youko's host key makes it unrecoverable. Adding the offline
+  `recovery_key` to that group fixes it without weakening the desktop/homelab split.
 
 ## Components
 
