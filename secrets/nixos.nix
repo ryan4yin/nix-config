@@ -121,9 +121,9 @@ in
         }
         // user_readable;
 
-        # alias-for-work
-        "alias-for-work.nushell" = {
-          file = "${mysecrets}/alias-for-work.nushell.age";
+        # decrypted secret: AI agents must not read it, only reference the path
+        "nushell-secrets.nu" = {
+          file = "${mysecrets}/nushell-secrets.nu.age";
         }
         // user_readable;
       };
@@ -147,8 +147,8 @@ in
 
         # The following secrets are used by home-manager modules
         # So we need to make then readable by the user
-        "agenix/alias-for-work.nushell" = {
-          source = config.age.secrets."alias-for-work.nushell".path;
+        "agenix/nushell-secrets.nu" = {
+          source = config.age.secrets."nushell-secrets.nu".path;
           mode = "0644"; # both the original file and the symlink should be readable and executable by the user
         };
       };

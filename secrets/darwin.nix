@@ -77,9 +77,9 @@
       }
       // user_readable;
 
-      # alias-for-work
-      "alias-for-work.nushell" = {
-        file = "${mysecrets}/alias-for-work.nushell.age";
+      # decrypted secret: AI agents must not read it, only reference the path
+      "nushell-secrets.nu" = {
+        file = "${mysecrets}/nushell-secrets.nu.age";
       }
       // user_readable;
     };
@@ -102,8 +102,8 @@
     # The following secrets are used by home-manager modules
     # But nix-darwin doesn't support environment.etc.<name>.mode
     # So we need to change its mode manually
-    "agenix/alias-for-work.nushell" = {
-      source = config.age.secrets."alias-for-work.nushell".path;
+    "agenix/nushell-secrets.nu" = {
+      source = config.age.secrets."nushell-secrets.nu".path;
     };
   };
 
