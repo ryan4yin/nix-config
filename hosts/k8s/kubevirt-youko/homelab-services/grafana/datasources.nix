@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, mylib, ... }:
 {
 
   # Declaratively provision Grafana's data sources, dashboards, and alerting rules.
@@ -114,7 +114,7 @@
             postgresVersion = 1500; # 15.xx
             # tls
             tlsConfigurationMethod = "file-path";
-            sslRootCertFile = ../../../certs/ecc-ca.crt;
+            sslRootCertFile = mylib.relativeToRoot "certs/ecc-ca.crt";
           };
           editable = false;
         }
