@@ -9,9 +9,8 @@ full featured(see [what-have-k3s-removed-from-upstream-kubernetes] for details).
 
 ## VM Cluster
 
-The VM cluster is running on physical machines, all my virtual machines are running on this
-cluster, including other Kubernetes clusters.
-
+The VM cluster is running on physical machines, all my virtual machines are running on this cluster,
+including other Kubernetes clusters.
 
 ## K3s Clusters
 
@@ -37,12 +36,9 @@ keeps its identity and etcd membership instead of bootstraping a new cluster.
 
 ## TODO / Known issues
 
-- **Retire KubeVirt.** aquamarine now runs natively on `youko`, and the k3s-test masters
-  run as microVMs. Remove KubeVirt/CDI/multus from the cluster (k8s-gitops) once nothing else needs
-  them, and the Windows VM is the only VM left to move.
 - **The USB HDD bridge is flaky.** aquamarine's two HDDs sit behind a JMicron JMS567 USB-SATA bridge
-  that keeps resetting (`dmesg` on `youko`). Find out how often it resets and how much it
-  matters before putting anything critical (e.g. an NFS export) on it.
+  that keeps resetting (`dmesg` on `youko`). Find out how often it resets and how much it matters
+  before putting anything critical (e.g. an NFS export) on it.
 
 ## Kubernetes Resources
 

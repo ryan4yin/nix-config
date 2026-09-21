@@ -51,9 +51,9 @@ layout:
     icon: si-homepage
     tab: Main
 
-  KubeVirt 虚拟化集群:
+  虚拟化宿主机:
     icon: si-kubernetes
-    tab: KubeVirt
+    tab: Hosts
 
 # https://gethomepage.dev/latest/configs/services/#icons
 # iconStyle: theme # optional, defaults to gradient

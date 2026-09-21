@@ -24,7 +24,7 @@
     # screen recording
     wf-recorder # screen recording
 
-    virt-viewer # vnc connect to VM, used by kubevirt
+    virt-viewer # vnc connect to the libvirt VMs
   ];
 
   # Emergency session-menu fallback; the normal flow uses Noctalia's session panel.
