@@ -72,32 +72,3 @@ export def darwin-switch [
 export def darwin-rollback [] {
     ./result/sw/bin/darwin-rebuild --rollback
 }
-
-# ==================== Virtual Machines related =====================
-
-# Build and upload a VM image
-export def upload-vm [
-    name: string
-    size: string
-    verbosity: string
-] {
-    print $"upload-vm '($name)' with '($verbosity)' verbosity..."
-    print (repeat-str "=" 50)
-    let target = $".#($name)"
-    if "debug" == $verbosity {
-        nom build $target --show-trace --verbose
-    } else {
-        nix build $target
-    }
-
-    # Write the freshly built image straight into the VM's own root disk (a
-    # DataVolume with `source: upload` in k8s-gitops). CDI only accepts an
-    # upload into a DataVolume, and this way the disk is populated once, on the
-    # node the VM is pinned to.
-    #
-    # Requires the CDI upload proxy to be reachable from here; it is exposed
-    # as a NodePort by the cluster.
-    let uploadProxyUrl = "https://192.168.5.181:30443"
-    let image = (glob result/nixos-image-*.qcow2 | first)
-    virtctl image-upload dv $"($name)-disk" -n vms --size $size --image-path $image --uploadproxy-url $uploadProxyUrl --insecure
-}
