@@ -1,7 +1,6 @@
 { config, lib, ... }:
 let
   user = "sftpgo";
-  dataDir = "/persistent/apps/sftpgo";
 in
 {
   # Read SFTPGO_DEFAULT_ADMIN_USERNAME and SFTPGO_DEFAULT_ADMIN_PASSWORD from a file
@@ -13,17 +12,9 @@ in
   # sftpgo can read/write files created by transmission, and vice versa.
   users.users.${user}.extraGroups = [ "fileshare" ];
 
-  # Create Directories
-  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
-  # Mode 2775: setgid ensures new files/dirs inherit the 'fileshare' group
-  # regardless of the creating process's primary group.
-  systemd.tmpfiles.rules = [
-    "d ${dataDir} 0755 ${user} ${user} -"
-  ];
-
   services.sftpgo = {
     enable = true;
-    inherit user dataDir;
+    inherit user;
     extraReadWriteDirs = [
       "/data/fileshare"
     ];
