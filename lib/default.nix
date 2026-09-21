@@ -8,7 +8,7 @@
 
   genK3sServerModule = import ./genK3sServerModule.nix;
   genK3sAgentModule = import ./genK3sAgentModule.nix;
-  genKubeVirtHostModule = import ./genKubeVirtHostModule.nix;
+  genVmHostModule = import ./genVmHostModule.nix;
   genKubeVirtGuestModule = import ./genKubeVirtGuestModule.nix;
   genMicrovmGuestModule = import ./genMicrovmGuestModule.nix;
 

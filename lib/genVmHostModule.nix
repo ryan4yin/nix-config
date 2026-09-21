@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (networking) proxyGateway proxyGateway6 nameservers;
+  inherit (networking) proxyGateway proxyGateway6;
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
 in
@@ -20,13 +20,11 @@ in
     "fat"
     "vfat"
     "exfat"
-    "nfs" # required by longhorn
+    "nfs"
   ];
 
-  boot.kernelModules = [
-    "kvm-amd"
-    "vfio-pci"
-  ];
+  # KVM for the microVMs and the libvirt domains.
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModprobeConfig = "options kvm_amd nested=1"; # for amd cpu
 
   boot.kernel.sysctl = {
@@ -52,32 +50,17 @@ in
 
     # NOTE: vm.swappiness is intentionally NOT set here; it comes from
     # modules/nixos/base/zram.nix (mkDefault 180, tuned for the zram device).
-    # The previous hard-coded 0 disabled swapping entirely, so the zram device
-    # (already enabled by that module) was never used.
   };
 
   # zram itself is provided by modules/nixos/base/zram.nix (enabled by default).
   # Kill the greediest process before the host starts thrashing / gets OOM-killed.
-  # (defaults: trigger at 10% free mem / swap, kill hard at half of that.)
   services.earlyoom.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Validate Hardware Virtualization Support via:
     #   virt-host-validate qemu
     libvirt
-    kubevirt # virtctl
   ];
-
-  # Workaround for longhorn running on NixOS
-  # https://github.com/longhorn/longhorn/issues/2166
-  systemd.tmpfiles.rules = [
-    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
-  ];
-  # Longhorn uses open-iscsi to create block devices.
-  services.openiscsi = {
-    name = "iqn.2020-08.org.linux-iscsi.initiatorhost:${hostName}";
-    enable = true;
-  };
 
   networking = {
     inherit hostName;
@@ -89,17 +72,15 @@ in
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
-  # Linux bridge for the VMs' secondary network. It replaces the previous OVS
-  # bridge: the `bridge` CNI plugin attaches the VM taps to br0, and the host
-  # keeps its own address on br0 (the physical NIC is just a bridge port).
+  # Linux bridge for the VMs: the microVM taps and the libvirt domains attach to
+  # br0, and the host keeps its own address on it (the physical NIC is just a
+  # bridge port).
   systemd.network.netdevs."10-br0" = {
     netdevConfig = {
       Name = "br0";
       Kind = "bridge";
     };
   };
-
-  # systemd.services."systemd-networkd".environment.SYSTEMD_LOG_LEVEL = "debug";
 
   # Set the host's address on the bridge interface instead of the physical interface!
   systemd.network.networks = {
