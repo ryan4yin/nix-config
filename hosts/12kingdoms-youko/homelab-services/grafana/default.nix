@@ -13,7 +13,7 @@
 
   services.grafana = {
     enable = true;
-    dataDir = "/data/apps/grafana";
+    dataDir = "/persistent/apps/grafana";
     provision.enable = true;
     settings = {
       server = {

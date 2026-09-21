@@ -1,7 +1,7 @@
 { config, ... }:
 let
   user = "kuma";
-  dataDir = "/data/apps/uptime-kuma";
+  dataDir = "/persistent/apps/uptime-kuma";
 in
 {
   users.groups.${user} = { };

@@ -11,13 +11,13 @@ let
 
   user = "postgres"; # postgresql's default system user
   package = pkgs.postgresql_16;
-  dataDir = "/data/apps/postgresql/${package.psqlSchema}";
+  dataDir = "/persistent/apps/postgresql/${package.psqlSchema}";
 in
 {
   # Create Directories
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
-    "d /data/apps/postgresql 0700 ${user} ${user}"
+    "d /persistent/apps/postgresql 0700 ${user} ${user}"
     "d ${dataDir} 0700 ${user} ${user}"
   ];
 

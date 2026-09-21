@@ -19,20 +19,20 @@ let
 in
 {
   # Since victoriametrics use DynamicUser, the user & group do not exists before the service starts.
-  # this group is used as a supplementary Unix group for the service to access our data dir(/data/apps/xxx)
+  # this group is used as a supplementary Unix group for the service to access our data dir(/persistent/apps/xxx)
   users.groups.victoriametrics-data = { };
 
   # Workaround for victoriametrics to store data in another place
   # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
   systemd.tmpfiles.rules = [
-    "d /data/apps/victoriametrics 0770 root victoriametrics-data - -"
+    "d /persistent/apps/victoriametrics 0770 root victoriametrics-data - -"
   ];
 
   # Symlinks do not work with DynamicUser, so we should use bind mount here.
   # https://github.com/systemd/systemd/issues/25097#issuecomment-1929074961
   systemd.services.victoriametrics.serviceConfig = {
     SupplementaryGroups = [ "victoriametrics-data" ];
-    BindPaths = [ "/data/apps/victoriametrics:/var/lib/victoriametrics:rbind" ];
+    BindPaths = [ "/persistent/apps/victoriametrics:/var/lib/victoriametrics:rbind" ];
   };
 
   # https://victoriametrics.io/docs/victoriametrics/latest/configuration/configuration/
