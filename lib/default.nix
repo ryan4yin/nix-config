@@ -7,6 +7,7 @@
   attrs = import ./attrs.nix { inherit lib; };
 
   genK3sServerModule = import ./genK3sServerModule.nix;
+  genK3sAgentModule = import ./genK3sAgentModule.nix;
   genVmHostModule = import ./genVmHostModule.nix;
   genMicrovmGuestModule = import ./genMicrovmGuestModule.nix;
 

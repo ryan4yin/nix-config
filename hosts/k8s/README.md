@@ -30,7 +30,14 @@ To move an existing VM over in place, copy the host key and `machine-id` from it
 `etc.img`, and `/var/lib/rancher/k3s/server` into `var.img`, **before the first boot** — then it
 keeps its identity and etcd membership instead of bootstrapping a new cluster.
 
-1. `k3s-test-1-master-{1,2,3}` — running as microVMs
+1. `k3s-test-1-master-{1,2,3}` — control plane, running as microVMs; tainted
+   `node-role.kubernetes.io/control-plane:NoSchedule`
+1. `k3s-test-1-worker-{1,2,3}` — workloads, running as microVMs
+   (`node-role.kubernetes.io/worker=true`)
+
+Placement: `worker-1` (4 vCPU / 16 GiB) runs on `shoryu`; `worker-2` (4 vCPU / 16 GiB) and
+`worker-3` (2 vCPU / 8 GiB) run on `shushou`. `youko` has no worker because it has the least free
+memory and also runs the homelab services.
 
 ## TODO / Known issues
 
