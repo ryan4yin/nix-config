@@ -28,6 +28,16 @@ in
     coreModule
   ];
 
+  # Back up the preserved tree through a short-lived read-only snapshot, so the
+  # backup is a consistent point-in-time; the module's excludes drop the
+  # regenerable bulk and all keys/credentials.
+  modules.restic-backup = {
+    enable = true;
+    repository = "/data/backups/restic/youko";
+    snapshotSource = "/btr_pool/@persistent";
+    requiresMountsFor = "/data/backups";
+  };
+
   modules.btrbk.enable = true;
 
   boot.kernelParams = [
