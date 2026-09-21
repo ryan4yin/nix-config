@@ -18,6 +18,7 @@ in
 {
   imports = [
     ../idols-ruby/packages.nix
+    ../idols-ruby/computer-use.nix
     ../idols-ruby/oci-containers
   ];
 
