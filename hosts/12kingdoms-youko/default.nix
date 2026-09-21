@@ -9,6 +9,11 @@
 let
   hostName = "youko"; # Define your hostname.
 
+  # The two HDDs behind the flaky USB-SATA bridge, addressed by-id like the
+  # disko config does (the /dev/sdX names are not stable).
+  hddPublic = "/dev/disk/by-id/ata-WDC_WD40EJRX-89T1XY0_WD-WCC7K0XDCZE6";
+  hddEncrypted = "/dev/disk/by-id/ata-WDC_WD40EZRZ-22GXCB0_WD-WCC7K7VV9613";
+
   coreModule = mylib.genVmHostModule {
     inherit pkgs hostName;
     inherit (myvars) networking;
@@ -48,18 +53,15 @@ in
   # APM/standby on the HDDs. Best effort: hdparm may not get through the bridge.
   systemd.services.hdd-no-spindown = {
     description = "Disable APM/standby on the USB HDDs";
-    after = [
-      "dev-sda.device"
-      "dev-sdb.device"
-    ];
+    after = [ "local-fs.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
     };
     script = ''
-      ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 /dev/sda || true
-      ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 /dev/sdb || true
+      ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 ${hddPublic} || true
+      ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 ${hddEncrypted} || true
     '';
   };
 
@@ -69,8 +71,8 @@ in
     enable = true;
     notifications.wall.enable = true;
     devices = [
-      { device = "/dev/sda"; }
-      { device = "/dev/sdb"; }
+      { device = hddPublic; }
+      { device = hddEncrypted; }
     ];
   };
 }
