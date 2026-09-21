@@ -3,7 +3,7 @@
   outputs,
 }:
 let
-  aqua = outputs.nixosConfigurations.kubevirt-youko.config;
+  aqua = outputs.nixosConfigurations.youko.config;
 in
 {
   v2rayExporter = aqua.services.prometheus.exporters.v2ray.listenAddress;

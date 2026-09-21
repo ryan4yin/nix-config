@@ -1,5 +1,5 @@
 {
-  config,
+  lib,
   pkgs,
   mylib,
   myvars,
@@ -7,7 +7,8 @@
   ...
 }:
 let
-  hostName = "kubevirt-shushou"; # Define your hostname.
+  # MoreFine - S500Plus
+  hostName = "shoryu"; # Define your hostname.
 
   coreModule = mylib.genVmHostModule {
     inherit pkgs hostName;
@@ -17,9 +18,9 @@ in
 {
   imports = (mylib.scanPaths ./.) ++ [
     disko.nixosModules.default
-    ../disko-config/kubevirt-disko-fs.nix
-    ../kubevirt-shoryu/hardware-configuration.nix
-    ../kubevirt-shoryu/preservation.nix
+    ../k8s/disko-config/host-disko-fs.nix
+    ./hardware-configuration.nix
+    ./preservation.nix
     coreModule
   ];
 

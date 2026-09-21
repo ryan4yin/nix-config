@@ -7,7 +7,7 @@
   ...
 }:
 let
-  hostName = "kubevirt-youko"; # Define your hostname.
+  hostName = "youko"; # Define your hostname.
 
   coreModule = mylib.genVmHostModule {
     inherit pkgs hostName;
@@ -17,9 +17,9 @@ in
 {
   imports = (mylib.scanPaths ./.) ++ [
     disko.nixosModules.default
-    ../disko-config/kubevirt-disko-fs.nix
-    ../kubevirt-shoryu/hardware-configuration.nix
-    ../kubevirt-shoryu/preservation.nix
+    ../k8s/disko-config/host-disko-fs.nix
+    ../12kingdoms-shoryu/hardware-configuration.nix
+    ../12kingdoms-shoryu/preservation.nix
     coreModule
   ];
 

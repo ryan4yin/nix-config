@@ -101,10 +101,10 @@ in
           params.ups = [ "homelab" ];
           static_configs = [
             {
-              targets = [ "${myvars.networking.hostsAddr.kubevirt-shushou.ipv4}:9199" ];
+              targets = [ "${myvars.networking.hostsAddr.shushou.ipv4}:9199" ];
               labels.type = "app";
               labels.app = "nut";
-              labels.host = "kubevirt-shushou";
+              labels.host = "shushou";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }

@@ -21,7 +21,7 @@
         mysecrets
         ;
     };
-    config.imports = [ ../k3s-test-1-master-2 ];
+    config.imports = [ ../k8s/k3s-test-1-master-2 ];
   };
 
   # Attach the guest's tap to the VM bridge, the same way the physical NIC is

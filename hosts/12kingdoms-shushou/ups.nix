@@ -1,6 +1,6 @@
 { myvars, ... }:
 let
-  hostAddress = myvars.networking.hostsAddr.kubevirt-shushou.ipv4;
+  hostAddress = myvars.networking.hostsAddr.shushou.ipv4;
 in
 {
   power.ups = {

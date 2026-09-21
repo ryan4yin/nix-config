@@ -97,9 +97,9 @@ All the outputs of this flake are defined here.
     │   ├── k3s-test-1-worker-1.nix
     │   ├── k3s-test-1-worker-2.nix
     │   ├── k3s-test-1-worker-3.nix
-    │   ├── kubevirt-shoryu.nix
-    │   ├── kubevirt-shushou.nix
-    │   └── kubevirt-youko.nix
+    │   ├── shoryu.nix
+    │   ├── shushou.nix
+    │   └── youko.nix
     └── tests         # eval tests
         ├── home-manager
         │   ├── expected.nix

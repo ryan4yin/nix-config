@@ -20,17 +20,17 @@ rec {
 
   hostsAddr = {
     # ============================================
-    # Homelab's Physical Machines (KubeVirt Nodes)
+    # Homelab's Physical Machines (VM hosts)
     # ============================================
-    kubevirt-shoryu = {
+    shoryu = {
       iface = "eno1";
       ipv4 = "192.168.5.181";
     };
-    kubevirt-shushou = {
+    shushou = {
       iface = "eno1";
       ipv4 = "192.168.5.182";
     };
-    kubevirt-youko = {
+    youko = {
       iface = "eno1";
       ipv4 = "192.168.5.183";
     };

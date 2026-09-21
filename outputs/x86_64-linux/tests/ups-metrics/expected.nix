@@ -36,7 +36,7 @@
     labels = {
       type = "app";
       app = "nut";
-      host = "kubevirt-shushou";
+      host = "shushou";
       env = "homelab";
       cluster = "homelab";
     };

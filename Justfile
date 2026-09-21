@@ -197,7 +197,7 @@ upload-vm name size verbosity="normal":
   use {{utils_nu}} *;
   upload-vm {{name}} {{size}} {{verbosity}}
 
-# Deploy all the KubeVirt nodes(Physical machines running KubeVirt)
+# Deploy all the VM hosts (physical machines running the VMs)
 [linux]
 [group('homelab')]
 lab mode="switch":
@@ -206,17 +206,17 @@ lab mode="switch":
 [linux]
 [group('homelab')]
 shoryu mode="switch":
-  colmena apply {{mode}} --on '@kubevirt-shoryu' --verbose --show-trace
+  colmena apply {{mode}} --on '@shoryu' --verbose --show-trace
 
 [linux]
 [group('homelab')]
 shushou mode="switch":
-  colmena apply {{mode}} --on '@kubevirt-shushou' --verbose --show-trace
+  colmena apply {{mode}} --on '@shushou' --verbose --show-trace
 
 [linux]
 [group('homelab')]
 youko mode="switch":
-  colmena apply {{mode}} --on '@kubevirt-youko' --verbose --show-trace
+  colmena apply {{mode}} --on '@youko' --verbose --show-trace
 
 ############################################################################
 #
