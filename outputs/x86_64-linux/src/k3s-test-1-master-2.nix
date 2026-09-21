@@ -16,18 +16,19 @@ let
   ssh-user = "root";
 
   modules = {
+    # the host dir is the complete config (it pulls in the shared modules)
     nixos-modules =
       (map mylib.relativeToRoot [
-        # common
-        "secrets/nixos.nix"
-        "modules/nixos/server/server.nix"
-        "modules/nixos/server/kubevirt-hardware-configuration.nix"
-        # host specific
         "hosts/k8s/${name}"
       ])
       ++ [
+        # this runs as a MicroVM
+        inputs.microvm.nixosModules.microvm
         { modules.secrets.server.kubernetes.enable = true; }
       ];
+    home-modules = map mylib.relativeToRoot [
+      "home/hosts/linux/${name}.nix"
+    ];
   };
 
   systemArgs = modules // args;
@@ -36,6 +37,4 @@ in
   nixosConfigurations.${name} = mylib.nixosSystem systemArgs;
 
   colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
-
-  packages.${name} = inputs.self.nixosConfigurations.${name}.config.system.build.images.kubevirt;
 }
