@@ -73,6 +73,10 @@ in
     dataDir = "/data/backups/rest-server";
     privateRepos = true;
     "htpasswd-file" = config.age.secrets."restic-rest-htpasswd".path;
+    # expose /metrics for victoriametrics; unauthenticated is fine because the
+    # server only listens on loopback
+    prometheus = true;
+    extraFlags = [ "--prometheus-no-auth" ];
   };
 
   # repositories live on the HDD, which has to be mounted first

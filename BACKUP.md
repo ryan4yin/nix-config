@@ -4,12 +4,12 @@ How this fleet is backed up, where the data lives, and how to restore it.
 
 ## What protects against what
 
-| Threat                        | Defence                                                              |
-| ----------------------------- | -------------------------------------------------------------------- |
-| accidental deletion, bad edit | btrbk: local btrfs snapshots                                         |
-| disk or host loss             | restic: encrypted copies on youko                                    |
-| a compromised backup server   | desktop repositories use a password youko never holds                |
-| a compromised host            | not defended yet: the immutable offsite copy (planned) is that layer |
+| Threat                        | Defence                                                            |
+| ----------------------------- | ------------------------------------------------------------------ |
+| accidental deletion, bad edit | btrbk: local btrfs snapshots                                       |
+| disk or host loss             | restic: encrypted copies on youko                                  |
+| a compromised backup server   | desktop repositories use a password youko never holds              |
+| a compromised host            | not defended yet: the immutable cloud copy (planned) is that layer |
 
 ## Layers
 
@@ -47,6 +47,10 @@ Consequences worth remembering:
   is the only way to restore its data.
 - restic's own password is never stored inside a backed-up tree: `etc/agenix` and all key material
   are excluded (see below).
+- Recipients follow the secrets repository's rule: every secret is decryptable by the desktops
+  (`desktop_keys`, which also carries the offline `recovery_key`), so a desktop can edit or rekey
+  anything and no secret becomes unrecoverable when a host is lost. The desktop repository password
+  is the one secret the servers do not get.
 
 ## Schedule
 
@@ -114,7 +118,7 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - btrbk: automatic, 7 days with a 2 day minimum.
 - youko's own restic repository: automatic, `--keep-daily 3 --keep-weekly 2 --keep-monthly 2`.
 - Desktop restic repositories: automatic, the module defaults
-  (`--keep-daily 3 --keep-weekly 2 --keep-monthly 2`). Immutability is the offsite copy's job
+  (`--keep-daily 3 --keep-weekly 2 --keep-monthly 2`). Immutability is the cloud copy's job
   (planned), not the local server's.
 
 ## Verifying
@@ -126,6 +130,22 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - `restic-rest-server`'s log must not print `Invalid htpasswd entry`: that means the client's REST
   password and the server's htpasswd disagree, and the credentials pair needs rebuilding from one
   password.
+- Metrics: the rest-server exposes the Go/promhttp defaults on loopback (scraped as the
+  `restic-rest-server` job; `/metrics` is blocked on the public vhost). Repository growth is charted
+  from `node-exporter`'s filesystem metrics for youko's `/data` mount instead — rest-server itself
+  has no per-repository size metrics.
+- Failures are not silent: a failed `restic-backups-homelab` starts `restic-backup-notify`, which
+  posts to alertmanager and, above info severity, on to telegram. alertmanager clears it after
+  `resolve_timeout`.
+
+## Planned
+
+- **Restore drill**: actually restore a file from a restic snapshot and from a btrbk snapshot, on a
+  schedule. An unverified restore is not a backup.
+- **Cloud copy**: youko copies the homelab repositories with `restic copy`; desktops copy their own.
+  The target must not live in the homelab, and should be immutable or versioned (object lock) — that
+  is the layer which survives a compromised host.
+- **`restic check` timer**: periodic integrity verification, on the host that holds the password.
 
 ## Components
 

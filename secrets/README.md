@@ -20,6 +20,20 @@ repository.
 This directory contains this `README.md`, and a `nixos.nix`/`darwin.nix` file that is used to
 decrypt all my secrets via `agenix`. Then, I can use them in this flake.
 
+## Which Keys Go on a Secret
+
+**Every secret is decryptable by the desktops and by the offline `recovery_key`, and those two have
+identical access.** The desktops hold the trusted admin keys and are where secrets are added, edited
+and rekeyed — including `agenix -r`, which has to decrypt every secret in this repository first.
+`recovery_key` is a member of `desktop_keys`, so one rule covers both: every recipient set is
+`desktop_keys ++ <the hosts that need it>`.
+
+That also means a lost host never makes a secret unrecoverable, and that narrowing a set to the
+servers alone breaks the desktops and the recovery key together.
+
+The one exception is the desktop's own restic repository password (`restic-password-desktop.age`):
+`desktop_keys` alone, because the backup servers must not be able to read desktop data.
+
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.

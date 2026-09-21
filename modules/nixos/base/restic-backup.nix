@@ -109,6 +109,16 @@ in
       description = "Extra random delay on top of {option}`onCalendar`, to smooth load.";
     };
 
+    alertManagerUrl = lib.mkOption {
+      type = lib.types.str;
+      default = "https://alertmanager.writefor.fun";
+      description = ''
+        Alertmanager to POST a failure alert to (`/api/v2/alerts`). youko routes
+        anything above info severity to telegram, so a failed backup is not
+        silent.
+      '';
+    };
+
     pruneOpts = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
@@ -183,5 +193,22 @@ in
         {
           RequiresMountsFor = cfg.requiresMountsFor;
         };
+
+    # A failed backup must not be silent: report it to alertmanager, which
+    # routes anything above info severity to telegram.
+    systemd.services.restic-backups-homelab.onFailure = [ "restic-backup-notify.service" ];
+
+    systemd.services.restic-backup-notify = {
+      description = "Report a failed restic backup";
+      serviceConfig.Type = "oneshot";
+      script = ''
+        ${pkgs.curl}/bin/curl -sS -o /dev/null -X POST ${cfg.alertManagerUrl}/api/v2/alerts \
+          -H 'Content-Type: application/json' \
+          --data "[{ \
+            \"labels\": { \"alertname\": \"ResticBackupFailed\", \"severity\": \"critical\", \"host\": \"${config.networking.hostName}\" }, \
+            \"annotations\": { \"summary\": \"restic backup failed on ${config.networking.hostName}\", \"description\": \"journalctl -u restic-backups-homelab\" } \
+          }]"
+      '';
+    };
   };
 }
