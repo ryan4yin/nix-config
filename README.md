@@ -137,7 +137,6 @@ For macOS (nix-darwin):
 # 2. prepare the deployment environment with essential packages available
 nix-shell -p just nushell
 # 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
-# 4. comment out the proxy settings in scripts/darwin_set_proxy.py if the proxy is not ready yet.
 
 # Deploy the darwinConfiguration by hostname match (fern, frieren)
 just local

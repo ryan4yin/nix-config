@@ -149,12 +149,6 @@ brew-upgrade:
 
 [macos]
 [group('desktop')]
-darwin-set-proxy:
-  sudo python3 scripts/darwin_set_proxy.py
-  sleep 1sec
-
-[macos]
-[group('desktop')]
 darwin-rollback:
   #!/usr/bin/env nu
   use {{utils_nu}} *;
