@@ -24,6 +24,10 @@ lib.genAttrs hosts (
     xvfbRestart = home.systemd.user.services.xvfb.Service.Restart;
     i3Restart = home.systemd.user.services.i3.Service.Restart;
     vnc = home.modules.desktop.computerUse.vnc;
+    clipboardSync = lib.all (svc: lib.hasAttr svc home.systemd.user.services) [
+      "autocutsel-primary"
+      "autocutsel-clipboard"
+    ];
     cuaDriver = home.modules.desktop.computerUse.cuaDriver;
     brave = home.programs.brave-origin.enable;
     chromium = home.programs.chromium.enable;

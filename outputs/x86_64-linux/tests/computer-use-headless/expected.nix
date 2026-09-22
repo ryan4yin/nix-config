@@ -16,6 +16,7 @@ lib.genAttrs hosts (name: {
   xvfbRestart = "always";
   i3Restart = "always";
   vnc = true;
+  clipboardSync = true;
   cuaDriver = name == "ruby";
   brave = true;
   chromium = true;
