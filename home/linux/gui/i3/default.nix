@@ -15,9 +15,18 @@ let
   # harden the browser. The browser goes out through Clash Verge's proxy, so
   # non-proxied WebRTC UDP must stay disabled (a real IP leak would contradict
   # the exit region); everything else is a stock-looking setting.
+  #
+  # Deliberately absent: every automation/CDP switch. No
+  # `--remote-debugging-port` (a persistent, page-detectable endpoint) and no
+  # `--enable-automation` / `--disable-blink-features=AutomationControlled`.
+  # Nothing here drives the browser over CDP, so `navigator.webdriver` is
+  # already false without a flag that only marks the setup as automated.
   browserFlags = [
     "--force-webrtc-ip-handling-policy=disable_non_proxied_udp"
-    "--disable-blink-features=AutomationControlled"
+    # Required for the AT-SPI accessibility tree the driver reads; the driver
+    # only walks the tree, it cannot make Chromium build one. This is the one
+    # flag with a realism cost (few real users force a11y on) and stays only
+    # because dropping it risks an empty tree.
     "--force-renderer-accessibility"
     "--lang=en-US"
     "--window-size=1920,1080"
@@ -70,6 +79,7 @@ in
         kitty # terminal (supports X11 and Wayland)
         xdotool # XTEST input (fallback / manual use)
         xclip # clipboard
+        autocutsel # keep the X PRIMARY and CLIPBOARD selections in sync
         xvfb # headless X server
       ]
       ++ [
@@ -114,7 +124,46 @@ in
       };
     };
 
-    # Optional VNC server for manual access; localhost only, use an SSH tunnel.
+    # Xvfb has no clipboard of its own, and an X11 selection lives only as long
+    # as the app that owns it. Mirror PRIMARY and CLIPBOARD with two autocutsel
+    # instances so a VNC client's clipboard (which syncs a single selection)
+    # stays usable in both directions.
+    systemd.user.services.autocutsel-primary = {
+      Unit = {
+        Description = "autocutsel (PRIMARY)";
+        After = [ "xvfb.service" ];
+        Wants = [ "xvfb.service" ];
+      };
+      Install.WantedBy = [ "default.target" ];
+      Service = {
+        Type = "simple";
+        Environment = [ "DISPLAY=${display}" ];
+        ExecStart = "${pkgs.autocutsel}/bin/autocutsel -selection PRIMARY";
+        Restart = "always";
+        RestartSec = 2;
+      };
+    };
+
+    systemd.user.services.autocutsel-clipboard = {
+      Unit = {
+        Description = "autocutsel (CLIPBOARD)";
+        After = [ "xvfb.service" ];
+        Wants = [ "xvfb.service" ];
+      };
+      Install.WantedBy = [ "default.target" ];
+      Service = {
+        Type = "simple";
+        Environment = [ "DISPLAY=${display}" ];
+        ExecStart = "${pkgs.autocutsel}/bin/autocutsel -selection CLIPBOARD";
+        Restart = "always";
+        RestartSec = 2;
+      };
+    };
+
+    # Optional VNC server for manual access. Localhost only: connect through an
+    # SSH tunnel (Remmina's VNC profile has an SSH Tunnel tab; plain
+    # `ssh -L 5900:127.0.0.1:5900` works too), so the port is never exposed and
+    # no VNC password is needed.
     systemd.user.services.x11vnc = lib.mkIf cfg.vnc {
       Unit = {
         Description = "x11vnc (localhost) for manual access";
@@ -131,6 +180,12 @@ in
     };
 
     # cua-driver daemon, so `cua-driver mcp` / `call` can reach it.
+    #
+    # Deliberately a plain `serve` with no launch grants. The driver must drive
+    # the browser with real X11/AT-SPI input, never its CDP-backed `browser_*`
+    # tools: attaching to the existing profile needs `--grant existing-profile`
+    # (or unrestricted mode) and turns on a persistent, detectable
+    # remote-debugging endpoint. Do not add one here. See README.md.
     systemd.user.services.cua-driver = lib.mkIf cfg.cuaDriver {
       Unit = {
         Description = "cua-driver daemon";
