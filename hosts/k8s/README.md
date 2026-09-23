@@ -33,11 +33,18 @@ keeps its identity and etcd membership instead of bootstrapping a new cluster.
 1. `k3s-test-1-master-{1,2,3}` — control plane, running as microVMs; tainted
    `node-role.kubernetes.io/control-plane:NoSchedule`
 1. `k3s-test-1-worker-{1,2,3}` — workloads, running as microVMs
-   (`node-role.kubernetes.io/worker=true`)
 
 Placement: `worker-1` (4 vCPU / 16 GiB) runs on `shoryu`; `worker-2` (4 vCPU / 16 GiB) and
 `worker-3` (2 vCPU / 8 GiB) run on `shushou`. `youko` has no worker because it has the least free
 memory and also runs the homelab services.
+
+The master taint comes from kubelet's `registerWithTaints`, which only takes effect when the Node
+object is first created. These masters are long-lived and predate the config, so the taint was
+applied once by hand
+(`kubectl taint nodes <name> node-role.kubernetes.io/control-plane=:NoSchedule`); a node rebuilt
+from scratch gets it automatically. The workers carry no `node-role.kubernetes.io/worker` label:
+kubelet refuses to self-assign the reserved `node-role.kubernetes.io/*` labels via `--node-label`,
+and placement is enforced by the control-plane taint instead.
 
 ## TODO / Known issues
 

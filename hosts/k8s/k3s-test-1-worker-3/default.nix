@@ -22,8 +22,8 @@ let
     # use my own domain & kube-vip's virtual IP for the API server
     # so that the API server can always be accessed even if some nodes are down
     masterHost = "test-cluster-1.writefor.fun";
-    # workloads run on the workers; the masters are tainted (see k3s-test-1-master-*)
-    nodeLabels = [ "node-role.kubernetes.io/worker=true" ];
+    # Placement is enforced by the masters' control-plane taint. No node label:
+    # kubelet refuses to self-assign the reserved node-role.kubernetes.io/* labels.
   };
 in
 {
