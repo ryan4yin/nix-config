@@ -29,7 +29,6 @@ let
       ])
       ++ [
         {
-          modules.secrets.server.kubernetes.enable = true;
           modules.secrets.preservation.enable = true;
         }
       ];
