@@ -98,6 +98,7 @@ in
       DNS = [ proxyGateway ];
       DHCP = "ipv6";
       IPv6AcceptRA = true;
+      IPv6PrivacyExtensions = false;
       LinkLocalAddressing = "ipv6";
     };
     routes = [
