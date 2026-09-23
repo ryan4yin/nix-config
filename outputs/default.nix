@@ -29,13 +29,21 @@ let
           _system: packages:
           packages
           // {
-            codex = packages.codex.override {
-              version = "0.156.0";
-              hash = "sha256-KGhOvpHi+Z2TemgrBTkWWY6Y3DdL0b2Fhmv2HcUjXhg=";
-              cargoVendor = {
-                cargoHash = "sha256-W87rX/W2J1pwqNrihX+Rj6DfagoZYuB6C+l/S4BhyJM=";
-              };
-            };
+            codex =
+              (packages.codex.override {
+                version = "0.156.1";
+                hash = "sha256-H53f57hmnyCtn5yPxtBe/A92qyQyzQBeU/vK2qSBrvI=";
+                cargoVendor = {
+                  cargoHash = "sha256-W87rX/W2J1pwqNrihX+Rj6DfagoZYuB6C+l/S4BhyJM=";
+                };
+              }).overrideAttrs
+                (old: {
+                  # codex's codex-chatgpt crate exceeds rustc's default recursion
+                  # limit; the other crates already set this attribute.
+                  postPatch = (old.postPatch or "") + ''
+                    sed -i '1i #![recursion_limit = "256"]' chatgpt/src/lib.rs
+                  '';
+                });
           }
         ) inputs.llm-agents.packages;
       };
