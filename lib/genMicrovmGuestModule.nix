@@ -101,6 +101,8 @@ in
       IPv6PrivacyExtensions = false;
       LinkLocalAddressing = "ipv6";
     };
+    dhcpV6Config.UseDNS = false;
+    ipv6AcceptRAConfig.UseDNS = false;
     routes = [
       {
         Destination = "0.0.0.0/0";
