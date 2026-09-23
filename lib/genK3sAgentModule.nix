@@ -42,4 +42,15 @@ in
       in
       pkgs.lib.concatStringsSep " " flagList;
   };
+
+  # Link k3s's CNI directories to the conventional locations, so CNI plugins
+  # that write to /etc/cni/net.d or /opt/cni/bin (cilium, istio-cni) share them
+  # with k3s. Without this, cilium writes /etc/cni/net.d while istio-cni reads
+  # k3s's own dir, and the chained plugin never finds a network config.
+  # Mirrors the server module.
+  systemd.tmpfiles.rules = [
+    "L+ /opt/cni/bin - - - - /var/lib/rancher/k3s/data/cni/"
+    "d /var/lib/rancher/k3s/agent/etc/cni/net.d 0751 root root - -"
+    "L+ /etc/cni/net.d - - - - /var/lib/rancher/k3s/agent/etc/cni/net.d"
+  ];
 }
