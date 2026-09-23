@@ -85,13 +85,23 @@
     };
 
     # https://github.com/catppuccin/nix
+    # main carries the rust-overlay-style deprecation fix for its vscode
+    # package (nodejs -> nodejs-slim); v26.05 still emits the eval warning.
     catppuccin = {
-      url = "github:catppuccin/nix/v26.05";
+      url = "github:catppuccin/nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.rust-overlay.follows = "rust-overlay";
+    };
+
+    # lanzaboote's pinned rust-overlay still uses the deprecated
+    # `stdenv.isLinux`/`stdenv.isDarwin`; follow a newer revision.
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
