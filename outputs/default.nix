@@ -23,6 +23,23 @@ let
     // {
       inherit mylib myvars pkgs-stable;
 
+      # Temporary override until numtide/llm-agents.nix#9696 (codex 0.156.0) lands.
+      llm-agents = inputs.llm-agents // {
+        packages = lib.mapAttrs (
+          _system: packages:
+          packages
+          // {
+            codex = packages.codex.override {
+              version = "0.156.0";
+              hash = "sha256-KGhOvpHi+Z2TemgrBTkWWY6Y3DdL0b2Fhmv2HcUjXhg=";
+              cargoVendor = {
+                cargoHash = "sha256-W87rX/W2J1pwqNrihX+Rj6DfagoZYuB6C+l/S4BhyJM=";
+              };
+            };
+          }
+        ) inputs.llm-agents.packages;
+      };
+
       # use unstable branch for some packages to get the latest updates
       # pkgs-unstable = import inputs.nixpkgs-unstable {
       #   inherit system; # refer the `system` parameter form outer scope recursively
