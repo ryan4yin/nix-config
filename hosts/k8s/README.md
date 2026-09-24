@@ -36,27 +36,18 @@ activates the guest:
 just microvm-deploy <guest> <physical-host> <guest-ip>
 ```
 
-For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`.
-The recipe installs the runner on the physical host first, then activates the guest with
-the microvm.nix SSH deployment interface.
+For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`. The recipe installs
+the runner on the physical host first, then activates the guest with the microvm.nix SSH deployment
+interface.
 
-Use `just build-microvm <guest>` to build a runner without deploying it. Do not replace the guest
-recipe with a manual symlink operation.
+Use `just build-microvm <guest>` to build a runner without deploying it. Preserve the guest's
+`etc.img`, `var.img`, and `home.img` when updating it; they contain its identity and K3s state.
 
-Do not point `/var/lib/microvms/<name>/current` at a store path built on another machine. Nix store
-paths are local until their closure is copied to the target host, and a missing runner makes the
-systemd unit skip startup. Do not delete or recreate `etc.img`, `var.img`, or `home.img`; these
-images hold the guest identity and K3s state.
-
-For a cluster rollout, deploy one guest at a time. Before each restart, record the active runner
-and verify that the new runner exists on the physical host. After each restart, wait for the guest
-Node to become `Ready`, then check the API VIP `/readyz`, Cilium, storage CSI, and any workload
-health gates. If a gate fails, restore the recorded runner through the same host access path and
-start the guest service before proceeding to the next node.
-
-To move an existing VM over in place, copy the host key and `machine-id` from its disk into
-`etc.img`, and `/var/lib/rancher/k3s/server` into `var.img`, **before the first boot** — then it
-keeps its identity and etcd membership instead of bootstrapping a new cluster.
+For a cluster rollout, deploy one guest at a time. Before each restart, record the active runner and
+verify that the new runner exists on the physical host. After each restart, wait for the guest Node
+to become `Ready`, then check the API VIP `/readyz`, Cilium, storage CSI, and any workload health
+gates. If a gate fails, restore the recorded runner through the same host access path and start the
+guest service before proceeding to the next node.
 
 1. `k3s-test-1-master-{1,2,3}` — control plane, running as microVMs; tainted
    `node-role.kubernetes.io/control-plane:NoSchedule`
@@ -73,12 +64,6 @@ applied once by hand
 from scratch gets it automatically. The workers carry no `node-role.kubernetes.io/worker` label:
 kubelet refuses to self-assign the reserved `node-role.kubernetes.io/*` labels via `--node-label`,
 and placement is enforced by the control-plane taint instead.
-
-## TODO / Known issues
-
-- **The USB HDD bridge is flaky.** youko's two HDDs sit behind a JMicron JMS567 USB-SATA bridge that
-  keeps resetting (`dmesg` on `youko`). Find out how often it resets and how much it matters before
-  putting anything critical (e.g. an NFS export) on it.
 
 ## Kubernetes Resources
 

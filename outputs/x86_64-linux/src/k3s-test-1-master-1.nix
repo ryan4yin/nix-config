@@ -26,9 +26,6 @@ let
         inputs.microvm.nixosModules.microvm
         { modules.secrets.server.kubernetes.enable = true; }
       ];
-    home-modules = map mylib.relativeToRoot [
-      "home/hosts/linux/${name}.nix"
-    ];
   };
 
   systemArgs = modules // args;
