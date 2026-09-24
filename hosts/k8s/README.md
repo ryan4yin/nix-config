@@ -40,10 +40,8 @@ For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`.
 The recipe installs the runner on the physical host first, then activates the guest with
 the microvm.nix SSH deployment interface.
 
-Use `just build-microvm <guest>` to build a runner without deploying it, `just build-host <host>`
-to build a host system closure, and `just eval-host <host>` for evaluation only. These commands do
-not activate a system. Host-level changes use the existing Colmena recipes; do not replace the
-guest recipe with a manual symlink operation.
+Use `just build-microvm <guest>` to build a runner without deploying it. Do not replace the guest
+recipe with a manual symlink operation.
 
 Do not point `/var/lib/microvms/<name>/current` at a store path built on another machine. Nix store
 paths are local until their closure is copied to the target host, and a missing runner makes the
