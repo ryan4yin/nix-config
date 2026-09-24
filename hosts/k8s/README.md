@@ -28,9 +28,9 @@ bridged onto `br0`, and its name is derived from the guest IP (e.g. `192.168.5.1
 
 ### Updating a running guest
 
-Deploy a guest with the microvm.nix SSH deployment interface. It evaluates the guest locally,
-transfers the complete Nix closure to the physical host, installs it under
-`/var/lib/microvms/<name>`, and restarts the guest service:
+Deploy a guest with the repository's `just` recipe. It evaluates the guest locally, transfers the
+complete Nix closure to the physical host, installs it under `/var/lib/microvms/<name>`, and
+activates the guest:
 
 ```sh
 just microvm-deploy <guest> <physical-host> <guest-ip>
@@ -38,12 +38,12 @@ just microvm-deploy <guest> <physical-host> <guest-ip>
 
 For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`.
 The recipe installs the runner on the physical host first, then activates the guest with
-`sshSwitch`.
+the microvm.nix SSH deployment interface.
 
-Use `installOnHost` when only installing the runner on the physical host, or `rebuild` when the
-guest should also be activated. The physical host must be the first SSH target; the guest is the
-second target. The same workflow can be driven by Colmena when the host configuration is the
-deployment unit.
+Use `just build-microvm <guest>` to build a runner without deploying it, `just build-host <host>`
+to build a host system closure, and `just eval-host <host>` for evaluation only. These commands do
+not activate a system. Host-level changes use the existing Colmena recipes; do not replace the
+guest recipe with a manual symlink operation.
 
 Do not point `/var/lib/microvms/<name>/current` at a store path built on another machine. Nix store
 paths are local until their closure is copied to the target host, and a missing runner makes the
