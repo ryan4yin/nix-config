@@ -12,6 +12,7 @@
   clusterInit ? false,
   kubeletExtraArgs ? [ ],
   k3sExtraArgs ? [ ],
+  # Bind embedded K3s control-plane HTTPS metrics to the node address so vmagent can scrape them.
   metricsBindAddress ? null,
   nodeLabels ? [ ],
   nodeTaints ? [ ],
