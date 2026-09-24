@@ -84,6 +84,8 @@ in
     inherit hostName;
     networkmanager.enable = false;
     useDHCP = false;
+    # Keep node IPv6 addresses stable for Cilium across agent restarts.
+    tempAddresses = "disabled";
   };
   networking.useNetworkd = true;
   systemd.network.enable = true;
@@ -96,6 +98,7 @@ in
       DNS = [ proxyGateway ];
       DHCP = "ipv6";
       IPv6AcceptRA = true;
+      IPv6PrivacyExtensions = false;
       LinkLocalAddressing = "ipv6";
     };
     routes = [
