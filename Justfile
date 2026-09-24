@@ -23,6 +23,21 @@ default:
 test:
   nix eval .#evalTests --show-trace --print-build-logs --verbose
 
+# Evaluate a NixOS host configuration without building it.
+[group('nix')]
+eval-host host:
+  nix eval $".#nixosConfigurations.{{host}}.config.system.build.toplevel.drvPath" --raw --show-trace
+
+# Build a NixOS host system closure without changing the current system.
+[group('nix')]
+build-host host:
+  nix build $".#nixosConfigurations.{{host}}.config.system.build.toplevel" --no-link --print-build-logs
+
+# Build a MicroVM runner locally. Deploy it with microvm-deploy so the closure is copied remotely.
+[group('nix')]
+build-microvm guest:
+  nix build $".#nixosConfigurations.{{guest}}.config.microvm.declaredRunner" --no-link --print-build-logs
+
 # Update all the flake inputs
 [group('nix')]
 up:
@@ -182,6 +197,14 @@ reset-launchpad:
 [group('homelab')]
 col tag mode="switch":
   colmena apply {{mode}} --on '@{{tag}}' --verbose --show-trace
+
+# Deploy one microVM guest through microvm.nix's SSH deployment workflow.
+# The host is the physical machine running the guest; the guest address is used for activation.
+[linux]
+[group('homelab')]
+microvm-deploy guest host guest_ip:
+  nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.installOnHost" -- root@{{host}}
+  nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.sshSwitch" -- root@{{guest_ip}} --use-remote-sudo
 
 # Deploy all the VM hosts (physical machines running the VMs)
 [linux]

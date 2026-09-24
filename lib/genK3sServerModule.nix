@@ -12,6 +12,8 @@
   clusterInit ? false,
   kubeletExtraArgs ? [ ],
   k3sExtraArgs ? [ ],
+  # Bind embedded K3s control-plane HTTPS metrics to the node address so vmagent can scrape them.
+  metricsBindAddress ? null,
   nodeLabels ? [ ],
   nodeTaints ? [ ],
   disableFlannel ? true,
@@ -76,6 +78,10 @@ in
         ++ (map (label: "--node-label=${label}") nodeLabels)
         ++ (map (taint: "--node-taint=${taint}") nodeTaints)
         ++ (map (arg: "--kubelet-arg=${arg}") kubeletExtraArgs)
+        ++ (lib.optionals (metricsBindAddress != null) [
+          "--kube-controller-manager-arg=bind-address=${metricsBindAddress}"
+          "--kube-scheduler-arg=bind-address=${metricsBindAddress}"
+        ])
         ++ (lib.optionals disableFlannel [ "--flannel-backend=none" ])
         ++ k3sExtraArgs;
       in
