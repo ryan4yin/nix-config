@@ -23,6 +23,7 @@ let
     # use my own domain & kube-vip's virtual IP for the API server
     # so that the API server can always be accessed even if some nodes are down
     masterHost = "test-cluster-1.writefor.fun";
+    metricsBindAddress = myvars.networking.hostsAddr.${hostName}.ipv4;
     # the control plane only runs the control plane; workloads run on the
     # k3s-test-1-worker-* nodes (labelled node-role.kubernetes.io/worker=true)
     nodeTaints = [ "node-role.kubernetes.io/control-plane:NoSchedule" ];

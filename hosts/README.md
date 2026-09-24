@@ -125,6 +125,19 @@ runs as microVMs on top, using Cilium as its pod network (flannel disabled).
   / `br0` changes, nixpkgs updates, or any broad rebuild.
 - If a host loses VM networking, check `br0` and the VM taps, or reboot the host.
 
+## Common Build Commands
+
+Use the Just recipes for host configuration checks and builds:
+
+```sh
+just eval-host <host>
+just build-host <host>
+```
+
+`eval-host` only evaluates the configuration. `build-host` builds the system closure without
+activating it. Host activation remains an explicit Colmena operation such as `just shoryu`,
+`just shushou`, or `just youko`.
+
 ## Distributed Building
 
 I usually run the build command on `Ai` and nix will distribute the build to other NixOS machines,
