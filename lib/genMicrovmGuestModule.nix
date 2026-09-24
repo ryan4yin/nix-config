@@ -101,6 +101,8 @@ in
       IPv6PrivacyExtensions = false;
       LinkLocalAddressing = "ipv6";
     };
+    # Keep the static resolver below as the only DNS server; router advertisements and DHCPv6
+    # still provide addresses and routes but must not add their own resolver entries.
     dhcpV6Config.UseDNS = false;
     ipv6AcceptRAConfig.UseDNS = false;
     routes = [
