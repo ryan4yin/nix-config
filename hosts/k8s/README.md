@@ -37,7 +37,8 @@ just microvm-deploy <guest> <physical-host> <guest-ip>
 ```
 
 For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`.
-The recipe accepts an optional final mode such as `boot`, `test`, or `switch`.
+The recipe installs the runner on the physical host first, then activates the guest with
+`sshSwitch`.
 
 Use `installOnHost` when only installing the runner on the physical host, or `rebuild` when the
 guest should also be activated. The physical host must be the first SSH target; the guest is the

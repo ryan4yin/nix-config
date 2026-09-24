@@ -202,8 +202,9 @@ col tag mode="switch":
 # The host is the physical machine running the guest; the guest address is used for activation.
 [linux]
 [group('homelab')]
-microvm-deploy guest host guest_ip mode="switch":
-  nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.rebuild" root@{{host}} root@{{guest_ip}} {{mode}}
+microvm-deploy guest host guest_ip:
+  nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.installOnHost" -- root@{{host}}
+  nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.sshSwitch" -- root@{{guest_ip}} --use-remote-sudo
 
 # Deploy all the VM hosts (physical machines running the VMs)
 [linux]
