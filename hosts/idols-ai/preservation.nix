@@ -159,8 +159,6 @@ in
         ".config/opencode"
         ".local/share/opencode"
         ".local/state/opencode"
-        ".config/crush"
-        ".local/share/crush"
 
         # herdr: plugin registry, plugin checkouts/config, session layout
         ".config/herdr"

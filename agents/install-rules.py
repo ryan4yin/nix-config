@@ -47,14 +47,12 @@ def main() -> int:
     opencode_dir = xdg_config_home / "opencode"
     pi_dir = Path("~/.pi/agent").expanduser()
     omp_dir = Path("~/.omp/agent").expanduser()
-    crush_dir = xdg_config_home / "crush"
     agents_dir = Path("~/.agents").expanduser()
     targets = (
         (codex_dir, "AGENTS.md"),
         (opencode_dir, "AGENTS.md"),
         (pi_dir, "AGENTS.md"),
         (omp_dir, "AGENTS.md"),
-        (crush_dir, "CRUSH.md"),
         (agents_dir, "AGENTS.md"),
     )
     failed = False

@@ -27,6 +27,5 @@ in
       agentPackages.kimi-code
       agentPackages.pi
       agentPackages.omp
-      agentPackages.crush
     ];
 }

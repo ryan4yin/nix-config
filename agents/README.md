@@ -35,7 +35,6 @@ Current targets:
 - OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
 - Pi: `AGENTS.md` -> `~/.pi/agent/AGENTS.md`
 - OMP: `AGENTS.md` -> `~/.omp/agent/AGENTS.md`
-- Crush: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/crush/CRUSH.md`
 - Generic cross-tool (read by Kimi Code): `AGENTS.md` -> `~/.agents/AGENTS.md`
 
 Behavior:
