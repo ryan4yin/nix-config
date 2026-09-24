@@ -72,6 +72,10 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   `/var/lib/microvms/<name>/{etc,var,home}.img` on their host. Deleting or recreating an image loses
   the node's identity and cluster state; to resize one, stop the guest and grow the image in place
   (`truncate` + `e2fsck -f` + `resize2fs`) rather than re-creating it.
+- Deploy MicroVM guests with microvm.nix's `config.microvm.deploy.rebuild` or
+  `config.microvm.deploy.installOnHost` workflow so the runner closure is copied to the physical
+  host. Never manually point a remote `/var/lib/microvms/<name>/current` symlink at a store path
+  that exists only on the operator workstation.
 
 ## Further Context
 

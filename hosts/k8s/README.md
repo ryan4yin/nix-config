@@ -26,6 +26,35 @@ image has to be built or uploaded; only the volumes above persist. The guest's t
 bridged onto `br0`, and its name is derived from the guest IP (e.g. `192.168.5.114` -> `vm114`, as
 `IFNAMSIZ` caps interface names at 15 characters).
 
+### Updating a running guest
+
+Deploy a guest with the microvm.nix SSH deployment interface. It evaluates the guest locally,
+transfers the complete Nix closure to the physical host, installs it under
+`/var/lib/microvms/<name>`, and restarts the guest service:
+
+```sh
+just microvm-deploy <guest> <physical-host> <guest-ip>
+```
+
+For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`.
+The recipe accepts an optional final mode such as `boot`, `test`, or `switch`.
+
+Use `installOnHost` when only installing the runner on the physical host, or `rebuild` when the
+guest should also be activated. The physical host must be the first SSH target; the guest is the
+second target. The same workflow can be driven by Colmena when the host configuration is the
+deployment unit.
+
+Do not point `/var/lib/microvms/<name>/current` at a store path built on another machine. Nix store
+paths are local until their closure is copied to the target host, and a missing runner makes the
+systemd unit skip startup. Do not delete or recreate `etc.img`, `var.img`, or `home.img`; these
+images hold the guest identity and K3s state.
+
+For a cluster rollout, deploy one guest at a time. Before each restart, record the active runner
+and verify that the new runner exists on the physical host. After each restart, wait for the guest
+Node to become `Ready`, then check the API VIP `/readyz`, Cilium, storage CSI, and any workload
+health gates. If a gate fails, restore the recorded runner through the same host access path and
+start the guest service before proceeding to the next node.
+
 To move an existing VM over in place, copy the host key and `machine-id` from its disk into
 `etc.img`, and `/var/lib/rancher/k3s/server` into `var.img`, **before the first boot** — then it
 keeps its identity and etcd membership instead of bootstrapping a new cluster.
