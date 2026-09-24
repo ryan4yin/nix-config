@@ -56,26 +56,23 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 
 ## Command Hazards
 
-- `just up`, `just upp`, and `just up-nix` use `--commit-lock-file`. When a commit is not
-  authorized, use `nix flake update <input>` for a scoped input update without committing.
-- Deployment and upload recipes change systems; use eval/build commands for validation. Remote
-  deployment requires an explicit request. When deployment behavior changes, report the exact `just`
-  command to run.
-- VM hosts (`shoryu`/`shushou`/`youko`): avoid mid-flight restarts of the network
-  stack (`systemd-networkd` / the `br0` bridge) — that can drop the VM network. Use `boot` + serial
-  reboot for networking or nixpkgs changes. See
+- `just eval-host <host>`, `just build-host <host>`, `just build-microvm <guest>`, and `just test`
+  evaluate or build without activating a system. Use these commands for previews and validation.
+- `just up`, `just upp`, and `just up-nix` update flake inputs and commit the lock file. Use
+  `nix flake update <input>` when the update should remain uncommitted.
+- `just shoryu`, `just shushou`, `just youko`, `just lab`, and `just k3s-test` activate systems
+  through Colmena. Use the narrower recipe that matches the intended host scope.
+- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM
+  guest. Deploy guests serially and check the guest Node and host services after each activation.
+- VM hosts (`shoryu`, `shushou`, `youko`) carry the `br0` bridge for their guests. Use the
+  `boot`-based host deployment procedure for network stack or broad nixpkgs changes; see
   [hosts/README.md](./hosts/README.md#deploying-vm-hosts).
-- `just clean`, `just gc`, `just ggc`, and `just game` remove history or amend commits; they are not
-  validation steps and require explicit authorization for their target and scope.
-- Do not use `just penvof` for process inspection: it can expose secret values.
-- MicroVM guests (`k3s-test-1-master-*`) keep their state in
-  `/var/lib/microvms/<name>/{etc,var,home}.img` on their host. Deleting or recreating an image loses
-  the node's identity and cluster state; to resize one, stop the guest and grow the image in place
-  (`truncate` + `e2fsck -f` + `resize2fs`) rather than re-creating it.
-- Deploy MicroVM guests with `just microvm-deploy <guest> <physical-host> <guest-ip>`. The recipe
-  uses microvm.nix's install-and-activate workflow so the runner closure is copied to the physical
-  host. Never manually point a remote `/var/lib/microvms/<name>/current` symlink at a store path
-  that exists only on the operator workstation.
+- MicroVM state is stored in `/var/lib/microvms/<name>/{etc,var,home}.img`. Preserve these images
+  when changing the guest configuration.
+- `just clean`, `just gc`, `just ggc`, and `just game` remove state or rewrite history. Use them only
+  for the intended cleanup or history operation.
+- `just penvof` reads a process environment and can expose secrets. Use normal process inspection
+  commands when environment values are not required.
 
 ## Further Context
 
