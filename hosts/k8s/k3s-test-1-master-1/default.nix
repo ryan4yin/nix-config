@@ -26,8 +26,7 @@ let
     # so that the API server can always be accessed even if some nodes are down
     masterHost = "test-cluster-1.writefor.fun";
     metricsBindAddress = myvars.networking.hostsAddr.${hostName}.ipv4;
-    # the control plane only runs the control plane; workloads run on the
-    # k3s-test-1-worker-* nodes (labelled node-role.kubernetes.io/worker=true)
+    # Workloads run on the worker nodes; they do not use a reserved worker-role label.
     nodeTaints = [ "node-role.kubernetes.io/control-plane:NoSchedule" ];
 
     # k3sExtraArgs = [

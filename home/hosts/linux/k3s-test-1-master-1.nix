@@ -1,3 +1,0 @@
-{
-  imports = [ ../../linux/core.nix ];
-}

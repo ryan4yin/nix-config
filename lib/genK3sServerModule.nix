@@ -63,8 +63,10 @@ in
         flagList = [
           "--write-kubeconfig=${kubeconfigFile}"
           "--write-kubeconfig-mode=600"
+          # The Istio ingress Service uses NodePorts 80 and 443.
           "--service-node-port-range=80-32767"
-          "--kube-apiserver-arg='--allow-privileged=true'" # required by the former KubeVirt VMs
+          # The NFS CSI node plugin runs a privileged container to mount volumes.
+          "--kube-apiserver-arg='--allow-privileged=true'"
           "--data-dir /var/lib/rancher/k3s"
           "--etcd-expose-metrics=true"
           "--etcd-snapshot-schedule-cron='0 */12 * * *'"
@@ -72,7 +74,7 @@ in
           "--disable-helm-controller" # we use fluxcd instead
           "--disable=traefik" # deploy our own ingress controller instead
           "--disable=servicelb" # we use kube-vip instead
-          "--disable-network-policy"
+          "--disable-network-policy" # Cilium enforces network policies instead
           "--tls-san=${masterHost}"
         ]
         ++ (map (label: "--node-label=${label}") nodeLabels)
