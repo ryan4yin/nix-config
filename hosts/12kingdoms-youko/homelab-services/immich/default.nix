@@ -53,17 +53,6 @@ in
     "d ${dataDir} 0750 immich immich -"
   ];
 
-  # The ML model cache would otherwise live on the tmpfs root and be
-  # re-downloaded after every reboot. Preserve it on the encrypted pool, owned
-  # by the immich user so the service can write it.
-  preservation.preserveAt."/persistent".directories = [
-    {
-      directory = "/var/cache/immich";
-      user = "immich";
-      mode = "0750";
-    }
-  ];
-
   # The media lives on /data (a separate mount), so order immich after it.
   systemd.services.immich-server.unitConfig.RequiresMountsFor = dataDir;
 }

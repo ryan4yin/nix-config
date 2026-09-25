@@ -35,6 +35,7 @@ in
 
       "/var/log"
       "/var/lib"
+      "/var/cache"
 
       # k3s related
       "/etc/iscsi"
