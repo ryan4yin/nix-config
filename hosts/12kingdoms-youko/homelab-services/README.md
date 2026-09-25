@@ -24,3 +24,10 @@ Services:
 All the services assumes a reverse proxy to be setup in the front, they are all listening on
 localhost, and a caddy service is listening on the local network interface and proxy the requests to
 the services.
+
+## TODO
+
+- transmission has no reachable inbound port: youko's default gateway is `suzi` (192.168.5.178,
+  mihomo transparent proxy, no UPnP/NAT-PMP) and its traffic is proxied, so
+  `port-forwarding-enabled` never maps 51413. Fix by routing transmission **direct** and using its
+  public IPv6 (or a static v4 port-forward on the main router, or a port-forwarding VPN).
