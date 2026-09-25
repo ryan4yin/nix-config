@@ -20,7 +20,7 @@
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
     - Youko:
         icon: mdi-server
-        description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
+        description: "CPU: R5-5625U / MEM: 24G (8+16) / DISK: 512G+4T*2"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
 
