@@ -11,7 +11,7 @@ let
   # certificate. Only clients that already installed the private CA (this
   # repo's desktops/servers, via `modules/base/security.nix`) trust it.
   # Mobile apps do NOT trust a private CA, so any site a phone must reach uses
-  # `publicClientTlsConfig` instead of this one.
+  # `publicTlsConfig` instead of this one.
   privateTlsConfig = ''
     encode zstd gzip
     tls ${mylib.relativeToRoot "certs/ecc-server.crt"} ${
@@ -22,18 +22,20 @@ let
     }
   '';
 
-  # TLS for sites that must be reachable from unmodified mobile apps. The cert
-  # is issued by a public CA (Let's Encrypt) so the phone app trusts it without
-  # installing `ecc-ca`. Caddy does NOT issue it: auto-HTTPS is off
-  # (`auto_https disable_certs`) and the private wildcard cert already covers
-  # every `*.writefor.fun` name, so caddy would refuse to manage this one.
-  # Instead NixOS `security.acme` (lego) runs the ACME DNS-01 challenge against
-  # the Cloudflare zone (see the `security.acme` block below) and caddy only
-  # loads the resulting files. DNS-01 needs no inbound ports or public IP, so
-  # the service stays on the LAN; the hostname does appear in public CT logs.
-  publicClientTlsConfig = domain: ''
+  # TLS for sites that must be reachable from unmodified mobile/TV apps. A
+  # single publicly-trusted Let's Encrypt *wildcard* cert (`*.writefor.fun`,
+  # plus the apex) is issued once via the ACME DNS-01 challenge and shared by
+  # every such vhost, so adding a service never needs new ACME setup. A
+  # wildcard also keeps individual hostnames out of public CT logs.
+  # Caddy does NOT issue it: auto-HTTPS is off (`auto_https disable_certs`) and
+  # the private wildcard cert already covers every `*.writefor.fun` name, so
+  # caddy would refuse to manage this one. Instead NixOS `security.acme` (lego)
+  # runs the challenge against the Cloudflare zone (see the `security.acme`
+  # block below) and caddy only loads the resulting files. DNS-01 needs no
+  # inbound ports or public IP, so the services stay on the LAN.
+  publicTlsConfig = ''
     encode zstd gzip
-    tls /var/lib/acme/${domain}/fullchain.pem /var/lib/acme/${domain}/key.pem {
+    tls /var/lib/acme/writefor.fun/fullchain.pem /var/lib/acme/writefor.fun/key.pem {
       protocols tls1.3 tls1.3
       curves x25519 secp384r1 secp521r1
     }
@@ -133,11 +135,19 @@ in
     # Immich photo library (websockets for live updates). Uploads stream through
     # Caddy, which has no request-body limit by default.
     # Unlike the LAN-only services above, this one is opened from the Immich
-    # mobile app, which refuses the private `ecc-ca` certificate -- so it gets a
-    # publicly-trusted Let's Encrypt cert instead (see `publicClientTlsConfig`).
+    # mobile app, which refuses the private `ecc-ca` certificate -- so it gets
+    # the publicly-trusted Let's Encrypt wildcard (see `publicTlsConfig`).
     virtualHosts."immich.writefor.fun".extraConfig = ''
-      ${publicClientTlsConfig "immich.writefor.fun"}
+      ${publicTlsConfig}
       reverse_proxy http://localhost:2283 {
+        header_up Host {http.request.host}
+      }
+    '';
+    # Jellyfin media server (websockets for live dashboard/playstate). Like
+    # immich, it is opened from phone/TV apps, so it also uses a public cert.
+    virtualHosts."jellyfin.writefor.fun".extraConfig = ''
+      ${publicTlsConfig}
+      reverse_proxy http://localhost:8096 {
         header_up Host {http.request.host}
       }
     '';
@@ -186,17 +196,20 @@ in
     # '';
   };
 
-  # Issue the certs for `publicClientTlsConfig` sites with lego (packaged in
+  # Issue one public wildcard cert (plus the apex) with lego (packaged in
   # nixpkgs, so no custom caddy build is needed) via the ACME DNS-01 challenge
   # against the Cloudflare-managed `writefor.fun` zone. The token is an agenix
-  # environment file holding `CLOUDFLARE_DNS_API_TOKEN=...`.
+  # environment file holding `CLOUDFLARE_DNS_API_TOKEN=...`. The wildcard is
+  # shared by every `publicTlsConfig` vhost, so new services need no new entry.
   security.acme = {
     acceptTerms = true;
     # lego runs as the unprivileged `acme` user by default, which cannot read
     # the root-owned agenix file; run it as root so it can.
     useRoot = true;
     defaults.email = myvars.useremail;
-    certs."immich.writefor.fun" = {
+    certs."writefor.fun" = {
+      domain = "*.writefor.fun";
+      extraDomainNames = [ "writefor.fun" ];
       dnsProvider = "cloudflare";
       environmentFile = config.age.secrets."cloudflare-dns-api-token".path;
       # lego's own propagation checks are unreliable from youko (its resolver
@@ -220,8 +233,8 @@ in
   # caddy loads the lego-issued files at startup, so wait for the acme service;
   # otherwise its config fails to load before the cert exists.
   systemd.services.caddy = {
-    wants = [ "acme-immich.writefor.fun.service" ];
-    after = [ "acme-immich.writefor.fun.service" ];
+    wants = [ "acme-writefor.fun.service" ];
+    after = [ "acme-writefor.fun.service" ];
   };
 
   networking.firewall.allowedTCPPorts = [
