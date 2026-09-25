@@ -107,6 +107,14 @@ in
         }
       }
     '';
+    # Immich photo library (websockets for live updates). Uploads stream through
+    # Caddy, which has no request-body limit by default.
+    virtualHosts."immich.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      reverse_proxy http://localhost:2283 {
+        header_up Host {http.request.host}
+      }
+    '';
     # Every other name is not a service on this host: answer 404 instead of
     # caddy's empty 200 fallback, which hides typos.
     virtualHosts."*.writefor.fun".extraConfig = ''

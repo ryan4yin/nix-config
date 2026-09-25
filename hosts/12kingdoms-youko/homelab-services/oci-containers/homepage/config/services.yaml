@@ -65,6 +65,11 @@
         href: "https://transmission.writefor.fun/"
         description: Transmission BitTorrent client
         siteMonitor: "https://transmission.writefor.fun/"
+    - Immich:
+        icon: immich.png
+        href: "https://immich.writefor.fun/"
+        description: Self-hosted photo library
+        siteMonitor: "https://immich.writefor.fun/"
 # - Kubernetes Monitoring:
 #     # TODO: Update this
 #     - Emby:
