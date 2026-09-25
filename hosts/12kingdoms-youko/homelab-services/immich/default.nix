@@ -19,8 +19,8 @@ in
       createDB = true;
     };
 
-    # Use the shared Dragonfly instance (dragonfly.nix) instead of a private
-    # Redis. With a non-unix-socket host the module passes REDIS_HOSTNAME/PORT.
+    # Use the shared Valkey instance (valkey.nix) instead of a private Redis.
+    # With a non-unix-socket host the module passes REDIS_HOSTNAME/PORT.
     redis = {
       enable = false;
       host = "127.0.0.1";

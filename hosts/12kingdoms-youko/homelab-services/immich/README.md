@@ -11,7 +11,7 @@ document is the agreed design and the rationale.
 
 ## Non-goals (for now)
 
-- Phone auto-backup / mobile apps (Immich supports it; add later if wanted).
+- Scheduled phone background backup (the mobile app is used for manual uploads).
 - Multi-user / family accounts and public share links.
 - Off-host/off-site copy — deferred to the planned cloud backup (see Backup).
 
@@ -21,8 +21,9 @@ document is the agreed design and the rationale.
   containers.
 - **Database**: reuse the host PostgreSQL 16 (`services.postgresql`) instead of a bundled DB
   container.
-- **Cache**: a single shared **Dragonfly** instance (`services.dragonflydb`), reused by Immich and
-  future services over loopback TCP — not a private per-service Redis.
+- **Cache**: a single shared **Valkey** instance (`services.redis.package = pkgs.valkey`), reused by
+  Immich and future services over loopback TCP — not a private per-service Redis, and not Dragonfly
+  (its Lua handling breaks Immich's BullMQ job queue; see Risks).
 - **Existing photos**: exposed as a read-only Immich **External Library**, not imported/copied (no
   36G duplication).
 - **ML**: enable it, running on **CPU** initially.
@@ -35,12 +36,13 @@ document is the agreed design and the rationale.
   creates the `immich` database/user. Confirmed present in this flake's nixpkgs: PG 16.15,
   `pgvector` 0.8.6, `vectorchord` 1.1.1, `immich` 3.2.2.
 - `services.immich.redis.enable = false` with `host = "127.0.0.1"` and `port = 6379`: Immich uses
-  the shared Dragonfly instance (`../dragonfly.nix`) over loopback TCP; the module then passes
+  the shared Valkey instance (`../valkey.nix`) over loopback TCP; the module then passes
   `REDIS_HOSTNAME`/`REDIS_PORT`.
 - `services.immich.machine-learning.enable = true` (CPU; `accelerationDevices` left unset — AMD iGPU
   ML is unreliable, revisit `/dev/dri/renderD128` later).
-- Caddy vhost `immich.writefor.fun` -> `http://127.0.0.1:2283`, TLS from `certs/ecc-server.crt`;
-  allow large request bodies and long timeouts for uploads.
+- Caddy vhost `immich.writefor.fun` -> `http://127.0.0.1:2283`. Unlike the other vhosts (private
+  `ecc-ca`), this one is reached by the Immich mobile app, so it gets a publicly-trusted Let's
+  Encrypt cert via `security.acme` (lego + Cloudflare DNS-01); see `../caddy.nix`.
 - A `homepage` entry on the dashboard.
 
 ## Storage
@@ -80,9 +82,10 @@ document is the agreed design and the rationale.
 
 ## Risks
 
-- Dragonfly is Redis-compatible but not identical. Immich's job queue (BullMQ) must work against it:
-  after deploy, confirm jobs run (thumbnails/ML) and that no Redis command errors appear in the
-  `immich-server` logs. Fall back to `services.redis` if it misbehaves.
+- Immich's job queue (BullMQ) needs a Redis that tolerates Lua scripts accessing dynamically-built
+  keys; **Dragonfly rejected these** (`script tried accessing undeclared key`) and every upload
+  returned 500. We therefore run **Valkey** (`services.redis`), Redis-compatible and the supported
+  backend.
 
 ## Resource budget
 
@@ -91,7 +94,7 @@ document is the agreed design and the rationale.
 
 ## Rollout
 
-1. `../dragonfly.nix`: the shared Dragonfly instance.
+1. `../valkey.nix`: the shared Valkey instance.
 2. `./default.nix`: the `services.immich` configuration (server, database, machine-learning,
    tmpfiles).
 3. `../caddy.nix`: the `immich.writefor.fun` vhost.
@@ -105,7 +108,7 @@ document is the agreed design and the rationale.
 - `just fmt`; `just test` -> `true`; `nix build` the youko toplevel.
 - Postgres: `\dx` lists `vectorchord`/`pgvector`; `SHOW shared_preload_libraries` includes
   `vchord.so`; the `immich` DB exists.
-- Units: `immich-server`, `immich-machine-learning`, `redis-immich`, `postgresql` are active.
+- Units: `immich-server`, `immich-machine-learning`, `redis-shared`, `postgresql` are active.
 - `curl 127.0.0.1:2283` and `https://immich.writefor.fun` respond; login works; the external library
   scan indexes the DCIM photos and ML search returns results.
 
