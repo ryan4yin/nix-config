@@ -38,10 +38,10 @@
         href: https://grafana.writefor.fun
         description: Data visualised on dashboards
         siteMonitor: https://grafana.writefor.fun
-    - Prometheus Dashboard:
-        icon: prometheus.svg
+    - VictoriaMetrics:
+        icon: si-victoriametrics
         href: https://prometheus.writefor.fun
-        description: Monitoring - Prometheus
+        description: Time-series database
         siteMonitor: https://prometheus.writefor.fun
     - Uptime Kuma:
         icon: uptime-kuma.svg
