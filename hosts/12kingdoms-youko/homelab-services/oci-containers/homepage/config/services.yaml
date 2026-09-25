@@ -93,7 +93,7 @@
     - Files:
         icon: mdi-folder-image
         href: "https://file.writefor.fun/"
-        description: Static file server (wallpapers)
+        description: Static file server
         siteMonitor: "https://file.writefor.fun/"
 - k3s-test-1:
     - vmagent:
@@ -101,11 +101,6 @@
         href: "https://test1-vmagent.writefor.fun/"
         description: VictoriaMetrics agent (k3s-test-1)
         siteMonitor: "https://test1-vmagent.writefor.fun/"
-    - Loki:
-        icon: loki.png
-        href: "https://loki-gateway.writefor.fun/"
-        description: Log aggregation (k3s-test-1)
-        siteMonitor: "https://loki-gateway.writefor.fun/"
     - Kiali:
         icon: kiali.png
         href: "https://kiali.writefor.fun/kiali/"
