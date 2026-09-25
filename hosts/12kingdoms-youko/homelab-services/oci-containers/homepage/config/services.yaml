@@ -20,7 +20,7 @@
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.182:9100
     - Youko:
         icon: mdi-server
-        description: "CPU: R5-5625U / MEM: 32G / DISK: 512G+4T*2"
+        description: "CPU: R5-5625U / MEM: 24G (8+16) / DISK: 1T+4T*2"
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
 
@@ -38,16 +38,26 @@
         href: https://grafana.writefor.fun
         description: Data visualised on dashboards
         siteMonitor: https://grafana.writefor.fun
-    - Prometheus Dashboard:
-        icon: prometheus.svg
+    - VictoriaMetrics:
+        icon: si-victoriametrics
         href: https://prometheus.writefor.fun
-        description: Monitoring - Prometheus
+        description: Time-series database
         siteMonitor: https://prometheus.writefor.fun
     - Uptime Kuma:
         icon: uptime-kuma.svg
         href: https://uptime-kuma.writefor.fun
         description: Uptime Checking
         siteMonitor: https://uptime-kuma.writefor.fun
+    - Alertmanager:
+        icon: alertmanager.png
+        href: https://alertmanager.writefor.fun
+        description: Alert routing
+        siteMonitor: https://alertmanager.writefor.fun
+    - vmalert:
+        icon: si-victoriametrics
+        href: https://vmalert.writefor.fun
+        description: Alerting rules for VictoriaMetrics
+        siteMonitor: https://vmalert.writefor.fun
 
 - Homelab Applications:
     - SFTPGO:
@@ -70,25 +80,34 @@
         href: "https://immich.writefor.fun/"
         description: Self-hosted photo library
         siteMonitor: "https://immich.writefor.fun/"
-# - Kubernetes Monitoring:
-#     # TODO: Update this
-#     - Emby:
-#       icon: emby.png
-#       href: "http://emby.home/"
-#       description: Media server
-#       namespace: media # The kubernetes namespace the app resides in
-#       app: emby # The name of the deployed app
-#
-#     - Element Chat:
-#         icon: matrix-light.png
-#         href: https://chat.example.com
-#         description: Matrix Synapse Powered Chat
-#         app: matrix-element
-#         namespace: comms
-#         pod-selector: >-
-#           app.kubernetes.io/instance in (
-#               matrix-element,
-#               matrix-media-repo,
-#               matrix-media-repo-postgresql,
-#               matrix-synapse
-#           )
+    - Jellyfin:
+        icon: jellyfin.png
+        href: "https://jellyfin.writefor.fun/"
+        description: Media server
+        siteMonitor: "https://jellyfin.writefor.fun/"
+    - RustFS Console:
+        icon: mdi-database
+        href: "https://s3-console.writefor.fun/"
+        description: S3-compatible object storage (RustFS)
+        siteMonitor: "https://s3-console.writefor.fun/"
+    - Files:
+        icon: mdi-folder-image
+        href: "https://file.writefor.fun/"
+        description: Static file server
+        siteMonitor: "https://file.writefor.fun/"
+- k3s-test-1:
+    - vmagent:
+        icon: si-victoriametrics
+        href: "https://test1-vmagent.writefor.fun/"
+        description: VictoriaMetrics agent (k3s-test-1)
+        siteMonitor: "https://test1-vmagent.writefor.fun/"
+    - Kiali:
+        icon: kiali.png
+        href: "https://kiali.writefor.fun/kiali/"
+        description: Istio service mesh console
+        siteMonitor: "https://kiali.writefor.fun/kiali/"
+    - Podinfo:
+        icon: mdi-application
+        href: "https://podinfo-staging.writefor.fun/"
+        description: Demo app (staging)
+        siteMonitor: "https://podinfo-staging.writefor.fun/"
