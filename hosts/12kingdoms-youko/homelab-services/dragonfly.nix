@@ -10,8 +10,8 @@
     enable = true;
     bind = "127.0.0.1";
     port = 6379;
-    # A cache/job-queue store, not a database: bound memory, but do NOT enable
-    # cache_mode (LRU eviction could drop Immich's BullMQ job entries).
-    maxMemory = "1gb";
+    # A cache/job-queue store, not a database: bound memory (bytes), but do NOT
+    # enable cache_mode (LRU eviction could drop Immich's BullMQ job entries).
+    maxMemory = 1073741824; # 1 GiB
   };
 }
