@@ -163,7 +163,8 @@ in
       ++ cfg.exclude;
 
       timerConfig = {
-        inherit (cfg) onCalendar randomizedDelaySec;
+        OnCalendar = cfg.onCalendar;
+        RandomizedDelaySec = cfg.randomizedDelaySec;
       };
 
       inherit (cfg) pruneOpts;
