@@ -69,6 +69,12 @@ let
         # to use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
       };
+      # only for rustfs: nixos-unstable-small ships rustfs 1.0.0 (with the web
+      # console), while the default unstable nixpkgs is still 1.0.0-rc.6.
+      pkgs-small = import inputs.nixpkgs-small {
+        inherit system;
+        config.allowUnfree = true;
+      };
       pkgs-blender = import inputs.nixpkgs-blender {
         inherit system;
         config = lib.optionalAttrs (system == "x86_64-linux") {

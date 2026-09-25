@@ -71,6 +71,35 @@ in
       respond @metrics 403
       reverse_proxy http://localhost:8000
     '';
+    # RustFS replaced MinIO. SigV4 signs the Host header, so preserve it. No
+    # `encode` here: compression would corrupt range/streaming responses.
+    virtualHosts."s3.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      reverse_proxy http://localhost:9000 {
+        header_up Host {http.request.host}
+        transport http {
+          dial_timeout 300s
+          read_timeout 300s
+          write_timeout 300s
+        }
+      }
+    '';
+    # RustFS management console (websockets). The UI is served under
+    # /rustfs/console/, so send the root there.
+    virtualHosts."s3-console.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      redir / /rustfs/console/ 302
+      reverse_proxy http://localhost:9001 {
+        header_up Host {http.request.host}
+        header_up Upgrade {http.request.header.Upgrade}
+        header_up Connection {http.request.header.Connection}
+        transport http {
+          dial_timeout 300s
+          read_timeout 300s
+          write_timeout 300s
+        }
+      }
+    '';
     # Every other name is not a service on this host: answer 404 instead of
     # caddy's empty 200 fallback, which hides typos.
     virtualHosts."*.writefor.fun".extraConfig = ''
@@ -81,6 +110,17 @@ in
       ${hostCommonConfig}
       encode zstd gzip
       reverse_proxy http://localhost:9091
+    '';
+
+    # In-cluster apps exposed through the k3s Istio gateway. That gateway is a
+    # NodePort (:80) on every node; terminate TLS here and forward to the
+    # workers, preserving the Host header so Istio routes by hostname. Grafana
+    # (below) reaches Loki through this.
+    virtualHosts."loki-gateway.writefor.fun".extraConfig = ''
+      ${hostCommonConfig}
+      reverse_proxy http://192.168.5.111:80 http://192.168.5.112:80 http://192.168.5.113:80 {
+        header_up Host {http.request.host}
+      }
     '';
 
     # Monitoring

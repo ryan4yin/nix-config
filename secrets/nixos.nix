@@ -166,6 +166,14 @@ in
           mode = "0400";
           owner = "sftpgo";
         };
+
+        # RustFS root credentials as a systemd EnvironmentFile consumed by
+        # services.rustfs: RUSTFS_ACCESS_KEY / RUSTFS_SECRET_KEY.
+        "rustfs.env" = {
+          file = "${mysecrets}/server/rustfs.env.age";
+          mode = "0400";
+          owner = "root";
+        };
       };
     })
 
