@@ -33,8 +33,12 @@ in
     forceEncodingConfig = true;
     transcoding = {
       enableToneMapping = true;
-      # Vega (Barceló) decodes these; h264 encoding is always enabled and
-      # Vega has no HEVC encoder, so hardwareEncodingCodecs stays at default.
+      # Use the iGPU for encoding too. Without this Jellyfin uses VA-API only
+      # for decode/scale and falls back to the CPU `libx264`, which pins
+      # several cores per stream. h264 is the only hw encoder enabled by
+      # default (Vega has no usable HEVC encoder here).
+      enableHardwareEncoding = true;
+      # Vega (Barceló) decodes these.
       hardwareDecodingCodecs = {
         h264 = true;
         hevc = true;
