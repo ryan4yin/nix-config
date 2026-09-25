@@ -45,21 +45,25 @@ layout:
     initiallyCollapsed: false # collapsed by default
     tab: Main
     style: row
-    columns: 3
+    columns: 2
 
   Homelab Applications:
     icon: si-homepage
     tab: Main
+    style: row
+    columns: 2
 
   虚拟化宿主机:
     icon: si-kubernetes
     tab: Hosts
+    style: row
+    columns: 2
 
   k3s-test-1:
     icon: si-kubernetes
     tab: Main
     style: row
-    columns: 4
+    columns: 2
 
 # https://gethomepage.dev/latest/configs/services/#icons
 # iconStyle: theme # optional, defaults to gradient
