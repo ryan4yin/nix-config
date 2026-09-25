@@ -8,7 +8,8 @@ managing storage and backend services.
 ```
 infra/
 ├── README.md
-└── minio/                    # MinIO S3-compatible storage configurations
+└── rustfs/                   # RustFS S3-compatible storage (replaced MinIO)
+    ├── README.md             # RustFS + rc runbook (buckets / IAM)
     ├── loki/                 # Loki log storage buckets
     │   ├── README.md
     │   ├── loki.tf          # Loki-specific bucket configuration
@@ -23,10 +24,14 @@ infra/
 
 ## Services Overview
 
-### MinIO Storage
+### RustFS Storage
 
 - **Loki Buckets**: Dedicated storage for Grafana Loki log aggregation
 - **Terraform Backend**: Centralized state management for all Terraform configurations
+
+RustFS speaks the S3 API but not MinIO's Admin API, so buckets/lifecycle are managed with the AWS
+provider and IAM users/policies with the official `rc` client. See
+[rustfs/README.md](./rustfs/README.md).
 
 ### External Resources
 
@@ -41,7 +46,7 @@ Each subdirectory contains its own Terraform configuration:
 1. **Navigate to specific service**:
 
    ```bash
-   cd infra/minio/loki
+   cd infra/rustfs/loki
    ```
 
 2. **Deploy configuration**:

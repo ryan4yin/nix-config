@@ -503,10 +503,10 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1790263145,
-        "narHash": "sha256-mD2038t9X7eyRGe2wn1jddhrVizc+SX8b43LoB5hEsc=",
+        "lastModified": 1790320138,
+        "narHash": "sha256-wx4fG9vS1Fde03PKYMyFNR+4PVaS2Hi1TqKnByAWjHQ=",
         "ref": "refs/heads/main",
-        "rev": "7e75aad771e8748f666a83832678f3fbb6378a73",
+        "rev": "5063301c99e72244abba99cd5ae8456626ff42e0",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/ryan4yin/nix-secrets.git"
@@ -714,6 +714,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-small": {
+      "locked": {
+        "lastModified": 1790297907,
+        "narHash": "sha256-3tsHNGgWZoi3D5Fbi6xvkjN97qHC92zpJAweyzPju2M=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a5e02ba8b823f3846c2336c7baad299a36a47cdf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1789654592,
@@ -907,6 +923,7 @@
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-patched": "nixpkgs-patched",
+        "nixpkgs-small": "nixpkgs-small",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim",
         "nu_scripts": "nu_scripts",
