@@ -12,6 +12,9 @@
     port = 6379;
     # A cache/job-queue store, not a database: bound memory (bytes), but do NOT
     # enable cache_mode (LRU eviction could drop Immich's BullMQ job entries).
-    maxMemory = 1073741824; # 1 GiB
+    # Dragonfly reserves ~256MiB per proactor thread (= CPU count, 12 here), so
+    # maxmemory must exceed ~3GiB or it refuses to start; 4GiB leaves headroom
+    # while keeping the daemon bounded.
+    maxMemory = 4294967296; # 4 GiB
   };
 }
