@@ -218,6 +218,15 @@ in
           mode = "0400";
           owner = "postgres";
         };
+
+        # Cloudflare API token (Zone -> DNS -> Edit on `writefor.fun`) consumed
+        # by security.acme (lego) as its environment file for the ACME DNS-01
+        # challenge on publicly-trusted sites. lego runs as root here.
+        "cloudflare-dns-api-token" = {
+          file = "${mysecrets}/server/cloudflare-dns-api-token.env.age";
+          mode = "0400";
+          owner = "root";
+        };
       };
     })
 
