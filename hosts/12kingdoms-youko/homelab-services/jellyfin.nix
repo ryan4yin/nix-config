@@ -1,4 +1,7 @@
 {
+  config,
+  lib,
+  pkgs,
   ...
 }:
 let
@@ -6,11 +9,18 @@ let
   # existing Transmission download tree on the (public) HDD, reached through
   # the shared `fileshare` group -- no Jellyfin-owned library directory.
   mediaDir = "/data/fileshare/public";
+
+  # Public URL, written into network.xml so clients get a reachable address.
+  domain = "jellyfin.writefor.fun";
 in
 {
-  # Read access to the Transmission downloads (owned by group `fileshare`).
-  # Jellyfin writes nothing here; transcodes go to the module's cacheDir.
-  users.users.jellyfin.extraGroups = [ "fileshare" ];
+  # Read access to the Transmission downloads (owned by group `fileshare`) and
+  # to the GPU device nodes (`render`/`video`) for VA-API transcoding.
+  users.users.jellyfin.extraGroups = [
+    "fileshare"
+    "render"
+    "video"
+  ];
 
   # VA-API needs Mesa's `radeonsi` driver under /run/opengl-driver. youko is a
   # headless server, so `hardware.graphics` is off by default and the driver
@@ -21,7 +31,7 @@ in
     enable = true;
 
     # AMD Barceló iGPU: VA-API hardware transcoding. renderD128 is world
-    # readable/writable, so only DeviceAllow (set by the module) is needed.
+    # readable/writable, and the user is in `render`/`video` as well.
     hardwareAcceleration = {
       enable = true;
       type = "vaapi";
@@ -35,8 +45,7 @@ in
       enableToneMapping = true;
       # Use the iGPU for encoding too. Without this Jellyfin uses VA-API only
       # for decode/scale and falls back to the CPU `libx264`, which pins
-      # several cores per stream. h264 is the only hw encoder enabled by
-      # default (Vega has no usable HEVC encoder here).
+      # several cores per stream.
       enableHardwareEncoding = true;
       # Vega (Barceló) decodes these.
       hardwareDecodingCodecs = {
@@ -48,11 +57,33 @@ in
         vp8 = true;
         vp9 = true;
       };
+      # H.264 hardware encode is always on; Vega's VCN also encodes HEVC
+      # (verified with the bundled ffmpeg), but it has no AV1 encoder, so av1
+      # is left off.
+      hardwareEncodingCodecs.hevc = true;
     };
   };
 
   # The module creates /var/lib/jellyfin and /var/cache/jellyfin itself, both
   # on the preserved, encrypted nvme -- no extra tmpfiles rule is needed.
+
+  # network.xml has no module option, so patch it on every start (idempotent;
+  # only these two elements are touched):
+  #  - KnownProxies: trust Caddy (127.0.0.1) so Jellyfin reads the real client
+  #    IP from `X-Forwarded-For` (correct remote-access checks and per-IP
+  #    login lockout instead of lumping everyone under the proxy's IP).
+  #  - PublishedServerUriBySubnet: advertise the public URL to clients.
+  systemd.services.jellyfin.preStart = lib.mkAfter ''
+    networkXml=${lib.escapeShellArg "${config.services.jellyfin.configDir}/network.xml"}
+    if [ -f "$networkXml" ]; then
+      ${lib.getExe pkgs.xmlstarlet} ed -L \
+        -d '/NetworkConfiguration/KnownProxies/*' \
+        -s '/NetworkConfiguration/KnownProxies' -t elem -n string -v '127.0.0.1' \
+        -d '/NetworkConfiguration/PublishedServerUriBySubnet/*' \
+        -s '/NetworkConfiguration/PublishedServerUriBySubnet' -t elem -n string -v ${lib.escapeShellArg "all=https://${domain}"} \
+        "$networkXml"
+    fi
+  '';
 
   # The library is a separate, `nofail` mount; without this the unit can start
   # before it is mounted. The module's own RequiresMountsFor entries for
