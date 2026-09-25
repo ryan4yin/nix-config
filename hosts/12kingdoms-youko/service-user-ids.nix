@@ -14,6 +14,7 @@
   # their own values and data), so this lives in the host config rather than a
   # shared module.
   users.users = {
+    jellyfin.uid = 984;
     sftpgo.uid = 987;
     rustfs.uid = 988;
     redis-shared.uid = 989;
@@ -29,6 +30,7 @@
   };
 
   users.groups = {
+    jellyfin.gid = 974;
     wireshark.gid = 975;
     victoriametrics-data.gid = 976;
     uinput.gid = 977;
