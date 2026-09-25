@@ -112,17 +112,6 @@ in
       reverse_proxy http://localhost:9091
     '';
 
-    # In-cluster apps exposed through the k3s Istio gateway. That gateway is a
-    # NodePort (:80) on every node; terminate TLS here and forward to the
-    # workers, preserving the Host header so Istio routes by hostname. Grafana
-    # (below) reaches Loki through this.
-    virtualHosts."loki-gateway.writefor.fun".extraConfig = ''
-      ${hostCommonConfig}
-      reverse_proxy http://192.168.5.111:80 http://192.168.5.112:80 http://192.168.5.113:80 {
-        header_up Host {http.request.host}
-      }
-    '';
-
     # Monitoring
     virtualHosts."uptime-kuma.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
