@@ -73,7 +73,11 @@ in
   #    IP from `X-Forwarded-For` (correct remote-access checks and per-IP
   #    login lockout instead of lumping everyone under the proxy's IP).
   #  - PublishedServerUriBySubnet: advertise the public URL to clients.
-  systemd.services.jellyfin.preStart = lib.mkAfter ''
+  #
+  # `mkBefore` matters: the module's own preStart ends with `exit 0` once
+  # encoding.xml already matches, so an `mkAfter` patch would only run on the
+  # deploy that changes encoding settings. Running first is always safe.
+  systemd.services.jellyfin.preStart = lib.mkBefore ''
     networkXml=${lib.escapeShellArg "${config.services.jellyfin.configDir}/network.xml"}
     if [ -f "$networkXml" ]; then
       ${lib.getExe pkgs.xmlstarlet} ed -L \
@@ -83,6 +87,14 @@ in
         -s '/NetworkConfiguration/PublishedServerUriBySubnet' -t elem -n string -v ${lib.escapeShellArg "all=https://${domain}"} \
         "$networkXml"
     fi
+  '';
+
+  # Jellyfin apps discover the server over the LAN via UDP 7359, then talk to
+  # TCP 8096 directly. Allow both only from the home network; the public entry
+  # point stays the Caddy vhost on 443.
+  networking.firewall.extraInputRules = ''
+    ip saddr 192.168.5.0/24 tcp dport 8096 accept
+    ip saddr 192.168.5.0/24 udp dport 7359 accept
   '';
 
   # The library is a separate, `nofail` mount; without this the unit can start
