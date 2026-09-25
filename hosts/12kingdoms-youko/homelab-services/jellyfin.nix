@@ -12,6 +12,11 @@ in
   # Jellyfin writes nothing here; transcodes go to the module's cacheDir.
   users.users.jellyfin.extraGroups = [ "fileshare" ];
 
+  # VA-API needs Mesa's `radeonsi` driver under /run/opengl-driver. youko is a
+  # headless server, so `hardware.graphics` is off by default and the driver
+  # (and therefore VA-API) is missing.
+  hardware.graphics.enable = true;
+
   services.jellyfin = {
     enable = true;
 
