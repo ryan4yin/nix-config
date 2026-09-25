@@ -48,6 +48,16 @@
         href: https://uptime-kuma.writefor.fun
         description: Uptime Checking
         siteMonitor: https://uptime-kuma.writefor.fun
+    - Alertmanager:
+        icon: alertmanager.png
+        href: https://alertmanager.writefor.fun
+        description: Alert routing
+        siteMonitor: https://alertmanager.writefor.fun
+    - vmalert:
+        icon: si-victoriametrics
+        href: https://vmalert.writefor.fun
+        description: Alerting rules for VictoriaMetrics
+        siteMonitor: https://vmalert.writefor.fun
 
 - Homelab Applications:
     - SFTPGO:
@@ -70,25 +80,39 @@
         href: "https://immich.writefor.fun/"
         description: Self-hosted photo library
         siteMonitor: "https://immich.writefor.fun/"
-# - Kubernetes Monitoring:
-#     # TODO: Update this
-#     - Emby:
-#       icon: emby.png
-#       href: "http://emby.home/"
-#       description: Media server
-#       namespace: media # The kubernetes namespace the app resides in
-#       app: emby # The name of the deployed app
-#
-#     - Element Chat:
-#         icon: matrix-light.png
-#         href: https://chat.example.com
-#         description: Matrix Synapse Powered Chat
-#         app: matrix-element
-#         namespace: comms
-#         pod-selector: >-
-#           app.kubernetes.io/instance in (
-#               matrix-element,
-#               matrix-media-repo,
-#               matrix-media-repo-postgresql,
-#               matrix-synapse
-#           )
+    - Jellyfin:
+        icon: jellyfin.png
+        href: "https://jellyfin.writefor.fun/"
+        description: Media server
+        siteMonitor: "https://jellyfin.writefor.fun/"
+    - RustFS Console:
+        icon: mdi-database
+        href: "https://s3-console.writefor.fun/"
+        description: S3-compatible object storage (RustFS)
+        siteMonitor: "https://s3-console.writefor.fun/"
+    - Files:
+        icon: mdi-folder-image
+        href: "https://file.writefor.fun/"
+        description: Static file server (wallpapers)
+        siteMonitor: "https://file.writefor.fun/"
+- k3s-test-1:
+    - vmagent:
+        icon: si-victoriametrics
+        href: "https://test1-vmagent.writefor.fun/"
+        description: VictoriaMetrics agent (k3s-test-1)
+        siteMonitor: "https://test1-vmagent.writefor.fun/"
+    - Loki:
+        icon: loki.png
+        href: "https://loki-gateway.writefor.fun/"
+        description: Log aggregation (k3s-test-1)
+        siteMonitor: "https://loki-gateway.writefor.fun/"
+    - Kiali:
+        icon: kiali.png
+        href: "https://kiali.writefor.fun/kiali/"
+        description: Istio service mesh console
+        siteMonitor: "https://kiali.writefor.fun/kiali/"
+    - Podinfo:
+        icon: mdi-application
+        href: "https://podinfo-staging.writefor.fun/"
+        description: Demo app (staging)
+        siteMonitor: "https://podinfo-staging.writefor.fun/"

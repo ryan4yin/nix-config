@@ -55,6 +55,12 @@ layout:
     icon: si-kubernetes
     tab: Hosts
 
+  k3s-test-1:
+    icon: si-kubernetes
+    tab: Main
+    style: row
+    columns: 4
+
 # https://gethomepage.dev/latest/configs/services/#icons
 # iconStyle: theme # optional, defaults to gradient
 
