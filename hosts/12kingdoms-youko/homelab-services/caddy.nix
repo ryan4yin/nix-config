@@ -85,10 +85,17 @@ in
       }
     '';
     # RustFS management console (websockets). The UI is served under
-    # /rustfs/console/, so send the root there.
+    # /rustfs/console/. The console frontend signs its own S3/STS calls to `/`
+    # (POST / for STS, GET /?x-id=ListBuckets), so only redirect a plain browser
+    # visit (unsigned GET /) to the UI; signed requests must reach RustFS as-is.
     virtualHosts."s3-console.writefor.fun".extraConfig = ''
       ${hostCommonConfig}
-      redir / /rustfs/console/ 302
+      @console_root {
+        method GET
+        path /
+        not header Authorization *
+      }
+      redir @console_root /rustfs/console/ 302
       reverse_proxy http://localhost:9001 {
         header_up Host {http.request.host}
         header_up Upgrade {http.request.header.Upgrade}
