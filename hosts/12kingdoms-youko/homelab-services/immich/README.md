@@ -76,9 +76,11 @@ document is the agreed design and the rationale.
 
 ## Monitoring
 
-- Deferred: Immich can expose `IMMICH_API_METRICS_PORT` / `IMMICH_MICROSERVICES_METRICS_PORT`, but
-  youko has no host firewall, so enabling them now would publish those ports on the LAN. Revisit
-  together with a firewall rule.
+- Enabled: `IMMICH_API_METRICS_PORT=8081` + `IMMICH_MICROSERVICES_METRICS_PORT=8082` (OTEL metrics,
+  `IMMICH_TELEMETRY_INCLUDE=all`). VictoriaMetrics scrapes them on this host
+  (`monitoring/victoriametrics.nix`); caddy does not proxy them.
+- Note: Immich has no bind-host option for these listeners, so they bind all interfaces and are
+  LAN-reachable like `node_exporter:9100`. Add a firewall rule if that must be loopback-only.
 
 ## Risks
 

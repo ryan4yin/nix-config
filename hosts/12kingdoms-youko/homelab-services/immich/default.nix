@@ -34,6 +34,17 @@ in
       # Skip Immich's outbound version checks.
       newVersionCheck.enabled = false;
     };
+
+    # OTEL metrics, scraped by VictoriaMetrics on this host (see
+    # monitoring/victoriametrics.nix). `all` collects host/api/io/repo/job.
+    # Immich binds the metrics listeners to all interfaces (no bind-host
+    # option), so they are LAN-reachable like node_exporter:9100; caddy does
+    # not proxy them.
+    environment = {
+      IMMICH_API_METRICS_PORT = "8081";
+      IMMICH_MICROSERVICES_METRICS_PORT = "8082";
+      IMMICH_TELEMETRY_INCLUDE = "all";
+    };
   };
 
   # mediaLocation is on the encrypted HDD and must stay non-world-readable; the

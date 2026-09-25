@@ -188,6 +188,38 @@ in
             }
           ];
         }
+        {
+          job_name = "immich-api";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              # same-host exporter bound to all interfaces (127.0.0.1:8081)
+              targets = [ "127.0.0.1:8081" ];
+              labels.type = "app";
+              labels.app = "immich";
+              labels.host = "youko";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
+        {
+          job_name = "immich-microservices";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              # same-host exporter bound to all interfaces (127.0.0.1:8082)
+              targets = [ "127.0.0.1:8082" ];
+              labels.type = "app";
+              labels.app = "immich";
+              labels.host = "youko";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
       ]
       # --- Hosts --- #
       ++ (lib.attrsets.foldlAttrs
