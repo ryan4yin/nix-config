@@ -90,12 +90,7 @@ in
   '';
 
   # Jellyfin apps discover the server over the LAN via UDP 7359, then talk to
-  # TCP 8096 directly. Allow both only from the home network; the public entry
-  # point stays the Caddy vhost on 443.
-  networking.firewall.extraInputRules = ''
-    ip saddr 192.168.5.0/24 tcp dport 8096 accept
-    ip saddr 192.168.5.0/24 udp dport 7359 accept
-  '';
+  # TCP 8096 directly; the shared firewall already trusts the whole LAN.
 
   # The library is a separate, `nofail` mount; without this the unit can start
   # before it is mounted. The module's own RequiresMountsFor entries for

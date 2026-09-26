@@ -50,6 +50,8 @@ in
     # https://www.postgresql.org/docs/16/runtime-config.html
     settings = {
       port = 5432;
+      # LAN-only: listen on localhost and the LAN address, never 0.0.0.0.
+      listen_addresses = lib.mkForce "localhost,${myvars.networking.hostsAddr.youko.ipv4}";
       # connections
       max_connections = 100;
 
@@ -105,7 +107,7 @@ in
       host    replication     all             ::1/128                 trust
 
       # Other Remote Access - allow access only the database with the same name as the user
-      host    sameuser        all             0.0.0.0/0               scram-sha-256
+      host    sameuser        all             ${myvars.networking.lanCidr}     scram-sha-256
     '';
     # initialScript =
     #   pkgs.writeText "backend-initScript" ''

@@ -51,6 +51,15 @@ in
     enable = true;
     enableIPv6 = true;
   };
+
+  # Cilium pods reach host services (e.g. the API server) from the pod CIDR.
+  # `mkAfter` keeps this after the shared base rules (incl. the node_exporter
+  # drop), so pods cannot scrape node_exporter either.
+  networking.firewall.extraInputRules = lib.mkAfter ''
+    ip  saddr 10.0.0.0/8 accept
+    ip6 saddr fd00::/104 accept
+  '';
+
   services.k3s = {
     enable = true;
     inherit package tokenFile clusterInit;
