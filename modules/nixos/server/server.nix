@@ -1,11 +1,11 @@
-{ lib, ... }:
+{ ... }:
 {
   imports = [
     ../base
     ../../base
   ];
 
-  # Servers run on the trusted internal LAN (NAT'd; WAN protected at the router).
-  # Keep the firewall off here; the secure default is ON (see modules/nixos/base/ssh.nix).
-  networking.firewall.enable = false;
+  # Servers used to keep the firewall off, trusting the router alone. They now
+  # run the shared base firewall (modules/nixos/base/networking/firewall.nix)
+  # like every other host, as defence in depth behind the router.
 }

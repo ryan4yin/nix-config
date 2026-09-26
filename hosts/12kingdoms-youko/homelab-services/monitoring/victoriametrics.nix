@@ -94,22 +94,6 @@ in
           ];
         }
         {
-          job_name = "v2ray-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              # same-host exporter bound to loopback (127.0.0.1:9153)
-              targets = [ "127.0.0.1:9153" ];
-              labels.type = "app";
-              labels.app = "v2ray";
-              labels.host = "aquamarine";
-              labels.env = "homelab";
-              labels.cluster = "homelab";
-            }
-          ];
-        }
-        {
           job_name = "nut-exporter-homelab-ups";
           scrape_interval = "30s";
           metrics_path = "/ups_metrics";

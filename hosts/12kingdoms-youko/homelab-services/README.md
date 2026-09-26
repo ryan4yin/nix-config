@@ -16,7 +16,6 @@ Services:
 1. sftpgo: SFTP / WebDAV server.
 1. transmission: BitTorrent client.
 1. postgresql: Database for the homelab services.
-1. v2ray: HTTP/SOCKS proxy for the homelab.
 1. restic: Encrypted backups; hosts the REST server the desktops push to.
 1. victoriametrics + vmalert + alertmanager + grafana: Monitor the metrics of my homelab.
 1. homepage + uptime-kuma: Service dashboard and uptime checks.

@@ -2,6 +2,8 @@
 rec {
   mainGateway = "192.168.5.1"; # main router
   mainGateway6 = "fe80::5"; # main router's link-local address
+  # The trusted home LAN; the shared host firewall trusts this by source.
+  lanCidr = "192.168.5.0/24";
   # use suzi as the default gateway
   # it's a subrouter with a transparent proxy
   proxyGateway = "192.168.5.178";

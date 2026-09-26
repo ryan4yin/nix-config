@@ -10,8 +10,9 @@ let
   # free space on this host.
   goldenDir = "/persistent/nfs/golden";
 
-  # Only the homelab LAN may mount the export. The VM hosts are the
-  # clients (the CSI node plugin mounts from the node, not from the pod).
+  # Only the homelab LAN may mount the export; the VM hosts and the k3s nodes
+  # (which run the NFS-CSI node plugin) are all on it. The store is not
+  # sensitive, so the whole LAN is fine rather than an explicit client list.
   clientCidr = "192.168.5.0/24";
 in
 {
@@ -25,7 +26,6 @@ in
     ${goldenDir} ${clientCidr}(rw,sync,no_subtree_check,fsid=0,no_root_squash)
   '';
 
-  # NFSv4 only needs 2049/tcp (no rpcbind/mountd/statd), so the firewall stays
-  # minimal. The export itself is already restricted to the LAN CIDR above.
-  networking.firewall.allowedTCPPorts = [ 2049 ];
+  # NFSv4 only needs 2049/tcp (no rpcbind/mountd/statd). The export is limited
+  # to the LAN, and the shared firewall trusts the LAN.
 }

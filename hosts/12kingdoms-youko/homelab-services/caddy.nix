@@ -239,10 +239,8 @@ in
     after = [ "acme-writefor.fun.service" ];
   };
 
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
+  # caddy is reached from the LAN/tailnet only; the shared firewall
+  # (modules/nixos/base/networking/firewall.nix) already trusts those.
 
   # Serve the wallpapers from the file server. `mkdir -p` here covers the
   # whole fileserver tree; caddy's dataDir itself is created by the module.
