@@ -137,7 +137,7 @@ in
       # source, and UPnP/NAT-PMP advertisement all use the address the main
       # router forwards 51413 to.
       bind-address-ipv4 = nsIp;
-      # Enable UOnP or NAT-PMP to forward a port through your firewall(NAT).
+      # Enable UPnP or NAT-PMP to forward a port through your firewall(NAT).
       # https://github.com/transmission/transmission/blob/main/docs/Port-Forwarding-Guide.md
       port-forwarding-enabled = true;
 

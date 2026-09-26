@@ -42,4 +42,7 @@ extend-ignore-re = [
   "f5e0dc",
   "f9e2af",
   "fab387",
+
+  # The upstream dictionary maps UPnP to "UOnP", which is wrong; keep UPnP.
+  "UPnP",
 ]
