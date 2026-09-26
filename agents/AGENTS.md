@@ -36,20 +36,22 @@ gated action but does not skip other steps such as target confirmation, preview,
 
 ### Impactful changes
 
-This covers remote state (`git push`, GitHub writes, deploys, publishing artifacts or caches,
-state-changing `ssh`, sending messages) and any operation that can affect availability, security,
-data, or cost, including deleting data the agent did not create, force operations, and discarding
-uncommitted work (`git reset --hard`, `git checkout -- <path>`, `git clean`, `git stash drop`).
-Read-only inspection is always fine.
+This covers writes to infrastructure (cloud, Kubernetes, Terraform/OpenTofu, and similar: apply,
+deploy, sync, upgrade, scale), other remote state (`git push`, GitHub writes, publishing artifacts
+or caches, state-changing `ssh`, sending messages), and any operation that can affect availability,
+security, data, or cost, including deleting data the agent did not create, force operations, and
+discarding uncommitted work (`git reset --hard`, `git checkout -- <path>`, `git clean`,
+`git stash drop`). Read-only inspection is always fine.
 
 1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers only that
    target: "deploy to staging" does not cover production or shared resources like IAM and DNS. If
    the target is unclear, ask.
-2. **Confirm the target** with read-only commands, and pass context, region, and namespace
-   explicitly. Defaults, directory names, and earlier session state are not evidence. Stop on a
-   mismatch.
-3. **Preview** with plan, diff, or dry-run where available, and apply exactly what was reviewed (the
-   saved plan when the tool supports one). Any later input change requires a new preview.
+2. **Confirm the target** with read-only commands (e.g. current cloud account, kube context,
+   Terraform workspace), and pass context, region, and namespace explicitly. Defaults, directory
+   names, and earlier session state are not evidence. Stop on a mismatch.
+3. **Preview** with plan, diff, or dry-run where available (e.g. `tofu plan`, `kubectl diff`,
+   `helm diff`), and apply exactly what was reviewed (the saved plan when the tool supports one).
+   Any later input change requires a new preview.
 4. **Plan the way back.** Keep the blast radius small and know how to undo the change. If it cannot
    be undone, prefer a recoverable alternative, or say so and get authorization that acknowledges
    it.
