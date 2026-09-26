@@ -23,31 +23,6 @@ let
     // {
       inherit mylib myvars pkgs-stable;
 
-      # Temporary override until numtide/llm-agents.nix#9696 (codex 0.156.0) lands.
-      llm-agents = inputs.llm-agents // {
-        packages = lib.mapAttrs (
-          _system: packages:
-          packages
-          // {
-            codex =
-              (packages.codex.override {
-                version = "0.156.1";
-                hash = "sha256-H53f57hmnyCtn5yPxtBe/A92qyQyzQBeU/vK2qSBrvI=";
-                cargoVendor = {
-                  cargoHash = "sha256-W87rX/W2J1pwqNrihX+Rj6DfagoZYuB6C+l/S4BhyJM=";
-                };
-              }).overrideAttrs
-                (old: {
-                  # codex's codex-chatgpt crate exceeds rustc's default recursion
-                  # limit; the other crates already set this attribute.
-                  postPatch = (old.postPatch or "") + ''
-                    sed -i '1i #![recursion_limit = "256"]' chatgpt/src/lib.rs
-                  '';
-                });
-          }
-        ) inputs.llm-agents.packages;
-      };
-
       # use unstable branch for some packages to get the latest updates
       # pkgs-unstable = import inputs.nixpkgs-unstable {
       #   inherit system; # refer the `system` parameter form outer scope recursively
