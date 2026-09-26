@@ -48,7 +48,8 @@ not create, including anything that can affect availability, security, data, or 
 - Publishing and messaging: pushing artifacts, caches, or packages, and sending messages.
 - Deletes and force operations on anything the agent did not create.
 
-Light read-only inspection is always fine.
+Light read-only inspection is not an impactful change and needs none of the steps below. For an
+impactful change, follow these steps in order:
 
 1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers only that
    target: "deploy to staging" does not cover production or shared resources like IAM and DNS. If
