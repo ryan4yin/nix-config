@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   myvars,
   pkgs,
   ...
@@ -7,6 +8,32 @@
 let
   dataDir = "/data/fileshare/public/transmission";
   name = "transmission";
+
+  # Transmission runs in its own network namespace with a direct path to the
+  # main router: the default host gateway is suzi, a transparent proxy that
+  # hijacks DNS to fake IPs (which only resolve on the proxied path) and has no
+  # UPnP/NAT-PMP. In the namespace it gets its own address, a real resolver, and
+  # a default route at the main router, so peers can reach it and it can resolve
+  # real addresses without going through the proxy.
+  netns = "transmission";
+  nsIp = "192.168.5.118";
+  hostVeth = "tr-hveth";
+  nsVeth = "tr-nveth";
+
+  # Real resolvers for the namespace (v4 first; the host's resolver is suzi).
+  resolvConf = pkgs.writeText "transmission-resolv.conf" (
+    lib.concatMapStrings (ns: "nameserver ${ns}\n") myvars.networking.nameservers
+  );
+
+  # Drop nss-resolve from the host's nsswitch for this service only: it talks to
+  # the host's resolved over a unix socket, which would resolve through suzi and
+  # return fake IPs again, bypassing the resolvers above.
+  nsswitchConf = pkgs.runCommand "transmission-nsswitch.conf" { } ''
+    sed -E 's/ resolve \[!UNAVAIL=return\]//' ${config.environment.etc."nsswitch.conf".source} > $out
+  '';
+
+  ip = "${pkgs.iproute2}/bin/ip";
+  sysctl = "${pkgs.procps}/bin/sysctl";
 in
 {
   # Join the shared fileshare group so transmission can read/write files
@@ -66,7 +93,10 @@ in
 
       # rpc = Web Interface
       rpc-port = 9091;
-      rpc-bind-address = "127.0.0.1";
+      # The netns has its own loopback, so caddy (on the host) reaches the RPC
+      # over the namespace address instead of 127.0.0.1. Plain HTTP on the LAN;
+      # the RPC auth and whitelists below still apply.
+      rpc-bind-address = nsIp;
       anti-brute-force-enabled = true;
       # After this amount of failed authentication attempts is surpassed,
       # the RPC server will deny any further authentication attempts until it is restarted.
@@ -103,7 +133,11 @@ in
       lpd-enabled = true;
       # The peer port to listen for incoming connections.
       peer-port = 51413;
-      # Enable UOnP or NAT-PMP to forward a port through your firewall(NAT).
+      # Bind peer sockets to the namespace address, so the listener, outgoing
+      # source, and UPnP/NAT-PMP advertisement all use the address the main
+      # router forwards 51413 to.
+      bind-address-ipv4 = nsIp;
+      # Enable UPnP or NAT-PMP to forward a port through your firewall(NAT).
       # https://github.com/transmission/transmission/blob/main/docs/Port-Forwarding-Guide.md
       port-forwarding-enabled = true;
 
@@ -134,6 +168,71 @@ in
       # non-stalled torrents at once.
       seed-queue-enabled = true;
       seed-queue-size = 10;
+    };
+  };
+
+  # Create the namespace and its veth (the host end becomes another port on
+  # br0), so the service below can join it and appear as its own LAN host.
+  systemd.services.transmission-netns = {
+    description = "Network namespace for transmission";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-networkd.service" ];
+    preStart = ''
+      for _ in $(seq 1 30); do
+        ${ip} link show br0 >/dev/null 2>&1 && break
+        sleep 1
+      done
+      ${ip} link show br0 >/dev/null 2>&1 || { echo "br0 is not ready" >&2; exit 1; }
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStop = "${ip} netns del ${netns}";
+    };
+    script = ''
+      set -euo pipefail
+      # idempotent: clean up leftovers from an unclean stop
+      ${ip} netns del ${netns} 2>/dev/null || true
+      ${ip} link del ${hostVeth} 2>/dev/null || true
+
+      ${ip} netns add ${netns}
+      ${ip} link add ${hostVeth} type veth peer name ${nsVeth}
+      ${ip} link set ${hostVeth} master br0
+      ${ip} link set ${hostVeth} up
+      ${ip} link set ${nsVeth} netns ${netns}
+
+      ${ip} -n ${netns} link set lo up
+      # Pin the MAC so the SLAAC-based IPv6 address is stable across reboots.
+      ${ip} -n ${netns} link set ${nsVeth} address 02:00:00:00:76:01
+      # Keep a stable address: temporary addresses rotate and would not match
+      # what transmission listens on and advertises.
+      ${ip} netns exec ${netns} ${sysctl} -q -w net.ipv6.conf.${nsVeth}.use_tempaddr=0 || true
+      ${ip} -n ${netns} link set ${nsVeth} up
+      ${ip} -n ${netns} addr add ${nsIp}/24 dev ${nsVeth}
+      ${ip} -n ${netns} route add default via ${myvars.networking.mainGateway}
+    '';
+  };
+
+  # Join the namespace and resolve through real resolvers instead of suzi.
+  systemd.services.transmission = {
+    after = [ "transmission-netns.service" ];
+    requires = [ "transmission-netns.service" ];
+    # restart together with the namespace; otherwise the service would stay in
+    # the deleted namespace after the netns unit is recreated
+    partOf = [ "transmission-netns.service" ];
+    serviceConfig = {
+      NetworkNamespacePath = "/run/netns/${netns}";
+      # Joining a namespace owned by the host is incompatible with the module's
+      # default PrivateUsers=; the rest of the sandbox stays in place.
+      PrivateUsers = false;
+      # Resolve directly instead of through the host's systemd-resolved (suzi).
+      BindReadOnlyPaths = [
+        "${resolvConf}:/etc/resolv.conf"
+        "${nsswitchConf}:/etc/nsswitch.conf"
+      ];
+      # glibc's resolver uses netlink to pick source addresses; the module's
+      # default set does not include it.
+      RestrictAddressFamilies = [ "AF_NETLINK" ];
     };
   };
 
