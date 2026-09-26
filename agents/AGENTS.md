@@ -107,7 +107,8 @@ shell it provides.
 - Use Bash for simple, obviously correct commands, such as running a tool or a short `&&` sequence.
 - Once a command filters or transforms output, loops, polls, or needs careful quoting, agents MUST
   use Nushell (structured pipelines) or Python (real logic) instead, e.g. `nu -c '...'` or
-  `python -c '...'`.
+  `python -c '...'` for one-liners, or a quoted heredoc fed to any interpreter (e.g.
+  `python3 - <<'PY' ... PY`) for multi-line code.
 - Commands MUST NOT block: disable pagers and prompts, avoid commands that wait on stdin or never
   exit, and bound every wait and retry with a timeout. Run servers and watchers in the background
   with output redirected to a log file, and track them by PID, not by matching `ps` output. Prefer
