@@ -204,22 +204,6 @@ in
             }
           ];
         }
-        {
-          job_name = "transmission-exporter";
-          scrape_interval = "30s";
-          metrics_path = "/metrics";
-          static_configs = [
-            {
-              # same-host exporter that proxies the transmission netns RPC
-              targets = [ "127.0.0.1:9555" ];
-              labels.type = "app";
-              labels.app = "transmission";
-              labels.host = "youko";
-              labels.env = "homelab";
-              labels.cluster = "homelab";
-            }
-          ];
-        }
       ]
       # --- Hosts --- #
       ++ (lib.attrsets.foldlAttrs
