@@ -38,12 +38,16 @@ gated action but does not skip other steps such as target confirmation, preview,
 
 ### Impactful changes
 
-This covers writes to infrastructure (cloud, Kubernetes, Terraform/OpenTofu, databases, NixOS and
-nix-darwin hosts, and similar: apply, deploy, switch, sync, upgrade, scale, migrate), other remote
-state (`git push`, GitHub writes, publishing artifacts or caches, state-changing `ssh` or
-`kubectl exec`, sending messages), and any operation that can affect availability, security, data,
-or cost, including deleting data the agent did not create, force operations, and discarding
-uncommitted work (`git reset --hard`, `git checkout -- <path>`, `git clean`, `git stash drop`).
+This covers:
+
+- Infrastructure writes: cloud, Kubernetes, Terraform/OpenTofu, databases, NixOS/nix-darwin hosts
+  (apply, deploy, switch, migrate, scale, and similar).
+- Other remote state: `git push`, GitHub writes, publishing artifacts or caches, state-changing
+  `ssh` or `kubectl exec`, sending messages.
+- Anything that can affect availability, security, data, or cost, including force operations,
+  deleting data the agent did not create, and discarding uncommitted work (`git reset --hard`,
+  `git checkout -- <path>`, `git clean`, `git stash drop`).
+
 Light read-only inspection is always fine.
 
 1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers only that
