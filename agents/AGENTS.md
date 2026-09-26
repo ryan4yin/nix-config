@@ -48,15 +48,15 @@ not create, including anything that can affect availability, security, data, or 
 - Publishing and messaging: pushing artifacts, caches, or packages, and sending messages.
 - Deletes and force operations on anything the agent did not create.
 
-Light read-only inspection is not an impactful change and needs none of the steps below. For an
-impactful change, follow these steps in order:
+For an impactful change, follow these steps in order, scaled to its risk:
 
 1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers only that
-   target: "deploy to staging" does not cover production or shared resources like IAM and DNS. If
-   the target is unclear, ask.
+   target, including follow-up actions of the same kind in the task (e.g. more pushes to the PR
+   branch the user asked for): "deploy to staging" does not cover production or shared resources
+   like IAM and DNS. If the target is unclear, ask.
 2. **Confirm the target** with read-only commands (e.g. current cloud account, kube context,
-   Terraform workspace), and pass context, region, and namespace explicitly. Defaults, directory
-   names, and earlier session state are not evidence. Stop on a mismatch.
+   Terraform workspace, git remote and branch), and pass context, region, and namespace explicitly.
+   Defaults, directory names, and earlier session state are not evidence. Stop on a mismatch.
 3. **Preview** with plan, diff, or dry-run where available (e.g. `tofu plan`, `kubectl diff`,
    `helm diff`), and apply exactly what was reviewed (the saved plan when the tool supports one).
    Any later input change requires a new preview.
