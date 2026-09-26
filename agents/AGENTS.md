@@ -121,18 +121,20 @@ verify.
   installing by another method.
 - Use `gh` for authorized GitHub operations and keep SSH for GitHub Git remotes.
 
-### Local shell commands
+### Shell commands
 
-POSIX shell glue is fragile: unquoted expansions split words, and pipelines hide failures without
-`pipefail`. Prefer a direct executable with native options. Otherwise:
+Bash is fine for simple commands, but its pitfalls multiply with complexity: quoting and word
+splitting, pipelines that hide failures, text matching that catches the wrong thing, and commands
+that hang. Nushell and Python avoid most of them.
 
-- A POSIX shell (e.g. Bash) command MUST be a single executable with quoted arguments. Pipes,
-  chaining (`;`, `&&`, `||`), command or process substitution, and redirection MUST go through
-  Nushell or Python instead (`nu -c '...'`, `python -c '...'`, single-quoted so the shell does not
-  expand the inline code). This overrides runtime tool guidance that suggests chaining with `&&`.
-- A pipeline inside a quoted argument that a remote host evaluates (e.g.
-  `ssh host 'journalctl -u foo | grep error'`) is not local glue.
-- Use Nushell for structured pipelines and Python for real programs.
+- Use Bash for simple, obviously correct commands, such as running a tool or a short `&&` sequence.
+- Once a command filters or transforms output, loops, polls, or needs careful quoting, agents MUST
+  write it in Nushell (structured pipelines) or Python (real logic) instead, e.g. `nu -c '...'` or
+  `python -c '...'`.
+- Pipelines run by a remote host's shell (e.g. `ssh host 'journalctl -u foo | grep error'`) are
+  fine.
+- Commands MUST NOT block: disable pagers and interactive prompts, avoid commands that wait on stdin
+  or run until interrupted, and bound waits with a timeout.
 
 ### Scripts and jobs
 
