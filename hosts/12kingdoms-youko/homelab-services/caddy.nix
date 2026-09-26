@@ -160,7 +160,9 @@ in
     virtualHosts."transmission.writefor.fun".extraConfig = ''
       ${privateTlsConfig}
       encode zstd gzip
-      reverse_proxy http://localhost:9091
+      # transmission runs in its own network namespace (see transmission.nix),
+      # so its RPC is reached over that namespace address, not localhost.
+      reverse_proxy http://192.168.5.118:9091
     '';
 
     # Monitoring
