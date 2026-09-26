@@ -169,10 +169,9 @@ in
       # "normal" speed limits
       speed-limit-down-enabled = true;
       speed-limit-down = 30000; # KB/s
-      # 500 kB/s was throttling seeding; allow up to 30 MB/s (above the home
-      # uplink, so effectively unlimited) while still bounding runaway use.
+      # Keep seeding under the 50 Mbps uplink (~20 Mbps).
       speed-limit-up-enabled = true;
-      speed-limit-up = 30000; # KB/s
+      speed-limit-up = 2500; # KB/s
       upload-slots-per-torrent = 16;
 
       # Start torrents as soon as they are added
