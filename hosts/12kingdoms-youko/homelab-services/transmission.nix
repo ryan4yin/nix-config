@@ -34,6 +34,27 @@ let
 
   ip = "${pkgs.iproute2}/bin/ip";
   sysctl = "${pkgs.procps}/bin/sysctl";
+  nft = "${pkgs.nftables}/bin/nft";
+
+  # The namespace is a first-class host on br0, so once the router's IPv6
+  # firewall is relaxed it is reachable from the Internet with no host firewall
+  # in front of it. Keep the peer port open (that is the point) and the RPC
+  # LAN-only; drop everything else.
+  netnsFirewall = pkgs.writeText "transmission-netns.nft" ''
+    table inet transmission-fw {
+      chain input {
+        type filter hook input priority filter; policy drop;
+        iif "lo" accept
+        ct state established,related accept
+        meta l4proto icmp accept
+        meta l4proto ipv6-icmp accept
+        tcp dport 51413 accept
+        udp dport 51413 accept
+        udp dport 6771 accept
+        ip saddr ${myvars.networking.lanCidr} tcp dport 9091 accept
+      }
+    }
+  '';
 in
 {
   # Join the shared fileshare group so transmission can read/write files
@@ -89,7 +110,9 @@ in
       # 0 = Prefer unencrypted connections,
       # 1 = Prefer encrypted connections,
       # 2 = Require encrypted connections; default = 1)
-      encryption = 2;
+      # Keep it at "prefer": forcing encryption drops peers that cannot do
+      # MSE, which costs upload opportunities on public swarms.
+      encryption = 1;
 
       # rpc = Web Interface
       rpc-port = 9091;
@@ -101,7 +124,9 @@ in
       # After this amount of failed authentication attempts is surpassed,
       # the RPC server will deny any further authentication attempts until it is restarted.
       # This is not tracked per IP but in total.
-      anti-brute-force-threshold = 20;
+      # Health-check probes (homepage/uptime-kuma) hit the authenticated RPC
+      # gateway and each 401 counts, so keep this well above a 401 burst.
+      anti-brute-force-threshold = 100;
       rpc-authentication-required = true;
 
       # Comma-delimited list of IP addresses.
@@ -144,9 +169,10 @@ in
       # "normal" speed limits
       speed-limit-down-enabled = true;
       speed-limit-down = 30000; # KB/s
+      # Keep seeding under the 50 Mbps uplink (~20 Mbps).
       speed-limit-up-enabled = true;
-      speed-limit-up = 500; # KB/s
-      upload-slots-per-torrent = 8;
+      speed-limit-up = 2500; # KB/s
+      upload-slots-per-torrent = 16;
 
       # Start torrents as soon as they are added
       start-added-torrents = true;
@@ -155,7 +181,7 @@ in
       # When true, Transmission will only download
       # download-queue-size non-stalled torrents at once.
       download-queue-enabled = true;
-      download-queue-size = 5;
+      download-queue-size = 10;
 
       # When true, torrents that have not shared data for
       # queue-stalled-minutes are treated as 'stalled'
@@ -167,7 +193,8 @@ in
       # When true. Transmission will only seed seed-queue-size
       # non-stalled torrents at once.
       seed-queue-enabled = true;
-      seed-queue-size = 10;
+      # With 30+ torrents, 10 was leaving most seeds queued (never uploading).
+      seed-queue-size = 50;
     };
   };
 
@@ -210,6 +237,9 @@ in
       ${ip} -n ${netns} link set ${nsVeth} up
       ${ip} -n ${netns} addr add ${nsIp}/24 dev ${nsVeth}
       ${ip} -n ${netns} route add default via ${myvars.networking.mainGateway}
+
+      # Apply the namespace firewall after the interface is up.
+      ${ip} netns exec ${netns} ${nft} -f ${netnsFirewall}
     '';
   };
 

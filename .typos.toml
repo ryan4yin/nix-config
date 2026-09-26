@@ -45,4 +45,7 @@ extend-ignore-re = [
 
   # The upstream dictionary maps UPnP to "UOnP", which is wrong; keep UPnP.
   "UPnP",
+
+  # nftables keyword `iif` (input interface); the spell checker wants `if`.
+  "iif",
 ]
