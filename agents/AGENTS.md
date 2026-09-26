@@ -42,7 +42,7 @@ An impactful change is any action that changes remote or shared state, or loses 
 not create, including anything that can affect availability, security, data, or cost. For example:
 
 - Infrastructure: apply, deploy, switch, migrate, or scale on cloud, Kubernetes, Terraform/OpenTofu,
-  databases, or NixOS/nix-darwin hosts; state-changing `ssh` or `kubectl exec`.
+  databases, or NixOS hosts; state-changing `ssh` or `kubectl exec`.
 - Git and GitHub: `git push`, GitHub writes, and discarding uncommitted work (`git reset --hard`,
   `git checkout -- <path>`, `git clean`, `git stash drop`).
 - Publishing and messaging: pushing artifacts, caches, or packages, and sending messages.
