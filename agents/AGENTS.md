@@ -103,10 +103,8 @@ verify.
 
 - Commit only when the user or task asks for it.
 - Follow the repository's commit convention, falling back to Conventional Commits. Agents MUST
-  derive the message from the staged diff and keep it as short as the change allows. The subject is
-  one imperative phrase naming the change, usually well under 50 characters; 72 is a hard limit, not
-  a target. Add a body only for context the diff does not show, such as why or scope, and do not
-  restate the diff.
+  derive the message from the staged diff and keep it concise and easy to understand; add a body
+  only when the reason is not obvious from the diff.
 - Each commit should contain one logical change and leave the tree working. Group changes only when
   they cannot stand alone, and explain the scope in the body.
 - Agents MUST NOT skip hooks unless explicitly authorized.
