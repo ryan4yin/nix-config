@@ -38,15 +38,15 @@ gated action but does not skip other steps such as target confirmation, preview,
 
 ### Impactful changes
 
-This covers:
+An impactful change is any action that changes remote or shared state, or loses data the agent did
+not create, including anything that can affect availability, security, data, or cost. For example:
 
-- Infrastructure writes: cloud, Kubernetes, Terraform/OpenTofu, databases, NixOS/nix-darwin hosts
-  (apply, deploy, switch, migrate, scale, and similar).
-- Other remote state: `git push`, GitHub writes, publishing artifacts or caches, state-changing
-  `ssh` or `kubectl exec`, sending messages.
-- Anything that can affect availability, security, data, or cost, including force operations,
-  deleting data the agent did not create, and discarding uncommitted work (`git reset --hard`,
+- Infrastructure: apply, deploy, switch, migrate, or scale on cloud, Kubernetes, Terraform/OpenTofu,
+  databases, or NixOS/nix-darwin hosts; state-changing `ssh` or `kubectl exec`.
+- Git and GitHub: `git push`, GitHub writes, and discarding uncommitted work (`git reset --hard`,
   `git checkout -- <path>`, `git clean`, `git stash drop`).
+- Publishing and messaging: pushing artifacts, caches, or packages, and sending messages.
+- Deletes and force operations on anything the agent did not create.
 
 Light read-only inspection is always fine.
 
