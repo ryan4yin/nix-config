@@ -101,12 +101,6 @@ in
 
         # Used only by NixOS Modules
 
-        # referenced in /etc/fstab to mount davfs volume
-        "davfs-secrets" = {
-          file = "${mysecrets}/davfs-secrets.age";
-        }
-        // high_security;
-
         "rclone.conf" = {
           file = "${mysecrets}/rclone.conf.age";
         }
