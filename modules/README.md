@@ -19,7 +19,6 @@ modules/
 ├── darwin/                  # macOS-specific modules
 │   ├── README.md
 │   ├── apps.nix           # macOS applications
-│   ├── broken-packages.nix # Package compatibility fixes
 │   ├── default.nix
 │   ├── nix-core.nix       # Core Nix configuration
 │   ├── security.nix       # macOS security settings

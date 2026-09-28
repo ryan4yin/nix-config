@@ -14,7 +14,6 @@ in
       qrtool # decode/encode qr code
     ]
     # mitmproxy & wireshark don't build on darwin
-    # (removed there, see modules/darwin/broken-packages.nix)
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       mitmproxy # http/https proxy tool
       wireshark # network analyzer
