@@ -13,7 +13,6 @@ overlays/
 ├── default.nix            # Entrypoint for all overlays
 ├── computer-use-linux.nix # trycua/computer-use-linux package
 ├── cua-driver.nix         # trycua/cua driver (cua-driver) package
-├── openldap.nix           # OpenLDAP (skips its failing tests)
 └── fcitx5/                # Chinese input method configuration
     ├── README.md
     ├── default.nix        # fcitx5 overlay definition
@@ -56,4 +55,3 @@ This overlay provides:
 
 - `computer-use-linux.nix`: packages `pkgs/computer-use-linux`.
 - `cua-driver.nix`: packages `pkgs/cua-driver` (used by the computer-use VMs).
-- `openldap.nix`: disables OpenLDAP's failing test suite.
