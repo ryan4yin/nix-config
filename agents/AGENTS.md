@@ -58,13 +58,14 @@ For an impactful change, follow these steps in order, scaled to its risk:
    Terraform workspace, git remote and branch), and pass context, region, and namespace explicitly.
    Defaults, directory names, and earlier session state are not evidence. Stop on a mismatch.
 3. **Preview** with plan, diff, or dry-run where available (e.g. `tofu plan`, `kubectl diff`,
-   `helm diff`), and apply exactly what was reviewed (the saved plan when the tool supports one).
-   Any later input change requires a new preview.
+   `helm diff`). Any later input change requires a new preview.
 4. **Plan the way back.** Keep the blast radius small, know how to undo the change, and prefer
    recoverable forms (e.g. `git push --force-with-lease`, `git branch -d`). If it cannot be undone,
    say so and get authorization that acknowledges it.
-5. **Verify** real system state and user-visible health afterward; exit code 0 is not success. If an
-   observation window is skipped, say so.
+5. **Apply** exactly what was reviewed (the saved plan when the tool supports one); do not fold in
+   new changes.
+6. **Verify** real system state and user-visible health after the change is live; exit code 0 is not
+   success. If an observation window is skipped, say so.
 
 ## Repository work
 
