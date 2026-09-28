@@ -1,16 +1,13 @@
 {
   config,
-  pkgs-small,
   ...
 }:
 {
-  # The service module comes from the default nixpkgs (services.rustfs);
-  # pkgs-small (instantiated in outputs/default.nix) only supplies the newer
-  # package. The module creates the rustfs user/group, the data volume via
-  # tmpfiles, and a hardened systemd unit.
+  # The service module comes from the default nixpkgs (services.rustfs); it
+  # creates the rustfs user/group, the data volume via tmpfiles, and a hardened
+  # systemd unit.
   services.rustfs = {
     enable = true;
-    package = pkgs-small.rustfs;
     settings = {
       # New directory; the old MinIO tree at /data/apps/minio is kept as a
       # rollback snapshot and was carried over via an S3-level copy.
