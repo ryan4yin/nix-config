@@ -1,13 +1,12 @@
-{ myvars, ... }:
-let
-  hostAddress = myvars.networking.hostsAddr.shushou.ipv4;
-in
+{ ... }:
 {
+  # The UPS (Cypress USB-to-serial, 0665:5161) is attached to this host, which is
+  # now the homelab core. Metrics only for now; coordinated shutdown of all
+  # homelab hosts is a separate feature.
   power.ups = {
     enable = true;
     mode = "standalone";
 
-    # Metrics only. Coordinated shutdown of all homelab hosts is a separate feature.
     upsmon = {
       enable = false;
       settings.POWERDOWNFLAG = null;
@@ -33,7 +32,7 @@ in
 
   services.prometheus.exporters.nut = {
     enable = true;
-    listenAddress = hostAddress;
+    listenAddress = "127.0.0.1";
     port = 9199;
     nutServer = "127.0.0.1";
 

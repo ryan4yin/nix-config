@@ -100,10 +100,12 @@ in
           params.ups = [ "homelab" ];
           static_configs = [
             {
-              targets = [ "${myvars.networking.hostsAddr.shushou.ipv4}:9199" ];
+              # same-host nut exporter bound to loopback (127.0.0.1:9199); the
+              # UPS moved to this host with the SSD swap
+              targets = [ "127.0.0.1:9199" ];
               labels.type = "app";
               labels.app = "nut";
-              labels.host = "shushou";
+              labels.host = "youko";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }

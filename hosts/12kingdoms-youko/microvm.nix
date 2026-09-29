@@ -24,10 +24,35 @@
     config.imports = [ ../k8s/k3s-test-1-master-2 ];
   };
 
+  # Moved here from shushou after the SSD swap: the 5625U there is weaker and has
+  # only 22 GiB, too little for this 16 GiB worker.
+  microvm.vms.k3s-test-1-worker-2 = {
+    autostart = true;
+    restartIfChanged = true;
+    specialArgs = {
+      inherit
+        myvars
+        mylib
+        agenix
+        mysecrets
+        ;
+    };
+    config.imports = [ ../k8s/k3s-test-1-worker-2 ];
+  };
+
   # Attach the guest's tap to the VM bridge, the same way the physical NIC is
-  # attached. The tap name is derived from the guest IP (192.168.5.115 -> vm115).
+  # attached. The tap name is derived from the guest IP (192.168.5.115 -> vm115,
+  # 192.168.5.112 -> vm112), as IFNAMSIZ caps interface names at 15 characters.
   systemd.network.networks."20-vm115" = {
     matchConfig.Name = [ "vm115" ];
+    networkConfig = {
+      LinkLocalAddressing = "no";
+      Bridge = "br0";
+    };
+    linkConfig.RequiredForOnline = "no";
+  };
+  systemd.network.networks."20-vm112" = {
+    matchConfig.Name = [ "vm112" ];
     networkConfig = {
       LinkLocalAddressing = "no";
       Bridge = "br0";

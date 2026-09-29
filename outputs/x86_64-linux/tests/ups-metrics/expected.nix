@@ -18,7 +18,7 @@
 
   exporter = {
     enable = true;
-    listenAddress = "192.168.5.182";
+    listenAddress = "127.0.0.1";
     port = 9199;
     nutServer = "127.0.0.1";
     exportsAllNumericVariables = true;
@@ -32,11 +32,11 @@
     scrape_interval = "30s";
     metrics_path = "/ups_metrics";
     params.ups = [ "homelab" ];
-    target = "192.168.5.182:9199";
+    target = "127.0.0.1:9199";
     labels = {
       type = "app";
       app = "nut";
-      host = "shushou";
+      host = "youko";
       env = "homelab";
       cluster = "homelab";
     };
