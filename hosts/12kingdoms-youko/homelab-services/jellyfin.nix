@@ -27,6 +27,14 @@ in
   # (and therefore VA-API) is missing.
   hardware.graphics.enable = true;
 
+  # HDR/DoVi transcoding needs OpenCL for `tonemap_opencl`. With only Mesa
+  # installed, ffmpeg cannot create an OpenCL device (`Failed to get number of
+  # OpenCL platforms: -1001`) and the transcode aborts with exit code 237, so
+  # HDR titles fail to play. ROCm's clr provides the ICD for the Barceló iGPU
+  # (reported as `gfx90c`); `ocl-icd` finds it under
+  # /run/opengl-driver/etc/OpenCL/vendors.
+  hardware.graphics.extraPackages = [ pkgs.rocmPackages.clr.icd ];
+
   services.jellyfin = {
     enable = true;
 
