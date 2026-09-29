@@ -13,7 +13,7 @@ let
     inherit pkgs hostName;
     inherit (myvars) networking;
     vcpu = 2;
-    mem = 8192;
+    mem = 4096;
     varSize = 20480;
   };
   k3sModule = mylib.genK3sServerModule {
