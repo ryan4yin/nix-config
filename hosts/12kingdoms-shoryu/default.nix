@@ -26,6 +26,11 @@ in
 
   modules.btrbk.enable = true;
 
+  # MoreFine S500Plus: Radeon iGPU. The ROCm build of btop shows the GPU panel;
+  # node_exporter's drm collector exposes its utilization/VRAM.
+  modules.btop.package = pkgs.btop-rocm;
+  services.prometheus.exporters.node.enabledCollectors = [ "drm" ];
+
   boot.kernelParams = [
     # Use transparent huge pages on demand (madvise) instead of a fixed 1G hugetlb
     # pool. The static pool cannot be overcommitted or shared with the host /

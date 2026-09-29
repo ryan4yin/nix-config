@@ -50,6 +50,15 @@
     enable32Bit = true;
   };
 
+  # GPU monitoring: CUDA btop (CAP_PERFMON also lets it read the Intel iGPU),
+  # nvtop, and the community nvidia_gpu_exporter.
+  modules.btop = {
+    package = pkgs.btop-cuda;
+    perfmon = true;
+  };
+  environment.systemPackages = [ pkgs.nvtopPackages.full ];
+  services.prometheus.exporters.nvidia-gpu.enable = true;
+
   services.sunshine.settings = {
     adapter_name = "/dev/dri/by-path/pci-0000:00:02.0-render"; # Intel iGPU
     encoder = "vaapi";

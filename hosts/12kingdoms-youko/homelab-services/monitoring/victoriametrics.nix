@@ -209,6 +209,22 @@ in
             }
           ];
         }
+        {
+          job_name = "nvidia-gpu-exporter-ai";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              # community NVIDIA exporter on the desktop (nvidia-smi based)
+              targets = [ "${myvars.networking.hostsAddr.ai.ipv4}:9835" ];
+              labels.type = "app";
+              labels.app = "nvidia-gpu";
+              labels.host = "ai";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
       ]
       # --- Hosts --- #
       ++ (lib.attrsets.foldlAttrs
