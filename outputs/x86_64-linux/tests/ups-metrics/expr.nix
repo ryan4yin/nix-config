@@ -4,27 +4,28 @@
   ...
 }:
 let
-  shushou = outputs.nixosConfigurations.shushou.config;
-  aquamarine = outputs.nixosConfigurations.youko.config;
-  ups = shushou.power.ups.ups.homelab or { };
-  exporter = shushou.services.prometheus.exporters.nut;
+  # The UPS moved to youko with the SSD swap; the NUT daemons, the exporter, and
+  # the victoriametrics scrape job now all live on the same host.
+  youko = outputs.nixosConfigurations.youko.config;
+  ups = youko.power.ups.ups.homelab or { };
+  exporter = youko.services.prometheus.exporters.nut;
   exporterService =
-    shushou.systemd.services.prometheus-nut-exporter or {
+    youko.systemd.services.prometheus-nut-exporter or {
       after = [ ];
       requires = [ ];
     };
   scrapeJobs = builtins.filter (
     job: (job.job_name or "") == "nut-exporter-homelab-ups"
-  ) aquamarine.services.victoriametrics.prometheusConfig.scrape_configs;
+  ) youko.services.victoriametrics.prometheusConfig.scrape_configs;
   scrapeJob = if builtins.length scrapeJobs == 1 then builtins.head scrapeJobs else null;
 in
 {
   nut = {
-    enable = shushou.power.ups.enable;
-    mode = shushou.power.ups.mode;
-    upsmonEnable = shushou.power.ups.upsmon.enable;
-    killPowerEnable = shushou.systemd.services.ups-killpower.enable or false;
-    upsdListen = shushou.power.ups.upsd.listen;
+    enable = youko.power.ups.enable;
+    mode = youko.power.ups.mode;
+    upsmonEnable = youko.power.ups.upsmon.enable;
+    killPowerEnable = youko.systemd.services.ups-killpower.enable or false;
+    upsdListen = youko.power.ups.upsd.listen;
     driver = ups.driver or null;
     port = ups.port or null;
     vendorId = builtins.elem "vendorid = 0665" (ups.directives or [ ]);
