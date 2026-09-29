@@ -25,6 +25,10 @@ in
       # LAN/tailnet/local containers.
       ip saddr != ${monitoringHost} tcp dport 9100 drop
 
+      # The NVIDIA GPU exporter (desktop only) is likewise scraped only by the
+      # monitoring host.
+      ip saddr != ${monitoringHost} tcp dport 9835 drop
+
       # The local container bridge and the tailnet have the same access as the
       # LAN. Kept after the drop above so neither can reach node_exporter.
       iifname "podman0" accept

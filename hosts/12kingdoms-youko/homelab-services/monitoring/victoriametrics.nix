@@ -6,7 +6,10 @@
 let
   # Powered-off hosts (SBCs) plus shoukei (exporter disabled on the
   # machine); remove entries when they come back online.
+  # `aquamarine` is decommissioned: its IP now lives on youko's bridge, so
+  # scraping it would relabel youko's metrics as aquamarine.
   offlineHosts = [
+    "aquamarine"
     "shoukei"
     "suzu"
     "suzi"
@@ -121,7 +124,7 @@ in
               targets = [ "127.0.0.1:9187" ];
               labels.type = "app";
               labels.app = "postgresql";
-              labels.host = "aquamarine";
+              labels.host = "youko";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }
@@ -137,7 +140,7 @@ in
               targets = [ "127.0.0.1:10000" ];
               labels.type = "app";
               labels.app = "sftpgo";
-              labels.host = "aquamarine";
+              labels.host = "youko";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }
@@ -152,7 +155,7 @@ in
               targets = [ "localhost:9093" ];
               labels.type = "app";
               labels.app = "alertmanager";
-              labels.host = "aquamarine";
+              labels.host = "youko";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }
@@ -168,7 +171,7 @@ in
               targets = [ "localhost:9090" ];
               labels.type = "app";
               labels.app = "victoriametrics";
-              labels.host = "aquamarine";
+              labels.host = "youko";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }
@@ -201,6 +204,22 @@ in
               labels.type = "app";
               labels.app = "immich";
               labels.host = "youko";
+              labels.env = "homelab";
+              labels.cluster = "homelab";
+            }
+          ];
+        }
+        {
+          job_name = "nvidia-gpu-exporter-ai";
+          scrape_interval = "30s";
+          metrics_path = "/metrics";
+          static_configs = [
+            {
+              # community NVIDIA exporter on the desktop (nvidia-smi based)
+              targets = [ "${myvars.networking.hostsAddr.ai.ipv4}:9835" ];
+              labels.type = "app";
+              labels.app = "nvidia-gpu";
+              labels.host = "ai";
               labels.env = "homelab";
               labels.cluster = "homelab";
             }

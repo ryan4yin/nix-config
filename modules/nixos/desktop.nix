@@ -24,6 +24,11 @@ in
   };
 
   config = mkMerge [
+    # Mesa userspace (OpenGL/Vulkan) for every GUI host.
+    {
+      hardware.graphics.enable = true;
+    }
+
     (mkIf cfgWayland.enable {
       ####################################################################
       #  NixOS's Configuration for Wayland based Window Manager

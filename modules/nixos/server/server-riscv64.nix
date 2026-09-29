@@ -5,6 +5,7 @@
   # =========================================================================
 
   imports = [
+    ../base/btop.nix
     ../base/core.nix
     ../base/i18n.nix
     ../base/monitoring.nix

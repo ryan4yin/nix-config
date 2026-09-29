@@ -59,6 +59,11 @@ in
 
   modules.btrbk.enable = true;
 
+  # Beelink GTR5: Radeon iGPU. The ROCm build of btop shows the GPU panel;
+  # node_exporter's drm collector exposes its utilization/VRAM.
+  modules.btop.package = pkgs.btop-rocm;
+  services.prometheus.exporters.node.enabledCollectors = [ "drm" ];
+
   # The restic REST server the desktops push their backups to. Private repos,
   # so each client only reaches the repository named after its user. Credentials
   # come from agenix; caddy terminates TLS in front of it.
