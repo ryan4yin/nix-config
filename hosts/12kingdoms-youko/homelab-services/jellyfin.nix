@@ -104,4 +104,11 @@ in
   # before it is mounted. The module's own RequiresMountsFor entries for
   # config/log/cache are merged with these list definitions.
   systemd.services.jellyfin.unitConfig.RequiresMountsFor = [ mediaDir ];
+
+  # ROCm's OpenCL runtime (used for HDR tone mapping via `tonemap_opencl`)
+  # reaches the GPU through /dev/kfd. The module's device whitelist only allows
+  # the VA-API render node, so OpenCL init fails and HDR transcodes abort with
+  # exit code 237. Allow the compute node too (list definitions merge with the
+  # module's entry).
+  systemd.services.jellyfin.serviceConfig.DeviceAllow = [ "/dev/kfd rw" ];
 }
