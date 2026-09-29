@@ -34,12 +34,20 @@ Named after characters from "Frieren: Beyond Journey's End":
 
 Named after "Twelve Kingdoms":
 
-| Host      | Platform | Hardware                               | Purpose                | Status    |
-| --------- | -------- | -------------------------------------- | ---------------------- | --------- |
-| `shoukei` | NixOS    | MacBook Pro M2                         | NixOS on Apple Silicon | ✅ Active |
-| `shoryu`  | NixOS    | MoreFine S500Plus (AMD Ryzen 9 5900HX) | VM Host                | ✅ Active |
-| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U)   | VM Host                | ✅ Active |
-| `youko`   | NixOS    | MinisForum HX99G (AMD Ryzen 9 6900HX)  | VM Host                | ✅ Active |
+| Host      | Platform | Hardware                             | Purpose                | Status    |
+| --------- | -------- | ------------------------------------ | ---------------------- | --------- |
+| `shoukei` | NixOS    | MacBook Pro M2                       | NixOS on Apple Silicon | ✅ Active |
+| `shoryu`  | NixOS    | MoreFine S500+ (AMD Ryzen 7 5825U)   | VM Host                | ✅ Active |
+| `shushou` | NixOS    | MinisForum UM560 (AMD Ryzen 5 5625U) | VM Host                | ✅ Active |
+| `youko`   | NixOS    | Beelink GTR5 (AMD Ryzen 9 5900HX)    | Homelab Core           | ✅ Active |
+
+On 2026-09-29 the NVMe SSDs of `youko` and `shushou` were physically swapped, and the 2×4TB USB HDDs
+moved with the `youko` role to the other chassis. The reason was Jellyfin: HDR transcoding on the
+5625U's Barceló iGPU could not keep up (~0.4–0.8×), while the 5900HX's Cezanne iGPU can (~1.68× for
+1080p HDR). So the homelab-core role (all services + one k3s VM + the HDDs + the UPS) now runs on
+the Beelink GTR5 and the k3s VM-host role on the UM560; the other services moving along is a side
+effect of swapping the role's disk, not a separate migration. Hostnames, IPs, and state followed the
+disks.
 
 ### Virtual Machines & Clusters
 
