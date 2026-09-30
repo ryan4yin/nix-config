@@ -112,11 +112,12 @@ For an impactful change, follow these steps in order, scaled to its risk:
   for filesystem/process operations and complex local shell logic. A Bash-only tool can invoke them:
   `nu -c '...'` or `python -c '...'` for one-liners; for multiline code, use a quoted heredoc fed to
   the interpreter, e.g. `python3 - <<'PY' ... PY`.
-- Bash MAY run simple commands and short `&&` sequences. For local filtering, transformation, loops,
-  polling, or complex quoting, agents MUST use code-mode, Nushell, or Python instead of Bash logic.
-  If a runtime is missing, use the approved project toolchain or one-off Nix environment described
-  above. If none can do the work, report the limitation; do not install imperatively or weaken this
-  rule unasked. On remote hosts, use the available shell.
+- Bash MAY run simple commands and short `&&` sequences. To avoid its quoting, word-splitting, and
+  pipeline pitfalls, agents MUST use code-mode, Nushell, or Python instead of Bash logic for local
+  filtering, transformation, loops, polling, or complex quoting. If a runtime is missing, use the
+  approved project toolchain or one-off Nix environment described above. If none can do the work,
+  report the limitation; do not install imperatively or weaken this rule unasked. On remote hosts,
+  use the available shell.
 - Commands MUST NOT block: disable pagers and interactive prompts, avoid commands that wait on stdin
   or never exit, and bound waits and retries with timeouts. Run servers and watchers in the
   background with output redirected to logs and capture their PIDs when starting them; do not
