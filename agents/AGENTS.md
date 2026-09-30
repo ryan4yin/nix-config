@@ -73,6 +73,11 @@ For an impactful change, follow these steps in order, scaled to its risk:
 6. **Verify** real system state and user-visible health after the change is live; exit code 0 is not
    success. If an observation window is skipped, say so.
 
+For subsequent normal (non-force) pushes to the same authorized and confirmed PR branch within the
+task, use the explicit destination without repeating target checks or dry-runs. Reconfirm and
+preview when the destination changes, history is rewritten, a force push is needed, or remote state
+is uncertain. This exception skips only repeated target checks and dry-runs.
+
 ## Repository work
 
 - Match the request: for review, diagnosis, or explanation, report findings without changing files;
