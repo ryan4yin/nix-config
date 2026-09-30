@@ -104,11 +104,14 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 ### Tool execution
 
-- Prefer native tool options to reduce output at the source. When code-mode is available and can do
-  the work directly and clearly, agents SHOULD prefer it for tool orchestration and processing tool
-  results. Use the language its runtime accepts.
+- Prefer native tool options to reduce output at the source. When code-mode (programmatic tool
+  calling, PTC) is available and can do the work directly and clearly, agents SHOULD prefer it for
+  tool orchestration and processing tool results, e.g. run independent read-only calls concurrently
+  and filter results before returning them. Use the language its runtime accepts.
 - Use Nushell or Python for filesystem or process operations unavailable in code-mode, and for
-  complex local shell logic. A Bash-only tool can invoke them, e.g. `python3 - <<'PY' ... PY`.
+  complex local shell logic. A Bash-only tool can invoke them: `nu -c '...'` or `python -c '...'`
+  for one-liners; for multiline code, use a quoted heredoc fed to the interpreter, e.g.
+  `python3 - <<'PY' ... PY`.
 - Bash MAY run simple commands and short `&&` sequences. For local filtering, transformation, loops,
   polling, or complex quoting, agents MUST use code-mode, Nushell, or Python instead of Bash logic.
   If none can do the work, report the limitation; do not install tools or weaken this rule unasked.
