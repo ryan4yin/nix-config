@@ -48,6 +48,9 @@ not create, including anything that can affect availability, security, data, or 
 - Publishing and messaging: pushing artifacts, caches, or packages, and sending messages.
 - Deletes and force operations on anything the agent did not create.
 
+A code-mode program that fans out tool calls issues one action per inner call; bundling them into
+one program does not merge them into a single action.
+
 For an impactful change, follow these steps in order, scaled to its risk:
 
 1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers only that
@@ -102,14 +105,14 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 Bash is fine for simple commands, but its pitfalls grow with complexity: quoting and word splitting,
 pipelines that hide failures, text matching that catches the wrong thing, and commands that hang.
-Nushell and Python avoid most of them. This applies to the local shell; on a remote host, use the
-shell it provides.
+Nushell, Python, and TypeScript avoid most of them. This applies to the local shell; on a remote
+host, use the shell it provides.
 
 - Use Bash for simple, obviously correct commands, such as running a tool or a short `&&` sequence.
 - Once a command filters or transforms output, loops, polls, or needs careful quoting, agents MUST
-  use Nushell (structured pipelines) or Python (real logic) instead, e.g. `nu -c '...'` or
-  `python -c '...'` for one-liners, or a quoted heredoc fed to any interpreter (e.g.
-  `python3 - <<'PY' ... PY`) for multi-line code.
+  use Nushell (structured pipelines), Python (real logic), or TypeScript (code-mode orchestration)
+  instead, e.g. `nu -c '...'` or `python -c '...'` for one-liners, or a quoted heredoc fed to any
+  interpreter (e.g. `python3 - <<'PY' ... PY`) for multi-line code.
 - Commands MUST NOT block: disable pagers and prompts, avoid commands that wait on stdin or never
   exit, and bound every wait and retry with a timeout. Run servers and watchers in the background
   with output redirected to a log file, and track them by PID, not by matching `ps` output. Prefer
@@ -119,7 +122,7 @@ shell it provides.
 
 - Scripts added to a project MUST follow its language and target environment, defaulting to Python.
 - Script files agents create or modify, including temporary ones, MUST pass the available checks
-  (e.g. `shellcheck`, `nu-check`, `py_compile`); report any unavailable check.
+  (e.g. `shellcheck`, `nu-check`, `py_compile`, `tsc --noEmit`); report any unavailable check.
 
 ## Communication
 
