@@ -65,33 +65,27 @@ For an impactful change, follow these steps in order, scaled to its risk:
    branch the user asked for): "deploy to staging" does not cover production or shared resources
    like IAM and DNS. If the target is unclear, ask.
 2. **Confirm the target** with read-only commands (e.g. current cloud account, kube context,
-   Terraform workspace, git remote and branch), and pass context, region, and namespace explicitly.
-   Defaults and directory names are not evidence. Reuse earlier confirmation only under the
-   follow-up exceptions below. Stop on a mismatch.
+   Terraform workspace, git remote and branch). Specify the destination and applicable context,
+   region, and namespace explicitly. Defaults and directory names are not evidence. Reuse earlier
+   checks when their evidence remains valid for the current action; do not repeat them just because
+   another action is needed. Refresh checks when the target, account, context, or relevant state
+   changes, or the evidence is stale, incomplete, uncertain, or contradicted. Stop on a mismatch.
 3. **Preview** with plan, diff, or dry-run where available (e.g. `tofu plan`, `kubectl diff`,
-   `helm diff`). Any later input change requires a new preview.
+   `helm diff`). Review the current changes; any later input change requires a new preview. When a
+   diff adequately previews the action (e.g. an ordinary non-force branch push or an issue/PR
+   title/description edit), do not add a dry-run unless it checks something the diff does not cover
+   (e.g. rewritten history or uncertain remote state).
 4. **Plan the way back.** Keep the blast radius small, know how to undo the change, and prefer
    recoverable forms (e.g. `git push --force-with-lease`, `git branch -d`). If it cannot be undone,
    say so and get authorization that acknowledges it.
 5. **Apply** exactly what was reviewed (the saved plan when the tool supports one); do not fold in
    new changes.
-6. **Verify** real system state and user-visible health after the change is live; exit code 0 is not
-   success. If an observation window is skipped, say so.
-
-Handle these two routine follow-ups within the same authorized task as follows:
-
-- **Normal PR pushes:** For a non-force push to the same confirmed PR branch, use the explicit
-  destination without repeating target checks or dry-runs. Confirm the remote ref update reported by
-  Git; read back only if the result is unclear. Reconfirm and preview if the destination changes,
-  history is rewritten, a force push is needed, or remote state is uncertain.
-- **Metadata updates:** For edits such as the same PR's title or description that do not affect a
-  running system, reuse target confirmation unless the target/account/context changes or the
-  evidence is uncertain. Use a diff of the current inputs as the preview. A service response that
-  confirms the intended update is sufficient verification; read back if it does not. Refresh stale,
-  incomplete, or contradicted evidence.
-
-These cases do not expand authorization. Use the full process for changes to running systems
-(including DNS and scaling), data deletion, and permission changes.
+6. **Verify** the current action's result; an earlier success does not verify a later action, and
+   exit code 0 alone is not success. A response that clearly confirms the intended update (e.g.
+   Git's remote ref update or a service's update confirmation) is sufficient; read back if it is
+   unclear or incomplete. For changes to running systems (including DNS and scaling), also check
+   real system state and user-visible health. For deletion or permission changes, check that the
+   intended data or access changed. If an observation window is skipped, say so.
 
 ## Repository work
 
