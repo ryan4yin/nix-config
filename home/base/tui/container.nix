@@ -8,7 +8,16 @@
   home.packages = with pkgs; [
     podman-compose
     dive # explore docker layers
-    go-containerregistry # provides `crane` & `gcrane`
+
+    # `go-containerregistry` provides `crane` & `gcrane`: inspect and move OCI
+    # images without a container daemon or a local pull.
+    #   crane ls nginx                                 # list tags
+    #   crane manifest nginx:latest                    # view manifest
+    #   crane digest nginx:latest                      # image digest
+    #   crane export nginx - | tar -tvf -              # browse image filesystem
+    #   crane cp src.example/app:1 dst.example/app:1   # copy image between registries
+    #   gcrane cp ghcr.io/org/img:1 registry.example/org/img:1
+    go-containerregistry
 
     kubectl
     kustomize
