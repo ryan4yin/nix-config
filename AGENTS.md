@@ -62,17 +62,26 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   `nix flake update <input>` when the update should remain uncommitted.
 - `just shoryu`, `just shushou`, `just youko`, `just lab`, and `just k3s-test` activate systems
   through Colmena. Use the narrower recipe that matches the intended host scope.
-- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM
-  guest. Deploy guests serially and check the guest Node and host services after each activation.
+- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM guest.
+  Deploy guests serially and check the guest Node and host services after each activation.
 - VM hosts (`shoryu`, `shushou`, `youko`) carry the `br0` bridge for their guests. Use the
   `boot`-based host deployment procedure for network stack or broad nixpkgs changes; see
   [hosts/README.md](./hosts/README.md#deploying-vm-hosts).
 - MicroVM state is stored in `/var/lib/microvms/<name>/{etc,var,home}.img`. Preserve these images
   when changing the guest configuration.
-- `just clean`, `just gc`, `just ggc`, and `just game` remove state or rewrite history. Use them only
-  for the intended cleanup or history operation.
+- `just clean`, `just gc`, `just ggc`, and `just game` remove state or rewrite history. Use them
+  only for the intended cleanup or history operation.
 - `just penvof` reads a process environment and can expose secrets. Use normal process inspection
   commands when environment values are not required.
+
+## Task Skills
+
+Reusable, repo-scoped task procedures live in `.agents/skills/`. Note the leading dot: `agents/` is
+the global rules source shared across projects, while `.agents/` applies only to this repository and
+is discovered by OpenCode and compatible tools.
+
+- [`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md) —
+  updating flake inputs and rolling the result out to hosts safely.
 
 ## Further Context
 

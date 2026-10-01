@@ -5,6 +5,10 @@ Reusable, symlink-first agent resources shared across projects.
 This directory is the canonical source for baseline agent rules and supporting command references.
 The primary workflow is to symlink files from here into each agent runtime/config location.
 
+It is shared across projects. Repo-scoped task procedures for one repository belong elsewhere: put
+them in that repository's `.agents/skills/` (note the leading dot), which OpenCode and compatible
+tools discover automatically.
+
 ## What this directory contains
 
 - `AGENTS.md`: global baseline rules for coding agents.

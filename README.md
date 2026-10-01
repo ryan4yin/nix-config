@@ -112,6 +112,9 @@ See [./secrets](./secrets) for details.
 
 Run `just --list` to see every recipe.
 
+Updating flake inputs and rolling the result out safely is a procedure, not a single command. Follow
+[`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md).
+
 For NixOS:
 
 > To deploy this flake from NixOS's official ISO image (purest installation method), please refer to
