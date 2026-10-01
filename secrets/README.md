@@ -34,6 +34,25 @@ servers alone breaks the desktops and the recovery key together.
 The one exception is the desktop's own restic repository password (`restic-password-desktop.age`):
 `desktop_keys` alone, because the backup servers must not be able to read desktop data.
 
+## Decrypted File Permissions
+
+`secrets/nixos.nix` and `secrets/darwin.nix` give every secret one of three presets:
+
+| Preset          | Mode / owner    | Use for                                          |
+| --------------- | --------------- | ------------------------------------------------ |
+| `noaccess`      | `0000` root     | a file nothing reads directly                    |
+| `high_security` | `0500` root     | root-only consumers (services, activation)       |
+| `user_readable` | `0500` `<user>` | anything a Home Manager module or the user reads |
+
+Secrets are gated by `modules.secrets.<group>.enable`, so a secret only exists on hosts in its
+group. A module that consumes it must sit behind the same gate.
+
+Placing a secret under `/etc/agenix/` with `environment.etc` has one trap: setting `mode` makes
+`environment.etc` **copy** the file instead of symlinking it, and the copy is owned by root unless
+`user` is set too. Widening the mode so the user can read a root-owned copy makes it readable by
+every local account. Always set `user` together with `mode`. nix-darwin ignores both on
+`environment.etc`, so `secrets/darwin.nix` chowns `/etc/agenix/*` after activation instead.
+
 ## Adding or Updating Secrets
 
 > All the operations in this section should be performed in my private repository: `nix-secrets`.
@@ -99,6 +118,10 @@ cat xxx | sudo agenix  -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
 
 `agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the
 users and systems defined in `secrets.nix` can decrypt it with their private keys.
+
+After pushing, run `just upp mysecrets` in this repository: `flake.lock` pins `mysecrets`, so a new
+or changed file is invisible here until the lock moves. The repo-side steps are in
+[`.agents/skills/nix-config-secrets/SKILL.md`](../.agents/skills/nix-config-secrets/SKILL.md).
 
 ## Deploying Secrets
 

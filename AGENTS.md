@@ -15,10 +15,8 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   instead of hardcoding usernames or paths.
 - `secrets/` contains agenix definitions; secret material also comes from a private external repo.
 - `overlays/` and `hardening/` hold package overlays and hardened (nixpak/bwrap) wrappers.
-- Noctalia (the Wayland shell) baseline is `home/linux/gui/base/noctalia/config/config.toml`,
-  symlinked out of store into `~/.config/noctalia/` so edits hot reload without a rebuild. Settings
-  UI changes stay in the state layer (`~/.local/state/noctalia/settings.toml`, loads last). Host
-  overrides go in a `host-<name>.toml` there (merged after `config.toml`).
+- Desktop (Niri and Noctalia) config is mostly out-of-store symlinks that hot-reload without a
+  rebuild; see the desktop skill below before changing it.
 
 ## Commands and Platforms
 
@@ -60,6 +58,8 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   evaluate or build without activating a system. Use these commands for previews and validation.
 - `just up`, `just upp`, and `just up-nix` update flake inputs and commit the lock file. Use
   `nix flake update <input>` when the update should remain uncommitted.
+- `just niri` and `just local` activate the machine you are on through `sudo` and block on a
+  password prompt; the user runs them, not an agent.
 - `just shoryu`, `just shushou`, `just youko`, `just lab`, and `just k3s-test` activate systems
   through Colmena. Use the narrower recipe that matches the intended host scope.
 - `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM guest.
@@ -88,8 +88,8 @@ is discovered by OpenCode and compatible tools.
   adding, changing, or removing an agenix secret, and verifying it without reading it.
 - [`.agents/skills/nix-config-new-host/SKILL.md`](./.agents/skills/nix-config-new-host/SKILL.md) —
   wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
-- [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) —
-  triaging a broken eval, build, activation, unit, or host, and rolling back first.
+- [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) — mapping
+  a broken eval, build, activation, unit, host, or MicroVM guest to the command that localizes it.
 
 ## Further Context
 
@@ -97,4 +97,6 @@ is discovered by OpenCode and compatible tools.
 - [Outputs and tests](./outputs/README.md)
 - [Hosts](./hosts/README.md), [system modules](./modules/README.md), and
   [Home Manager](./home/README.md)
-- [Secrets](./secrets/README.md)
+- [Secrets](./secrets/README.md), [backups](./BACKUP.md), and
+  [hardened app wrappers](./hardening/README.md)
+- [Installing NixOS from the ISO](./nixos-installer/README.md)

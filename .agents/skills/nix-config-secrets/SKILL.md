@@ -58,30 +58,11 @@ Changing only a secret's value is steps 1, 2, and the deploy.
 
 ## 3. Modes and ownership
 
-Reuse the presets defined in `secrets/nixos.nix`:
-
-| Preset          | Mode / owner    | Use for                                          |
-| --------------- | --------------- | ------------------------------------------------ |
-| `noaccess`      | `0000` root     | a file nothing reads directly                    |
-| `high_security` | `0500` root     | root-only consumers (services, activation)       |
-| `user_readable` | `0500` `<user>` | anything a Home Manager module or the user reads |
-
-The trap is `environment.etc."agenix/<name>"`. Setting `mode` makes it **copy** the secret instead
-of symlinking it, and the copy is owned by root unless `user` is set too. Widening the mode so the
-user can read a root-owned copy makes it readable by every local account; that is how
-`nushell-secrets.nu` once shipped as a world-readable `0644` copy. Set `user` whenever you set
-`mode`:
-
-```nix
-"agenix/nushell-secrets.nu" = {
-  source = config.age.secrets."nushell-secrets.nu".path;
-  mode = "0400";
-  user = myvars.username;
-};
-```
-
-nix-darwin ignores `mode`/`user` on `environment.etc`; `secrets/darwin.nix` chowns `/etc/agenix/*`
-in a post-activation script instead.
+Use one of the presets in `secrets/nixos.nix` (`noaccess`, `high_security`, `user_readable`); the
+table and the `environment.etc` copy trap are in
+[secrets/README.md](../../../secrets/README.md#decrypted-file-permissions). The rule to remember:
+**whenever an `environment.etc` entry sets `mode`, it also sets `user`.** Never widen a mode to make
+a root-owned copy readable.
 
 ## 4. Verify without reading
 
