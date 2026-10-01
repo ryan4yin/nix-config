@@ -17,7 +17,13 @@
     # vector through the daemon. Every substituter we want is instead listed in
     # the system substituters below, which the daemon applies for every user.
 
-    # substituers that will be considered before the official ones(https://cache.nixos.org)
+    # WARNING: `substituters` + `trusted-public-keys` are a security boundary,
+    # not a convenience list. Nix downloads prebuilt store paths from a
+    # substituter, and a trusted key means "trust anything signed by it" —
+    # together they let a cache inject arbitrary store paths into your system,
+    # which are then run as root at activation. Only add caches you fully trust.
+    # The official https://cache.nixos.org is always trusted and is appended
+    # automatically, so it does not need to be listed here.
     substituters = [
       # cache mirror located in China
       # status: https://mirrors.ustc.edu.cn/status/
@@ -35,6 +41,9 @@
       # "https://ryan4yin.cachix.org"
     ];
 
+    # WARNING: every key here trusts *everything* that key signs. Add one only
+    # for a cache you trust as much as the official one — a careless key hands
+    # a third party the ability to ship you arbitrary store paths.
     trusted-public-keys = [
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
