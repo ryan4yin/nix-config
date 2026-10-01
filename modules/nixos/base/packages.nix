@@ -14,6 +14,7 @@
     # system monitoring
     sysstat
     iotop-c
+    sysbench
     pv # pipe view
 
     # system tools
