@@ -66,8 +66,7 @@ Treat an update as a supply-chain event, not just a version bump.
    - eval-time network access or import-from-derivation.
 4. For nixpkgs-class inputs, skim the lock diff and expect broken packages and eval deprecation
    warnings (see "Lessons from past updates").
-5. Record the outcome where the inventory keeps it. The generated module inventory and per-input
-   audit record are planned; until they exist, write the conclusion into the update commit message.
+5. Write the audit conclusion into the update commit message.
 
 ## 4. Validate before deploying
 
@@ -82,6 +81,15 @@ Run these before any host is touched:
 
 Cover every host you are about to deploy, and prefer building the closure over trusting a green
 eval.
+
+Preview what the machine you are on will actually change before it is deployed:
+
+```bash
+nix store diff-closures /run/current-system '.#nixosConfigurations.<host>.config.system.build.toplevel'
+```
+
+It lists every package whose version or size moves; an empty result means nothing changes. Read it
+for unexpected removals, major-version jumps, and kernel or systemd changes that need a reboot.
 
 ## 5. Deploy in stages
 
@@ -122,37 +130,24 @@ with the `br0` bridge, and broad nixpkgs bumps. See
 - macOS: `just darwin-rollback` (`darwin-rebuild --rollback`).
 - Remote (Colmena): `git revert <sha>` and re-apply, or apply with `boot` and reboot.
 - Update failed but never deployed: drop the bump with `git checkout -- flake.lock`, then reproduce.
+- Isolate a bad bump by moving one input at a time with `nix flake update <input>`, and pin a
+  known-good nixpkgs with `just override-pkgs <hash>` while the breakage is fixed upstream.
 
 ## 8. Clean up only after it is stable
 
-`just gc` (older than 7 days), `just clean` (wipes profile history), and `just gcroot`. These delete
-the generations you would roll back to, so run them last, once the update has proven stable.
+`just gc` (older than 7 days) and `just clean` (wipes profile history) delete the generations you
+would roll back to, so run them last, once the update has proven stable. `just gcroot` only lists GC
+roots. The full list of hazardous recipes is in the Command Hazards section of
+[AGENTS.md](../../../AGENTS.md#command-hazards).
 
-## 9. Commands that need care
+## Why these rules exist
 
-- **Auto-commit the lock file**: `just up`, `just upp`, `just up-nix`, `just override-pkgs`.
-- **Destroy state or history**: `just clean`, `just gc`, `just ggc`, `just game`.
-- **Can expose secrets**: `just penvof <pid>` prints a process environment. Use normal process
-  inspection when the values are not needed.
-- **Change a running or remote system**: `just niri` and `just local` prompt for `sudo`, so the user
-  runs them by hand; `just col`, `just lab`, `just shoryu`, `just shushou`, `just youko`,
-  `just ruby`, `just kana`, `just k3s-test`, and `just microvm-deploy` act over SSH. All of them
-  change running or remote state, so confirm the exact target host first.
-
-## Lessons from past updates
-
-These all happened in this repository; they are the reason for the steps above.
-
-- `0fe12bef fix(nix): preserve default sandbox shell` — a `nix.settings` change used
+- `0fe12bef fix(nix): preserve default sandbox shell` - a `nix.settings` change used
   `sandbox-paths`, which replaced Nix's compiled defaults (including the sandbox shell used for
   legacy shebangs). Use `extra-sandbox-paths`, and verify with
   `nix config show | grep sandbox-paths`.
-- `78fc64e1 fix(neovim): disable nixvim manpage on broken nixpkgs pin` — a nixpkgs pin broke a
-  package build.
 - `125bce3b fix: cuda12.8-cuda_cudart-12.8.90 is marked as broken` and
-  `3bde6d23 fix: remove broken package` — broken packages after a nixpkgs bump are normal;
-  `just build-host` finds them early.
-- `4bd463a7 chore(eval): resolve catppuccin and rust-overlay deprecation warnings` — input bumps
-  surface eval deprecation warnings.
-- `c3f0dbf8 revert(backup): drop append-only for the desktop endpoint` — reverts happen; keep each
-  change small and single-purpose so it can be undone cleanly.
+  `78fc64e1 fix(neovim): disable nixvim manpage on broken nixpkgs pin` - broken packages after a
+  nixpkgs bump are normal; `just build-host` finds them before a deploy does.
+- `4bd463a7 chore(eval): resolve catppuccin and rust-overlay deprecation warnings` - input bumps
+  surface deprecation warnings that become errors in a later bump.
