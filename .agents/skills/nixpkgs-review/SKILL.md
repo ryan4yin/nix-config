@@ -77,12 +77,18 @@ from recent reviews include:
 - a service-unit change (`tailscale` / PR 565578), where the installed unit contents and service
   behavior need validation rather than only a successful build.
 
-Choose the smallest useful check:
+Choose the smallest useful check. A quick local smoke test is often the best answer for a simple
+package; do not turn every version bump into a VM test. Prefer a NixOS VM test when startup, dynamic
+linking, systemd, display/session integration, sandbox boundaries, or a regression that is otherwise
+expensive to reproduce is the behavior under review. VM tests are valuable because they make the
+check repeatable and catch failures such as a GUI process exiting before its window appears.
+
+Examples of the smallest useful check:
 
 | Change                                 | Additional evidence                                                                                       |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | CLI or library                         | Run `--version`/help and one representative operation                                                     |
-| GUI package                            | Launch it and check the expected window or input behavior; use a NixOS test for startup/crash regressions |
+| GUI package                            | Launch it locally for a simple check; use a NixOS test for startup/crash regressions                      |
 | Service or module                      | Evaluate the relevant option, inspect generated units/config, and build the affected host                 |
 | Sandbox, permission, or network policy | Inspect the effective wrapper/unit and test the allowed/denied behavior without exposing secrets          |
 | Driver, kernel, or hardware support    | Build the relevant configuration and perform a host-specific check; do not claim other architectures work |
