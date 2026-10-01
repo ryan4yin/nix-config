@@ -11,7 +11,9 @@ description:
 Prefer a local review. It is faster for a small package change, keeps the result immediately
 available for investigation, and does not create GitHub Actions state. Use the repository's GHA
 workflow when the review needs several architectures, a clean remote environment, or more build
-capacity than this x86_64-linux desktop has.
+capacity than this x86_64-linux desktop has. **`nixpkgs-review` is the first test, not the only
+test:** follow it with focused package, test-quality, or runtime checks when the change has
+user-visible behavior.
 
 ## Choose the runner
 
@@ -56,7 +58,44 @@ inspect its build output; use `--no-shell --print-result` for a bounded non-inte
 Do not post a result or approve a PR merely because builds pass. Those are GitHub writes; use
 `--post-result` only with explicit authorization for that exact PR.
 
-## 3. Use the repository workflow when appropriate
+## 3. Review test quality and add the missing check
+
+Ask two separate questions:
+
+1. Does the PR build and pass the tests that currently exist?
+2. Do those tests prove the behavior the PR changes?
+
+If the package has no meaningful test, or an existing test only checks evaluation/build success,
+propose a separate upstream test improvement before treating the review as complete. Good patterns
+from recent reviews include:
+
+- a small CLI update adding `versionCheckHook` (`aliyun-cli` / PR 568922);
+- a package whose runtime dependency only fails when launched, adding a NixOS test that waits for
+  the real window and captures early process exit (`zoom-us` / PR 568883);
+- a package update that changes download/source logic (`qq` / PR 564893), where fetching and the
+  installed application need checks beyond evaluating the generated sources;
+- a service-unit change (`tailscale` / PR 565578), where the installed unit contents and service
+  behavior need validation rather than only a successful build.
+
+Choose the smallest useful check:
+
+| Change                                 | Additional evidence                                                                                       |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| CLI or library                         | Run `--version`/help and one representative operation                                                     |
+| GUI package                            | Launch it and check the expected window or input behavior; use a NixOS test for startup/crash regressions |
+| Service or module                      | Evaluate the relevant option, inspect generated units/config, and build the affected host                 |
+| Sandbox, permission, or network policy | Inspect the effective wrapper/unit and test the allowed/denied behavior without exposing secrets          |
+| Driver, kernel, or hardware support    | Build the relevant configuration and perform a host-specific check; do not claim other architectures work |
+| Package with passthru tests            | Build selected tests, then run a focused smoke test if the package can be exercised                       |
+
+Record the result as one of: existing tests sufficient, local smoke check sufficient, upstream test
+PR recommended, or blocked by missing hardware/architecture. A test improvement should normally be a
+separate upstream PR so the package change and its proof can be reviewed independently.
+
+Keep checks read-only or isolated whenever possible. Do not activate a host, post a review, or
+mutate shared state as part of a package review unless that exact action is separately authorized.
+
+## 4. Use the repository workflow when appropriate
 
 These recipes trigger the configured `ryan4yin/nixpkgs-review-gha` workflow:
 
@@ -71,7 +110,7 @@ repository first. Use them for cross-architecture coverage, large reviews, or wh
 cannot reproduce the relevant target. Read the workflow summary and distinguish evaluation, build,
 passthru-test, and architecture-specific failures.
 
-## 4. Bring a result back to this flake
+## 5. Bring a result back to this flake
 
 If the package is used here, validate the affected `nixpkgs` input or package override separately:
 
@@ -81,6 +120,6 @@ just eval-host <affected-host>
 just build-host <affected-host>
 ```
 
-A nixpkgs-review result proves the reviewed nixpkgs tree; it does not prove this flake's overlays,
-hardening wrappers, host configuration, or runtime behavior. Use `nix-config-debug` for failures and
-`nix-config-update` before changing a locked input.
+A nixpkgs-review result proves only the reviewed nixpkgs build/test set. It does not prove this
+flake's overlays, hardening wrappers, host configuration, or runtime behavior. Use
+`nix-config-debug` for failures and `nix-config-update` before changing a locked input.
