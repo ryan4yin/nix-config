@@ -84,6 +84,8 @@ is discovered by OpenCode and compatible tools.
   updating flake inputs and rolling the result out to hosts safely.
 - [`.agents/skills/nix-config-desktop/SKILL.md`](./.agents/skills/nix-config-desktop/SKILL.md) —
   which layer owns a Niri/Noctalia setting, live reload vs a rebuild, and on-screen verification.
+- [`.agents/skills/nix-config-secrets/SKILL.md`](./.agents/skills/nix-config-secrets/SKILL.md) —
+  adding, changing, or removing an agenix secret, and verifying it without reading it.
 
 ## Further Context
 
