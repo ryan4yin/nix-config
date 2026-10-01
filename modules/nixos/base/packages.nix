@@ -5,7 +5,6 @@
   environment.systemPackages = with pkgs; [
     # system call monitoring
     strace # system call monitoring
-    ltrace # library call monitoring
     lsof # list open files
 
     # ebpf related tools
@@ -15,9 +14,6 @@
     # system monitoring
     sysstat
     iotop-c
-    iftop
-    sysbench
-    systemctl-tui
     pv # pipe view
 
     # system tools
@@ -26,7 +22,6 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
-    hdparm # for disk performance, command
     dmidecode # a tool that reads information about your system's hardware from the BIOS according to the SMBIOS/DMI standard
     parted
     smartmontools # smartctl -a /dev/nvme0n1

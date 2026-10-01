@@ -17,10 +17,7 @@
 
   home.packages = with pkgs; [
     wl-clipboard # copying and pasting
-    hyprpicker # color picker
     brightnessctl
-    # audio
-    alsa-utils # provides amixer/alsamixer/...
     # screen recording
     wf-recorder # screen recording
 

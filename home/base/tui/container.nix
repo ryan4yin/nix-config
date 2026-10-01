@@ -25,7 +25,6 @@
     kubectx # kubectx & kubens
     kubie # same as kubectl-ctx, but per-shell (won’t touch kubeconfig).
     kubectl-view-secret # kubectl view-secret
-    kubectl-tree # kubectl tree
     kubectl-node-shell # exec into node
     kubepug # kubernetes pre upgrade checker
     kubectl-cnpg # cloudnative-pg's cli tool
