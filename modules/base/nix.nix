@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  myvars,
   ...
 }:
 {
@@ -12,12 +11,19 @@
       "flakes"
     ];
 
-    # given the users in this list the right to specify additional substituters via:
-    #    1. `nixConfig.substituers` in `flake.nix`
-    #    2. command line args `--options substituers http://xxx`
-    trusted-users = [ myvars.username ];
+    # NOTE: the normal user is deliberately NOT a trusted-user. That would
+    # grant the right to inject arbitrary substituters (via `nixConfig` in a
+    # flake, or `--option substituters ...`), which is a known root-equivalent
+    # vector through the daemon. Every substituter we want is instead listed in
+    # the system substituters below, which the daemon applies for every user.
 
-    # substituers that will be considered before the official ones(https://cache.nixos.org)
+    # WARNING: `substituters` + `trusted-public-keys` are a security boundary,
+    # not a convenience list. Nix downloads prebuilt store paths from a
+    # substituter, and a trusted key means "trust anything signed by it" —
+    # together they let a cache inject arbitrary store paths into your system,
+    # which are then run as root at activation. Only add caches you fully trust.
+    # The official https://cache.nixos.org is always trusted and is appended
+    # automatically, so it does not need to be listed here.
     substituters = [
       # cache mirror located in China
       # status: https://mirrors.ustc.edu.cn/status/
@@ -28,15 +34,18 @@
       # "https://mirrors.sustech.edu.cn/nix-channels/store"
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
 
-      "https://nix-community.cachix.org"
-      "https://catppuccin.cachix.org"
+      # numtide's cache (niks3), which serves the prebuilt packages of the
+      # numtide/llm-agents.nix flake input used for the AI agent CLIs.
+      "https://cache.numtide.com"
       # my own cache server, currently not used.
       # "https://ryan4yin.cachix.org"
     ];
 
+    # WARNING: every key here trusts *everything* that key signs. Add one only
+    # for a cache you trust as much as the official one — a careless key hands
+    # a third party the ability to ship you arbitrary store paths.
     trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
     ];
     builders-use-substitutes = true;

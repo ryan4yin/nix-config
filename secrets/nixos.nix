@@ -139,11 +139,14 @@ in
           mode = "0000";
         };
 
-        # The following secrets are used by home-manager modules
-        # So we need to make then readable by the user
+        # Used by a home-manager module, so it must be readable by the user.
+        # Setting `mode` makes environment.etc copy the file instead of
+        # symlinking the runtime secret, so the owner must be set as well —
+        # otherwise it becomes a world-readable, root-owned copy of the secret.
         "agenix/nushell-secrets.nu" = {
           source = config.age.secrets."nushell-secrets.nu".path;
-          mode = "0644"; # both the original file and the symlink should be readable and executable by the user
+          mode = "0400";
+          user = myvars.username;
         };
       };
     })
