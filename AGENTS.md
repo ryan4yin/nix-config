@@ -86,6 +86,8 @@ is discovered by OpenCode and compatible tools.
   which layer owns a Niri/Noctalia setting, live reload vs a rebuild, and on-screen verification.
 - [`.agents/skills/nix-config-secrets/SKILL.md`](./.agents/skills/nix-config-secrets/SKILL.md) —
   adding, changing, or removing an agenix secret, and verifying it without reading it.
+- [`.agents/skills/nix-config-new-host/SKILL.md`](./.agents/skills/nix-config-new-host/SKILL.md) —
+  wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
 
 ## Further Context
 
