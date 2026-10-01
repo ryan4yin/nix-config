@@ -62,7 +62,7 @@ in
 
   modules.btrbk.enable = true;
 
-  # QEMU/KVM(HostCpuOnly) for local VMs; virt-manager ships in the GUI home profile.
+  # QEMU/KVM(HostCpuOnly) for local VMs.
   environment.systemPackages = [ pkgs.qemu_kvm ];
 
   powerManagement.resumeCommands = ''

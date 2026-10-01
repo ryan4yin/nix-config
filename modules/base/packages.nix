@@ -19,10 +19,6 @@
     git # used by nix flakes
     git-lfs # used by huggingface models
 
-    # system monitoring
-    # btop is provided per host: the GPU-aware `modules.btop` build on NixOS, or
-    # Home Manager on macOS. Not listed here to avoid a second, plain copy.
-
     # archives
     zip
     xz
