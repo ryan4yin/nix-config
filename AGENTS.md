@@ -82,6 +82,8 @@ is discovered by OpenCode and compatible tools.
 
 - [`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md) —
   updating flake inputs and rolling the result out to hosts safely.
+- [`.agents/skills/nix-config-desktop/SKILL.md`](./.agents/skills/nix-config-desktop/SKILL.md) —
+  which layer owns a Niri/Noctalia setting, live reload vs a rebuild, and on-screen verification.
 
 ## Further Context
 
