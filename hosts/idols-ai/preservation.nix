@@ -49,6 +49,8 @@ in
       "/etc/agenix/"
 
       "/var/log"
+      # system caches (e.g. restic, plocate; slow to rebuild)
+      "/var/cache"
 
       # system-core
       "/var/lib/nixos"
