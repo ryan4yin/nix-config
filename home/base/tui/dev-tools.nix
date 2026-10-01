@@ -35,9 +35,6 @@
       python313Packages.huggingface-hub # huggingface-cli
       yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
 
-      # misc
-      bfg-repo-cleaner # remove large files from git history
-
       # Automatically trims your branches whose tracking remote refs are merged or gone
       # It's really useful when you work on a project for a long time.
       git-trim
