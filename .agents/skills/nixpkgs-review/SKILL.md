@@ -77,6 +77,15 @@ from recent reviews include:
 - a service-unit change (`tailscale` / PR 565578), where the installed unit contents and service
   behavior need validation rather than only a successful build.
 
+Use the upstream
+[stdenv check-phase guidance](https://github.com/NixOS/nixpkgs/blob/master/doc/stdenv/stdenv.chapter.md#ssec-check-phase)
+as the baseline: enable the package's own `doCheck` when its tests are usable; otherwise prefer a
+small `versionCheckHook` to prove the installed executable is basically functional. Review
+`passthru.tests` separately: those tests are package-specific checks that `nixpkgs-review --tests`
+can build, while a NixOS test is appropriate when the behavior needs a booted system, display
+server, systemd, networking, or other integration environment. Remember that cross-compiled builds
+do not execute tests on the build machine, so a green cross build is not runtime evidence.
+
 Choose the smallest useful check. A quick local smoke test is often the best answer for a simple
 package; do not turn every version bump into a VM test. Prefer a NixOS VM test when startup, dynamic
 linking, systemd, display/session integration, sandbox boundaries, or a regression that is otherwise
