@@ -88,14 +88,21 @@ eval.
 Modes are `switch` (take effect now, the default) and `boot` (only the next boot). Add `debug` for
 verbose output. Anything else is rejected.
 
+Activating the machine you are on runs `nixos-rebuild --sudo` (or `sudo -E darwin-rebuild`) and
+blocks on a password prompt. **An agent cannot run these; they are for the user to run by hand.**
+
 - Current desktop: `just niri [mode] [verbosity]`
-- Other local host (servers, VMs): `just local [mode] [verbosity]`
+- Other local NixOS host: `just local [mode] [verbosity]`
+- macOS: `just local [debug]` (build then switch; macOS has no switch/boot split)
+
+The rest authenticate over SSH as root on the target, so they run non-interactively — but they still
+change remote state, so confirm the exact target and get authorization first.
+
 - Remote servers: `just shoryu [mode]`, `just shushou`, `just youko`, `just ruby`, `just kana`
 - All VM hosts at once: `just lab [mode]`; any Colmena tag: `just col <tag> [mode]`
 - k3s test nodes: `just k3s-test [mode]`
 - MicroVM guest: `just microvm-deploy <guest> <host> <guest-ip>` — deploy guests serially and check
   each one before moving on.
-- macOS: `just local [debug]` (build then switch; macOS has no switch/boot split).
 
 Use `boot` plus a deliberate reboot for anything that can drop networking mid-flight: the VM hosts
 with the `br0` bridge, and broad nixpkgs bumps. See
@@ -127,9 +134,10 @@ the generations you would roll back to, so run them last, once the update has pr
 - **Destroy state or history**: `just clean`, `just gc`, `just ggc`, `just game`.
 - **Can expose secrets**: `just penvof <pid>` prints a process environment. Use normal process
   inspection when the values are not needed.
-- **Change a running or remote system**: `just local`, `just niri`, `just col`, `just lab`,
-  `just shoryu`, `just shushou`, `just youko`, `just ruby`, `just kana`, `just k3s-test`,
-  `just microvm-deploy`. Confirm the exact target host before running.
+- **Change a running or remote system**: `just niri` and `just local` prompt for `sudo`, so the user
+  runs them by hand; `just col`, `just lab`, `just shoryu`, `just shushou`, `just youko`,
+  `just ruby`, `just kana`, `just k3s-test`, and `just microvm-deploy` act over SSH. All of them
+  change running or remote state, so confirm the exact target host first.
 
 ## Lessons from past updates
 
