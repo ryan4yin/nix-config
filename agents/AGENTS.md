@@ -128,16 +128,18 @@ For an impactful change, follow these steps in order, scaled to its risk:
   calling, PTC) is available and can do the work directly and clearly, agents SHOULD prefer it for
   tool orchestration and processing tool results, e.g. run independent read-only calls concurrently
   and filter results before returning them. Use the language its runtime accepts.
-- When code-mode is unavailable or cannot do the work directly and clearly, use Nushell or Python
-  for filesystem/process operations and complex local shell logic. A Bash-only tool can invoke them:
-  `nu -c '...'` or `python -c '...'` for one-liners; for multiline code, use a quoted heredoc fed to
-  the interpreter, e.g. `python3 - <<'PY' ... PY`. If a runtime is missing, use the approved project
-  toolchain or one-off Nix environment described above. If none can do the work, report the
-  limitation; do not install imperatively or weaken this rule unasked.
+- When code-mode is unavailable or cannot do the work directly and clearly, use Nushell for
+  shell-native orchestration and structured command pipelines, Python for general local processing,
+  or TypeScript for the JS/TS ecosystem (e.g. JSONC, YAML/TOML, TSX/JSX). Prefer Bun over Node.js. A
+  Bash-only tool can invoke them: `nu -c '...'`, `python -c '...'`, or `bun -e '...'` for
+  one-liners; for multiline code, use a quoted heredoc fed to the interpreter, e.g.
+  `python3 - <<'PY' ... PY`. If a runtime is missing, use the approved project toolchain or one-off
+  Nix environment described above. If none can do the work, report the limitation; do not install
+  imperatively or weaken this rule unasked.
 - Use Bash for simple, obviously correct commands, such as running a tool or a short `&&` sequence.
   To avoid its quoting, word-splitting, and pipeline pitfalls, agents MUST use code-mode, Nushell,
-  or Python instead of Bash logic for local filtering, transformation, loops, polling, or complex
-  quoting.
+  Python, or TypeScript instead of Bash logic for local filtering, transformation, loops, polling,
+  or complex quoting.
 - These shell-language rules apply locally; on remote hosts, use the available shell.
 - Commands MUST NOT block: disable pagers and interactive prompts, avoid commands that wait on stdin
   or never exit, and bound waits and retries with timeouts. Run servers and watchers in the
@@ -147,7 +149,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 ### Scripts
 
-- Scripts added to a project MUST follow its language and target environment, defaulting to Python.
+- Scripts added to a project MUST follow its language and target environment, defaulting to Python
+  unless the project ecosystem or data format has a clearer supported runtime.
 - Script files agents create or modify, including temporary ones, MUST pass the available checks
   (e.g. `shellcheck`, `nu-check`, `py_compile`, `tsc --noEmit`); report any unavailable check.
 
