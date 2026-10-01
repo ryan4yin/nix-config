@@ -25,6 +25,9 @@
       pgcli
       sqlite
 
+      # spreadsheets / data files: interactive viewer for csv, xlsx, tsv, json, sqlite
+      visidata
+
       # embedded development
       minicom
 
