@@ -18,8 +18,10 @@ in
   boot.initrd.systemd.enable = true;
 
   environment.systemPackages = [
-    # `sudo ncdu -x /`
-    pkgs.ncdu
+    # Whole-filesystem disk usage (`-x` stays on one filesystem):
+    #   sudo gdu -n -x /            # non-interactive, plain text
+    #   sudo gdu -o /tmp/gdu.json / # JSON export
+    pkgs.gdu
   ];
 
   # There are two ways to clear the root filesystem on every boot:

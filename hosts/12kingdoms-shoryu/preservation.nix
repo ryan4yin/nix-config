@@ -17,8 +17,8 @@ in
   boot.initrd.systemd.enable = true;
 
   environment.systemPackages = [
-    # `sudo ncdu -x /`
-    pkgs.ncdu
+    # `sudo gdu -x /`
+    pkgs.gdu
   ];
 
   # NOTE: `preservation` only mounts the directory/file list below to /persistent

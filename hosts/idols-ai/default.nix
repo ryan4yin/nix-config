@@ -62,6 +62,9 @@ in
 
   modules.btrbk.enable = true;
 
+  # QEMU/KVM(HostCpuOnly) for local VMs.
+  environment.systemPackages = [ pkgs.qemu_kvm ];
+
   powerManagement.resumeCommands = ''
     # Insta360 Link may stay enumerated with a stalled UVC endpoint after S3 resume.
     ${pkgs.coreutils}/bin/sleep 1

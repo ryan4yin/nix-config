@@ -59,6 +59,9 @@ in
 
   modules.btrbk.enable = true;
 
+  # HDD tuning/diagnostics for the two spinning disks behind the USB-SATA bridge.
+  environment.systemPackages = [ pkgs.hdparm ];
+
   # Beelink GTR5: Radeon iGPU. The ROCm build of btop shows the GPU panel;
   # node_exporter's drm collector exposes its utilization/VRAM.
   modules.btop.package = pkgs.btop-rocm;

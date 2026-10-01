@@ -60,6 +60,10 @@ in
     # Validate Hardware Virtualization Support via:
     #   virt-host-validate qemu
     libvirt
+
+    # QEMU/KVM(HostCpuOnly) for the libvirt domains and the microVMs; provides
+    # qemu-kvm, qemu-img, qemu-nbd, ...
+    qemu_kvm
   ];
 
   networking = {
