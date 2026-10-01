@@ -73,11 +73,11 @@ For an impactful change, follow these steps in order, scaled to its risk:
    checks when their evidence remains valid for the current action; do not repeat them just because
    another action is needed. Refresh checks when the target, account, context, or relevant state
    changes, or the evidence is stale, incomplete, uncertain, or contradicted. Stop on a mismatch.
-3. **Preview** with plan, diff, or dry-run where available (e.g. `tofu plan`, `kubectl diff`,
-   `helm diff`). Review the current changes; any later input change requires a new preview. When a
-   diff adequately previews the action (e.g. an ordinary non-force branch push or an issue/PR
-   title/description edit), do not add a dry-run unless it checks something the diff does not cover
-   (e.g. rewritten history or uncertain remote state).
+3. **Preview** with plan, diff, or dry-run where available (e.g. `terraform plan`, `kubectl diff`).
+   Review the current changes; any later input change requires a new preview. When a diff adequately
+   previews the action (e.g. an ordinary non-force branch push or an issue/PR title/description
+   edit), do not add a dry-run unless it checks something the diff does not cover (e.g. rewritten
+   history or uncertain remote state).
 4. **Plan the way back.** Keep the blast radius small, know how to undo the change, and prefer
    recoverable forms (e.g. `git push --force-with-lease`, `git branch -d`). If it cannot be undone,
    say so and get authorization that acknowledges it.
