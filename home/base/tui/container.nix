@@ -9,15 +9,15 @@
     podman-compose
     dive # explore docker layers
 
-    # `go-containerregistry` provides `crane` & `gcrane`: inspect and move OCI
-    # images without a container daemon or a local pull.
-    #   crane ls nginx                                 # list tags
-    #   crane manifest nginx:latest                    # view manifest
-    #   crane digest nginx:latest                      # image digest
-    #   crane export nginx - | tar -tvf -              # browse image filesystem
-    #   crane cp src.example/app:1 dst.example/app:1   # copy image between registries
-    #   gcrane cp ghcr.io/org/img:1 registry.example/org/img:1
-    go-containerregistry
+    # `skopeo`: inspect/move images between registries and local formats
+    # (oci / dir / docker-archive) without a daemon; also supports sync + signing.
+    #   skopeo list-tags docker://nginx                  # list tags
+    #   skopeo inspect docker://nginx:latest             # inspect, no pull
+    #   skopeo copy docker://src:1 docker://dst:1        # registry -> registry
+    #   skopeo copy --all docker://src:1 docker://dst:1  # every architecture
+    #   skopeo copy docker://nginx:latest oci:/tmp/n:latest
+    #   skopeo sync --src docker --dest dir nginx /tmp/n
+    skopeo
 
     kubectl
     kustomize

@@ -59,7 +59,7 @@
     dnsutils # `dig` + `nslookup`
     doggo # DNS client for humans
     curl
-    curlie # curl with httpie
+    xh # friendly, fast curl-like HTTP client (Rust)
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
