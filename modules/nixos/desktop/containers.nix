@@ -20,5 +20,10 @@
         flags = [ "--all" ];
       };
     };
+
+    # Bound container log growth. Podman uses journald when the journal is
+    # writable, but rootless sessions can fall back to a file driver
+    # (k8s-file / json-file), which otherwise grows without limit.
+    containers.containersConf.settings.containers.log_size_max = 10 * 1024 * 1024;
   };
 }
