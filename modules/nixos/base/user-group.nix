@@ -7,6 +7,15 @@
   # Don't allow mutation of users outside the config.
   users.mutableUsers = false;
 
+  # Root-equivalent / over-broad groups are deliberately NOT added to the
+  # user's `extraGroups` below, e.g.:
+  #   docker / podman -> rootful container socket (~ root)
+  #   libvirtd        -> polkit grants it `org.libvirt.unix.manage` (~ root)
+  #   disk            -> raw block devices (~ root)
+  #   input           -> keylogging
+  # Membership is a *passwordless* path to root, so run those commands with
+  # `sudo` instead (e.g. `sudo virsh`). The groups below exist only for the
+  # services that need them; `security-container-groups` guards the main ones.
   users.groups = {
     "${myvars.username}" = { };
     podman = { };
@@ -36,7 +45,6 @@
       "networkmanager" # for nmtui / nmcli
       "wireshark"
       "adbusers" # android debugging
-      "libvirtd" # virt-viewer / qemu
       "fileshare"
     ];
   };
