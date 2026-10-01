@@ -65,13 +65,8 @@ in
       "/var/lib/cni"
       "/var/lib/containers"
 
-      # other data
-      "/var/lib/flatpak"
-
       # virtualisation
       "/var/lib/libvirt"
-      "/var/lib/lxc"
-      "/var/lib/lxd"
       "/var/lib/qemu"
       # "/var/lib/waydroid"
 
@@ -80,8 +75,6 @@ in
       "/var/lib/NetworkManager"
       "/var/lib/iwd"
       "/var/lib/tailscale"
-      "/var/lib/netbird-homelab" # netbird's homelab client
-      "/etc/netbird-homelab"
     ];
     files = [
       # auto-generated machine ID
@@ -139,9 +132,6 @@ in
         # IDE / Editors
         # ======================================
 
-        # neovim plugins
-        ".wakatime"
-
         # vscode
         ".vscode"
         ".config/Code"
@@ -182,11 +172,6 @@ in
         # Cloud Native
         # ======================================
         {
-          # pulumi - infrastructure as code
-          directory = ".pulumi";
-          mode = "0700";
-        }
-        {
           directory = ".aws";
           mode = "0700";
         }
@@ -200,10 +185,6 @@ in
         }
         {
           directory = ".config/gh";
-          mode = "0700";
-        }
-        {
-          directory = ".docker";
           mode = "0700";
         }
         {
@@ -258,7 +239,6 @@ in
         "Games"
         ".steam"
         ".config/blender"
-        ".config/LDtk"
 
         ".local/share/umu"
 
@@ -268,7 +248,6 @@ in
         ".config/lutris"
         ".local/share/lutris"
 
-        ".local/share/tiled"
         ".local/share/GOG.com"
         ".local/share/StardewValley"
         ".local/share/feral-interactive"
@@ -306,8 +285,7 @@ in
         # Containers
         # ======================================
         ".local/share/containers"
-        ".local/share/flatpak"
-        # flatpak/nixpak app's data
+        # nixpak app's data
         {
           directory = ".var";
           mode = "0700";
@@ -342,10 +320,6 @@ in
         ".config/nushell"
       ];
       files = [
-        {
-          file = ".wakatime.cfg";
-          how = "symlink";
-        }
         {
           file = ".config/zoomus.conf";
           how = "symlink";
