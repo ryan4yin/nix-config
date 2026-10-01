@@ -81,18 +81,20 @@ If an edit does not show up:
 ## 3. Verify on screen
 
 ```bash
-niri msg action screenshot-window --path /tmp/opencode/check.png -p false   # focused window
-niri msg action screenshot-screen --path /tmp/opencode/check.png -p false   # focused output
+output="$(mktemp --tmpdir="${TMPDIR:-/tmp}" desktop-check.XXXXXX.png)"
+niri msg action screenshot-window --path "$output" -p false   # focused window
+# Or, when a full output is needed:
+# niri msg action screenshot-screen --path "$output" -p false
 ```
 
 - Prefer `screenshot-window` when it proves the change. A full-screen capture includes whatever else
   is open: browser tabs, chats, credentials.
-- `--path` must be absolute; it keeps the file out of `~/Pictures/Screenshots/`. `-p false` drops
-  the pointer.
+- `--path` must be absolute; the `mktemp` path keeps the file out of `~/Pictures/Screenshots/`.
+  `-p false` drops the pointer.
 - Both actions also **replace the user's clipboard** with the image. There is no flag to avoid it,
   so say so when you take one.
 - Inspect the PNG with your image-reading tool, show it to the user only when asked, never upload or
-  share it, and delete it when done.
+  share it, and delete it when done: `rm -f "$output"`.
 
 Capture the frame that proves the change: the bar or OSD for a shell edit, borders and corner radius
 for a layout rule, the specific app for an input-method edit.
