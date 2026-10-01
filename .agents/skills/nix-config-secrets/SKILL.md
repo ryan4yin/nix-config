@@ -78,6 +78,14 @@ you set, an old copy gone) instead of assuming activation did it.
 
 ## 5. Remove or rename a secret
 
+- Search all references before changing it:
+
+  ```bash
+  grep -Rni '<secret-name>' --include='*.nix' --include='*.toml' .
+  ```
+
+  Check `secrets/`, `home/`, `modules/`, `hosts/`, outputs, tests, and the private repository.
+
 - Delete the `age.secrets` entry, its `environment.etc` placement, and every consumer in one change;
   a declaration whose file no longer exists breaks activation.
 - Remove it from `secrets.nix` and delete the file in the private repository, then bump the lock.

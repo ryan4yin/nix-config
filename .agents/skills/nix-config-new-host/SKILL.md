@@ -1,9 +1,9 @@
 ---
 name: Nix Config New Host
 description:
-  Use when adding, renaming, or removing a NixOS, macOS, or MicroVM host in this repo. Covers the
-  files to create, the outputs and networking wiring, secrets, the eval tests that fail until the
-  host is fully wired, and the first install.
+  Use when adding a NixOS, macOS, or MicroVM host in this repo. Covers the files to create, the
+  outputs and networking wiring, secrets, the eval tests that fail until the host is fully wired,
+  and the first install.
 ---
 
 # Adding a host
@@ -35,7 +35,8 @@ in [hosts/README.md](../../../hosts/README.md).
 | MicroVM guest            | `hosts/k8s/k3s-test-1-worker-1/` + `outputs/x86_64-linux/src/k3s-test-1-worker-1.nix`             |
 
 A MicroVM guest is also registered in its VM host's `microvm.nix`, and is deployed with
-`just microvm-deploy`, not Colmena.
+`just microvm-deploy`. Some guest outputs also expose a Colmena node for evaluation or other
+workflows; do not assume the physical-host deployment is done through Colmena.
 
 ## 2. Files to create or edit
 
@@ -48,10 +49,12 @@ A MicroVM guest is also registered in its VM host's `microvm.nix`, and is deploy
    `README.md`, as `hosts/idols-ai/README.md` does.
 3. `home/hosts/linux/<name>.nix` or `home/hosts/darwin/<name>.nix` - only for a host with Home
    Manager; otherwise leave `home-modules` out.
-4. `outputs/<system>/src/<name>.nix` - `nixosConfigurations.<name>` (or `darwinConfigurations`),
-   `colmena.<name>` with `tags`, `ssh-user = "root"`, and `targetHost`, and `packages.<name>` for an
-   install ISO. Keep the leading comment about unused `args`: haumea passes them lazily and they are
-   still required.
+4. `outputs/<system>/src/<name>.nix` - add the output types appropriate to the host:
+   `nixosConfigurations.<name>` for NixOS, `darwinConfigurations.<name>` for macOS, and a
+   `packages.<name>` installer image only where the platform provides one. Add `colmena.<name>` only
+   for a host deployed through Colmena; it then needs `tags`, `ssh-user`, and usually `targetHost`.
+   MicroVM guests also need the VM-host `microvm.nix` registration. Keep the leading comment about
+   unused `args`: haumea passes them lazily and they are still required.
 5. `vars/networking.nix` - `hostsAddr.<name> = { iface; ipv4; }` for a LAN host. That entry drives
    the static address, the SSH `Host` alias used for remote builds, and `known_hosts`, so a wrong
    `iface` takes the host offline at activation. Skip it for a DHCP or mobile host.

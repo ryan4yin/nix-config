@@ -32,17 +32,19 @@ deploying the result to any host.
 
 ## 2. Run the update
 
-| Goal                     | Command                     | Notes                                                                          |
-| ------------------------ | --------------------------- | ------------------------------------------------------------------------------ |
-| Everything               | `just up`                   | `nix flake update --commit-lock-file`; **commits the lock file automatically** |
-| One input                | `just upp <input>`          | Same, for a single input, e.g. `just upp catppuccin`                           |
-| The nixpkgs family       | `just up-nix`               | Updates `nixpkgs-stable`/`-master`/`-darwin`/`-patched`; **not `nixpkgs`**     |
-| Pin `nixpkgs`            | `just override-pkgs <hash>` | Pin `nixpkgs` to a known-good Hydra commit                                     |
-| Update but keep it dirty | `nix flake update <input>`  | Leaves the change uncommitted so you can inspect it first                      |
-| Nix itself (macOS)       | `just nix-upgrade`          | `determinate-nixd upgrade`; macOS only                                         |
+| Goal                     | Command                     | Notes                                                                      |
+| ------------------------ | --------------------------- | -------------------------------------------------------------------------- |
+| Everything               | `just up`                   | Updates and commits the lock file automatically; audit before pushing      |
+| One input                | `just upp <input>`          | Same, for a single input, e.g. `just upp catppuccin`; audit before pushing |
+| The nixpkgs family       | `just up-nix`               | Updates `nixpkgs-stable`/`-master`/`-darwin`/`-patched`; **not `nixpkgs`** |
+| Pin `nixpkgs`            | `just override-pkgs <hash>` | Pin `nixpkgs` to a known-good Hydra commit                                 |
+| Update but keep it dirty | `nix flake update <input>`  | Leaves the change uncommitted so you can inspect it first                  |
+| Nix itself (macOS)       | `just nix-upgrade`          | `determinate-nixd upgrade`; macOS only                                     |
 
 After an update, read `git diff flake.lock`: it lists exactly which inputs moved and by how many
-commits.
+commits. Because `just up` and `just upp` commit automatically, either use
+`nix flake update <input>` while auditing or amend the generated lock commit after the audit so its
+message records the conclusion.
 
 ## 3. Audit the change
 
@@ -66,7 +68,8 @@ Treat an update as a supply-chain event, not just a version bump.
    - eval-time network access or import-from-derivation.
 4. For nixpkgs-class inputs, skim the lock diff and expect broken packages and eval deprecation
    warnings (see "Lessons from past updates").
-5. Write the audit conclusion into the update commit message.
+5. Write the audit conclusion into the update commit message. If an automatic recipe already made
+   the commit, amend it only after reviewing the diff; do not push the unaudited commit first.
 
 ## 4. Validate before deploying
 

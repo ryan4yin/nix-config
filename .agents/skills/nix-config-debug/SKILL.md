@@ -20,7 +20,8 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
    different causes; a green `just test` says nothing about activation.
 3. **Never get to green by weakening a check**: no disabled test, dropped assertion, or `mkForce`
    over the failing value.
-4. **Debug on a clean tree,** so every result is attributable to one change.
+4. **Preserve existing user changes.** Do not discard or stash them without authorization. If a
+   clean baseline is needed, record the current diff and ask before isolating it.
 
 ## 1. Localize by layer
 
@@ -55,6 +56,8 @@ names the replacement. Treat deprecation warnings as failures waiting to happen.
 
 `git status`, `git log --oneline -5 -- flake.lock`, and `git diff flake.lock` tell you which. If the
 lock moved, isolate the input as described in the `nix-config-update` skill before reading code.
+Preserve unrelated working-tree changes; do not use `git checkout`, `git stash`, or cleanup commands
+to manufacture a clean tree without authorization.
 
 ## 4. Prove the fix
 
