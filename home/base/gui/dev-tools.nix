@@ -22,7 +22,7 @@ in
     ++ [
       # Agents
       agentPackages.codex
-      agentPackages.opencode
+      agentPackages.opencode2
       agentPackages.kimi-code
       agentPackages.pi
       agentPackages.omp
