@@ -20,20 +20,11 @@ in
 {
   home.packages = with pkgs-stable; [
     # creative
-    # gimp      # image editing, I prefer using figma in browser instead of this one
     krita # digital painting
     musescore # music notation
     pkgs-master.orca-slicer # 3d printer slicer app
     bambu-studio # bambu 3d printer slicer app
     pkgs-blender.blender # 3d modeling
-    # reaper # audio production
-    # sonic-pi # music programming
-
-    # 2d game design
-    # aseprite # Animated sprite editor & pixel art tool
-
-    # this app consumes a lot of storage, so do not install it currently
-    # kicad     # 3d printing, electrical engineering
   ];
 
   programs = {

@@ -1,6 +1,7 @@
 {
   preservation,
   lib,
+  pkgs,
   myvars,
   ...
 }:
@@ -15,6 +16,15 @@ in
   preservation.enable = true;
   # pverservation required initrd using systemd.
   boot.initrd.systemd.enable = true;
+
+  environment.systemPackages = [
+    # Whole-filesystem disk usage (`-x` stays on one filesystem):
+    #   sudo ncdu -x /              # interactive TUI
+    #   sudo gdu -n -x /            # non-interactive, plain text
+    #   sudo gdu -o /tmp/gdu.json / # JSON export
+    pkgs.ncdu
+    pkgs.gdu
+  ];
 
   # There are two ways to clear the root filesystem on every boot:
   ##  1. use tmpfs for /
