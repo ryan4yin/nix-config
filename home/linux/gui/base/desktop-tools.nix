@@ -24,7 +24,8 @@
     # screen recording
     wf-recorder # screen recording
 
-    virt-viewer # vnc connect to the libvirt VMs
+    virt-manager # manage the libvirt VMs
+    virt-viewer # vnc/spice console for the libvirt VMs
   ];
 
   # Emergency session-menu fallback; the normal flow uses Noctalia's session panel.

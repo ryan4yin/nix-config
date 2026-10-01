@@ -56,7 +56,7 @@ modules/
     │   ├── power.nix      # Power management
     │   ├── security.nix   # Desktop security settings
     │   ├── ssh.nix        # Desktop SSH configuration
-    │   ├── virtualisation.nix # Virtualization support
+    │   ├── containers.nix # Container engines (podman/docker)
     │   └── xdg.nix       # XDG base directory settings
     └── server/             # Server-specific modules
         ├── qemu-guest-hardware-configuration.nix
