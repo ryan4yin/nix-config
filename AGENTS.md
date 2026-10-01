@@ -88,6 +88,8 @@ is discovered by OpenCode and compatible tools.
   adding, changing, or removing an agenix secret, and verifying it without reading it.
 - [`.agents/skills/nix-config-new-host/SKILL.md`](./.agents/skills/nix-config-new-host/SKILL.md) —
   wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
+- [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) —
+  triaging a broken eval, build, activation, unit, or host, and rolling back first.
 
 ## Further Context
 
