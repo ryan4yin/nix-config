@@ -30,7 +30,6 @@
 
         #-- markdown
         marksman # language server for markdown
-        glow # markdown previewer
         pandoc # document converter
         pkgs-master.hugo # static site generator
 

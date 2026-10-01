@@ -11,14 +11,11 @@
     # ebpf related tools
     # https://github.com/bpftrace/bpftrace
     bpftrace # powerful tracing tool
-    bpftop # monitor BPF programs
-    bpfmon # BPF based visual packet rate monitor
 
     # system monitoring
     sysstat
     iotop-c
     iftop
-    nmon
     sysbench
     systemctl-tui
     pv # pipe view

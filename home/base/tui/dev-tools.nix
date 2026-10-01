@@ -20,12 +20,9 @@
     [
       colmena # nixos's remote deployment tool
 
-      tokei # count lines of code, alternative to cloc
-
       # db related
       # mycli
       pgcli
-      mongosh
       sqlite
 
       # embedded development
@@ -36,17 +33,11 @@
       yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
 
       # misc
-      devbox
       bfg-repo-cleaner # remove large files from git history
-      k6 # load testing tool
-
-      # solve coding extercises - learn by doing
-      exercism
 
       # Automatically trims your branches whose tracking remote refs are merged or gone
       # It's really useful when you work on a project for a long time.
       git-trim
-      gitleaks
     ]
     # conda is not available on macOS
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [

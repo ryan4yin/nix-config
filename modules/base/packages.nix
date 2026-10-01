@@ -20,7 +20,6 @@
     git-lfs # used by huggingface models
 
     # system monitoring
-    procs # a moreden ps
     # btop is provided per host: the GPU-aware `modules.btop` build on NixOS, or
     # Home Manager on macOS. Not listed here to avoid a second, plain copy.
 
@@ -52,20 +51,15 @@
     (ripgrep.override { withPCRE2 = true; })
 
     duf # Disk Usage/Free Utility - a better 'df' alternative
-    dust # A more intuitive version of `du` in rust
-    gdu # disk usage analyzer(replacement of `du`)
-    ncdu # analyzer your disk usage Interactively, via TUI(replacement of `du`)
+    gdu # disk usage analyzer, non-interactive (`-n`) & JSON (`-o`)
 
     # networking tools
     mtr # A network diagnostic tool(traceroute)
     gping # ping, but with a graph(TUI)
     dnsutils # `dig` + `nslookup`
-    ldns # replacement of `dig`, it provide the command `drill`
     doggo # DNS client for humans
-    wget
     curl
     curlie # curl with httpie
-    httpie
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing

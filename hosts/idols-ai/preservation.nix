@@ -1,7 +1,6 @@
 {
   preservation,
   lib,
-  pkgs,
   myvars,
   ...
 }:
@@ -16,11 +15,6 @@ in
   preservation.enable = true;
   # pverservation required initrd using systemd.
   boot.initrd.systemd.enable = true;
-
-  environment.systemPackages = [
-    # `sudo ncdu -x /`
-    pkgs.ncdu
-  ];
 
   # There are two ways to clear the root filesystem on every boot:
   ##  1. use tmpfs for /
