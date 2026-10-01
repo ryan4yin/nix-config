@@ -1,7 +1,6 @@
 {
   preservation,
   lib,
-  pkgs,
   myvars,
   ...
 }:
@@ -15,11 +14,6 @@ in
 
   preservation.enable = true;
   boot.initrd.systemd.enable = true;
-
-  environment.systemPackages = [
-    # `sudo ncdu -x /`
-    pkgs.ncdu
-  ];
 
   # NOTE: `preservation` only mounts the directory/file list below to /persistent
   # If the directory/file already exists in the root filesystem you should
