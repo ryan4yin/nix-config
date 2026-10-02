@@ -10,7 +10,8 @@ them in that repository's `.agents/skills/` (note the leading dot), which OpenCo
 tools discover automatically. In a repository, use the layers this way:
 
 - `AGENTS.md`: always-loaded map and hard safety rules; keep it short.
-- `*.md` / `README.md`: human-readable reference facts next to the code they describe.
+- `*.md` / `README.md`: reference and domain runbooks for people, kept next to the code they
+  describe.
 - `.agents/skills/*/SKILL.md`: on-demand procedures, verification steps, and agent-only constraints.
 
 Keep one canonical home for each fact; link between layers instead of copying paragraphs.

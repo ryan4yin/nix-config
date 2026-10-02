@@ -3,6 +3,10 @@
 Reference commands for listing, installing, and updating skills via `npx skills`. Keep the global
 set small and install task-specific skills in the relevant project.
 
+This repository's own skills live in `.agents/skills/`: they are tracked in git and discovered
+automatically, so do not install, overwrite, or remove them with `npx skills`. The commands below
+are for external and global skills.
+
 ## Inspect and update installed skills
 
 ```bash

@@ -39,6 +39,10 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
 
 ## 2. Read the evaluated value
 
+When `just test` prints `false`, the trace names the failing test under
+`outputs/<system>/tests/<name>/`. Read its `expr.nix` and `expected.nix`, and evaluate the
+expression to see what actually came out before changing anything.
+
 Most eval-layer questions are "what did this option actually end up as?". Ask the configuration
 directly instead of reading modules:
 
