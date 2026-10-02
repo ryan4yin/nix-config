@@ -24,7 +24,8 @@ deploying the result to any host.
 
 ## 1. Pre-flight
 
-- `git status` is clean, and you are on `main` or a fresh branch for the work.
+- `git status` is clean, and you are on `main` or a fresh branch for the work. If you are on an
+  unrelated feature branch, stop and ask for the right branch before bumping.
 - `just test` is green _before_ the update, so you have a baseline to compare against.
 - Enough disk for the new closures: `df -h /nix/store`. Broad nixpkgs bumps pull a lot.
 - Know what will move and choose the narrowest recipe that does the job.
@@ -47,7 +48,7 @@ message records the conclusion.
 
 ## 3. Audit the change
 
-Treat an update as a supply-chain event, not just a version bump.
+Treat an update as a supply-chain event.
 
 1. From `git diff flake.lock`, list every input whose `locked.rev` changed.
 2. Find the inputs that contribute modules this repo imports:

@@ -27,7 +27,9 @@ recipient rule. This skill covers the change end to end and the traps.
    exception is `restic-password-desktop.age`, readable by `desktop_keys` alone.
 4. **A consumer sits behind the same gate as its secret.** A secret declared under
    `modules.secrets.desktop` only exists on desktops, so only a desktop-gated module may reference
-   it.
+   it. Desktops and servers are mutually exclusive: `secrets/nixos.nix` asserts that a host never
+   enables `desktop` together with a server group, so a value both sides need takes a deliberate
+   choice rather than enabling both groups.
 5. **Least privilege on the decrypted file.** Pick the narrowest mode that works, and set the owner
    together with the mode.
 

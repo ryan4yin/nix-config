@@ -44,7 +44,10 @@ Do this in the nixpkgs checkout, preserving any existing work:
 
 If alignment rewrites the remote branch, this is an impactful GitHub operation: preview the new
 history and push only with `--force-with-lease`, never `--force`. Stop if the remote changed in an
-unexpected way. If the PR depends on another PR, review both changes and record their order.
+unexpected way. An upstream PR targets `master` unless it says otherwise, while the patched branch
+tracks `nixos-unstable`; confirm the PR's base commit is contained in `nixos-unstable` before
+cherry-picking, and stop if the patch depends on unreleased changes. If the PR depends on another
+PR, review both changes and record their order.
 
 ## 3. Validate before publishing
 
