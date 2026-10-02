@@ -193,6 +193,10 @@ const NU_PLUGIN_DIRS = [
 # a convenience method for prepending to the path:
 use std/util "path add"
 path add "~/.local/bin"
+# Tools installed outside Nix (go install / cargo install / npm -g).
+path add "~/go/bin"
+path add "~/.cargo/bin"
+path add "~/.npm/bin"
 
 # You can remove duplicate directories from the path using:
 $env.PATH = ($env.PATH | uniq)
