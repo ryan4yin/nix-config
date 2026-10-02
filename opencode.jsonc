@@ -1,0 +1,22 @@
+{
+  // Project-scoped MCP: loaded only while working in this repo, so its tools
+  // cost context here and nowhere else.
+  //
+  // mcp-grafana talks to the homelab Grafana. The service-account token stays in
+  // the environment (GRAFANA_SERVICE_ACCOUNT_TOKEN, set by nushell-secrets.nu),
+  // never in git.
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "grafana": {
+        "type": "local",
+        // Read-only surface; drop --disable-write to allow dashboard/alert edits.
+        "command": ["mcp-grafana", "--disable-write"],
+        "environment": {
+          "GRAFANA_URL": "https://grafana.writefor.fun",
+          "GRAFANA_SERVICE_ACCOUNT_TOKEN": "{env:GRAFANA_SERVICE_ACCOUNT_TOKEN}",
+        },
+      },
+    },
+  },
+}
