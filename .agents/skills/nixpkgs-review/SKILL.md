@@ -1,9 +1,8 @@
 ---
 name: nixpkgs-review
 description:
-  Use when reviewing or testing a NixOS/nixpkgs pull request, checking an affected package or
-  passthru test, comparing local and CI results, or investigating a nixpkgs regression before it
-  reaches this flake.
+  Use when reviewing or testing a NixOS/nixpkgs pull request, including packages, passthru tests,
+  dependencies or closure size, local vs CI results, and regressions before they reach this flake.
 ---
 
 # Reviewing nixpkgs changes
@@ -129,7 +128,30 @@ separate upstream PR so the package change and its proof can be reviewed indepen
 Keep checks read-only or isolated whenever possible. Do not activate a host, post a review, or
 mutate shared state as part of a package review unless that exact action is separately authorized.
 
-## 4. Use the repository workflow when appropriate
+## 4. Review dependencies and closure size
+
+Treat the built closure as part of the change. A version bump or a new input can pull in far more
+than the package needs, and the FHS/wrapper/VM closure is what users download and keep in the store.
+
+- Measure instead of guessing. After a local build, compare `nix path-info --closure-size -S` on the
+  result before and after the change; report the delta.
+- Prefer the narrowest output that provides what is needed. A package with a separate `lib` output
+  can usually be referenced as `pkg.lib`, dropping its binaries and man pages. For example,
+  `stdenv.cc.cc.lib` alone provides `libstdc++`/`libatomic`/`libgomp`, while the full `stdenv.cc.cc`
+  adds the whole compiler (~300 MiB). `buildFHSEnv` links `out` + `lib` + `bin` plus
+  `meta.outputsToInstall`, so a package with a `bin` output also drags in its tools.
+- Audit the whole dependency list, not only the line the PR touches: oversized entries often sit in
+  unchanged lines.
+- Do not trim blindly. Check what is actually used before removing a dependency:
+  - `patchelf --print-needed` over the packaged ELFs gives the direct `DT_NEEDED` set.
+  - `grep -a` the package for tool names it may `exec` (`glxinfo`, `lspci`, `pactl`, ...).
+  - In an FHS env, `includeClosures = false` means only explicitly listed packages are symlinked
+    into `/usr/lib64`; those entries act as a dlopen allowlist, so "redundant" ones can still
+    matter.
+- Keep scope in mind: a closure reduction is often a good follow-up PR, or its own commit when it
+  touches the same dependency list. Mention the measured saving in the PR.
+
+## 5. Use the repository workflow when appropriate
 
 These recipes trigger the configured `ryan4yin/nixpkgs-review-gha` workflow:
 
@@ -145,7 +167,7 @@ them for cross-architecture coverage, large reviews, or when local capacity cann
 relevant target. Read the workflow summary and distinguish evaluation, build, passthru-test, and
 architecture-specific failures.
 
-## 5. Bring a result back to this flake
+## 6. Bring a result back to this flake
 
 If the package is used here, validate the affected `nixpkgs` input or package override separately:
 
