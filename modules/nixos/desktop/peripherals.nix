@@ -53,7 +53,7 @@
     udev.packages = with pkgs; [
       gnome-settings-daemon
       # platformio # udev rules for platformio
-      # openocd # required by paltformio, see https://github.com/NixOS/nixpkgs/issues/224895
+      # openocd # platformio needs these udev rules for rootless USB access
       # openfpgaloader
     ];
 

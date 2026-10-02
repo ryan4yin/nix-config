@@ -4,7 +4,9 @@
 #   - https://docs.flatpak.org/en/latest/manifests.html
 #   - https://docs.flatpak.org/en/latest/sandbox-permissions.html
 #
-# TODO Since appimageTools.wrapAppImage do not support overriding, I have to pack this package myself.
+# TODO nixpkgs' `wechat` package hardcodes its AppImage wrapper args and does not
+# expose them for `.override`, so we repack it here to add our bubblewrap sandbox
+# (bind mounts, tmpfs /home, IME env).  Upstream override support:
 # https://github.com/NixOS/nixpkgs/pull/358977
 {
   appimageTools,
