@@ -161,4 +161,5 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 - Agents MUST respond in the user's language (default English); use English for code, commands,
   identifiers, and comments.
-- Be concise, concrete, and action-oriented.
+- Be concise, concrete, and action-oriented: lead with the next action or the answer, number
+  multi-step work, restate state across turns, suppress tangents, and make progress visible.
