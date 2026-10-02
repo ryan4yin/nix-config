@@ -25,6 +25,7 @@
       "/home/ryan/work"
       "/home/ryan/Pictures"
       "/home/ryan/codes"
+      "/home/ryan/src"
       "/home/ryan/nix-config"
       "/home/ryan/.local/state"
     ];

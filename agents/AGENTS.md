@@ -121,8 +121,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
   dependencies; ask before creating a flake or installing another way.
 - Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes.
-- Upstream source checkouts (nixpkgs and similar) live under `~/codes/src/<repo>`. Before reading a
-  lot of upstream source, check there first; if the checkout exists, `git pull` it and read it
+- Code layout: `~/codes` holds my personal repositories, `~/work` holds work code, and
+  third-party/source checkouts live under `~/src/<repo>`. Treat `~/work` as confidential: do not
+  publish it or send it into personal repositories or third-party services. Before reading a lot of
+  upstream source, check `~/src/<repo>` first; if the checkout exists, `git pull` it and read it
   locally instead of relying only on the GitHub API or making a fresh clone.
 
 ### Tool execution
