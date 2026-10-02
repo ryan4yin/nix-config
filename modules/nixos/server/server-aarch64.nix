@@ -1,6 +1,4 @@
 {
-  lib,
-  pkgs,
   mylib,
   ...
 }:
@@ -26,6 +24,4 @@
     (mylib.relativeToRoot "hardening/apparmor")
   ];
 
-  # Fix: jasper is marked as broken, refusing to evaluate.
-  environment.enableAllTerminfo = lib.mkForce false;
 }
