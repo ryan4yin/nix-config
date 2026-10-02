@@ -201,3 +201,9 @@ path add "~/.npm/bin"
 # You can remove duplicate directories from the path using:
 $env.PATH = ($env.PATH | uniq)
 
+# ----------------------
+# Aliases
+# ----------------------
+
+alias k = kubectl
+
