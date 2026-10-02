@@ -119,7 +119,7 @@ Alternatively, you can encrypt an existing file to `xxx.age` using the following
 cat xxx | sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./xxx.age
 ```
 
-> Full agenix command shape, gotchas, and private-repository mechanics:
+> Command shape and private-repository mechanics:
 > [`.agents/skills/nix-config-secrets/SKILL.md`](../.agents/skills/nix-config-secrets/SKILL.md).
 
 `agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the

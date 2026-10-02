@@ -45,14 +45,14 @@ Read [secrets/README.md](../../../secrets/README.md) for the concepts and the re
 | Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
 
 The private repository groups the `.age` files: `desktop/` (only desktops decrypt them), `server/`
-(any server), `certs/`, `backups/` (retired/offline material, decrypted manually), and `public/`.
+(any server), `certs/`, and `public/`.
 
 ## 2. Add or change a secret
 
 Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
 non-interactive steps, bump the lock, and add the declaration and consumer. Hand back only what
-needs a human: the interactive `agenix` edit/rekey runs (they handle key material and `$EDITOR`) and
-anything else under `sudo`. Commits and pushes follow the global git rules.
+needs a human: the `just edit`/`just rekey` runs in `~/codes/nix-secrets` (they handle key material
+and `$EDITOR`) and anything else under `sudo`. Commits and pushes follow the global git rules.
 
 1. In `~/codes/nix-secrets`, add the file under `desktop/` or `server/` with a matching
    `secrets.nix` entry, keyed by that exact path (e.g. `"./desktop/xxx.age"`), and the recipient set
@@ -68,22 +68,14 @@ Changing only a secret's value is steps 1, 2, and the deploy.
 
 ## 3. The private repository
 
-Run `agenix` from that repository's root, where `RULES` defaults to `./secrets.nix`, and keep the
-path in the command identical to its key in `secrets.nix`:
+Run commands from that repository's root (`RULES` defaults to `./secrets.nix`) and keep each path
+identical to its key in `secrets.nix`. Prefer its `Justfile`, which fixes the identity and option
+order:
 
 ```bash
-# edit or create (interactive, opens $EDITOR)
-sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./desktop/xxx.age
-# non-interactive: pipe the plaintext on stdin
-cat xxx | sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./server/xxx.age
-# after adding or changing a recipient key, rekey everything
-sudo -E agenix -r -i /etc/ssh/ssh_host_ed25519_key
-sudo chown -R ryan:ryan *
+just edit ./desktop/xxx.age   # edit or create (interactive); pipe plaintext to write non-interactively
+just rekey                    # re-encrypt everything after adding or changing a recipient key
 ```
-
-Use uppercase `sudo -E`: it preserves `$EDITOR`, which `agenix -e` needs; lowercase `sudo -e` is
-`sudoedit` and never runs agenix. agenix's own options go after `agenix`, and `-e FILE` consumes the
-next argument, so keep `-i <identity>` first.
 
 The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
 `git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
