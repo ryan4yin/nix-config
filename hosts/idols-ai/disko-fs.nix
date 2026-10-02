@@ -108,6 +108,7 @@
                     mountOptions = [
                       "nosuid"
                       "nodev"
+                      "noatime" # Temp files don't need access times; saves btrfs metadata writes
                       "compress-force=zstd:1"
                     ];
                   };
