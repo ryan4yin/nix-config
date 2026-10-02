@@ -312,6 +312,11 @@ in
         ".config/pulse"
         ".local/state/wireplumber"
 
+        # go-musicfox - TUI NetEase Cloud Music client
+        ".config/go-musicfox" # config.toml + themes
+        ".local/share/go-musicfox" # login cookie + library db
+        ".local/state/go-musicfox" # logs
+
         # Digital Painting
         ".local/share/krita"
 

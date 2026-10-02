@@ -16,7 +16,6 @@
     # my custom hardened packages
     nixpaks.qq
     nixpaks.telegram-desktop
-    # qqmusic
     bwraps.wechat
     # discord # update too frequently, use the web version instead
   ];

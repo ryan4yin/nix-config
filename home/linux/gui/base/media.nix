@@ -12,6 +12,9 @@
     pulsemixer
     imv # simple image viewer
 
+    # music
+    go-musicfox # TUI NetEase Cloud Music client; plays through mpv (configured below)
+
     # video/audio tools
     libva-utils
     vdpauinfo
