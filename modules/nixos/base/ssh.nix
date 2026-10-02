@@ -18,11 +18,7 @@
     openFirewall = true;
   };
 
-  # Terminfo entries for the terminals we actually use, so `$TERM` resolves on
-  # hosts we SSH into.  This replaces `environment.enableAllTerminfo`, which
-  # installs every terminal's terminfo — including rxvt-unicode, which currently
-  # fails to build with GCC 16 (https://github.com/NixOS/nixpkgs/issues/568896).
-  # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/config/terminfo.nix
+  # Terminfo for the terminals we use, so `$TERM` resolves on hosts we SSH into.
   environment.systemPackages = [
     pkgs.ghostty.terminfo
     pkgs.kitty.terminfo

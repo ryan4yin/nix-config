@@ -55,7 +55,7 @@
 
     # https://github.com/catppuccin/nix
     # main carries the rust-overlay-style deprecation fix for its vscode
-    # package (nodejs -> nodejs-slim); v26.05 still emits the eval warning.
+    # package (nodejs -> nodejs-slim).
     catppuccin = {
       url = "github:catppuccin/nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -166,8 +166,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # terminal window manager / multiplexer; nixpkgs lags behind upstream
-    # (0.8.1 vs 0.8.5), so track the upstream flake.
+    # terminal window manager / multiplexer; nixpkgs lags behind upstream,
+    # so track the upstream flake.
     tuios = {
       url = "github:Gaurav-Gosain/tuios";
       inputs.nixpkgs.follows = "nixpkgs";
