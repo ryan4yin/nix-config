@@ -110,8 +110,8 @@ repository, and cross-link them — no need to be told.
   networking, VM images, or cluster addons usually change both repositories together.
 - `~/codes/containers` — container images consumed by k8s-gitops; a tag bump is often a two-repo
   change.
-- `~/codes/nix-secrets` — agenix files and recipients for secrets declared here (see the
-  `nix-config-secrets` skill).
+- `~/codes/nix-secrets` — agenix files and recipients for secrets declared here; handling rules in
+  [`secrets/AGENTS.md`](./secrets/AGENTS.md), procedure in the `nix-config-secrets` skill.
 - `wallpapers`, `nur-packages`, `pyclipsync`, `nu_scripts` — flake inputs; bump with
   `just upp <input>` after their source changes, do not edit them from here.
 

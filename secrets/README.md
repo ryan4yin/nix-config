@@ -119,11 +119,8 @@ Alternatively, you can encrypt an existing file to `xxx.age` using the following
 cat xxx | sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./xxx.age
 ```
 
-> **agenix CLI shape.** Use uppercase `sudo -E`: it preserves `$EDITOR`, which `agenix -e` needs,
-> and lowercase `sudo -e` is `sudoedit` and never runs agenix. agenix's own options go after
-> `agenix`; keep the order `-i <identity> -e <file>`, since `-e FILE` consumes the next argument. In
-> the private repository the file paths are grouped, e.g. `./desktop/xxx.age` or `./server/xxx.age`,
-> and the path must match its key in `secrets.nix` exactly.
+> Full agenix command shape, gotchas, and private-repository mechanics:
+> [`secrets/AGENTS.md`](./AGENTS.md).
 
 `agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the
 users and systems defined in `secrets.nix` can decrypt it with their private keys.
