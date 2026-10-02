@@ -107,7 +107,16 @@ blocks on a password prompt. **An agent cannot run these; they are for the user 
 - macOS: `just local [debug]` (build then switch; macOS has no switch/boot split)
 
 The rest authenticate over SSH as root on the target, so they run non-interactively — but they still
-change remote state, so confirm the exact target and get authorization first.
+change remote state. Confirm the target instead of trusting the recipe's default, then state it back
+to the user and get authorization for that host:
+
+```bash
+hostname                  # which machine you are on
+git branch --show-current
+git remote -v
+getent hosts <host>       # the address the tag will connect to
+ssh root@<host> hostname  # the host that actually answers
+```
 
 - Remote servers: `just shoryu [mode]`, `just shushou`, `just youko`, `just ruby`, `just kana`
 - All VM hosts at once: `just lab [mode]`; any Colmena tag: `just col <tag> [mode]`

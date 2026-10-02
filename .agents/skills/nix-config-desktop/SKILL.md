@@ -20,7 +20,9 @@ back with git, and needs no rebuild. Only the store layer needs one.
 
 1. **Edit the config layer, not the store.** Niri KDL and the Noctalia baseline are symlinked out of
    store; editing them applies immediately. A rebuild is wasted time and hides the change behind a
-   generation.
+   generation. Be aware that saving one of these files changes the session the user is looking at,
+   which counts as an impactful change: make the edit that was asked for instead of experimenting on
+   the live desktop.
 2. **Validate before trusting a reload.** A config that fails to parse does not crash the session:
    Niri keeps the last working config and shows a "Failed to parse the config file" notification.
    The edit silently does not apply, which is easy to misread as "my edit did nothing".
@@ -111,7 +113,8 @@ What a screenshot cannot show:
 ## 4. Land and roll back
 
 - Config layer: the repo file is the live file. Commit it; there is no rebuild and no generation. To
-  undo, `git checkout -- <file>` (uncommitted) or `git revert` (committed), then let it reload.
+  undo a committed change, `git revert`. For an uncommitted experiment, preserve the diff and ask
+  before discarding it.
 - Store layer: the user runs `just niri`, then you verify as in step 3. To undo, boot the previous
   generation (`just history` lists them).
 - If the session will not start at all, fix the file from a TTY. Niri's recovery only covers a bad

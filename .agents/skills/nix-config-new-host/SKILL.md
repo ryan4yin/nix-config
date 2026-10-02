@@ -22,7 +22,8 @@ in [hosts/README.md](../../../hosts/README.md).
 3. **The shared policy modules are not optional.** Several eval tests assert a policy for every
    configuration, so an under-wired host fails `just test` instead of failing in production.
 4. **Build before you install.** `just test`, `just eval-host <name>`, and `just build-host <name>`
-   pass before anything is partitioned or flashed. `disko` destroys the target disk.
+   pass before anything is partitioned or flashed. `disko` destroys the target disk, and
+   partitioning and installing are user-run actions on a device the user has confirmed.
 
 ## 1. Pick the template
 
@@ -78,7 +79,10 @@ check every configuration and which list hosts by name. In short:
 
 ## 4. Install and deploy
 
-- First install: boot the ISO, partition with disko, install, then deploy normally. Follow
+- First install: boot the ISO, partition with disko, install, then deploy normally. Partitioning,
+  formatting, and installing destroy the target disk, so they are user-run actions on a device the
+  user confirmed: check `lsblk`/`findmnt` first, name the exact device, and get authorization for it
+  before any `destroy,format,mount`. Follow
   [nixos-installer/README.md](../../../nixos-installer/README.md) and the host's own README.
 - Remote hosts: `just col <tag>` or the host's own recipe, once its key is a secrets recipient.
 - The machine you are on: `just local` or `just niri`, which prompt for `sudo`, so the user runs

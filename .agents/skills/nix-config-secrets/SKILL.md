@@ -44,6 +44,10 @@ recipient rule. This skill covers the change end to end and the traps.
 
 ## 2. Add or change a secret
 
+These steps are user-run unless the user explicitly authorizes that exact operation and target:
+editing the private repository, `agenix -e`/`-r` (interactive, and they handle key material),
+anything under `sudo`, and the push.
+
 1. In the private repository, on a desktop: add the file to `secrets.nix` with the recipient set
    from core rule 3, create or edit it with
    `sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key`, commit, and push.
