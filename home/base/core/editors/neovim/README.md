@@ -23,7 +23,7 @@ Type `:tutor` (or `:Tutor` in Neovim) for the built-in vim tutorial.
 
 > For a fuller reference: <https://vimhelp.org/quickref.txt.html>
 
-Emacs Evil, Neovim, and vim share the motions below.
+Neovim and vim share the motions below.
 
 ### Terminal related
 
