@@ -5,8 +5,8 @@ Shared editor configuration and **usage notes** for terminal-focused editing.
 ## Roles
 
 - **Helix** (`helix/`): Primary TUI editor — batteries-included, small attack surface. `$EDITOR` /
-  `$VISUAL` default to `hx` (`session-env.nix`), for interactive and privileged (`sudoedit`) edits
-  alike.
+  `$VISUAL` / `$SUDO_EDITOR` default to `hx` (`session-env.nix`), for interactive and privileged
+  (`sudoedit`) edits alike.
 - **Neovim** (`neovim/`): Backup editor — classic vim-style workflow and `:help` when needed.
 
 Terminal layout and files: **Zellij** and **Yazi** live under `core/zellij/` and `core/yazi.nix`
