@@ -20,9 +20,10 @@ back with git, and needs no rebuild. Only the store layer needs one.
 
 1. **Edit the config layer, not the store.** Niri KDL and the Noctalia baseline are symlinked out of
    store; editing them applies immediately. A rebuild is wasted time and hides the change behind a
-   generation. Be aware that saving one of these files changes the session the user is looking at,
-   which counts as an impactful change: make the edit that was asked for instead of experimenting on
-   the live desktop.
+   generation. Scale the caution to the risk: a bar, OSD, notification, or wallpaper tweak is safe
+   to try on the running session and undo with git, but a compositor, keybinding, input, output,
+   idle, or portal change can take the session the user is looking at down with it. Treat that
+   second kind as impactful, and do not experiment on the live desktop with it.
 2. **Validate before trusting a reload.** A config that fails to parse does not crash the session:
    Niri keeps the last working config and shows a "Failed to parse the config file" notification.
    The edit silently does not apply, which is easy to misread as "my edit did nothing".
