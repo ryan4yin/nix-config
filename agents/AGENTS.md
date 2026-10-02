@@ -121,8 +121,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
   dependencies; ask before creating a flake or installing another way.
 - Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes.
-- Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
-- `~/work` is confidential: never publish it or send it into personal repos or third-party services.
+- Code layout: `~/codes` = personal, `~/work` = work code (confidential), `~/src/<repo>` = source
+  checkouts.
 - For upstream source, prefer an up-to-date `~/src/<repo>` checkout over the GitHub API or a fresh
   clone.
 
