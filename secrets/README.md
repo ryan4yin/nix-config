@@ -110,14 +110,20 @@ in
 3. Create and edit the secret file `xxx.age` interactively using the following command:
 
 ```shell
-sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
+sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./xxx.age
 ```
 
 Alternatively, you can encrypt an existing file to `xxx.age` using the following command:
 
 ```shell
-cat xxx | sudo agenix  -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
+cat xxx | sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./xxx.age
 ```
+
+> **agenix CLI shape.** Use uppercase `sudo -E`: it preserves `$EDITOR`, which `agenix -e` needs,
+> and lowercase `sudo -e` is `sudoedit` and never runs agenix. agenix's own options go after
+> `agenix`; keep the order `-i <identity> -e <file>`, since `-e FILE` consumes the next argument. In
+> the private repository the file paths are grouped, e.g. `./desktop/xxx.age` or `./server/xxx.age`,
+> and the path must match its key in `secrets.nix` exactly.
 
 `agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the
 users and systems defined in `secrets.nix` can decrypt it with their private keys.
@@ -215,7 +221,7 @@ the `age.secrets.<name>.path` argument, which defaults to `/run/agenix/<name>`.
    it to an old host which has already been configured.
 2. On the old host:
    1. Add the public key to `secrets.nix`, and rekey all the secrets via
-      `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key`.
+      `sudo -E agenix -r -i /etc/ssh/ssh_host_ed25519_key`.
    2. Commit and push the changes to `nix-secrets`.
 3. On the new host:
    1. Clone this repo and run `nixos-rebuild switch` to deploy it, all the secrets will be decrypted

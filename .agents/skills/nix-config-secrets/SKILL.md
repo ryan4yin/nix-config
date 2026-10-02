@@ -45,16 +45,21 @@ recipient rule.
 | Consumers                                     | modules reading `config.age.secrets."<name>".path` (default `/run/agenix/<name>`)              |
 | Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
 
+The repository groups the `.age` files: `desktop/` (desktops only), `server/` (any server), plus
+`certs/`, `backups/`, and `public/`. `secrets.nix` at the repository root maps each path to its
+recipients, so run `agenix` from that root (its default is `RULES=./secrets.nix`) and keep the path
+in the command identical to the key in `secrets.nix`.
+
 ## 2. Add or change a secret
 
 Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
 non-interactive steps, bump the lock, and add the declaration and consumer. Hand back only what
-needs a human: `sudo agenix -e`/`-r` (interactive, and they handle key material) and anything else
-under `sudo`. Commits and pushes follow the global git rules.
+needs a human: `sudo -E agenix -e`/`-r` (interactive, and they handle key material) and anything
+else under `sudo`. Commits and pushes follow the global git rules.
 
-1. In `~/codes/nix-secrets`, add the file to `secrets.nix` with the recipient set from core rule 3.
-   Then ask the user to create or edit it on a desktop:
-   `sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key`.
+1. In `~/codes/nix-secrets`, add the file to `secrets.nix` (under `desktop/` or `server/`, see the
+   layout note above) with the recipient set from core rule 3. Then ask the user to create or edit
+   it on a desktop: `sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./desktop/xxx.age`.
 2. Here: `just upp mysecrets` (commits the lock) or `nix flake update mysecrets` (leaves it for you
    to commit). `git diff flake.lock` should show only `mysecrets` moving.
 3. Declare it in `secrets/nixos.nix` or `secrets/darwin.nix` under the right
@@ -103,7 +108,7 @@ you set, an old copy gone) instead of assuming activation did it.
 
 - **Decryption fails on one host:** its host key is not a recipient. Add its
   `/etc/ssh/ssh_host_ed25519_key.pub` to `secrets.nix`, rekey with
-  `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key` on a desktop, push, bump the lock, redeploy.
+  `sudo -E agenix -r -i /etc/ssh/ssh_host_ed25519_key` on a desktop, push, bump the lock, redeploy.
 - **Eval or activation cannot find the file:** the lock still points at a `mysecrets` revision
   without it (core rule 2).
 - **`permission denied` in a user service:** it reads a root-only secret. Fix that secret's owner;
