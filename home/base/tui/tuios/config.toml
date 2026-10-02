@@ -614,10 +614,10 @@ dim = 60
 [dock.clock]
 
 # Command keys (tuios >= 0.8.2). See docs/KEYBINDINGS.md#command-keys
-# A centered, floating shell, like Zellij's floating pane.
+# A centered, floating shell that toggles, like Zellij's floating pane.
 [[keybindings.command]]
 key = 'prefix+alt+f'
-type = 'popup'
+type = 'scratch'
 command = 'nu'
 description = 'Floating shell'
 width = '80%'

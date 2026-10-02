@@ -40,14 +40,15 @@ Run `:tutor` inside Helix, or `hx --tutor` from the shell
 
 tuios shortcuts used often (leader is `Ctrl + B`; same idea as in the Neovim notes):
 
-| Action           | tuios shortcut       |
-| ---------------- | -------------------- |
-| New pane         | `n` (window mode)    |
-| Split horizontal | `Ctrl + B`, then `-` |
-| Split vertical   | `Ctrl + B`, then `\` |
-| Command palette  | `Ctrl + P`           |
-| Launcher         | `Alt + Space`        |
-| Detach           | `Ctrl + B`, then `d` |
+| Action            | tuios shortcut             |
+| ----------------- | -------------------------- |
+| New pane          | `n` (window mode)          |
+| Floating terminal | `Ctrl + B`, then `Alt + F` |
+| Split horizontal  | `Ctrl + B`, then `-`       |
+| Split vertical    | `Ctrl + B`, then `\`       |
+| Command palette   | `Ctrl + P`                 |
+| Launcher          | `Alt + Space`              |
+| Detach            | `Ctrl + B`, then `d`       |
 
 In Helix, `|` / `!` and variants pipe or insert shell output on selections (see **Changes**).
 
