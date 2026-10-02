@@ -205,5 +205,7 @@ $env.PATH = ($env.PATH | uniq)
 # Aliases
 # ----------------------
 
-alias k = kubectl
+# programs.kubecolor.enableAlias only covers bash/zsh, so wire it for nushell too.
+alias kubectl = kubecolor
+alias k = kubecolor
 
