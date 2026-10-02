@@ -35,7 +35,7 @@ those names; do not infer a remote from its position in the remote list.
 
 ## 2. Refresh the patched branch
 
-Do this in the nixpkgs checkout, preserving any existing work:
+Do this in the nixpkgs checkout (`~/codes/src/nixpkgs`), preserving any existing work:
 
 1. Save a rollback ref to the current patched tip.
 2. Align the branch with the current `upstream/nixos-unstable`.

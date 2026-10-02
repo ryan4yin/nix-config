@@ -60,9 +60,9 @@ downloads, so use them only when you want that extra pass.
 
 ## 2. Run locally first
 
-From a full, non-shallow nixpkgs checkout (for example `~/nixpkgs`); a shallow clone fails. A source
-hash for another platform cannot be verified by evaluation on this Linux host, so build it through
-the GHA workflow or leave it unchecked rather than claiming it is covered.
+From a full, non-shallow nixpkgs checkout (for example `~/codes/src/nixpkgs`); a shallow clone
+fails. A source hash for another platform cannot be verified by evaluation on this Linux host, so
+build it through the GHA workflow or leave it unchecked rather than claiming it is covered.
 
 ```bash
 nix run 'nixpkgs#nixpkgs-review' -- pr <pr>
