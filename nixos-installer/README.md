@@ -27,8 +27,9 @@ partitioning is no longer needed.
 ### 1. Partition and mount with disko (recommended)
 
 Layout is defined in [../hosts/idols-ai/disko-fs.nix](../hosts/idols-ai/disko-fs.nix): **nvme1n1**,
-ESP (450M) + LUKS + btrfs (subvolumes: @nix, @guix, @persistent, @snapshots, @tmp, @swap). Root is
-tmpfs; [preservation](https://github.com/nix-community/preservation) uses `/persistent`.
+ESP (~600M) + LUKS + btrfs (subvolumes: `/` at `/btr_pool`, `@nix`, `@persistent`, `@snapshots`,
+`@tmp`, `@swap`). Root is tmpfs; [preservation](https://github.com/nix-community/preservation) uses
+`/persistent`.
 
 ```bash
 git clone https://github.com/ryan4yin/nix-config.git
@@ -42,6 +43,9 @@ nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols
 
 # Mount only (e.g. after first format, without wiping):
 # nix run github:nix-community/disko -- --mode mount ../hosts/idols-ai/disko-fs.nix
+
+# the separate data disk (mounts at /data):
+nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs-data.nix
 
 # setup the automatic unlock via the tpm2 chip
 systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part-path>

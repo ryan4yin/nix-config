@@ -271,6 +271,9 @@ nixos-enter
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/
 
+# leave the chroot; the remaining steps run from the live environment, where /mnt is the target
+exit
+
 # delete the generated configuration after editing
 rm -f /mnt/etc/nixos
 rm ~/nix-config/hosts/12kingdoms-shoukei/hardware-configuration-new.nix
@@ -282,7 +285,7 @@ git config --global user.name "Ryan Yin"              # git-1
 git commit -am "feat: update hardware-configuration"
 
 # copy our configuration to the installed file system
-cp -r ../nix-config /mnt/etc/nixos
+cp -r ~/nix-config /mnt/etc/nixos
 
 # sync the disk, unmount the partitions, and close the encrypted device
 sync

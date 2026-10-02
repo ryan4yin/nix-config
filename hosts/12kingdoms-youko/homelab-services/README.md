@@ -19,6 +19,10 @@ Services:
 1. restic: Encrypted backups; hosts the REST server the desktops push to.
 1. victoriametrics + vmalert + alertmanager + grafana: Monitor the metrics of my homelab.
 1. homepage + uptime-kuma: Service dashboard and uptime checks.
+1. immich: Photo and video library with ML search.
+1. jellyfin: Media server.
+1. rustfs: S3-compatible object storage (Loki chunks and Terraform state).
+1. valkey: Redis-compatible cache for Immich.
 
 All the services assume a reverse proxy in front: they listen on localhost, and a caddy service
 listens on the local network interface and proxies requests to them. The exception is transmission,

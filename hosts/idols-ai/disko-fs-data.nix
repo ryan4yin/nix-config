@@ -1,4 +1,4 @@
-# Disko layout for idols-ai data disk (LUKS + btrfs, mount at /persistent/data).
+# Disko layout for idols-ai data disk (LUKS + btrfs, mount at /data).
 #
 # Destroy, format & mount (wipes disk; from nixos-installer: cd nix-config/nixos-installer):
 #   nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs-data.nix

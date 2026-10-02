@@ -9,7 +9,7 @@ Related:
 - [disko-fs.nix](./disko-fs.nix) – main disk layout (ESP + LUKS + btrfs). From
   `nix-config/nixos-installer`:  
   `nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs.nix`
-- [disko-fs-data.nix](./disko-fs-data.nix) – data disk layout (LUKS + btrfs at /persistent/data)
+- [disko-fs-data.nix](./disko-fs-data.nix) – data disk layout (LUKS + btrfs at /data)
 
 ## TODOs
 

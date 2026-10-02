@@ -53,9 +53,8 @@ guest service before proceeding to the next node.
    `node-role.kubernetes.io/control-plane:NoSchedule`
 1. `k3s-test-1-worker-{1,2,3}` — workloads, running as microVMs
 
-Placement: `worker-1` (4 vCPU / 16 GiB) runs on `shoryu`; `worker-2` (4 vCPU / 16 GiB) and
-`worker-3` (2 vCPU / 8 GiB) run on `shushou`. `youko` has no worker because it has the least free
-memory and also runs the homelab services.
+Placement: `worker-1` (4 vCPU / 16 GiB) runs on `shoryu`; `worker-2` (4 vCPU / 16 GiB) runs on
+`youko`; `worker-3` (2 vCPU / 8 GiB) runs on `shushou`.
 
 The master taint comes from kubelet's `registerWithTaints`, which only takes effect when the Node
 object is first created. These masters are long-lived and predate the config, so the taint was

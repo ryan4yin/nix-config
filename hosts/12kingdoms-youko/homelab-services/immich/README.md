@@ -7,7 +7,7 @@ document is the agreed design and the rationale.
 
 - Browse and search the existing 36G phone gallery (`/data/fileshare/mydata/DCIM`) **in place**,
   with ML (faces, objects) and duplicate detection.
-- Keep the footprint reasonable next to the k3s microVMs on the same 22G host.
+- Keep the footprint reasonable next to the k3s microVMs on the same host.
 
 ## Non-goals (for now)
 
@@ -91,8 +91,7 @@ document is the agreed design and the rationale.
 
 ## Resource budget
 
-- Immich server + ML worker + Redis: roughly 2-4G RAM, alongside the k3s microVMs; youko has ~13G
-  available.
+- Immich server + ML worker + Valkey: roughly 2-4G RAM, alongside the k3s microVMs.
 
 ## Rollout
 
