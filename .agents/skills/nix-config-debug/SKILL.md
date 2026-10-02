@@ -1,9 +1,8 @@
 ---
-name: Nix Config Debug
+name: nix-config-debug
 description:
   Use when something in this repo is broken, such as an eval or build error, a failed activation, a
-  crashed service, or an unreachable host or MicroVM guest. Maps each failure to the layer and the
-  command that localizes it.
+  crashed service, or an unreachable host or MicroVM guest.
 ---
 
 # Debugging this repository

@@ -1,5 +1,5 @@
 ---
-name: Nixpkgs Patched
+name: nixpkgs-patched
 description:
   Use when temporarily carrying an unmerged nixpkgs pull request or commit in the personal
   ryan4yin/nixpkgs fork, updating the nixos-unstable-patched branch, or consuming that branch from

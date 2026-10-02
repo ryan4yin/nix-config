@@ -1,8 +1,7 @@
 ---
-name: Nix Config Update
+name: nix-config-update
 description:
   Use when updating flake inputs, bumping nixpkgs, or rolling an update out to hosts in this repo.
-  Covers the safe update, validate, deploy, verify, and rollback procedure.
 ---
 
 # Updating this flake safely

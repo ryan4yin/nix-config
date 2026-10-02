@@ -1,5 +1,5 @@
 ---
-name: Nixpkgs Review
+name: nixpkgs-review
 description:
   Use when reviewing or testing a NixOS/nixpkgs pull request, checking an affected package or
   passthru test, comparing local and CI results, or investigating a nixpkgs regression before it

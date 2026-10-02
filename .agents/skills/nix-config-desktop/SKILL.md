@@ -1,9 +1,8 @@
 ---
-name: Nix Config Desktop
+name: nix-config-desktop
 description:
   Use when changing the Niri/Noctalia desktop, the Wayland session, input method (fcitx5), theming,
-  fonts, or desktop autostart in this repo. Covers which layer owns a setting, live reload vs a
-  rebuild, and how to verify the result on screen.
+  fonts, or desktop autostart in this repo.
 ---
 
 # Changing the desktop

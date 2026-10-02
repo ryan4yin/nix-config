@@ -1,5 +1,5 @@
 ---
-name: Nix Config Secrets
+name: nix-config-secrets
 description:
   Use when adding, changing, renaming, or removing an agenix secret, wiring one into a host, or
   fixing a decryption or activation failure in this repo.

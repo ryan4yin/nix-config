@@ -1,9 +1,8 @@
 ---
-name: Nix Config New Host
+name: nix-config-new-host
 description:
-  Use when adding a NixOS, macOS, or MicroVM host in this repo. Covers the files to create, the
-  outputs and networking wiring, secrets, the eval tests that fail until the host is fully wired,
-  and the first install.
+  Use when adding a NixOS, macOS, or MicroVM host in this repo, including its outputs, networking,
+  secrets, and eval-test wiring.
 ---
 
 # Adding a host
