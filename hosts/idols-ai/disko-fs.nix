@@ -17,6 +17,8 @@
     nodev."/" = {
       fsType = "tmpfs";
       mountOptions = [
+        "nosuid" # Ignore setuid bit; no suid binaries live on the root tmpfs
+        "nodev" # Ignore device files; nothing here needs to be a device node
         "size=4G"
         "relatime" # Update inode access times relative to modify/change time
         "mode=755"
@@ -96,12 +98,17 @@
                   "@snapshots" = {
                     mountpoint = "/snapshots";
                     mountOptions = [
+                      "nosuid"
+                      "nodev"
                       "compress-force=zstd:1"
                     ];
                   };
                   "@tmp" = {
                     mountpoint = "/tmp";
                     mountOptions = [
+                      "nosuid"
+                      "nodev"
+                      "noatime" # Temp files don't need access times; saves btrfs metadata writes
                       "compress-force=zstd:1"
                     ];
                   };

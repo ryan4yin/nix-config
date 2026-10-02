@@ -62,6 +62,13 @@ in
 
   modules.btrbk.enable = true;
 
+  # systemd-journal - cap disk usage
+  # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html
+  services.journald.settings.Journal = {
+    SystemMaxUse = "10G";
+    RuntimeMaxUse = "256M";
+  };
+
   # QEMU/KVM(HostCpuOnly) for local VMs.
   environment.systemPackages = [ pkgs.qemu_kvm ];
 

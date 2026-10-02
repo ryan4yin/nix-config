@@ -51,10 +51,36 @@ in
       "/var/log"
       # system caches (e.g. restic, plocate; slow to rebuild)
       "/var/cache"
+      # General scratch space. It is re-creatable and can grow large, so keep it
+      # off the root tmpfs and on the persistent volume. Contents only
+      # accumulate between reboots: the tmpfiles rule below wipes it at boot.
+      # World-writable scratch, so harden the bind mount like /tmp; the mode
+      # must stay 1777 to match that `D!` rule.
+      {
+        directory = "/var/tmp";
+        mode = "1777";
+        mountOptions = [
+          "nosuid"
+          "nodev"
+        ];
+      }
+      # btrbk state/home (SSH keys, cache). The owner must match the btrbk
+      # module's `d /var/lib/btrbk 0750 btrbk btrbk` rule, which preservation
+      # would otherwise override with the default root:root.
+      {
+        directory = "/var/lib/btrbk";
+        user = "btrbk";
+        group = "btrbk";
+        mode = "0750";
+      }
+      # CUPS state (the print spool lives in /var/spool/cups, not here)
+      "/var/lib/cups"
 
       # system-core
       "/var/lib/nixos"
       "/var/lib/systemd"
+      # upower device battery history (e.g. Magic Trackpad)
+      "/var/lib/upower"
       {
         directory = "/var/lib/private";
         mode = "0700";
@@ -82,6 +108,10 @@ in
         file = "/etc/machine-id";
         inInitrd = true;
       }
+      # logrotate's state file (a regular file, not a directory). It records the
+      # last rotation per log; a missing entry makes logrotate treat the log as
+      # freshly rotated, so the state must survive reboots.
+      { file = "/var/lib/logrotate.status"; }
     ];
 
     # the following directories will be passed to /persistent/home/$USER
@@ -127,6 +157,7 @@ in
 
         ".local/state/home-manager"
         ".local/state/nix/profiles"
+        ".local/state/noctalia" # shell settings, notification/clipboard history
         ".local/share/nix"
 
         # ======================================
@@ -371,6 +402,18 @@ in
       "/home/${username}/.local/state/nix".d = permission;
       "/home/${username}/.terraform.d".d = permission;
     };
+
+  # /var/tmp is re-creatable scratch, but it must not consume RAM, so it is
+  # bind-mounted onto the persistent volume above. Wipe it at boot (mirrors
+  # nixpkgs `boot.tmp.cleanOnBoot` for /tmp) so contents only accumulate
+  # between reboots.
+  #
+  # Crash dumps live in the persisted /var/lib/systemd and can contain secrets
+  # copied out of process memory, so don't keep them across reboots either.
+  systemd.tmpfiles.rules = [
+    "D! /var/tmp 1777 root root"
+    "D! /var/lib/systemd/coredump 0755 root root"
+  ];
 
   # systemd-machine-id-commit.service would fail but it is not relevant
   # in this specific setup for a persistent machine-id so we disable it
