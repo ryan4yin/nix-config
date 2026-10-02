@@ -51,20 +51,30 @@ in
       "/var/log"
       # system caches (e.g. restic, plocate; slow to rebuild)
       "/var/cache"
-      # strata's model-layer staging area; large (~3G) and re-creatable but the
-      # read traffic is hot, so keep it on the persistent volume.
-      # World-writable staging data: harden the bind mount like /tmp.
+      # General scratch space. It is re-creatable and can grow large, so keep it
+      # off the root tmpfs and on the persistent volume. Contents only
+      # accumulate between reboots: the tmpfiles rule below wipes it at boot.
+      # World-writable scratch, so harden the bind mount like /tmp; the mode
+      # must stay 1777 to match that `D!` rule.
       {
         directory = "/var/tmp";
+        mode = "1777";
         mountOptions = [
           "nosuid"
           "nodev"
         ];
       }
-      # small but genuine state: backup bookkeeping, print queue, rotation state
-      "/var/lib/btrbk"
+      # btrbk state/home (SSH keys, cache). The owner must match the btrbk
+      # module's `d /var/lib/btrbk 0750 btrbk btrbk` rule, which preservation
+      # would otherwise override with the default root:root.
+      {
+        directory = "/var/lib/btrbk";
+        user = "btrbk";
+        group = "btrbk";
+        mode = "0750";
+      }
+      # CUPS state (the print spool lives in /var/spool/cups, not here)
       "/var/lib/cups"
-      "/var/lib/logrotate.status"
 
       # system-core
       "/var/lib/nixos"
@@ -96,6 +106,10 @@ in
         file = "/etc/machine-id";
         inInitrd = true;
       }
+      # logrotate's state file (a regular file, not a directory). It records the
+      # last rotation per log; a missing entry makes logrotate treat the log as
+      # freshly rotated, so the state must survive reboots.
+      { file = "/var/lib/logrotate.status"; }
     ];
 
     # the following directories will be passed to /persistent/home/$USER
@@ -386,8 +400,10 @@ in
       "/home/${username}/.terraform.d".d = permission;
     };
 
-  # Wipe /var/tmp contents at boot: the strata staging data is re-creatable, so
-  # keep it on btrfs (off RAM) but let it accumulate only between reboots.
+  # /var/tmp is re-creatable scratch, but it must not consume RAM, so it is
+  # bind-mounted onto the persistent volume above. Wipe it at boot (mirrors
+  # nixpkgs `boot.tmp.cleanOnBoot` for /tmp) so contents only accumulate
+  # between reboots.
   systemd.tmpfiles.rules = [ "D! /var/tmp 1777 root root" ];
 
   # systemd-machine-id-commit.service would fail but it is not relevant
