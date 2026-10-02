@@ -65,7 +65,7 @@ disks.
 
 All my riscv64 hosts:
 
-![](/_img/nixos-riscv-cluster.webp)
+![](/_img/2023-08-16_nixos-riscv-cluster.webp)
 
 ## Naming Conventions
 
@@ -118,9 +118,9 @@ various changes under the hood, so I need to build much more packages than usual
 the reasons why the cluster was originally built, and another reason is distributed building is
 cool!
 
-![](/_img/nix-distributed-building.webp)
+![](/_img/2023-06-17_nix-distributed-building.webp)
 
-![](/_img/nix-distributed-building-log.webp)
+![](/_img/2023-06-17_nix-distributed-building-log.webp)
 
 ## References
 
