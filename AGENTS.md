@@ -13,7 +13,9 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - `hosts/` contains host-specific configuration; `outputs/<system>/src/` wires hosts into outputs.
 - `vars/` and `lib/` provide shared values and helpers. Use `myvars` and existing abstractions
   instead of hardcoding usernames or paths.
-- `secrets/` contains agenix definitions; secret material also comes from a private external repo.
+- `secrets/` contains agenix definitions. The encrypted `.age` files live in the private
+  `~/codes/nix-secrets` repository, never in this public one — never copy a `.age` file here. Use
+  the `nix-config-secrets` skill.
 - `overlays/` and `hardening/` hold package overlays and hardened (nixpak/bwrap) wrappers.
 - Desktop (Niri and Noctalia) config is mostly out-of-store symlinks that hot-reload without a
   rebuild; see the desktop skill below before changing it.
@@ -110,8 +112,8 @@ repository, and cross-link them — no need to be told.
   networking, VM images, or cluster addons usually change both repositories together.
 - `~/codes/containers` — container images consumed by k8s-gitops; a tag bump is often a two-repo
   change.
-- `~/codes/nix-secrets` — agenix files and recipients for secrets declared here (see the
-  `nix-config-secrets` skill).
+- `~/codes/nix-secrets` — the private agenix store behind `secrets/` and the `mysecrets` input:
+  ciphertext and recipient rules for the secrets declared here.
 - `wallpapers`, `nur-packages`, `pyclipsync`, `nu_scripts` — flake inputs; bump with
   `just upp <input>` after their source changes, do not edit them from here.
 

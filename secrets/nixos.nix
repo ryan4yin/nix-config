@@ -72,7 +72,7 @@ in
       # secrets that are used by all nixos hosts
       age.secrets = {
         "nix-access-tokens" = {
-          file = "${mysecrets}/nix-access-tokens.age";
+          file = "${mysecrets}/server/nix-access-tokens.age";
         }
         # access-token needs to be readable by the user running the `nix` command
         // user_readable;
@@ -95,14 +95,14 @@ in
 
         # .age means the decrypted file is still encrypted by age(via a passphrase)
         "ryan4yin-gpg-subkeys.priv.age" = {
-          file = "${mysecrets}/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
+          file = "${mysecrets}/desktop/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
         }
         // noaccess;
 
         # Used only by NixOS Modules
 
         "rclone.conf" = {
-          file = "${mysecrets}/rclone.conf.age";
+          file = "${mysecrets}/desktop/rclone.conf.age";
         }
         // high_security;
 
@@ -111,13 +111,13 @@ in
         # ---------------------------------------------
 
         "ssh-key-romantic" = {
-          file = "${mysecrets}/ssh-key-romantic.age";
+          file = "${mysecrets}/desktop/ssh-key-romantic.age";
         }
         // user_readable;
 
         # decrypted secret: AI agents must not read it, only reference the path
         "nushell-secrets.nu" = {
-          file = "${mysecrets}/nushell-secrets.nu.age";
+          file = "${mysecrets}/desktop/nushell-secrets.nu.age";
         }
         // user_readable;
       };
@@ -232,13 +232,13 @@ in
       # the backup server holds the homelab one, so a shared password would let
       # that server decrypt desktop data.
       age.secrets."restic-password" = {
-        file = "${mysecrets}/restic-password-desktop.age";
+        file = "${mysecrets}/desktop/restic-password-desktop.age";
         mode = "0400";
         owner = "root";
       };
       # credentials for the restic REST server that receives this backup
       age.secrets."restic-rest-credentials" = {
-        file = "${mysecrets}/restic-rest-credentials.age";
+        file = "${mysecrets}/desktop/restic-rest-credentials.age";
         mode = "0400";
         owner = "root";
       };
@@ -248,14 +248,14 @@ in
       # the homelab's restic repository password, shared by the homelab hosts
       # (this host holds it, so it can copy/verify homelab repositories)
       age.secrets."restic-password" = {
-        file = "${mysecrets}/restic-password-homelab.age";
+        file = "${mysecrets}/server/restic-password-homelab.age";
         mode = "0400";
         owner = "root";
       };
       # htpasswd for the restic REST server this host runs; the service runs as
       # the unprivileged `restic` user, which must be able to read it
       age.secrets."restic-rest-htpasswd" = {
-        file = "${mysecrets}/restic-rest-htpasswd.age";
+        file = "${mysecrets}/server/restic-rest-htpasswd.age";
         mode = "0400";
         owner = "restic";
       };
@@ -264,7 +264,7 @@ in
     (mkIf cfg.server.storage.enable {
       age.secrets = {
         "hdd-luks-crypt-key" = {
-          file = "${mysecrets}/hdd-luks-crypt-key.age";
+          file = "${mysecrets}/server/hdd-luks-crypt-key.age";
           mode = "0400";
           owner = "root";
         };

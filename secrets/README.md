@@ -107,16 +107,11 @@ in
 }
 ```
 
-3. Create and edit the secret file `xxx.age` interactively using the following command:
+3. Create and edit the secret file `xxx.age` with the [`Justfile`](./Justfile) `edit` recipe
+   (interactive, from the repository root); pipe the plaintext to write it non-interactively:
 
 ```shell
-sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
-```
-
-Alternatively, you can encrypt an existing file to `xxx.age` using the following command:
-
-```shell
-cat xxx | sudo agenix  -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key
+just -f secrets/Justfile edit ./xxx.age
 ```
 
 `agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the
@@ -214,8 +209,8 @@ the `age.secrets.<name>.path` argument, which defaults to `/run/agenix/<name>`.
 1. `cat` the system-level public key(`/etc/ssh/ssh_host_ed25519_key.pub`) of the new host, and send
    it to an old host which has already been configured.
 2. On the old host:
-   1. Add the public key to `secrets.nix`, and rekey all the secrets via
-      `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key`.
+   1. Add the public key to `secrets.nix`, then rekey all the secrets:
+      `just -f secrets/Justfile rekey`.
    2. Commit and push the changes to `nix-secrets`.
 3. On the new host:
    1. Clone this repo and run `nixos-rebuild switch` to deploy it, all the secrets will be decrypted

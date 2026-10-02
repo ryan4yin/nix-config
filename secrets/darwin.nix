@@ -49,7 +49,7 @@
 
       # .age means the decrypted file is still encrypted by age(via a passphrase)
       "ryan4yin-gpg-subkeys.priv.age" = {
-        file = "${mysecrets}/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
+        file = "${mysecrets}/desktop/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
       }
       // noaccess;
 
@@ -58,12 +58,12 @@
       # ---------------------------------------------
 
       "rclone.conf" = {
-        file = "${mysecrets}/rclone.conf.age";
+        file = "${mysecrets}/desktop/rclone.conf.age";
       }
       // high_security;
 
       "nix-access-tokens" = {
-        file = "${mysecrets}/nix-access-tokens.age";
+        file = "${mysecrets}/server/nix-access-tokens.age";
       }
       # access-token needs to be readable by the user running the `nix` command
       // user_readable;
@@ -73,13 +73,13 @@
       # ---------------------------------------------
 
       "ssh-key-romantic" = {
-        file = "${mysecrets}/ssh-key-romantic.age";
+        file = "${mysecrets}/desktop/ssh-key-romantic.age";
       }
       // user_readable;
 
       # decrypted secret: AI agents must not read it, only reference the path
       "nushell-secrets.nu" = {
-        file = "${mysecrets}/nushell-secrets.nu.age";
+        file = "${mysecrets}/desktop/nushell-secrets.nu.age";
       }
       // user_readable;
     };

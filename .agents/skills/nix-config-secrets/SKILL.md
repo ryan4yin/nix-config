@@ -9,11 +9,10 @@ description:
 
 Secrets are age-encrypted files in the private repository `~/codes/nix-secrets`
 (`git@github.com:ryan4yin/nix-secrets.git`), pulled in as the `mysecrets` flake input and declared
-here in `secrets/nixos.nix` and `secrets/darwin.nix`. No secret value is ever stored in this
-repository.
+here in `secrets/nixos.nix` and `secrets/darwin.nix`. No secret value or ciphertext is ever stored
+in this public repository.
 
-Read [secrets/README.md](../../../secrets/README.md) for the private-repository workflow and the
-recipient rule.
+Read [secrets/README.md](../../../secrets/README.md) for the concepts and the recipient rule.
 
 ## Core rules
 
@@ -45,26 +44,45 @@ recipient rule.
 | Consumers                                     | modules reading `config.age.secrets."<name>".path` (default `/run/agenix/<name>`)              |
 | Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
 
+The private repository groups the `.age` files: `desktop/` (only desktops decrypt them), `server/`
+(any server), `certs/`, and `public/`.
+
 ## 2. Add or change a secret
 
 Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
 non-interactive steps, bump the lock, and add the declaration and consumer. Hand back only what
-needs a human: `sudo agenix -e`/`-r` (interactive, and they handle key material) and anything else
-under `sudo`. Commits and pushes follow the global git rules.
+needs a human: the `edit`/`rekey` recipes in [`secrets/Justfile`](../../../secrets/Justfile) (they
+handle key material and `$EDITOR`) and anything else under `sudo`. Commits and pushes follow the
+global git rules.
 
-1. In `~/codes/nix-secrets`, add the file to `secrets.nix` with the recipient set from core rule 3.
-   Then ask the user to create or edit it on a desktop:
-   `sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key`.
+1. In `~/codes/nix-secrets`, add the file under `desktop/` or `server/` with a matching
+   `secrets.nix` entry, keyed by that exact path (e.g. `"./desktop/xxx.age"`), and the recipient set
+   from core rule 3. Then ask the user to create or edit it on a desktop with the command in §3.
 2. Here: `just upp mysecrets` (commits the lock) or `nix flake update mysecrets` (leaves it for you
    to commit). `git diff flake.lock` should show only `mysecrets` moving.
 3. Declare it in `secrets/nixos.nix` or `secrets/darwin.nix` under the right
-   `modules.secrets.<group>` gate, with a mode/owner preset (step 3).
+   `modules.secrets.<group>` gate, with a mode/owner preset (§4).
 4. Point the consumer at the runtime path, from a module behind the same gate (core rule 4).
-5. `just test` and `just build-host <host>`, deploy, then verify as in step 4.
+5. `just test` and `just build-host <host>`, deploy, then verify as in §5.
 
 Changing only a secret's value is steps 1, 2, and the deploy.
 
-## 3. Modes and ownership
+## 3. The private repository
+
+The agenix operations run against `~/codes/nix-secrets`. Their single source is
+[`secrets/Justfile`](../../../secrets/Justfile), which pins the identity and option order; run them
+from this repository's root and keep each path identical to its key in `secrets.nix`:
+
+```bash
+just -f secrets/Justfile edit ./desktop/xxx.age   # edit or create (interactive)
+just -f secrets/Justfile rekey                    # re-encrypt after a recipient change
+```
+
+The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
+`git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
+amend and force push as impactful and get authorization first.
+
+## 4. Modes and ownership
 
 Use one of the presets in `secrets/nixos.nix` (`noaccess`, `high_security`, `user_readable`); the
 table and the `environment.etc` copy trap are in
@@ -72,7 +90,7 @@ table and the `environment.etc` copy trap are in
 **whenever an `environment.etc` entry sets `mode`, it also sets `user`.** Never widen a mode to make
 a root-owned copy readable.
 
-## 4. Verify without reading
+## 5. Verify without reading
 
 ```bash
 stat -c '%a %U:%G' /run/agenix/<name>    # mode and owner, not content (the default path)
@@ -84,7 +102,7 @@ tail -n 100 /Library/Logs/org.nixos.activate-agenix.stderr.log  # macOS
 A successful activation is silent. Check that the _access_ changed as intended (the mode and owner
 you set, an old copy gone) instead of assuming activation did it.
 
-## 5. Remove or rename a secret
+## 6. Remove or rename a secret
 
 - Search all references before changing it:
 
@@ -99,11 +117,10 @@ you set, an old copy gone) instead of assuming activation did it.
 - Remove it from `secrets.nix` and delete the file in the private repository, then bump the lock.
 - A rename changes the attribute name and every consumer. The `.age` filename is separate.
 
-## 6. Failure modes
+## 7. Failure modes
 
 - **Decryption fails on one host:** its host key is not a recipient. Add its
-  `/etc/ssh/ssh_host_ed25519_key.pub` to `secrets.nix`, rekey with
-  `sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key` on a desktop, push, bump the lock, redeploy.
+  `/etc/ssh/ssh_host_ed25519_key.pub` to `secrets.nix`, rekey (§3), push, bump the lock, redeploy.
 - **Eval or activation cannot find the file:** the lock still points at a `mysecrets` revision
   without it (core rule 2).
 - **`permission denied` in a user service:** it reads a root-only secret. Fix that secret's owner;
