@@ -20,7 +20,8 @@ systems.
   - **theme.nix**: Color schemes and theming
   - **xdg.nix**: XDG base-directory configuration
   - **yazi.nix**: Terminal file manager configuration
-  - **zellij/**: Terminal multiplexer with custom layouts
+  - **zellij/**: Terminal multiplexer (enable + `zj` alias; config and layouts live in
+    `tui/zellij/`)
 
 ### Desktop Environment
 

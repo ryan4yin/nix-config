@@ -16,7 +16,8 @@ Manager.
 
 - **base**: Common desktop configurations shared across all environments, including:
   - **Noctalia**: native (v5) all-in-one Wayland desktop shell (replaces gammastep, swaylock,
-    anyrun, mako, waybar, wallpaper-switcher, wlogout, grim/slurp/satty, and other desktop tools)
+    anyrun, mako, waybar, wallpaper-switcher, grim/slurp/satty, and other desktop tools; `wlogout`
+    stays as an emergency session-menu fallback)
   - Creative tools and media applications
   - Development tools
   - Fcitx5 input method framework

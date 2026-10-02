@@ -58,8 +58,8 @@ The generated config is intentionally minimal:
   screen. That matches a real desktop and avoids a full-screen-sized viewport.
 - `exec --no-startup-id .../computer-use-init` — one-time session setup, see above.
 
-There are no keybindings, bars or autostarted apps: agents drive the session through the drivers,
-not the keyboard.
+There are no keybindings or bars, and the only autostart is the one-time `computer-use-init` above:
+agents drive the session through the drivers, not the keyboard.
 
 ## Manual access over VNC
 

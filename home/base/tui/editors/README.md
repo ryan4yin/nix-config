@@ -1,7 +1,8 @@
 # Editor tooling packages (heavy dependencies)
 
-This directory intentionally holds **only** [`packages.nix`](./packages.nix): language servers,
-formatters, compilers, and other editor-adjacent tools that pull in a large closure.
+This directory intentionally keeps the heavy editor tooling in [`packages.nix`](./packages.nix):
+language servers, formatters, compilers, and other editor-adjacent tools that pull in a large
+closure.
 
 Editor programs, keymaps, `$EDITOR` defaults, and usage docs live under
 [`../../core/editors/`](../../core/editors/README.md) (Helix, Neovim backup, glossary, cheatsheets).
