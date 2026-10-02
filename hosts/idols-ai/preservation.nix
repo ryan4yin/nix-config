@@ -51,6 +51,13 @@ in
       "/var/log"
       # system caches (e.g. restic, plocate; slow to rebuild)
       "/var/cache"
+      # strata's model-layer staging area; large (~3G) and re-creatable but the
+      # read traffic is hot, so keep it on the persistent volume
+      "/var/tmp"
+      # small but genuine state: backup bookkeeping, print queue, rotation state
+      "/var/lib/btrbk"
+      "/var/lib/cups"
+      "/var/lib/logrotate.status"
 
       # system-core
       "/var/lib/nixos"
@@ -371,6 +378,10 @@ in
       "/home/${username}/.local/state/nix".d = permission;
       "/home/${username}/.terraform.d".d = permission;
     };
+
+  # Wipe /var/tmp contents at boot: the strata staging data is re-creatable, so
+  # keep it on btrfs (off RAM) but let it accumulate only between reboots.
+  systemd.tmpfiles.rules = [ "D! /var/tmp 1777 root root" ];
 
   # systemd-machine-id-commit.service would fail but it is not relevant
   # in this specific setup for a persistent machine-id so we disable it
