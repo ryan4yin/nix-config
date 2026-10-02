@@ -24,13 +24,10 @@
         href: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
         siteMonitor: https://grafana.writefor.fun/d/rYdddlPWk/node-exporter-full?orgId=1&var-node=192.168.5.183:9100
 
-    # remote write to main prometheus, disable those two
+    # remote write to main prometheus, disable this one
     # - Victoria-Metrics:
     #     icon: si-victoriametrics
     #     href: http://vm.writefor.fun/
-    # - KubeVirt-Grafana:
-    #     icon: grafana.svg
-    #     href: http://k8s-grafana.writefor.fun/
 
 - Homelab Monitoring:
     - Grafana:
