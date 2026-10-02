@@ -105,9 +105,9 @@ is discovered by OpenCode and compatible tools.
 When a change here affects one of these, make both edits in the same task, one branch or PR per
 repository, and cross-link them — no need to be told.
 
-- `~/codes/k8s-gitops` — Flux cluster state for the k3s/KubeVirt hosts defined in `hosts/k8s` and
-  `hosts/12kingdoms-youko` (NFS golden store, kube-vip block, `br0`). Host networking, VM images, or
-  cluster addons usually change both repositories together.
+- `~/codes/k8s-gitops` — Flux cluster state for the k3s cluster whose hosts are defined in
+  `hosts/k8s` and `hosts/12kingdoms-youko` (NFS golden store, kube-vip block, `br0`). Host
+  networking, VM images, or cluster addons usually change both repositories together.
 - `~/codes/containers` — container images consumed by k8s-gitops; a tag bump is often a two-repo
   change.
 - `~/codes/nix-secrets` — agenix files and recipients for secrets declared here (see the
