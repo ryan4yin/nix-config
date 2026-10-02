@@ -11,7 +11,7 @@ ui_scale = 1.1
 
 [shell]
 font_family = "Maple Mono NF CN"
-avatar_path = "~/nix-config/_img/2026-01-04_myself.jpg"
+avatar_path = "~/nix-config/_img/myself.jpg"
 # Declarative deployment: state (~/.local/state/noctalia) is not persisted, so do
 # not auto-open the first-run wizard every boot.
 setup_wizard_enabled = false
