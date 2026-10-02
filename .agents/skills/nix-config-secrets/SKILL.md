@@ -50,14 +50,17 @@ The private repository groups the `.age` files: `desktop/` (only desktops decryp
 ## 2. Add or change a secret
 
 Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
-non-interactive steps, bump the lock, and add the declaration and consumer. Hand back only what
-needs a human: the `edit`/`rekey` recipes in [`secrets/Justfile`](../../../secrets/Justfile) (they
-handle key material and `$EDITOR`) and anything else under `sudo`. Commits and pushes follow the
-global git rules.
+non-interactive steps, bump the lock, and add the declaration and consumer. For a new secret, or a
+full replacement, pipe the plaintext into the `replace` recipe: it removes the target first, so
+agenix only encrypts and needs no `sudo`. Hand back only what needs a human: the partial `edit` and
+the `rekey` recipes in [`secrets/Justfile`](../../../secrets/Justfile) (they decrypt the current
+value, so they handle key material, `$EDITOR`, and `sudo`) and anything else under `sudo`. Commits
+and pushes follow the global git rules.
 
 1. In `~/codes/nix-secrets`, add the file under `desktop/` or `server/` with a matching
    `secrets.nix` entry, keyed by that exact path (e.g. `"./desktop/xxx.age"`), and the recipient set
-   from core rule 3. Then ask the user to create or edit it on a desktop with the command in §3.
+   from core rule 3. Then encrypt it with the `replace` recipe (§3); ask the user only when the
+   plaintext has to come from an interactive session.
 2. Here: `just upp mysecrets` (commits the lock) or `nix flake update mysecrets` (leaves it for you
    to commit). `git diff flake.lock` should show only `mysecrets` moving.
 3. Declare it in `secrets/nixos.nix` or `secrets/darwin.nix` under the right
@@ -65,7 +68,8 @@ global git rules.
 4. Point the consumer at the runtime path, from a module behind the same gate (core rule 4).
 5. `just test` and `just build-host <host>`, deploy, then verify as in §5.
 
-Changing only a secret's value is steps 1, 2, and the deploy.
+Changing only a secret's value is steps 1, 2, and the deploy: use `replace` for a full replacement
+(the agent can run it) or `edit` for a partial change (needs the host key).
 
 ## 3. The private repository
 
@@ -75,12 +79,15 @@ The agenix operations run against `~/codes/nix-secrets`. Their single source is
 `secrets.nix`:
 
 ```bash
-just -f secrets/Justfile edit ./desktop/xxx.age   # edit or create (interactive)
-just -f secrets/Justfile rekey                    # re-encrypt after a recipient change
+just -f secrets/Justfile replace ./desktop/xxx.age < plaintext   # add or fully replace (no sudo)
+just -f secrets/Justfile edit ./desktop/xxx.age                  # partial edit (sudo, $EDITOR)
+just -f secrets/Justfile rekey                                   # re-encrypt after a recipient change
 ```
 
-`edit` passes `EDITOR=hx` to the root `agenix` process, because `sudo` resets the environment and
-the invoking user's `EDITOR` would not reach it; do not add `sudo -E` or set `EDITOR` yourself.
+`edit` and `rekey` decrypt the current value with the host key, so they need `sudo`; `replace` only
+encrypts to the recipients in `secrets.nix`, so it needs no `sudo`. `edit` passes `EDITOR=hx` to the
+root `agenix` process, because `sudo` resets the environment and the invoking user's `EDITOR` would
+not reach it; do not add `sudo -E` or set `EDITOR` yourself.
 
 The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
 `git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
