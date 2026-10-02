@@ -3,6 +3,7 @@
   lib,
   pkgs,
   myvars,
+  osConfig,
   ...
 }:
 {
@@ -13,6 +14,14 @@
   home.activation.removeExistingGitconfig = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
     rm -f ${config.home.homeDirectory}/.gitconfig
   '';
+
+  # Work identity (email/name) lives encrypted in nix-secrets and is symlinked
+  # to ~/work/.gitconfig, which `programs.git.includes` below makes git read for
+  # repos under ~/work. `work-gitconfig` is only declared on desktops, so the
+  # symlink follows the secret.
+  home.file."work/.gitconfig" = lib.mkIf ((osConfig.age.secrets or { }) ? "work-gitconfig") {
+    source = config.lib.file.mkOutOfStoreSymlink "/etc/agenix/work-gitconfig";
+  };
 
   # GitHub CLI tool
   # https://cli.github.com/manual/

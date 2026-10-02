@@ -82,6 +82,12 @@
         file = "${mysecrets}/desktop/nushell-secrets.nu.age";
       }
       // user_readable;
+
+      # work git identity, symlinked to ~/work/.gitconfig by home-manager
+      "work-gitconfig" = {
+        file = "${mysecrets}/desktop/work-gitconfig.age";
+      }
+      // user_readable;
     };
 
   # place secrets in /etc/
@@ -104,6 +110,10 @@
     # So we need to change its mode manually
     "agenix/nushell-secrets.nu" = {
       source = config.age.secrets."nushell-secrets.nu".path;
+    };
+
+    "agenix/work-gitconfig" = {
+      source = config.age.secrets."work-gitconfig".path;
     };
   };
 

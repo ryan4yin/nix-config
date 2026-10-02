@@ -120,6 +120,12 @@ in
           file = "${mysecrets}/desktop/nushell-secrets.nu.age";
         }
         // user_readable;
+
+        # work git identity, symlinked to ~/work/.gitconfig by home-manager
+        "work-gitconfig" = {
+          file = "${mysecrets}/desktop/work-gitconfig.age";
+        }
+        // user_readable;
       };
 
       # place secrets in /etc/
@@ -145,6 +151,16 @@ in
         # otherwise it becomes a world-readable, root-owned copy of the secret.
         "agenix/nushell-secrets.nu" = {
           source = config.age.secrets."nushell-secrets.nu".path;
+          mode = "0400";
+          user = myvars.username;
+        };
+
+        # Used by a home-manager module, so it must be readable by the user.
+        # Setting `mode` makes environment.etc copy the file instead of
+        # symlinking the runtime secret, so the owner must be set as well —
+        # otherwise it becomes a world-readable, root-owned copy of the secret.
+        "agenix/work-gitconfig" = {
+          source = config.age.secrets."work-gitconfig".path;
           mode = "0400";
           user = myvars.username;
         };
