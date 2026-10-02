@@ -138,10 +138,11 @@ just pkg-test <pr> <pname>
 just pkg-summary
 ```
 
-They are remote GitHub Actions operations, not local tests. Confirm the PR number and workflow
-repository first. Use them for cross-architecture coverage, large reviews, or when local capacity
-cannot reproduce the relevant target. Read the workflow summary and distinguish evaluation, build,
-passthru-test, and architecture-specific failures.
+They are remote GitHub Actions operations on a shared workflow repository, not local tests. Confirm
+the PR number and workflow repository, and get authorization for that run before dispatching it. Use
+them for cross-architecture coverage, large reviews, or when local capacity cannot reproduce the
+relevant target. Read the workflow summary and distinguish evaluation, build, passthru-test, and
+architecture-specific failures.
 
 ## 5. Bring a result back to this flake
 

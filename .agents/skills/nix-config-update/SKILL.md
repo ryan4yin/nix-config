@@ -140,7 +140,9 @@ with the `br0` bridge, and broad nixpkgs bumps. See
   re-deploy a reverted tree.
 - macOS: `just darwin-rollback` (`darwin-rebuild --rollback`).
 - Remote (Colmena): `git revert <sha>` and re-apply, or apply with `boot` and reboot.
-- Update failed but never deployed: drop the bump with `git checkout -- flake.lock`, then reproduce.
+- Update failed but never deployed: drop the bump's own uncommitted lock change with
+  `git checkout -- flake.lock`, then reproduce. If the tree holds other uncommitted work, ask before
+  discarding anything.
 - Isolate a bad bump by moving one input at a time with `nix flake update <input>`, and pin a
   known-good nixpkgs with `just override-pkgs <hash>` while the breakage is fixed upstream.
 

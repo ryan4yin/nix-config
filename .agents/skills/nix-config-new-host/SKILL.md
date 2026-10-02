@@ -84,6 +84,8 @@ check every configuration and which list hosts by name. In short:
   before any `destroy,format,mount`. Follow
   [nixos-installer/README.md](../../../nixos-installer/README.md) and the host's own README.
 - Remote hosts: `just col <tag>` or the host's own recipe, once its key is a secrets recipient.
+  Deploying is a separate impactful action; use the `nix-config-update` skill's staged deployment
+  (confirm the target, preview the closure, and get authorization).
 - The machine you are on: `just local` or `just niri`, which prompt for `sudo`, so the user runs
   them.
 

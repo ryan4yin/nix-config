@@ -112,9 +112,9 @@ What a screenshot cannot show:
 
 ## 4. Land and roll back
 
-- Config layer: the repo file is the live file. Commit it; there is no rebuild and no generation. To
-  undo a committed change, `git revert`. For an uncommitted experiment, preserve the diff and ask
-  before discarding it.
+- Config layer: the repo file is the live file, and there is no rebuild or generation to roll back
+  to. Commit it only when the task asked for that. To undo a committed change, `git revert`; for an
+  uncommitted experiment, preserve the diff and ask before discarding it.
 - Store layer: the user runs `just niri`, then you verify as in step 3. To undo, boot the previous
   generation (`just history` lists them).
 - If the session will not start at all, fix the file from a TTY. Niri's recovery only covers a bad
