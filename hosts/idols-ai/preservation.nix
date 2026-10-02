@@ -52,8 +52,15 @@ in
       # system caches (e.g. restic, plocate; slow to rebuild)
       "/var/cache"
       # strata's model-layer staging area; large (~3G) and re-creatable but the
-      # read traffic is hot, so keep it on the persistent volume
-      "/var/tmp"
+      # read traffic is hot, so keep it on the persistent volume.
+      # World-writable staging data: harden the bind mount like /tmp.
+      {
+        directory = "/var/tmp";
+        mountOptions = [
+          "nosuid"
+          "nodev"
+        ];
+      }
       # small but genuine state: backup bookkeeping, print queue, rotation state
       "/var/lib/btrbk"
       "/var/lib/cups"
