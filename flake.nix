@@ -108,8 +108,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Track Blender from master while keeping its lock entry independent from regular nixpkgs.
-    nixpkgs-blender.url = "github:nixos/nixpkgs/master";
+    # Pinned nixpkgs for Blender (5.2 LTS + CUDA/OptiX).  Keeping it on a fixed
+    # rev stops `just up` from re-bumping this input and triggering a full
+    # Blender/CUDA source rebuild; bump the rev deliberately when needed.
+    nixpkgs-blender.url = "github:nixos/nixpkgs/4b8338e3113dc41bcf7695f56dc372107b7ff4c9";
 
     nixos-apple-silicon = {
       url = "github:nix-community/nixos-apple-silicon";

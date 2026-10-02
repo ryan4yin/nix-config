@@ -53,13 +53,6 @@ let
           # for unrelated GPU architectures.
           cudaCapabilities = [ "8.9" ];
         };
-        overlays = lib.optional (system == "x86_64-linux") (
-          _: prev: {
-            # CMake 4.2+ breaks OIDN's nested CUDA build with nixpkgs' split CUDAToolkit_ROOT.
-            # https://github.com/NixOS/nixpkgs/issues/544701
-            openimagedenoise = prev.openimagedenoise.override { cmake = pkgs-stable.cmake; };
-          }
-        );
       };
 
       pkgs-x64 = import nixpkgs {
