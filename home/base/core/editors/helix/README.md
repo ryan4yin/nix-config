@@ -8,9 +8,8 @@ multi-cursor, surround), and a smaller moving part than a large Neovim plugin st
 
 ## Tips
 
-1. This flake sets `$EDITOR` / `$VISUAL` to **`hx`** by default. For security-sensitive edits
-   (privileged files, unfamiliar binaries, secrets), prefer **`nvim --clean`** — `$SUDO_EDITOR` uses
-   it so `sudoedit` stays minimal; invoke it yourself in other trust-boundary cases.
+1. This flake sets `$EDITOR` / `$VISUAL` to **`hx`** by default, for interactive and privileged
+   (`sudoedit`) edits alike. Neovim stays installed as a backup editor.
 1. Helix is **selection-first** (like Kakoune): extend a selection, then run an action (`d`, `c`,
    `y`, …). A lone cursor is a zero-width selection.
 1. Read the official docs before reinventing workflows:

@@ -1,11 +1,10 @@
 { pkgs, ... }:
 {
-  # Default editor: Helix (`hx`). Privileged edits (`sudoedit`, …) prefer `nvim --clean`
-  # via `SUDO_EDITOR`; invoke `nvim --clean` manually for other sensitive workflows.
+  # Default editor: Helix (`hx`), for interactive and privileged (`sudoedit`) edits alike.
+  # Neovim stays installed as a backup.
   environment.variables = {
     EDITOR = "hx";
     VISUAL = "hx";
-    SUDO_EDITOR = "nvim --clean";
   };
 
   environment.systemPackages = with pkgs; [
@@ -13,7 +12,7 @@
     nushell # nushell
     fastfetch
     helix # default $EDITOR (`hx`)
-    neovim # backup editor; `nvim --clean` for sensitive / privileged edits (`$SUDO_EDITOR`)
+    neovim # backup editor
     gnumake # Makefile
     just # a command runner like gnumake, but simpler
     git # used by nix flakes

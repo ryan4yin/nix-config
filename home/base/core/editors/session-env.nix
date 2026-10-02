@@ -1,9 +1,9 @@
-# Default interactive editor is Helix (`hx`). For trust-boundary edits (e.g. `sudoedit`,
-# secrets, unfamiliar payloads), prefer `nvim --clean` — wired via `SUDO_EDITOR`.
+# Default interactive editor is Helix (`hx`), for interactive and privileged (`sudoedit`) edits
+# alike. `sudoedit` reads `$SUDO_EDITOR`, then `$VISUAL`, then `$EDITOR`, so it already resolves to
+# `hx`. Neovim stays installed as a backup editor.
 {
   home.sessionVariables = {
     EDITOR = "hx";
     VISUAL = "hx";
-    SUDO_EDITOR = "nvim --clean";
   };
 }
