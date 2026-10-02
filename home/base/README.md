@@ -20,8 +20,6 @@ systems.
   - **theme.nix**: Color schemes and theming
   - **xdg.nix**: XDG base-directory configuration
   - **yazi.nix**: Terminal file manager configuration
-  - **zellij/**: Terminal multiplexer (enable + `zj` alias; config and layouts live in
-    `tui/zellij/`)
 
 ### Desktop Environment
 
@@ -30,10 +28,8 @@ systems.
   - **media.nix**: Media players and utilities
   - **zed-editor.nix**: Zed editor configuration (primary GUI editor)
   - **terminal/**: Terminal emulator configurations
-    - **alacritty/**: Alacritty terminal
+    - **ghostty.nix**: Ghostty terminal (default)
     - **kitty.nix**: Kitty terminal
-    - **foot.nix**: Foot terminal (Linux)
-    - **ghostty.nix**: Ghostty terminal
 
 ### Terminal Interface
 
@@ -49,7 +45,7 @@ systems.
   - **password-store/**: Password management with pass
   - **shell/**: Shell environment configurations
   - **ssh.nix**: SSH configuration and management
-  - **zellij/**: Terminal workspace management
+  - **tuios/**: Terminal window manager / multiplexer (config + nushell auto-start)
 
 ### System Management
 

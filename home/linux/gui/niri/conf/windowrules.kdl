@@ -2,31 +2,24 @@
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
-// Terminal applications - open in workspace 1, with blur
+// Draw the focus ring as an outline for every window, never as a solid
+// rectangle behind it. Niri's default paints a `#7fc8ff` block behind the
+// focused window, which shows through any semitransparent window (e.g. the
+// terminals) as a solid cyan fill.
 window-rule {
-    match app-id="foot"
-    open-on-workspace "1terminal"
-    open-maximized true
-    // foot >= 1.26 uses native blur via ext-background-effect,
-    // no compositor-side blur needed
+    draw-border-with-background false
 }
+
+// Terminal applications - open in workspace 1
 window-rule {
-    match app-id="Alacritty"
+    match app-id="kitty"
     open-on-workspace "1terminal"
     open-maximized true
-    background-effect {
-        blur true
-    }
 }
 window-rule {
     match app-id="com.mitchellh.ghostty"
     open-on-workspace "1terminal"
     open-maximized true
-    // Ghostty native blur via ext-background-effect coming in v1.4;
-    // use compositor-side blur until then
-    background-effect {
-        blur true
-    }
 }
 
 // Web browsers - open in workspace 2

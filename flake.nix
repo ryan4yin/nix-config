@@ -55,7 +55,7 @@
 
     # https://github.com/catppuccin/nix
     # main carries the rust-overlay-style deprecation fix for its vscode
-    # package (nodejs -> nodejs-slim); v26.05 still emits the eval warning.
+    # package (nodejs -> nodejs-slim).
     catppuccin = {
       url = "github:catppuccin/nix/main";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -163,6 +163,13 @@
     # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri)
     pyclipsync = {
       url = "github:ryan4yin/pyclipsync/v0.1.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # terminal window manager / multiplexer; nixpkgs lags behind upstream,
+    # so track the upstream flake.
+    tuios = {
+      url = "github:Gaurav-Gosain/tuios";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

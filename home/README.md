@@ -12,7 +12,7 @@ home/
 │   │   ├── shells/    # Shell configurations (bash, Nushell)
 │   │   └── ...
 │   ├── gui/           # GUI applications and desktop settings
-│   │   ├── terminal/  # Terminal emulators (Kitty, Alacritty, etc.)
+│   │   ├── terminal/  # Terminal emulators (Ghostty, Kitty, etc.)
 │   │   └── ...
 │   ├── tui/           # Terminal/TUI applications
 │   │   ├── editors/   # Heavy editor/tooling pkgs only (`packages.nix`; core editors live under `core/editors`)

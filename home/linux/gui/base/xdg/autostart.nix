@@ -13,9 +13,8 @@
   xdg.autostart.enable = true;
   # This fixes nixpak sandboxed apps (like firefox) accessing mapped folders correctly
   xdg.autostart.entries = [
-    "${pkgs.foot}/share/applications/foot.desktop"
-    "${pkgs.alacritty}/share/applications/Alacritty.desktop"
     "${pkgs.ghostty}/share/applications/com.mitchellh.ghostty.desktop"
+    "${pkgs.kitty}/share/applications/kitty.desktop"
 
     "${pkgs-master.clash-verge-rev}/share/applications/clash-verge.desktop"
 

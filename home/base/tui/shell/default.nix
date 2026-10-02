@@ -29,7 +29,6 @@
       use custom-completions/ssh/ssh-completions.nu *
       use custom-completions/tar/tar-completions.nu *
       use custom-completions/tcpdump/tcpdump-completions.nu *
-      use custom-completions/zellij/zellij-completions.nu *
       use custom-completions/zoxide/zoxide-completions.nu *
 
       # -*- alias -*-

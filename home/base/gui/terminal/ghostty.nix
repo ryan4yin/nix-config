@@ -6,6 +6,10 @@
 #
 # Ghostty Configuration
 #
+# TUIOS provides tabs, panes, scrollback and copy mode, so ghostty
+# only needs a font, transparency and the kitty graphics protocol
+# (built in).
+#
 ###########################################################
 {
   programs.ghostty = {
@@ -25,12 +29,10 @@
       # hide title bar/header bar (Linux only; on macOS it would remove the traffic lights too)
       window-decoration = pkgs.stdenv.hostPlatform.isDarwin;
 
-      background-opacity = 0.93;
-      # only supported on macOS;
-      background-blur-radius = 10;
-      scrollback-limit = 20000;
+      # transparency
+      background-opacity = 0.85;
+      background-blur-radius = 10; # macOS only
 
-      # https://ghostty.org/docs/config/reference#command
       #  To resolve issues:
       #    1. https://github.com/ryan4yin/nix-config/issues/26
       #    2. https://github.com/ryan4yin/nix-config/issues/8

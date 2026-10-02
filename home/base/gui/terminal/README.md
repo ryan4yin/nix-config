@@ -1,25 +1,19 @@
 # Terminal Emulators
 
 I used to spend a lot of time on terminal emulators, to make them match my taste, but now I found
-that it's not worth it, **Zellij can provide a user-friendly and unified user experience for all
+that it's not worth it, **tuios can provide a user-friendly and unified user experience for all
 terminal emulators! without any pain**!
 
 Currently, I only use the most basic features of terminal emulators, such as true color, graphics
 protocol, etc. Other features such as tabs, scrollback buffer, select/search/copy, etc, are all
-provided by zellij!
+provided by tuios!
 
 My current terminal emulators are:
 
-1. kitty: My main terminal emulator.
-   1. to select/copy a large mount of text, We should do some tricks via kitty's `scrollback_pager`
-      with neovim, it's really painful: <https://github.com/kovidgoyal/kitty/issues/719>
-2. foot: A fast, lightweight and minimalistic Wayland terminal emulator.
-   1. foot only do the things a terminal emulator should do, no more, no less.
-   1. It's really suitable for tiling window manager or zellij users!
-3. alacritty: A cross-platform, GPU-accelerated terminal emulator.
-   1. alacritty is really fast, I use it as a backup terminal emulator on all my desktops.
-4. ghostty: A cross-platform, GPU-accelerated terminal emulator with native platform UI.
-   1. ghostty is the newest addition, configured in `ghostty.nix`.
+1. ghostty: My default terminal emulator, configured in `ghostty.nix`. Cross-platform,
+   GPU-accelerated, and supports the Kitty graphics protocol.
+2. kitty: My secondary terminal emulator, configured in `kitty.nix`. Also supports the Kitty
+   graphics protocol.
 
 ## 'xterm-kitty': unknown terminal type when `ssh` into a remote host or `sudo xxx`
 

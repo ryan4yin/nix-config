@@ -10,7 +10,7 @@ pointers for when you reach for Neovim as a backup.
 1. For deeper skill, read the official docs:
    1. <https://vimhelp.org/> — vim help.
    1. <https://neovim.io/doc/user/> — Neovim user manual.
-1. Prefer **Zellij** for shells and panes; use **Helix** or **Neovim** for buffers and text.
+1. Prefer **tuios** for shells and panes; use **Helix** or **Neovim** for buffers and text.
 1. Two powerful navigation modes on large codebases:
    1. **By path** — when you know the tree layout.
    1. **By content** — when you know what the code says.
@@ -23,18 +23,21 @@ Type `:tutor` (or `:Tutor` in Neovim) for the built-in vim tutorial.
 
 > For a fuller reference: <https://vimhelp.org/quickref.txt.html>
 
-Emacs Evil, Neovim, and vim share the motions below.
+Neovim and vim share the motions below.
 
 ### Terminal related
 
-Zellij shortcuts used often:
+tuios shortcuts used often (leader is `Ctrl + B`):
 
-| Action                    | Zellij shortcut |
-| ------------------------- | --------------- |
-| Floating terminal         | `Ctrl + p + w`  |
-| Horizontal split terminal | `Ctrl + p + d`  |
-| Vertical split terminal   | `Ctrl + p + n`  |
-| Run a shell command       | `!xxx`          |
+| Action              | tuios shortcut             |
+| ------------------- | -------------------------- |
+| New pane            | `n` (window mode)          |
+| Floating terminal   | `Ctrl + B`, then `Alt + F` |
+| Split horizontal    | `Ctrl + B`, then `-`       |
+| Split vertical      | `Ctrl + B`, then `\`       |
+| Command palette     | `Ctrl + P`                 |
+| Detach              | `Ctrl + B`, then `d`       |
+| Run a shell command | `!xxx`                     |
 
 ### File management
 

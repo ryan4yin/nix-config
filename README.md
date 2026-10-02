@@ -59,8 +59,8 @@ You don't have to go through the pain I've experienced again! Check out my
 | **Display Manager**         | [greetd][greetd] + [tuigreet][tuigreet]                                                                                  |
 | **Window Manager**          | [Niri][Niri]                                                                                                             |
 | **Desktop Shell**           | [Noctalia][noctalia] — bar/notifications/launcher/lock screen/control center/power menu/screenshots, one native shell    |
-| **Terminal Emulators**      | [foot][foot], [Kitty][Kitty], [Alacritty][Alacritty], [Ghostty][Ghostty]                                                 |
-| **Terminal Multiplexer**    | [Zellij][Zellij]                                                                                                         |
+| **Terminal Emulators**      | [Kitty][Kitty], [Ghostty][Ghostty]                                                                                       |
+| **Terminal Multiplexer**    | [tuios][tuios]                                                                                                           |
 | **Shell**                   | [Nushell][Nushell] + [Starship][Starship]                                                                                |
 | **Editors / IDE**           | [Zed][Zed] (GUI, primary), VS Code (GUI); [Helix][Helix] (TUI, primary), [Neovim][Neovim] (TUI, backup)                  |
 | **Color Scheme**            | [catppuccin-nix][catppuccin-nix]                                                                                         |
@@ -84,7 +84,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ![btop monitoring and system information](./_img/2026-10-01_btop-monitoring-system-info.webp)
 
-![Helix, Zellij, and AI agents](./_img/2026-10-02_helix-zellij-ai-agents.webp)
+![Helix and AI agents in a terminal workspace](./_img/2026-10-02_helix-ai-agents.webp)
 
 ## Editors / IDE
 
@@ -194,8 +194,6 @@ Other dotfiles that inspired me:
 [Niri]: https://github.com/YaLTeR/niri
 [greetd]: https://github.com/kennylevinsen/greetd
 [Kitty]: https://github.com/kovidgoyal/kitty
-[foot]: https://codeberg.org/dnkl/foot
-[Alacritty]: https://github.com/alacritty/alacritty
 [Ghostty]: https://github.com/ghostty-org/ghostty
 [Nushell]: https://github.com/nushell/nushell
 [Starship]: https://github.com/starship/starship
@@ -204,7 +202,7 @@ Other dotfiles that inspired me:
 [flypy]: https://flypy.cc/
 [Btop]: https://github.com/aristocratos/btop
 [mpv]: https://github.com/mpv-player/mpv
-[Zellij]: https://github.com/zellij-org/zellij
+[tuios]: https://github.com/Gaurav-Gosain/tuios
 [Helix]: https://github.com/helix-editor/helix
 [Neovim]: https://github.com/neovim/neovim
 [Zed]: https://zed.dev
