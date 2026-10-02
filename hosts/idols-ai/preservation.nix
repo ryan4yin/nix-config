@@ -79,6 +79,8 @@ in
       # system-core
       "/var/lib/nixos"
       "/var/lib/systemd"
+      # upower device battery history (e.g. Magic Trackpad)
+      "/var/lib/upower"
       {
         directory = "/var/lib/private";
         mode = "0700";
@@ -155,6 +157,7 @@ in
 
         ".local/state/home-manager"
         ".local/state/nix/profiles"
+        ".local/state/noctalia" # shell settings, notification/clipboard history
         ".local/share/nix"
 
         # ======================================
@@ -404,7 +407,13 @@ in
   # bind-mounted onto the persistent volume above. Wipe it at boot (mirrors
   # nixpkgs `boot.tmp.cleanOnBoot` for /tmp) so contents only accumulate
   # between reboots.
-  systemd.tmpfiles.rules = [ "D! /var/tmp 1777 root root" ];
+  #
+  # Crash dumps live in the persisted /var/lib/systemd and can contain secrets
+  # copied out of process memory, so don't keep them across reboots either.
+  systemd.tmpfiles.rules = [
+    "D! /var/tmp 1777 root root"
+    "D! /var/lib/systemd/coredump 0755 root root"
+  ];
 
   # systemd-machine-id-commit.service would fail but it is not relevant
   # in this specific setup for a persistent machine-id so we disable it
