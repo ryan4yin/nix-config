@@ -1,0 +1,9 @@
+# Project-scoped MCP: Codex loads this only when the project is trusted.
+# The Grafana service-account token stays in the environment
+# (GRAFANA_SERVICE_ACCOUNT_TOKEN, set by nushell-secrets.nu), not in git.
+[mcp_servers.grafana]
+command = "mcp-grafana"
+# Read-only surface; drop this arg to allow dashboard/alert edits.
+args = ["--disable-write"]
+env = { GRAFANA_URL = "https://grafana.writefor.fun" }
+env_vars = ["GRAFANA_SERVICE_ACCOUNT_TOKEN"]
