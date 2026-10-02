@@ -7,9 +7,10 @@ description:
 
 # Working with secrets
 
-Secrets are age-encrypted files in a separate private repository (`nix-secrets`), pulled in as the
-`mysecrets` flake input and declared here in `secrets/nixos.nix` and `secrets/darwin.nix`. No secret
-value is ever stored in this repository.
+Secrets are age-encrypted files in the private repository `~/codes/nix-secrets`
+(`git@github.com:ryan4yin/nix-secrets.git`), pulled in as the `mysecrets` flake input and declared
+here in `secrets/nixos.nix` and `secrets/darwin.nix`. No secret value is ever stored in this
+repository.
 
 Read [secrets/README.md](../../../secrets/README.md) for the private-repository workflow and the
 recipient rule.
@@ -37,7 +38,7 @@ recipient rule.
 
 | Piece                                         | Location                                                                                       |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Recipient list, encrypted files, `agenix` CLI | the private `nix-secrets` repository                                                           |
+| Recipient list, encrypted files, `agenix` CLI | `~/codes/nix-secrets` (private; `git@github.com:ryan4yin/nix-secrets.git`)                     |
 | The pinned revision of that repository        | `flake.lock`, input `mysecrets`                                                                |
 | Declaration: file, mode/owner, `/etc` copy    | `secrets/nixos.nix`, `secrets/darwin.nix`                                                      |
 | Which host gets which group                   | `modules.secrets.<group>.enable` in `outputs/<system>/src/<name>.nix` or a host module         |
@@ -46,13 +47,14 @@ recipient rule.
 
 ## 2. Add or change a secret
 
-These steps are user-run unless the user explicitly authorizes that exact operation and target:
-editing the private repository, `agenix -e`/`-r` (interactive, and they handle key material),
-anything under `sudo`, and the push.
+Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
+non-interactive steps, bump the lock, and add the declaration and consumer. Hand back only what
+needs a human: `sudo agenix -e`/`-r` (interactive, and they handle key material) and anything else
+under `sudo`. Commits and pushes follow the global git rules.
 
-1. In the private repository, on a desktop: add the file to `secrets.nix` with the recipient set
-   from core rule 3, create or edit it with
-   `sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key`, commit, and push.
+1. In `~/codes/nix-secrets`, add the file to `secrets.nix` with the recipient set from core rule 3.
+   Then ask the user to create or edit it on a desktop:
+   `sudo agenix -e ./xxx.age -i /etc/ssh/ssh_host_ed25519_key`.
 2. Here: `just upp mysecrets` (commits the lock) or `nix flake update mysecrets` (leaves it for you
    to commit). `git diff flake.lock` should show only `mysecrets` moving.
 3. Declare it in `secrets/nixos.nix` or `secrets/darwin.nix` under the right
