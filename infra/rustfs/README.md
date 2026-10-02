@@ -28,7 +28,7 @@ rc ilm rule add rustfs/k3s-test-1-loki-chunks --expiry-days 7
 ```
 
 If the buckets were carried over from MinIO (S3-level copy), they already exist; import them into
-Terraform instead (`terraform import`, see the workspace READMEs).
+Terraform instead (the `terraform import` commands are in each workspace's `run.sh`).
 
 ## IAM
 

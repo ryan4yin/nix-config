@@ -27,16 +27,17 @@ modules/
 │   └── users.nix         # macOS user management
 └── nixos/                   # NixOS-specific modules
     ├── base/               # Base NixOS configuration
+    │   ├── btop.nix       # System resource monitor
     │   ├── btrbk.nix      # Local btrfs snapshots
     │   ├── core.nix       # Core system settings
     │   ├── default.nix
     │   ├── i18n.nix       # Internationalization
     │   ├── kernel-hardening.nix # Kernel hardening (module blacklisting)
+    │   ├── locate.nix     # locate/updatedb file search
     │   ├── monitoring.nix # System monitoring
     │   ├── networking/    # Network configuration
     │   ├── nix.nix        # Nix settings
     │   ├── packages.nix   # System packages
-    │   ├── remote-building.nix # Remote build setup
     │   ├── restic-backup.nix # Encrypted off-host backups (see ../BACKUP.md)
     │   ├── ssh.nix        # SSH daemon configuration
     │   ├── trash.nix      # Trash retention cleanup
@@ -44,6 +45,7 @@ modules/
     │   └── zram.nix       # ZRAM swap configuration
     ├── desktop.nix         # Desktop environment configuration
     ├── desktop/            # Desktop-specific modules
+    │   ├── canokey.nix    # CanoKey hardware token
     │   ├── computer-use.nix # Headless X11/i3 session for AI agents
     │   ├── default.nix
     │   ├── fhs.nix        # FHS environment
@@ -61,6 +63,7 @@ modules/
     └── server/             # Server-specific modules
         ├── qemu-guest-hardware-configuration.nix
         ├── qemu-guest.nix  # VM guest base module (libvirt/QEMU guests)
+        ├── remote-building.nix # Remote build setup
         ├── server-aarch64.nix
         ├── server-riscv64.nix
         └── server.nix

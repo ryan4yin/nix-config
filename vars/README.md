@@ -28,7 +28,8 @@ Comprehensive network configuration including:
 
 - **Gateway settings**: Main router and proxy gateway configurations
 - **DNS servers**: IPv4 and IPv6 name servers
-- **Host inventory**: Complete mapping of all hosts with their network interfaces and IP addresses
+- **Host inventory**: static LAN hosts and their interfaces; DHCP/mobile hosts (such as the macOS
+  hosts) are omitted by design
 - **SSH configuration**: Remote builder aliases and known hosts configuration
 - **Network topology**: Physical machines, VMs, Kubernetes clusters, and SBCs
 
@@ -36,7 +37,7 @@ Comprehensive network configuration including:
 
 The networking configuration covers:
 
-- **Physical machines**: Desktop PCs, Apple Silicon systems, SBCs
+- **Physical machines**: Desktop PCs, servers, and SBCs
 - **Virtual machines**: VM guests, K3s nodes
 - **Kubernetes clusters**: the `k3s-test-1` testing cluster
 - **Network infrastructure**: Routers, gateways, and DNS configuration

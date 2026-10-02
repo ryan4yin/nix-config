@@ -29,8 +29,8 @@ infra/
 - **Loki Buckets**: Dedicated storage for Grafana Loki log aggregation
 - **Terraform Backend**: Centralized state management for all Terraform configurations
 
-RustFS speaks the S3 API but not MinIO's Admin API, so buckets/lifecycle are managed with the AWS
-provider and IAM users/policies with the official `rc` client. See
+RustFS speaks the S3 API but not MinIO's Admin API, so buckets are managed with the AWS provider
+while lifecycle rules and IAM users/policies use the official `rc` client. See
 [rustfs/README.md](./rustfs/README.md).
 
 ### External Resources
@@ -52,7 +52,7 @@ Each subdirectory contains its own Terraform configuration:
 2. **Deploy configuration**:
 
    ```bash
-   ./run.sh
+   bash run.sh
    ```
 
 3. **Manual deployment**:
