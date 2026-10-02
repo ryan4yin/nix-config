@@ -19,7 +19,7 @@ multi-cursor, surround), and a smaller moving part than a large Neovim plugin st
    1. <https://docs.helix-editor.com/commands.html> — typable commands (`:` prompt).
    1. <https://docs.helix-editor.com/configuration.html> — `config.toml`, themes, remaps.
    1. <https://github.com/helix-editor/helix/wiki> — install tips, language servers, FAQ.
-1. Prefer **Zellij** for shells and panes; use **Helix** for buffers and text.
+1. Prefer **tuios** for shells and panes; use **Helix** for buffers and text.
 1. On large codebases, navigation is often **by picker** (`Space f`, symbols, workspace search) or
    **by LSP** (`g` goto mode), complementing motion-based editing.
 1. After **git** operations (`checkout`, `merge`, `pull`, `rebase`) or whenever many files changed
@@ -38,20 +38,23 @@ Run `:tutor` inside Helix, or `hx --tutor` from the shell
 
 ### Terminal related
 
-Zellij shortcuts used often (same idea as in the Neovim notes):
+tuios shortcuts used often (leader is `Ctrl + B`; same idea as in the Neovim notes):
 
-| Action                    | Zellij shortcut |
-| ------------------------- | --------------- |
-| Floating terminal         | `Ctrl + p + w`  |
-| Horizontal split terminal | `Ctrl + p + d`  |
-| Vertical split terminal   | `Ctrl + p + n`  |
+| Action           | tuios shortcut       |
+| ---------------- | -------------------- |
+| New pane         | `n` (window mode)    |
+| Split horizontal | `Ctrl + B`, then `-` |
+| Split vertical   | `Ctrl + B`, then `\` |
+| Command palette  | `Ctrl + P`           |
+| Launcher         | `Alt + Space`        |
+| Detach           | `Ctrl + B`, then `d` |
 
 In Helix, `|` / `!` and variants pipe or insert shell output on selections (see **Changes**).
 
 This flake’s Helix Home Manager module keeps **almost all default keys** but adds several
-normal-mode remaps: **`Ctrl+Shift+o`** → jump backward (because Zellij uses **`Ctrl+o`** for
-Session), `Space Space` → `:reload-all`, `Space w` / `Space q` → `:w` / `:q`, `Esc` → collapse
-selection, and `$` / `0` line jumps (see `home/base/core/editors/helix/default.nix`).
+normal-mode remaps: **`Ctrl+Shift+o`** → jump backward (leaving `Ctrl+o` free for the shell),
+`Space Space` → `:reload-all`, `Space w` / `Space q` → `:w` / `:q`, `Esc` → collapse selection, and
+`$` / `0` line jumps (see `home/base/core/editors/helix/default.nix`).
 
 ### Command mode (`:`)
 
@@ -203,12 +206,12 @@ Some bindings need an **LSP** or **tree-sitter** grammar; see notes on the keyma
    1. Helix is newer; a stable plugin system is still evolving:
       <https://github.com/helix-editor/helix/pull/8675>
 1. Neovim has an integrated terminal (similar in spirit to VS Code’s).
-   1. Helix does not ship one; use Zellij / tmux / terminal features instead.
+   1. Helix does not ship one; use tuios / tmux / terminal features instead.
    1. <https://github.com/helix-editor/helix/issues/1976#issuecomment-1091074719>
    1. <https://github.com/helix-editor/helix/pull/4649>
 1. Helix has no built-in tree panel; pair with **Yazi**, ranger, or Broot and open files from there.
    1. A tree view may arrive with plugins later; many users rely on the file picker instead.
-1. Global substitution is weaker in Helix; run replacements in another pane (Zellij) or an external
+1. Global substitution is weaker in Helix; run replacements in another pane (tuios) or an external
    tool when needed.
    1. <https://github.com/helix-editor/helix/issues/196>
    1. Neovim’s `:s` with preview remains strong for interactive refactors; external tools (e.g.
@@ -216,7 +219,7 @@ Some bindings need an **LSP** or **tree-sitter** grammar; see notes on the keyma
 1. Complexity vs batteries-included tradeoffs:
    <https://github.com/helix-editor/helix/discussions/6356>
 
-Using **Helix** (and Neovim when useful) inside **Yazi** and **Zellij** keeps editing, files, and
+Using **Helix** (and Neovim when useful) inside **Yazi** and **tuios** keeps editing, files, and
 panes explicit and scriptable — different from a single IDE window, but very composable.
 
 Helix nudges you away from reproducing VS Code/JetBrains inside one process; Neovim remains there

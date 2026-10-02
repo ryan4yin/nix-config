@@ -111,7 +111,7 @@
         "$" = "goto_line_end";
         "0" = "goto_line_start";
 
-        # Ctrl+o opens Zellij Session
+        # keep Ctrl+o free for the shell; use C-S-o for the jumplist
         "C-S-o" = "jump_backward";
       };
 

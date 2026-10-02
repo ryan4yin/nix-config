@@ -24,8 +24,6 @@
   # fails to build with GCC 16 (https://github.com/NixOS/nixpkgs/issues/568896).
   # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/config/terminfo.nix
   environment.systemPackages = [
-    pkgs.alacritty.terminfo
-    pkgs.foot.terminfo
     pkgs.ghostty.terminfo
     pkgs.kitty.terminfo
   ];

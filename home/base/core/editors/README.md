@@ -9,7 +9,7 @@ Shared editor configuration and **usage notes** for terminal-focused editing.
   interactive and privileged (`sudoedit`) edits alike.
 - **Neovim** (`neovim/`): Backup editor — classic vim-style workflow and `:help` when needed.
 
-Terminal layout and files: **Zellij** and **Yazi** live under `core/zellij/` and `core/yazi.nix`
+Terminal layout and files: **tuios** lives under `tui/tuios/` and **Yazi** under `core/yazi.nix`
 (not in this folder).
 
 ## Docs

@@ -165,5 +165,12 @@
       url = "github:ryan4yin/pyclipsync/v0.1.3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # terminal window manager / multiplexer; nixpkgs lags behind upstream
+    # (0.8.1 vs 0.8.5), so track the upstream flake.
+    tuios = {
+      url = "github:Gaurav-Gosain/tuios";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }
