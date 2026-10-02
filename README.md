@@ -82,7 +82,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ![desktop](./_img/2026-10-02_niri-noctalia_desktop.webp)
 
-![terminal](./_img/2026-10-01_niri-noctalia_terminal.webp)
+![btop monitoring and system information](./_img/2026-10-01_btop-monitoring-system-info.webp)
 
 ![Helix, Zellij, and AI agents](./_img/2026-10-02_helix-zellij-ai-agents.webp)
 
