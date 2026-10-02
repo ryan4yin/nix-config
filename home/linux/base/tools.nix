@@ -5,5 +5,6 @@
     # misc
     libnotify
     wireguard-tools # manage wireguard vpn manually, via wg-quick
+    tuios # terminal window manager / multiplexer (trial)
   ];
 }
