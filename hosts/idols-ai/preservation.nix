@@ -116,7 +116,8 @@ in
         # Codes / Work / Playground
         # ======================================
         "codes" # for personal code
-        "work" # for work contains a .gitconfig with my work email.
+        "work" # work code tree
+        "src" # third-party source checkouts
         "nix-config"
         "tmp"
 
