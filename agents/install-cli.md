@@ -19,8 +19,7 @@ Installed via Nix:
 npx ctx7 setup
 ```
 
-## Update npm-installed agent tools
+## Update
 
-```bash
-npm update -g
-```
+The agent CLIs come from Nix (`home/base/gui/dev-tools.nix`) through the `llm-agents` flake input,
+so update them with the flake rather than npm.
