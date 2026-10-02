@@ -51,8 +51,9 @@ The private repository groups the `.age` files: `desktop/` (only desktops decryp
 
 Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
 non-interactive steps, bump the lock, and add the declaration and consumer. Hand back only what
-needs a human: the `just edit`/`just rekey` runs in `~/codes/nix-secrets` (they handle key material
-and `$EDITOR`) and anything else under `sudo`. Commits and pushes follow the global git rules.
+needs a human: the `edit`/`rekey` recipes in [`secrets/Justfile`](../../../secrets/Justfile) (they
+handle key material and `$EDITOR`) and anything else under `sudo`. Commits and pushes follow the
+global git rules.
 
 1. In `~/codes/nix-secrets`, add the file under `desktop/` or `server/` with a matching
    `secrets.nix` entry, keyed by that exact path (e.g. `"./desktop/xxx.age"`), and the recipient set
@@ -68,20 +69,14 @@ Changing only a secret's value is steps 1, 2, and the deploy.
 
 ## 3. The private repository
 
-Run commands from that repository's root (`RULES` defaults to `./secrets.nix`) and keep each path
-identical to its key in `secrets.nix`:
+The agenix operations run against `~/codes/nix-secrets`. Their single source is
+[`secrets/Justfile`](../../../secrets/Justfile), which pins the identity and option order; run them
+from this repository's root and keep each path identical to its key in `secrets.nix`:
 
 ```bash
-# edit or create (interactive, opens $EDITOR)
-sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./desktop/xxx.age
-# non-interactive: pipe the plaintext on stdin
-cat xxx | sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./server/xxx.age
-# after adding or changing a recipient key, rekey everything
-sudo -E agenix -r -i /etc/ssh/ssh_host_ed25519_key
-sudo chown -R ryan:ryan *
+just -f secrets/Justfile edit ./desktop/xxx.age   # edit or create (interactive)
+just -f secrets/Justfile rekey                    # re-encrypt after a recipient change
 ```
-
-The private repository's `Justfile` wraps these as `just edit <file>` and `just rekey`.
 
 The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
 `git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
