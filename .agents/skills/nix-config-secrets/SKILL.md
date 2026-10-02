@@ -69,13 +69,19 @@ Changing only a secret's value is steps 1, 2, and the deploy.
 ## 3. The private repository
 
 Run commands from that repository's root (`RULES` defaults to `./secrets.nix`) and keep each path
-identical to its key in `secrets.nix`. Prefer its `Justfile`, which fixes the identity and option
-order:
+identical to its key in `secrets.nix`:
 
 ```bash
-just edit ./desktop/xxx.age   # edit or create (interactive); pipe plaintext to write non-interactively
-just rekey                    # re-encrypt everything after adding or changing a recipient key
+# edit or create (interactive, opens $EDITOR)
+sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./desktop/xxx.age
+# non-interactive: pipe the plaintext on stdin
+cat xxx | sudo -E agenix -i /etc/ssh/ssh_host_ed25519_key -e ./server/xxx.age
+# after adding or changing a recipient key, rekey everything
+sudo -E agenix -r -i /etc/ssh/ssh_host_ed25519_key
+sudo chown -R ryan:ryan *
 ```
+
+The private repository's `Justfile` wraps these as `just edit <file>` and `just rekey`.
 
 The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
 `git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
