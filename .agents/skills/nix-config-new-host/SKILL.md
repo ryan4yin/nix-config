@@ -69,7 +69,7 @@ disk. A dynamically allocated id that moves on a later rebuild orphans the files
 ## 3. Tests that fail until the host is wired
 
 [outputs/README.md](../../../outputs/README.md#which-tests-cover-a-new-host) lists which eval tests
-check every configuration and which list hosts by name. In short:
+check every configuration and which list hosts by name:
 
 - `hostname`: a new `-niri` configuration needs a `specialExpected` entry, in the test for its
   platform (`ai-niri` in x86_64-linux, `shoukei-niri` in aarch64-linux).

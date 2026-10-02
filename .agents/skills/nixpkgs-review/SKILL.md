@@ -8,12 +8,11 @@ description:
 
 # Reviewing nixpkgs changes
 
-Prefer a local review. It is faster for a small package change, keeps the result immediately
-available for investigation, and does not create GitHub Actions state. Use the repository's GHA
-workflow when the review needs several architectures, a clean remote environment, or more build
-capacity than this x86_64-linux desktop has. **`nixpkgs-review` is the first test, not the only
-test:** follow it with focused package, test-quality, or runtime checks when the change has
-user-visible behavior.
+Prefer a local review: faster for a small change, the result stays available, and it leaves no
+GitHub Actions state. Use the repository's GHA workflow when a review needs several architectures, a
+clean remote environment, or more build capacity than this x86_64-linux desktop has.
+**`nixpkgs-review` is the first test, not the only test:** follow it with focused package,
+test-quality, or runtime checks when the change has user-visible behavior.
 
 ## Choose the runner
 
@@ -100,11 +99,11 @@ from recent reviews include:
 Use the upstream
 [stdenv check-phase guidance](https://github.com/NixOS/nixpkgs/blob/master/doc/stdenv/stdenv.chapter.md#ssec-check-phase)
 as the baseline: enable the package's own `doCheck` when its tests are usable; otherwise prefer a
-small `versionCheckHook` to prove the installed executable is basically functional. Review
-`passthru.tests` separately: those tests are package-specific checks that `nixpkgs-review --tests`
-can build, while a NixOS test is appropriate when the behavior needs a booted system, display
-server, systemd, networking, or other integration environment. Remember that cross-compiled builds
-do not execute tests on the build machine, so a green cross build is not runtime evidence.
+small `versionCheckHook` to prove the installed executable runs. Review `passthru.tests` separately:
+those tests are package-specific checks that `nixpkgs-review --tests` can build, while a NixOS test
+is appropriate when the behavior needs a booted system, display server, systemd, networking, or
+other integration environment. Remember that cross-compiled builds do not execute tests on the build
+machine, so a green cross build is not runtime evidence.
 
 Choose the smallest useful check. A quick local smoke test is often the best answer for a simple
 package; do not turn every version bump into a VM test. Prefer a NixOS VM test when startup, dynamic

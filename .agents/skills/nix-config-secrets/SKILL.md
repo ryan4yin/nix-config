@@ -12,7 +12,7 @@ Secrets are age-encrypted files in a separate private repository (`nix-secrets`)
 value is ever stored in this repository.
 
 Read [secrets/README.md](../../../secrets/README.md) for the private-repository workflow and the
-recipient rule. This skill covers the change end to end and the traps.
+recipient rule.
 
 ## Core rules
 

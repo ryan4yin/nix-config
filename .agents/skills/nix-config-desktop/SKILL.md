@@ -63,7 +63,7 @@ Validate the **live** Niri config, not the repo copy: `config.kdl` includes `./n
 which only the host module places in `~/.config/niri/`, so `niri validate -c <repo path>` fails on
 the missing include.
 
-Confirm a file is really live before trusting a hot reload:
+Confirm a file is live before trusting a hot reload:
 
 ```bash
 readlink -f ~/.config/niri/config.kdl      # must end in ~/nix-config/...

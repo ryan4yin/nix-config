@@ -85,7 +85,7 @@ Run these before any host is touched:
 Cover every host you are about to deploy, and prefer building the closure over trusting a green
 eval.
 
-Preview what the machine you are on will actually change before it is deployed:
+Preview what the machine you are on will change before it is deployed:
 
 ```bash
 nix store diff-closures /run/current-system '.#nixosConfigurations.<host>.config.system.build.toplevel'
