@@ -103,9 +103,9 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Documentation should be self-contained for its reader and omit irrelevant history.
 - Verify in proportion to risk. Agents MUST NOT claim a check passed without running it, or make it
   pass by weakening what it verifies (e.g. mocking the code under test).
-- When a PR the agent opened is merged, finish up as part of that task: delete the local branch and
-  worktrees it created, and fast-forward the default branch if the checkout is free. Touch nothing
-  it did not create; skip and report instead of forcing.
+- Cleanup: when a PR the agent opened is merged, finish up as part of that task: delete the local
+  branch and worktrees it created and fast-forward the default branch if the checkout is free. Touch
+  nothing it did not create; skip and report instead of forcing.
 
 ### Git commits
 
