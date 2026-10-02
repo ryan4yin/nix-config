@@ -31,10 +31,9 @@ in
   # itself comes from `home/base/core/theme.nix` (catppuccin.nvim is enabled
   # there and appends its own plugin + setup).
   #
-  # The plain system package (modules/base/packages.nix) stays in place for
-  # privileged edits: `sudo` uses the system PATH, so
-  # `$SUDO_EDITOR = "nvim --clean"` keeps this user config out of root-owned
-  # files.
+  # The plain system package (modules/base/packages.nix) stays installed as a
+  # backup. Helix (`hx`) is the default `$EDITOR`/`$VISUAL`, so this config is
+  # only loaded when you start Neovim directly.
   programs.neovim = {
     enable = true;
     vimAlias = true;

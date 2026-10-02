@@ -70,13 +70,17 @@ Changing only a secret's value is steps 1, 2, and the deploy.
 ## 3. The private repository
 
 The agenix operations run against `~/codes/nix-secrets`. Their single source is
-[`secrets/Justfile`](../../../secrets/Justfile), which pins the identity and option order; run them
-from this repository's root and keep each path identical to its key in `secrets.nix`:
+[`secrets/Justfile`](../../../secrets/Justfile), which pins the identity, option order, and
+`$EDITOR`; run them from this repository's root and keep each path identical to its key in
+`secrets.nix`:
 
 ```bash
 just -f secrets/Justfile edit ./desktop/xxx.age   # edit or create (interactive)
 just -f secrets/Justfile rekey                    # re-encrypt after a recipient change
 ```
+
+`edit` passes `EDITOR=hx` to the root `agenix` process, because `sudo` resets the environment and
+the invoking user's `EDITOR` would not reach it; do not add `sudo -E` or set `EDITOR` yourself.
 
 The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
 `git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
