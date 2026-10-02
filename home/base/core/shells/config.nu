@@ -102,7 +102,7 @@ def genpass [length: int = 12] {
 $env.config.edit_mode = "vi"
 
 # Command that will be used to edit the current line buffer with Ctrl+O.
-# If unset, uses $env.VISUAL and then $env.EDITOR ($EDITOR is `hx` via session-env).
+# If unset, uses $env.VISUAL and then $env.EDITOR ($EDITOR is `hx` from the system environment).
 #
 $env.config.buffer_editor = ["hx"]
 

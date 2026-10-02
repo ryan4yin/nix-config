@@ -1,8 +1,9 @@
 { pkgs, ... }:
 {
-  # Default editor: Helix (`hx`), for interactive and privileged (`sudoedit`) edits alike.
-  # `SUDO_EDITOR` is set explicitly rather than relying on the `$VISUAL`/`$EDITOR` fallback.
-  # Neovim stays installed as a backup.
+  # Default editor: Helix (`hx`), for interactive and privileged (`sudoedit`) edits alike. This is
+  # the single source for the editor env; Home Manager does not duplicate it. `SUDO_EDITOR` is
+  # explicit rather than relying on the `$VISUAL`/`$EDITOR` fallback. Neovim stays installed as a
+  # backup.
   environment.variables = {
     EDITOR = "hx";
     VISUAL = "hx";
