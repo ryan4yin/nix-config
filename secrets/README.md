@@ -107,8 +107,17 @@ in
 }
 ```
 
-3. Create and edit the secret file `xxx.age` with the [`Justfile`](./Justfile) `edit` recipe
-   (interactive, from the repository root); pipe the plaintext to write it non-interactively:
+3. Create the secret file `xxx.age` from the repository root with the [`Justfile`](./Justfile)
+   `replace` recipe, piping the plaintext on stdin:
+
+```shell
+just -f secrets/Justfile replace ./xxx.age < plaintext
+```
+
+`replace` deletes the target first, so agenix only encrypts to the public keys in `secrets.nix` and
+never decrypts the old value — it needs no `sudo`. Use `edit` instead for a partial change to an
+existing secret: it decrypts the current value first with the host key
+(`/etc/ssh/ssh_host_ed25519_key`), so it needs `sudo`.
 
 ```shell
 just -f secrets/Justfile edit ./xxx.age
