@@ -1,8 +1,10 @@
+{ pkgs-master, ... }:
 {
   nixpkgs.overlays = [
     (_: super: {
       bwraps = {
-        wechat = super.callPackage ./wechat.nix { };
+        # Track WeChat from nixpkgs-master, which carries the newest builds.
+        wechat = super.callPackage ./wechat.nix { wechat = pkgs-master.wechat; };
       };
     })
   ];

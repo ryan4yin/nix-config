@@ -4,53 +4,26 @@
 #   - https://docs.flatpak.org/en/latest/manifests.html
 #   - https://docs.flatpak.org/en/latest/sandbox-permissions.html
 #
-# TODO nixpkgs' `wechat` package hardcodes its AppImage wrapper args and does not
-# expose them for `.override`, so we repack it here to add our bubblewrap sandbox
-# (bind mounts, tmpfs /home, IME env).  Upstream override support:
-# https://github.com/NixOS/nixpkgs/pull/358977
+# We repack WeChat ourselves because nixpkgs' `wechat` package hardcodes its
+# AppImage wrapper args and does not expose them for `.override`, so there is no
+# way to add our bubblewrap sandbox (bind mounts, tmpfs /home, IME env) through
+# it.  We reuse its already-extracted, libtiff-patched AppImage (`wechat.src`),
+# so the version and source hash stay maintained by nixpkgs.
+# Upstream override support: https://github.com/NixOS/nixpkgs/pull/358977
 {
   appimageTools,
-  fetchurl,
-  stdenvNoCC,
+  wechat,
 }:
 let
   pname = "wechat";
-  # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/we/wechat/package.nix
-  sources = {
-    # direct CDN urls, pinned by hash (same approach as nixpkgs' wechat package)
-    # archive.org snapshots are not used because the CDN serves different builds per edge
-    # NOTE: Tencent replaces the file behind these versionless URLs, so the hashes
-    # must be refreshed with `nix store prefetch-file` whenever they stop matching.
-    # Last refreshed: 2026-09-19.
-    aarch64-linux = {
-      version = "4.1.1.8";
-      src = fetchurl {
-        url = "https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_arm64.AppImage";
-        hash = "sha256-zihf1qzRuhY2oKSP3qqIm3bS3/xWZRjRpfONxDe6kRc=";
-      };
-    };
-    x86_64-linux = {
-      version = "4.1.1.8";
-      src = fetchurl {
-        url = "https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_x86_64.AppImage";
-        hash = "sha256-T1StKQLs1vb9xWgLc1R/gNVCO/RwsBI3pXmi5bPK7us=";
-      };
-    };
-  };
-
-  inherit (stdenvNoCC.hostPlatform) system;
-  inherit (sources.${system} or (throw "Unsupported system: ${system}")) version src;
-
+  # nixpkgs' wechat package already extracted the AppImage and applied the
+  # libtiff.so.5 fix; reuse it so version/hash stay maintained upstream.
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/by-name/we/wechat/linux.nix
-  appimageContents = appimageTools.extract {
-    inherit pname version src;
-    postExtract = ''
-      patchelf --replace-needed libtiff.so.5 libtiff.so $out/opt/wechat/wechat
-    '';
-  };
+  appimageContents = wechat.src;
 in
 appimageTools.wrapAppImage {
-  inherit pname version;
+  inherit pname;
+  inherit (wechat) version;
 
   src = appimageContents;
 
