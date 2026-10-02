@@ -82,9 +82,12 @@ networking wiring, secrets, and the eval tests a new host must pass, is in
 
 ## Deploying VM Hosts
 
-The three VM hosts (`shoryu`, `shushou`, `youko`) attach their microVM taps to the Linux bridge
-`br0`, with the physical NIC as a bridge port (`shoryu` also runs libvirt domains on it). The
-`k3s-test-1` cluster runs as microVMs on top, using Cilium as its pod network (flannel disabled).
+The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs on the Linux bridge `br0`, with the
+physical NIC as a bridge port. NixOS guests run as microVMs (`microvm.nix`); the `k3s-test-1`
+cluster is microVMs on top, using Cilium as its pod network (flannel disabled). Full-machine guests
+run with qemu-kvm under libvirt instead: `shoryu` is the only host that enables `libvirtd` today
+(the agent desktops `kana`/`ruby`). Non-NixOS guests (Ubuntu, Windows, Qubes OS) would take the same
+qemu-kvm path; there are none right now.
 
 - `switch` is fine for changes that don't touch the network stack (e.g. journald or other service
   settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.
