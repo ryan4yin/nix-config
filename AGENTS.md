@@ -15,10 +15,8 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   instead of hardcoding usernames or paths.
 - `secrets/` contains agenix definitions; secret material also comes from a private external repo.
 - `overlays/` and `hardening/` hold package overlays and hardened (nixpak/bwrap) wrappers.
-- Noctalia (the Wayland shell) baseline is `home/linux/gui/base/noctalia/config/config.toml`,
-  symlinked out of store into `~/.config/noctalia/` so edits hot reload without a rebuild. Settings
-  UI changes stay in the state layer (`~/.local/state/noctalia/settings.toml`, loads last). Host
-  overrides go in a `host-<name>.toml` there (merged after `config.toml`).
+- Desktop (Niri and Noctalia) config is mostly out-of-store symlinks that hot-reload without a
+  rebuild; see the desktop skill below before changing it.
 
 ## Commands and Platforms
 
@@ -49,6 +47,11 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 
 ## Nix Conventions
 
+- Before a non-trivial change, find how nixpkgs (or the upstream project) already does it and follow
+  that shape instead of inventing a local convention. This covers a new package or overlay, a
+  hardening wrapper, a systemd unit, a kernel or driver option, and a version bump that changes the
+  build inputs. Look at the by-name siblings under `pkgs/by-name/<xx>/<name>/`, the recent history
+  of the file you are changing, and the upstream contributing docs.
 - Use `kebab-case.nix` filenames and `inherit (...)` for attribute imports.
 - Prefer `lib.mkIf`, `lib.optional`, and `lib.optionals` for conditional configuration.
 - Use `lib.mkDefault` for defaults and `lib.mkForce` only when necessary.
@@ -60,19 +63,42 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   evaluate or build without activating a system. Use these commands for previews and validation.
 - `just up`, `just upp`, and `just up-nix` update flake inputs and commit the lock file. Use
   `nix flake update <input>` when the update should remain uncommitted.
+- `just niri` and `just local` activate the machine you are on through `sudo` and block on a
+  password prompt; the user runs them, not an agent.
 - `just shoryu`, `just shushou`, `just youko`, `just lab`, and `just k3s-test` activate systems
   through Colmena. Use the narrower recipe that matches the intended host scope.
-- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM
-  guest. Deploy guests serially and check the guest Node and host services after each activation.
+- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM guest.
+  Deploy guests serially and check the guest Node and host services after each activation.
 - VM hosts (`shoryu`, `shushou`, `youko`) carry the `br0` bridge for their guests. Use the
   `boot`-based host deployment procedure for network stack or broad nixpkgs changes; see
   [hosts/README.md](./hosts/README.md#deploying-vm-hosts).
 - MicroVM state is stored in `/var/lib/microvms/<name>/{etc,var,home}.img`. Preserve these images
   when changing the guest configuration.
-- `just clean`, `just gc`, `just ggc`, and `just game` remove state or rewrite history. Use them only
-  for the intended cleanup or history operation.
+- `just clean`, `just gc`, `just ggc`, and `just game` remove state or rewrite history. Use them
+  only for the intended cleanup or history operation.
 - `just penvof` reads a process environment and can expose secrets. Use normal process inspection
   commands when environment values are not required.
+
+## Task Skills
+
+Reusable, repo-scoped task procedures live in `.agents/skills/`. Note the leading dot: `agents/` is
+the global rules source shared across projects, while `.agents/` applies only to this repository and
+is discovered by OpenCode and compatible tools.
+
+- [`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md) —
+  updating flake inputs and rolling the result out to hosts safely.
+- [`.agents/skills/nix-config-desktop/SKILL.md`](./.agents/skills/nix-config-desktop/SKILL.md) —
+  which layer owns a Niri/Noctalia setting, live reload vs a rebuild, and on-screen verification.
+- [`.agents/skills/nix-config-secrets/SKILL.md`](./.agents/skills/nix-config-secrets/SKILL.md) —
+  adding, changing, or removing an agenix secret, and verifying it without reading it.
+- [`.agents/skills/nix-config-new-host/SKILL.md`](./.agents/skills/nix-config-new-host/SKILL.md) —
+  wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
+- [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) — mapping
+  a broken eval, build, activation, unit, host, or MicroVM guest to the command that localizes it.
+- [`.agents/skills/nixpkgs-review/SKILL.md`](./.agents/skills/nixpkgs-review/SKILL.md) — reviewing
+  nixpkgs PRs locally first, with GHA for cross-architecture or larger reviews.
+- [`.agents/skills/nixpkgs-patched/SKILL.md`](./.agents/skills/nixpkgs-patched/SKILL.md) — carrying
+  selected unmerged nixpkgs changes through the personal patched fork safely.
 
 ## Further Context
 
@@ -80,4 +106,6 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - [Outputs and tests](./outputs/README.md)
 - [Hosts](./hosts/README.md), [system modules](./modules/README.md), and
   [Home Manager](./home/README.md)
-- [Secrets](./secrets/README.md)
+- [Secrets](./secrets/README.md), [backups](./BACKUP.md), and
+  [hardened app wrappers](./hardening/README.md)
+- [Installing NixOS from the ISO](./nixos-installer/README.md)

@@ -76,51 +76,9 @@ All my riscv64 hosts:
 
 ## How to Add a New Host
 
-The easiest way to add a new host is to copy and adapt an existing similar configuration. All host
-configurations follow similar patterns but are customized for specific hardware and use cases.
-
-### General Process
-
-1. **Identify a similar existing host** from the directory structure above
-2. **Copy the entire directory** and rename it for your new host
-3. **Adapt the configuration files** for your specific hardware and requirements
-4. **Update references** in the flake outputs and networking configuration
-
-### Essential Steps
-
-1. Under `hosts/`
-   1. Create a new folder under `hosts/` with the name of the new host.
-   2. Create & add the new host's `hardware-configuration.nix` to the new folder, and add the new
-      host's `configuration.nix` to `hosts/<name>/default.nix`.
-   3. If the new host need to use home-manager, add its custom config into
-      `home/hosts/linux/<name>.nix` or `home/hosts/darwin/<name>.nix`.
-1. Under `outputs/`
-   1. Add a new nix file named `outputs/<system-architecture>/src/<name>.nix`.
-   2. Copy the content from one of the existing similar host, and modify it to fit the new host.
-      1. Usually, you only need to modify the `name` and `tags` fields.
-   3. [Optional] Add a new unit test file under `outputs/<system-architecture>/tests/<name>.nix` to
-      test the new host's nix file.
-   4. [Optional] Add a new integration test file under
-      `outputs/<system-architecture>/integration-tests/<name>.nix` to test whether the new host's
-      nix config can be built and deployed correctly.
-1. Under `vars/networking.nix`
-   1. Add the new host's static IP address.
-   1. Skip this step if the new host is not in the local network or is a mobile device.
-
-### File Templates
-
-Use existing hosts as templates. The key files typically include:
-
-- `default.nix` - Main host configuration
-- `hardware-configuration.nix` - Auto-generated hardware settings
-- Platform-specific files (e.g., `nvidia.nix`, `apple-silicon.nix`, etc.)
-
-### Examples to Reference
-
-- **Desktop systems**: See `idols-ai/` for gaming/workstation setup
-- **Server systems**: See `12kingdoms-shoryu/` for VM hosts
-- **macOS systems**: See `darwin-fern/` for macOS configurations
-- **Apple Silicon**: See `12kingdoms-shoukei/` for ARM Linux setup
+Copy the closest existing host and adapt it. The step-by-step procedure, including the outputs and
+networking wiring, secrets, and the eval tests a new host must pass, is in
+[`.agents/skills/nix-config-new-host/SKILL.md`](../.agents/skills/nix-config-new-host/SKILL.md).
 
 ## Deploying VM Hosts
 

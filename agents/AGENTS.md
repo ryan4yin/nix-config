@@ -121,6 +121,9 @@ For an impactful change, follow these steps in order, scaled to its risk:
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
   dependencies; ask before creating a flake or installing another way.
 - Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes.
+- Upstream source checkouts (nixpkgs and similar) live under `~/codes/src/<repo>`. Before reading a
+  lot of upstream source, check there first; if the checkout exists, `git pull` it and read it
+  locally instead of relying only on the GitHub API or making a fresh clone.
 
 ### Tool execution
 
@@ -158,4 +161,5 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 - Agents MUST respond in the user's language (default English); use English for code, commands,
   identifiers, and comments.
-- Be concise, concrete, and action-oriented.
+- Be concise, concrete, and action-oriented: lead with the next action or the answer, number
+  multi-step work, restate state across turns, suppress tangents, and make progress visible.
