@@ -47,6 +47,11 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 
 ## Nix Conventions
 
+- Before a non-trivial change, find how nixpkgs (or the upstream project) already does it and follow
+  that shape instead of inventing a local convention. This covers a new package or overlay, a
+  hardening wrapper, a systemd unit, a kernel or driver option, and a version bump that changes the
+  build inputs. Look at the by-name siblings under `pkgs/by-name/<xx>/<name>/`, the recent history
+  of the file you are changing, and the upstream contributing docs.
 - Use `kebab-case.nix` filenames and `inherit (...)` for attribute imports.
 - Prefer `lib.mkIf`, `lib.optional`, and `lib.optionals` for conditional configuration.
 - Use `lib.mkDefault` for defaults and `lib.mkForce` only when necessary.
