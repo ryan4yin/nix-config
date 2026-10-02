@@ -80,11 +80,11 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ## Screenshots
 
-![desktop](./_img/2026-01-05_niri-noctalia_desktop.webp)
+![desktop](./_img/2026-10-02_niri-noctalia_desktop.webp)
 
-![overview](./_img/2026-01-04_niri-noctalia_overview.webp)
+![btop monitoring and system information](./_img/2026-10-01_btop-monitoring-system-info.webp)
 
-![nvim](./_img/2026-01-04_niri-noctalia_nvim.webp)
+![Helix, Zellij, and AI agents](./_img/2026-10-02_helix-zellij-ai-agents.webp)
 
 ## Editors / IDE
 
