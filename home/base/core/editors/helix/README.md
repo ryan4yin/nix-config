@@ -84,32 +84,32 @@ selection, and `$` / `0` line jumps (see `home/base/core/editors/helix/default.n
 | Word-label jump       | `gw` shows two-character labels; type a label to jump, `Esc` cancels |
 | Line / file           | `Home` / `End`; `gg` start or goto line; `G` line                    |
 | Half / full page      | `Ctrl-u` / `Ctrl-d`; `Ctrl-b` / `Ctrl-f`                             |
-| Jumplist              | `Ctrl-o` back, `Ctrl-i` forward; `Ctrl-s` save spot                  |
+| Jumplist              | `Ctrl-Shift-o` back, `Ctrl-i` forward; `Ctrl-s` save spot            |
 
 ### Selection & changes
 
-| Action                 | Keys / notes                                                                |
-| ---------------------- | --------------------------------------------------------------------------- |
-| Extend selections      | `v` select mode; motions extend instead of moving; `v` or `Esc` leaves mode |
-| Line selection         | `x` extend line; `X` line bounds; repeat or use a count for more lines      |
-| Collapse selections    | `;` collapse selections back to cursors                                     |
-| Select all / regex     | `%`; `s` regex in selections; `S` split on regex                            |
-| Multiple cursors       | `C` duplicate to next suitable line; `Alt-C` above; `,` remove one cursor   |
-| Align selections       | `&` align selection contents                                                |
-| Undo / redo            | `u` / `U`                                                                   |
-| Delete / change / yank | `d` / `c` / `y` — acts on selection                                         |
-| Replace with yank      | `R` replace selection with yanked text                                      |
-| Paste                  | `p` / `P`; registers `"` …                                                  |
-| Register prefix        | `"<char>` selects a register for yank/paste/macro operations                |
-| Insert                 | `i` `a` `I` `A` `o` `O`                                                     |
-| Repeat insert          | `.` repeat the last insertion                                               |
-| Replace selected chars | `r<char>`                                                                   |
-| Indent / format        | `>` / `<`; `=` format (LSP)                                                 |
-| Increment / decrement  | `Ctrl-a` / `Ctrl-x` on selected numbers                                     |
-| Case                   | `~` toggle; lower/upper case via grave / `Alt-grave` (see Alt caveat above) |
-| Join lines             | `J`; `Alt-J` join keeping space (see Alt caveat above)                      |
-| Toggle line comment    | `Ctrl-c`                                                                    |
-| Macro record / replay  | `Q` start/stop recording; `q` replay from the default `@` register          |
+| Action                 | Keys / notes                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| Extend selections      | `v` select mode; motions extend instead of moving; `v` or `Esc` leaves mode          |
+| Line selection         | `x` extend line; `X` line bounds; repeat or use a count for more lines               |
+| Collapse selections    | `;` collapse selections back to cursors                                              |
+| Select all / regex     | `%`; `s` regex in selections; `S` split on regex                                     |
+| Multiple cursors       | `C` duplicate to next suitable line; `Alt-C` above; `,` keep only the primary cursor |
+| Align selections       | `&` align selection contents                                                         |
+| Undo / redo            | `u` / `U`                                                                            |
+| Delete / change / yank | `d` / `c` / `y` — acts on selection                                                  |
+| Replace with yank      | `R` replace selection with yanked text                                               |
+| Paste                  | `p` / `P`; registers `"` …                                                           |
+| Register prefix        | `"<char>` selects a register for yank/paste/macro operations                         |
+| Insert                 | `i` `a` `I` `A` `o` `O`                                                              |
+| Repeat insert          | `.` repeat the last insertion                                                        |
+| Replace selected chars | `r<char>`                                                                            |
+| Indent / format        | `>` / `<`; `=` format (LSP)                                                          |
+| Increment / decrement  | `Ctrl-a` / `Ctrl-x` on selected numbers                                              |
+| Case                   | `~` toggle; lower/upper case via grave / `Alt-grave` (see Alt caveat above)          |
+| Join lines             | `J`; `Alt-J` join keeping space (see Alt caveat above)                               |
+| Toggle line comment    | `Ctrl-c`                                                                             |
+| Macro record / replay  | `Q` start/stop recording; `q` replay from the default `@` register                   |
 
 ### Search
 

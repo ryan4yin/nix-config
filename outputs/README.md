@@ -114,7 +114,10 @@ All the outputs of this flake are defined here.
     │   ├── idols-ruby.nix
     │   ├── k3s-test-1-master-1.nix
     │   ├── k3s-test-1-master-2.nix
-    │   └── k3s-test-1-master-3.nix
+    │   ├── k3s-test-1-master-3.nix
+    │   ├── k3s-test-1-worker-1.nix
+    │   ├── k3s-test-1-worker-2.nix
+    │   └── k3s-test-1-worker-3.nix
     └── tests         # eval tests (btrbk, computer-use-headless, hostname,
                       # kernel, security-*, ups-metrics, ...)
 ```

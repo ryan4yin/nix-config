@@ -62,9 +62,9 @@ Zellij shortcuts used often:
 | Left / down / up / right            | `h` `j` `k` `l` (counts like `5j` work) |
 | Jump to matchpairs `()`, `{}`, `[]` | `%`                                     |
 | Start / end of line                 | `0` / `$`                               |
-| Sentence forward / backward         | `(` / `)`                               |
-| Paragraph forward / backward        | `{` / `}`                               |
-| Section forward / backward          | `[[` / `]]`                             |
+| Sentence forward / backward         | `)` / `(`                               |
+| Paragraph forward / backward        | `}` / `{`                               |
+| Section forward / backward          | `]]` / `[[`                             |
 | Jump to marks                       | `'` + mark (Neovim may prompt)          |
 
 Text objects:
@@ -103,7 +103,7 @@ Misc:
 | Block visual             | `<Ctrl-v>`  |
 | Fold close / open        | `zc` / `zo` |
 | Go to definition         | `gd`        |
-| Go to references         | `gD`        |
+| Go to declaration        | `gD`        |
 | Comment line (if mapped) | e.g. `gcc`  |
 
 | Action                              | Command        |

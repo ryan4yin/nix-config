@@ -41,7 +41,7 @@ recipient rule.
 | The pinned revision of that repository        | `flake.lock`, input `mysecrets`                                                                |
 | Declaration: file, mode/owner, `/etc` copy    | `secrets/nixos.nix`, `secrets/darwin.nix`                                                      |
 | Which host gets which group                   | `modules.secrets.<group>.enable` in `outputs/<system>/src/<name>.nix` or a host module         |
-| Consumers                                     | modules reading `/etc/agenix/<name>` or `config.age.secrets."<name>".path`                     |
+| Consumers                                     | modules reading `config.age.secrets."<name>".path` (default `/run/agenix/<name>`)              |
 | Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
 
 ## 2. Add or change a secret
@@ -73,8 +73,8 @@ a root-owned copy readable.
 ## 4. Verify without reading
 
 ```bash
-stat -c '%a %U:%G' /etc/agenix/<name>    # mode and owner, not content
-ls -l /etc/agenix/
+stat -c '%a %U:%G' /run/agenix/<name>    # mode and owner, not content (the default path)
+ls -l /run/agenix/                       # /etc/agenix/ holds only the environment.etc copies
 journalctl -b | grep -5 agenix                                  # NixOS
 tail -n 100 /Library/Logs/org.nixos.activate-agenix.stderr.log  # macOS
 ```

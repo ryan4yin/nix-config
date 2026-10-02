@@ -17,14 +17,15 @@ reduce code duplication and make it easier to add new machines.
 ### Specialized Module Generators
 
 5. **`genK3sServerModule.nix`** - K3s server node configuration generator
-6. **`genVmHostModule.nix`** - physical VM host (bridge + libvirt) configuration generator
-7. **`genMicrovmGuestModule.nix`** - NixOS microVM guest configuration generator
-8. **`genLibvirtDomainXml.nix`** - libvirt domain XML generator (imported directly by host configs)
+6. **`genK3sAgentModule.nix`** - K3s agent/worker node configuration generator
+7. **`genVmHostModule.nix`** - physical VM host (bridge + libvirt) configuration generator
+8. **`genMicrovmGuestModule.nix`** - NixOS microVM guest configuration generator
+9. **`genLibvirtDomainXml.nix`** - libvirt domain XML generator (imported directly by host configs)
 
 ### Entry Point
 
-9. **`default.nix`** - Main entry point that imports the generators and exports them as a single
-   attribute set, plus the `relativeToRoot` and `scanPaths` helpers
+10. **`default.nix`** - Main entry point that imports the generators and exports them as a single
+    attribute set, plus the `relativeToRoot` and `scanPaths` helpers
 
 ## Usage
 

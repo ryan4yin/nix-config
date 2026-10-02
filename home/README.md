@@ -16,7 +16,7 @@ home/
 │   │   └── ...
 │   ├── tui/           # Terminal/TUI applications
 │   │   ├── editors/   # Heavy editor/tooling pkgs only (`packages.nix`; core editors live under `core/editors`)
-│   │   ├── encryption/ # GPG, password-store, etc.
+│   │   ├── encryption/ # Encryption and security tooling
 │   │   └── ...
 │   └── home.nix       # Main home manager entry point
 ├── linux/             # Linux-specific home manager configurations

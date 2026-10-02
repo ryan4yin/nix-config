@@ -44,7 +44,7 @@ Named after "Twelve Kingdoms":
 On 2026-09-29 the NVMe SSDs of `youko` and `shushou` were physically swapped, and the 2×4TB USB HDDs
 moved with the `youko` role to the other chassis. The reason was Jellyfin: HDR transcoding on the
 5625U's Barceló iGPU could not keep up (~0.4–0.8×), while the 5900HX's Cezanne iGPU can (~1.68× for
-1080p HDR). So the homelab-core role (all services + one k3s VM + the HDDs + the UPS) now runs on
+1080p HDR). So the homelab-core role (all services + the k3s VMs + the HDDs + the UPS) now runs on
 the Beelink GTR5 and the k3s VM-host role on the UM560; the other services moving along is a side
 effect of swapping the role's disk, not a separate migration. Hostnames, IPs, and state followed the
 disks.
@@ -82,9 +82,12 @@ networking wiring, secrets, and the eval tests a new host must pass, is in
 
 ## Deploying VM Hosts
 
-The three VM hosts (`shoryu`, `shushou`, `youko`) attach their VMs (microVM taps and libvirt
-domains) to the Linux bridge `br0`, with the physical NIC as a bridge port. The `k3s-test-1` cluster
-runs as microVMs on top, using Cilium as its pod network (flannel disabled).
+The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs on the Linux bridge `br0`, with the
+physical NIC as a bridge port. NixOS guests run as microVMs (`microvm.nix`); the `k3s-test-1`
+cluster is microVMs on top, using Cilium as its pod network (flannel disabled). Full-machine guests
+run with qemu-kvm under libvirt instead: `shoryu` is the only host that enables `libvirtd` today
+(the agent desktops `kana`/`ruby`). Non-NixOS guests (Ubuntu, Windows, Qubes OS) would take the same
+qemu-kvm path; there are none right now.
 
 - `switch` is fine for changes that don't touch the network stack (e.g. journald or other service
   settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.

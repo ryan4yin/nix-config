@@ -107,7 +107,7 @@ See [./secrets](./secrets) for details.
 > [hardware-configuration.nix](hosts/idols-ai/hardware-configuration.nix),
 > [Nvidia support](hosts/idols-ai/hardware-nvidia.nix), etc.) which is not suitable for your
 > hardware, and requires my private secrets repository
-> [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-config/tree/main/secrets) to deploy. You
+> [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-secrets) to deploy. You
 > may use this repo as a reference to build your own configuration.
 
 Run `just --list` to see every recipe.

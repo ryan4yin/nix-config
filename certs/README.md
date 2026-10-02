@@ -18,6 +18,6 @@ public certificates and configuration files are committed to this repository for
 
 ## Usage
 
-Run `./gen-certs.sh` to generate new certificates using the ECC CA configuration.
+Run `bash gen-certs.sh` to generate new certificates using the ECC CA configuration.
 
 See [../secrets](../secrets/) for the corresponding private key management.

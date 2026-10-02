@@ -121,7 +121,7 @@ What a screenshot cannot show:
   reload, not a broken startup.
 
 Do not "test" with commands that act on the session the user is looking at: `niri msg action quit`,
-`niri msg action power-off-monitors`, `noctalia msg dpms-off`, `noctalia msg lock`.
+`niri msg action power-off-monitors`, `noctalia msg dpms-off`, `noctalia msg session lock`.
 
 ## Why these rules exist
 
