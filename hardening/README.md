@@ -17,6 +17,8 @@
 ### 1. **System Level**
 
 - **AppArmor** (`apparmor/`): AppArmor profiles and configuration
+- **Kernel & process hardening** (`../modules/nixos/base/kernel-hardening.nix`): sysctl baseline and
+  unused-module deny list; rationale and verification live in [`SECURITY.md`](../SECURITY.md).
 
 ### 2. **Per-App Level**
 
