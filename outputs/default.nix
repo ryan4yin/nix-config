@@ -198,6 +198,19 @@ in
       };
     }
     // lib.optionalAttrs (system == "x86_64-linux") {
+      kernel-status =
+        nixpkgs.legacyPackages.${system}.runCommand "kernel-status-tests"
+          { nativeBuildInputs = [ nixpkgs.legacyPackages.${system}.python3 ]; }
+          ''
+            mkdir scripts tests
+            cp ${../scripts/kernel-status.py} scripts/kernel-status.py
+            cp ${../tests/test_kernel_status.py} tests/test_kernel_status.py
+            python3 -m unittest discover -s tests -p 'test_kernel_status.py'
+            touch $out
+          '';
+      kernel-status-vm = import ../tests/kernel-status.nix {
+        pkgs = nixpkgs.legacyPackages.${system};
+      };
       # Test the shared firewall in disposable VMs, without real-host imports,
       # Home Manager or agenix identities. Linux eval tests remain cross-arch.
       security-exporters = import ../tests/security-exporters.nix {
