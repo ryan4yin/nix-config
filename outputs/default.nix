@@ -91,27 +91,10 @@ let
   darwinSystemValues = builtins.attrValues darwinSystems;
   allSystemValues = nixosSystemValues ++ darwinSystemValues;
 
-  # Helper function to generate a set of attributes for each system
-  forAllSystems = func: (nixpkgs.lib.genAttrs allSystemNames func);
-in
-{
-  # Add attribute sets into outputs, for debugging
-  debugAttrs = {
-    inherit
-      nixosSystems
-      darwinSystems
-      allSystems
-      allSystemNames
-      ;
-  };
-
-  # NixOS Hosts
-  nixosConfigurations = lib.attrsets.mergeAttrsList (
-    map (it: it.nixosConfigurations or { }) nixosSystemValues
-  );
-
-  # Colmena - remote deployment via SSH
-  colmena = {
+  # Raw Colmena hive (nodes + meta), evaluated below into the exposed
+  # `colmenaHive` output. The nix-community Colmena rewrite only reads
+  # `colmenaHive`, so the raw hive is not an output of its own.
+  rawColmenaHive = {
     meta =
       (
         let
@@ -134,6 +117,29 @@ in
       };
   }
   // lib.attrsets.mergeAttrsList (map (it: it.colmena or { }) nixosSystemValues);
+
+  # Helper function to generate a set of attributes for each system
+  forAllSystems = func: (nixpkgs.lib.genAttrs allSystemNames func);
+in
+{
+  # Add attribute sets into outputs, for debugging
+  debugAttrs = {
+    inherit
+      nixosSystems
+      darwinSystems
+      allSystems
+      allSystemNames
+      ;
+  };
+
+  # NixOS Hosts
+  nixosConfigurations = lib.attrsets.mergeAttrsList (
+    map (it: it.nixosConfigurations or { }) nixosSystemValues
+  );
+
+  # Colmena - remote deployment via SSH. The nix-community evaluator reads the
+  # evaluated `colmenaHive` output built from the raw hive in the `let` block.
+  colmenaHive = inputs.colmena.lib.makeHive rawColmenaHive;
 
   # macOS Hosts
   darwinConfigurations = lib.attrsets.mergeAttrsList (

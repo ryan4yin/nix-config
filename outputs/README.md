@@ -48,10 +48,10 @@ suite passes when every `expr` equals its `expected`.
 Some tests iterate over every configuration, so a new host is covered automatically and must satisfy
 them. Others name specific hosts and only cover a new host if you add it.
 
-| Kind                | Tests                                                                                                                                                                           |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Every configuration | `hostname`, `kernel`, `nix-system-features`, `security-apparmor`, `security-container-groups`, `security-firewall`, `security-k3s-kubeconfig`, `security-ssh-x11`               |
-| Named hosts only    | `btrbk`, `home-manager`, `home-manager-xdg`, `computer-use-headless`, `k3s-master-home-manager`, `idols-ai-gpu`, `security-aquamarine-metrics`, `ups-metrics`, `shoukei-logind` |
+| Kind                | Tests                                                                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Every configuration | `hostname`, `kernel`, `nix-system-features`, `security-apparmor`, `security-container-groups`, `security-firewall`, `security-k3s-kubeconfig`, `security-ssh-x11` |
+| Named hosts only    | `btrbk`, `home-manager`, `home-manager-xdg`, `computer-use-headless`, `k3s-master-home-manager`, `idols-ai-gpu`, `youko-metrics`, `ups-metrics`, `shoukei-logind` |
 
 `hostname` expects each configuration's `networking.hostName` to equal its name. Niri desktop
 configurations are the exception (`ai-niri` → `ai`, `shoukei-niri` → `shoukei`) and are listed in
