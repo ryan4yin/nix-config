@@ -105,7 +105,4 @@
 
   # Git terminal UI (written in go).
   programs.lazygit.enable = true;
-
-  # Yet another Git TUI (written in rust).
-  programs.gitui.enable = false;
 }
