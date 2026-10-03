@@ -86,12 +86,17 @@
     };
 
     # secrets management
+    # Pinned to a release tag (not a branch) so `just up` cannot move it
+    # silently; bump deliberately when a new release is needed.
     agenix = {
-      # lock with git commit at May 18, 2025
-      url = "github:ryantm/agenix/4835b1dc898959d8547a871ef484930675cb47f1";
+      url = "github:ryantm/agenix/0.18.0";
       # replaced with a type-safe reimplementation to get a better error message and less bugs.
       # url = "github:ryan4yin/ragenix";
       inputs.nixpkgs.follows = "nixpkgs";
+      # Reuse the flake's own nix-darwin / home-manager instead of agenix's
+      # pinned copies, collapsing duplicate lock nodes.
+      inputs.darwin.follows = "nix-darwin";
+      inputs.home-manager.follows = "home-manager";
     };
 
     disko = {
