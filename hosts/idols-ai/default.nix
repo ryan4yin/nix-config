@@ -78,6 +78,7 @@ in
   # QEMU/KVM(HostCpuOnly) for local VMs.
   environment.systemPackages = [ pkgs.qemu_kvm ];
 
+  # Re-evaluate after the Insta360 Link firmware or the kernel's uvcvideo changes.
   powerManagement.resumeCommands = ''
     # Insta360 Link may stay enumerated with a stalled UVC endpoint after S3 resume.
     ${pkgs.coreutils}/bin/sleep 1

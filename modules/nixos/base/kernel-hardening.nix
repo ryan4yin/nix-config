@@ -5,7 +5,9 @@
   ...
 }:
 {
-  # Kernel module blacklisting to mitigate Dirty Frag LPE (Local Privilege Escalation) vulnerabilities.
+  # Kernel module blacklisting to mitigate the Dirty Frag LPE (CVE-2026-43284 /
+  # CVE-2026-43500). None of these modules are used here; re-evaluate (drop the
+  # blacklist) once the pinned kernel carries the upstream fix.
   boot.blacklistedKernelModules = [
     "esp4"
     "esp6"
