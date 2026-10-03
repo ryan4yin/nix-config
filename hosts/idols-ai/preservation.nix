@@ -101,6 +101,10 @@ in
       "/var/lib/NetworkManager"
       "/var/lib/iwd"
       "/var/lib/tailscale"
+
+      # logrotate state. Persist the directory: a single-file bind mount cannot
+      # be replaced by logrotate's atomic rename() (EBUSY).
+      "/var/lib/logrotate"
     ];
     files = [
       # auto-generated machine ID
@@ -108,10 +112,6 @@ in
         file = "/etc/machine-id";
         inInitrd = true;
       }
-      # logrotate's state file (a regular file, not a directory). It records the
-      # last rotation per log; a missing entry makes logrotate treat the log as
-      # freshly rotated, so the state must survive reboots.
-      { file = "/var/lib/logrotate.status"; }
     ];
 
     # the following directories will be passed to /persistent/home/$USER
@@ -372,6 +372,13 @@ in
       ];
     };
   };
+
+  # Keep logrotate's state inside the directory preserved above instead of the
+  # default /var/lib/logrotate.status (a mount point `rename()` cannot replace).
+  services.logrotate.extraArgs = [
+    "--state"
+    "/var/lib/logrotate/status"
+  ];
 
   # Create some directories with custom permissions.
   #
