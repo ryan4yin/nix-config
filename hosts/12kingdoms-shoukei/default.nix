@@ -21,8 +21,12 @@ in
   services.sunshine.enable = lib.mkForce false;
   services.tuned.ppdSettings.main.default = lib.mkForce "power-saver";
 
-  # Laptop joins untrusted networks and is no longer scraped; don't expose :9100.
+  # Laptop joins untrusted networks and is never scraped (see youko's
+  # `offlineHosts`); don't expose :9100, and don't keep the smartctl exporter
+  # (:9633) running either -- nothing collects it and the laptop isn't a
+  # long-lived drive to watch.
   services.prometheus.exporters.node.enable = lib.mkForce false;
+  services.prometheus.exporters.smartctl.enable = lib.mkForce false;
 
   # resolvconf restarts nscd on every /etc/resolv.conf rewrite (see
   # /etc/resolvconf.conf). Boot network churn exceeds the default start limit
