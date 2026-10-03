@@ -22,9 +22,11 @@
   nix.settings = {
     auto-optimise-store = true;
 
+    # Required to run nixpkgs' systemd-nspawn based NixOS tests locally (used
+    # by the nixpkgs-review workflow). These are daemon-wide settings, so every
+    # local build pays the small uid/cgroup allocation overhead; drop them if
+    # you stop running those tests.
     # Reference: https://github.com/NixOS/nixpkgs/pull/478109
-    # NixOS tests using systemd-nspawn containers require the Nix daemon to be
-    # configured with the following settings:
     auto-allocate-uids = true;
     extra-system-features = [ "uid-range" ];
     experimental-features = [
