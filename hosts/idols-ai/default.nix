@@ -43,6 +43,11 @@ in
   # Disable the whole module (zram device + its swappiness=180 sysctl tunings); this host uses a disk swapfile instead.
   modules.zram.enable = false;
 
+  # Tracing tooling and the whole-filesystem `locate` index are only wanted on
+  # the main machine (see modules/nixos/base/{packages,locate}.nix).
+  modules.debugTools.enable = true;
+  modules.locate.enable = true;
+
   # zswap: compressed writeback cache in front of the disk swapfile.
   # Keeps swapped cold anon pages compressed in RAM instead of the SSD, which frees more
   # page cache for the ~78GB mmap'd LLM weights (mmap file pages never go through zswap).
