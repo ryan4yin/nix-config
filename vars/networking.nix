@@ -18,7 +18,6 @@ rec {
     "2400:3200::1" # Alidns
     "2606:4700:4700::1111" # Cloudflare
   ];
-  prefixLength = 24;
 
   # Dedicated VIP block for the k3s clusters, outside the router's DHCP pool
   # (.2-.99). One /29 per cluster, handed to kube-vip: the first usable address
@@ -154,18 +153,6 @@ rec {
       ipv4 = "192.168.5.113";
     };
   };
-
-  hostsInterface = lib.attrsets.mapAttrs (key: val: {
-    interfaces."${val.iface}" = {
-      useDHCP = false;
-      ipv4.addresses = [
-        {
-          inherit prefixLength;
-          address = val.ipv4;
-        }
-      ];
-    };
-  }) hostsAddr;
 
   ssh = {
     # define the host alias for remote builders

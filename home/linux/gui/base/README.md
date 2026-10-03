@@ -96,7 +96,6 @@ Noctalia consolidates functionality that previously required multiple tools:
 ### System Utilities
 
 - **[`misc.nix`](./misc.nix)**: Misc GUI apps (e-book reader, remote desktop, hardened IM clients)
-- **[`immutable-file.nix`](./immutable-file.nix)**: Immutable file handling
 
 ## Related Documentation
 

@@ -10,10 +10,6 @@ let
       inherit (pkgs) lib;
       inherit pkgs;
     };
-    safeBind = sloth: realdir: mapdir: [
-      (sloth.mkdir (sloth.concat' sloth.appDataDir realdir))
-      (sloth.concat' sloth.homeDir mapdir)
-    ];
   };
   wrapper = _pkgs: path: (_pkgs.callPackage path callArgs);
 in
