@@ -1,9 +1,10 @@
 # agents
 
-Reusable, symlink-first agent resources shared across projects.
+Portable agent resources shared across projects: the global baseline rules, behavioral scenarios for
+those rules, and reference snippets for external tooling.
 
-This directory is the canonical source for baseline agent rules and supporting command references.
-The primary workflow is to symlink files from here into each agent runtime/config location.
+Home Manager links the rules from here into each agent's config location, so `agents/` itself stays
+plain Markdown with no Nix dependency.
 
 It is shared across projects. Repo-scoped task procedures for one repository belong elsewhere: put
 them in that repository's `.agents/skills/` (note the leading dot), which OpenCode and compatible
@@ -20,27 +21,23 @@ Keep one canonical home for each fact; link between layers instead of copying pa
 
 - `AGENTS.md`: global baseline rules for coding agents.
 - `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
-- `install-rules.py`: installs the baseline by creating symlinks in supported agent config dirs.
-- `test_install_rules.py`: regression tests for file preservation and independent target handling.
-- `install-cli.md`: curated CLI install/update command snippets.
-- `install-skills.md`: curated `npx skills` command snippets.
+- `install-skills.md`: curated `npx skills` command snippets, plus the `npx ctx7` docs-tool setup.
+
+The Nix side of the agents — deploying these rules, the agent CLIs, and their environment — lives in
+the Home Manager module [`home/base/tui/agents/`](../home/base/tui/agents/README.md).
 
 ## Core workflow
 
 1. Maintain shared rules in `agents/AGENTS.md`.
 2. Configure permissions directly in the agent runtime; auto-approval is generally used.
-3. Run `install-rules.py` to refresh symlinks in local agent homes.
-4. Use `install-cli.md` and `install-skills.md` as reference snippets when needed.
+3. Edit the rules; Home Manager links them out-of-store, so the change reaches the next agent
+   session without a rebuild. Run a Home Manager switch only when the deployed target set changes.
+4. Use `install-skills.md` as a reference when installing external skills.
 
-## Install baseline rules (symlink-based)
+## Deployment
 
-Run:
-
-```bash
-python3 agents/install-rules.py
-```
-
-Current targets:
+[`home/base/tui/agents/rules.nix`](../home/base/tui/agents/rules.nix) links `AGENTS.md` into every
+supported agent config directory as an out-of-store symlink, so edits apply without a rebuild:
 
 - Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
 - OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
@@ -48,30 +45,20 @@ Current targets:
 - OMP: `AGENTS.md` -> `~/.omp/agent/AGENTS.md`
 - Generic cross-tool (read by Kimi Code): `AGENTS.md` -> `~/.agents/AGENTS.md`
 
-Behavior:
+The module is imported through `home/base/tui`, so it covers the hosts that import
+`home/linux/gui.nix` or the macOS `home/darwin` stack; core-only servers are unchanged.
 
-- Each target is handled independently.
-- Target errors are reported while remaining targets are attempted; any error yields a nonzero exit.
-- Missing destination directories are skipped.
-- Existing regular files are preserved as `.bak` backups (numbered when a backup already exists).
-- Destination links are replaced atomically; a failed link creation leaves the destination intact.
-
-The installer links only `AGENTS.md`; it does not install permission configuration, skills, or CLIs.
-The repository-root `AGENTS.md` contains guidance for this Nix configuration repository. It is not
-the global rules source and is not installed by this script.
+Only `AGENTS.md` is deployed to the agents. Permission configuration and skills are not installed by
+Nix; the CLIs themselves are, via the same module's `packages.nix`. The repository-root `AGENTS.md`
+contains guidance for this Nix configuration repository. It is not the global rules source and is
+not deployed.
 
 Auto-approval controls tool prompting. The global rules still define task authorization, safety, and
 secret handling.
 
-Run installer regression tests without changing installed rules:
+## About `install-skills.md`
 
-```bash
-python3 -B -m unittest discover -s agents -p test_install_rules.py
-```
-
-## About `install-cli.md` and `install-skills.md`
-
-Use them as snippet libraries:
+Use it as a snippet library:
 
 - review the commands
 - select what you need
@@ -79,8 +66,7 @@ Use them as snippet libraries:
 
 ## TODO
 
-Ideas worth adopting once a concrete need appears; nothing here is implemented yet, and the install
-scripts above do not cover it.
+Ideas worth adopting once a concrete need appears; nothing here is implemented yet.
 
 - **Shared instructions and skills.** Deploy one rules body plus declared skills to every agent
   instead of maintaining a copy per agent. Reference: `mirkolenz/infra`

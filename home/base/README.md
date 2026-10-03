@@ -24,7 +24,7 @@ systems.
 ### Desktop Environment
 
 - **gui/**: Cross-platform GUI applications and configurations
-  - **dev-tools.nix**: Development tools and IDEs
+  - **dev-tools.nix**: Misc development and network tools (mitmproxy, wireshark)
   - **media.nix**: Media players and utilities
   - **zed-editor.nix**: Zed editor configuration (primary GUI editor)
   - **terminal/**: Terminal emulator configurations
@@ -34,7 +34,8 @@ systems.
 ### Terminal Interface
 
 - **tui/**: Terminal-based interface configurations
-  - **agent-env.nix**: Telemetry/auto-update opt-outs for AI coding agents
+  - **agents/**: AI coding agents — global rules deployment, CLIs, and telemetry/auto-update
+    opt-outs
   - **cloud/**: Cloud development tools (Terraform, etc.)
   - **container.nix**: Container tools (Docker, Podman)
   - **dev-tools.nix**: Terminal-based development tools

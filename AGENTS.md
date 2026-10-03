@@ -2,7 +2,7 @@
 
 This flake manages NixOS hosts, macOS via nix-darwin, shared Home Manager profiles, and Colmena
 deployments. Keep repository guidance here; reusable global rules live in `agents/AGENTS.md`. See
-[agents/README.md](./agents/README.md) for their scope and symlink installation targets.
+[agents/README.md](./agents/README.md) for their scope and deployment targets.
 
 ## Where Changes Belong
 

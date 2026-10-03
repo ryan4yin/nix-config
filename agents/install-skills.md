@@ -81,6 +81,13 @@ npx skills add anthropics/skills --skill 'pdf'
 npx skills add trailofbits/skills --skill 'codeql' --skill 'semgrep'
 ```
 
+## Other agent tooling (npx)
+
+```bash
+# context7: up-to-date library docs and code examples for LLMs and agents
+npx ctx7 setup
+```
+
 References:
 
 - https://github.com/obra/superpowers

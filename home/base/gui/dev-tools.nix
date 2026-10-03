@@ -1,12 +1,8 @@
 {
   pkgs,
   lib,
-  llm-agents,
   ...
 }:
-let
-  agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
-in
 {
   home.packages =
     with pkgs;
@@ -17,17 +13,5 @@ in
     ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
       mitmproxy # http/https proxy tool
       wireshark # network analyzer
-    ]
-    # AI Agent Tools
-    ++ [
-      # Agents
-      agentPackages.codex
-      agentPackages.opencode2
-      agentPackages.kimi-code
-      agentPackages.pi
-      agentPackages.omp
-
-      # MCP servers, configured project-scoped in opencode.jsonc / .codex/config.toml
-      mcp-grafana
     ];
 }
