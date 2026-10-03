@@ -24,6 +24,21 @@ in
   # Laptop joins untrusted networks and is no longer scraped; don't expose :9100.
   services.prometheus.exporters.node.enable = lib.mkForce false;
 
+  # resolvconf restarts nscd on every /etc/resolv.conf rewrite (see
+  # /etc/resolvconf.conf). Boot network churn exceeds the default start limit
+  # (5/10s) and latches nscd into `failed`, which also fails nss-lookup.target /
+  # nss-user-lookup.target; `try-restart` cannot revive it. nscd cannot be
+  # disabled (NixOS loads NSS modules through it, see nsswitch.nix), so don't
+  # rate-limit these external restarts and back off on the crash path instead.
+  systemd.services.nscd = {
+    startLimitIntervalSec = 0;
+    serviceConfig = {
+      RestartSec = "1s";
+      RestartSteps = 5;
+      RestartMaxDelaySec = "60s";
+    };
+  };
+
   networking = {
     inherit hostName;
     inherit (myvars.networking) nameservers;
