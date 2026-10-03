@@ -59,6 +59,12 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - Use `lib.mkDefault` for defaults and `lib.mkForce` only when necessary.
 - Give module options a `description` and preserve platform-specific conditions.
 
+## Workarounds
+
+Temporary workarounds, version pins, carried patches, and known gaps are recorded in
+[WORKAROUNDS.md](./WORKAROUNDS.md), each with a removal condition. Add a row in the same change that
+introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
+
 ## Command Hazards
 
 - `just eval-host <host>`, `just build-host <host>`, `just build-microvm <guest>`, and `just test`
@@ -120,6 +126,7 @@ repository, and cross-link them — no need to be told.
 ## Further Context
 
 - [Repository overview](./README.md)
+- [Workarounds & known gaps](./WORKAROUNDS.md)
 - [Outputs and tests](./outputs/README.md)
 - [Hosts](./hosts/README.md), [system modules](./modules/README.md), and
   [Home Manager](./home/README.md)
