@@ -153,11 +153,10 @@ checks remain necessary after deployment.
 
 ### Implementation status
 
-| Component                                                        | Status                                             | Runtime verification                                |
-| ---------------------------------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change              | Only the dated observations below were checked live |
-| Explicit sysctl baseline and IPv6 exporter defence               | Implemented in this baseline change                | Not deployed or verified on running hosts           |
-| Kernel-state reporter and textfile metrics                       | Planned in a separate observability implementation | Not deployed or verified on running hosts           |
+| Component                                                        | Status                                | Runtime verification                                |
+| ---------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------- |
+| Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change | Only the dated observations below were checked live |
+| Explicit sysctl baseline and IPv6 exporter defence               | Implemented in this baseline change   | Not deployed or verified on running hosts           |
 
 ### Baseline implementation checks
 
@@ -276,29 +275,18 @@ active exploitation or a reachable high-impact vulnerability. Check affected ver
 then validate an update and schedule the required rollout/reboot. Do not auto-apply every input bump
 or promise that a kernel version string alone proves security coverage.
 
-The planned `modules/nixos/base/kernel-status.nix` reporter will publish small textfile gauges
-through the existing node exporter. A bounded one-shot will run every five minutes and resolve
-public kernel-path metadata rather than reading image contents, scanning packages or keeping a
-resident agent running. The design uses the existing non-root exporter account, with no new sudo
-grants. Its non-secret report at `/run/nixos-kernel-status/kernel-status.prom` is owner-writable and
-readable for local diagnosis. It compares `/nix/var/nix/profiles/system/kernel` with
-`/run/booted-system/kernel`, so boot-only deployments are visible even when `/run/current-system`
-remains unchanged.
+Verify the booted kernel after each rollout instead of trusting the selected generation. The booted
+image and the image selected for the next boot are independent:
 
-- `nixos_kernel_reboot_required = 1`: selected system profile and booted kernel image differ.
-- `nixos_kernel_status_success = 0`: metadata is unavailable; no healthy/mismatch value is emitted.
-- `node_textfile_mtime_seconds`: inspect freshness as well as the reported value. Missing or stale
-  data and reporter-unit failure are not evidence that the running kernel is current.
+- `readlink -f /run/booted-system/kernel` — kernel of the running system closure.
+- `readlink -f /nix/var/nix/profiles/system/kernel` — kernel selected for the next boot.
 
-Use `nixos_kernel_reboot_required == 1` for the pending-reboot view and
-`nixos_kernel_status_success == 0` for unknown status. Investigate absent metrics and a textfile
-timestamp older than 15 minutes. Existing `node_uname_info` provides the running release string. No
-new notification routes or automatic reboot/update actions are introduced here.
-
-This reports image identity mismatch, not vulnerability age, livepatch state, driver compatibility,
-or a runner staged only on a MicroVM's physical host. For each rollout, record the selected/booted
-generation and `uname -r`, reboot through the host-role procedure, then recheck API/workloads and
-fresh metrics. Guest profiles and host-side runner references require separate verification.
+A mismatch means the host still runs the old kernel and a reboot is pending. This catches boot-only
+deployments even when `/run/current-system` is unchanged; `uname -r` gives the running release
+string. A matching kernel path is not proof of vulnerability age, livepatch state or driver
+compatibility, and a generation change that only affects the initrd, modules or userspace leaves the
+kernel path unchanged. Guest profiles and a runner staged only on a MicroVM's physical host require
+separate verification.
 
 ## Remaining prioritized TODOs
 
@@ -308,7 +296,7 @@ fresh metrics. Guest profiles and host-side runner references require separate v
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                     |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                      |
 | P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts, recipient scope and Darwin per-file ownership        |
-| P1       | Adopt the documented cadence and implement kernel visibility                     | Routine documented; reporter planned. Verify fresh host data and image mismatch behavior after implementation/rollout                                           |
+| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; compare booted and selected kernel paths and recheck API/workloads after reboot; no automated metric is deployed                            |
 | P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                              |
 | P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                              |
 | P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                     |
