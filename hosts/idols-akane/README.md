@@ -14,7 +14,7 @@ nixos-install --root /mnt --flake .#akane --no-root-password --show-trace --verb
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login
-# if login failed, check the password you set in install-1, and try again
+# if login failed, check the initial password you set in vars/default.nix, and try again
 nixos-enter
 
 reboot

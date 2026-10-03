@@ -21,8 +21,8 @@
       rule = [
         "${./alert_rules}/*.yml"
         "${./alert_rules}/*.yaml"
-        "${./recoding_rules}/*.yml"
-        "${./recoding_rules}/*.yaml"
+        "${./recording_rules}/*.yml"
+        "${./recording_rules}/*.yaml"
       ];
       # https://docs.victoriametrics.com/victoriametrics/vmalert/#link-to-alert-source
       # Set this two args to generate the correct `.GeneratorURL`

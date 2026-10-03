@@ -6,20 +6,7 @@ This directory contains all Home Manager configurations organized by platform an
 
 ```
 home/
-├── base/              # Cross-platform home manager configurations
-│   ├── core/          # Essential applications and settings
-│   │   ├── editors/   # Editor configurations (Neovim, Helix)
-│   │   ├── shells/    # Shell configurations (bash, Nushell)
-│   │   └── ...
-│   ├── gui/           # GUI applications and desktop settings
-│   │   ├── terminal/  # Terminal emulators (Ghostty, Kitty, etc.)
-│   │   └── ...
-│   ├── tui/           # Terminal/TUI applications
-│   │   ├── agents/    # AI coding agents (rules deployment, CLIs, env)
-│   │   ├── editors/   # Heavy editor/tooling pkgs only (`packages.nix`; core editors live under `core/editors`)
-│   │   ├── encryption/ # Encryption and security tooling
-│   │   └── ...
-│   └── home.nix       # Main home manager entry point
+├── base/              # Cross-platform home manager configurations (see base/README.md)
 ├── linux/             # Linux-specific home manager configurations
 │   ├── base/          # Linux base configurations
 │   ├── gui/           # Linux GUI applications
@@ -28,7 +15,7 @@ home/
 │   │   └── ...
 │   └── ...
 ├── hosts/             # Host-specific home manager entry modules
-│   ├── linux/         # Linux host home modules (ai, shoukei, kana, ruby, k3s-*, etc.)
+│   ├── linux/         # Linux host home modules (idols-ai, 12kingdoms-shoukei, idols-kana, idols-ruby, k3s-test-1-worker-*, etc.)
 │   └── darwin/        # macOS host home modules (fern, frieren)
 └── darwin/            # macOS-specific home manager configurations
     ├── proxy/         # Proxy configurations
@@ -43,7 +30,7 @@ home/
 
 2. **linux**: Linux-specific configuration
    - Desktop environments (Noctalia Shell, Niri compositor)
-   - Headless computer-use session (`gui/i3`, Xvfb + i3; see `gui/i3/README.md`)
+   - Headless computer-use session (see `gui/i3/README.md`)
    - Linux-specific GUI applications
    - System integration tools
 

@@ -1,7 +1,7 @@
 # Host - AI
 
 Desktop (NixOS + preservation, LUKS + btrfs on nvme). Disk layout is declarative via
-[disko](./disko-fs.nix) (target device: **nvme1n1**).
+[disko](./disko-fs.nix) (target device: the KINGBANK NVMe by `/dev/disk/by-id/`, set in that file).
 
 Related:
 

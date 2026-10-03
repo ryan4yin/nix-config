@@ -22,8 +22,8 @@ recommended, as it use KMS for key management.
 
 ## Symmetric Encryption
 
-Both age & GnuPG provide symmetric encryption, which is useful for encrypting files for a specific
-user.
+Both age & GnuPG provide symmetric encryption, where a passphrase encrypts and decrypts the file
+instead of a recipient key.
 
 As described in [age Format v1][age Format v1], age use scrypt to encrypt and decrypt the file key
 with a provided passphrase, which is more secure than GnuPG's symmetric encryption.

@@ -35,12 +35,8 @@ Comprehensive network configuration including:
 
 ## Host Categories
 
-The networking configuration covers:
-
-- **Physical machines**: Desktop PCs, servers, and SBCs
-- **Virtual machines**: VM guests, K3s nodes
-- **Kubernetes clusters**: the `k3s-test-1` testing cluster
-- **Network infrastructure**: Routers, gateways, and DNS configuration
+`networking.nix` maps each host to its LAN address and interface. The authoritative inventory is
+[`../hosts/README.md`](../hosts/README.md); this file holds only the addresses.
 
 ## Usage
 

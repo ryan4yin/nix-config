@@ -1,5 +1,9 @@
 # fcitx5 - IME
 
+fcitx5 is enabled in `default.nix` with the [flypy](https://flypy.com/) Rime schema (Chinese),
+`fcitx5-mozc-ut` (Japanese), and `fcitx5-hangul` (Korean), alongside the US keyboard layouts. The
+Rime data ships in the [`overlays/fcitx5`](../../../../../overlays/fcitx5/) overlay.
+
 ## Available Configurations
 
 - `profile` → Symlink will be created at: `~/.config/fcitx5/profile`

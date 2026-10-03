@@ -23,13 +23,17 @@ partitioning is no longer needed.
 ## Steps to deploy
 
 1. Create a USB install medium from the official NixOS ISO and boot from it.
+2. Review
+   [`../hosts/idols-ai/hardware-configuration.nix`](../hosts/idols-ai/hardware-configuration.nix)
+   against the target machine before installing; after the disk is mounted, regenerate it with
+   `nixos-generate-config --root /mnt` if the hardware differs.
 
 ### 1. Partition and mount with disko (recommended)
 
-Layout is defined in [../hosts/idols-ai/disko-fs.nix](../hosts/idols-ai/disko-fs.nix): **nvme1n1**,
-ESP (~600M) + LUKS + btrfs (subvolumes: `/` at `/btr_pool`, `@nix`, `@persistent`, `@snapshots`,
-`@tmp`, `@swap`). Root is tmpfs; [preservation](https://github.com/nix-community/preservation) uses
-`/persistent`.
+Layout is defined in [../hosts/idols-ai/disko-fs.nix](../hosts/idols-ai/disko-fs.nix): the KINGBANK
+NVMe selected by `/dev/disk/by-id/`, ESP (~600M) + LUKS + btrfs (subvolumes: `/` at `/btr_pool`,
+`@nix`, `@persistent`, `@snapshots`, `@tmp`, `@swap`). Root is tmpfs;
+[preservation](https://github.com/nix-community/preservation) uses `/persistent`.
 
 ```bash
 git clone https://github.com/ryan4yin/nix-config.git
@@ -38,7 +42,7 @@ cd nix-config/nixos-installer
 sudo su
 
 # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
-# WARNING: destroys all data on nvme1n1. Layout is mounted at /mnt by default.
+# WARNING: destroys all data on the target disk. Layout is mounted at /mnt by default.
 nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs.nix
 
 # Mount only (e.g. after first format, without wiping):
@@ -83,8 +87,8 @@ umount -R /mnt
 reboot
 ```
 
-After reboot, set the boot order in firmware so the system boots from nvme1n1. The old disk (e.g.
-nvme0n1) can be reused for something else.
+After reboot, set the boot order in firmware so the system boots from the newly installed NixOS
+disk. The old disk can be reused for something else.
 
 ### Optional: use a cache mirror
 

@@ -13,7 +13,7 @@ document is the agreed design and the rationale.
 
 - Scheduled phone background backup (the mobile app is used for manual uploads).
 - Multi-user / family accounts and public share links.
-- Off-host/off-site copy — deferred to the planned cloud backup (see Backup).
+- Off-host/off-site copy (see Backup).
 
 ## Decisions
 
@@ -34,7 +34,7 @@ document is the agreed design and the rationale.
 - `services.immich.database.enable = true` and `createDB = true`: the module adds `pgvector` +
   `vectorchord` to `services.postgresql`, sets `shared_preload_libraries = [ "vchord.so" ]`, and
   creates the `immich` database/user. Confirmed present in this flake's nixpkgs: PG 16.15,
-  `pgvector` 0.8.6, `vectorchord` 1.1.1, `immich` 3.2.2.
+  `pgvector` 0.8.6, `vectorchord` 1.1.1, `immich` 3.2.4.
 - `services.immich.redis.enable = false` with `host = "127.0.0.1"` and `port = 6379`: Immich uses
   the shared Valkey instance (`../valkey.nix`) over loopback TCP; the module then passes
   `REDIS_HOSTNAME`/`REDIS_PORT`.

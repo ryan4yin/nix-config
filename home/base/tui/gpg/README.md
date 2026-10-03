@@ -498,7 +498,7 @@ gpg --delete-secret-keys ryan4yin@linux.com
 rm ~/.gnupg/openpgp-revocs.d/C8D84EBC5F82494F432ACEF042E49B284C30A0DA.rev
 
 # import our subkeys back
-age --decrypt -o ryan4yin-primary-key.priv ryan4yin-primary-key.priv.age
+age --decrypt -o ryan4yin-gpg-subkeys.priv ryan4yin-gpg-subkeys.priv.age
 gpg --import ryan4yin-gpg-subkeys.priv
 ```
 

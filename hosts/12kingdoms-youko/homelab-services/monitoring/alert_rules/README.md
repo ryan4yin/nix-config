@@ -6,3 +6,8 @@ met for a specific resource within its scope, the system generates a triggered a
 actual instance of the condition being met. These rules specify the data to monitor, the trigger
 threshold, and the resulting actions, like sending notifications to specific receivers or performing
 automated tasks.
+
+## How these files are loaded
+
+[`../alert.nix`](../alert.nix) passes every `*.yml` and `*.yaml` in this directory to `vmalert` as a
+rule file; other extensions are ignored. One rule group per file is easiest to review.

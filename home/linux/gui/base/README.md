@@ -75,7 +75,8 @@ Noctalia consolidates functionality that previously required multiple tools:
 
 ### Input & Localization
 
-- **[`fcitx5/`](./fcitx5/)**: Fcitx5 input method with Mozc (Japanese input)
+- **[`fcitx5/`](./fcitx5/)**: Fcitx5 input method with Rime (Chinese), Mozc (Japanese), and Hangul
+  (Korean) engines
 
 ### Applications
 
