@@ -9,6 +9,7 @@
     ../base/core.nix
     ../base/i18n.nix
     ../base/kernel-hardening.nix
+    ../base/kernel-status.nix
     ../base/monitoring.nix
     ../base/nix.nix
     ../base/packages.nix

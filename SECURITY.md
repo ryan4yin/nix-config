@@ -153,11 +153,11 @@ checks remain necessary after deployment.
 
 ### Implementation status
 
-| Component                                                        | Status                                             | Runtime verification                                |
-| ---------------------------------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
-| Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change              | Only the dated observations below were checked live |
-| Explicit sysctl baseline and IPv6 exporter defence               | Implemented in this baseline change                | Not deployed or verified on running hosts           |
-| Kernel-state reporter and textfile metrics                       | Planned in a separate observability implementation | Not deployed or verified on running hosts           |
+| Component                                                        | Status                                   | Runtime verification                                |
+| ---------------------------------------------------------------- | ---------------------------------------- | --------------------------------------------------- |
+| Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change    | Only the dated observations below were checked live |
+| Explicit sysctl baseline and IPv6 exporter defence               | Implemented in this baseline change      | Not deployed or verified on running hosts           |
+| Kernel-state reporter and textfile metrics                       | Implemented in this observability change | Not deployed or verified on running hosts           |
 
 ### Baseline implementation checks
 
@@ -276,10 +276,10 @@ active exploitation or a reachable high-impact vulnerability. Check affected ver
 then validate an update and schedule the required rollout/reboot. Do not auto-apply every input bump
 or promise that a kernel version string alone proves security coverage.
 
-The planned `modules/nixos/base/kernel-status.nix` reporter will publish small textfile gauges
-through the existing node exporter. A bounded one-shot will run every five minutes and resolve
-public kernel-path metadata rather than reading image contents, scanning packages or keeping a
-resident agent running. The design uses the existing non-root exporter account, with no new sudo
+The [kernel-status.nix](modules/nixos/base/kernel-status.nix) reporter publishes small textfile
+gauges through the existing node exporter. A bounded one-shot will run every five minutes and
+resolve public kernel-path metadata rather than reading image contents, scanning packages or keeping
+a resident agent running. The design uses the existing non-root exporter account, with no new sudo
 grants. Its non-secret report at `/run/nixos-kernel-status/kernel-status.prom` is owner-writable and
 readable for local diagnosis. It compares `/nix/var/nix/profiles/system/kernel` with
 `/run/booted-system/kernel`, so boot-only deployments are visible even when `/run/current-system`
@@ -308,7 +308,7 @@ fresh metrics. Guest profiles and host-side runner references require separate v
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                     |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                      |
 | P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts, recipient scope and Darwin per-file ownership        |
-| P1       | Adopt the documented cadence and implement kernel visibility                     | Routine documented; reporter planned. Verify fresh host data and image mismatch behavior after implementation/rollout                                           |
+| P1       | Adopt the documented cadence and deploy kernel visibility                        | Routine and reporter implemented in source. Verify fresh host data and image mismatch behavior after rollout                                                    |
 | P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                              |
 | P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                              |
 | P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                     |
