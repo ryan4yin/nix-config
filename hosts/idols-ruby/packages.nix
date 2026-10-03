@@ -36,7 +36,6 @@ in
       pnpm
 
       #-- python
-      conda
       uv # python project package manager
       (python313.withPackages (
         ps: with ps; [

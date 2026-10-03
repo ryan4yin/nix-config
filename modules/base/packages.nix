@@ -45,7 +45,7 @@
     fd
     findutils
     # search for files by its content, replacement of grep
-    (ripgrep.override { withPCRE2 = true; })
+    ripgrep
 
     duf # Disk Usage/Free Utility - a better 'df' alternative
     gdu # disk usage analyzer, non-interactive (`-n`) & JSON (`-o`)
