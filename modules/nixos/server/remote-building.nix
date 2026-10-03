@@ -47,15 +47,6 @@
       #   #   1. a hostname that can be resolved by DNS
       #   #   2. the ip address of the remote builder
       #   #   3. a host alias defined globally in /etc/ssh/ssh_config
-      #   hostName = "aquamarine";
-      #   # remote builder's max-job
-      #   maxJobs = 3;
-      #   # speedFactor's a signed integer
-      #   # https://github.com/ryan4yin/nix-config/issues/70
-      #   speedFactor = 1;
-      # }
-      # {
-      #   inherit sshUser sshKey systems supportedFeatures;
       #   hostName = "ruby";
       #   maxJobs = 2;
       #   speedFactor = 1;

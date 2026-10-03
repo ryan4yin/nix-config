@@ -12,7 +12,7 @@ reduce code duplication and make it easier to add new machines.
    [nix-darwin](https://github.com/LnL7/nix-darwin)
 3. **`nixosSystem.nix`** - NixOS configuration generator
 4. **`colmenaSystem.nix`** - Remote deployment configuration for
-   [colmena](https://github.com/zhaofengli/colmena)
+   [colmena](https://github.com/nix-community/colmena)
 
 ### Specialized Module Generators
 
