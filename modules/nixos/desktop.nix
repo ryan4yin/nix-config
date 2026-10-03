@@ -27,6 +27,12 @@ in
     # Mesa userspace (OpenGL/Vulkan) for every GUI host.
     {
       hardware.graphics.enable = true;
+
+      # Desktops opt in to the tracing/benchmark tooling and the
+      # whole-filesystem `locate` index (both off by default; see
+      # modules/nixos/base/{packages,locate}.nix).
+      modules.debugTools.enable = true;
+      modules.locate.enable = true;
     }
 
     (mkIf cfgWayland.enable {
