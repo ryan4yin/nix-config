@@ -22,6 +22,9 @@
     # disable backups in the VM
     modules.btrbk.enable = lib.mkForce false;
 
+    # VM guest: no physical hardware to inspect.
+    modules.hardwareTools.enable = lib.mkForce false;
+
     boot.growPartition = true;
     boot.kernelParams = [ "console=ttyS0" ];
     boot.loader.grub.device = "/dev/vda";
