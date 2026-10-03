@@ -22,9 +22,16 @@
     # update via nix flake update nixpkgs --override-input nixpkgs github:NixOS/nixpkgs/<commit-hash>
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    # Kept for pinning a package that regressed in newer nixpkgs. Currently only
+    # kubernetes-helm uses it (home/base/tui/container.nix); extend or drop this
+    # input together with that consumer.
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
-    # nixpkgs with some custom patches
+    # nixpkgs with some custom patches.
+    # Carried but intentionally unused: the `.agents/skills/nixpkgs-patched`
+    # workflow consumes `pkgs-patched` when a temporary patch is needed, and the
+    # input is already wired in outputs/default.nix so that workflow never has to
+    # edit the flake. See .agents/skills/nixpkgs-patched/SKILL.md.
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
@@ -155,6 +162,8 @@
       flake = false;
     };
 
+    # Personal NUR packages. Nothing consumes it right now; kept ready for
+    # packages not yet available from the other inputs.
     nur-ryan4yin = {
       url = "github:ryan4yin/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
