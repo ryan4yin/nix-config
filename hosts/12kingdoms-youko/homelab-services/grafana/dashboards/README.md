@@ -4,6 +4,8 @@
 
 1. https://grafana.com/grafana/dashboards/1860-node-exporter-full/
 2. https://grafana.com/grafana/dashboards/9578-alertmanager/
+3. `smartctl.json` — drive/SSD SMART health (wear, spare, media errors, temperature). Custom, built
+   on the `smartctl_exporter` metrics.
 
 ## Kubernetes
 

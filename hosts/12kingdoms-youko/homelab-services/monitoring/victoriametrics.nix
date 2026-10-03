@@ -19,6 +19,16 @@ let
     "rakushun"
     "mitsuha"
   ];
+
+  # Physical hosts run smartctl_exporter on :9633 (VM guests have no hardware to
+  # inspect and don't run it). Keep in sync with the physical machines in
+  # `vars/networking.nix`.
+  physicalHosts = [
+    "ai"
+    "shoryu"
+    "shushou"
+    "youko"
+  ];
 in
 {
   # Since victoriametrics use DynamicUser, the user & group do not exists before the service starts.
@@ -251,7 +261,29 @@ in
         )
         [ ]
         (lib.attrsets.filterAttrs (n: _: !(builtins.elem n offlineHosts)) myvars.networking.hostsAddr)
-      );
+      )
+      # --- Drive/SSD SMART health (physical hosts only) --- #
+      ++ (lib.attrsets.foldlAttrs (
+        acc: hostname: addr:
+        acc
+        ++ [
+          {
+            job_name = "smartctl-${hostname}";
+            scrape_interval = "60s";
+            metrics_path = "/metrics";
+            static_configs = [
+              {
+                targets = [ "${addr.ipv4}:9633" ];
+                labels.type = "smartctl";
+                labels.app = "smartctl";
+                labels.host = hostname;
+                labels.env = "homelab";
+                labels.cluster = "homelab";
+              }
+            ];
+          }
+        ]
+      ) [ ] (lib.attrsets.filterAttrs (n: _: builtins.elem n physicalHosts) myvars.networking.hostsAddr));
     };
   };
 }

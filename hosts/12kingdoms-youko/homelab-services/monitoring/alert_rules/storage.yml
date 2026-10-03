@@ -1,0 +1,104 @@
+groups:
+  - name: storage.rules
+    rules:
+      # SMART "overall-health self-assessment" (ATA/SAS) and NVMe health status.
+      # 0 means the drive failed its own health check.
+      - alert: DriveHealthFailed
+        expr: smartctl_device_smart_status == 0
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: Drive {{ $labels.device }} on {{ $labels.host }} reports failing SMART health
+          description:
+            "{{ $labels.model_name }} (serial {{ $labels.serial_number }}) failed its SMART
+            overall-health self-assessment."
+
+      # NVMe wear: percentage of the rated write endurance already consumed.
+      - alert: SSDWearHigh
+        expr: smartctl_device_percentage_used > 80
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: SSD {{ $labels.device }} on {{ $labels.host }} is {{ $value }}% worn
+          description:
+            "{{ $labels.model_name }} (serial {{ $labels.serial_number }}) has consumed {{ $value
+            }}% of its rated write endurance."
+
+      - alert: SSDWearCritical
+        expr: smartctl_device_percentage_used > 90
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: SSD {{ $labels.device }} on {{ $labels.host }} is {{ $value }}% worn
+          description:
+            "{{ $labels.model_name }} is nearly out of write endurance; plan a replacement."
+
+      # NVMe available spare fell below the drive's own threshold.
+      - alert: SSDSpareLow
+        expr: smartctl_device_available_spare < smartctl_device_available_spare_threshold
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: SSD {{ $labels.device }} on {{ $labels.host }} spare blocks below threshold
+          description:
+            "Available spare {{ $value }}% is below the drive threshold; the controller may
+            transition to read-only."
+
+      # NVMe critical warning bitfield (spare low, temperature, reliability,
+      # read-only, volatile-memory backup).
+      - alert: SSDControllerCriticalWarning
+        expr: smartctl_device_critical_warning > 0
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: SSD {{ $labels.device }} on {{ $labels.host }} has a controller critical warning
+          description: "smartctl_device_critical_warning = {{ $value }} (non-zero bitfield)."
+
+      # Unrecovered data-integrity errors (uncorrectable ECC, CRC, LBA tag).
+      - alert: DriveMediaErrors
+        expr: smartctl_device_media_errors > 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: Drive {{ $labels.device }} on {{ $labels.host }} has media errors
+          description: "{{ $value }} unrecovered data-integrity errors recorded."
+
+      # Drive temperature (SSD/HDD). Consumer M.2 NVMe throttles around 70-80 C.
+      - alert: DriveTemperatureHigh
+        expr: max by (host, device) (smartctl_device_temperature) > 70
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: Drive {{ $labels.device }} on {{ $labels.host }} is hot ({{ $value }} C)
+          description: "Drive temperature above 70 C; NVMe throttles around 70-80 C."
+
+      - alert: DriveTemperatureCritical
+        expr: max by (host, device) (smartctl_device_temperature) > 80
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary:
+            Drive {{ $labels.device }} on {{ $labels.host }} is critically hot ({{ $value }} C)
+          description: "Drive temperature above 80 C; risk of throttling or failure."
+
+      # SATA/SAS SSD wear via the ATA Wear_Leveling_Count attribute
+      # (normalized value: 100 = new, lower = more worn).
+      - alert: AtaSSDWearHigh
+        expr:
+          smartctl_device_attribute{attribute_name="Wear_Leveling_Count",
+          attribute_value_type="value"} < 20
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary:
+            SATA SSD {{ $labels.device }} on {{ $labels.host }} wear indicator is low ({{ $value }})
+          description: "Wear_Leveling_Count normalized value below 20 (100 = new)."

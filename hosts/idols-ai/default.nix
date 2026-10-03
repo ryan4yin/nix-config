@@ -69,6 +69,12 @@ in
     RuntimeMaxUse = "256M";
   };
 
+  # Monitor SSD/NVMe SMART attributes so a drive going bad is visible before it
+  # fails, and so there is data behind the relaxed NVMe power-management
+  # settings in hardware-configuration.nix. smartd autodetects devices and
+  # reports to the journal (mail notifications stay off without an MTA).
+  services.smartd.enable = true;
+
   # QEMU/KVM(HostCpuOnly) for local VMs.
   environment.systemPackages = [ pkgs.qemu_kvm ];
 
