@@ -58,5 +58,5 @@ This overlay provides:
 - `computer-use-linux.nix`: packages `pkgs/computer-use-linux`.
 - `cua-driver.nix`: packages `pkgs/cua-driver` (used by the computer-use VMs).
 - `smartctl-exporter/`: pins `prometheus-smartctl-exporter` to the upstream commit carrying PR
-  [#329](https://github.com/prometheus-community/smartctl_exporter/pull/329) until smartctl_exporter
-  0.15.0 is released; see `overlays/smartctl-exporter/default.nix`.
+  [#329](https://github.com/prometheus-community/smartctl_exporter/pull/329) until nixpkgs provides
+  a version containing the fix; see `overlays/smartctl-exporter/default.nix`.

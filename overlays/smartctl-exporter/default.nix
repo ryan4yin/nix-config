@@ -6,8 +6,8 @@
 #
 # Pin the package to the upstream commit that carries the fix (PR #329, merged
 # 2026-09-28, then included in the "Update Go (#391)" commit below) instead of
-# backporting it as a patch. Drop this overlay once smartctl_exporter 0.15.0 is
-# released and packaged in nixpkgs:
+# backporting it as a patch. Drop this overlay once nixpkgs provides a version
+# containing the #329 fix:
 #   https://github.com/prometheus-community/smartctl_exporter/pull/329
 _: _final: prev: {
   prometheus-smartctl-exporter = prev.prometheus-smartctl-exporter.overrideAttrs (_prev: {
