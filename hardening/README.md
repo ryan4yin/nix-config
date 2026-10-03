@@ -2,6 +2,10 @@
 
 > Work in progress.
 
+Application sandboxing (nixpak/bubblewrap) and Linux hardening knowledge for this repository. For
+the repository security policy, architecture and audit status, see [`SECURITY.md`](../SECURITY.md);
+for temporary exceptions and known gaps, see [`WORKAROUNDS.md`](../WORKAROUNDS.md).
+
 ## Goal
 
 - **System Level**: Protect critical files from being accessed by untrusted applications.
@@ -17,8 +21,8 @@
 ### 1. **System Level**
 
 - **AppArmor** (`apparmor/`): AppArmor profiles and configuration
-- **Kernel & process hardening** (`../modules/nixos/base/kernel-hardening.nix`): sysctl baseline and
-  unused-module deny list; rationale and verification live in [`SECURITY.md`](../SECURITY.md).
+- **Kernel & process hardening** (`kernel-hardening.nix`): sysctl baseline and unused-module deny
+  list; rationale and verification live in [`SECURITY.md`](../SECURITY.md).
 
 ### 2. **Per-App Level**
 
@@ -45,6 +49,7 @@
 ```
 hardening/
 ├── README.md
+├── kernel-hardening.nix # sysctl baseline + unused-module deny list
 ├── apparmor/           # AppArmor security profiles
 │   └── default.nix
 ├── bwraps/            # Direct bubblewrap configurations
@@ -60,11 +65,6 @@ hardening/
         ├── gui-base.nix
         └── network.nix
 ```
-
-## Kernel Hardening
-
-- NixOS Kernel Config:
-  https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/os-specific/linux/kernel/hardened/config.nix
 
 ## System Hardening
 

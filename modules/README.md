@@ -32,7 +32,6 @@ modules/
     │   ├── core.nix       # Core system settings
     │   ├── default.nix
     │   ├── i18n.nix       # Internationalization
-    │   ├── kernel-hardening.nix # Kernel hardening (module blacklisting)
     │   ├── locate.nix     # locate/updatedb file search
     │   ├── monitoring.nix # System monitoring
     │   ├── networking/    # Network configuration
@@ -68,6 +67,9 @@ modules/
         ├── server-riscv64.nix
         └── server.nix
 ```
+
+System hardening modules (kernel baseline, AppArmor, app sandboxes) live under
+[`../hardening/`](../hardening/README.md).
 
 ## Module Categories
 
