@@ -50,8 +50,11 @@
 
   # May help if FFmpeg/VAAPI/QSV init fails (esp. on Arc with i915):
   hardware.enableRedistributableFirmware = true;
-  # (dropped) `boot.kernelParams = [ "i915.enable_guc=3" ]`: GuC/HuC submission is
-  # the default on modern i915/Xe; re-add if VAAPI/QSV init regresses.
+  # (dropped) `i915.enable_guc=3`: i915's `enable_guc` is a "dangerous" option
+  # (it taints the kernel), and since Alder Lake the driver already auto-enables
+  # HuC + GuC submission on non-TGL/RKL Gen12+ platforms -- including this Arrow
+  # Lake-S iGPU, where auto = `HuC | GuC submission` = 3. Re-add only if
+  # VAAPI/QSV init regresses.
 
   # May help services that have trouble accessing /dev/dri (e.g., jellyfin/plex):
   # users.users.<service>.extraGroups = [ "video" "render" ];
