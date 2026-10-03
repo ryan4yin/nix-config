@@ -59,6 +59,11 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
 - Use `lib.mkDefault` for defaults and `lib.mkForce` only when necessary.
 - Give module options a `description` and preserve platform-specific conditions.
 
+## Security
+
+Security architecture, control limitations, rollout checks, and prioritized work are documented in
+[SECURITY.md](./SECURITY.md). Keep it consistent with changes to security boundaries or defaults.
+
 ## Workarounds
 
 Temporary workarounds, version pins, carried patches, and known gaps are recorded in

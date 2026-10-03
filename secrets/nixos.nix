@@ -90,7 +90,7 @@ in
     (mkIf cfg.desktop.enable {
       age.secrets = {
         # ---------------------------------------------
-        # no one can read/write this file, even root.
+        # No discretionary access; privileged root can still bypass file modes.
         # ---------------------------------------------
 
         # .age means the decrypted file is still encrypted by age(via a passphrase)
