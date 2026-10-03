@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-master,
   ...
 }:
 {
@@ -31,7 +30,7 @@
         #-- markdown
         marksman # language server for markdown
         pandoc # document converter
-        pkgs-master.hugo # static site generator
+        hugo # static site generator
 
         #-- sql
         sqlfluff
@@ -77,12 +76,13 @@
           ))
 
           #-- rust
-          # we'd better use the rust-overlays for rust development
-          pkgs-master.rustc
-          pkgs-master.rust-analyzer
-          pkgs-master.cargo # rust package manager
-          pkgs-master.rustfmt
-          pkgs-master.clippy # rust linter
+          # nixpkgs toolchain (cached); switch to rust-overlay if a pinned
+          # toolchain or extra components are needed.
+          rustc
+          rust-analyzer
+          cargo # rust package manager
+          rustfmt
+          clippy # rust linter
 
           #-- golang
           go
