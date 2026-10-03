@@ -5,7 +5,10 @@
   ...
 }:
 {
-  # Kernel module blacklisting to mitigate Dirty Frag LPE (Local Privilege Escalation) vulnerabilities.
+  # Blacklist unused kernel modules to shrink the attack surface. esp4/esp6/rxrpc
+  # were the vectors for the Dirty Frag LPE (CVE-2026-43284 / CVE-2026-43500);
+  # kept as defence in depth even though the upstream fix has long landed, since
+  # nothing here uses them.
   boot.blacklistedKernelModules = [
     "esp4"
     "esp6"
