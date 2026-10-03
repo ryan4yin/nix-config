@@ -87,8 +87,8 @@ umount -R /mnt
 reboot
 ```
 
-After reboot, set the boot order in firmware so the system boots from nvme1n1. The old disk (e.g.
-nvme0n1) can be reused for something else.
+After reboot, set the boot order in firmware so the system boots from the newly installed NixOS
+disk. The old disk can be reused for something else.
 
 ### Optional: use a cache mirror
 
