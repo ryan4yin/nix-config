@@ -134,6 +134,12 @@ the latter or `security.protectKernelImage` (which also disables hibernation).
 | P2       | Review sandbox shares and AI-agent access to credentials/management networks                 | Demonstrate denied access to unrelated data without removing needed development workflows                                                                          |
 | P3       | Improve security-event alerts and configuration drift checks                                 | Actionable alerts with redacted logs and periodic runtime control readback                                                                                         |
 
+The API VIP also needs a valid server certificate: verified access to `192.168.5.193:6443` currently
+fails hostname verification because the certificate lacks that IP SAN. **P1:** add the VIP to the
+reviewed k3s TLS configuration and rotate/reissue certificates through the supported procedure;
+acceptance is authenticated `/readyz` access through the VIP with normal TLS validation. Do not use
+`--insecure-skip-tls-verify` as a workaround. Track this as WA-014 in the registry.
+
 Record temporary exceptions in [WORKAROUNDS.md](WORKAROUNDS.md) with a removal condition. Revisit
 this architecture after a new exposed service, network/storage change, host addition or significant
 kernel/nixpkgs update. No control here guarantees containment after host root compromise.
