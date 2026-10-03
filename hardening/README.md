@@ -17,7 +17,6 @@
 ### 1. **System Level**
 
 - **AppArmor** (`apparmor/`): AppArmor profiles and configuration
-- **Kernel & System Hardening** (`profiles/`): System-wide hardening profiles
 
 ### 2. **Per-App Level**
 
@@ -26,20 +25,18 @@
   - QQ (Chinese messaging app) configuration
   - Telegram Desktop configuration
   - Modular system with reusable components
-- **Firejail** (legacy): SUID-based sandboxing (not used)
 - **Bubblewrap** (`bwraps/`): Direct bubblewrap configurations
   - WeChat sandboxing configuration
 
 ## Current Implementation Status
 
-| Component         | Status    | Notes                          |
-| ----------------- | --------- | ------------------------------ |
-| AppArmor Profiles | 🚧 WIP    | Basic structure in place       |
-| Nixpak Firefox    | ✅ Active | Firefox sandboxing via nixpak  |
-| Nixpak QQ         | ✅ Active | QQ application sandboxing      |
-| Nixpak Telegram   | ✅ Active | Telegram Desktop sandboxing    |
-| Bubblewrap WeChat | ✅ Active | WeChat specific sandboxing     |
-| System Profiles   | 🚧 WIP    | Hardened system configurations |
+| Component         | Status    | Notes                         |
+| ----------------- | --------- | ----------------------------- |
+| AppArmor Profiles | 🚧 WIP    | Basic structure in place      |
+| Nixpak Firefox    | ✅ Active | Firefox sandboxing via nixpak |
+| Nixpak QQ         | ✅ Active | QQ application sandboxing     |
+| Nixpak Telegram   | ✅ Active | Telegram Desktop sandboxing   |
+| Bubblewrap WeChat | ✅ Active | WeChat specific sandboxing    |
 
 ## Directory Structure
 
@@ -51,17 +48,15 @@ hardening/
 ├── bwraps/            # Direct bubblewrap configurations
 │   ├── default.nix
 │   └── wechat.nix
-├── nixpaks/           # Nixpak application sandboxing
-│   ├── default.nix
-│   ├── firefox.nix
-│   ├── qq.nix
-│   ├── telegram-desktop.nix
-│   └── modules/       # Reusable nixpak modules
-│       ├── custom-policy.nix
-│       ├── gui-base.nix
-│       └── network.nix
-└── profiles/          # System hardening profiles
-    └── default.nix
+└── nixpaks/           # Nixpak application sandboxing
+    ├── default.nix
+    ├── firefox.nix
+    ├── qq.nix
+    ├── telegram-desktop.nix
+    └── modules/       # Reusable nixpak modules
+        ├── custom-policy.nix
+        ├── gui-base.nix
+        └── network.nix
 ```
 
 ## Kernel Hardening
@@ -71,8 +66,8 @@ hardening/
 
 ## System Hardening
 
-- NixOS Profile:
-  https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/profiles/hardened.nix
+- NixOS's `profiles/hardened.nix` was removed in 26.05; enable the individual hardening options
+  explicitly instead.
 - Apparmor: [roddhjav/apparmor.d](https://github.com/roddhjav/apparmor.d)
   - https://gitlab.com/apparmor/apparmor/-/wikis/Documentation
   - AppArmor.d is a set of over 1500 AppArmor profiles whose aim is to confine most Linux based
