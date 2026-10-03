@@ -152,49 +152,60 @@ in
   # Eval Tests for all NixOS & darwin systems.
   evalTests = lib.lists.all (it: it.evalTests == { }) allSystemValues;
 
-  checks = forAllSystems (system: {
-    # eval-tests per system. `nix flake check` requires every check to be a
-    # derivation, so wrap the boolean result in one instead of returning a bool.
-    eval-tests =
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        results = allSystems.${system}.evalTests;
-      in
-      pkgs.runCommand "eval-tests" { } (
-        if results == { } then
-          "touch $out"
-        else
-          "echo 'eval tests failed: evalTests is not empty' >&2; exit 1"
-      );
+  checks = forAllSystems (
+    system:
+    {
+      # eval-tests per system. `nix flake check` requires every check to be a
+      # derivation, so wrap the boolean result in one instead of returning a bool.
+      eval-tests =
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          results = allSystems.${system}.evalTests;
+        in
+        pkgs.runCommand "eval-tests" { } (
+          if results == { } then
+            "touch $out"
+          else
+            "echo 'eval tests failed: evalTests is not empty' >&2; exit 1"
+        );
 
-    pre-commit-check = pre-commit-hooks.lib.${system}.run {
-      src = mylib.relativeToRoot ".";
-      hooks = {
-        nixfmt = {
-          enable = true;
-          settings.width = 100;
-        };
-        # Source code spell checker
-        typos = {
-          enable = true;
-          settings = {
-            write = true; # Automatically fix typos
-            configPath = ".typos.toml"; # relative to the flake root
-            exclude = "rime-data/";
+      pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = mylib.relativeToRoot ".";
+        hooks = {
+          nixfmt = {
+            enable = true;
+            settings.width = 100;
           };
-        };
-        prettier = {
-          enable = true;
-          settings = {
-            write = true; # Automatically format files
-            configPath = ".prettierrc.yaml"; # relative to the flake root
+          # Source code spell checker
+          typos = {
+            enable = true;
+            settings = {
+              write = true; # Automatically fix typos
+              configPath = ".typos.toml"; # relative to the flake root
+              exclude = "rime-data/";
+            };
           };
+          prettier = {
+            enable = true;
+            settings = {
+              write = true; # Automatically format files
+              configPath = ".prettierrc.yaml"; # relative to the flake root
+            };
+          };
+          # deadnix.enable = true; # detect unused variable bindings in `*.nix`
+          # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
         };
-        # deadnix.enable = true; # detect unused variable bindings in `*.nix`
-        # statix.enable = true; # lints and suggestions for Nix code(auto suggestions)
       };
-    };
-  });
+    }
+    // lib.optionalAttrs (system == "x86_64-linux") {
+      # Test the shared firewall in disposable VMs, without real-host imports,
+      # Home Manager or agenix identities. Linux eval tests remain cross-arch.
+      security-exporters = import ../tests/security-exporters.nix {
+        pkgs = nixpkgs.legacyPackages.${system};
+        networking = myvars.networking;
+      };
+    }
+  );
 
   # Development Shells
   devShells = forAllSystems (

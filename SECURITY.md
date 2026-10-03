@@ -48,12 +48,12 @@ Sources: [host layout](hosts/README.md), [k3s deployment](hosts/k8s/README.md),
 [Nix trust](modules/base/nix.nix), [secrets](secrets/README.md), and [backup](BACKUP.md). Cluster
 resources are maintained in the separate k8s-gitops repository.
 
-## Planned kernel and process baseline
+## Kernel and process baseline
 
-The following explicit, overridable baseline is planned for
+The following explicit, overridable baseline is implemented in
 [kernel-hardening.nix](modules/nixos/base/kernel-hardening.nix), with Linux eval coverage and
-explicit ARM/RISC-V server imports. This documentation does not enable those settings. Some are
-already kernel/systemd/NixOS defaults; Darwin does not receive Linux sysctls.
+explicit ARM/RISC-V server imports. Source implementation is not runtime verification. Some values
+are already kernel/systemd/NixOS defaults; Darwin does not receive Linux sysctls.
 
 | Setting                                           | Value | Effect and compatibility                                                                                                            |
 | ------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -72,10 +72,10 @@ baseline reviewable; they do not imply the previous system had no protection. Un
 features may lack their sysctl paths, especially on custom kernels: runtime verification is
 required.
 
-The planned JIT hardening is deliberately limited to unprivileged programs rather than forced on
-privileged agents. Together with `unprivileged_bpf_disabled=2`, this preserves Cilium's normal
-privileged BPF path while retaining protection if an administrator temporarily permits unprivileged
-BPF. This is a configuration trade-off, not a measured claim of zero overhead.
+JIT hardening is deliberately limited to unprivileged programs rather than forced on privileged
+agents. Together with `unprivileged_bpf_disabled=2`, this preserves Cilium's normal privileged BPF
+path while retaining protection if an administrator temporarily permits unprivileged BPF. This is a
+configuration trade-off, not a measured claim of zero overhead.
 
 User namespaces remain enabled: disabling them globally conflicts with Nix sandboxing and breaks
 rootless containers and application sandboxes. Nonprivileged seccomp filters are not disabled by the
@@ -156,22 +156,20 @@ checks remain necessary after deployment.
 | Component                                                        | Status                                             | Runtime verification                                |
 | ---------------------------------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
 | Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change              | Only the dated observations below were checked live |
-| Explicit sysctl baseline and IPv6 exporter defence               | Planned in a separate baseline implementation      | Not deployed or verified on running hosts           |
+| Explicit sysctl baseline and IPv6 exporter defence               | Implemented in this baseline change                | Not deployed or verified on running hosts           |
 | Kernel-state reporter and textfile metrics                       | Planned in a separate observability implementation | Not deployed or verified on running hosts           |
 
-### Planned implementation checks
+### Baseline implementation checks
 
-- Add an explicit, overridable sysctl baseline, preserving user namespaces and privileged BPF
-  performance.
-- Add IPv6 exporter denial before broad LAN/tailnet/container rules. The monitoring configuration
-  uses IPv4 targets for these ports, so no scrape endpoint migration is needed.
-- Add x86_64/aarch64 eval checks for baseline values, normal host overrides and generated exporter
+- An explicit, overridable sysctl baseline preserves user namespaces and privileged BPF performance.
+- IPv6 exporter denial precedes broad LAN/tailnet/container rules. The monitoring configuration uses
+  IPv4 targets for these ports, so no scrape endpoint migration is needed.
+- x86_64/aarch64 eval checks cover baseline values, normal host overrides and generated exporter
   rules. Canonical API endpoint checks for all six cluster nodes already accompany this document.
-- Add a reusable isolated VM check exercising allowed monitoring IPv4 access, denied other IPv4/IPv6
+- A reusable isolated VM check exercises allowed monitoring IPv4 access, denied other IPv4/IPv6
   access to all three exporter ports, retained IPv6 loopback and a reachable ordinary IPv4/IPv6
-  service. The planned command is `nix build .#checks.x86_64-linux.security-exporters`, importing
-  only the shared firewall, not real-host secrets or workloads, and does not replace deployment-time
-  checks.
+  service. Run `nix build .#checks.x86_64-linux.security-exporters`, importing only the shared
+  firewall, not real-host secrets or workloads, and does not replace deployment-time checks.
 
 ### Read-only audit snapshot — 2026-10-03
 
@@ -306,7 +304,7 @@ fresh metrics. Guest profiles and host-side runner references require separate v
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                        |
 | -------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P1       | Implement, roll out and verify the planned baseline/exporter rules               | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                          |
+| P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                          |
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                     |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                      |
 | P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts, recipient scope and Darwin per-file ownership        |
