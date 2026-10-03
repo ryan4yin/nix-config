@@ -85,6 +85,15 @@
       url = "github:nix-community/preservation";
     };
 
+    # Remote deployment via SSH. Pinned to the same v0.5.0 that nixpkgs ships
+    # so the `colmenaHive` output we expose matches the CLI's schema.
+    colmena = {
+      url = "github:nix-community/colmena/v0.5.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+      # Reuse the flake's own stable nixpkgs instead of colmena's pinned copy.
+      inputs.stable.follows = "nixpkgs-stable";
+    };
+
     # secrets management
     # Pinned to a release tag (not a branch) so `just up` cannot move it
     # silently; bump deliberately when a new release is needed.
