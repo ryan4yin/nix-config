@@ -66,8 +66,6 @@ hardening/
 
 ## System Hardening
 
-- NixOS's `profiles/hardened.nix` was removed in 26.05; enable the individual hardening options
-  explicitly instead.
 - Apparmor: [roddhjav/apparmor.d](https://github.com/roddhjav/apparmor.d)
   - https://gitlab.com/apparmor/apparmor/-/wikis/Documentation
   - AppArmor.d is a set of over 1500 AppArmor profiles whose aim is to confine most Linux based
