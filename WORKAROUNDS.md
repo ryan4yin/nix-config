@@ -41,9 +41,9 @@ A setting that works around a bug or a hardware quirk.
 
 A known limitation with no fix yet.
 
-| ID     | What & where                                                               | Why                                                                 | Removal condition                                               | Added | Revisit          | Status |
-| ------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------- | ----- | ---------------- | ------ |
-| WA-012 | Apple Silicon 16k page size — `hosts/12kingdoms-shoukei/apple-silicon.nix` | some x86_64 apps and games need `muvm`, which is currently disabled | Hardware limitation; revisit when Asahi or muvm support changes | —     | on Asahi changes | active |
+| ID     | What & where                                                                                   | Why                                                                                                                                                                                                                          | Removal condition                      | Added | Revisit                                | Status |
+| ------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ----- | -------------------------------------- | ------ |
+| WA-012 | `muvm` (x86_64 apps/games via microVM) disabled — `hosts/12kingdoms-shoukei/apple-silicon.nix` | Apple Silicon's 16k page size means x86_64 apps need `muvm`; it is off because it does not build/run on nixos-apple-silicon yet ([nixos-apple-silicon#237](https://github.com/nix-community/nixos-apple-silicon/issues/237)) | Re-enable once `muvm` builds and works | —     | on nixos-apple-silicon or muvm updates | active |
 
 ## WIP
 
