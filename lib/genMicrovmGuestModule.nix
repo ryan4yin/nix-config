@@ -133,5 +133,5 @@ in
   modules.hardwareTools.enable = false;
   modules.debugTools.enable = false;
   modules.locate.enable = false;
-  modules.avahi.enable = false;
+  modules.mdns.enable = false;
 }

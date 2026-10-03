@@ -4,12 +4,12 @@
   ...
 }:
 let
-  cfg = config.modules.avahi;
+  cfg = config.modules.mdns;
 in
 {
-  options.modules.avahi.enable =
+  options.modules.mdns.enable =
     lib.mkEnableOption ''
-      mDNS/DNS-SD responder (avahi), for `<hostname>.local` access and CUPS
+      mDNS/DNS-SD responder, backed by avahi: `<hostname>.local` access and CUPS
       printer discovery.
 
       On by default for physical hosts; MicroVM guests turn it off since they
