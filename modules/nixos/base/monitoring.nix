@@ -4,12 +4,19 @@
   myvars,
   ...
 }:
+let
+  # Exporters bind to this host's static LAN IPv4 (the same address
+  # VictoriaMetrics scrapes), so the socket exists only on the LAN interface —
+  # defence in depth behind the firewall allowlist. Hosts without a static LAN
+  # address (laptops like shoukei, DHCP VMs like akane) run no exporters.
+  lanAddr = myvars.networking.hostsAddr.${config.networking.hostName}.ipv4 or null;
+in
 {
   # enable the node exporter on all nixos hosts
   # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/services/monitoring/prometheus/exporters/node.nix
-  services.prometheus.exporters.node = {
+  services.prometheus.exporters.node = lib.mkIf (lanAddr != null) {
     enable = true;
-    listenAddress = "0.0.0.0";
+    listenAddress = lanAddr;
     port = 9100;
     # There're already a lot of collectors enabled by default
     # https://github.com/prometheus/node_exporter?tab=readme-ov-file#enabled-by-default
@@ -45,26 +52,31 @@
   # node_nvme_info and namespace capacity, NOT SMART health, so this is the only
   # source of SSD lifespan data. `hardwareTools` is off on MicroVM/QEMU guests,
   # which have no physical disks to inspect.
-  services.prometheus.exporters.smartctl = lib.mkIf config.modules.hardwareTools.enable {
-    enable = true;
-    # Bind to this host's LAN address rather than 0.0.0.0; the firewall also
-    # drops 9633 from anything but the monitoring host. Fall back to loopback
-    # for hosts without a static LAN address (e.g. shoukei).
-    listenAddress = myvars.networking.hostsAddr.${config.networking.hostName}.ipv4 or "127.0.0.1";
-    port = 9633;
-    maxInterval = "60s";
-  };
+  services.prometheus.exporters.smartctl =
+    lib.mkIf (lanAddr != null && config.modules.hardwareTools.enable)
+      {
+        enable = true;
+        listenAddress = lanAddr;
+        port = 9633;
+        maxInterval = "60s";
+      };
 
-  # The exporter binds to the LAN address, which networkd assigns during boot;
-  # without ordering it races the address and trips the start limit (seen on ai).
-  # wait-online is best-effort (120s timeout), so also retry patiently to
-  # self-heal when the link comes up late.
-  systemd.services.prometheus-smartctl-exporter = lib.mkIf config.modules.hardwareTools.enable {
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    serviceConfig = {
-      RestartSec = "10s";
-      StartLimitIntervalSec = 0;
-    };
-  };
+  # LAN-bound exporters race networkd's address assignment at boot; without
+  # ordering they trip the start limit (seen on ai). wait-online is best-effort
+  # (120s timeout), so also retry patiently.
+  systemd.services = lib.mkIf (lanAddr != null) (
+    lib.genAttrs
+      (
+        [ "prometheus-node-exporter" ]
+        ++ lib.optionals config.modules.hardwareTools.enable [ "prometheus-smartctl-exporter" ]
+      )
+      (_: {
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        serviceConfig = {
+          RestartSec = "10s";
+          StartLimitIntervalSec = 0;
+        };
+      })
+  );
 }
