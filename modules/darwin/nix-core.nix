@@ -17,12 +17,6 @@
   # conflicts with nix-darwin's native Nix management. so we should disable this option.
   nix.enable = false;
 
-  # Disable auto-optimise-store because of this issue:
-  #   https://github.com/NixOS/nix/issues/7273
-  # "error: cannot link '/nix/store/.tmp-link-xxxxx-xxxxx' to '/nix/store/.links/xxxx': File exists"
-  # Re-evaluate if nix#7273 is closed (or the official installer is used).
-  nix.settings.auto-optimise-store = false;
-
   nix.gc.automatic = false;
 
   system.stateVersion = 5;
