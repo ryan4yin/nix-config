@@ -10,8 +10,8 @@ Nix dependency; this module only wires it into place.
 ## Files
 
 - `rules.nix`: links the global rules to every agent's config location.
-- `packages.nix`: agent CLIs (`codex`, `opencode2`, `kimi-code`, `pi`, `omp`) and the Grafana MCP
-  server, from the `llm-agents` flake input.
+- `packages.nix`: agent CLIs (`codex`, `opencode2`, `kimi-code`, `pi`, `omp`) from the `llm-agents`
+  flake input, plus `pkgs.mcp-grafana` for the Grafana MCP server.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
 
 ## Deployed rule targets

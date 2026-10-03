@@ -94,10 +94,9 @@ hardening/
 
 ## NOTE
 
-**Running untrusted code is never safe, kernel hardening & sandboxing cannot change this**.
-
-If you want to run untrusted code, please use a VM & an isolated network environment, which will
-provide a much higher level of security.
+**Running untrusted code is never safe, kernel hardening & sandboxing cannot change this**; run
+untrusted code in a VM on an isolated network. The threat model lives in
+[`SECURITY.md`](../SECURITY.md).
 
 ## References
 
@@ -110,5 +109,3 @@ provide a much higher level of security.
 - apparmor configs:
   - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
   - https://git.grimmauld.de/Grimmauld/grimm-nixos-laptop/src/branch/main/hardening
-- Others:
-  - Directly via `buildFHSUserEnvBubblewrap`:

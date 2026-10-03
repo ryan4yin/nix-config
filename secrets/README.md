@@ -17,8 +17,9 @@ In this way, all secrets are still encrypted when transmitted over the network a
 In addition, we further improve the security of secret files by storing them in a separate private
 repository.
 
-This directory contains this `README.md`, and a `nixos.nix`/`darwin.nix` file that is used to
-decrypt all my secrets via `agenix`. Then, I can use them in this flake.
+This directory contains this `README.md`, the `Justfile` with the agenix recipes, and the
+`nixos.nix`/`darwin.nix` files that decrypt all my secrets via `agenix`. Then, I can use them in
+this flake.
 
 ## Which Keys Go on a Secret
 
@@ -36,7 +37,8 @@ The one exception is the desktop's own restic repository password (`restic-passw
 
 ## Decrypted File Permissions
 
-`secrets/nixos.nix` and `secrets/darwin.nix` give every secret one of three presets:
+Most secrets in `secrets/nixos.nix` and `secrets/darwin.nix` use one of three shared presets; a few
+set `mode`/`owner` inline:
 
 | Preset          | Mode / owner    | Use for                                          |
 | --------------- | --------------- | ------------------------------------------------ |
@@ -55,7 +57,9 @@ every local account. Always set `user` together with `mode`. nix-darwin ignores 
 
 ## Adding or Updating Secrets
 
-> All the operations in this section should be performed in my private repository: `nix-secrets`.
+> The encrypted `.age` files and `secrets.nix` live in my private `nix-secrets` repository. The
+> `Justfile` referenced below lives in this repository and runs its recipes with `working-directory`
+> set to a local `~/codes/nix-secrets` checkout, so invoke it from this repository's root.
 
 This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the
 `./secrets.nix` file, so you need to have it installed first:
@@ -107,7 +111,7 @@ in
 }
 ```
 
-3. Create the secret file `xxx.age` from the repository root with the [`Justfile`](./Justfile)
+3. Create the secret file `xxx.age` from this repository's root with the [`Justfile`](./Justfile)
    `replace` recipe, piping the plaintext on stdin:
 
 ```shell
@@ -199,7 +203,7 @@ Then, create `./secrets/nixos.nix` (or `./secrets/darwin.nix` on macOS) with the
     # whether secrets are symlinked to age.secrets.<name>.path
     symlink = true;
     # target path for decrypted file
-    path = "/etc/xxx/";
+    path = "/etc/xxx";
     # encrypted file path
     file =  "${mysecrets}/xxx.age";  # refer to ./xxx.age located in `mysecrets` repo
     mode = "0400";

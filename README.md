@@ -116,8 +116,6 @@ hardening, and [./WORKAROUNDS.md](./WORKAROUNDS.md) for temporary exceptions and
 > [ryan4yin/nix-secrets](https://github.com/ryan4yin/nix-secrets) to deploy. You
 > may use this repo as a reference to build your own configuration.
 
-Run `just --list` to see every recipe.
-
 Updating flake inputs and rolling the result out safely is a procedure, not a single command. Follow
 [`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md).
 

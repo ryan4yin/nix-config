@@ -4,6 +4,12 @@ RustFS replaced the retired MinIO at `s3.writefor.fun` (console: `s3-console.wri
 service is declared in nix-config on the youko host; this directory manages its buckets/lifecycle
 and documents the IAM setup.
 
+## Installing `rc`
+
+`rc` is RustFS's S3-compatible CLI ([rustfs/cli](https://github.com/rustfs/cli)); it is not in
+nixpkgs. Download the Linux release archive from <https://github.com/rustfs/cli/releases> and put
+the `rc` binary on `PATH`.
+
 ## Credentials
 
 RustFS has no separate "root user" name: the root **access key** acts as the user and the **secret

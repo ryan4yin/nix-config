@@ -3,14 +3,16 @@
 ## Partition the SSD & install NixOS via disko
 
 ```bash
-# enter an shell with git/vim/ssh-agent/gnumake available
-nix-shell -p git vim gnumake
+# enter a shell with git/vim/ssh/gnumake available
+nix-shell -p git vim gnumake openssh
 # clone this repository
 git clone https://github.com/ryan4yin/nix-config.git
 
 cd nix-config
 
 ## 1. partition & format the disk via disko
+# WARNING: `destroy,format,mount` wipes the target disk. host-disko-fs.nix
+# defaults to /dev/nvme0n1; review and edit that device first if the target differs.
 # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode destroy,format,mount hosts/k8s/disko-config/host-disko-fs.nix
 ## 2. setup the automatic unlock via the tpm2 chip
@@ -21,7 +23,7 @@ sudo nixos-install --root /mnt --no-root-password --show-trace --verbose --flake
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login
-# if login failed, check the password you set in install-1, and try again
+# if login failed, check the initial password you set in vars/default.nix, and try again
 nixos-enter
 
 # NOTE: DO NOT skip this step!!!

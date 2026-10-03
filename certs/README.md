@@ -13,8 +13,9 @@ use. It is used to issue certificates for my own servers and services.
 
 ## Security Notes
 
-All private keys (`.key` files) are ignored by git and stored in a private secrets repository. The
-public certificates and configuration files are committed to this repository for reference.
+Private keys (`.key`) and certificate signing requests (`.csr`) are ignored by git; the keys are
+stored in a private secrets repository. The public certificates and configuration files are
+committed to this repository for reference.
 
 ## Usage
 

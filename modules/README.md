@@ -64,7 +64,7 @@ modules/
         ├── qemu-guest.nix  # VM guest base module (libvirt/QEMU guests)
         ├── remote-building.nix # Remote build setup
         ├── server-aarch64.nix
-        ├── server-riscv64.nix
+        ├── server-riscv64.nix # module only; the riscv64 output is disabled
         └── server.nix
 ```
 
@@ -107,10 +107,3 @@ Modules are imported based on platform detection:
 - **NixOS Systems**: Import `nixos/` modules
 - **macOS Systems**: Import `darwin/` modules
 - **All Systems**: Import `base/` modules for shared configuration
-
-## Architecture Support
-
-- **x86_64-linux**: Desktop and server configurations
-- **aarch64-linux**: ARM64 Linux systems
-- **aarch64-darwin**: Apple Silicon macOS systems
-- **server-riscv64**: RISC-V server configurations

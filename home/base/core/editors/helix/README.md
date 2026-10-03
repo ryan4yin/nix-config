@@ -109,19 +109,19 @@ normal-mode remaps: **`Ctrl+Shift+o`** → jump backward (leaving `Ctrl+o` free 
 | Replace selected chars | `r<char>`                                                                            |
 | Indent / format        | `>` / `<`; `=` format (LSP)                                                          |
 | Increment / decrement  | `Ctrl-a` / `Ctrl-x` on selected numbers                                              |
-| Case                   | `~` toggle; lower/upper case via grave / `Alt-grave` (see Alt caveat above)          |
-| Join lines             | `J`; `Alt-J` join keeping space (see Alt caveat above)                               |
+| Case                   | `~` toggle; lower/upper case via grave / `Alt-grave`                                 |
+| Join lines             | `J`; `Alt-J` join keeping space                                                      |
 | Toggle line comment    | `Ctrl-c`                                                                             |
 | Macro record / replay  | `Q` start/stop recording; `q` replay from the default `@` register                   |
 
 ### Search
 
-| Action               | Keys                                                            |
-| -------------------- | --------------------------------------------------------------- |
-| Search / reverse     | `/` / `?`                                                       |
-| Next / prev match    | `n` / `N`                                                       |
-| Selection as pattern | `*` (word bounds); `Alt-*` raw selection (see Alt caveat above) |
-| Split on newlines    | `Alt-s`                                                         |
+| Action               | Keys                                     |
+| -------------------- | ---------------------------------------- |
+| Search / reverse     | `/` / `?`                                |
+| Next / prev match    | `n` / `N`                                |
+| Selection as pattern | `*` (word bounds); `Alt-*` raw selection |
+| Split on newlines    | `Alt-s`                                  |
 
 Use **extend mode** (`v`) with `n` / `N` to add matches to multi-cursors
 ([keymap](https://docs.helix-editor.com/keymap.html#select--extend-mode)).

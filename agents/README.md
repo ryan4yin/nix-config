@@ -37,13 +37,9 @@ the Home Manager module [`home/base/tui/agents/`](../home/base/tui/agents/README
 ## Deployment
 
 [`home/base/tui/agents/rules.nix`](../home/base/tui/agents/rules.nix) links `AGENTS.md` into every
-supported agent config directory as an out-of-store symlink, so edits apply without a rebuild:
-
-- Codex: `AGENTS.md` -> `${CODEX_HOME:-~/.codex}/AGENTS.md`
-- OpenCode: `AGENTS.md` -> `${XDG_CONFIG_HOME:-~/.config}/opencode/AGENTS.md`
-- Pi: `AGENTS.md` -> `~/.pi/agent/AGENTS.md`
-- OMP: `AGENTS.md` -> `~/.omp/agent/AGENTS.md`
-- Generic cross-tool (read by Kimi Code): `AGENTS.md` -> `~/.agents/AGENTS.md`
+supported agent config directory as an out-of-store symlink, so edits apply without a rebuild. The
+per-agent target list lives in that module's
+[README](../home/base/tui/agents/README.md#deployed-rule-targets).
 
 The module is imported through `home/base/tui`, so it covers the hosts that import
 `home/linux/gui.nix` or the macOS `home/darwin` stack; core-only servers are unchanged.

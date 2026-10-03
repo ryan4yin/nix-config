@@ -16,7 +16,7 @@ cases.
 
 - **gui/**: Desktop environment configurations
   - **niri/**: Niri compositor configuration
-  - **i3/**: Headless X11 computer-use session (Xvfb + i3)
+  - **i3/**: Headless computer-use session (see `gui/i3/README.md`)
   - **base/**: Common desktop applications and services
 
 ### Available Entry Points

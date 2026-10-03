@@ -7,25 +7,24 @@ reduce code duplication and make it easier to add new machines.
 
 ### Core System Generators
 
-1. **`attrs.nix`** - Attribute set manipulation utilities
-2. **`macosSystem.nix`** - macOS configuration generator for
+1. **`macosSystem.nix`** - macOS configuration generator for
    [nix-darwin](https://github.com/LnL7/nix-darwin)
-3. **`nixosSystem.nix`** - NixOS configuration generator
-4. **`colmenaSystem.nix`** - Remote deployment configuration for
+2. **`nixosSystem.nix`** - NixOS configuration generator
+3. **`colmenaSystem.nix`** - Remote deployment configuration for
    [colmena](https://github.com/nix-community/colmena)
 
 ### Specialized Module Generators
 
-5. **`genK3sServerModule.nix`** - K3s server node configuration generator
-6. **`genK3sAgentModule.nix`** - K3s agent/worker node configuration generator
-7. **`genVmHostModule.nix`** - physical VM host (bridge + libvirt) configuration generator
-8. **`genMicrovmGuestModule.nix`** - NixOS microVM guest configuration generator
-9. **`genLibvirtDomainXml.nix`** - libvirt domain XML generator (imported directly by host configs)
+4. **`genK3sServerModule.nix`** - K3s server node configuration generator
+5. **`genK3sAgentModule.nix`** - K3s agent/worker node configuration generator
+6. **`genVmHostModule.nix`** - physical VM host (bridge + libvirt) configuration generator
+7. **`genMicrovmGuestModule.nix`** - NixOS microVM guest configuration generator
+8. **`genLibvirtDomainXml.nix`** - libvirt domain XML generator (imported directly by host configs)
 
 ### Entry Point
 
-10. **`default.nix`** - Main entry point that imports the generators and exports them as a single
-    attribute set, plus the `relativeToRoot` and `scanPaths` helpers
+9. **`default.nix`** - Main entry point that imports the generators and exports them as a single
+   attribute set, plus the `relativeToRoot` and `scanPaths` helpers
 
 ## Usage
 

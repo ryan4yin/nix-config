@@ -54,9 +54,8 @@ disks.
 #### `k8s` - Kubernetes Infrastructure
 
 - **VM Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
-- **K3s Testing**: `k3s-test-1-master-{1,2,3}` (control plane; one per host) +
-  `k3s-test-1-worker-{1,2,3}` (workloads; `worker-1` on `shoryu`, `worker-2` on `youko`, `worker-3`
-  on `shushou`), running as microVMs
+- **K3s Testing**: `k3s-test-1` control plane and workers, running as microVMs; placement and
+  rollout are documented in [`k8s/README.md`](./k8s/README.md)
 
 ### External Systems
 
@@ -65,7 +64,7 @@ disks.
 
 All my riscv64 hosts:
 
-![](/_img/2023-08-16_nixos-riscv-cluster.webp)
+![](../_img/2023-08-16_nixos-riscv-cluster.webp)
 
 ## Naming Conventions
 
@@ -118,22 +117,22 @@ various changes under the hood, so I need to build much more packages than usual
 the reasons why the cluster was originally built, and another reason is distributed building is
 cool!
 
-![](/_img/2023-06-17_nix-distributed-building.webp)
+![](../_img/2023-06-17_nix-distributed-building.webp)
 
-![](/_img/2023-06-17_nix-distributed-building-log.webp)
+![](../_img/2023-06-17_nix-distributed-building-log.webp)
 
 ## References
 
 [Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko):
 
-![](/_img/idols-famaily.webp) ![](/_img/idols-ai.webp)
+![](../_img/idols-famaily.webp) ![](../_img/idols-ai.webp)
 
 [The Rolling Girls【ローリング☆ガールズ】 - Wikipedia](https://en.wikipedia.org/wiki/The_Rolling_Girls):
 
-![](/_img/rolling_girls.webp)
+![](../_img/rolling_girls.webp)
 
 [List of Twelve Kingdoms characters](https://en.wikipedia.org/wiki/List_of_Twelve_Kingdoms_characters)
 
-![](/_img/12kingdoms-1.webp) ![](/_img/12kingdoms-Youko-Rakushun.webp)
+![](../_img/12kingdoms-1.webp) ![](../_img/12kingdoms-Youko-Rakushun.webp)
 
 [List of Frieren characters](https://en.wikipedia.org/wiki/List_of_Frieren_characters)

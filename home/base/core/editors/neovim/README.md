@@ -27,17 +27,9 @@ Neovim and vim share the motions below.
 
 ### Terminal related
 
-tuios shortcuts used often (leader is `Ctrl + B`):
-
-| Action              | tuios shortcut             |
-| ------------------- | -------------------------- |
-| New pane            | `n` (window mode)          |
-| Floating terminal   | `Ctrl + B`, then `Alt + F` |
-| Split horizontal    | `Ctrl + B`, then `-`       |
-| Split vertical      | `Ctrl + B`, then `\`       |
-| Command palette     | `Ctrl + P`                 |
-| Detach              | `Ctrl + B`, then `d`       |
-| Run a shell command | `!xxx`                     |
+For the common **tuios** pane shortcuts, see the table in
+[`../helix/README.md`](../helix/README.md#terminal-related). To run a shell command from Vim, use
+`:!<command>`.
 
 ### File management
 
