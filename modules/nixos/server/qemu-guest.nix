@@ -33,6 +33,8 @@
     services.openssh.enable = true;
     # we configure the host via nixos itself, so we don't need the cloud-init
     services.cloud-init.enable = lib.mkForce false;
-    systemd.services."serial-getty@ttyS0".enable = true;
+    # Default so the NixOS test framework can override it: test-instrumentation
+    # disables this getty to keep ttyS0 free for its backdoor console.
+    systemd.services."serial-getty@ttyS0".enable = lib.mkDefault true;
   };
 }
