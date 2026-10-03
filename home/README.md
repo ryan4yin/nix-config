@@ -15,6 +15,7 @@ home/
 │   │   ├── terminal/  # Terminal emulators (Ghostty, Kitty, etc.)
 │   │   └── ...
 │   ├── tui/           # Terminal/TUI applications
+│   │   ├── agents/    # AI coding agents (rules deployment, CLIs, env)
 │   │   ├── editors/   # Heavy editor/tooling pkgs only (`packages.nix`; core editors live under `core/editors`)
 │   │   ├── encryption/ # Encryption and security tooling
 │   │   └── ...
