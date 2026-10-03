@@ -38,8 +38,3 @@ Instead the service runs in its own network namespace, with a veth on `br0`, the
 `192.168.5.118`, a default route at the main router (`192.168.5.1`), a real resolver, and a fixed
 MAC for a stable IPv6 IID. It listens on `192.168.5.118:51413` (TCP/UDP and IPv6) and caddy reaches
 its RPC at `192.168.5.118:9091`. See `transmission.nix` for the implementation.
-
-## TODO
-
-- Forward `51413/tcp+udp` to `192.168.5.118` on the main router, or enable UPnP there. NAT-PMP and
-  UPnP now target the main router, which is reachable from the namespace.

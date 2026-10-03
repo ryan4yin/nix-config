@@ -1,7 +1,5 @@
 # Kubernetes Clusters
 
-> WIP, not finished yet.
-
 I'm running a Kubernetes cluster for testing and development.
 
 I prefer to use [k3s] as the Kubernetes distribution, because it's lightweight, easy to install, and
