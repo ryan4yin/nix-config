@@ -4,7 +4,6 @@
   system,
   genSpecialArgs,
   nixos-modules,
-  # TODO: test home-manager too.
   home-modules ? [ ],
   myvars,
   ...

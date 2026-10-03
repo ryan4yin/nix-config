@@ -11,10 +11,6 @@ Related:
   `nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs.nix`
 - [disko-fs-data.nix](./disko-fs-data.nix) – data disk layout (LUKS + btrfs at /data)
 
-## TODOs
-
-1. Install DCGM-Exporter on `ai` to monitor the GPU status.
-
 ## Info
 
 The disk layout is fully declarative — see [disko-fs.nix](./disko-fs.nix) for the root disk and

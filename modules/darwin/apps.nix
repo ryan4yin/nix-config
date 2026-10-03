@@ -18,8 +18,6 @@
 #        1. right click on the running app's icon in Dock, select "Options" -> "Show in Finder" and delete it
 #    4. hold down the Option key, a `x` button will appear on the icon, click it to remove the icon
 #
-# TODO Fell free to modify this file to fit your needs.
-#
 ##########################################################################
 let
   # Homebrew Mirror
