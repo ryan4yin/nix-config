@@ -99,6 +99,12 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 See [./secrets](./secrets) for details.
 
+## Security & Hardening
+
+See [./SECURITY.md](./SECURITY.md) for the threat model, security architecture, controls and audit
+status, [./hardening/README.md](./hardening/README.md) for application sandboxing and Linux
+hardening, and [./WORKAROUNDS.md](./WORKAROUNDS.md) for temporary exceptions and known gaps.
+
 ## How to Deploy this Flake?
 
 <!-- prettier-ignore -->

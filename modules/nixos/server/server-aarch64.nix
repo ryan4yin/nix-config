@@ -8,7 +8,7 @@
     ../base/btop.nix
     ../base/core.nix
     ../base/i18n.nix
-    ../base/kernel-hardening.nix
+    (mylib.relativeToRoot "hardening/kernel-hardening.nix")
     ../base/monitoring.nix
     ../base/nix.nix
     ../base/packages.nix

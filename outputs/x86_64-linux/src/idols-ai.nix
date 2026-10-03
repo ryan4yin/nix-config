@@ -23,7 +23,6 @@ let
         # host specific
         "hosts/idols-${name}"
         # nixos hardening
-        # "hardening/profiles/default.nix"
         "hardening/nixpaks"
         "hardening/bwraps"
       ])

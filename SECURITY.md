@@ -4,6 +4,9 @@ This is a personal infrastructure repository, not a supported security product. 
 describes the intended architecture, controls present in source, their limitations, and remaining
 work. A configured control is not evidence that it is active on a running machine.
 
+Related documents: [application hardening](hardening/README.md) for sandbox wrappers and Linux
+hardening notes, and [WORKAROUNDS.md](WORKAROUNDS.md) for temporary exceptions and known gaps.
+
 ## Reporting problems
 
 For non-sensitive configuration bugs, open an issue with the affected host role and a redacted
@@ -51,9 +54,10 @@ resources are maintained in the separate k8s-gitops repository.
 ## Kernel and process baseline
 
 The following explicit, overridable baseline is implemented in
-[kernel-hardening.nix](modules/nixos/base/kernel-hardening.nix), with Linux eval coverage and
-explicit ARM/RISC-V server imports. Source implementation is not runtime verification. Some values
-are already kernel/systemd/NixOS defaults; Darwin does not receive Linux sysctls.
+[kernel-hardening.nix](hardening/kernel-hardening.nix), which holds the values; the table below
+summarizes them. It has Linux eval coverage and explicit ARM/RISC-V server imports. Source
+implementation is not runtime verification. Some values are already kernel/systemd/NixOS defaults;
+Darwin does not receive Linux sysctls.
 
 | Setting                                           | Value | Effect and compatibility                                                                                                            |
 | ------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------- |

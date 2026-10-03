@@ -35,7 +35,7 @@ A setting that works around a bug or a hardware quirk.
 | WA-008 | Relaxed NVMe APST (`nvme_core.default_ps_max_latency_us=100000`) — `hosts/idols-ai/hardware-configuration.nix`            | the KINGBANK KP260 (DRAM-less QLC) froze on slow APST wake-ups          | Drop the override once kernel/firmware fixes or replacement hardware make default APST reliable | 2026-10-03 | watch NVMe timeout/reset/AER in the journal | active |
 | WA-009 | USB-SATA bridge mitigations (`usbcore.autosuspend=-1`, `usb-storage.delay_use=10`) — `hosts/12kingdoms-youko/default.nix` | flaky JMicron JMS567 resets with UDMA-CRC and I/O errors                | Drop once the bridge/controller is replaced; the signal is smartctl CRC/media errors            | 2026-09-21 | on hardware change or CRC errors            | active |
 | WA-010 | Insta360 Link USB reset on S3 resume — `hosts/idols-ai/default.nix`                                                       | the camera stays enumerated with a stalled UVC endpoint after resume    | Drop after the Insta360 firmware or the kernel `uvcvideo` fixes it                              | 2026-08-01 | on kernel or firmware change                | active |
-| WA-011 | Kernel module blacklist (`esp4`, `esp6`, `rxrpc`) — `modules/nixos/base/kernel-hardening.nix`                             | attack surface for the Dirty Frag LPE (CVE-2026-43284 / CVE-2026-43500) | Kept as defence in depth; drop only if something needs those modules                            | 2026-10-03 | rarely                                      | active |
+| WA-011 | Kernel module blacklist (`esp4`, `esp6`, `rxrpc`) — `hardening/kernel-hardening.nix`                                      | attack surface for the Dirty Frag LPE (CVE-2026-43284 / CVE-2026-43500) | Kept as defence in depth; drop only if something needs those modules                            | 2026-10-03 | rarely                                      | active |
 
 If WA-008 freezes recur, the fallback is to restore
 `nvme_core.default_ps_max_latency_us=0 nvme_core.io_timeout=4294967295 pcie_aspm=off`; this is a
@@ -60,6 +60,7 @@ An unfinished feature or gap.
 
 ## Related
 
+- Security architecture, threat model and audit status: [SECURITY.md](./SECURITY.md).
 - Unmerged **nixpkgs** PRs are carried via the `nixpkgs-patched` input and the
   [`.agents/skills/nixpkgs-patched`](./.agents/skills/nixpkgs-patched/SKILL.md) workflow (that input
   currently carries nothing; package-level carries are recorded under `Pins`).

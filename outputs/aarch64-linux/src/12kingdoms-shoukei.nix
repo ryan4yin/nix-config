@@ -22,7 +22,6 @@ let
         # host specific
         "hosts/12kingdoms-${name}"
         # nixos hardening
-        # "hardening/profiles/default.nix"
         "hardening/nixpaks"
         "hardening/bwraps"
       ])
