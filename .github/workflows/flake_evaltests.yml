@@ -38,5 +38,5 @@ jobs:
         run: |
           echo 'Flake Eval Tests'
           # `nix eval` prints the suite result but still exits 0 on failure, so
-          # compare the raw boolean explicitly to fail the job.
-          test "$(nix eval .#evalTests --raw --show-trace)" = "true"
+          # compare the JSON boolean explicitly to fail the job.
+          test "$(nix eval .#evalTests --json --show-trace)" = "true"

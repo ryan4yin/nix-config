@@ -21,8 +21,7 @@ default:
 # Run eval tests
 [group('nix')]
 test:
-  let result = (nix eval .#evalTests --raw --show-trace --print-build-logs --verbose | str trim)
-  if $result != "true" { error make { msg: $"eval tests failed: evalTests returned ($result)" } }
+  let result = (nix eval .#evalTests --json --show-trace --print-build-logs --verbose | str trim); if $result != "true" { error make { msg: $"eval tests failed: evalTests returned ($result)" } }
 
 # Evaluate a NixOS host configuration without building it.
 [group('nix')]
