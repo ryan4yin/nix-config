@@ -17,7 +17,9 @@
     # 2 disables unprivileged BPF but lets an administrator re-enable it without
     # rebooting. Privileged Cilium/observability agents retain their BPF access.
     "kernel.unprivileged_bpf_disabled" = lib.mkDefault 2;
-    "net.core.bpf_jit_harden" = lib.mkDefault 2;
+    # Limit JIT hardening to unprivileged programs: do not impose its overhead
+    # on privileged Cilium/observability workloads. Userns root is not host root.
+    "net.core.bpf_jit_harden" = lib.mkDefault 1;
     "vm.unprivileged_userfaultfd" = lib.mkDefault 0;
 
     # Symlink/hardlink protection is boolean; FIFO/regular-file protection also

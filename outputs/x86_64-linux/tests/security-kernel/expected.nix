@@ -6,7 +6,7 @@ lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (_: {
     "kernel.yama.ptrace_scope" = 1;
     "kernel.perf_event_paranoid" = 2;
     "kernel.unprivileged_bpf_disabled" = 2;
-    "net.core.bpf_jit_harden" = 2;
+    "net.core.bpf_jit_harden" = 1;
     "vm.unprivileged_userfaultfd" = 0;
     "fs.protected_symlinks" = 1;
     "fs.protected_hardlinks" = 1;
