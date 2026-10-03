@@ -30,29 +30,30 @@ small, reversible controls and narrow exceptions; benchmark before adopting expe
 
 ## Architecture and trust boundaries
 
-| Boundary        | Current design                                                                                                                   | Limitation                                                                                                                      |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Administration  | Key-based SSH; root key login retained for Colmena/MicroVM deployment                                                            | Deployment credentials are root-equivalent; password login being disabled does not restrict stolen keys                         |
-| Host network    | Shared nftables firewall trusts the home LAN, tailnet interface and local Podman bridge; IPv6 link-local is accepted             | These are broad trust zones, not service-level least privilege; router exposure and tailnet ACLs require separate verification  |
-| Monitoring      | Exporter ports 9100, 9835 and 9633 allow the monitoring host over IPv4; new IPv6 connections are denied before broad trust rules | Monitoring intentionally uses static IPv4 targets; loopback remains available; runtime denial checks are required after rollout |
-| VM hosts        | shoryu, shushou and youko run guests behind `br0`; ruby/kana are libvirt guests                                                  | A bridge is not network isolation; host compromise affects its guests                                                           |
-| k3s             | Three control-plane and three worker MicroVMs; Cilium, API VIP and NFS CSI                                                       | Cluster-admin, privileged/host-mounted pods and writable NFS data are powerful trust boundaries                                 |
-| MicroVM storage | Host store shared read-only through virtiofs; guest `/etc`, `/var` and `/home` persisted in separate images                      | Read-only store does not isolate the host-side virtiofs implementation or protect writable guest state                          |
-| Desktop apps    | Selected apps use nixpak/bubblewrap; Podman is rootless                                                                          | Rules and shared directories vary per app; user namespaces are needed for these sandboxes                                       |
-| Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                                   | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                  |
-| Supply chain    | Locked flake inputs; explicit binary-cache trust keys; normal user is not a Nix trusted-user                                     | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                    |
-| Recovery        | NixOS generations, btrbk/restic and documented backup procedures                                                                 | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works                   |
+| Boundary        | Current design                                                                                                       | Limitation                                                                                                                     |
+| --------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Administration  | Key-based SSH; root key login retained for Colmena/MicroVM deployment                                                | Deployment credentials are root-equivalent; password login being disabled does not restrict stolen keys                        |
+| Host network    | Shared nftables firewall trusts the home LAN, tailnet interface and local Podman bridge; IPv6 link-local is accepted | These are broad trust zones, not service-level least privilege; router exposure and tailnet ACLs require separate verification |
+| Monitoring      | Existing firewall rules restrict exporter ports 9100, 9835 and 9633 to the monitoring host over IPv4                 | IPv6 denial is planned in the baseline implementation; current running hosts require separate verification                     |
+| VM hosts        | shoryu, shushou and youko run guests behind `br0`; ruby/kana are libvirt guests                                      | A bridge is not network isolation; host compromise affects its guests                                                          |
+| k3s             | Three control-plane and three worker MicroVMs; Cilium, API VIP and NFS CSI                                           | Cluster-admin, privileged/host-mounted pods and writable NFS data are powerful trust boundaries                                |
+| MicroVM storage | Host store shared read-only through virtiofs; guest `/etc`, `/var` and `/home` persisted in separate images          | Read-only store does not isolate the host-side virtiofs implementation or protect writable guest state                         |
+| Desktop apps    | Selected apps use nixpak/bubblewrap; Podman is rootless                                                              | Rules and shared directories vary per app; user namespaces are needed for these sandboxes                                      |
+| Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                       | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                 |
+| Supply chain    | Locked flake inputs; explicit binary-cache trust keys; normal user is not a Nix trusted-user                         | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                   |
+| Recovery        | NixOS generations, btrbk/restic and documented backup procedures                                                     | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works                  |
 
 Sources: [host layout](hosts/README.md), [k3s deployment](hosts/k8s/README.md),
 [firewall](modules/nixos/base/networking/firewall.nix), [SSH](modules/nixos/base/ssh.nix),
 [Nix trust](modules/base/nix.nix), [secrets](secrets/README.md), and [backup](BACKUP.md). Cluster
 resources are maintained in the separate k8s-gitops repository.
 
-## Kernel and process baseline
+## Planned kernel and process baseline
 
-[kernel-hardening.nix](modules/nixos/base/kernel-hardening.nix) sets the following overridable
-defaults for hosts importing it, including the explicit ARM/RISC-V server import lists. Linux eval
-tests check the supported x86_64 and aarch64 configurations; Darwin does not receive Linux sysctls.
+The following explicit, overridable baseline is planned for
+[kernel-hardening.nix](modules/nixos/base/kernel-hardening.nix), with Linux eval coverage and
+explicit ARM/RISC-V server imports. This documentation does not enable those settings. Some are
+already kernel/systemd/NixOS defaults; Darwin does not receive Linux sysctls.
 
 | Setting                                           | Value | Effect and compatibility                                                                                                            |
 | ------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -71,10 +72,10 @@ baseline reviewable; they do not imply the previous system had no protection. Un
 features may lack their sysctl paths, especially on custom kernels: runtime verification is
 required.
 
-JIT hardening is deliberately limited to unprivileged programs rather than forced on privileged
-agents. Together with `unprivileged_bpf_disabled=2`, this preserves Cilium's normal privileged BPF
-path while retaining protection if an administrator temporarily permits unprivileged BPF. This is a
-configuration trade-off, not a measured claim of zero overhead.
+The planned JIT hardening is deliberately limited to unprivileged programs rather than forced on
+privileged agents. Together with `unprivileged_bpf_disabled=2`, this preserves Cilium's normal
+privileged BPF path while retaining protection if an administrator temporarily permits unprivileged
+BPF. This is a configuration trade-off, not a measured claim of zero overhead.
 
 User namespaces remain enabled: disabling them globally conflicts with Nix sandboxing and breaks
 rootless containers and application sandboxes. Nonprivileged seccomp filters are not disabled by the
@@ -148,19 +149,29 @@ configuration and certificate lifecycle procedures. Never bypass TLS verificatio
 hostname mismatch. Eval tests protect the domain join endpoint and server SAN declarations; live TLS
 checks remain necessary after deployment.
 
-## Completed controls and audit findings
+## Implementation plan and completed audit findings
 
-### Implemented in source; awaiting rollout
+### Implementation status
 
-- Explicit, overridable sysctl baseline, preserving user namespaces and privileged BPF performance.
-- IPv6 exporter denial before broad LAN/tailnet/container rules. The monitoring configuration uses
-  IPv4 targets for these ports, so no scrape endpoint migration is needed.
-- x86_64/aarch64 eval checks for baseline values, normal host overrides and the generated exporter
-  rules; k3s endpoint checks for all six cluster nodes.
-- A reusable isolated VM check exercises allowed monitoring IPv4 access, denied other IPv4/IPv6
+| Component                                                        | Status                                             | Runtime verification                                |
+| ---------------------------------------------------------------- | -------------------------------------------------- | --------------------------------------------------- |
+| Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change              | Only the dated observations below were checked live |
+| Explicit sysctl baseline and IPv6 exporter defence               | Planned in a separate baseline implementation      | Not deployed or verified on running hosts           |
+| Kernel-state reporter and textfile metrics                       | Planned in a separate observability implementation | Not deployed or verified on running hosts           |
+
+### Planned implementation checks
+
+- Add an explicit, overridable sysctl baseline, preserving user namespaces and privileged BPF
+  performance.
+- Add IPv6 exporter denial before broad LAN/tailnet/container rules. The monitoring configuration
+  uses IPv4 targets for these ports, so no scrape endpoint migration is needed.
+- Add x86_64/aarch64 eval checks for baseline values, normal host overrides and generated exporter
+  rules. Canonical API endpoint checks for all six cluster nodes already accompany this document.
+- Add a reusable isolated VM check exercising allowed monitoring IPv4 access, denied other IPv4/IPv6
   access to all three exporter ports, retained IPv6 loopback and a reachable ordinary IPv4/IPv6
-  service. Run `nix build .#checks.x86_64-linux.security-exporters`. It imports only the shared
-  firewall, not real-host secrets or workloads, and does not replace deployment-time checks.
+  service. The planned command is `nix build .#checks.x86_64-linux.security-exporters`, importing
+  only the shared firewall, not real-host secrets or workloads, and does not replace deployment-time
+  checks.
 
 ### Read-only audit snapshot — 2026-10-03
 
@@ -267,12 +278,12 @@ active exploitation or a reachable high-impact vulnerability. Check affected ver
 then validate an update and schedule the required rollout/reboot. Do not auto-apply every input bump
 or promise that a kernel version string alone proves security coverage.
 
-[kernel-status.nix](modules/nixos/base/kernel-status.nix) publishes small textfile gauges through
-the existing node exporter. A bounded one-shot runs every five minutes; it resolves public
-kernel-path metadata rather than reading image contents, scanning packages or keeping a resident
-agent running. It uses the existing non-root exporter account, with no new sudo grants. Its
-non-secret report at `/run/nixos-kernel-status/kernel-status.prom` is owner-writable and readable
-for local diagnosis. It compares `/nix/var/nix/profiles/system/kernel` with
+The planned `modules/nixos/base/kernel-status.nix` reporter will publish small textfile gauges
+through the existing node exporter. A bounded one-shot will run every five minutes and resolve
+public kernel-path metadata rather than reading image contents, scanning packages or keeping a
+resident agent running. The design uses the existing non-root exporter account, with no new sudo
+grants. Its non-secret report at `/run/nixos-kernel-status/kernel-status.prom` is owner-writable and
+readable for local diagnosis. It compares `/nix/var/nix/profiles/system/kernel` with
 `/run/booted-system/kernel`, so boot-only deployments are visible even when `/run/current-system`
 remains unchanged.
 
@@ -295,11 +306,11 @@ fresh metrics. Guest profiles and host-side runner references require separate v
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                        |
 | -------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                          |
+| P1       | Implement, roll out and verify the planned baseline/exporter rules               | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                          |
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                     |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                      |
 | P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts, recipient scope and Darwin per-file ownership        |
-| P1       | Adopt the documented cadence and deploy kernel visibility                        | Routine and reporter implemented; verify fresh host data and image mismatch behavior after rollout, not just flake revision or release strings                  |
+| P1       | Adopt the documented cadence and implement kernel visibility                     | Routine documented; reporter planned. Verify fresh host data and image mismatch behavior after implementation/rollout                                           |
 | P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                              |
 | P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                              |
 | P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                     |

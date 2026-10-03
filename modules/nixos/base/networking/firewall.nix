@@ -33,11 +33,6 @@ in
       # monitoring host.
       ip saddr != ${monitoringHost} tcp dport 9633 drop
 
-      # Monitoring uses the stable IPv4 address above. Deny IPv6 exporter
-      # connections before broad LAN/tailnet/container trust can accept them;
-      # this does not restrict other IPv6 services or loopback access.
-      meta nfproto ipv6 tcp dport { 9100, 9835, 9633 } drop
-
       # The local container bridge and the tailnet have the same access as the
       # LAN. Kept after the drop above so neither can reach node_exporter.
       iifname "podman0" accept
