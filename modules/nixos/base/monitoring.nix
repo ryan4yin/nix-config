@@ -54,4 +54,17 @@
     port = 9633;
     maxInterval = "60s";
   };
+
+  # The exporter binds to the LAN address, which networkd assigns during boot;
+  # without ordering it races the address and trips the start limit (seen on ai).
+  # wait-online is best-effort (120s timeout), so also retry patiently to
+  # self-heal when the link comes up late.
+  systemd.services.prometheus-smartctl-exporter = lib.mkIf config.modules.hardwareTools.enable {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      RestartSec = "10s";
+      StartLimitIntervalSec = 0;
+    };
+  };
 }
