@@ -14,24 +14,25 @@
   ];
 
   boot.kernelParams = [
-    # === NVMe SSD Timeout / Freeze Fix for Linux ===
-    # https://community.frame.work/t/nvme-timeout-woes/54999
-
-    "nvme_core.default_ps_max_latency_us=0"
-    # Explanation: Completely disables NVMe Autonomous Power State Transition (APST)
-    # Why: Your drive enters deep sleep states during high load. Wake-up latency is too slow (>30 ms),
-    # causing the kernel to think the command timed out.
-    # Setting it to 0 = never let the drive sleep → root-cause fix for "freezes during big reads/writes"
-
-    "nvme_core.io_timeout=4294967295"
-    # Explanation: Increases the kernel's NVMe command timeout to the maximum possible value (~49 days)
-    # Why: Linux default is only 30 seconds, after which it aborts the request and resets the controller.
-    # This makes the kernel "patient" so even if the drive is momentarily slow, it won't crash/reset.
-
-    "pcie_aspm=off"
-    # Explanation: Fully disables PCIe Active State Power Management (link power saving)
-    # Why: The PCIe link dropping into L1/L1.2 low-power states is the #1 cause of NVMe timeouts on Linux.
-    # Turning it off keeps the link at full speed at all times → eliminates "Link is Down" + timeout errors.
+    # === NVMe power management (relaxed 2026-10) ===
+    #
+    # These began as a hard workaround for NVMe freezes on the KINGBANK KP260
+    # (a DRAM-less QLC drive, prone to slow APST wakeups): APST fully disabled,
+    # the command timeout pushed to the maximum, and PCIe ASPM turned off.
+    # Kernel logs from 2026-09-19..10-03 (8 boots) show no NVMe
+    # timeout/reset/AER, so it is relaxed to reclaim idle power and let the
+    # kernel recover a stuck command instead of hanging on it:
+    #
+    #   - APST allowed again, capped at a wide 100 ms latency (was: disabled).
+    #   - io_timeout back to the kernel default 30 s (was: ~49 days, which let
+    #     a stuck command wait forever instead of resetting the controller).
+    #   - pcie_aspm removed: PCIe link power saving is unrelated to the drive's
+    #     own APST.
+    #
+    # If freezes return under heavy read/write, restore the old workaround:
+    #   nvme_core.default_ps_max_latency_us=0 nvme_core.io_timeout=4294967295 pcie_aspm=off
+    # See https://community.frame.work/t/nvme-timeout-woes/54999
+    "nvme_core.default_ps_max_latency_us=100000"
   ];
 
   # Use the EFI boot loader.
