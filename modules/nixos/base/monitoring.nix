@@ -1,4 +1,10 @@
 {
+  config,
+  lib,
+  myvars,
+  ...
+}:
+{
   # enable the node exporter on all nixos hosts
   # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/services/monitoring/prometheus/exporters/node.nix
   services.prometheus.exporters.node = {
@@ -32,5 +38,20 @@
       #       /persistent-prefixed paths (used in NixOS's tmpfs-as-root setup) are excluded.
       "--collector.filesystem.mount-points-exclude=^(/|/persistent/)(dev|proc|sys|run/credentials/.+|run/user/.+|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
     ];
+  };
+
+  # Drive SMART health (wear, spare, media errors, temperature, bytes written)
+  # on physical hosts. node_exporter's nvme collector only exposes
+  # node_nvme_info and namespace capacity, NOT SMART health, so this is the only
+  # source of SSD lifespan data. `hardwareTools` is off on MicroVM/QEMU guests,
+  # which have no physical disks to inspect.
+  services.prometheus.exporters.smartctl = lib.mkIf config.modules.hardwareTools.enable {
+    enable = true;
+    # Bind to this host's LAN address rather than 0.0.0.0; the firewall also
+    # drops 9633 from anything but the monitoring host. Fall back to loopback
+    # for hosts without a static LAN address (e.g. shoukei).
+    listenAddress = myvars.networking.hostsAddr.${config.networking.hostName}.ipv4 or "127.0.0.1";
+    port = 9633;
+    maxInterval = "60s";
   };
 }
