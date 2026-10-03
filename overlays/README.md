@@ -13,6 +13,9 @@ overlays/
 ├── default.nix            # Entrypoint for all overlays
 ├── computer-use-linux.nix # trycua/computer-use-linux package
 ├── cua-driver.nix         # trycua/cua driver (cua-driver) package
+├── smartctl-exporter/     # smartctl_exporter backport (upstream PR #329)
+│   ├── default.nix
+│   └── 329-explicit-descriptors.patch
 └── fcitx5/                # Chinese input method configuration
     ├── README.md
     ├── default.nix        # fcitx5 overlay definition
@@ -55,3 +58,6 @@ This overlay provides:
 
 - `computer-use-linux.nix`: packages `pkgs/computer-use-linux`.
 - `cua-driver.nix`: packages `pkgs/cua-driver` (used by the computer-use VMs).
+- `smartctl-exporter/`: patches `prometheus-smartctl-exporter` with upstream PR
+  [#329](https://github.com/prometheus-community/smartctl_exporter/pull/329) until smartctl_exporter
+  0.15.0 is released; see `overlays/smartctl-exporter/default.nix`.
