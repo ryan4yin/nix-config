@@ -57,12 +57,9 @@ npx skills add -g JuliusBrussee/caveman --skill 'caveman'
 # shape replies for an ADHD reader: next action first, numbered steps, restated state
 npx skills add -g ayghri/i-have-adhd --skill 'i-have-adhd'
 
-# drive tuios panes, windows, workspaces, and agents from a tuios pane; the skill
-# ships inside the tuios binary, so it always matches the installed version
-mkdir -p ~/.agents/skills/tuios && tuios --skill all > ~/.agents/skills/tuios/SKILL.md
-
-# or register tuios as an MCP server (read-only, or --mcp-write for typing tools)
-# instead of skill text; also reports agent state into the pane
+# drive tuios panes, windows, workspaces, and agents from a tuios pane: register
+# tuios as an MCP server (read-only, or --mcp-write for typing tools); also
+# reports agent state into the pane
 tuios integration install opencode --mcp-write
 ```
 
