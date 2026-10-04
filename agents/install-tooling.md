@@ -1,7 +1,8 @@
-# Agent Skills Commands
+# Agent Tooling Commands
 
-Reference commands for listing, installing, and updating skills via `npx skills`. Keep the global
-set small and install task-specific skills in the relevant project.
+Reference commands for installing external agent tooling: skills via `npx skills`, the `ctx7` docs
+tool, and the tuios harness integration. Keep the global set small and install task-specific skills
+in the relevant project.
 
 This repository's own skills live in `.agents/skills/`: they are tracked in git and discovered
 automatically, so do not install, overwrite, or remove them with `npx skills`. The commands below
@@ -56,9 +57,6 @@ npx skills add -g JuliusBrussee/caveman --skill 'caveman'
 
 # shape replies for an ADHD reader: next action first, numbered steps, restated state
 npx skills add -g ayghri/i-have-adhd --skill 'i-have-adhd'
-
-# inspect and control herdr panes, tabs, workspaces, agents, and commands from a herdr pane
-npx skills add -g herdrdev/herdr --skill 'herdr'
 ```
 
 ## Optional project skills
@@ -81,11 +79,15 @@ npx skills add anthropics/skills --skill 'pdf'
 npx skills add trailofbits/skills --skill 'codeql' --skill 'semgrep'
 ```
 
-## Other agent tooling (npx)
+## Other agent tooling
 
 ```bash
 # context7: up-to-date library docs and code examples for LLMs and agents
 npx ctx7 setup
+
+# tuios: register it as an MCP server for the harness (read-only, or --mcp-write
+# for typing tools); also reports agent state into the tuios pane
+tuios integration install opencode --mcp-write
 ```
 
 References:
@@ -96,6 +98,6 @@ References:
 - https://github.com/DietrichGebert/ponytail
 - https://github.com/JuliusBrussee/caveman
 - https://github.com/ayghri/i-have-adhd
-- https://github.com/herdrdev/herdr
+- https://github.com/Gaurav-Gosain/tuios
 - https://github.com/anthropics/skills
 - https://github.com/trailofbits/skills
