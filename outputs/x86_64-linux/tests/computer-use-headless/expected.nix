@@ -11,7 +11,7 @@ in
 lib.genAttrs hosts (name: {
   computerUse = true;
   atspi = true;
-  clashVerge = true;
+  mihomo = true;
   timeZone = "America/Los_Angeles";
   xvfbRestart = "always";
   i3Restart = "always";

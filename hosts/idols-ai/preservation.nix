@@ -321,9 +321,12 @@ in
         # Misc
         # ======================================
 
-        # Clash Verge Rev
-        ".local/share/io.github.clash-verge-rev.clash-verge-rev"
-        ".local/share/clash-verge"
+        # Mihomo (native core): sources spec, generator and config all live here
+        # (contains subscription secrets, hence 0700).
+        {
+          directory = ".config/mihomo";
+          mode = "0700";
+        }
 
         # Orca Slicer - 3D Printer Slicer
         ".local/share/orca-slicer"

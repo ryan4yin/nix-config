@@ -9,6 +9,9 @@ ignore-files = true
 extend-exclude = [
   "data/",
   "rime-data/",
+  # small-duck flypy user dictionary: entries are pinyin codes ("delt", "juli"),
+  # not English words, so the spell checker flags every one of them
+  "overlays/fcitx5/flypy_user.txt",
 ]
 
 [default]

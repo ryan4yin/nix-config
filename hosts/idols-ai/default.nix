@@ -118,8 +118,8 @@ in
       IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
       LinkLocalAddressing = "ipv6";
       # r8169 drops carrier on S3 resume; without this, networkd tears down the
-      # static address/route and clash's TUN auto-detect briefly loses its
-      # outbound interface, leaving routing broken until clash is restarted.
+      # static address/route and mihomo's TUN auto-detect briefly loses its
+      # outbound interface, leaving routing broken until mihomo is restarted.
       IgnoreCarrierLoss = "10s";
     };
     routes = [

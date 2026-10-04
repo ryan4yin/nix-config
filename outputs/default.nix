@@ -190,7 +190,9 @@ in
             settings = {
               write = true; # Automatically fix typos
               configPath = ".typos.toml"; # relative to the flake root
-              exclude = "rime-data/";
+              # git-hooks passes paths on the command line, which makes typos
+              # ignore .typos.toml's extend-exclude, so repeat it here
+              exclude = "rime-data/|overlays/fcitx5/flypy_user.txt";
             };
           };
           prettier = {

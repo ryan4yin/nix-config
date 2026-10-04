@@ -1,7 +1,5 @@
 {
   pkgs,
-  pkgs-master,
-  lib,
   ...
 }:
 {
@@ -15,8 +13,6 @@
   xdg.autostart.entries = [
     "${pkgs.ghostty}/share/applications/com.mitchellh.ghostty.desktop"
     "${pkgs.kitty}/share/applications/kitty.desktop"
-
-    "${pkgs-master.clash-verge-rev}/share/applications/clash-verge.desktop"
 
     # nixpaks
     "${pkgs.nixpaks.firefox}/share/applications/org.mozilla.firefox.desktop"
