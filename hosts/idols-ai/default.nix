@@ -136,6 +136,20 @@ in
     linkConfig.RequiredForOnline = "routable";
   };
 
+  # Dynamic DNS takeover, the way the Clash Verge service did it: while mihomo
+  # runs, resolved asks it directly (fake-ip); `dns-hijack any:53` did not keep
+  # this host's resolver on fake-ip in practice. The link DNS stays on the plain
+  # nameservers, and ExecStopPost (which also runs on crashes) reverts the
+  # takeover, so a dead mihomo leaves the network usable instead of killing DNS.
+  # The '+' prefix is required: nixpkgs' services.mihomo hardening sets
+  # RestrictAddressFamilies without AF_UNIX, so resolvectl's dbus connect fails
+  # under the unit's seccomp, and a failed ExecStartPost kills the otherwise
+  # healthy service.
+  systemd.services.mihomo.serviceConfig = {
+    ExecStartPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl dns ${iface} 127.0.0.1:1053";
+    ExecStopPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl revert ${iface}";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

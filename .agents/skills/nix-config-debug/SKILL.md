@@ -24,17 +24,18 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
 
 ## 1. Localize by layer
 
-| Layer         | Symptom                                        | Look with                                                                                           |
-| ------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| eval          | `just test` prints `false`, an eval error      | `just eval-host <host>` (already passes `--show-trace`)                                             |
-| build         | build error, hash mismatch, "marked as broken" | `just build-host <host>`, then `nix log <drv>`                                                      |
-| activation    | the deploy fails after building                | the deploy output; `journalctl -u home-manager-$USER -b` for Home Manager                           |
-| runtime       | a unit is failed or restarting                 | `just list-failed`, `systemctl status <unit>`, `journalctl -u <unit> -b`                            |
-| boot          | errors at boot, wrong kernel                   | `journalctl -b -p err`; `just history` for what is booted                                           |
-| session       | desktop or app misbehaves                      | `journalctl --user -b -p err`; the `nix-config-desktop` skill                                       |
-| remote host   | anything on a Colmena host                     | `ssh root@<host> journalctl -b -p err`, same commands over SSH                                      |
-| MicroVM guest | guest down or unreachable                      | on the VM host: `systemctl status microvm@<guest>` and `microvm-tap-interfaces@<guest>`; then `br0` |
-| secrets       | missing or unreadable `/etc/agenix/*`          | the `nix-config-secrets` skill                                                                      |
+| Layer         | Symptom                                        | Look with                                                                                                                                   |
+| ------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| eval          | `just test` prints `false`, an eval error      | `just eval-host <host>` (already passes `--show-trace`)                                                                                     |
+| build         | build error, hash mismatch, "marked as broken" | `just build-host <host>`, then `nix log <drv>`                                                                                              |
+| activation    | the deploy fails after building                | the deploy output; `journalctl -u home-manager-$USER -b` for Home Manager                                                                   |
+| runtime       | a unit is failed or restarting                 | `just list-failed`, `systemctl status <unit>`, `journalctl -u <unit> -b`                                                                    |
+| proxy/DNS     | proxied sites time out, node and rules look ok | `dig +short <site>` must return a fake-ip (`198.18.x.x`); a real IP means the system resolver bypasses `dns-hijack` — mihomo README Gotchas |
+| boot          | errors at boot, wrong kernel                   | `journalctl -b -p err`; `just history` for what is booted                                                                                   |
+| session       | desktop or app misbehaves                      | `journalctl --user -b -p err`; the `nix-config-desktop` skill                                                                               |
+| remote host   | anything on a Colmena host                     | `ssh root@<host> journalctl -b -p err`, same commands over SSH                                                                              |
+| MicroVM guest | guest down or unreachable                      | on the VM host: `systemctl status microvm@<guest>` and `microvm-tap-interfaces@<guest>`; then `br0`                                         |
+| secrets       | missing or unreadable `/etc/agenix/*`          | the `nix-config-secrets` skill                                                                                                              |
 
 ## 2. Read the evaluated value
 

@@ -518,7 +518,9 @@ def main [
       enable: true
       # port 53 is unreachable here: the unit runs DynamicUser with only
       # CAP_NET_ADMIN, so a privileged bind fails. TUN's dns-hijack covers
-      # resolution; this listener is a loopback convenience only.
+      # queries that leave through an interface; hosts whose system resolver
+      # answers over loopback (systemd-resolved) need their resolver taken over
+      # while mihomo runs, or fake-ip is bypassed entirely.
       listen: "127.0.0.1:1053"
       ipv6: false
       "enhanced-mode": "fake-ip"

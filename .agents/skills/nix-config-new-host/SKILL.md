@@ -59,7 +59,10 @@ assume the physical-host deployment is done through Colmena.
    unused `args`: haumea passes them lazily and they are still required.
 5. `vars/networking.nix` - `hostsAddr.<name> = { iface; ipv4; }` for a LAN host. That entry drives
    the static address, the SSH `Host` alias used for remote builds, and `known_hosts`, so a wrong
-   `iface` takes the host offline at activation. Skip it for a DHCP or mobile host.
+   `iface` takes the host offline at activation. Skip it for a DHCP or mobile host. If the host
+   enables `modules.networking.mihomo` and runs systemd-resolved, it needs a DNS takeover tied to
+   mihomo's lifecycle (`resolvectl dns`/`revert` in `ExecStartPost`/`ExecStopPost`, see
+   `hosts/idols-ai/default.nix`); a static link DNS would kill DNS when mihomo dies.
 6. `hosts/README.md` - add the host to the inventory.
 
 Pin service user and group ids (`service-user-ids.nix`, as on `shoryu`) before the host has state on
