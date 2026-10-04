@@ -126,7 +126,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - The user's interactive shell is **nushell**; bash is only started from within nushell,
   occasionally, for tasks nushell can't do. Put shell env, aliases, and per-session secrets in the
   Nushell config (or `nushell-secrets.nu`), not in `bashrc`/`zshrc`.
-- Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes.
+- Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes and make sure the
+  Nix-managed `~/.ssh/config` is used; rerun outside the sandbox if it is rejected.
 - Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
 - Publish only to repositories that are already public; treat everything else as confidential.
 - For upstream source, prefer an up-to-date `~/src/<repo>` checkout over the GitHub API or a fresh
