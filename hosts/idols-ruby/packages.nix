@@ -86,6 +86,5 @@ in
       agentPackages.opencode2
       agentPackages.kimi-code
       agentPackages.pi
-      agentPackages.omp
     ];
 }

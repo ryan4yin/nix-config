@@ -13,7 +13,6 @@ in
     agentPackages.opencode2
     agentPackages.kimi-code
     agentPackages.pi
-    agentPackages.omp
 
     # MCP servers, configured project-scoped in opencode.jsonc / .codex/config.toml
     pkgs.mcp-grafana

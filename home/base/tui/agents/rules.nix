@@ -12,7 +12,6 @@ in
   home.file = {
     ".codex/AGENTS.md".source = link; # Codex
     ".pi/agent/AGENTS.md".source = link; # Pi
-    ".omp/agent/AGENTS.md".source = link; # OMP
     ".agents/AGENTS.md".source = link; # cross-tool, read by Kimi Code
   };
 
