@@ -8,6 +8,26 @@
 # (`geo-auto-update`). `mihomo -t` validates the names: `taobao`, `alipay` and
 # `wechat` do not exist in it, hence the hand-written domains below.
 
+# Region node groups. Each entry becomes two groups offered inside PROXY:
+# "<name> 自动" (url-test, lazy: only health-checked once selected) and
+# "<name> 手动" (select), both over the provider nodes whose name matches
+# `filter` (Go regex, case-insensitive). The generator also adds "🌍 其他地区"
+# (manual, everything not matched below) and "🌐 全部地区" (manual, all nodes);
+# AUTO is the all-node auto pick. Edit the regions freely.
+node_groups:
+  - name: "🇭🇰 香港"
+    filter: "(?i)(香港|hong ?kong|hk|🇭🇰)"
+  - name: "🇹🇼 台湾"
+    filter: "(?i)(台湾|台灣|taiwan|tw|🇹🇼)"
+  - name: "🇯🇵 日本"
+    filter: "(?i)(日本|japan|东京|大阪|jp|🇯🇵)"
+  - name: "🇸🇬 新加坡"
+    filter: "(?i)(新加坡|singapore|sg|🇸🇬)"
+  - name: "🇰🇷 韩国"
+    filter: "(?i)(韩国|韓國|korea|首尔|kr|🇰🇷)"
+  - name: "🇺🇸 美国"
+    filter: "(?i)(美国|美國|united states|america|usa|us[ -]|🇺🇸)"
+
 # fake-ip-filter: these must resolve to real IPs, never a fake one. Tencent's
 # multimedia hosts matter because WeChat/QQ fetch images over bare CDN IPs.
 dns_filters:

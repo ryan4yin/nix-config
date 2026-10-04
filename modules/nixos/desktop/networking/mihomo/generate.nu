@@ -347,6 +347,7 @@ def main [
   let policy_filters = ($policy_doc | get -o dns_filters | default [])
   let policy_rules = (sanitize-rules ($policy_doc | get -o rules | default []) "policy.yaml" true)
   let policy_rp = ($policy_doc | get -o rule_providers | default {})
+  let node_groups = ($policy_doc | get -o node_groups | default [])
 
   let spec = (open $src)
   # an empty secret leaves the dashboard open to anything on the machine
@@ -371,14 +372,51 @@ def main [
     | reduce --fold {} { |it, acc| $acc | insert $it.name ($it.provider) }
   )
 
-  # groups: entry point + one select per provider + everything the sources declare
+  # groups: entry point, per-region auto+manual, an "everything else" and an
+  # "all nodes" manual select, one select per provider, plus everything the
+  # sources declare. `filter`/`exclude-filter` are Go regexes on the node name;
+  # region auto groups are `lazy` so unselected regions cost no health checks.
   let per_provider = ($names | each { |n| { name: $"($n) 节点", type: "select", use: [$n] } })
+  let region_groups = (
+    $node_groups
+    | each { |g|
+      let base = ($g | get name)
+      [
+        { name: $"($base) 自动", type: "url-test", use: $names, filter: ($g | get filter), lazy: true, url: $HEALTH_URL, interval: 300 }
+        { name: $"($base) 手动", type: "select", use: $names, filter: ($g | get filter) }
+      ]
+    }
+    | flatten
+  )
+  let other_groups = (
+    if ($node_groups | is-empty) {
+      []
+    } else {
+      let joined = ($node_groups | each { |g| ($g | get filter) | str replace --all "(?i)" "" } | str join "|")
+      let excl = "(?i)(" + $joined + ")"
+      [{ name: "🌍 其他地区", type: "select", use: $names, "exclude-filter": $excl }]
+    }
+  )
+  let all_group = [{ name: "🌐 全部地区", type: "select", use: $names }]
+  let generated_groups = ($region_groups ++ $other_groups ++ $all_group)
   let imported_groups = ($entries | each { |e| $e.groups } | flatten)
+  # an imported group with the same name wins; dropping ours still leaves a
+  # usable config, failing would not
+  let taken = (
+    ["PROXY", "AUTO"] ++ ($per_provider | get name) ++ ($imported_groups | each { |g| $g.name })
+  )
+  let region_kept = ($generated_groups | where { |g| $g.name not-in $taken })
+  let region_skipped = ($generated_groups | where { |g| $g.name in $taken } | each { |g| $g.name })
   let groups = (
     [
-      { name: "PROXY", type: "select", proxies: (["AUTO"] ++ ($per_provider | get name) ++ ["DIRECT"]) }
+      {
+        name: "PROXY"
+        type: "select"
+        proxies: (["AUTO"] ++ ($region_kept | get name) ++ ($per_provider | get name) ++ ["DIRECT"])
+      }
       { name: "AUTO", type: "url-test", use: $names, url: $HEALTH_URL, interval: 300 }
     ]
+    ++ $region_kept
     ++ $per_provider
     ++ $imported_groups
   )
@@ -512,6 +550,9 @@ def main [
   print $"  rule-providers:    ($rule_providers | columns | length)"
   print $"  rules:             (($config | get rules) | length)  -- ($breakdown)"
   print $"  find-process-mode: ($fpm)"
+  if ($region_skipped | is-not-empty) {
+    print --stderr $"warning: region groups skipped, an imported group already uses: ($region_skipped | str join ', ')"
+  }
   if ($bad_rules | is-not-empty) {
     print --stderr $"warning: dropped ($bad_rules | length) rules:"
     for b in $bad_rules {
