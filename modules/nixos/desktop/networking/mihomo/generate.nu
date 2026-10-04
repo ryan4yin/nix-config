@@ -99,6 +99,17 @@ def rewrite-rule [rule: string, map: record] {
   | str join ","
 }
 
+# the group or policy a rule sends traffic to: always the last field, except
+# that `no-resolve` trails it for IP rules. Composite rules keep the target
+# last as well, so splitting on commas is safe here.
+def rule-target [rule: string] {
+  mut parts = ($rule | split row "," | each { |p| $p | str trim })
+  if (($parts | last | default "" | str lowercase) == "no-resolve") {
+    $parts = ($parts | slice 0..(($parts | length) - 2))
+  }
+  $parts | last | default ""
+}
+
 # Rules copied out of a browser or a chat log often carry a scheme, e.g.
 # `DOMAIN-SUFFIX,https://qlogo.cn,DIRECT`; mihomo rejects that. A rule split
 # across two lines (`DOMAIN-SUFFIX,https://qlogo.cn` then `,DIRECT`) becomes two
@@ -204,7 +215,7 @@ def import-doc [doc: record, provider: string] {
   mut final_rules = []
   mut orphans = []
   for r in ($rules.ok | each { |x| rewrite-rule $x $map }) {
-    let target = ($r | split row "," | last | default "" | str trim)
+    let target = (rule-target $r)
     if ($target in $dropped) {
       $orphans = ($orphans ++ [$"($provider) snapshot: rule target has no group, dropped: ($r)"])
     } else {
@@ -400,16 +411,22 @@ def main [
   let excluded = ($spec | get -o tun_exclude_process | default [])
   # evaluation order: private hosts, hand-written rules, provider rules, policy tail
   let body_rules = ($priv_rules ++ $user_rules.ok ++ $imported_rules ++ $policy_rules.ok)
-  # a RULE-SET pointing at a rule-provider nobody declared makes the core
-  # refuse the whole config, so drop the rule and report it
+  # a RULE-SET pointing at a rule-provider nobody declared, or a target that
+  # is not one of the final groups, makes the core refuse the whole config;
+  # drop the rule and report it. This pass sees every source at once, so it
+  # also catches targets dangling across documents.
   let rp_names = ($rule_providers | columns)
+  let valid_targets = (($groups | each { |g| $g.name }) ++ ["DIRECT", "PROXY", "REJECT", "PASS"])
   mut kept_rules = []
   mut rp_missing = []
   for r in $body_rules {
     let parts = ($r | split row ",")
     let ref = ($parts | get -o 1 | default "")
+    let target = (rule-target $r)
     if (($parts | first | str uppercase) == "RULE-SET") and ($ref not-in $rp_names) {
       $rp_missing = ($rp_missing ++ [$"rule set '($ref)' is not declared, dropped: ($r)"])
+    } else if ($target not-in $valid_targets) {
+      $rp_missing = ($rp_missing ++ [$"rule target '($target)' has no group, dropped: ($r)"])
     } else {
       $kept_rules = ($kept_rules ++ [$r])
     }
