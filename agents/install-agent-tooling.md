@@ -1,7 +1,8 @@
-# Agent Skills Commands
+# Agent Tooling Commands
 
-Reference commands for listing, installing, and updating skills via `npx skills`. Keep the global
-set small and install task-specific skills in the relevant project.
+Reference commands for installing external agent tooling: skills via `npx skills`, the `ctx7` docs
+tool, and the tuios harness integration. Keep the global set small and install task-specific skills
+in the relevant project.
 
 This repository's own skills live in `.agents/skills/`: they are tracked in git and discovered
 automatically, so do not install, overwrite, or remove them with `npx skills`. The commands below
