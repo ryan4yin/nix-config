@@ -126,7 +126,7 @@ scroll_lines = 3
 kitty_placeholders = 'auto'
 auto_enter_terminal_on_focus = 'off'
 click_to_type = 'double'
-dockbar_position = 'hidden'
+dockbar_position = 'top'
 preferred_shell = '/run/current-system/sw/bin/nu'
 motion = 'full'
 modal_dim = 30
@@ -148,6 +148,7 @@ max_fps = 0
 dock_workspace_tab_format = ''
 glyphs = 'default'
 gap = 0
+tiling_scheme = ''
 master_ratio = 50
 scroll_column_width = 55
 scroll_column_max = 90
@@ -156,6 +157,8 @@ panel_padding = 2
 clock_format = '15:04:05'
 dim_unfocused = 0
 dim_multifocus = false
+master_position = ''
+master_count = 0
 background = 'off'
 pane_background = ''
 desktop_background = ''
@@ -191,6 +194,7 @@ width = 24
 workspaces = ''
 sections = 'sessions:25,terminals,files:25,agents:34'
 folder_click = 'navigate'
+editor = ''
 file_delete = 'trash'
 background = ''
 agent_rest_fold = '1h'
@@ -237,6 +241,7 @@ select_window_7 = ['7']
 select_window_8 = ['8']
 select_window_9 = ['9']
 start_screensaver = ['S']
+toggle_pip = ['p']
 toggle_zoom = ['z']
 
 [keybindings.workspaces]
@@ -313,6 +318,7 @@ restore_minimized_9 = ['shift+9', '(']
 hints = ['F']
 launcher = ['a']
 next_session = [')']
+paste_image = ['V']
 prefix_close_session = ['X']
 prefix_close_window = ['x']
 prefix_command_palette = ['P']
@@ -321,6 +327,7 @@ prefix_detach = ['d']
 prefix_equalize_splits = ['=']
 prefix_exit_mode = ['esc']
 prefix_explore = ['e']
+prefix_file_search = ['f']
 prefix_fullscreen = ['z']
 prefix_help = ['?']
 prefix_inbox = ['i']
@@ -366,6 +373,7 @@ terminal_focus_down = ['down']
 terminal_focus_left = ['left']
 terminal_focus_right = ['right']
 terminal_focus_up = ['up']
+toggle_scratch = ['g']
 
 [keybindings.window_prefix]
 window_prefix_cancel = ['esc']
@@ -427,9 +435,13 @@ tape_prefix_review = ['t']
 tape_prefix_stop = ['s']
 
 [keybindings.layout_prefix]
+add_master = ['i']
+cycle_master_position = ['o']
+focus_master = ['m']
 layout_prefix_cancel = ['esc']
 layout_prefix_load = ['l']
 layout_prefix_save = ['s']
+remove_master = ['d']
 resize_height_50 = ['shift+5']
 resize_height_60 = ['shift+6']
 resize_height_70 = ['shift+7']
@@ -444,6 +456,7 @@ snap_corner_1 = ['1']
 snap_corner_2 = ['2']
 snap_corner_3 = ['3']
 snap_corner_4 = ['4']
+swap_with_master = ['enter']
 
 [keybindings.terminal_mode]
 terminal_exit_mode = ['alt+esc']
@@ -461,6 +474,14 @@ terminal_scroll_up = ['shift+up']
 command_palette = ['ctrl+p']
 launcher = ['alt+space']
 
+[[keybindings.command]]
+key = 'prefix+alt+f'
+type = 'scratch'
+command = 'nu'
+description = 'Floating shell'
+width = '80%'
+height = '80%'
+
 [keybindings.script]
 script_pause = ['ctrl+p']
 
@@ -474,6 +495,7 @@ cursor_down = ['j', 'down']
 cursor_up = ['k', 'up']
 exit = ['esc', 's']
 expand = ['l', 'right']
+file_search = ['ctrl+f']
 first = ['g', 'home']
 help = ['?']
 jump_1 = ['1']
@@ -505,6 +527,7 @@ file_create = ['a']
 file_cut = ['x']
 file_delete = ['d']
 file_delete_forever = ['D']
+file_edit = ['shift+enter']
 file_open = ['enter']
 file_paste = ['p']
 file_rename = ['r']
@@ -567,6 +590,9 @@ agent_detect_seconds = 0
 agent_binaries = []
 respond_from_shell = false
 resume_agents = 'ask'
+persist_scrollback_lines = 0
+persist_scrollback_kb = 0
+window_size = 'smallest'
 
 [startup]
 open_default_window = false
@@ -609,16 +635,19 @@ builtins = 'all'
 patterns = []
 alphabet = 'asdfghjkl'
 dim = 60
+all_panes = false
+
+[scratch]
+width = '80%'
+height = '80%'
+
+[pip]
+width = 40
+height = 12
+corner = 'bottom-right'
+
+[launcher]
+gui_command = ''
 
 [dock]
 [dock.clock]
-
-# Command keys (tuios >= 0.8.2). See docs/KEYBINDINGS.md#command-keys
-# A centered, floating shell that toggles, like Zellij's floating pane.
-[[keybindings.command]]
-key = 'prefix+alt+f'
-type = 'scratch'
-command = 'nu'
-description = 'Floating shell'
-width = '80%'
-height = '80%'
