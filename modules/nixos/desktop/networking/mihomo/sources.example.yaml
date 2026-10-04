@@ -1,0 +1,44 @@
+# Copy to ~/.config/mihomo/sources.yaml, fill it in, then run `nu generate.nu`.
+# Keep it mode 0600 and never commit it: subscription URLs, the dashboard
+# password and private domain names all live here.
+#
+# The portable routing policy (ads, CN consumer services, local ranges) is not
+# here -- it lives in policy.yaml, which is safe to keep in the repository.
+
+# Password for the dashboard at http://127.0.0.1:9090/ui
+secret: "replace-me"
+
+# Domains that must never be proxied or fake-IPed: each becomes a DIRECT rule
+# plus a fake-ip-filter entry, so it resolves to a real IP. `*.lab.example.com`
+# is an alias for the plain form; any other `*` placement is rejected.
+private_domains:
+  # - private.example.com
+  # - "*.lab.example.com"
+
+# Extra rules, before the ones the sources bring in. Payloads are bare domains,
+# never `https://…`. A `MATCH` here is dropped: policy.yaml closes the list.
+rules:
+  # - DOMAIN-SUFFIX,download.example.com,PROXY
+  # - PROCESS-NAME,some-app,DIRECT
+
+# Keep on unless an app misbehaves under TUN (WeChat and office suites usually).
+tun_strict_route: true
+
+# Processes kept off TUN entirely; also re-enables find-process-mode, which
+# PROCESS-* rules need.
+tun_exclude_process:
+  # - some-app
+
+providers:
+  # The core imports a subscription's proxies only; `rules_from` carries its
+  # rules and groups over from a local snapshot copy. Only worth it when the
+  # provider ships policy you actually need -- see README.md.
+  - name: provider-a
+    url: "https://example.invalid/subscribe/replace-me"
+    # interval: 86400
+    # rules_from: "~/.config/mihomo/snapshots/provider-a.yaml"
+
+  # A local Clash YAML file: proxies are inlined (the service user cannot read
+  # /home), and its groups, rules and rule-providers are carried over too.
+  - name: provider-b
+    file: "~/work/example/client-proxy.yaml"

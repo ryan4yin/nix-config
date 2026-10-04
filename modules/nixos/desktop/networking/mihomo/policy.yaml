@@ -1,0 +1,73 @@
+# Portable routing policy: nothing provider-specific lives here.
+#
+# Order matters. The generator appends these last, after the `private_domains`
+# rules, the rules from `sources.yaml` and the rules imported from your
+# subscriptions, so this file is the tail that closes every config.
+#
+# GEOSITE categories come from meta-rules-dat, which the module keeps current
+# (`geo-auto-update`). `mihomo -t` validates the names: `taobao`, `alipay` and
+# `wechat` do not exist in it, hence the hand-written domains below.
+
+# fake-ip-filter: these must resolve to real IPs, never a fake one. Tencent's
+# multimedia hosts matter because WeChat/QQ fetch images over bare CDN IPs.
+dns_filters:
+  - "*.lan"
+  - "*.local"
+  - "*.arpa"
+  - localhost.ptlogin2.qq.com
+  - multimedia.nt.qq.com.cn
+  - time.*.com
+  - ntp.*.com
+  - "*.msftncsi.com"
+  - www.msftconnecttest.com
+  - +.market.xiaomi.com
+  - "*.tailscale.com"
+
+# Optional extra rule-sets, usable by the rules below:
+#   rule_providers:
+#     my_list:
+#       type: http
+#       behavior: domain
+#       format: text
+#       url: "https://example.invalid/list.txt"
+#       path: ./rulesets/my_list.txt
+#       interval: 86400
+rule_providers: {}
+
+rules:
+  - GEOSITE,private,DIRECT
+  - GEOSITE,category-ads-all,REJECT
+
+  # CN consumer services: proxied they fail in ways that look like app bugs --
+  # WeChat pictures spin, JD and Taobao product images go blank. Much of it is
+  # served over bare CDN IPs and IPv6, so pin the whole category DIRECT.
+  - GEOSITE,tencent,DIRECT
+  - GEOSITE,bilibili,DIRECT
+  - GEOSITE,jd,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - DOMAIN-SUFFIX,tmall.com,DIRECT
+  - DOMAIN-SUFFIX,alicdn.com,DIRECT
+  - DOMAIN-SUFFIX,360buyimg.com,DIRECT
+  - DOMAIN-SUFFIX,feishu.cn,DIRECT
+  # WeChat/QQ image CDNs spelled out too, since they are fetched by IP
+  - DOMAIN-SUFFIX,qlogo.cn,DIRECT
+  - DOMAIN-SUFFIX,qpic.cn,DIRECT
+  - DOMAIN-SUFFIX,gtimg.com,DIRECT
+  - DOMAIN-SUFFIX,gtimg.cn,DIRECT
+  - DOMAIN-SUFFIX,gtimg.com.cn,DIRECT
+
+  # local ranges, by address as well as by name
+  - DOMAIN-SUFFIX,lan,DIRECT
+  - IP-CIDR,0.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,224.0.0.0/4,DIRECT,no-resolve
+  - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+
+  # everything else that is CN by geolocation, then the catch-all
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,PROXY
