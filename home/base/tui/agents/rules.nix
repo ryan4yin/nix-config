@@ -12,7 +12,7 @@ in
   home.file = {
     ".codex/AGENTS.md".source = link; # Codex
     ".pi/agent/AGENTS.md".source = link; # Pi
-    ".agents/AGENTS.md".source = link; # cross-tool, read by Kimi Code
+    ".agents/AGENTS.md".source = link; # cross-tool
   };
 
   xdg.configFile."opencode/AGENTS.md".source = link; # OpenCode

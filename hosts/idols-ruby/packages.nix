@@ -84,7 +84,6 @@ in
       # Agents
       agentPackages.codex
       agentPackages.opencode2
-      agentPackages.kimi-code
       agentPackages.pi
     ];
 }
