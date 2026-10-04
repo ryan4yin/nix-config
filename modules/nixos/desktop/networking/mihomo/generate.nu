@@ -198,7 +198,8 @@ def import-doc [doc: record, provider: string] {
     | get -o proxy-groups
     | default []
     | each { |g| ($g | get -o name | default "") | str trim }
-    | where { |n| (not ($n in $kept)) and ($n != $provider) }
+    # PROXY/AUTO always exist in the output, so rules targeting them are never orphans
+    | where { |n| (not ($n in $kept)) and ($n != $provider) and ($n not-in ["PROXY", "AUTO"]) }
   )
   mut final_rules = []
   mut orphans = []
@@ -337,6 +338,10 @@ def main [
   let policy_rp = ($policy_doc | get -o rule_providers | default {})
 
   let spec = (open $src)
+  # an empty secret leaves the dashboard open to anything on the machine
+  if (($spec | get -o secret | default "") | is-empty) {
+    fail "sources.yaml: 'secret' is required -- it protects the dashboard at 127.0.0.1:9090"
+  }
   let declared = ($spec | get -o providers | default [])
   if ($declared | is-empty) {
     print --stderr "warning: no providers defined; everything will go DIRECT"
@@ -371,31 +376,48 @@ def main [
     fail $"duplicate proxy-group names: ($group_dups | str join ', ')"
   }
 
-  # rule-providers: the policy file first, then every source document
+  # rule-providers: the policy file first, then every source document.
+  # `insert` would abort with an internal nushell trace on a collision, so
+  # detect duplicates across documents first and report the names.
+  let rp_docs = ([$policy_rp] ++ ($entries | each { |e| $e."rule-providers" }))
+  let rp_dups = (dupes ($rp_docs | each { |d| $d | columns } | flatten))
+  if ($rp_dups | is-not-empty) {
+    fail $"duplicate rule-provider names: ($rp_dups | str join ', ')"
+  }
   let rule_providers = (
-    ([$policy_rp] ++ ($entries | each { |e| $e."rule-providers" }))
+    $rp_docs
     | reduce --fold {} { |it, acc|
       $it | columns | reduce --fold $acc { |k, a| $a | insert $k ($it | get $k) }
     }
   )
-  let rp_dups = (dupes ($rule_providers | columns))
-  if ($rp_dups | is-not-empty) {
-    fail $"duplicate rule-provider names: ($rp_dups | str join ', ')"
-  }
 
   let priv = ($spec | get -o private_domains | default [])
   let priv_rules = ($priv | each { |d| private-rule $d } | where { |x| $x != null })
   let priv_filters = ($priv | each { |d| private-filter $d } | where { |x| $x != null })
   let user_rules = (sanitize-rules ($spec | get -o rules | default []) "sources.rules")
   let imported_rules = ($entries | each { |e| $e.rules } | flatten)
-  let bad_rules = (($entries | each { |e| $e.bad_rules } | flatten) ++ $user_rules.bad ++ $policy_rules.bad)
 
   let excluded = ($spec | get -o tun_exclude_process | default [])
   # evaluation order: private hosts, hand-written rules, provider rules, policy tail
   let body_rules = ($priv_rules ++ $user_rules.ok ++ $imported_rules ++ $policy_rules.ok)
+  # a RULE-SET pointing at a rule-provider nobody declared makes the core
+  # refuse the whole config, so drop the rule and report it
+  let rp_names = ($rule_providers | columns)
+  mut kept_rules = []
+  mut rp_missing = []
+  for r in $body_rules {
+    let parts = ($r | split row ",")
+    let ref = ($parts | get -o 1 | default "")
+    if (($parts | first | str uppercase) == "RULE-SET") and ($ref not-in $rp_names) {
+      $rp_missing = ($rp_missing ++ [$"rule set '($ref)' is not declared, dropped: ($r)"])
+    } else {
+      $kept_rules = ($kept_rules ++ [$r])
+    }
+  }
+  let bad_rules = (($entries | each { |e| $e.bad_rules } | flatten) ++ $user_rules.bad ++ $policy_rules.bad ++ $rp_missing)
   # the core needs a catch-all; policy.yaml normally supplies it as its last rule
-  let has_catch_all = ($body_rules | last | default "" | str uppercase | str starts-with "MATCH")
-  let all_rules = ($body_rules ++ (if $has_catch_all { [] } else { ["MATCH,PROXY"] }))
+  let has_catch_all = ($kept_rules | last | default "" | str uppercase | str starts-with "MATCH")
+  let all_rules = ($kept_rules ++ (if $has_catch_all { [] } else { ["MATCH,PROXY"] }))
   let fpm = (process_mode $all_rules $excluded)
 
   let config = {
@@ -411,7 +433,7 @@ def main [
     tcp-concurrent: true
     "find-process-mode": $fpm
     "external-controller": "127.0.0.1:9090"
-    secret: ($spec | get -o secret | default "CHANGE_ME")
+    secret: ($spec | get -o secret | default "")
     "external-controller-cors": {
       "allow-private-network": true
       "allow-origins": ["http://127.0.0.1:9090", "http://localhost:9090"]
@@ -429,7 +451,10 @@ def main [
     )
     dns: {
       enable: true
-      listen: ":53"
+      # port 53 is unreachable here: the unit runs DynamicUser with only
+      # CAP_NET_ADMIN, so a privileged bind fails. TUN's dns-hijack covers
+      # resolution; this listener is a loopback convenience only.
+      listen: "127.0.0.1:1053"
       ipv6: false
       "enhanced-mode": "fake-ip"
       "fake-ip-range": "198.18.0.1/16"
@@ -457,6 +482,9 @@ def main [
     rules: ($all_rules | uniq)
   }
 
+  if not ($out | path dirname | path exists) {
+    mkdir ($out | path dirname)
+  }
   $config | to yaml | save --force $out
   ^chmod 600 $out
 

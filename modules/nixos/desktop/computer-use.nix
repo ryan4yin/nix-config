@@ -14,7 +14,7 @@ let
   timeZone = if cfg.proxyRegion == "jp" then "Asia/Tokyo" else "America/Los_Angeles";
 in
 {
-  imports = [ ./networking/mihomo ];
+  imports = [ ./networking/mihomo ]; # also pulled in by the desktop scanPaths; explicit for clarity
 
   options.modules.desktop.computerUse = {
     enable = lib.mkEnableOption "headless computer-use environment (X11 + desktop automation)";
