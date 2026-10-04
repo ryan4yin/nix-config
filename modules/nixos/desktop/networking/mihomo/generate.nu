@@ -172,7 +172,17 @@ def process_mode [rules: list<string>, excluded: list<string>] {
 def import-doc [doc: record, provider: string] {
   let names = (node-names $doc)
   let own_group = $"($provider) 节点"
-  let map = ({ ($provider): $own_group })
+  # `直连` is the conventional Chinese name for a built-in DIRECT node in these
+  # configs; inline proxy nodes are not imported, so point such references at
+  # the DIRECT policy instead -- unless the document defines its own 直连 group.
+  let declared_groups = ($doc | get -o proxy-groups | default [] | each { |g| ($g | get -o name | default "") | str trim })
+  let map = (
+    if ("直连" in $declared_groups) {
+      { ($provider): $own_group }
+    } else {
+      { ($provider): $own_group, "直连": "DIRECT" }
+    }
+  )
 
   let groups = (
     $doc
