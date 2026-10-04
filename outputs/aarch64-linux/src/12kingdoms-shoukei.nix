@@ -34,6 +34,9 @@ let
           # not supported yet
           modules.desktop.gaming.enable = false;
           modules.desktop.canokey.enable = true;
+          # Native mihomo core + local web dashboard (config is
+          # ~/.config/mihomo/config.yaml, out of the store).
+          modules.networking.mihomo.enable = true;
         }
       ];
     home-modules = map mylib.relativeToRoot [

@@ -25,7 +25,7 @@
 
     settings = {
       "github.com" = {
-        # avoid clash fake-IP6 hang, see modules/nixos/desktop/networking/clash-verge.nix
+        # avoid mihomo fake-IP6 hang, see modules/nixos/desktop/networking/mihomo.nix
         AddressFamily = "inet";
         HostName = "ssh.github.com";
         Port = 443;

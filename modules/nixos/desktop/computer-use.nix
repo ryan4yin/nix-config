@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgs-master,
   myvars,
   ...
 }:
@@ -15,6 +14,8 @@ let
   timeZone = if cfg.proxyRegion == "jp" then "Asia/Tokyo" else "America/Los_Angeles";
 in
 {
+  imports = [ ./networking/mihomo ];
+
   options.modules.desktop.computerUse = {
     enable = lib.mkEnableOption "headless computer-use environment (X11 + desktop automation)";
     proxyRegion = lib.mkOption {
@@ -46,13 +47,9 @@ in
     # Browsers keep their profile/preferences in dconf.
     programs.dconf.enable = true;
 
-    # Clash Verge provides the proxy. Its core is started by the GUI, which is
-    # launched inside the session; service mode + TUN mode come from the module.
-    programs.clash-verge = {
-      enable = true;
-      package = pkgs-master.clash-verge-rev;
-      serviceMode = true;
-      tunMode = true;
-    };
+    # Native mihomo runs the proxy as a system service (TUN), so the headless
+    # session does not depend on a GUI starting the core. Its config lives at
+    # ~/.config/mihomo/config.yaml (out of the Nix store).
+    modules.networking.mihomo.enable = true;
   };
 }
