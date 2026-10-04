@@ -1,4 +1,9 @@
-{ pkgs, llm-agents, ... }:
+{
+  pkgs,
+  llm-agents,
+  nur-ryan4yin,
+  ...
+}:
 let
   agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
 in
@@ -85,5 +90,8 @@ in
       agentPackages.codex
       agentPackages.opencode2
       agentPackages.pi
+      # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
+      # (node-addon-require-builtin probe), this one shims it.
+      nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}.dsh
     ];
 }
