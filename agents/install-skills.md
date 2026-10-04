@@ -57,8 +57,13 @@ npx skills add -g JuliusBrussee/caveman --skill 'caveman'
 # shape replies for an ADHD reader: next action first, numbered steps, restated state
 npx skills add -g ayghri/i-have-adhd --skill 'i-have-adhd'
 
-# inspect and control herdr panes, tabs, workspaces, agents, and commands from a herdr pane
-npx skills add -g herdrdev/herdr --skill 'herdr'
+# drive tuios panes, windows, workspaces, and agents from a tuios pane; the skill
+# ships inside the tuios binary, so it always matches the installed version
+mkdir -p ~/.agents/skills/tuios && tuios --skill all > ~/.agents/skills/tuios/SKILL.md
+
+# or register tuios as an MCP server (read-only, or --mcp-write for typing tools)
+# instead of skill text; also reports agent state into the pane
+tuios integration install opencode --mcp-write
 ```
 
 ## Optional project skills
@@ -96,6 +101,6 @@ References:
 - https://github.com/DietrichGebert/ponytail
 - https://github.com/JuliusBrussee/caveman
 - https://github.com/ayghri/i-have-adhd
-- https://github.com/herdrdev/herdr
+- https://github.com/Gaurav-Gosain/tuios
 - https://github.com/anthropics/skills
 - https://github.com/trailofbits/skills

@@ -42,7 +42,6 @@ systems.
   - **editors/**: Extra terminal editor Nix (see `core/editors/` for docs and baseline enables)
   - **encryption/**: Encryption and security tools
   - **gpg/**: GPG key management
-  - **herdr.nix**: Herdr agent terminal-multiplexer configuration
   - **password-store/**: Password management with pass
   - **shell/**: Shell environment configurations
   - **ssh.nix**: SSH configuration and management
