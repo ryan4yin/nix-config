@@ -11,8 +11,8 @@ through [Overlays - NixOS & Flakes Book](https://nixos-and-flakes.thiscute.world
 overlays/
 ├── README.md
 ├── default.nix            # Entrypoint for all overlays
-├── computer-use-linux.nix # trycua/computer-use-linux package
-├── cua-driver.nix         # trycua/cua driver (cua-driver) package
+├── computer-use-linux.nix # computer-use-linux from ryan4yin/nur-packages
+├── cua-driver.nix         # cua-driver from ryan4yin/nur-packages
 ├── smartctl-exporter/     # smartctl_exporter pinned to the #329 fix
 │   └── default.nix
 └── fcitx5/                # Chinese input method configuration
@@ -55,8 +55,9 @@ This overlay provides:
 
 ### 3. Package overlays
 
-- `computer-use-linux.nix`: packages `pkgs/computer-use-linux`.
-- `cua-driver.nix`: packages `pkgs/cua-driver` (used by the computer-use VMs).
+- `computer-use-linux.nix`: exposes `computer-use-linux` from the `nur-ryan4yin` flake input.
+- `cua-driver.nix`: exposes `cua-driver` from the `nur-ryan4yin` flake input (used by the
+  computer-use VMs).
 - `smartctl-exporter/`: pins `prometheus-smartctl-exporter` to the upstream commit carrying PR
   [#329](https://github.com/prometheus-community/smartctl_exporter/pull/329) until nixpkgs provides
   a version containing the fix; see `overlays/smartctl-exporter/default.nix`.

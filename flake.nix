@@ -176,8 +176,7 @@
       flake = false;
     };
 
-    # Personal NUR packages. Nothing consumes it right now; kept ready for
-    # packages not yet available from the other inputs.
+    # Personal NUR packages.
     nur-ryan4yin = {
       url = "github:ryan4yin/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";

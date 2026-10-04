@@ -21,7 +21,15 @@ let
     in
     inputs
     // {
-      inherit mylib myvars pkgs-stable;
+      # The spread above exposes each flake input as a top-level argument.
+      # Also expose the whole set as `inputs`, which the package overlays
+      # (`overlays/*.nix`) receive via `import ../overlays args`.
+      inherit
+        inputs
+        mylib
+        myvars
+        pkgs-stable
+        ;
 
       # use unstable branch for some packages to get the latest updates
       # pkgs-unstable = import inputs.nixpkgs-unstable {
