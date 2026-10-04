@@ -46,13 +46,13 @@ targets instead of writing a config the core rejects.
   won clash-verge-rev#1762).
 - `find-process-mode: off` unless `PROCESS-*` rules or `tun_exclude_process` need it.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
-- On a systemd-resolved host `dns-hijack any:53` did not keep the stub on fake-ip in practice: apps
-  kept getting real IPs and domain rules degraded to MATCH. Tie a resolver takeover to the service
-  lifetime (`resolvectl dns`/`revert` in `ExecStartPost`/`ExecStopPost`, see
-  `hosts/idols-ai/default.nix`), prefixed with `+` so it runs as root outside the unit's seccomp:
-  the module's `RestrictAddressFamilies` blocks resolvectl's dbus socket, and a failed
-  `ExecStartPost` kills an otherwise healthy service. Never set the link DNS statically to mihomo: a
-  dead mihomo would take DNS down with it, and resolved does not fall back.
+- On a systemd-resolved host, sing-tun normally points resolved at the TUN DNS with `resolvectl`.
+  The nixpkgs `DynamicUser` sandbox cannot make those privileged D-Bus changes, so resolved's own
+  upstream queries bypass `dns-hijack any:53` and leave via the NIC. Tie a resolver takeover to the
+  service lifetime (`resolvectl dns`/`revert` in `ExecStartPost`/`ExecStopPost`, see
+  `hosts/idols-ai/default.nix`), prefixed with `+` to run outside the unit sandbox. Never set link
+  DNS statically to mihomo: a dead mihomo would take DNS down with it, and resolved does not fall
+  back.
 
 ## References
 

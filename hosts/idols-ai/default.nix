@@ -136,15 +136,15 @@ in
     linkConfig.RequiredForOnline = "routable";
   };
 
-  # Dynamic DNS takeover, the way the Clash Verge service did it: while mihomo
-  # runs, resolved asks it directly (fake-ip); `dns-hijack any:53` did not keep
-  # this host's resolver on fake-ip in practice. The link DNS stays on the plain
-  # nameservers, and ExecStopPost (which also runs on crashes) reverts the
-  # takeover, so a dead mihomo leaves the network usable instead of killing DNS.
-  # The '+' prefix is required: nixpkgs' services.mihomo hardening sets
-  # RestrictAddressFamilies without AF_UNIX, so resolvectl's dbus connect fails
-  # under the unit's seccomp, and a failed ExecStartPost kills the otherwise
-  # healthy service.
+  # Dynamic DNS takeover: sing-tun normally asks resolved to use the TUN DNS
+  # address through resolvectl. That built-in call is not usable from nixpkgs'
+  # DynamicUser+hardened unit: the D-Bus socket is blocked, and resolve1's
+  # SetLinkDNS/SetLinkDomains methods require privileged authorization. Without
+  # it, resolved's upstream queries bypass dns-hijack and leave via the NIC.
+  # Run the takeover as a privileged lifecycle hook instead. ExecStopPost also
+  # runs on crashes, so a dead mihomo leaves the network usable.
+  # The '+' prefix escapes the unit's sandbox; without it, resolvectl's D-Bus
+  # connect fails and a failed ExecStartPost kills the otherwise healthy service.
   systemd.services.mihomo.serviceConfig = {
     ExecStartPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl dns ${iface} 127.0.0.1:1053";
     ExecStopPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl revert ${iface}";
