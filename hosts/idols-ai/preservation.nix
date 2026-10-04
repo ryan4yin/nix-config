@@ -355,6 +355,13 @@ in
         # Japanese IME
         ".config/mozc" # used by fcitx5-mozc
 
+        # Vinput voice input (fcitx5-vinput): core config.json + downloaded
+        # sherpa-onnx models (~/.local/share/vinput/models/). Without these the
+        # daemon starts with "Local ASR provider model is not configured" after
+        # every reboot. Setup commands: home/linux/gui/base/vinput/README.md
+        ".config/vinput"
+        ".local/share/vinput"
+
         ".config/nushell"
       ];
       files = [
