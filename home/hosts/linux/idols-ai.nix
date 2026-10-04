@@ -1,9 +1,19 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 let
   mkSymlink = config.lib.file.mkOutOfStoreSymlink;
 in
 {
-  imports = [ ../../linux/gui.nix ];
+  imports = [
+    ../../linux/gui.nix
+  ];
+
+  modules.desktop.vinput = {
+    enable = true;
+    backend = "openvino";
+  };
 
   programs.ssh.settings."github.com".IdentityFile = "${config.home.homeDirectory}/.ssh/idols-ai";
 
