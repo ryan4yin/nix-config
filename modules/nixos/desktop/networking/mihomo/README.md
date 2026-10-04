@@ -39,7 +39,7 @@ targets instead of writing a config the core rejects.
 ## Gotchas
 
 - `ipv6: false`: nodes without IPv6 egress + AAAA = routing black hole (WeChat/JD/Taobao images);
-  also dodges the IPv6 fake-ip SSH hang (mihomo#3181).
+  mihomo's IPv6 fake-ip also hung ssh/git locally for ~2 minutes, so it stays off.
 - `private_domains`: each entry becomes a DIRECT rule + a `fake-ip-filter` entry.
 - WeChat/QQ media go over bare CDN IPs, hence `multimedia.nt.qq.com.cn` in `fake-ip-filter`. If
   media still stalls: `tun_exclude_process: [wechat, WeChatAppEx, qq]` (Linux names; the fix that
@@ -53,7 +53,6 @@ targets instead of writing a config the core rejects.
   media under TUN: fake-ip-filter, qlogo/qpic, the exclude-process fix.
 - [WeChat-under-TUN retrospective](https://x.com/realchendahuang/status/2104381806862795161) — the
   IPv6 black hole logic; JD and Taobao break the same way.
-- [mihomo#3181](https://github.com/MetaCubeX/mihomo/issues/3181) — IPv6 fake-ip kills SSH.
 - [mihomo wiki](https://wiki.metacubex.one/),
   [proxy providers](https://wiki.metacubex.one/config/proxy-providers/) — why subscription rules are
   dropped.
