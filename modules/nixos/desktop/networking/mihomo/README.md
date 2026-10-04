@@ -58,3 +58,17 @@ removed, reporting each instead of writing a config the core rejects.
   `fake-ip-filter`. Set `tun_strict_route: false` if an app still misbehaves under TUN.
 - `find-process-mode: off` unless a `PROCESS-*` rule or `tun_exclude_process` needs the lookup.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
+
+## References
+
+- [mihomo#3181](https://github.com/MetaCubeX/mihomo/issues/3181) — IPv6 fake-ip
+  (`fdfe:dcba:9876::/64`) kills SSH long connections; the reason `ipv6: false` stays on.
+- [mihomo wiki](https://wiki.metacubex.one/), especially
+  [proxy providers](https://wiki.metacubex.one/config/proxy-providers/) — why the core drops the
+  `rules`/`proxy-groups` a subscription ships.
+- [meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat) — the GEOSITE/GEOIP data behind the
+  `policy.yaml` categories.
+- [metacubexd](https://github.com/MetaCubeX/metacubexd) — the dashboard served at `/ui`.
+- [nixpkgs mihomo module](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/networking/mihomo.nix)
+  — the service being wrapped: `DynamicUser`, `LoadCredential`, and only `CAP_NET_ADMIN` under
+  `tunMode`.
