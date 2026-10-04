@@ -1,17 +1,21 @@
 ---
 name: nixpkgs-review
 description:
-  Use when reviewing or testing a NixOS/nixpkgs pull request, including packages, passthru tests,
-  dependencies or closure size, local vs CI results, and regressions before they reach this flake.
+  Use when reviewing an upstream NixOS/nixpkgs pull request before it is merged, including its
+  package changes, passthru tests, dependencies, or CI results.
 ---
 
 # Reviewing nixpkgs changes
 
-Prefer a local review: faster for a small change, the result stays available, and it leaves no
-GitHub Actions state. Use the repository's GHA workflow when a review needs several architectures, a
-clean remote environment, or more build capacity than this x86_64-linux desktop has.
-**`nixpkgs-review` is the first test, not the only test:** follow it with focused package,
-test-quality, or runtime checks when the change has user-visible behavior.
+Use `nixpkgs-review` to review an upstream nixpkgs PR before it is merged. It compares package
+changes against a PR base and can build selected packages and passthru tests. It is not the normal
+way to build a package for local use or validate a nix-config lock update. For local use, build the
+needed package or test directly with the project's Nix commands.
+
+Review only the package(s) changed by the PR that are relevant to the review question. Add
+`--tests` when the selected package's passthru tests are part of the review. Do not broaden a review
+to unrelated packages; selecting a large source package can trigger substantial downloads and
+builds.
 
 ## Choose the runner
 
@@ -21,7 +25,7 @@ test-quality, or runtime checks when the change has user-visible behavior.
 | Need to inspect the package interactively            | local review shell                                          |
 | Need aarch64/Darwin or a reproducible remote build   | `just pkg-review <pr>`                                      |
 | Only one package's passthru tests matter             | `just pkg-test <pr> <pname>` or local `--package`/`--tests` |
-| Check a previous local commit or worktree            | `nixpkgs-review rev <rev>` or `wip`                         |
+| Review a local commit proposed for an upstream PR    | `nixpkgs-review rev <rev>`                                  |
 
 The local tool defaults to the current system. This machine is `x86_64-linux`; do not imply that a
 successful local result covers Darwin or aarch64. Use `--systems` explicitly when builders or
@@ -167,9 +171,11 @@ them for cross-architecture coverage, large reviews, or when local capacity cann
 relevant target. Read the workflow summary and distinguish evaluation, build, passthru-test, and
 architecture-specific failures.
 
-## 6. Bring a result back to this flake
+## 6. Keep local package use separate
 
-If the package is used here, validate the affected `nixpkgs` input or package override separately:
+When an upstream PR has been merged or carried on a local patched branch, do not use
+`nixpkgs-review` just to consume a package. Update the relevant flake input, then use the smallest
+configuration check that answers the local question:
 
 ```bash
 just test
@@ -177,6 +183,6 @@ just eval-host <affected-host>
 just build-host <affected-host>
 ```
 
-A nixpkgs-review result proves only the reviewed nixpkgs build/test set. It does not prove this
-flake's overlays, hardening wrappers, host configuration, or runtime behavior. Use
+An upstream PR review result proves only the selected nixpkgs packages and systems. It does not
+prove this flake's overlays, hardening wrappers, host configuration, or runtime behavior. Use
 `nix-config-debug` for failures and `nix-config-update` before changing a locked input.

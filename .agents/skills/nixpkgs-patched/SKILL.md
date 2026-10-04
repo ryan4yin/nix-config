@@ -51,17 +51,22 @@ PR, review both changes and record their order.
 
 ## 3. Validate before publishing
 
-In the nixpkgs checkout, run the smallest relevant checks first:
+For a local patched-branch update, validate only the package(s) the user intends to use. Use normal
+Nix commands from the nixpkgs checkout, such as `nix build .#<package>` or a specifically requested
+`passthru.tests.<name>`. These commands build their required dependencies; do not separately build
+or test unrelated packages just because they changed on the branch.
+
+`nixpkgs-review` is for reviewing an upstream nixpkgs PR. Do not use it to validate ordinary local
+package use or a patched-branch lock update. For this workflow, inspect the diff and commit list:
 
 ```bash
 git diff --check
 git log --oneline --decorate upstream/nixos-unstable..HEAD
-nixpkgs-review rev HEAD --no-shell --print-result
 ```
 
-Build the affected package and its relevant tests. A cherry-pick that applies cleanly can still be
-invalid against the current unstable base. Record the source PR, commit IDs, base revision, package,
-and test result before pushing.
+Run package builds or tests only when the user requests them or when the selected package is needed
+to complete the requested local verification. Record which package and checks were actually run;
+never imply that unrelated packages or platforms were covered.
 
 ## 4. Publish and consume it
 
@@ -81,6 +86,10 @@ just test
 just eval-host <affected-host>
 just build-host <affected-host>
 ```
+
+The nix-config eval and host-build commands validate this configuration. They are not a reason to
+build every package in the patched nixpkgs branch. Run a host build only for a host that consumes the
+changed package and only when the user asks for that validation.
 
 Keep the nixpkgs fork change, lock update, and unrelated configuration changes separate. Do not run
 `just niri`, `just local`, or a remote deployment from this skill; activation is a separate
