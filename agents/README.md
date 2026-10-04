@@ -21,7 +21,7 @@ Keep one canonical home for each fact; link between layers instead of copying pa
 
 - `AGENTS.md`: global baseline rules for coding agents.
 - `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
-- `install-agent-tooling.md`: curated install snippets for external agent tooling (`npx skills`,
+- `install-tooling.md`: curated install snippets for external agent tooling (`npx skills`,
   `npx ctx7`, tuios integration).
 
 The Nix side of the agents — deploying these rules, the agent CLIs, and their environment — lives in
@@ -33,7 +33,7 @@ the Home Manager module [`home/base/tui/agents/`](../home/base/tui/agents/README
 2. Configure permissions directly in the agent runtime; auto-approval is generally used.
 3. Edit the rules; Home Manager links them out-of-store, so the change reaches the next agent
    session without a rebuild. Run a Home Manager switch only when the deployed target set changes.
-4. Use `install-agent-tooling.md` as a reference when installing external agent tooling.
+4. Use `install-tooling.md` as a reference when installing external agent tooling.
 
 ## Deployment
 
@@ -53,7 +53,7 @@ not deployed.
 Auto-approval controls tool prompting. The global rules still define task authorization, safety, and
 secret handling.
 
-## About `install-agent-tooling.md`
+## About `install-tooling.md`
 
 Use it as a snippet library:
 
