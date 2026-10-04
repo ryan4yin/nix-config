@@ -56,11 +56,6 @@ npx skills add -g JuliusBrussee/caveman --skill 'caveman'
 
 # shape replies for an ADHD reader: next action first, numbered steps, restated state
 npx skills add -g ayghri/i-have-adhd --skill 'i-have-adhd'
-
-# drive tuios panes, windows, workspaces, and agents from a tuios pane: register
-# tuios as an MCP server (read-only, or --mcp-write for typing tools); also
-# reports agent state into the pane
-tuios integration install opencode --mcp-write
 ```
 
 ## Optional project skills
@@ -83,11 +78,15 @@ npx skills add anthropics/skills --skill 'pdf'
 npx skills add trailofbits/skills --skill 'codeql' --skill 'semgrep'
 ```
 
-## Other agent tooling (npx)
+## Other agent tooling
 
 ```bash
 # context7: up-to-date library docs and code examples for LLMs and agents
 npx ctx7 setup
+
+# tuios: register it as an MCP server for the harness (read-only, or --mcp-write
+# for typing tools); also reports agent state into the tuios pane
+tuios integration install opencode --mcp-write
 ```
 
 References:
