@@ -14,8 +14,6 @@ let
   timeZone = if cfg.proxyRegion == "jp" then "Asia/Tokyo" else "America/Los_Angeles";
 in
 {
-  imports = [ ./networking/mihomo ]; # also pulled in by the desktop scanPaths; explicit for clarity
-
   options.modules.desktop.computerUse = {
     enable = lib.mkEnableOption "headless computer-use environment (X11 + desktop automation)";
     proxyRegion = lib.mkOption {
@@ -46,10 +44,5 @@ in
 
     # Browsers keep their profile/preferences in dconf.
     programs.dconf.enable = true;
-
-    # Native mihomo runs the proxy as a system service (TUN), so the headless
-    # session does not depend on a GUI starting the core. Its config lives at
-    # ~/.config/mihomo/config.yaml (out of the Nix store).
-    modules.networking.mihomo.enable = true;
   };
 }
