@@ -12,6 +12,12 @@
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/linux/gui/base/fcitx5/mozc-config1.db";
   };
 
+  xdg.dataFile."fcitx5/rime/default.custom.yaml".text = ''
+    patch:
+      ascii_composer/switch_key/Shift_L: noop
+      ascii_composer/switch_key/Shift_R: commit_code
+  '';
+
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";

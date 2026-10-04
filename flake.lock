@@ -166,6 +166,28 @@
         "type": "github"
       }
     },
+    "fcitx5-vinput": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "sherpa-onnx": "sherpa-onnx"
+      },
+      "locked": {
+        "lastModified": 1790069778,
+        "narHash": "sha256-Fs3dTHfde74C4MXZLJWvhDY6fQUIrY2Qwcgnq59aKJ0=",
+        "owner": "xifan2333",
+        "repo": "fcitx5-vinput",
+        "rev": "eada49c62ddcb1a4efd7473794bad71a7cacc075",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xifan2333",
+        "ref": "v2.4.0",
+        "repo": "fcitx5-vinput",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -850,11 +872,11 @@
     },
     "nixpkgs-patched": {
       "locked": {
-        "lastModified": 1786862044,
-        "narHash": "sha256-zd5dQC9Y6Q8FtfqAbNJTFmbwpyqaeFuZ9Ww5YjpIsaQ=",
+        "lastModified": 1791111712,
+        "narHash": "sha256-HJ5klsgKTTS7HhhUgttbYtluiW4gf5ye1j9LbghtSWw=",
         "owner": "ryan4yin",
         "repo": "nixpkgs",
-        "rev": "5d9f7ea174a0cb08dcc36eba9b8f67615962ece9",
+        "rev": "365fea9e582610470f2bec94da5c54f122fbeb73",
         "type": "github"
       },
       "original": {
@@ -1018,6 +1040,7 @@
         "catppuccin": "catppuccin",
         "colmena": "colmena",
         "disko": "disko",
+        "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
@@ -1063,6 +1086,27 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sherpa-onnx": {
+      "inputs": {
+        "nixpkgs": [
+          "fcitx5-vinput",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785564218,
+        "narHash": "sha256-B1/qLagKXemMgyrmd7RqPEgz2polrZMUkeBT1dv3hso=",
+        "owner": "xifan2333",
+        "repo": "sherpa-onnx-flake",
+        "rev": "a8ef134239c923420becfa6870538dcc8e9c8eb8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xifan2333",
+        "repo": "sherpa-onnx-flake",
         "type": "github"
       }
     },

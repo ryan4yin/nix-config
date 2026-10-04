@@ -21,17 +21,17 @@
     # https://hydra.nixos.org/jobset/nixpkgs/unstable
     # update via nix flake update nixpkgs --override-input nixpkgs github:NixOS/nixpkgs/<commit-hash>
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    fcitx5-vinput = {
+      url = "github:xifan2333/fcitx5-vinput/v2.4.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
     # Kept for pinning a package that regressed in newer nixpkgs. Currently only
     # kubernetes-helm uses it (home/base/tui/container.nix); extend or drop this
     # input together with that consumer.
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
-    # nixpkgs with some custom patches.
-    # Carried but intentionally unused: the `.agents/skills/nixpkgs-patched`
-    # workflow consumes `pkgs-patched` when a temporary patch is needed, and the
-    # input is already wired in outputs/default.nix so that workflow never has to
-    # edit the flake. See .agents/skills/nixpkgs-patched/SKILL.md.
+    # nixpkgs with some custom patches, including the NPU-capable sherpa-onnx package.
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";

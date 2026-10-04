@@ -62,6 +62,9 @@ in
 
   modules.btrbk.enable = true;
 
+  # Permit the desktop user to access Intel accelerator devices for local ASR.
+  users.users.${myvars.username}.extraGroups = [ "render" ];
+
   # systemd-journal - cap disk usage
   # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html
   services.journald.settings.Journal = {
