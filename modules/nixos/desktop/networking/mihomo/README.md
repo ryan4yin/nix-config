@@ -61,6 +61,14 @@ removed, reporting each instead of writing a config the core rejects.
 
 ## References
 
+- [clash-verge-rev#1762](https://github.com/clash-verge-rev/clash-verge-rev/issues/1762) — WeChat
+  media slow or failing under TUN; the thread behind the `fake-ip-filter` and qlogo/qpic choices,
+  and the source of the broken `DOMAIN-SUFFIX,https://qlogo.cn` + line-broken `,DIRECT` rule format
+  that `generate.nu` sanitizes.
+- [community retrospective on WeChat under TUN](https://x.com/realchendahuang/status/2104381806862795161)
+  — nodes without IPv6 egress plus AAAA records make a routing black hole; WeChat fetches media over
+  bare IPs; JD and Taobao product images break the same way. Why `ipv6: false` and the CN DIRECT
+  pins exist.
 - [mihomo#3181](https://github.com/MetaCubeX/mihomo/issues/3181) — IPv6 fake-ip
   (`fdfe:dcba:9876::/64`) kills SSH long connections; the reason `ipv6: false` stays on.
 - [mihomo wiki](https://wiki.metacubex.one/), especially
