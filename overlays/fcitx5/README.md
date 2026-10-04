@@ -2,6 +2,13 @@
 
 Useful for Linux(fcitx5-rime) & macOS(squirrel).
 
+## Data source
+
+The schema data comes from the `rime-data-flypy` package in
+[nur-ryan4yin](https://github.com/ryan4yin/nur-packages). This overlay adds the personal user
+dictionary (`flypy_user.txt`) on top and exposes the merged result as `pkgs.rime-data`,
+`pkgs.fcitx5-rime`'s `rimeDataPkgs`, and `pkgs.flypy-squirrel`.
+
 ## Linux(fcitx5-rime)
 
 1. `~/.config/fcitx5/profile` is linked to
