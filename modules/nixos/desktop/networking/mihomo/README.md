@@ -55,7 +55,11 @@ removed, reporting each instead of writing a config the core rejects.
 - CN consumer services are pinned DIRECT in `policy.yaml` (`GEOSITE,jd`, `GEOSITE,bilibili`,
   `GEOSITE,tencent`). `taobao`, `alipay` and `wechat` are not geosite categories, so those stay
   hand-written. WeChat/QQ images are fetched over bare CDN IPs, hence `multimedia.nt.qq.com.cn` in
-  `fake-ip-filter`. Set `tun_strict_route: false` if an app still misbehaves under TUN.
+  `fake-ip-filter`. If WeChat media still stalls, the fix that worked for the most people in
+  clash-verge-rev#1762 is `tun_exclude_process` — on Linux the names are `wechat`, `WeChatAppEx` and
+  `qq`; on Windows/macOS `Weixin.exe`, `WeChat`, `WeChatAppEx Helper`. It keeps WeChat off TUN
+  entirely and turns `find-process-mode` on by itself. Set `tun_strict_route: false` only if an app
+  still misbehaves under TUN.
 - `find-process-mode: off` unless a `PROCESS-*` rule or `tun_exclude_process` needs the lookup.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
 

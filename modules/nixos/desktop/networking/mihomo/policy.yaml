@@ -15,6 +15,8 @@ dns_filters:
   - "*.local"
   - "*.arpa"
   - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - localhost.work.weixin.qq.com
   - multimedia.nt.qq.com.cn
   - time.*.com
   - ntp.*.com
