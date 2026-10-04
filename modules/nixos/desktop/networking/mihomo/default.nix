@@ -31,5 +31,11 @@ in
       webui = pkgs.metacubexd;
       tunMode = true;
     };
+
+    # The config deliberately stays out of the store, under the user's home. On
+    # tmpfs-root hosts that path is a persistent bind mount, so make the service
+    # wait for it: otherwise activation can start mihomo before the mount is up
+    # and fail with "Failed to set up credentials: No such file or directory".
+    systemd.services.mihomo.unitConfig.RequiresMountsFor = builtins.dirOf configFile;
   };
 }
