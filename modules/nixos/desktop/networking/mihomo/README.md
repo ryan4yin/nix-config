@@ -1,7 +1,7 @@
 # Mihomo
 
 Native mihomo core + metacubexd dashboard, replacing the Clash Verge GUI. Enable per host with
-`modules.networking.mihomo.enable = true` (`ai`, `shoukei`, `ruby`, `kana`).
+`modules.networking.mihomo.enable = true` (`ai`, `shoukei`).
 
 ## Usage
 
@@ -46,6 +46,13 @@ targets instead of writing a config the core rejects.
   won clash-verge-rev#1762).
 - `find-process-mode: off` unless `PROCESS-*` rules or `tun_exclude_process` need it.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
+- On a systemd-resolved host, sing-tun normally points resolved at the TUN DNS with `resolvectl`.
+  The nixpkgs `DynamicUser` sandbox cannot make those privileged D-Bus changes, so resolved's own
+  upstream queries bypass `dns-hijack any:53` and leave via the NIC. Tie a resolver takeover to the
+  service lifetime (`resolvectl dns`/`revert` in `ExecStartPost`/`ExecStopPost`, see
+  `hosts/idols-ai/default.nix`), prefixed with `+` to run outside the unit sandbox. Never set link
+  DNS statically to mihomo: a dead mihomo would take DNS down with it, and resolved does not fall
+  back.
 
 ## References
 

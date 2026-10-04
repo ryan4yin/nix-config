@@ -136,6 +136,20 @@ in
     linkConfig.RequiredForOnline = "routable";
   };
 
+  # Dynamic DNS takeover: sing-tun normally asks resolved to use the TUN DNS
+  # address through resolvectl. That built-in call is not usable from nixpkgs'
+  # DynamicUser+hardened unit: the D-Bus socket is blocked, and resolve1's
+  # SetLinkDNS/SetLinkDomains methods require privileged authorization. Without
+  # it, resolved's upstream queries bypass dns-hijack and leave via the NIC.
+  # Run the takeover as a privileged lifecycle hook instead. ExecStopPost also
+  # runs on crashes, so a dead mihomo leaves the network usable.
+  # The '+' prefix escapes the unit's sandbox; without it, resolvectl's D-Bus
+  # connect fails and a failed ExecStartPost kills the otherwise healthy service.
+  systemd.services.mihomo.serviceConfig = {
+    ExecStartPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl dns ${iface} 127.0.0.1:1053";
+    ExecStopPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl revert ${iface}";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
