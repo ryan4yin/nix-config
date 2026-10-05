@@ -18,6 +18,36 @@
 let
   cfg = config.modules.networking.mihomo;
   configFile = "${config.users.users.${myvars.username}.home}/.config/mihomo/config.yaml";
+  host = config.networking.hostName;
+
+  # metacubexd hardcodes its tab title ("MetaCubeXD") in the SPA and exposes no
+  # config hook, so dashboards on different hosts look identical. Append the
+  # hostname: patch the static <title>, then re-apply it from config.js because
+  # Nuxt's useHead rewrites document.title on every route change. config.js is
+  # metacubexd's post-build customization point (and is excluded from the PWA
+  # precache), so this survives version bumps — unlike patching its hashed,
+  # minified JS.
+  webui = pkgs.runCommandLocal "metacubexd-${host}" { } ''
+    cp -r ${pkgs.metacubexd} $out
+    chmod -R u+w $out
+    substituteInPlace $out/index.html $out/200.html $out/404.html \
+      --replace '<title>MetaCubeXD</title>' '<title>MetaCubeXD · ${host}</title>'
+    cat >> $out/config.js <<'EOF'
+
+    ;(function () {
+      var suffix = ' · ${host}'
+      var apply = function () {
+        var title = document.querySelector('title')
+        if (title && title.textContent.indexOf(suffix) === -1) {
+          title.textContent += suffix
+        }
+      }
+      var head = document.head || document.documentElement
+      new MutationObserver(apply).observe(head, { subtree: true, childList: true, characterData: true })
+      apply()
+    })()
+    EOF
+  '';
 in
 {
   options.modules.networking.mihomo.enable =
@@ -28,7 +58,7 @@ in
       enable = true;
       package = pkgs.mihomo;
       inherit configFile;
-      webui = pkgs.metacubexd;
+      inherit webui;
       tunMode = true;
     };
 
