@@ -9,10 +9,7 @@ in
     ./12kingdoms-shoukei/wluma.nix
   ];
 
-  modules.desktop.vinput = {
-    enable = true;
-    backend = "cpu";
-  };
+  modules.desktop.vinput.enable = true;
 
   programs.ssh.settings."github.com".IdentityFile = "${config.home.homeDirectory}/.ssh/${hostName}";
 

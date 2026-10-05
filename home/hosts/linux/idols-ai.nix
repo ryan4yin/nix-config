@@ -10,10 +10,7 @@ in
     ../../linux/gui.nix
   ];
 
-  modules.desktop.vinput = {
-    enable = true;
-    backend = "openvino";
-  };
+  modules.desktop.vinput.enable = true;
 
   programs.ssh.settings."github.com".IdentityFile = "${config.home.homeDirectory}/.ssh/idols-ai";
 

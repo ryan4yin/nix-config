@@ -1,17 +1,8 @@
 {
   pkgs,
-  modulesPath,
   ...
 }:
 {
-
-  imports = [
-    (modulesPath + "/hardware/cpu/intel-npu.nix")
-  ];
-
-  # Intel NPU support
-  hardware.cpu.intel.npu.enable = true;
-
   # kvm virtualization support
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [
