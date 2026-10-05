@@ -64,6 +64,17 @@
           # overloads the capslock key to function as both escape (when tapped) and control (when held)
           capslock = "overload(control, esc)";
           esc = "capslock";
+
+          # keyd rewrites right-hand modifiers as their left counterparts, so
+          # pin them to their own keycodes. Vinput's MenuKey is right Ctrl and
+          # Rime's right Shift switches CN/EN.
+          rightcontrol = "rightcontrol";
+          rightshift = "rightshift";
+          rightmeta = "rightmeta";
+
+          # Right Alt is AltGr, the third-level shift on many European layouts
+          # (e.g. `AltGr+2` is `@` in Spanish); keyd forwards it as-is.
+          rightalt = "layer(altgr)";
         };
       };
     };

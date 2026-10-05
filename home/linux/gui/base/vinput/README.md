@@ -1,8 +1,17 @@
 # Fcitx5 Vinput
 
-On `ai` and `shoukei`, install a Sherpa-ONNX model, then hold and release **right Alt** to dictate.
-**Right Shift** toggles Chinese/English; **left Shift** remains a normal modifier. Open Vinput from
-the application launcher for settings.
+Voice input on `ai` and `shoukei`, backed by a Sherpa-ONNX model. Open Vinput from the application
+launcher for settings.
+
+## Key bindings
+
+- Right Alt: record. Hold and release to dictate.
+- Right Ctrl: open the command palette (`/model /asr /scene /proc`).
+
+Vinput resolves `TriggerKey` > `CommandKeys` > `MenuKey`. `TriggerKey` is right Alt by default; the
+config sets `MenuKey` to right Ctrl and clears `CommandKeys`, which otherwise defaults to right Ctrl
+and would shadow `MenuKey`. The addon reads list options as `[Option]` plus `0=`, not the
+`[Trigger]` shorthand in upstream's `vinput-config(5)` man page.
 
 ## One-time setup (CLI)
 

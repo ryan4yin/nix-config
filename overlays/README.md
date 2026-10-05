@@ -13,27 +13,8 @@ overlays/
 ├── default.nix            # Entrypoint for all overlays
 ├── computer-use-linux.nix # computer-use-linux from ryan4yin/nur-packages
 ├── cua-driver.nix         # cua-driver from ryan4yin/nur-packages
-├── smartctl-exporter/     # smartctl_exporter pinned to the #329 fix
-│   └── default.nix
-└── fcitx5/                # Chinese input method configuration
-    ├── README.md
-    ├── default.nix        # fcitx5 overlay definition
-    └── rime-data-flypy/   # Custom rime data for 小鹤音形输入法
-        └── share/
-            └── rime-data/
-                ├── build/
-                ├── default.custom.yaml
-                ├── default.yaml
-                ├── flypy.schema.yaml
-                ├── flypy_full全码字.txt
-                ├── flypy_sys.txt
-                ├── flypy_top.txt
-                ├── flypy_user.txt
-                ├── lua/
-                │   └── calculator_translator.lua
-                ├── rime.lua
-                ├── squirrel.custom.yaml
-                └── squirrel.yaml
+└── smartctl-exporter/     # smartctl_exporter pinned to the #329 fix
+    └── default.nix
 ```
 
 ## Components
@@ -43,17 +24,7 @@ overlays/
 The entrypoint of overlays, it execute and import all overlay files in the current directory with
 the given args.
 
-### 2. `fcitx5`
-
-fcitx5's overlay, add my customized Chinese input method - [小鹤音形输入法](https://flypy.com/)
-
-This overlay provides:
-
-- Custom rime data for 小鹤音形输入法 (Flypy input method)
-- Cross-platform support for both Linux (fcitx5-rime) and macOS (squirrel)
-- Pre-configured input method settings
-
-### 3. Package overlays
+### 2. Package overlays
 
 - `computer-use-linux.nix`: exposes `computer-use-linux` from the `nur-ryan4yin` flake input.
 - `cua-driver.nix`: exposes `cua-driver` from the `nur-ryan4yin` flake input (used by the

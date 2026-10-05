@@ -1,0 +1,52 @@
+# Personal Rime customisation for the flypy (小鹤音形) schema, layered on top of
+# the shared rime-data by Rime's <schema>.custom.yaml mechanism. See README.md.
+patch:
+  # Right Shift switches CN/EN; left Shift stays a plain modifier. The stock
+  # flypy schema switches on Shift_L, so keep the explicit noop. Ctrl+Space also
+  # switches (fcitx5 on Linux; the system input-source shortcut on macOS).
+  ascii_composer/switch_key/Shift_L: noop
+  ascii_composer/switch_key/Shift_R: commit_code
+
+  # Disable the stock `Shift+space -> toggle full_shape` binding. flypy declares
+  # its own copy after the one imported from `default`, so the override must be a
+  # schema-level `bindings/+` (appended last, highest priority) with `unset_option`.
+  key_binder/bindings/+:
+    - { when: always, accept: "Shift+space", unset_option: full_shape }
+
+  # Prefer corner brackets over the upstream `【】｛｝` for [ ] { }.
+  "punctuator/full_shape/[":
+    - 「
+    - 【
+    - 〔
+    - ［
+  "punctuator/full_shape/]":
+    - 」
+    - 】
+    - 〕
+    - ］
+  "punctuator/full_shape/{":
+    - 『
+    - 〖
+    - ｛
+  "punctuator/full_shape/}":
+    - 』
+    - 〗
+    - ｝
+  "punctuator/half_shape/[":
+    - 「
+    - 【
+    - 〔
+    - ［
+  "punctuator/half_shape/]":
+    - 」
+    - 】
+    - 〕
+    - ］
+  "punctuator/half_shape/{":
+    - 『
+    - 〖
+    - ｛
+  "punctuator/half_shape/}":
+    - 』
+    - 〗
+    - ｝
