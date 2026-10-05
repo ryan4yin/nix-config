@@ -26,6 +26,10 @@ directory = "~/Pictures/Screenshots"
 # bottom-right corner. Also moves volume, brightness, and the other OSD kinds.
 [osd]
 position = "bottom_right"
+# go-musicfox posts its own desktop notification on every track change, so the
+# MPRIS media OSD would be a second popup.
+[osd.kinds]
+media = false
 
 # Desktop notification toasts (separate from the OSD above); same bottom-right
 # corner so transient popups no longer sit under the top bar.
