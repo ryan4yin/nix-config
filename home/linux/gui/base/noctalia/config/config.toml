@@ -21,6 +21,34 @@ setup_wizard_enabled = false
 annotate = true
 directory = "~/Pictures/Screenshots"
 
+# Session (power) menu: any explicit action list replaces the built-in defaults,
+# so re-declare all five default actions. Everything except lock gets a 10 s
+# confirm countdown: first press arms it, press again to run now, Esc or moving away cancels.
+[[shell.session.actions]]
+action = "lock"
+shortcut = "1"
+
+[[shell.session.actions]]
+action = "logout"
+shortcut = "2"
+countdown_seconds = 10
+
+[[shell.session.actions]]
+action = "lock_and_suspend"
+shortcut = "3"
+countdown_seconds = 10
+
+[[shell.session.actions]]
+action = "reboot"
+shortcut = "4"
+countdown_seconds = 10
+
+[[shell.session.actions]]
+action = "shutdown"
+shortcut = "5"
+variant = "destructive"
+countdown_seconds = 10
+
 # On-screen display popups: the input-method/keyboard-layout OSD shows on every
 # IM change (e.g. focusing an input box), so keep it clear of the top bar in the
 # bottom-right corner. Also moves volume, brightness, and the other OSD kinds.
