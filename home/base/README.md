@@ -27,6 +27,7 @@ systems.
   - **dev-tools.nix**: Misc development and network tools (mitmproxy, wireshark)
   - **media.nix**: Media players and utilities
   - **zed-editor.nix**: Zed editor configuration (primary GUI editor)
+  - **rime/**: Rime (flypy) customisation shared by fcitx5-rime (Linux) and Squirrel (macOS)
   - **terminal/**: Terminal emulator configurations
     - **ghostty.nix**: Ghostty terminal (default)
     - **kitty.nix**: Kitty terminal

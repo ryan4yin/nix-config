@@ -192,7 +192,7 @@ in
               configPath = ".typos.toml"; # relative to the flake root
               # git-hooks passes paths on the command line, which makes typos
               # ignore .typos.toml's extend-exclude, so repeat it here
-              exclude = "rime-data/|overlays/fcitx5/flypy_user.txt";
+              exclude = "rime-data/|home/base/gui/rime/flypy_user.txt";
             };
           };
           prettier = {
