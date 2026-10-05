@@ -15,11 +15,18 @@ in
   config = lib.mkIf cfg.enable {
     i18n.inputMethod.fcitx5.addons = [ vinput ];
 
+    # MenuKey opens the command palette; set it to right Ctrl. `CommandKeys`
+    # (voice command on the selection) defaults to right Ctrl and outranks
+    # `MenuKey`, so clear it or the palette never opens. List options use
+    # fcitx5's `[Option]` + `0=` form, not upstream's `[Trigger]` shorthand.
     xdg.configFile."fcitx5/conf/vinput.conf" = {
       text = ''
-        [Trigger]
-        MenuKey=Super_R
+        [MenuKey]
+        0=Control_R
+
+        [CommandKeys]
       '';
+      # fcitx5 rewrites this file at runtime, like `profile` and `config`.
       force = true;
     };
 
