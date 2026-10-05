@@ -256,6 +256,23 @@ k3s-test mode="switch":
 
 # =================================================
 #
+# AI agent commands
+#
+# =================================================
+
+# Start the dsh web UI without opening a browser, proxied via mihomo's mixed port.
+[group('agents')]
+dsh-web:
+  #!/usr/bin/env nu
+  # dsh's web fetch refuses a DNS answer it does not call public, and a fake-ip
+  # resolver answers with 198.18.0.0/15. A proxied hop lets mihomo resolve the
+  # origin instead, which skips that check and leaves fake-ip acceleration
+  # intact. The policy reaches every Node fetch the harness makes, so mihomo
+  # becomes a dependency for LLM, web search and HTTP MCP traffic too.
+  with-env { HTTPS_PROXY: "http://127.0.0.1:7897", HTTP_PROXY: "http://127.0.0.1:7897" } { ^dsh web --no-open }
+
+# =================================================
+#
 # Other useful commands
 #
 # =================================================
