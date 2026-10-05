@@ -7,12 +7,14 @@
     "MOZ_WEBRENDER" = "1";
     # enable native Wayland support for most Electron apps
     "ELECTRON_OZONE_PLATFORM_HINT" = "auto";
-    # Make Qt apps follow the GTK font and theme. Without this, Qt keeps its
-    # built-in default ("Sans Serif" 9) while GTK uses `gtk-font-name`
-    # (Noto Sans 11), so Qt apps like Telegram render visibly smaller than
-    # GTK apps. The `gtk3` platform theme plugin ships with qtbase, so no
-    # extra package is needed, and it also gets GTK file dialogs.
-    "QT_QPA_PLATFORMTHEME" = "gtk3";
+    # Make Qt apps follow the system light/dark live. Noctalia's theme mode
+    # writes org.gnome.desktop.interface color-scheme, and this platform theme
+    # (shipped by qtbase) reads it over the XDG desktop portal.
+    # Do not switch to `gtk3`: it would align Qt's font with `gtk-font-name`
+    # (Noto Sans 11), but GTK3 has no dynamic dark/light signal, so Qt apps like
+    # Telegram would be stuck on the light palette. Qt's default font stays
+    # "Sans Serif" 9; only a font-providing theme can change that size.
+    "QT_QPA_PLATFORMTHEME" = "xdgdesktopportal";
     # misc
     "_JAVA_AWT_WM_NONREPARENTING" = "1";
     "QT_WAYLAND_DISABLE_WINDOWDECORATION" = "1";
