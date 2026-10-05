@@ -6,3 +6,8 @@ vercel.json
 cache
 temp
 .temp
+
+# dsh writes its profile files itself (the Settings UI and `dsh plugin`), and
+# its YAML dumper wraps prose differently from prettier; formatting them here
+# would be undone on the next write.
+home/base/tui/agents/dsh/web

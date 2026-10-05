@@ -13,6 +13,8 @@ Nix dependency; this module only wires it into place.
 - `packages.nix`: agent CLIs (`codex`, `opencode2`, `pi`) from the `llm-agents` flake input, plus
   `pkgs.mcp-grafana` for the Grafana MCP server.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
+- `dsh/`: the dsh `web` profile that lives in `~/.dsh`. See [dsh/README.md](./dsh/README.md) for the
+  link granularity, the tracked members and which hosts import it.
 
 ## Deployed rule targets
 
@@ -30,6 +32,3 @@ Out-of-store means an edit to `agents/AGENTS.md` takes effect on the next agent 
 Home Manager switch. The trade-off is that the rules stay writable in the checkout; use a store
 symlink (`home.file.<target>.source = ../../../../agents/AGENTS.md`) if immutability matters more
 than fast iteration.
-
-The module is imported through `home/base/tui`, so it applies to every host that imports
-`home/linux/gui.nix` or the macOS `home/darwin` stack. Core-only servers do not get it.
