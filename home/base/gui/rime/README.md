@@ -34,13 +34,13 @@ The flypy schema brings its own bindings. Two worth remembering:
 
 ## Applying changes
 
-`flypy.custom.yaml` is a store symlink with an epoch mtime, so Rime does not redeploy when it
-changes. Remove `build/` and reload:
+`flypy.custom.yaml` is a store symlink with an epoch mtime, so Rime does not notice when it changes.
+Remove `build/` and reload the Rime addon:
 
 ```sh
-# Linux
+# Linux: reload the Rime addon (`fcitx5-remote -r` only reloads fcitx5's own config)
 rm -rf ~/.local/share/fcitx5/rime/build
-fcitx5-remote -r
+busctl --user call org.fcitx.Fcitx5 /controller org.fcitx.Fcitx.Controller1 ReloadAddonConfig s rime
 
 # macOS: remove build/, then restart Squirrel
 rm -rf ~/Library/Rime/build
