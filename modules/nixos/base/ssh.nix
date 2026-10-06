@@ -18,6 +18,13 @@
     openFirewall = true;
   };
 
+  # NixOS appends an `Include` of systemd's ssh_config.d drop-in to
+  # /etc/ssh/ssh_config, and OpenSSH re-applies SSHCONF_CHECKPERM to included
+  # files.  A bubblewrap sandbox (`--unshare-user`) exposes root-owned store
+  # files as `nobody`, which would abort ssh there.  We do not use
+  # systemd-ssh-proxy (.host, machine/*, unix/*, vsock/*).
+  programs.ssh.systemd-ssh-proxy.enable = false;
+
   # Terminfo for the terminals we use, so `$TERM` resolves on hosts we SSH into.
   environment.systemPackages = [
     pkgs.ghostty.terminfo
