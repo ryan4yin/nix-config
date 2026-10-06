@@ -1,6 +1,19 @@
-{ myvars, ... }:
 {
-  programs.ssh = myvars.networking.ssh;
+  myvars,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  programs.ssh =
+    myvars.networking.ssh
+    // lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+      # NixOS pulls in systemd's ssh_config.d drop-in via `Include`, and OpenSSH
+      # re-applies its ownership check to included files.  In a bubblewrap sandbox
+      # root-owned store files read as `nobody`, so that include would still abort
+      # ssh.  We do not use systemd-ssh-proxy (.host, machine/*, unix/*, vsock/*).
+      systemd-ssh-proxy.enable = false;
+    };
 
   users.users.${myvars.username} = {
     description = myvars.userfullname;
