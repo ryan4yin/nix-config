@@ -3,19 +3,10 @@
   ...
 }:
 let
-  # dsh persists Settings through the profile's cordis.patch.yml with an atomic
-  # write (a random-suffix sibling, then a rename), and that rename replaces a
-  # symlinked target instead of writing through to its referent. A file-level
-  # link, store or out-of-store, therefore survives only until the first save.
-  # Linking the whole profile directory keeps the write inside the checkout and
-  # leaves the directory symlink intact. Same reasoning as
-  # `home/base/tui/tuios`, one level up; the checkout path is hardcoded like the
-  # repo's other out-of-store links.
-  profileDir = "${config.home.homeDirectory}/nix-config/home/base/tui/agents/dsh/web";
+  # Out-of-store so repo edits apply without a rebuild (see README.md).
+  sharedPatch = "${config.home.homeDirectory}/nix-config/home/base/tui/agents/dsh/cordis.patch.yml";
 in
 {
-  # The `web` profile's configuration, owned by hand and by the Settings UI.
-  # Generated members of the profile (cordis.yml, node_modules, lock files) are
-  # gitignored inside that directory rather than tracked.
-  home.file.".dsh/profiles/web".source = config.lib.file.mkOutOfStoreSymlink profileDir;
+  # The shared dsh policy, read as $DSH_HOME/cordis.patch.yml.
+  home.file.".dsh/cordis.patch.yml".source = config.lib.file.mkOutOfStoreSymlink sharedPatch;
 }

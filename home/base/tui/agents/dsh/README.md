@@ -1,26 +1,21 @@
 # dsh
 
-The dsh (DeepSeek Harness) `web` profile, linked into `~/.dsh/profiles/web` from the checked-in
-files under [`web/`](./web).
+Shared dsh (DeepSeek Harness) policy, linked into `~/.dsh/cordis.patch.yml`.
 
-## Why the link targets the directory
+## Layers
 
-dsh persists Settings through `cordis.patch.yml` with an atomic write (a random-suffix sibling, then
-a rename), and that rename replaces a symlinked target instead of writing through to its referent. A
-file-level link — store or out-of-store — is destroyed by the first Settings save, while a directory
-link keeps the write inside the checkout. Same reasoning as `home/base/tui/tuios`, one level up.
+dsh composes a profile from bundle patches, the profile's own `cordis.patch.yml`, then
+`$DSH_HOME/cordis.patch.yml` (the "home" layer) and `--patch` overlays. The home layer is the only
+one shared by every profile and surface, so the stable policy lives here.
 
-| Profile member        | Tracked | Role                                       |
-| --------------------- | ------- | ------------------------------------------ |
-| `cordis.patch.yml`    | yes     | the user patch layer the Settings UI edits |
-| `package.json`        | yes     | the profile's `dsh.profile.bundles` list   |
-| `pnpm-workspace.yaml` | yes     | the profile's pnpm settings                |
-| `cordis.yml`          | no      | rewritten on every boot                    |
-| `node_modules/`       | no      | written by `dsh plugin --profile web ...`  |
+| Layer   | Path                                      | Writer                        | Tracked |
+| ------- | ----------------------------------------- | ----------------------------- | ------- |
+| home    | `~/.dsh/cordis.patch.yml`                 | nix-config; dsh only reads it | yes     |
+| profile | `~/.dsh/profiles/<name>/cordis.patch.yml` | dsh, at runtime               | no      |
 
-`web/.gitignore` owns the untracked rows. As with the rules links in the parent module, the
-trade-off is a config that stays writable in the checkout: a Settings change and a commit are the
-same edit, and the configuration is shared by every host that deploys the profile.
+dsh writes the profile patch but only reads the home layer, so linking the home layer is safe while
+linking the profile patch would put runtime state in the checkout. Declared settings are edited
+here, not in the Settings UI.
 
 ## Which hosts deploy it
 
@@ -31,11 +26,34 @@ host that ships dsh needs one of those two wirings.
 
 ## Default model route
 
-`web/cordis.patch.yml` pins `agent-default-model` to the API-key route (`deepseek-official`). The
+`cordis.patch.yml` pins `agent-default-model` to the API-key route (`deepseek-official`). The
 account route (`deepseek-account`) never falls back to an API key, so a host holding only
 `DEEPSEEK_API_KEY` fails every freshly created session with `ACCOUNT_SIGN_IN_REQUIRED`. A host that
-signs in instead can select an account model per session, or override the field in its own
-`$DSH_HOME/cordis.patch.yml`, which the home layer applies last and which therefore wins.
+signs in instead can select an account model per session.
+
+## Compaction
+
+The web and desktop surfaces give each agent preset its own compaction service, so a top-level
+`compaction-basic` row here never reaches a session. The effective knobs are the model
+`contextWindow` and `maxTokens`: the `400000`/`32000` values set here place the first compaction
+near 300k tokens.
+
+## Private and local model routes
+
+Endpoints that must not enter this repository — LAN/self-hosted servers and staging gateways — do
+not belong in the home layer. Declare them locally as a separate pi-ai instance in the profile
+patch, which dsh does not deploy from here:
+
+```yaml
+# ~/.dsh/profiles/<name>/cordis.patch.yml
+- insert:
+    - id: llm-pi-ai-private
+      name: "@deepseek-ai/dsh-llm-pi-ai"
+      config:
+        providers: { ... }
+```
+
+The private instance coexists with the shared one under its own id.
 
 ## Running it
 
