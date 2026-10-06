@@ -82,9 +82,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 ![desktop](./_img/2026-10-02_niri-noctalia_desktop.webp)
 
-![btop monitoring and system information](./_img/2026-10-01_btop-monitoring-system-info.webp)
-
-![Helix and AI agents in a terminal workspace](./_img/2026-10-02_helix-ai-agents.webp)
+![btop, fastfetch, and llama.cpp serving logs](./_img/2026-10-06_btop-monitoring-system-info.webp)
 
 ## Editors / IDE
 

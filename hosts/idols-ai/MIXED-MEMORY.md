@@ -22,18 +22,22 @@ Notes from adding a 2×16G kit to the existing 2×48G kit on this desktop.
 | JUHOR | 2×48G    | DDR5-5600 (PC5-44800) | CL46-45-45-90 | 1.25 V  | 2R   | `JHE5600U4648JG`      |
 | GLOWY | 2×16G    | DDR5-6400 (PC5-51200) | CL32-38-38-90 | 1.35 V  | 1R   | `VGM5UH64C32AG-DTACW` |
 
+- When they went in: the 2×16G GLOWY kit was added 2026-10-06; the 2×48G JUHOR kit was already in
+  place when the platform was rebuilt 2026-04-27 (before that the host was an MSI LGA1700 board with
+  an i5-13600KF — see the `hosts/README.md` inventory notes).
 - Channel A/B, DIMM0 = 48G (2R), DIMM1 = 16G (1R) → 64G per channel, 128G total.
 - With XMP off both kits run at JEDEC DDR5-4800; the board exposes one XMP profile per kit
-  (`XMP 模块一` / `XMP 模块二`).
+  (`XMP 模块一` / `XMP 模块二`, XMP profile 1 / profile 2).
 
 ## Bring-up order (install the 16G pair first)
 
-The install order matters — starting from all four DIMMs often fails to train:
+The order is mandatory. Starting from the 2×48G, or from all four DIMMs, does not POST: no BIOS
+entry and nothing to change in setup — pull the 48G pair and start from step 1.
 
 1. Insert **only the 2×16G**, in the board's primary slots (the first-populate pair the manual
    marks; the working layout has them in `ChannelA-DIMM1` / `ChannelB-DIMM1`).
-2. Boot to BIOS; confirm `内存模块资源 = 默认模块` (XMP off) — the DRAM voltage comes back at 1.25
-   V.
+2. Boot to BIOS; confirm `内存模块资源 = 默认模块` (memory module source = default module, i.e. XMP
+   off) — the DRAM voltage comes back at 1.25 V.
 3. Power off, then insert the **2×48G** in the remaining slots.
 4. Boot; the board retrains once (1–3 min, possibly a few reboots), then works.
 
@@ -43,21 +47,23 @@ Resulting layout: `ChannelA/B-DIMM0` = 48G (2R), `ChannelA/B-DIMM1` = 16G (1R).
 
 - Verified: `stressapptest` 8G / 32G / 100G all PASS, 0 hardware incidents.
 
-Current BIOS settings (`超频OC → 内存设置`):
+Current BIOS settings (`超频OC → 内存设置`, the Overclocking → Memory settings page). The BIOS was
+used in Chinese; the English in the table translates those labels and is not the firmware's own
+English wording:
 
-| Field                                   | Value                 |
-| --------------------------------------- | --------------------- |
-| `内存模块资源` (module source)          | `默认模块` (XMP off)  |
-| `Gear选择` (gear)                       | `Gear2`               |
-| `内存频率(MHz)`                         | `4800`                |
-| `CPU VDD2电压`                          | `1.104 V` (Auto)      |
-| `VCCSA电压`                             | `1.288 V` (Auto)      |
-| `Vdd2Mv`                                | `1.250 V` (Auto)      |
-| `Memory Voltage VDD`                    | **`1.250 V`** (fixed) |
-| `内存电压VDDQ`                          | **`1.250 V`** (fixed) |
-| `内存电压VPP`                           | `1.800 V` (Auto)      |
-| `Primary Timing` `tCL` / `tRCD` / `tRP` | `40` / `40`           |
-| `Primary Timing` `tRAS`                 | `77`                  |
+| Field                                   | Value                                |
+| --------------------------------------- | ------------------------------------ |
+| `内存模块资源` (memory module source)   | `默认模块` (default module, XMP off) |
+| `Gear选择` (Gear mode)                  | `Gear2`                              |
+| `内存频率(MHz)` (DRAM frequency)        | `4800`                               |
+| `CPU VDD2电压` (CPU VDD2 voltage)       | `1.104 V` (Auto)                     |
+| `VCCSA电压` (VCCSA voltage)             | `1.288 V` (Auto)                     |
+| `Vdd2Mv`                                | `1.250 V` (Auto)                     |
+| `Memory Voltage VDD`                    | **`1.250 V`** (fixed)                |
+| `内存电压VDDQ` (DRAM VDDQ voltage)      | **`1.250 V`** (fixed)                |
+| `内存电压VPP` (DRAM VPP voltage)        | `1.800 V` (Auto)                     |
+| `Primary Timing` `tCL` / `tRCD` / `tRP` | `40` / `40`                          |
+| `Primary Timing` `tRAS`                 | `77`                                 |
 
 The only hand-set voltages are the two DRAM rails, `Memory Voltage VDD` and `内存电压VDDQ`, both
 **1.250 V** (the fields read `1.250`, not `Auto`) — this is what `dmidecode` reports as

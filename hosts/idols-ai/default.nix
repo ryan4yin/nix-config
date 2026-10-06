@@ -7,7 +7,8 @@
 }:
 #############################################################
 #
-#  Ai - my main computer, with NixOS + I5-13600KF + RTX 4090 GPU, for gaming & daily use.
+#  Ai - my main computer, with NixOS + Core Ultra 7 270K Plus + RTX 4090 GPU,
+#  128G DDR5-4800 (mixed 4-DIMM, see MIXED-MEMORY.md), for gaming & daily use.
 #
 #############################################################
 let
@@ -50,7 +51,8 @@ in
   # - zstd: CPU is not the bottleneck here (llama.cpp peaks ~30% util); its ~2.5x ratio
   #   keeps ~5G more anon bytes in the capped pool than lz4, and ~5us decompress is noise
   #   vs the ~100us SSD fault it avoids.
-  # - 10% pool (~9G): the module default 25% (~23G) would compete with the weight cache.
+  # - 10% pool (~13G on 128G): the module default 25% (~32G) would compete with the weight
+  #   cache.
   boot.zswap = {
     enable = true;
     compressor = "zstd";
