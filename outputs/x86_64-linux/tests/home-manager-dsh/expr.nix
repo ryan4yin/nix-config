@@ -1,7 +1,5 @@
-# The dsh module is evaluated on its own here. Reading `home.file` out of a real
-# host would force the catppuccin theme derivations, which turns an eval test
-# into a build, and the profile link is system-independent anyway. The stub
-# supplies the only two config values the module reads.
+# Evaluate the dsh module on its own: reading `home.file` from a real host would
+# force the catppuccin theme derivations, turning an eval test into a build.
 let
   module = import ../../../../home/base/tui/agents/dsh/default.nix;
   evaluated = module {
@@ -13,5 +11,5 @@ let
 in
 {
   keys = builtins.attrNames evaluated.home.file;
-  source = toString evaluated.home.file.".dsh/profiles/web".source;
+  source = toString evaluated.home.file.".dsh/cordis.patch.yml".source;
 }
