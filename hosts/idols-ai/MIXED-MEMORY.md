@@ -40,12 +40,15 @@ entry and nothing to change in setup — pull the 48G pair and start from step 1
    off) — the DRAM voltage comes back at 1.25 V.
 3. Power off, then insert the **2×48G** in the remaining slots.
 4. Boot; the board retrains once (1–3 min, possibly a few reboots), then works.
+5. Last step: back in BIOS, set `Gear选择` (Gear mode) to `Gear2` and raise `Memory Voltage VDD` and
+   `内存电压VDDQ` from 1.25 V to `1.28 V`. Leave every other setting alone. 1.29 V and up do not
+   train.
 
 Resulting layout: `ChannelA/B-DIMM0` = 48G (2R), `ChannelA/B-DIMM1` = 16G (1R).
 
 ## Working configuration
 
-- Verified: `stressapptest` 8G / 32G / 100G all PASS, 0 hardware incidents.
+- `stressapptest` 8G / 32G / 100G all PASS at both 1.25 V and 1.28 V.
 
 Current BIOS settings (`超频OC → 内存设置`, the Overclocking → Memory settings page). The BIOS was
 used in Chinese; the English in the table translates those labels and is not the firmware's own
@@ -58,16 +61,16 @@ English wording:
 | `内存频率(MHz)` (DRAM frequency)        | `4800`                               |
 | `CPU VDD2电压` (CPU VDD2 voltage)       | `1.104 V` (Auto)                     |
 | `VCCSA电压` (VCCSA voltage)             | `1.288 V` (Auto)                     |
-| `Vdd2Mv`                                | `1.250 V` (Auto)                     |
-| `Memory Voltage VDD`                    | **`1.250 V`** (fixed)                |
-| `内存电压VDDQ` (DRAM VDDQ voltage)      | **`1.250 V`** (fixed)                |
+| `Vdd2Mv`                                | `1.280 V` (Auto)                     |
+| `Memory Voltage VDD`                    | **`1.280 V`** (fixed)                |
+| `内存电压VDDQ` (DRAM VDDQ voltage)      | **`1.280 V`** (fixed)                |
 | `内存电压VPP` (DRAM VPP voltage)        | `1.800 V` (Auto)                     |
 | `Primary Timing` `tCL` / `tRCD` / `tRP` | `40` / `40`                          |
 | `Primary Timing` `tRAS`                 | `77`                                 |
 
 The only hand-set voltages are the two DRAM rails, `Memory Voltage VDD` and `内存电压VDDQ`, both
-**1.250 V** (the fields read `1.250`, not `Auto`) — this is what `dmidecode` reports as
-`Configured Voltage: 1.25 V`.
+**1.280 V** (not `Auto`) — this is what `dmidecode` reports as `Configured Voltage: 1.28 V`. These
+four DIMMs only train up to 1.28 V: 1.29 / 1.30 / 1.32 V all fail training.
 
 Confirm a BIOS change actually applied:
 
@@ -123,11 +126,14 @@ Keep the passphrase slot (never `--wipe-slot=all`). Secure Boot check: `sudo sbc
   not thoroughly tested, which is why a full-RAM stress test matters. After any forced reboot run
   `nix-store --verify --check-contents --repair` and `btrfs scrub`.
 - The board silently reverts to defaults on failed training, so re-check with `dmidecode`.
-- "Apps run fine" proves nothing; only a full-RAM stress test does.
+- A passing stress test is not proof either: the 1.25 V config passed 8G / 32G / 100G and still
+  hard-froze under a real llama.cpp load — no kernel log, one BERT hardware-error record in
+  firmware.
 - Decision: keep the current 128G 4-DIMM config at 4800. The board supports at most 48 GB per slot,
   so larger modules are not an option.
 
 ## Open items
 
-- [ ] Overnight stress test → `~/tmp/memtest-overnight.log`
+- [ ] Confirm stability overnight: an overnight `stressapptest` → `~/tmp/memtest-overnight.log`, or
+      the real llama.cpp load run overnight
 - [ ] `nix-store --verify --check-contents --repair` + `btrfs scrub`
