@@ -41,19 +41,18 @@ near 300k tokens.
 ## Private and local model routes
 
 Endpoints that must not enter this repository — LAN/self-hosted servers and staging gateways — do
-not belong in the home layer. Declare them locally as a separate pi-ai instance in the profile
-patch, which dsh does not deploy from here:
+not belong in the home layer. Extend the base `llm-pi-ai` row from the profile patch instead:
 
 ```yaml
 # ~/.dsh/profiles/<name>/cordis.patch.yml
-- insert:
-    - id: llm-pi-ai-private
-      name: "@deepseek-ai/dsh-llm-pi-ai"
-      config:
-        providers: { ... }
+- id: llm-pi-ai
+  name: "@deepseek-ai/dsh-llm-pi-ai"
+  config:
+    providers: { ... }
 ```
 
-The private instance coexists with the shared one under its own id.
+`dsh-llm-pi-ai` registers its built-in providers once, so mount only one instance — a second one
+fails with `provider "..." is already declared`.
 
 ## Running it
 
