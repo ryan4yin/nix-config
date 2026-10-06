@@ -176,6 +176,7 @@ in
         ".agents" # skills for all agents
         ".config/agents"
         ".codex"
+        ".dsh" # DeepSeek Harness
         ".pi"
         ".config/opencode"
         ".local/share/opencode"
