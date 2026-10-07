@@ -129,7 +129,7 @@ rec {
       ipv6 = "fe80::8"; # Link-local Address, can be used as default gateway
     };
     rakushun = {
-      # Orange Pi 5 - ARM
+      # Orange Pi 5 - ARM, now running Armbian (not NixOS)
       # RJ45 port 1 - enP4p65s0
       # RJ45 port 2 - enP3p49s0
       iface = "enP4p65s0";
