@@ -23,6 +23,12 @@ default:
 test:
   let result = (nix eval .#evalTests --json --show-trace --print-build-logs --verbose | str trim); if $result != "true" { error make { msg: $"eval tests failed: evalTests returned ($result)" } }
 
+# Build and run the runtime security VM test (needs /dev/kvm; not run by just test)
+[linux]
+[group('nix')]
+test-vm:
+  nix build --no-link --print-build-logs .#checks.x86_64-linux.security-exporters
+
 # Evaluate a NixOS host configuration without building it.
 [group('nix')]
 eval-host host:

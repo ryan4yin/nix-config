@@ -59,9 +59,9 @@ A known limitation with no fix yet.
 
 An unfinished feature or gap.
 
-| ID     | What & where                      | Why                                                                                                      | Removal condition                                                 | Added      | Revisit   | Status |
-| ------ | --------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ---------- | --------- | ------ |
-| WA-013 | NixOS tests — `outputs/README.md` | tests rebuild custom packages (no private cache) and hosts need their own ssh host key to decrypt agenix | Resolve when a private cache exists and tests can run per-service | 2024-03-13 | quarterly | active |
+| ID     | What & where                      | Why                                                                                                                                                                               | Removal condition                                                 | Added      | Revisit   | Status |
+| ------ | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ---------- | --------- | ------ |
+| WA-013 | NixOS tests — `outputs/README.md` | full-host tests still rebuild custom packages (no private cache) and need the host ssh key to decrypt agenix; the shared-firewall security-exporters VM test now runs in CI (KVM) | Resolve when a private cache exists and tests can run per-service | 2024-03-13 | quarterly | active |
 
 ## Related
 
