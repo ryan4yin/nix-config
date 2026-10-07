@@ -26,7 +26,7 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
 
 | Layer         | Symptom                                        | Look with                                                                                                                                   |
 | ------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| eval          | `just test` prints `false`, an eval error      | `just eval-host <host>` (already passes `--show-trace`)                                                                                     |
+| eval          | `just test` fails, an eval error               | `just eval-host <host>` (already passes `--show-trace`)                                                                                     |
 | build         | build error, hash mismatch, "marked as broken" | `just build-host <host>`, then `nix log <drv>`                                                                                              |
 | activation    | the deploy fails after building                | the deploy output; `journalctl -u home-manager-$USER -b` for Home Manager                                                                   |
 | runtime       | a unit is failed or restarting                 | `just list-failed`, `systemctl status <unit>`, `journalctl -u <unit> -b`                                                                    |
@@ -39,7 +39,8 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
 
 ## 2. Read the evaluated value
 
-When `just test` prints `false`, re-run the suite directly to get the trace:
+When `just test` fails, re-run the suite directly to get the trace (`nix eval` exits 0 even when the
+suite returns `false`, so read its output):
 
 ```bash
 nix eval .#evalTests --show-trace

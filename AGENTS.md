@@ -38,8 +38,9 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   `nixfmt` with width 100.
 - For supported non-Nix files, use `prettier --write <file>` and `prettier --check <file>`;
   configuration lives in `.prettierrc.yaml`. Spelling checks use `typos` and `.typos.toml`.
-- Run `just test` for configuration changes. It evaluates `.#evalTests` across Linux and Darwin; the
-  output must be `true`. Exit code zero with `false` is a failed suite.
+- Run `just test` for configuration changes; it evaluates `.#evalTests` across Linux and Darwin and
+  exits non-zero unless the result is `true`. The bare `nix eval .#evalTests` exits 0 even on
+  `false`, so run `just test` or compare its `--json` output yourself.
 - Eval tests are `expr.nix` / `expected.nix` pairs under `outputs/<system>/tests/`. Update focused
   cases when changing behavior covered by those tests.
 - Use `nix flake check` for broader flake checks. A host build can validate changes beyond eval:

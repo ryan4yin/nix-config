@@ -75,7 +75,7 @@ Treat an update as a supply-chain event.
 
 Run these before any host is touched:
 
-- `just test` — must print `true`. An exit code of `0` with `false` is a failed suite.
+- `just test` — fails (non-zero) unless the suite returns `true`.
 - `just eval-host <host>` — fast, evaluation only.
 - `just build-host <host>` — builds the full system closure and catches broken packages or build
   failures that eval misses.

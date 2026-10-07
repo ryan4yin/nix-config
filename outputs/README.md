@@ -31,8 +31,12 @@ set for each NixOS and nix-darwin host.
 How to run all the eval tests:
 
 ```bash
-nix eval .#evalTests --show-trace --print-build-logs --verbose
+just test
 ```
+
+`just test` exits non-zero unless the suite returns `true`. The underlying
+`nix eval .#evalTests --show-trace --print-build-logs --verbose` prints the result but exits 0 even
+on `false`, so read its output when you need the failing trace.
 
 Each test is a directory `outputs/<system>/tests/<name>/` holding `expr.nix` and `expected.nix`; the
 suite passes when every `expr` equals its `expected`.

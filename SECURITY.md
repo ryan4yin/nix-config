@@ -109,8 +109,8 @@ See [application hardening](hardening/README.md) for wrapper details.
 1. Check the advisory and affected package/kernel; prioritize active exploitation and reachable
    attack paths. Review changed inputs and cache trust instead of treating updates as inherently
    safe.
-2. Run `just test` (must return `true`), build affected systems/runners and review closure
-   differences. Evaluate tests cannot prove runtime enforcement or workload compatibility.
+2. Run `just test` (must pass), build affected systems/runners and review closure differences.
+   Evaluate tests cannot prove runtime enforcement or workload compatibility.
 3. Record the old system generation/runner and ensure backups and recovery access exist. Use `boot`
    mode for bridge/network-stack changes or broad VM-host updates.
 4. Deploy MicroVM closures to the **physical host**, not the guest's read-only store. Install the

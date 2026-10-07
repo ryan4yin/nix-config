@@ -106,7 +106,7 @@ document is the agreed design and the rationale.
 
 ## Validation
 
-- `just fmt`; `just test` -> `true`; `nix build` the youko toplevel.
+- `just fmt`; `just test` passes; `nix build` the youko toplevel.
 - Postgres: `\dx` lists `vectorchord`/`pgvector`; `SHOW shared_preload_libraries` includes
   `vchord.so`; the `immich` DB exists.
 - Units: `immich-server`, `immich-machine-learning`, `redis-shared`, `postgresql` are active.

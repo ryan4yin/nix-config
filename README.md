@@ -159,7 +159,7 @@ of the same flake, e.g. `just col <tag>`, `just k3s-test`, `just lab`.
 `nix develop` provides the formatters and linters used by the repository. The most useful commands:
 
 ```bash
-just test    # eval tests across Linux & Darwin; the output must be `true`
+just test    # eval tests across Linux & Darwin (fails unless the result is `true`)
 just fmt     # format all Nix files with nixfmt
 just --list  # all recipes
 

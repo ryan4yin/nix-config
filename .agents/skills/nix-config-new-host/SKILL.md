@@ -79,7 +79,7 @@ check every configuration and which list hosts by name:
 - `security-*`, `kernel`, `nix-system-features`: apply to every configuration automatically.
 - `home-manager`, `btrbk`, and the other host-listing tests: add the host if it should be covered.
 
-`just test` must print `true`; an exit code of `0` with `false` is a failure.
+`just test` fails (non-zero) unless the suite returns `true`.
 
 ## 4. Install and deploy
 
