@@ -1,8 +1,7 @@
 # Nix Environment Setup for Host: 12Kingdoms - Shoukei
 
-> :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your
-> machine :exclamation: Please write your own configuration from scratch, and use my configuration
-> and documentation for reference only.**
+> **IMPORTANT**: Do not deploy this flake directly on your machine. Please write your own
+> configuration from scratch, and use my configuration and documentation for reference only.
 
 This flake prepares a Nix environment for setting my desktop
 [../hosts/12kingdoms-shoukei](../hosts/12kingdoms-shoukei) (in the main flake) up on a new machine.
@@ -217,7 +216,7 @@ Filename                                Type            Size            Used    
 /mnt/swap/swapfile                      file            16777200        0               -2
 ```
 
-### 3. Generating the NixOS Configuration and Installing NixOS
+### 4. Generating the NixOS Configuration and Installing NixOS
 
 Clone this repository:
 
@@ -249,7 +248,8 @@ cd ~/nix-config/nixos-installer/
 rm -rf /mnt/etc
 
 # install nixos
-# NOTE: the root password you set here will be discarded when reboot
+# NOTE: --no-root-password leaves root locked; log in as ryan with the password from
+# vars/default.nix
 nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --verbose # install-1
 
 # if you want to use a cache mirror, run this command instead
@@ -258,7 +258,7 @@ nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --ve
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login
-# if login failed, check the password you set in install-1, and try again
+# if login failed, check ryan's initial password in vars/default.nix, and try again
 nixos-enter
 
 
@@ -268,6 +268,7 @@ nixos-enter
 # otherwise the / will be cleared and data will lost
 ## NOTE: preservation just create links from / to /persistent
 ##       We need to copy files into /persistent manually!!!
+mkdir -p /persistent/etc
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/
 
@@ -328,4 +329,4 @@ just niri
 Finally, to enable secure boot, follow the instructions in
 [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md)
 and
-[nix-config/ai/secure-boot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols-ai/secureboot.nix)
+[hosts/idols-ai/secureboot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols-ai/secureboot.nix)

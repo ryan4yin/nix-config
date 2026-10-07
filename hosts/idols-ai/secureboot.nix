@@ -22,10 +22,8 @@
     pkgs.sbctl
   ];
 
-  # Lanzaboote currently replaces the systemd-boot module.
-  # This setting is usually set to true in configuration.nix
-  # generated at installation time. So we force it to false
-  # for now.
+  # Lanzaboote replaces the systemd-boot module. NixOS's generated
+  # configuration.nix sets this to true, so force it off.
   boot.loader.systemd-boot.enable = lib.mkForce false;
 
   boot.lanzaboote = {

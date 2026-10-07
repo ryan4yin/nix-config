@@ -37,8 +37,7 @@ Currently I use both age & GnuPG:
 
 ## Practical Cryptography for Developers
 
-To use GnuGP without seamlessly, Some Practical Cryptography knowledge is required, here is dome
-tutorials:
+To use GnuPG seamlessly, some Practical Cryptography knowledge is required, here are some tutorials:
 
 - English version: <https://github.com/nakov/Practical-Cryptography-for-Developers-Book>
 - Chinese version: <https://thiscute.world/tags/cryptography/>
@@ -49,7 +48,7 @@ tutorials:
 
 > ArchWiki's GnuPG page: <https://wiki.archlinux.org/title/GnuPG>
 
-### 0. How GnuGP generate & protect your keypair?
+### 0. How does GnuPG generate & protect your keypair?
 
 Related Docs:
 
@@ -549,12 +548,12 @@ gpg --verify <file> <signature-file>
 
 ```bash
 # Encrypt a file via recipient's public key, sign it via your private key for signing, and output cleartext.
-# so that the reciiptent can decrypt it via his/her private key.
+# so that the recipient can decrypt it via his/her private key.
 gpg --armor --sign --encrypt --recipient ryan4yin@linux.com <file>
 # or use this short version
 gpg -aser ryan4yin@linux.com <file>
 
-# Descrypt a file via your private key, and verify the signature via the sender's public key.
+# Decrypt a file via your private key, and verify the signature via the sender's public key.
 gpg --decrypt <file>
 # or
 gpg -d <file>
@@ -630,7 +629,7 @@ sub   cv25519/0x9E78E897B6490D6B 2024-01-09 [E]
 # encrypt some file before revoke the keypair
 › gpg -are test@test.t README.md > README.md.asc
 
-# try to decrypt the file, it should works
+# try to decrypt the file, it should work
 › gpg -d README.md.asc
 gpg: encrypted with cv25519 key, ID 0x9E78E897B6490D6B, created 2024-01-09
       "test <test@test.t>"

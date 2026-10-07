@@ -9,20 +9,30 @@ retired `idols-aquamarine` guest):
 
 ## Features
 
-Services:
+### Storage and data
 
-1. caddy: Reverse proxy / TLS front end and the `file.writefor.fun` file server.
-1. gitea: Self-hosted git service.
-1. sftpgo: SFTP / WebDAV server.
-1. transmission: BitTorrent client.
-1. postgresql: Database for the homelab services.
-1. restic: Encrypted backups; hosts the REST server the desktops push to.
-1. victoriametrics + vmalert + alertmanager + grafana: Monitor the metrics of my homelab.
-1. homepage + uptime-kuma: Service dashboard and uptime checks.
-1. immich: Photo and video library with ML search.
-1. jellyfin: Media server.
-1. rustfs: S3-compatible object storage (Loki chunks and Terraform state).
-1. valkey: Redis-compatible cache for Immich.
+1. gitea: Self-hosted git service (`gitea.nix`).
+1. sftpgo: SFTP / WebDAV server (`sftpgo.nix`).
+1. postgresql: Database for the homelab services (`postgresql.nix`).
+1. valkey: Redis-compatible cache for Immich (`valkey.nix`).
+
+### Backups and object storage
+
+1. restic: Encrypted backups; hosts the REST server the desktops push to (`../default.nix`).
+1. rustfs: S3-compatible object storage (Loki chunks and Terraform state) (`rustfs.nix`).
+
+### Media
+
+1. immich: Photo and video library with ML search (`immich/`).
+1. jellyfin: Media server (`jellyfin.nix`).
+1. transmission: BitTorrent client (`transmission.nix`).
+
+### Network and observability
+
+1. caddy: Reverse proxy / TLS front end and the `file.writefor.fun` file server (`caddy.nix`).
+1. victoriametrics + vmalert + alertmanager + grafana: Monitor the metrics of my homelab
+   (`monitoring/`).
+1. homepage + uptime-kuma: Service dashboard and uptime checks (`oci-containers/`).
 
 All the services assume a reverse proxy in front: they listen on localhost, and a caddy service
 listens on the local network interface and proxies requests to them. The exception is transmission,

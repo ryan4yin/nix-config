@@ -28,12 +28,9 @@ reduce code duplication and make it easier to add new machines.
 
 ## Usage
 
-These functions are designed to:
-
-- Generate consistent configurations across different architectures
-- Provide type-safe configuration for complex systems
-- Enable easy scaling of the infrastructure
-- Support both local development and production deployments
+The generators import the shared host modules, so a new machine supplies its own values and
+system-specific attributes. `colmenaSystem` covers remote deployment, and `genLibvirtDomainXml`
+renders the domain XML for one guest.
 
 ## Architecture Support
 

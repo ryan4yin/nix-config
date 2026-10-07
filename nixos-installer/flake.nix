@@ -74,6 +74,7 @@
             ../modules/nixos/base/ssh.nix
 
             ../hosts/12kingdoms-shoukei/hardware-configuration.nix
+            # shoukei reuses ai's preservation layout; no host-specific overrides yet
             ../hosts/idols-ai/preservation.nix
           ];
         };

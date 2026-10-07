@@ -42,8 +42,8 @@
   };
 
   # Attach the guest's tap to the VM bridge, the same way the physical NIC is
-  # attached. The tap name is derived from the guest IP (192.168.5.116 -> vm116,
-  # 192.168.5.113 -> vm113), as IFNAMSIZ caps interface names at 15 characters.
+  # attached. The name is vm<last IP octet> from lib/genMicrovmGuestModule.nix:
+  # 192.168.5.116 -> vm116, 192.168.5.113 -> vm113.
   systemd.network.networks."20-vm116" = {
     matchConfig.Name = [ "vm116" ];
     networkConfig = {

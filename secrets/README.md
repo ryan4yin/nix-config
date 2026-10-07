@@ -62,7 +62,8 @@ every local account. Always set `user` together with `mode`. nix-darwin ignores 
 > set to a local `~/codes/nix-secrets` checkout, so invoke it from this repository's root.
 
 This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the
-`./secrets.nix` file, so you need to have it installed first:
+`./secrets.nix` file in the private `nix-secrets` repository, so you need to have it installed
+first:
 
 To use agenix temporarily, run:
 

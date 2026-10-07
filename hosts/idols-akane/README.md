@@ -6,8 +6,7 @@ Steps to install:
 
 ```bash
 # 1. format & mount the filesystem
-nix-shell -p disko
-sudo disko --mode destroy,format,mount hosts/idols-akane/disko-fs.nix
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode destroy,format,mount hosts/idols-akane/disko-fs.nix
 
 # 2. install nixos
 nixos-install --root /mnt --flake .#akane --no-root-password --show-trace --verbose --option substituters "https://mirrors.ustc.edu.cn/nix-channels/store  https://cache.nixos.org/" # install-2

@@ -58,10 +58,8 @@ All configurations in this directory are designed to work across:
 
 - **Linux**: All distributions with Nix and Home Manager
 - **macOS**: Darwin systems with Home Manager
-- **WSL**: Windows Subsystem for Linux
 
 ## Usage
 
-These base configurations provide the foundation for both Linux and Darwin systems, ensuring
-consistent environments across different platforms while allowing for platform-specific
-customizations.
+These base configurations provide the foundation for both Linux and Darwin systems while allowing
+for platform-specific customizations.

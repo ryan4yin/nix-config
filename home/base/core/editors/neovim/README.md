@@ -135,7 +135,7 @@ Advanced patterns:
 
 Notes:
 
-- `\v` — “very magic”, less backslash noise in the pattern.
+- `\v` — "very magic", less backslash noise in the pattern.
 - `\1` — first capture group.
 
 ### Specific line ranges

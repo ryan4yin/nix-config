@@ -5,7 +5,7 @@
 - <https://github.com/gopasspw/gopass>: reimplement in go, with more features.
 - Clients
   - Android: <https://github.com/android-password-store/Android-Password-Store>
-  - Brosers(Chrome/Firefox): <https://github.com/browserpass/browserpass-extension>
+  - Browsers(Chrome/Firefox): <https://github.com/browserpass/browserpass-extension>
 
 ## How to change the gpg key of the pass password store?
 
@@ -31,6 +31,7 @@ To ensure security, we should change the GPG key every two or three years. Here 
    # then pass will re-encrypt all the passwords with the new key
    pass init <new-key-id>
    ```
+   If `pass init` fails, fix the error and run it again before continuing.
 6. Check if the key is changed:
    ```bash
    # check which key is used by pass
@@ -38,7 +39,10 @@ To ensure security, we should change the GPG key every two or three years. Here 
    # check which key is really used to encrypt the password
    gpg --list-packets path/to/any/password.gpg
    ```
-7. Delete the old GPG key pair:
+   If `.gpg-id` still lists the old key, `pass init` did not apply the change. Re-run it from the
+   password store directory and confirm `.gpg-id` contains the new key.
+7. Delete the old GPG key pair, but only after both checks in step 6 show the new key. Files still
+   encrypted to the old key cannot be decrypted after you delete it.
    ```bash
    # delete the old key pair
    gpg --delete-secret-keys <old-key-id>

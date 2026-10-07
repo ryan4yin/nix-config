@@ -64,7 +64,10 @@ Each subdirectory contains its own Terraform configuration:
 
 ## Security Considerations
 
-- All storage buckets are configured with appropriate access policies
-- State files are encrypted at rest
-- Access credentials are managed through environment variables
-- Network access is restricted to necessary hosts only
+- Buckets are declared as bare `aws_s3_bucket` resources, with no bucket policy or server-side
+  encryption configuration. The only guard in Terraform is `prevent_destroy` on the `tf-s3-backend`
+  state bucket.
+- IAM users and policies are created by hand with the `rc` client, not Terraform (see
+  [rustfs/README.md](./rustfs/README.md)).
+- Access credentials are managed through environment variables (`AWS_ACCESS_KEY_ID` /
+  `AWS_SECRET_ACCESS_KEY`).

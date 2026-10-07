@@ -1,4 +1,4 @@
-# agents
+# Agents
 
 Portable agent resources shared across projects: the global baseline rules, behavioral scenarios for
 those rules, and reference snippets for external tooling.
@@ -75,7 +75,3 @@ Ideas worth adopting once a concrete need appears; nothing here is implemented y
 - Keep files portable and reviewable.
 - Keep secrets and machine-specific credentials out of this directory.
 - Keep guidance generic enough to reuse across multiple agent environments.
-
-## Goal
-
-Maintain one reusable source of truth for agent setup that stays simple to sync and easy to evolve.

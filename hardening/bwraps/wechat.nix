@@ -70,6 +70,7 @@ appimageTools.wrapAppImage {
     "--setenv GTK_IM_MODULE fcitx"
   ];
   chdirToPwd = false;
+  # WeChat needs outbound network; everything else is unshared
   unshareNet = false;
   unshareIpc = true;
   unsharePid = true;
