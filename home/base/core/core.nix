@@ -6,6 +6,7 @@
     # it provides the command `nom` works just like `nix
     # with more details log output
     nix-output-monitor
+    nh # modern helper utility for Nix CLI
     nix-index # A small utility to index nix store paths
     # https://github.com/utdemir/nix-tree
     nix-tree # A TUI to visualize the dependency graph of a nix derivation
