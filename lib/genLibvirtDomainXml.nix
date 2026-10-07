@@ -45,7 +45,9 @@
         <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
       </interface>
       <controller type='usb' model='qemu-xhci'/>
-      <graphics type='vnc' listen='0.0.0.0' port='${toString vncPort}' autoport='no'/>
+      <graphics type='vnc' port='${toString vncPort}' autoport='no' listen='127.0.0.1'>
+        <listen type='address' address='127.0.0.1'/>
+      </graphics>
       <video>
         <model type='virtio'/>
       </video>
