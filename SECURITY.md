@@ -233,9 +233,13 @@ export, credential, DNS record or firmware configuration was changed during the 
   desktops. Same-user agents are not isolated from these credentials by Unix file permissions. Mode
   `0000` also does not stop privileged root. Other host/runtime ownership checks and recipient
   membership were not completed; no private recipient repository or secret value was inspected.
-- Darwin's activation has a blanket `chown` over `/etc/agenix/*`; on symlink targets this can
-  override declared root ownership. Runtime ownership and consumer requirements must be verified
-  before replacing it with explicit per-file ownership. Track this source concern as WA-015.
+- Darwin's activation now re-applies each secret's declared ownership explicitly instead of a
+  blanket `chown` over `/etc/agenix/*`, so the root-only `rclone.conf` stays root-owned. Runtime
+  ownership (`ls -l /etc/agenix`) on each Darwin host still needs a check after the next activation.
+- PostgreSQL's loopback TCP listener still trusts application roles by password (Immich and the
+  exporter use it), but `postgres` and replication now require `scram-sha-256`, closing the
+  local-superuser path. Provisioning per-role passwords for full loopback `scram-sha-256` is the
+  follow-up (the Grafana datasource file already tracks this as its item 1.5).
 
 ### Sandbox and agent boundaries
 
@@ -303,20 +307,20 @@ separate verification.
 
 ## Remaining prioritized TODOs
 
-| Priority | Work                                                                             | Acceptance / constraints                                                                                                                                        |
-| -------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                          |
-| P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                     |
-| P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                      |
-| P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts, recipient scope and Darwin per-file ownership        |
-| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; compare booted and selected kernel paths and recheck API/workloads after reboot; no automated metric is deployed                            |
-| P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                              |
-| P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                              |
-| P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                     |
-| P2       | Review unused-module deny list against real workloads and verified advisories    | Check loaded/built-in modules and autoload dependencies; do not block required filesystems, WiFi, VM or Cilium/NFS functionality                                |
-| P2       | Evaluate stronger controls only against a concrete threat                        | Account for hibernation, crash recovery, applications and performance; no blanket io_uring/SMT/userns ban or hardened-kernel switch                             |
-| P2       | Validate narrower sandbox/agent boundaries where needed                          | Source and selected SSH/journal metadata audited; use disposable data/socket probes and preserve core-desktop diagnosis, browserpass and Homelab root workflows |
-| P3       | Improve security-event alerts and configuration drift checks                     | Actionable redacted alerts and periodic runtime control readback                                                                                                |
+| Priority | Work                                                                             | Acceptance / constraints                                                                                                                                                                           |
+| -------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                                                             |
+| P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                                                        |
+| P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                                                         |
+| P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts and recipient scope; Darwin per-file ownership is now explicit and needs a runtime check |
+| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; compare booted and selected kernel paths and recheck API/workloads after reboot; no automated metric is deployed                                                               |
+| P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                                                                 |
+| P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                                                                 |
+| P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                                                        |
+| P2       | Review unused-module deny list against real workloads and verified advisories    | Check loaded/built-in modules and autoload dependencies; do not block required filesystems, WiFi, VM or Cilium/NFS functionality                                                                   |
+| P2       | Evaluate stronger controls only against a concrete threat                        | Account for hibernation, crash recovery, applications and performance; no blanket io_uring/SMT/userns ban or hardened-kernel switch                                                                |
+| P2       | Validate narrower sandbox/agent boundaries where needed                          | Source and selected SSH/journal metadata audited; use disposable data/socket probes and preserve core-desktop diagnosis, browserpass and Homelab root workflows                                    |
+| P3       | Improve security-event alerts and configuration drift checks                     | Actionable redacted alerts and periodic runtime control readback                                                                                                                                   |
 
 Record temporary exceptions in [WORKAROUNDS.md](WORKAROUNDS.md) with a removal condition. Revisit
 this architecture after a new exposed service, network/storage change, host addition or significant
