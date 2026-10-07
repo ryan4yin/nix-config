@@ -39,26 +39,13 @@ in
     dive # explore docker layers
   ];
 
-  # Kernel modules required by cilium
-  boot.kernelModules = [
-    "ip6_tables"
-    "ip6table_mangle"
-    "ip6table_raw"
-    "ip6table_filter"
-  ];
   networking.enableIPv6 = true;
-  networking.nat = {
-    enable = true;
-    enableIPv6 = true;
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.ipv6.conf.all.forwarding" = 1;
   };
 
-  # Pods may reach the host services they need, but they are not part of the
-  # host's trusted LAN. Deny the credential-bearing host ports before the broad
-  # pod-network accept below, so a compromised pod cannot reach NFS, the
-  # database, the backup server, the VNC consoles, or an exporter. `mkAfter`
-  # keeps this after the shared base rules (incl. the node_exporter drop).
-  # Ports 80/443 stay reachable so in-cluster calls through the ingress are not
-  # broken; the ingress is the authentication boundary there.
+  # Deny pods the credential-bearing host ports before the pod accept below.
   networking.firewall.extraInputRules = lib.mkAfter ''
     ip  saddr 10.0.0.0/8 tcp dport { 22, 2049, 2283, 5432, 5900, 5901, 5902, 5903, 8000, 8081, 8082, 9090, 9093, 9100, 9633, 9835 } drop
     ip6 saddr fd00::/104 tcp dport { 22, 2049, 2283, 5432, 5900, 5901, 5902, 5903, 8000, 8081, 8082, 9090, 9093, 9100, 9633, 9835 } drop
@@ -90,6 +77,7 @@ in
           "--disable=traefik" # deploy our own ingress controller instead
           "--disable=servicelb" # we use kube-vip instead
           "--disable-network-policy" # Cilium enforces network policies instead
+          "--disable-kube-proxy" # Cilium's eBPF replacement handles services
           "--tls-san=${masterHost}"
         ]
         ++ (map (label: "--node-label=${label}") nodeLabels)
