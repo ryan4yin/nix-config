@@ -90,6 +90,7 @@ in
           "--disable=traefik" # deploy our own ingress controller instead
           "--disable=servicelb" # we use kube-vip instead
           "--disable-network-policy" # Cilium enforces network policies instead
+          "--disable-kube-proxy" # Cilium's eBPF kube-proxy replacement handles services
           "--tls-san=${masterHost}"
         ]
         ++ (map (label: "--node-label=${label}") nodeLabels)
