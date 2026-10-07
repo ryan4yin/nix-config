@@ -4,6 +4,7 @@
   mylib,
   agenix,
   mysecrets,
+  inputs,
   ...
 }:
 {
@@ -15,6 +16,7 @@
     restartIfChanged = true;
     specialArgs = {
       inherit
+        inputs
         myvars
         mylib
         agenix
@@ -29,6 +31,7 @@
     restartIfChanged = true;
     specialArgs = {
       inherit
+        inputs
         myvars
         mylib
         agenix
