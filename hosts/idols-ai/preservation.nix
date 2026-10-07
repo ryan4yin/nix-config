@@ -265,6 +265,7 @@ in
 
         "Games"
         ".steam"
+        ".config/MangoHud"
         ".config/blender"
 
         ".local/share/umu"
