@@ -202,11 +202,14 @@ checks remain necessary after deployment.
   migration and a maintenance window. See WORKAROUNDS.md.
 - **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the shared firewall
   drops 5900-5910 on every host. Reach a console through an SSH tunnel.
-- **Pod-to-host firewall:** pod CIDR sources (`10.0.0.0/8`, `fd00::/104`) are accepted on the k3s
-  nodes, but the credential-bearing host ports are denied first (SSH, NFS, Postgres, restic, VNC,
-  Immich, and the exporter/monitoring ports). The broad accept stays so Cilium and in-cluster
-  service traffic keep working; a full port allowlist is future work. Ports 80/443 are deliberately
-  not denied, so in-cluster calls through the ingress are not broken.
+- **Pod-to-host firewall:** the k3s nodes deny the credential-bearing host ports to pod CIDR
+  sources, but that rule is **not effective by itself**: Cilium masquerades pod -> node traffic to
+  the source node IP, so the destination sees the node, not the pod. The control that actually works
+  is the `deny-pod-to-node-admin-ports` `CiliumClusterwideNetworkPolicy` in
+  [k8s-gitops#52](https://github.com/ryan4yin/k8s-gitops/pull/52), which denies pod egress to
+  `host`/`remote-node` on those ports before masquerade. The nftables rule stays as defense in depth
+  for unmasqueraded traffic. Ports 80/443 are deliberately not denied, so in-cluster calls through
+  the ingress keep working.
 
 Only selected pod security fields, RBAC rules/binding metadata, listeners and export metadata were
 queried. Secret contents and raw kubeconfigs were not inspected. No live access policy, workload,
