@@ -1,18 +1,21 @@
 #!/usr/bin/env nu
 #
-# Pin shoukei's home Wi-Fi profile(s) to a static IPv4.
+# Pin shoukei's home Wi-Fi profile to a static IPv4.
 #
 # NetworkManager matches connections by SSID. Run this ONCE, while connected to
-# the home Wi-Fi: with no arguments it pins the network you are on right now,
-# and every other network keeps using DHCP. The change is stored in the profile
-# under /etc/NetworkManager/system-connections (preserved by impermanence), so
-# it survives reboots and rebuilds -- there is no need to run it again.
+# HOME_SSID: the script refuses to run unless the current Wi-Fi network is that
+# exact SSID, so it can never pin the wrong network by accident. Every other
+# network keeps using DHCP. The change is stored in the profile under
+# /etc/NetworkManager/system-connections (preserved by impermanence), so it
+# survives reboots and rebuilds -- no need to run it again.
 #
 #   sudo nu scripts/shoukei-home-wifi-static.nu
-#   sudo nu scripts/shoukei-home-wifi-static.nu shadow_light_ryan shadow_light_ryan-5G
 #
 # See hosts/12kingdoms-shoukei/README.md and WORKAROUNDS.md WA-024/025.
 
+# The home network: 2.4 and 5 GHz are merged into this single SSID, so it is
+# the only network this script may touch.
+const HOME_SSID = "shadow_light_ryan"
 const STATIC_ADDR = "192.168.5.108/24"
 const STATIC_GW = "192.168.5.1"
 const STATIC_DNS = "192.168.5.1"
@@ -26,7 +29,7 @@ def nm [args: list<string>] {
   $r.stdout | str trim
 }
 
-def main [...ssids: string] {
+def main [] {
   if (^id -u | str trim | into int) != 0 {
     error make { msg: "must run as root -- nmcli edits system connections; try: sudo nu scripts/shoukei-home-wifi-static.nu" }
   }
@@ -51,66 +54,59 @@ def main [...ssids: string] {
     | compact
   )
 
-  # No arguments: pin whatever home network we are connected to right now.
-  let on_now = ($wifi | where { |w| $w.name in $active })
-  let home_ssids = (if ($ssids | is-empty) {
-    if ($on_now | is-empty) { [] } else { $on_now | get ssid }
-  } else {
-    $ssids
-  })
-
-  if ($home_ssids | is-empty) {
-    error make { msg: "not connected to Wi-Fi -- pass the home SSID(s) explicitly" }
+  # Must be connected to the fixed home SSID right now, nothing else.
+  let connected = ($wifi | where { |w| $w.name in $active })
+  let current_ssids = (if ($connected | is-empty) { [] } else { $connected | get ssid })
+  if ($current_ssids | is-empty) {
+    error make { msg: $"not connected to Wi-Fi -- connect to '($HOME_SSID)' first" }
   }
-  print $"pinning: ($home_ssids | str join ', ')"
+  if (not ($HOME_SSID in $current_ssids)) {
+    error make { msg: $"not connected to '($HOME_SSID)'; currently on ($current_ssids | str join ', ')" }
+  }
 
-  for ssid in $home_ssids {
-    let matches = ($wifi | where ssid == $ssid)
-    let profiles = (if ($matches | is-empty) { [] } else { $matches | get name })
-    if ($profiles | is-empty) {
-      print --stderr $"warning: no Wi-Fi profile for SSID '($ssid)'; skipping"
-      continue
-    }
+  let profiles = ($wifi | where ssid == $HOME_SSID | get name)
+  if ($profiles | is-empty) {
+    error make { msg: $"no Wi-Fi profile for SSID '($HOME_SSID)'" }
+  }
 
-    print $"== ($ssid) =="
+  print $"pinning '($HOME_SSID)': ($STATIC_ADDR) via ($STATIC_GW), dns ($STATIC_DNS)"
+  for p in $profiles {
+    print $"  set '($p)'"
+    nm [
+      "connection" "modify" $p
+      "ipv4.method" "manual"
+      "ipv4.addresses" $STATIC_ADDR
+      "ipv4.gateway" $STATIC_GW
+      "ipv4.dns" $STATIC_DNS
+    ] | ignore
+  }
+
+  # Collapse duplicates for the same SSID ("<SSID> 1", WORKAROUNDS.md
+  # WA-024/025). Deleting an *active* profile wedges the supplicant, so keep
+  # the active one and only ever delete the inactive duplicates.
+  if ($profiles | length) > 1 {
+    let actives = ($profiles | where { |p| $p in $active })
+    let keep = (if ($actives | is-empty) { $profiles | first } else { $actives | first })
     for p in $profiles {
-      print $"  set '($p)': ($STATIC_ADDR) via ($STATIC_GW), dns ($STATIC_DNS)"
-      nm [
-        "connection" "modify" $p
-        "ipv4.method" "manual"
-        "ipv4.addresses" $STATIC_ADDR
-        "ipv4.gateway" $STATIC_GW
-        "ipv4.dns" $STATIC_DNS
-      ] | ignore
-    }
-
-    # Collapse duplicates for the same SSID ("<SSID> 1", WORKAROUNDS.md
-    # WA-024/025). Deleting an *active* profile wedges the supplicant, so keep
-    # the active one and only ever delete the inactive duplicates.
-    if ($profiles | length) > 1 {
-      let actives = ($profiles | where { |p| $p in $active })
-      let keep = (if ($actives | is-empty) { $profiles | first } else { $actives | first })
-      for p in $profiles {
-        if $p != $keep {
-          print $"  delete duplicate '($p)', keeping '($keep)'"
-          nm ["connection" "delete" $p] | ignore
-        }
+      if $p != $keep {
+        print $"  delete duplicate '($p)', keeping '($keep)'"
+        nm ["connection" "delete" $p] | ignore
       }
     }
+  }
 
-    # Apply without dropping the link (avoids the brcmfmac re-auth/password
-    # re-prompt, WA-024/025); fall back to a reconnect only if reapply fails.
-    for p in $profiles {
-      if $p in $active {
-        let dev = (nm ["-g" "GENERAL.DEVICES" "connection" "show" $p])
-        if ($dev | is-not-empty) {
-          let r = (^nmcli device reapply $dev | complete)
-          if $r.exit_code == 0 {
-            print $"  applied on ($dev) via reapply, no reconnect"
-          } else {
-            print $"  reapply failed, reconnecting '($p)'"
-            nm ["connection" "up" $p] | ignore
-          }
+  # Apply without dropping the link (avoids the brcmfmac re-auth/password
+  # re-prompt, WA-024/025); fall back to a reconnect only if reapply fails.
+  for p in $profiles {
+    if $p in $active {
+      let dev = (nm ["-g" "GENERAL.DEVICES" "connection" "show" $p])
+      if ($dev | is-not-empty) {
+        let r = (^nmcli device reapply $dev | complete)
+        if $r.exit_code == 0 {
+          print $"  applied on ($dev) via reapply, no reconnect"
+        } else {
+          print $"  reapply failed, reconnecting '($p)'"
+          nm ["connection" "up" $p] | ignore
         }
       }
     }

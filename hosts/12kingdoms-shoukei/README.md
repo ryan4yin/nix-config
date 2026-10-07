@@ -2,8 +2,10 @@
 
 This is NixOS's configuration for my Macbook Pro 2022 M2, 16G RAM.
 
-This laptop joins untrusted networks and uses DHCP instead of a static IP, so it has no entry in
-`vars/networking.nix`.
+This laptop joins untrusted networks and uses DHCP by default. On the home Wi-Fi
+(`shadow_light_ryan`) it pins `192.168.5.108` with
+[`scripts/shoukei-home-wifi-static.nu`](../../scripts/shoukei-home-wifi-static.nu), and
+`vars/networking.nix` records the address with `homeOnly = true`.
 
 ## x86/x86_64 applications
 
