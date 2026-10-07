@@ -4,12 +4,12 @@ How this fleet is backed up, where the data lives, and how to restore it.
 
 ## What protects against what
 
-| Threat                        | Defence                                                            |
-| ----------------------------- | ------------------------------------------------------------------ |
-| accidental deletion, bad edit | btrbk: local btrfs snapshots                                       |
-| disk or host loss             | restic: encrypted copies on youko                                  |
-| a compromised backup server   | desktop repositories use a password youko never holds              |
-| a compromised host            | not defended yet: the immutable cloud copy (planned) is that layer |
+| Threat                        | Defence                                                                                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accidental deletion, bad edit | btrbk: local btrfs snapshots                                                                                                                                |
+| disk or host loss             | restic: encrypted copies on youko                                                                                                                           |
+| a compromised backup server   | desktop repositories use a password youko never holds                                                                                                       |
+| a compromised host            | youko takes hourly read-only btrfs snapshots of the REST store, which a desktop cannot reach; the immutable cloud copy (planned) is still the offsite layer |
 
 ## Layers
 
@@ -22,7 +22,10 @@ How this fleet is backed up, where the data lives, and how to restore it.
    with `--private-repos`, authenticated by htpasswd, published behind caddy as
    `restic.writefor.fun`. Deliberately not append-only: a desktop holds both the plaintext and the
    repository password, so blocking deletion there protects little while denying the client the
-   automatic retention it needs.
+   automatic retention it needs. A compromised desktop can still `forget --prune` its own repository
+   through the REST API, so youko also snapshots `/data/backups` hourly into a read-only btrfs
+   subvolume the desktop cannot reach (see
+   `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`).
 3. **cloud copy** (planned). youko will copy the homelab repositories with `restic copy` (it holds
    that password). Desktops copy their own: youko does not hold the desktop password. This layer is
    what protects history against a compromised host, so the target should be immutable or versioned
@@ -61,6 +64,7 @@ collisions.
 | ---------------- | ----------------------------------- |
 | 01:30 + 15m      | desktops push to youko              |
 | 02:30 + 15m      | youko backs itself up               |
+| hourly           | youko snapshots the REST store      |
 | 03:45:20 Tue/Sat | btrbk local snapshots               |
 | 06:00 (planned)  | youko copies homelab repos to cloud |
 
@@ -123,7 +127,8 @@ Restoring a btrbk snapshot (offline; stop writers first):
 ## Verifying
 
 - Units: `systemctl status restic-backups-homelab`, `systemctl list-timers 'restic-backups*'`.
-- Repository integrity (where the password is): `restic check`.
+- Repository integrity (where the password is): `restic check`, which runs after every backup via
+  `modules.restic-backup.checkOpts` (a 5% data read, `1/20`, by default).
 - Server side, ciphertext only: repository directories under `/data/backups/rest-server/<user>/`,
   with no leftover files in `locks/` and no stale `.tmp` files.
 - `restic-rest-server`'s log must not print `Invalid htpasswd entry`: that means the client's REST
@@ -144,7 +149,6 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - **Cloud copy**: youko copies the homelab repositories with `restic copy`; desktops copy their own.
   The target must not live in the homelab, and should be immutable or versioned (object lock) — that
   is the layer which survives a compromised host.
-- **`restic check` timer**: periodic integrity verification, on the host that holds the password.
 
 ## Components
 
@@ -153,6 +157,7 @@ Restoring a btrbk snapshot (offline; stop writers first):
 | [`modules/nixos/base/restic-backup.nix`](./modules/nixos/base/restic-backup.nix) | client module: repository, paths, excludes, schedule |
 | [`modules/nixos/base/btrbk.nix`](./modules/nixos/base/btrbk.nix)                 | local btrfs snapshots                                |
 | `hosts/12kingdoms-youko/default.nix`                                             | the REST server and youko's own backup               |
+| `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`            | hourly read-only snapshots of the REST store         |
 | `hosts/12kingdoms-youko/homelab-services/caddy.nix`                              | the `restic.writefor.fun` vhost                      |
 | `secrets/nixos.nix`                                                              | which secret is defined on which host                |
 | `hosts/idols-ai/restic.nix`, `hosts/12kingdoms-youko/default.nix`                | per-host backup configuration                        |
