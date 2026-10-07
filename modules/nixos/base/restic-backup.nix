@@ -133,6 +133,17 @@ in
         after uploading).
       '';
     };
+
+    checkOpts = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "--read-data-subset=1/20" ];
+      description = ''
+        Arguments for `restic check`, run after each backup. Non-empty enables
+        the check. The default reads 5% of the pack data as a fraction rather
+        than `5%`, so systemd does not treat the percent as a specifier; set
+        to `[ ]` to disable, or `--read-data` for a full read.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -168,6 +179,7 @@ in
       };
 
       inherit (cfg) pruneOpts;
+      inherit (cfg) checkOpts;
     }
     // lib.optionalAttrs (cfg.excludeLargerThan != null) {
       extraBackupArgs = [
