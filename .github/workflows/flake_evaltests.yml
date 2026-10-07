@@ -18,6 +18,9 @@ on:
       - "**.nu"
       - "Justfile"
 
+permissions:
+  contents: read
+
 jobs:
   checks:
     name: Check expressions
@@ -25,9 +28,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - name: Install nix
-        uses: cachix/install-nix-action@v31
+        uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31
         with:
           install_url: https://nixos.org/nix/install
           extra_nix_config: |
@@ -40,3 +43,26 @@ jobs:
           # `nix eval` prints the suite result but still exits 0 on failure, so
           # compare the JSON boolean explicitly to fail the job.
           test "$(nix eval .#evalTests --json --show-trace)" = "true"
+
+  runtime-security:
+    name: Runtime security VM tests
+    runs-on: ubuntu-latest
+    needs: checks
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Install nix
+        uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31
+        with:
+          install_url: https://nixos.org/nix/install
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      # Hosted runners have /dev/kvm but the runner user cannot open it. This
+      # udev rule hands the group mode to everyone for the job's lifetime.
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run the firewall VM test
+        run: nix build --no-link --print-build-logs .#checks.x86_64-linux.security-exporters
