@@ -382,6 +382,40 @@ game:
 del-failed:
   kubectl delete pod --all-namespaces --field-selector="status.phase==Failed"
 
+# Start PC VR on idols-ai and route desktop audio to the headset.
+[linux]
+[group('vr')]
+vr:
+  systemctl --user start wivrn.service
+  systemctl --user stop wivrn-audio.service | complete | ignore
+  systemd-run --user --collect --unit=wivrn-audio nu {{absolute_path("scripts/wivrn-audio.nu")}} switch --timeout 600
+
+# Route audio to a headset that is connected right now.
+[linux]
+[group('vr')]
+vr-audio:
+  nu {{absolute_path("scripts/wivrn-audio.nu")}} switch --timeout 60
+
+# Stop PC VR when finished and restore the previous audio devices.
+[linux]
+[group('vr')]
+vr-stop:
+  systemctl --user stop wivrn-audio.service | complete | ignore
+  nu {{absolute_path("scripts/wivrn-audio.nu")}} restore
+  systemctl --user stop wivrn.service
+
+# Show PC VR service status.
+[linux]
+[group('vr')]
+vr-status:
+  systemctl --user status wivrn.service --no-pager
+
+# Follow PC VR service logs.
+[linux]
+[group('vr')]
+vr-logs:
+  journalctl --user -u wivrn.service -f
+
 [linux]
 [group('services')]
 list-inactive:
