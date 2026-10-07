@@ -198,6 +198,11 @@ checks remain necessary after deployment.
   `sec=sys,no_root_squash`. File mode 0755 does not contain an allowed client with root privileges;
   such a client can act as server root within this export. The network allowlist and client trust
   are therefore material boundaries, not merely filesystem permissions.
+- **Pod-to-host firewall:** pod CIDR sources (`10.0.0.0/8`, `fd00::/104`) are accepted on the k3s
+  nodes, but the credential-bearing host ports are denied first (SSH, NFS, Postgres, restic, VNC,
+  Immich, and the exporter/monitoring ports). The broad accept stays so Cilium and in-cluster
+  service traffic keep working; a full port allowlist is future work. Ports 80/443 are deliberately
+  not denied, so in-cluster calls through the ingress are not broken.
 
 Only selected pod security fields, RBAC rules/binding metadata, listeners and export metadata were
 queried. Secret contents and raw kubeconfigs were not inspected. No live access policy, workload,
