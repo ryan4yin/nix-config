@@ -35,7 +35,7 @@ pkgs.testers.runNixOSTest {
       networking.firewall.extraInputRules = lib.mkAfter ''
         ip6 saddr fd42:1::/64 accept
       '';
-      systemd.services = lib.genAttrs [ "9100" "9633" "9835" "8080" ] (port: {
+      systemd.services = lib.genAttrs [ "9100" "9633" "9835" "8080" "5902" ] (port: {
         wantedBy = [ "multi-user.target" ];
         serviceConfig.ExecStart = "${pkgs.socat}/bin/socat TCP6-LISTEN:${port},ipv6only=0,reuseaddr,fork EXEC:${pkgs.coreutils}/bin/cat";
       });
@@ -59,5 +59,11 @@ pkgs.testers.runNixOSTest {
         server.succeed(f"nc -6 -z -w 3 ::1 {port}")
     client.succeed("nc -z -w 3 192.168.5.200 8080")
     client.succeed("nc -6 -z -w 3 fd42:1::200 8080")
+    # VNC is never reachable off-host on either family; loopback still works.
+    monitor.fail("nc -z -w 3 192.168.5.200 5902")
+    client.fail("nc -z -w 3 192.168.5.200 5902")
+    monitor.fail("nc -6 -z -w 3 fd42:1::200 5902")
+    client.fail("nc -6 -z -w 3 fd42:1::200 5902")
+    server.succeed("nc -z -w 3 127.0.0.1 5902")
   '';
 }

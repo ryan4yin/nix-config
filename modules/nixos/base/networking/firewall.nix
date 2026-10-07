@@ -38,6 +38,11 @@ in
       # this does not restrict other IPv6 services or loopback access.
       meta nfproto ipv6 tcp dport { 9100, 9835, 9633 } drop
 
+      # VNC consoles (libvirt on the VM hosts, and x11vnc inside the guests)
+      # are never exposed to the LAN, tailnet, or containers: reach them
+      # through an SSH tunnel. Loopback is accepted by the firewall's own rule.
+      tcp dport { 5900, 5901, 5902, 5903, 5910 } drop
+
       # The local container bridge and the tailnet have the same access as the
       # LAN. Kept after the drop above so neither can reach node_exporter.
       iifname "podman0" accept
