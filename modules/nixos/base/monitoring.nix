@@ -7,9 +7,11 @@
 let
   # Exporters bind to this host's static LAN IPv4 (the same address
   # VictoriaMetrics scrapes), so the socket exists only on the LAN interface —
-  # defence in depth behind the firewall allowlist. Hosts without a static LAN
-  # address (laptops like shoukei, DHCP VMs like akane) run no exporters.
-  lanAddr = myvars.networking.hostsAddr.${config.networking.hostName}.ipv4 or null;
+  # defence in depth behind the firewall allowlist. Hosts without an always-on
+  # static LAN address (the `homeOnly` laptop, DHCP VMs like akane) run no
+  # exporters.
+  hostAddr = myvars.networking.hostsAddr.${config.networking.hostName} or { };
+  lanAddr = if hostAddr.homeOnly or false then null else hostAddr.ipv4 or null;
 in
 {
   # enable the node exporter on all nixos hosts
