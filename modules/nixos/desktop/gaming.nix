@@ -40,10 +40,6 @@ in
       #   ~/.steam             - Some Symlinks & user info
       enable = true;
       package = pkgs-x64.steam;
-      # https://github.com/ValveSoftware/gamescope
-      # Run a GameScope driven Steam session from your display-manager
-      # fix resolution upscaling and stretched aspect ratios
-      gamescopeSession.enable = true;
       # https://github.com/Winetricks/winetricks
       # Whether to enable protontricks, a simple wrapper for running Winetricks commands for Proton-enabled games.
       protontricks.enable = true;
@@ -62,6 +58,16 @@ in
         pkgs-x64.dwproton-bin
         pkgs-x64.proton-ge-bin
       ];
+    };
+
+    # GameScope: run a game in its own nested compositor and let it renice
+    # itself for steadier frame pacing. GPU-specific PRIME render offload belongs
+    # to the host, not here (see programs.gamescope.env in
+    # hosts/idols-ai/hardware-nvidia.nix).
+    # https://github.com/ValveSoftware/gamescope
+    programs.gamescope = {
+      enable = true;
+      capSysNice = true;
     };
 
     # see https://github.com/fufexan/nix-gaming/#pipewire-low-latency
