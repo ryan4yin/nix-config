@@ -5,13 +5,21 @@ on:
       - main
     tags:
       - "*"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+# A push to main and a tag on the same commit each trigger a run. Queue them so
+# two runs never race for Gitee's per-repo push lock.
+concurrency:
+  group: mirror-to-gitee
+  cancel-in-progress: false
+
 jobs:
   mirror:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -38,6 +46,30 @@ jobs:
           echo "$INPUT_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts -o ConnectTimeout=20 -o ServerAliveInterval=20 -o ServerAliveCountMax=3"
           git remote add mirror "$INPUT_TARGET_REPO_URL"
-          git push --tags --force --prune mirror "refs/remotes/origin/*:refs/heads/*"
+
+          # Gitee's SSH gateway intermittently accepts the connection and key,
+          # then never answers the initial git-receive-pack and drops the
+          # session about 100s later ("the remote end hung up upon initial
+          # contact"). Bound each attempt so a stuck session cannot hang the
+          # job, and retry with backoff.
+          attempts=6
+          for attempt in $(seq 1 "$attempts"); do
+            echo "::group::Mirror attempt $attempt/$attempts"
+            if timeout --kill-after=15s 120s \
+              git push --tags --force --prune mirror "refs/remotes/origin/*:refs/heads/*"; then
+              echo "::endgroup::"
+              echo "Mirrored to Gitee on attempt $attempt"
+              exit 0
+            fi
+            echo "::endgroup::"
+            if [ "$attempt" -lt "$attempts" ]; then
+              delay=$((15 * 2 ** (attempt - 1)))
+              echo "Attempt $attempt failed; retrying in ${delay}s"
+              sleep "$delay"
+            fi
+          done
+
+          echo "::error::failed to mirror to Gitee after $attempts attempts" >&2
+          exit 1
