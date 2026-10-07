@@ -202,14 +202,17 @@ checks remain necessary after deployment.
   migration and a maintenance window. See WORKAROUNDS.md.
 - **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the shared firewall
   drops 5900-5910 on every host. Reach a console through an SSH tunnel.
-- **Pod-to-host firewall:** the k3s nodes deny the credential-bearing host ports to pod CIDR
-  sources, but that rule is **not effective by itself**: Cilium masquerades pod -> node traffic to
-  the source node IP, so the destination sees the node, not the pod. The control that actually works
-  is the `deny-pod-to-node-admin-ports` `CiliumClusterwideNetworkPolicy` in
-  [k8s-gitops#52](https://github.com/ryan4yin/k8s-gitops/pull/52), which denies pod egress to
-  `host`/`remote-node` on those ports before masquerade. The nftables rule stays as defense in depth
-  for unmasqueraded traffic. Ports 80/443 are deliberately not denied, so in-cluster calls through
-  the ingress keep working.
+- **Pod-to-host firewall:** two independent layers deny pod access to the credential-bearing host
+  ports (SSH, NFS, Postgres, restic, VNC, Immich, exporter/monitoring). The
+  `deny-pod-to-node-admin-ports` `CiliumClusterwideNetworkPolicy` in
+  [k8s-gitops#52](https://github.com/ryan4yin/k8s-gitops/pull/52) denies pod egress to
+  `host`/`remote-node` on those ports at the pod's own node; the k3s nodes' nftables rule drops the
+  same ports for pod CIDR sources (`10.0.0.0/8`, `fd00::/104`). The nftables rule only matches when
+  the pod IP survives to the destination, which requires Cilium's eBPF datapath: kube-proxy's
+  iptables masquerade rewrote pod -> node traffic to the source node IP and defeated it. That is why
+  k3s runs `--disable-kube-proxy` ([#404](https://github.com/ryan4yin/nix-config/pull/404)) and
+  Cilium runs `kubeProxyReplacement` with `bpf.masquerade`. Verified live on all nodes: pod ->
+  node:22 is dropped while kubelet, ingress (80/443 stay open), ClusterIP and DNS keep working.
 
 Only selected pod security fields, RBAC rules/binding metadata, listeners and export metadata were
 queried. Secret contents and raw kubeconfigs were not inspected. No live access policy, workload,
