@@ -422,7 +422,7 @@ groups:
       - alert: KubernetesApiServerLatency
         expr:
           'histogram_quantile(0.99,
-          sum(rate(apiserver_request_duration_seconds_bucket{subresource!="log",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"}
+          sum(rate(apiserver_request_duration_seconds_bucket{subresource!="log",subresource!~"^openapi/",verb!~"^(?:CONNECT|WATCHLIST|WATCH|PROXY)$"}
           [10m])) WITHOUT (instance, resource)) > 1'
         for: 2m
         labels:
