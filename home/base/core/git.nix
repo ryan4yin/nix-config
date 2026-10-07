@@ -23,10 +23,6 @@
     lfs.enable = true;
 
     signing.format = "openpgp";
-    # signing = {
-    #   key = "xxx";
-    #   signByDefault = true;
-    # };
 
     includes = [
       {
@@ -55,9 +51,6 @@
         "ssh://git@github.com/ryan4yin" = {
           insteadOf = "https://github.com/ryan4yin";
         };
-        # "ssh://git@bitbucket.com/ryan4yin" = {
-        #   insteadOf = "https://bitbucket.com/ryan4yin";
-        # };
       };
 
       alias = {
@@ -98,8 +91,6 @@
       diff-so-fancy = true;
       line-numbers = true;
       true-color = "always";
-      # features => named groups of settings, used to keep related settings organized
-      # features = "";
     };
   };
 

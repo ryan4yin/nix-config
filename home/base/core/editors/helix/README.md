@@ -52,7 +52,7 @@ tuios shortcuts used often (leader is `Ctrl + B`; same idea as in the Neovim not
 
 In Helix, `|` / `!` and variants pipe or insert shell output on selections (see **Changes**).
 
-This flake’s Helix Home Manager module keeps **almost all default keys** but adds several
+This flake's Helix Home Manager module keeps **almost all default keys** but adds several
 normal-mode remaps: **`Ctrl+Shift+o`** → jump backward (leaving `Ctrl+o` free for the shell),
 `Space Space` → `:reload-all`, `Space w` / `Space q` → `:w` / `:q`, `Esc` → collapse selection, and
 `$` / `0` line jumps (see `home/base/core/editors/helix/default.nix`).
@@ -206,7 +206,7 @@ Some bindings need an **LSP** or **tree-sitter** grammar; see notes on the keyma
 1. Neovim has a huge plugin ecosystem.
    1. Helix is newer; a stable plugin system is still evolving:
       <https://github.com/helix-editor/helix/pull/8675>
-1. Neovim has an integrated terminal (similar in spirit to VS Code’s).
+1. Neovim has an integrated terminal (similar in spirit to VS Code's).
    1. Helix does not ship one; use tuios / tmux / terminal features instead.
    1. <https://github.com/helix-editor/helix/issues/1976#issuecomment-1091074719>
    1. <https://github.com/helix-editor/helix/pull/4649>
@@ -215,7 +215,7 @@ Some bindings need an **LSP** or **tree-sitter** grammar; see notes on the keyma
 1. Global substitution is weaker in Helix; run replacements in another pane (tuios) or an external
    tool when needed.
    1. <https://github.com/helix-editor/helix/issues/196>
-   1. Neovim’s `:s` with preview remains strong for interactive refactors; external tools (e.g.
+   1. Neovim's `:s` with preview remains strong for interactive refactors; external tools (e.g.
       <https://github.com/ms-jpq/sad>) can fill gaps in Helix-centric flows.
 1. Complexity vs batteries-included tradeoffs:
    <https://github.com/helix-editor/helix/discussions/6356>

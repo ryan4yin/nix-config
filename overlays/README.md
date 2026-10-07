@@ -21,8 +21,7 @@ overlays/
 
 ### 1. `default.nix`
 
-The entrypoint of overlays, it execute and import all overlay files in the current directory with
-the given args.
+The entrypoint imports every overlay file in this directory and applies it to the given arguments.
 
 ### 2. Package overlays
 

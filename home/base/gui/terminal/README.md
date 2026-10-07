@@ -1,8 +1,7 @@
 # Terminal Emulators
 
-I used to spend a lot of time on terminal emulators, to make them match my taste, but now I found
-that it's not worth it, **tuios can provide a user-friendly and unified user experience for all
-terminal emulators! without any pain**!
+I used to spend a lot of time tweaking terminal emulators to match my taste. Now **tuios gives me a
+consistent experience across all of them**.
 
 Currently, I only use the most basic features of terminal emulators, such as true color, graphics
 protocol, etc. Other features such as tabs, scrollback buffer, select/search/copy, etc, are all

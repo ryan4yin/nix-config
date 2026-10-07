@@ -24,7 +24,7 @@ Contains user information, SSH keys, and password configuration:
 
 ### 2. `networking.nix`
 
-Comprehensive network configuration including:
+Defines:
 
 - **Gateway settings**: Main router and proxy gateway configurations
 - **DNS servers**: IPv4 and IPv6 name servers
@@ -40,5 +40,4 @@ Comprehensive network configuration including:
 
 ## Usage
 
-These variables are imported and used throughout the configuration to ensure consistency across all
-hosts and maintain centralized network and security settings.
+These variables are imported and used throughout the configuration.

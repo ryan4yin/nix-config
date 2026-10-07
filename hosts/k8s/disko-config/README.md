@@ -16,6 +16,7 @@ cd nix-config
 # encrypt the root partition with luks2 and argon2id, will prompt for a passphrase, which will be used to unlock the partition.
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode destroy,format,mount hosts/k8s/disko-config/host-disko-fs.nix
 ## 2. setup the automatic unlock via the tpm2 chip
+# find the LUKS partition with: lsblk -f
 systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part-path>
 
 ## 3. install nixos
@@ -31,6 +32,7 @@ nixos-enter
 # otherwise the / will be cleared and data will lost
 ## NOTE: preservation just create links from / to /persistent
 ##       We need to copy files into /persistent manually!!!
+mkdir -p /persistent/etc
 mv /etc/machine-id /persistent/etc/
 mv /etc/ssh /persistent/etc/
 mkdir -p /persistent/home/ryan

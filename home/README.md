@@ -30,7 +30,7 @@ home/
 
 2. **linux**: Linux-specific configuration
    - Desktop environments (Noctalia Shell, Niri compositor)
-   - Headless computer-use session (see `gui/i3/README.md`)
+   - Headless computer-use session (see `linux/gui/i3/README.md`)
    - Linux-specific GUI applications
    - System integration tools
 

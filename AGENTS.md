@@ -125,7 +125,7 @@ repository, and cross-link them — no need to be told.
   change.
 - `~/codes/nix-secrets` — the private agenix store behind `secrets/` and the `mysecrets` input:
   ciphertext and recipient rules for the secrets declared here.
-- `wallpapers`, `nur-packages`, `pyclipsync`, `nu_scripts` — flake inputs; bump with
+- `wallpapers`, `nur-ryan4yin`, `pyclipsync`, `nu_scripts` — flake inputs; bump with
   `just upp <input>` after their source changes, do not edit them from here.
 
 ## Further Context

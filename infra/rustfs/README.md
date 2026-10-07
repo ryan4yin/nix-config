@@ -21,6 +21,9 @@ set -a; . <(sudo cat /run/agenix/rustfs.env); set +a
 rc alias set rustfs https://s3.writefor.fun "$RUSTFS_ACCESS_KEY" "$RUSTFS_SECRET_KEY"
 ```
 
+Sourcing the file is a deliberate exception to the rule against reading decrypted secrets: `cat`
+runs inside the process substitution, so the values go into the shell and are never printed.
+
 ## Buckets
 
 ```bash

@@ -21,7 +21,6 @@
         pkgs.ghostty;
     enableBashIntegration = false;
     installBatSyntax = false;
-    # installVimSyntax = true;
     settings = {
       font-family = "Maple Mono NF CN";
       font-size = 13;

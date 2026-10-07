@@ -1,7 +1,7 @@
 # Nix Environment Setup for Host: Idols - Ai
 
 > :red_circle: **IMPORTANT**: **Do not deploy this flake directly on your machine.** Write your own
-> configuration from scratch and use this only as reference.\*\*
+> configuration from scratch and use this only as reference.
 
 This flake prepares a Nix environment for setting up the desktop host
 [hosts/idols-ai](../hosts/idols-ai/) (from the main flake) on a new machine.
@@ -52,6 +52,7 @@ nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols
 nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs-data.nix
 
 # setup the automatic unlock via the tpm2 chip
+# find the LUKS partition with: lsblk -f
 systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part-path>
 ```
 
@@ -60,8 +61,8 @@ systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/<encrypted-disk-part
 ```bash
 sudo su
 
-# add ssh key to ssh-agent, it's required to pull my asahi=firmware
-$(ssh-agent)
+# add ssh key to ssh-agent, required to pull the my-asahi-firmware input
+eval "$(ssh-agent)"
 ssh-add /path/to/ssh-key
 
 # From nix-config/nixos-installer
@@ -109,7 +110,7 @@ After the first boot:
    ```
 
 2. Rekey secrets for the new host: follow [../secrets/README.md](../secrets/README.md) so agenix can
-   decrypt using this host’s SSH key.
+   decrypt using this host's SSH key.
 
 3. Deploy the main config:
 

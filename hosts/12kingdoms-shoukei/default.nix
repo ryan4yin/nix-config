@@ -14,11 +14,13 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    # shoukei reuses ai's preservation layout; no host-specific overrides yet
     ../idols-ai/preservation.nix
   ];
 
-  # disable sunshine for securrity
+  # disable sunshine for security
   services.sunshine.enable = lib.mkForce false;
+  # battery-first: override the profile default
   services.tuned.ppdSettings.main.default = lib.mkForce "power-saver";
 
   # Laptop joins untrusted networks and is never scraped (see youko's

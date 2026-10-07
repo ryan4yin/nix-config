@@ -10,16 +10,12 @@ This directory contains all host-specific configurations for my NixOS and macOS 
 
 Named after characters from "Oshi no Ko":
 
-| Host         | Platform        | Hardware                                | Purpose               | Status      |
-| ------------ | --------------- | --------------------------------------- | --------------------- | ----------- |
-| `ai`         | NixOS           | Ultra 7 270K Plus + RTX 4090, 128G DDR5 | Gaming & Daily Use    | ✅ Active   |
-| `aquamarine` | NixOS (libvirt) | Virtual                                 | Monitoring & Services | ⚪ Not Used |
-| `kana`       | NixOS (libvirt) | Virtual                                 | Run AI Agents         | ✅ Active   |
-| `ruby`       | NixOS (libvirt) | Virtual                                 | Run AI Agents         | ✅ Active   |
-| `akane`      | NixOS (aarch64) | Virtual (UTM)                           | aarch64 test VM       | ✅ Active   |
-
-`aquamarine` is retired; its services now run directly on `youko`
-(`hosts/12kingdoms-youko/homelab-services/`).
+| Host    | Platform        | Hardware                                | Purpose            | Status    |
+| ------- | --------------- | --------------------------------------- | ------------------ | --------- |
+| `ai`    | NixOS           | Ultra 7 270K Plus + RTX 4090, 128G DDR5 | Gaming & Daily Use | ✅ Active |
+| `kana`  | NixOS (libvirt) | Virtual                                 | Run AI Agents      | ✅ Active |
+| `ruby`  | NixOS (libvirt) | Virtual                                 | Run AI Agents      | ✅ Active |
+| `akane` | NixOS (aarch64) | Virtual (UTM)                           | aarch64 test VM    | ✅ Active |
 
 On 2026-04-27 `ai` was rebuilt on a new platform. The MSI board and i5-13600KF it was added with in
 2023-05 (the host was originally named `msi-rtx4090`) gave way to the Colorful CVN Z890 ARK FROZEN +
@@ -33,6 +29,15 @@ DDR5-4800 with XMP off — the only stable setting with four DIMMs on this board
 installed first; with the 48G pair in first the board does not POST. The bring-up order, the BIOS
 settings, the stress-test recipe, and how to recover a board that will not POST are in
 [`idols-ai/MIXED-MEMORY.md`](./idols-ai/MIXED-MEMORY.md).
+
+##### Retired
+
+| Host         | Platform        | Hardware | Purpose               | Status     |
+| ------------ | --------------- | -------- | --------------------- | ---------- |
+| `aquamarine` | NixOS (libvirt) | Virtual  | Monitoring & Services | ⚪ Retired |
+
+`aquamarine` is retired; its services now run directly on `youko`
+(`hosts/12kingdoms-youko/homelab-services/`).
 
 #### `darwin` - macOS Systems
 
@@ -138,7 +143,7 @@ cool!
 
 [Oshi no Ko 【推しの子】 - Wikipedia](https://en.wikipedia.org/wiki/Oshi_no_Ko):
 
-![](../_img/idols-famaily.webp) ![](../_img/idols-ai.webp)
+![](../_img/idols-family.webp) ![](../_img/idols-ai.webp)
 
 [The Rolling Girls【ローリング☆ガールズ】 - Wikipedia](https://en.wikipedia.org/wiki/The_Rolling_Girls):
 

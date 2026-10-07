@@ -21,6 +21,7 @@
     # https://hydra.nixos.org/jobset/nixpkgs/unstable
     # update via nix flake update nixpkgs --override-input nixpkgs github:NixOS/nixpkgs/<commit-hash>
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Pinned to release tag v2.4.0 (not a branch); bump deliberately when needed.
     fcitx5-vinput = {
       url = "github:xifan2333/fcitx5-vinput/v2.4.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,7 +32,9 @@
     # input together with that consumer.
     nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
-    # nixpkgs with some custom patches, including the NPU-capable sherpa-onnx package.
+    # ryan4yin/nixpkgs fork for the `.agents/skills/nixpkgs-patched` workflow. It
+    # currently carries no patches (see WORKAROUNDS.md), but `pkgs-patched` is
+    # wired in outputs/default.nix so a temporary carry needs no flake edit.
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";

@@ -100,8 +100,7 @@ document is the agreed design and the rationale.
    tmpfiles).
 3. `../caddy.nix`: the `immich.writefor.fun` vhost.
 4. `../oci-containers/homepage/config/services.yaml`: dashboard entry.
-5. Preview and deploy: `colmena apply dry-activate --on '@youko'`, then
-   `colmena apply switch --on '@youko'`.
+5. Preview and deploy: `just youko dry-activate`, then `just youko`.
 6. Register the first user (becomes admin), disable open signup, add the external library, trigger a
    scan.
 
