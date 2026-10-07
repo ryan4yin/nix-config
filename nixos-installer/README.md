@@ -1,7 +1,7 @@
 # Nix Environment Setup for Host: Idols - Ai
 
-> **IMPORTANT**: Do not deploy this flake directly on your machine. Write your own configuration
-> from scratch and use this only as reference.
+> :red_circle: **IMPORTANT**: **Do not deploy this flake directly on your machine.** Write your own
+> configuration from scratch and use this only as reference.
 
 This flake prepares a Nix environment for setting up the desktop host
 [hosts/idols-ai](../hosts/idols-ai/) (from the main flake) on a new machine.

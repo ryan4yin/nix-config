@@ -1,7 +1,8 @@
 # Nix Environment Setup for Host: 12Kingdoms - Shoukei
 
-> **IMPORTANT**: Do not deploy this flake directly on your machine. Please write your own
-> configuration from scratch, and use my configuration and documentation for reference only.
+> :red_circle: **IMPORTANT**: **Once again, you should NOT deploy this flake directly on your
+> machine :exclamation: Please write your own configuration from scratch, and use my configuration
+> and documentation for reference only.**
 
 This flake prepares a Nix environment for setting my desktop
 [../hosts/12kingdoms-shoukei](../hosts/12kingdoms-shoukei) (in the main flake) up on a new machine.
