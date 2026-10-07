@@ -5,8 +5,11 @@
 }:
 {
   # AppArmor: activate the LSM + load policies. Roll out in complain mode first
-  # (log violations, never block) so nothing can break; promote profiles to
-  # "enforce" individually once stable.
+  # (log violations, don't block) so nothing can break; promote profiles to
+  # "enforce" individually once stable. Complain mode is not absolute: opens of
+  # disconnected paths (/proc/self/ns/*, /proc/self/root, ...) are denied even in
+  # complain mode unless the profile sets flags=(attach_disconnected); see the
+  # sudo policy below.
   services.dbus.apparmor = "enabled";
 
   security.apparmor = {
@@ -44,7 +47,25 @@
           # and AppArmor 5.0's parser rejects merged rules with conflicting exec
           # modifiers ("profile has merged rule with conflicting x modifiers") when a
           # broad rule uses Ux over those paths.
-          profile ${pkgs.sudo}/bin/sudo {
+          #
+          # NOTE: `attach_disconnected` is required. Magic links such as
+          # /proc/self/ns/mnt and /proc/self/root have no connected path, so AppArmor
+          # cannot match them against any rule and denies the open with EACCES even in
+          # complain mode. Nix 2.35 (nix-env --set as root) opens /proc/self/ns/mnt in
+          # its saveMountNamespace(), and once that fails the store is never remounted
+          # writable and nixos-rebuild dies with:
+          #   cannot remount "/nix/store" writable: not in a private mount namespace
+          # Reproduce the underlying denial with:
+          #   aa-exec -p ${pkgs.sudo}/bin/sudo -- cat /proc/self/ns/mnt
+          #
+          # Rolling this out to a machine that already has the old (non-attach)
+          # profile loaded needs one deploy where the *new* system's Nix does not
+          # run the profile switch, e.g.
+          #   nixos-rebuild boot --sudo --no-reexec --flake .#<host> --accept-flake-config
+          # (with --no-reexec the current system's Nix, 2.34, runs nix-env --set and
+          # avoids the broken profile). After that generation is active, plain
+          # `just niri` works again and the Nix version is never rolled back.
+          profile ${pkgs.sudo}/bin/sudo flags=(attach_disconnected) {
             include <abstractions/base>
             file /** rwlkix,
           }
