@@ -70,8 +70,11 @@ groups:
           description: "{{ $value }} unrecovered data-integrity errors recorded."
 
       # Drive temperature (SSD/HDD). Consumer M.2 NVMe throttles around 70-80 C.
+      # The metric carries the drive's rated `op_limit_max`/`critical_limit_max`
+      # alongside `current`; without `temperature_type="current"` the max() alerts on
+      # those constant limits (e.g. youko's 120/130 C) instead of the real reading.
       - alert: DriveTemperatureHigh
-        expr: max by (host, device) (smartctl_device_temperature) > 70
+        expr: max by (host, device) (smartctl_device_temperature{temperature_type="current"}) > 70
         for: 15m
         labels:
           severity: warning
@@ -80,7 +83,7 @@ groups:
           description: "Drive temperature above 70 C; NVMe throttles around 70-80 C."
 
       - alert: DriveTemperatureCritical
-        expr: max by (host, device) (smartctl_device_temperature) > 80
+        expr: max by (host, device) (smartctl_device_temperature{temperature_type="current"}) > 80
         for: 5m
         labels:
           severity: critical
