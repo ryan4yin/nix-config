@@ -103,22 +103,6 @@ def set-static-ip [profile: string] {
   ] | ignore
 }
 
-# NetworkManager can leave "<SSID> 1" duplicates behind (WORKAROUNDS.md
-# WA-024/025). Deleting the *active* profile wedges the supplicant, so keep it
-# and only delete the inactive duplicates.
-def drop-duplicates [profiles: list<string>, active: list<string>] {
-  if ($profiles | length) <= 1 { return }
-
-  let active_profiles = ($profiles | where { |p| $p in $active })
-  let keep = (if ($active_profiles | is-empty) { $profiles | first } else { $active_profiles | first })
-  for p in $profiles {
-    if $p != $keep {
-      print $"  delete duplicate '($p)', keeping '($keep)'"
-      nmcli ["connection" "delete" $p] | ignore
-    }
-  }
-}
-
 # Apply the new settings without dropping the link (avoids the brcmfmac
 # re-auth/password re-prompt, WA-024/025); reconnect only as a fallback.
 def apply-live [profile: string] {
@@ -156,7 +140,6 @@ def main [] {
     set-static-ip $p
   }
 
-  drop-duplicates $profiles $active
   for p in $profiles {
     if $p in $active { apply-live $p }
   }
