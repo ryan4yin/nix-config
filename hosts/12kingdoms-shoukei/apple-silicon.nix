@@ -29,6 +29,12 @@
   # configures the network interface(include wireless) via `nmcli` & `nmtui`
   networking.networkmanager.enable = true;
 
+  # BCM4378/brcmfmac: disable Wi-Fi power saving. Powersave is a common source
+  # of intermittent association failures / authentication timeouts, which NM
+  # mistakes for a bad key, re-prompts, and lets the client (Noctalia, nmtui,
+  # nmcli) save as a duplicate "<SSID> 1" profile. See WORKAROUNDS.md WA-024/025.
+  networking.networkmanager.wifi.powersave = false;
+
   # Specify path to peripheral firmware files.
   hardware.asahi = {
     enable = true;
