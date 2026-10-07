@@ -95,16 +95,20 @@ in
 
       # "local" is for Unix domain socket connections only
       local   all             all                                     peer     map=superuser_map
-      # IPv4 local connections:
+
+      # TCP loopback: application roles may still connect without a password
+      # (Immich, the exporter), but the superuser and replication may not. That
+      # is the path a compromised local service would take. No password is set
+      # for postgres, so these lines deny it over TCP.
+      host    all             postgres        127.0.0.1/32            scram-sha-256
+      host    all             postgres        ::1/128                 scram-sha-256
       host    all             all             127.0.0.1/32            trust
-      # IPv6 local connections:
       host    all             all             ::1/128                 trust
 
-      # Allow replication connections from localhost, by a user with the
-      # replication privilege.
-      local   replication     all                                     trust
-      host    replication     all             127.0.0.1/32            trust
-      host    replication     all             ::1/128                 trust
+      # Replication connections from loopback require a password too.
+      local   replication     all                                     peer     map=superuser_map
+      host    replication     all             127.0.0.1/32            scram-sha-256
+      host    replication     all             ::1/128                 scram-sha-256
 
       # Other Remote Access - allow access only the database with the same name as the user
       host    sameuser        all             ${myvars.networking.lanCidr}     scram-sha-256
