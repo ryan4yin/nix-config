@@ -52,6 +52,16 @@ in
       fontPackages = [
         pkgs.wqy_zenhei # Need by steam for Chinese
       ];
+      # DW-Proton (Dawn Winery's Proton fork) carries the anti-cheat and game
+      # patches that mainline Proton/GE-Proton lack, so it is what runs the anime
+      # gacha games (Wuthering Waves, Honkai: Star Rail, Arknights: Endfield, ...);
+      # GE-Proton is the general fallback. Both appear as compatibility tools in
+      # each game's Properties -> Compatibility.
+      # https://dawn.wine/dawn-winery/dwproton
+      extraCompatPackages = [
+        pkgs-x64.dwproton-bin
+        pkgs-x64.proton-ge-bin
+      ];
     };
 
     # see https://github.com/fufexan/nix-gaming/#pipewire-low-latency
