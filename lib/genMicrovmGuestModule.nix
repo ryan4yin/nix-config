@@ -127,6 +127,12 @@ in
 
   system.stateVersion = "26.05";
 
+  # The guest shares the host's read-only /nix/store (virtiofs) and has no store
+  # of its own, so its nix-gc.service can never succeed; it just failed on every
+  # k3s guest and tripped HostSystemdServiceCrashed. The host's own nix.gc
+  # reclaims the shared store, so disable automatic GC inside the guest.
+  nix.gc.automatic = false;
+
   # MicroVM guests share the host's store and have no physical hardware to
   # inspect, nothing to trace, no persisted /var/cache for a `locate` index,
   # and nothing to advertise over mDNS.
