@@ -157,6 +157,12 @@ niri mode="switch" verbosity="normal":
   use {{utils_nu}} *;
   nixos-switch $"(hostname)-niri" {{mode}} {{verbosity}}
 
+# Pin shoukei's home Wi-Fi to a static IPv4 (run once; the profile persists).
+[linux]
+[group('desktop')]
+shoukei-home-wifi:
+  sudo nu {{absolute_path("scripts/shoukei-home-wifi-static.nu")}}
+
 ############################################################################
 #
 #  Darwin related commands

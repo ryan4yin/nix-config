@@ -83,8 +83,8 @@ rec {
       ipv4 = "192.168.5.107";
     };
     shoukei = {
-      # Laptop: pinned on the home SSIDs only, by
-      # scripts/shoukei-home-wifi-static.nu; off the home network it uses DHCP.
+      # Laptop: pinned on the home Wi-Fi only, by `just shoukei-home-wifi`; off
+      # the home network it uses DHCP.
       iface = "wld0";
       ipv4 = "192.168.5.108";
       homeOnly = true;

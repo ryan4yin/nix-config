@@ -9,7 +9,7 @@
 # /etc/NetworkManager/system-connections (preserved by impermanence), so it
 # survives reboots and rebuilds -- no need to run it again.
 #
-#   sudo nu scripts/shoukei-home-wifi-static.nu
+#   just shoukei-home-wifi
 #
 # See hosts/12kingdoms-shoukei/README.md and WORKAROUNDS.md WA-024/025.
 
@@ -68,7 +68,7 @@ def wifi-profiles [] {
 
 def assert-root [] {
   if (^id -u | str trim | into int) != 0 {
-    error make { msg: "must run as root -- nmcli edits system connections; try: sudo nu scripts/shoukei-home-wifi-static.nu" }
+    error make { msg: "must run as root -- nmcli edits system connections; try: just shoukei-home-wifi" }
   }
 }
 
