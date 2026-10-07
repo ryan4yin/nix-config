@@ -59,9 +59,10 @@ A known limitation with no fix yet.
 
 An unfinished feature or gap.
 
-| ID     | What & where                      | Why                                                                                                                                                                               | Removal condition                                                 | Added      | Revisit   | Status |
-| ------ | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ---------- | --------- | ------ |
-| WA-013 | NixOS tests — `outputs/README.md` | full-host tests still rebuild custom packages (no private cache) and need the host ssh key to decrypt agenix; the shared-firewall security-exporters VM test now runs in CI (KVM) | Resolve when a private cache exists and tests can run per-service | 2024-03-13 | quarterly | active |
+| ID     | What & where                                                                | Why                                                                                                                                                                                                           | Removal condition                                                          | Added      | Revisit                 | Status |
+| ------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ---------- | ----------------------- | ------ |
+| WA-013 | NixOS tests — `outputs/README.md`                                           | full-host tests still rebuild custom packages (no private cache) and need the host ssh key to decrypt agenix; the shared-firewall security-exporters VM test now runs in CI (KVM)                             | Resolve when a private cache exists and tests can run per-service          | 2024-03-13 | quarterly               | active |
+| WA-020 | NFS golden store `no_root_squash` — `hosts/12kingdoms-youko/nfs-golden.nix` | the existing PVC subdirectories are root-owned, so enabling `root_squash` would break running workloads until they are migrated; the CSI node plugin is hostNetwork and sources from the allowlisted node IPs | Drop when the PVC subdirectories are migrated and `root_squash` is enabled | 2026-10-07 | next maintenance window | active |
 
 ## Related
 

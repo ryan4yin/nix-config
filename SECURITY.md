@@ -194,10 +194,14 @@ checks remain necessary after deployment.
   privileges are intentional for cluster reconciliation; Git write access and controller credentials
   therefore remain administration boundaries. This inventory is not a complete effective-access or
   privilege-escalation analysis.
-- **NFS:** the golden store is `0755 root:root`, exported read-write to the entire home LAN with
-  `sec=sys,no_root_squash`. File mode 0755 does not contain an allowed client with root privileges;
-  such a client can act as server root within this export. The network allowlist and client trust
-  are therefore material boundaries, not merely filesystem permissions.
+- **NFS:** the golden store is `0755 root:root`, exported read-write to an explicit client list (the
+  k3s nodes and the VM hosts) with `sec=sys,no_root_squash`. The client list stops other LAN devices
+  reaching the export, but a root user on an allowed client still has server-root write access.
+  `root_squash` is deferred: the existing PVC subdirectories are root-owned (observed
+  `drwxr-xr-x root root` and `drwxrwsr-x root 107`), so enabling it needs a one-time ownership
+  migration and a maintenance window. See WORKAROUNDS.md.
+- **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the shared firewall
+  drops 5900-5910 on every host. Reach a console through an SSH tunnel.
 - **Pod-to-host firewall:** pod CIDR sources (`10.0.0.0/8`, `fd00::/104`) are accepted on the k3s
   nodes, but the credential-bearing host ports are denied first (SSH, NFS, Postgres, restic, VNC,
   Immich, and the exporter/monitoring ports). The broad accept stays so Cilium and in-cluster
