@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-x64,
   nix-gaming,
   config,
   lib,
@@ -39,7 +38,7 @@ in
       #   ~/.steam/root        - A symlink to ~/.local/share/Steam
       #   ~/.steam             - Some Symlinks & user info
       enable = true;
-      package = pkgs-x64.steam;
+      package = pkgs.steam;
       # https://github.com/Winetricks/winetricks
       # Whether to enable protontricks, a simple wrapper for running Winetricks commands for Proton-enabled games.
       protontricks.enable = true;
@@ -55,8 +54,8 @@ in
       # each game's Properties -> Compatibility.
       # https://dawn.wine/dawn-winery/dwproton
       extraCompatPackages = [
-        pkgs-x64.dwproton-bin
-        pkgs-x64.proton-ge-bin
+        pkgs.dwproton-bin
+        pkgs.proton-ge-bin
       ];
     };
 

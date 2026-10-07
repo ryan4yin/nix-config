@@ -14,6 +14,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix
+    ./game
     # shoukei reuses ai's preservation layout; no host-specific overrides yet
     ../idols-ai/preservation.nix
   ];

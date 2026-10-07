@@ -23,14 +23,9 @@ in
   # depending on how you configured your disk mounts, change this to /boot or /boot/efi.
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
-  boot.binfmt.emulatedSystems = [
-    "x86_64-linux"
-    "riscv64-linux"
-  ];
-  # This enables the kernel to preload the emulator binaries when the binfmt registrations are added,
-  # obviating the need to make the emulator binaries available inside chroots and chroot-like sandboxes.
-  boot.binfmt.preferStaticEmulators = true; # required to work with podman
+  # Foreign-architecture emulation is not used on this host: x86/x86_64 programs
+  # run through `./game` (FEX inside a muvm microVM), which owns the x86_64/i686
+  # ELF handlers, and qemu-user cannot run them on 16K pages anyway.
   nixpkgs.overlays = [
     (final: previous: {
       # https://github.com/NixOS/nixpkgs/issues/392673

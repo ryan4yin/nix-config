@@ -26,10 +26,6 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    box64 # Linux Userspace x86 and x86_64 Emulator, run x86_64 apps(such as games, gui apps) on aarch64.
-  ];
-
   # configures the network interface(include wireless) via `nmcli` & `nmtui`
   networking.networkmanager.enable = true;
 

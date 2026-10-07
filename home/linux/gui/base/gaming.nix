@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-x64,
   osConfig,
   config,
   lib,
@@ -44,12 +43,12 @@ in
         # required by some games to fix problems
         bbe
       ])
-      ++ (with pkgs-x64; [
+      ++ (with pkgs; [
         # Heroic Games Launcher - primarily for Epic Games & GOG
         # https://heroicgameslauncher.com/
         (heroic.override {
           extraPkgs = _pkgs: [
-            pkgs.gamescope # aarch64
+            pkgs.gamescope
           ];
         })
       ]);
@@ -60,13 +59,13 @@ in
     # https://lutris.net/games?ordering=-popularity
     programs.lutris = {
       enable = true;
-      defaultWinePackage = pkgs-x64.proton-ge-bin;
+      defaultWinePackage = pkgs.proton-ge-bin;
       steamPackage = osConfig.programs.steam.package;
-      protonPackages = [ pkgs-x64.proton-ge-bin ];
-      winePackages = with pkgs-x64; [
+      protonPackages = [ pkgs.proton-ge-bin ];
+      winePackages = with pkgs; [
         wineWow64Packages.full
       ];
-      extraPackages = with pkgs-x64; [
+      extraPackages = with pkgs; [
         winetricks
         gamescope
         gamemode

@@ -732,6 +732,27 @@
         "type": "github"
       }
     },
+    "nix-x86-on-aarch64": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790210091,
+        "narHash": "sha256-ZM9kDVJNjFHVHR1Osx+6SdG2Lufnfx2Ek0Wcxc3KX00=",
+        "owner": "ryan4yin",
+        "repo": "nix-x86-on-aarch64",
+        "rev": "5d69793a1c8b31d724fccd9b6acaa33587c923b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "nix-x86-on-aarch64",
+        "rev": "5d69793a1c8b31d724fccd9b6acaa33587c923b3",
+        "type": "github"
+      }
+    },
     "nixos-apple-silicon": {
       "inputs": {
         "flake-compat": "flake-compat_4",
@@ -1050,6 +1071,7 @@
         "mysecrets": "mysecrets",
         "nix-darwin": "nix-darwin",
         "nix-gaming": "nix-gaming",
+        "nix-x86-on-aarch64": "nix-x86-on-aarch64",
         "nixos-apple-silicon": "nixos-apple-silicon",
         "nixpak": "nixpak",
         "nixpkgs": "nixpkgs_2",
