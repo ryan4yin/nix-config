@@ -34,6 +34,9 @@ in
   xdg.configFile."niri/niri-hardware.kdl".source =
     mkSymlink "${config.home.homeDirectory}/nix-config/hosts/idols-ai/niri-hardware.kdl";
 
+  # Keep Noctalia's network widgets on the physical uplink, not the Mihomo TUN.
+  xdg.configFile."noctalia/host-ai.toml".source = ./idols-ai/noctalia.toml;
+
   # The desktop speakers are already loud, so use the broadcast-standard -23 dB.
   services.easyeffects.extraPresets."loudness-normalization".output."autogain#0".target = -23.0;
 }
