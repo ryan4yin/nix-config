@@ -64,6 +64,17 @@ window-rule {
     open-on-workspace "4entertainment"
 }
 window-rule {
+    // Games launched through umu/Proton -- including the launchers the
+    // nix-config-umu-game skill generates -- report `steam_app_<GAMEID>`.
+    // Without a rule Niri tiles them at the default 50% column width, and a
+    // DXGI "fullscreen" window larger than the output (a 4K panel here runs at
+    // scale 1.5, so Niri's logical space is 2560x1440) cannot take over the
+    // screen by itself.
+    match app-id="^steam_app_[0-9]+$"
+    open-on-workspace "4entertainment"
+    open-fullscreen true
+}
+window-rule {
     match app-id="heroic"
     open-on-workspace "4entertainment"
 }
