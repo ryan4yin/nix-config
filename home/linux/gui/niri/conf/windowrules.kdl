@@ -11,10 +11,24 @@ window-rule {
 }
 
 // Terminal applications - open in workspace 1
+//
+// The two emulators are deliberately configured to the same font, size,
+// opacity and catppuccin-mocha theme, and a tuios pane takes its environment
+// from the daemon rather than from the emulator drawing it, so nothing inside
+// the terminal can tell you which one you are looking at. niri's focus ring is
+// the reliable place: it is 4px, always drawn, and settable per app-id.
+// ghostty keeps the global cyan (`config.kdl`), kitty is tinted catppuccin
+// pink, so the ring colour names the focused emulator.
+//
+// For an exact answer outside the ring: `niri msg --json windows` reports
+// `app_id`, and $TERM in a client shell is `xterm-ghostty` or `xterm-kitty`.
 window-rule {
     match app-id="kitty"
     open-on-workspace "1terminal"
     open-maximized true
+    focus-ring {
+        active-color "#f5c2e7" // catppuccin pink
+    }
 }
 window-rule {
     match app-id="com.mitchellh.ghostty"
