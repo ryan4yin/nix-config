@@ -70,7 +70,12 @@ window-rule {
     // DXGI "fullscreen" window larger than the output (a 4K panel here runs at
     // scale 1.5, so Niri's logical space is 2560x1440) cannot take over the
     // screen by itself.
+    //
+    // The launcher also maps a blank, empty-titled helper window as large as
+    // the screen; fullscreening that one buries the real UI behind it, so keep
+    // the rule off windows without a title.
     match app-id="^steam_app_[0-9]+$"
+    exclude title="^$"
     open-on-workspace "4entertainment"
     open-fullscreen true
 }
