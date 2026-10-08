@@ -16,11 +16,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "ghostty"; }
     Mod+Shift+Return { spawn "kitty"; }
-    // A work terminal: the nushell autostart in home/base/tui/tuios attaches a
-    // shell to the `work` tuios session when its directory is under ~/work, and
-    // to `personal` otherwise, so cd first and let ghostty inherit it. A host
-    // with no ~/work opens a plain terminal in the directory it was started in.
-    Mod+Ctrl+Return { spawn-sh "cd $HOME/work 2>/dev/null; exec ghostty"; }
+    Mod+Ctrl+Return { spawn-sh "exec ghostty --working-directory=$HOME/work"; }
 
     // Launcher
     Mod+D { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
