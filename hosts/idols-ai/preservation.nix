@@ -264,6 +264,11 @@ in
         # ======================================
 
         "Games"
+        # .desktop entries created by games/installers (including the umu
+        # launchers the nix-config-umu-game skill generates). Home Manager
+        # rewrites its mimeapps.list symlink into the bind mount at activation,
+        # so that survives too.
+        ".local/share/applications"
         ".steam"
         ".config/MangoHud"
         ".config/blender"
