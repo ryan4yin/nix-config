@@ -113,30 +113,27 @@ windows).
 ## Mojibake that is not a missing font
 
 Latin-looking garbage such as `æˆ‘å·²é˜…è¯»` where the launcher should say 我已阅读并同意, while
-other Chinese on the same screen renders fine, is UTF-8 decoded as Windows-1252. The app's string is
-intact (for this launcher it is correct UTF-16 in `KRSDKEx.dll`) and the fonts are fine; the prefix
-is simply reporting a Western locale. Confirm the pattern:
+other Chinese on the same window renders fine, is UTF-8 decoded as Windows-1252. Confirm the
+pattern:
 
 ```bash
 python3 -c "print('我已阅读并同意'.encode('utf-8').decode('cp1252','replace'))"
 ```
 
-Then look inside `~/Games/<name>/prefix`:
+If that prints exactly what the launcher shows, the bug is identified and you can stop here.
 
-- `system.reg`: `"ACP"="1252"` under `Nls\CodePage`; `user.reg`: `"LocaleName"="en-US"`.
-- WebView2 launchers: `intl.selected_languages` in
-  `.../AppData/Roaming/KRLauncher/*/KRWebViewUserData/EBWebView/Default/Preferences`.
+The string itself is fine and so are the fonts: the same launcher
+renders 请输入手机号 and 登录 correctly, and the garbled label exists as correct UTF-16 in
+`KRSDKEx.dll`. The bytes are simply decoded with a single-byte Western codepage.
 
-The prefix inherited that from the shell's `LANG=en_US.UTF-8` when it was created. Give the launcher
-a Chinese locale in `~/Games/<name>/conf` and restart it:
+**This is not the prefix locale.** Setting `LANG=zh_CN.UTF-8` in `~/Games/<name>/conf` does change
+the prefix (verified in this repo: `"ACP"` went `1252` -> `936` and `"LocaleName"` `en-US` ->
+`zh-CN`), and the garbling stayed **byte-for-byte identical**. The launcher decodes those bytes as
+Latin-1 no matter what Windows codepage it is told to use, so this is an upstream bug in its own
+text pipeline: report it, or accept it -- the launcher still works. `LANG` is nevertheless the lever
+for the prefix locale, not `LC_ALL`: Proton clears `LC_ALL` unless `HOST_LC_ALL` is set.
 
-```bash
-export LANG=zh_CN.UTF-8
-```
-
-`LANG` is the lever, not `LC_ALL`: Proton clears `LC_ALL` unless `HOST_LC_ALL` is set. Verify by
-restarting the launcher -- the label should become readable Chinese. If it does not, the app is
-producing those bytes itself and the fix belongs upstream.
+So: check the bytes first, do not install more CJK fonts, and do not promise a locale fix.
 
 ## Silent install
 
