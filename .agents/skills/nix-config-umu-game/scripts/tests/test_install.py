@@ -34,7 +34,6 @@ exit "${STUB_EXIT:-0}"
         self.env = dict(
             os.environ,
             HOME=str(home),
-            UMU_GAMES_DIR=str(home / "Games"),
             PROTONPATH=str(self.proton),
             CALL_LOG=str(self.log),
             PATH=str(bin_dir) + os.pathsep + os.environ["PATH"],
@@ -45,12 +44,12 @@ exit "${STUB_EXIT:-0}"
         self.launcher = "drive_c/Program Files/Test/launcher.exe"
         self.gameid = "umu-test"
 
-    def install(self, **extra):
-        result = subprocess.run(
+    def invoke_install(self, name, **extra):
+        return subprocess.run(
             [
                 "nu",
                 str(SCRIPTS / "umu-install.nu"),
-                "test-game",
+                name,
                 "setup.exe",
                 self.launcher,
                 self.gameid,
@@ -62,6 +61,9 @@ exit "${STUB_EXIT:-0}"
             text=True,
             check=False,
         )
+
+    def install(self, **extra):
+        result = self.invoke_install("test-game", **extra)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def call(self, name, *args, input=None):
@@ -75,6 +77,111 @@ exit "${STUB_EXIT:-0}"
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return self.log.read_text().splitlines()
+
+    def test_name_must_be_one_slug_component_before_any_install_work(self):
+        games = self.home / "Games"
+        outside = self.home / "escaped"
+        invalid_names = [str(outside), "../escaped", "nested/game", ".."]
+
+        for name in invalid_names:
+            with self.subTest(name=name):
+                result = self.invoke_install(name)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("lowercase slug", result.stderr)
+                self.assertFalse(self.log.exists())
+                self.assertFalse(games.exists())
+                self.assertFalse(outside.exists())
+
+    def test_install_rejects_symlinked_games_root(self):
+        outside = self.home / "outside-games"
+        outside.mkdir()
+        (self.home / "Games").symlink_to(outside, target_is_directory=True)
+
+        result = self.invoke_install("test-game")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("symlink", result.stderr)
+        self.assertFalse(self.log.exists())
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_uninstall_refuses_games_root_replaced_by_symlink(self):
+        self.install()
+        games = self.home / "Games"
+        relocated = self.home / "relocated-games"
+        games.rename(relocated)
+        games.symlink_to(relocated, target_is_directory=True)
+
+        result = subprocess.run(
+            [str(self.game / "uninstall")],
+            env=self.env,
+            input="y\n",
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue((relocated / "test-game/run").exists())
+
+    def test_install_rejects_symlinked_game_directory(self):
+        games = self.home / "Games"
+        games.mkdir()
+        outside = self.home / "outside"
+        outside.mkdir()
+        (games / "test-game").symlink_to(outside, target_is_directory=True)
+
+        result = self.invoke_install("test-game")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("symlink", result.stderr)
+        self.assertFalse(self.log.exists())
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_install_rejects_symlinked_prefix(self):
+        game = self.home / "Games/test-game"
+        game.mkdir(parents=True)
+        outside = self.home / "outside"
+        outside.mkdir()
+        (game / "prefix").symlink_to(outside, target_is_directory=True)
+
+        result = self.invoke_install("test-game")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("symlink", result.stderr)
+        self.assertFalse(self.log.exists())
+        self.assertEqual(list(outside.iterdir()), [])
+
+    def test_install_rejects_dangling_symlink_prefix(self):
+        game = self.home / "Games/test-game"
+        game.mkdir(parents=True)
+        outside = self.home / "missing-prefix-target"
+        (game / "prefix").symlink_to(outside, target_is_directory=True)
+
+        result = self.invoke_install("test-game")
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("symlink", result.stderr)
+        self.assertFalse(self.log.exists())
+        self.assertFalse(outside.exists())
+
+    def test_uninstall_refuses_directory_moved_outside_games(self):
+        self.install()
+        outside = self.home / "outside"
+        self.game.rename(outside)
+        self.game.symlink_to(outside, target_is_directory=True)
+
+        result = subprocess.run(
+            [str(self.game / "uninstall")],
+            env=self.env,
+            input="y\n",
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertTrue(outside.exists())
+        self.assertTrue((outside / "run").exists())
 
     def test_templates_are_separate_and_non_executable(self):
         for name in (
@@ -129,9 +236,10 @@ exit "${STUB_EXIT:-0}"
         self.assertEqual(values[3:], [str(self.game / "prefix" / self.launcher)])
 
     def test_values_containing_placeholder_text_are_not_rerendered(self):
-        games = self.home / "@GAMEID@"
-        self.env["UMU_GAMES_DIR"] = str(games)
-        self.game = games / "test-game"
+        self.home = self.home.parent / "@GAMEID@"
+        self.home.mkdir()
+        self.env["HOME"] = str(self.home)
+        self.game = self.home / "Games/test-game"
         self.launcher = "drive_c/@PROTONPATH@/launcher.exe"
         self.gameid = "$(printf injected)"
         self.install()

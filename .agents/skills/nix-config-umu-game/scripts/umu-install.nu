@@ -34,7 +34,7 @@
 # "/quiet" for a silent install.
 
 def games-dir [] {
-  $env.UMU_GAMES_DIR? | default ($nu.home-dir | path join "Games")
+  $nu.home-dir | path join "Games"
 }
 
 # Newest Nix-provided DW-Proton, if any.
@@ -65,6 +65,14 @@ def resolve-protonpath [] {
 }
 
 # "wuthering-waves" -> "Wuthering Waves"
+def reject-symlink [path: string, label: string] {
+  let kind = (try { $path | path type } catch { "missing" })
+  if $kind == "symlink" {
+    print --stderr $"error: ($label) must not be a symlink: ($path)"
+    exit 2
+  }
+}
+
 def display-name [name: string] {
   $name | split row "-" | each { |w| $w | str capitalize } | str join " "
 }
@@ -125,7 +133,11 @@ def write-integration [name: string] {
   $desktop | save --force ($dir | path join $"($name).desktop")
   $desktop | save --force $entry
   let uninstall = ($dir | path join "uninstall")
-  render-template "uninstall.sh.tpl" {DESKTOP_FILE: (shell-quote $entry)} | save --force $uninstall
+  render-template "uninstall.sh.tpl" {
+    DESKTOP_FILE: (shell-quote $entry)
+    GAMES_DIR: (shell-quote (games-dir))
+    NAME: (shell-quote $name)
+  } | save --force $uninstall
   ^chmod +x $uninstall
 }
 
@@ -135,10 +147,20 @@ def main [...args: string] {
     exit 1
   }
   let name = ($args | get 0)
+  if not ($name =~ '^[a-z0-9]+(-[a-z0-9]+)*$') {
+    print --stderr "error: name must be a lowercase slug (letters, digits, hyphens)"
+    exit 2
+  }
   let setup = ($args | get 1)
   let launcher = ($args | get 2)
   let gameid = (if ($args | length) >= 4 { $args | get 3 } else { "umu-default" })
   let setupArgs = (if ($args | length) >= 5 { $args | skip 4 } else { [] })
+  let root = (games-dir)
+  reject-symlink $root "Games directory"
+  let dir = ($root | path join $name)
+  let prefix = ($dir | path join "prefix")
+  reject-symlink $dir "game directory"
+  reject-symlink $prefix "Wine prefix"
 
   let protonpath = (resolve-protonpath)
   if $protonpath == null {
@@ -147,8 +169,7 @@ def main [...args: string] {
   }
   $env.PROTONPATH = $protonpath
 
-  let dir = ((games-dir) | path join $name)
-  $env.WINEPREFIX = ($dir | path join "prefix")
+  $env.WINEPREFIX = $prefix
   $env.GAMEID = $gameid
 
   print $"installing '($name)' into ($env.WINEPREFIX)"
