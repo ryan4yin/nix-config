@@ -70,6 +70,8 @@ rules:
   - DOMAIN-SUFFIX,steamserver.net,DIRECT
   - DOMAIN-SUFFIX,steam-chat.com,DIRECT
   - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - DOMAIN-SUFFIX,steamcommunity.com,PROXY
+  - DOMAIN-SUFFIX,steampowered.com,PROXY
   # Steam's mainland CDN partners. Not `manlaxy.com`: Valve's worldwide store/CDN
   # domain, so pinning it DIRECT would break a proxied store.
   - DOMAIN-SUFFIX,clngaa.com,DIRECT
