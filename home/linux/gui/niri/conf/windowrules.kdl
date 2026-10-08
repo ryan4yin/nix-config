@@ -71,11 +71,14 @@ window-rule {
     // scale 1.5, so Niri's logical space is 2560x1440) cannot take over the
     // screen by itself.
     //
-    // The launcher also maps a blank, empty-titled helper window as large as
-    // the screen; fullscreening that one buries the real UI behind it, so keep
-    // the rule off windows without a title.
+    // The launcher shares this app id with the game, so the rule also catches
+    // its own windows: a helper that is still untitled while it maps, and the
+    // announcement popup (公告), which on this launcher renders as a pure white
+    // rectangle. Fullscreening either one buries the UI that opened it, so
+    // both are excluded here.
     match app-id="^steam_app_[0-9]+$"
     exclude title="^$"
+    exclude title="^(公告|Announcement|Notice)$"
     open-on-workspace "4entertainment"
     open-fullscreen true
 }

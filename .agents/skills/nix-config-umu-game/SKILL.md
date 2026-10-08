@@ -104,11 +104,12 @@ Every umu/Proton game reports `steam_app_<GAMEID>`. In this repo
 live config, `Mod+Shift+F` (`fullscreen-window`) toggles an already-open window, and setting the
 in-game resolution to the compositor's logical size (2560x1440 here) avoids the mismatch too.
 
-The Kuro launcher also maps a blank, empty-titled helper window as large as the screen.
-Fullscreening it buries the real UI behind it, so the rule carries `exclude title="^$"`; a window
-rule only applies when a window opens, so an already-open offender needs a relaunch
-(`open-maximized true` is the fallback if a launcher insists on fullscreening its own helper
-windows).
+A launcher shares that app id with its game, so the rule also catches the launcher's own windows: a
+helper that is still untitled while it maps, and the announcement popup (公告 / Announcement), which
+on this launcher renders as a pure white rectangle. Fullscreening either one buries the UI that
+opened it, so both are excluded. A window rule applies when a window opens, so an already-open
+offender needs `Mod+Shift+F` on it or a relaunch; drop `open-fullscreen true` altogether if a
+launcher keeps surprising you -- the game then costs one `Mod+Shift+F` per session instead.
 
 ## Mojibake that is not a missing font
 
