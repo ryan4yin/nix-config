@@ -62,6 +62,45 @@ rules:
   - GEOSITE,private,DIRECT
   - GEOSITE,category-ads-all,REJECT
 
+  # Steam picks its download caches from the IP it sees on the login (CM) connection:
+  # a proxied login downloads from Tokyo/SG/HK/LA. `cm.steampowered.com` must precede
+  # the `steampowered.com` catch, and both the Valve IP ranges below, which also serve
+  # steamcommunity.com. Sources: README.md, "Steam download region".
+  - DOMAIN-SUFFIX,cm.steampowered.com,DIRECT
+  - DOMAIN-SUFFIX,steamserver.net,DIRECT
+  - DOMAIN-SUFFIX,steam-chat.com,DIRECT
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  # Steam's mainland CDN partners. Not `manlaxy.com`: Valve's worldwide store/CDN
+  # domain, so pinning it DIRECT would break a proxied store.
+  - DOMAIN-SUFFIX,clngaa.com,DIRECT
+  - DOMAIN-SUFFIX,eccdnx.com,DIRECT
+  - DOMAIN-SUFFIX,pphimalayanrt.com,DIRECT
+  - DOMAIN-SUFFIX,nsclouds.cn,DIRECT
+  - DOMAIN-SUFFIX,wanwang.space,DIRECT
+  - DOMAIN-SUFFIX,baishancdnx.cn,DIRECT
+  # Steam dials cached CM IPs on 27018/27020/27024 without a lookup, so domain rules
+  # leak. Regenerate: stat.ripe.net/data/announced-prefixes/data.json?resource=AS32590
+  - IP-CIDR,45.121.184.0/24,DIRECT,no-resolve
+  - IP-CIDR,103.10.124.0/23,DIRECT,no-resolve
+  - IP-CIDR,103.28.54.0/24,DIRECT,no-resolve
+  - IP-CIDR,146.66.152.0/24,DIRECT,no-resolve
+  - IP-CIDR,146.66.155.0/24,DIRECT,no-resolve
+  - IP-CIDR,155.133.224.0/21,DIRECT,no-resolve
+  - IP-CIDR,155.133.236.0/22,DIRECT,no-resolve
+  - IP-CIDR,155.133.240.0/23,DIRECT,no-resolve
+  - IP-CIDR,155.133.244.0/24,DIRECT,no-resolve
+  - IP-CIDR,155.133.246.0/24,DIRECT,no-resolve
+  - IP-CIDR,155.133.248.0/22,DIRECT,no-resolve
+  - IP-CIDR,155.133.252.0/24,DIRECT,no-resolve
+  - IP-CIDR,155.133.254.0/23,DIRECT,no-resolve
+  - IP-CIDR,162.254.192.0/21,DIRECT,no-resolve
+  - IP-CIDR,185.25.180.0/24,DIRECT,no-resolve
+  - IP-CIDR,185.25.182.0/23,DIRECT,no-resolve
+  - IP-CIDR,192.69.96.0/22,DIRECT,no-resolve
+  - IP-CIDR,205.196.6.0/24,DIRECT,no-resolve
+  - IP-CIDR,208.64.200.0/22,DIRECT,no-resolve
+  - IP-CIDR,208.78.164.0/22,DIRECT,no-resolve
+
   # CN consumer services: proxied they fail in ways that look like app bugs --
   # WeChat pictures spin, JD and Taobao product images go blank. Much of it is
   # served over bare CDN IPs and IPv6, so pin the whole category DIRECT.
