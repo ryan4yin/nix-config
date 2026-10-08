@@ -32,18 +32,22 @@ confirmation, preview, or verification.
 
 ### Secrets
 
-- Agents MUST NOT print, log, commit, or write secret values, and MUST redact any that appear in
-  output. Use environment variables, secret managers, placeholders, or restricted file paths instead
-  of literals.
-- Agents MUST NOT dump process environments (`env`, `printenv`, `/proc/<pid>/environ`); read only
-  the non-secret variables the task needs.
-- A tool MAY consume a secret only with authorization and only for that service. Keep the value
-  opaque: never inspect, copy, store, or pass it inline. Authorization to access a service includes
-  its client using existing configured credentials for that task and service; do not ask separately
-  for normal authentication.
-- When inspecting secrets, query only metadata using commands that cannot reveal values (e.g.
-  `kubectl describe secret`, not `kubectl get secret -o yaml` or `helm get values`).
-  Terraform/OpenTofu state and outputs can contain secrets.
+- Secrets include API keys, tokens, passwords, private keys, session cookies, and credentials in
+  configs or URLs. Non-secret settings MAY be read or edited within task scope.
+- Agents MUST NOT expose secret values in tool arguments/results, chat, logs, or commits, or ask
+  users to paste them into chat. Use opaque references or placeholders instead.
+- Authorized clients MAY use existing credentials for their service without asking again. Any
+  credential inspection, extraction, copying, or writing requires explicit authorization for the
+  operation and applicable source/destination; service setup alone does not grant it.
+- For inspection, use metadata-only interfaces; agents MUST NOT fetch secret-bearing payloads into
+  tool output or model context and redact afterward. Terraform/OpenTofu state and outputs may
+  contain secrets.
+- Agents MUST NOT dump process environments (`env`, `printenv`, `/proc/<pid>/environ`); query only
+  the non-secret variables needed for the task.
+- On accidental secret access or exposure, agents MUST immediately notify the user without repeating
+  the value and stop propagation. Report only evidenced exposure, distinguishing local consumption,
+  tool output/model context, and external publication. Revocation or rotation requires
+  authorization.
 
 ### Impactful changes
 

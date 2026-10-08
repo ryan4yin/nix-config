@@ -35,6 +35,22 @@ the Home Manager module [`home/base/tui/agents/`](../home/base/tui/agents/README
    session without a rebuild. Run a Home Manager switch only when the deployed target set changes.
 4. Use `install-tooling.md` as a reference when installing external agent tooling.
 
+## Maintaining global rules
+
+Before adding or expanding a rule, read the current rules and identify the decision boundary that
+needs to change. Keep reusable boundaries in `AGENTS.md`; put concrete incidents, bypass attempts,
+and counterexamples in [behavioral scenarios](evals/global-rules.md).
+
+- If an existing rule already covers the incident, add or refine a scenario instead of another rule.
+- If the boundary is missing or ambiguous, amend the relevant rule rather than append a special
+  case.
+- Keep authorization, trust, and secret-handling boundaries always loaded. Put command examples and
+  task-specific procedures in reference docs or skills.
+- Review the net growth and remove repetition. Brevity must preserve the boundary; verify both the
+  prohibited action and the authorized action still behave as intended.
+
+Run the scenarios required by the evaluation guide after rule changes, and record their results.
+
 ## Deployment
 
 [`home/base/tui/agents/rules.nix`](../home/base/tui/agents/rules.nix) links `AGENTS.md` into every
