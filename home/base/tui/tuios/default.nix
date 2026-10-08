@@ -24,7 +24,12 @@ in
   programs.nushell.extraConfig = ''
     # auto start tuios
     if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) {
-      let sessions = (^tuios ls --json | from json | get name)
+      # Exit 3 means the daemon is stopped; stdout still lists saved sessions.
+      let listing = (^tuios ls --json | complete)
+      if $listing.exit_code not-in [0 3] {
+        error make {msg: $"tuios ls failed: ($listing.stderr)"}
+      }
+      let sessions = ($listing.stdout | from json | get name)
       let work_root = ($nu.home-dir | path join "work")
       if $env.PWD == $work_root or ($env.PWD | str starts-with $"($work_root)/") {
         if "work" not-in $sessions {
