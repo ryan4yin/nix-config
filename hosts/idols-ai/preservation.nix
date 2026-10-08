@@ -278,8 +278,6 @@ in
         ".local/share/Steam"
         ".local/state/Heroic"
         ".config/heroic"
-        ".config/lutris"
-        ".local/share/lutris"
 
         ".local/share/GOG.com"
         ".local/share/StardewValley"

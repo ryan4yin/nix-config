@@ -39,11 +39,10 @@ Run, from the repo root:
 `nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> <setup.exe> <launcher> [gameid] [setup-args...]`
 
 `<launcher>` is relative to the prefix and `GAMEID` defaults to `umu-default`. At install,
-`PROTONPATH` resolves from `$PROTONPATH`, `$UMU_PROTONPATH` (the Nix-provided DW-Proton), the newest
-Nix `dwproton`, then Steam's per-user `compatibilitytools.d`. At launch, the generated `run` script
-checks the current `$PROTONPATH` and `$UMU_PROTONPATH` before its saved default. A game's `conf` is
-sourced after those defaults, so set `PROTONPATH` there to pin a particular installed version across
-launches.
+`PROTONPATH` resolves from `$PROTONPATH`, `$UMU_PROTONPATH` (the Nix-provided DW-Proton), then
+Steam's per-user `compatibilitytools.d`. At launch, the generated `run` script checks the current
+`$PROTONPATH` and `$UMU_PROTONPATH` before its saved default. A game's `conf` is sourced after those
+defaults, so set `PROTONPATH` there to pin a particular installed version across launches.
 
 ## Procedure
 
@@ -54,13 +53,13 @@ launches.
    (`protondb.com/app/<id>`), Steam Community / r/linux_gaming threads, and GitHub issues for the
    launcher and Proton. Record whether reports require a Proton family and exact release. If no
    exact release is required, use the Nix-provided DW-Proton default. If one is required, inspect
-   `$UMU_PROTONPATH`, `/nix/store/*-dwproton-bin-*-steamcompattool`, and installed Steam tools under
-   `~/.local/share/Steam/compatibilitytools.d/` or `~/.steam/root/compatibilitytools.d/`; select the
-   matching installed path with `PROTONPATH`. Prefix the installer command with
-   `PROTONPATH="<selected-tool-directory>"` and set the same value in the game's `conf` to pin it
-   across launches; otherwise the runtime Nix `UMU_PROTONPATH` may take precedence. If the required
-   release is absent from Nix and Steam, stop and ask the user before downloading it from elsewhere.
-   Do not substitute a different release or use ProtonPlus/Lutris to fetch one.
+   `$UMU_PROTONPATH` and installed Steam tools under `~/.local/share/Steam/compatibilitytools.d/` or
+   `~/.steam/root/compatibilitytools.d/`; select the matching installed path with `PROTONPATH`.
+   Prefix the installer command with `PROTONPATH="<selected-tool-directory>"` and set the same value
+   in the game's `conf` to pin it across launches; otherwise the runtime Nix `UMU_PROTONPATH` may
+   take precedence. If the required release is absent from Nix and Steam, stop and ask the user
+   before downloading it from elsewhere. Do not substitute a different release or use
+   ProtonPlus/Lutris to fetch one.
 2. **Slug.** Pick a lowercase `<name>` (e.g. `wuthering-waves`).
 3. **GAMEID.** The umu database maps a title to a `GAMEID` whose protonfixes add CJK fonts, drop the
    `SteamOS`/`SteamDeck` vars, and keep Wine's `Documents` inside the prefix. **Without it some

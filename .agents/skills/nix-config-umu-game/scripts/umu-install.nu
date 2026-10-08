@@ -22,8 +22,8 @@
 # GAMESCOPE_ARGS, ENABLE_LOG, PROTONPATH, GAMEID, LAUNCHER, ...
 #
 # PROTONPATH is resolved from $PROTONPATH, then $UMU_PROTONPATH (exported by
-# modules/nixos/desktop/gaming.nix from pkgs.dwproton-bin), then the newest
-# dwproton in /nix/store, then Steam's per-user compatibilitytools.d.
+# modules/nixos/desktop/gaming.nix from pkgs.dwproton-bin), then Steam's
+# per-user compatibilitytools.d.
 #
 #   nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu wuthering-waves \
 #     ~/Downloads/WutheringWaves_setup_3.5.0.exe \
@@ -37,12 +37,6 @@ def games-dir [] {
   $nu.home-dir | path join "Games"
 }
 
-# Newest Nix-provided DW-Proton, if any.
-def dwproton-store [] {
-  let hits = (glob "/nix/store/*-dwproton-bin-*-steamcompattool")
-  if ($hits | is-empty) { null } else { $hits | last }
-}
-
 # First candidate that actually contains a proton script.
 def resolve-protonpath [] {
   let explicit = ($env.PROTONPATH? | default "")
@@ -52,10 +46,6 @@ def resolve-protonpath [] {
   let umu = ($env.UMU_PROTONPATH? | default "")
   if (not ($umu | is-empty)) and (($umu | path join "proton") | path exists) {
     return $umu
-  }
-  let store = (dwproton-store)
-  if $store != null {
-    return $store
   }
   let steam = ($nu.home-dir | path join ".local/share/Steam/compatibilitytools.d/dwproton")
   if (($steam | path join "proton") | path exists) {
@@ -88,8 +78,8 @@ def usage [] {
   print ""
   print "Writes ~/Games/<name>/{run,exec,<name>.desktop,uninstall}. A per-game"
   print "fix goes in ~/Games/<name>/prelaunch; overrides go in ~/Games/<name>/conf"
-  print "or ~/Games/global.conf. PROTONPATH comes from $PROTONPATH,"
-  print "$UMU_PROTONPATH, or the newest dwproton in /nix/store."
+  print "or ~/Games/global.conf. PROTONPATH comes from $PROTONPATH or"
+  print "$UMU_PROTONPATH."
 }
 
 # Quote substituted shell values as data, including literal apostrophes.
