@@ -1,0 +1,6 @@
+# The default total counts packets on both Mihomo's TUN and the physical uplink.
+[widget.net_rx]
+interface = "enp130s0"
+
+[widget.net_tx]
+interface = "enp130s0"
