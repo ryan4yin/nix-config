@@ -11,10 +11,16 @@ window-rule {
 }
 
 // Terminal applications - open in workspace 1
+//
+// Both emulators are configured identically (font, size, opacity, theme), so
+// the focus ring colour is what names them: global cyan = ghostty, pink = kitty.
 window-rule {
     match app-id="kitty"
     open-on-workspace "1terminal"
     open-maximized true
+    focus-ring {
+        active-color "#f5c2e7" // catppuccin pink
+    }
 }
 window-rule {
     match app-id="com.mitchellh.ghostty"
