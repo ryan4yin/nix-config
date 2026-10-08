@@ -19,14 +19,17 @@ in
     config.lib.file.mkOutOfStoreSymlink "${configDir}/config.toml";
 
   # auto-start tuios in interactive shells, except when already inside tuios.
-  # Each terminal attaches to its own session (a bare `tuios` would attach to
-  # the most recent one). tuios starts its daemon on demand, so no systemd unit
-  # is needed.
+  # `work` for the ~/work tree, `personal` for everything else (a host with no
+  # ~/work gets `personal` everywhere).
   programs.nushell.extraConfig = ''
     # auto start tuios
     if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) {
-      let session = if ("KITTY_WINDOW_ID" in $env) { "kitty" } else { "main" }
-      ^tuios attach $session -c
+      let work_root = ($nu.home-dir | path join "work")
+      if $env.PWD == $work_root or ($env.PWD | str starts-with $"($work_root)/") {
+        ^tuios attach work -c --cwd $work_root
+      } else {
+        ^tuios attach personal -c --cwd $nu.home-dir
+      }
     }
   '';
 }

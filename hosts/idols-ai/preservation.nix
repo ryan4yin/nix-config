@@ -188,6 +188,25 @@ in
         ".local/share/nvim"
         ".local/state/nvim"
 
+        # ======================================
+        # TUIOS (terminal window manager)
+        # ======================================
+        # Without .local/state/tuios the daemon has no saved session state to
+        # restore after a reboot, and every session is lost.
+
+        # session structure (resurrection), plus each pane's saved history
+        {
+          directory = ".local/state/tuios";
+          mode = "0700";
+        }
+        # project-tape trust store and tape recordings
+        {
+          directory = ".local/share/tuios";
+          mode = "0700";
+        }
+        # layout templates (config.toml is a Home Manager symlink into the repo)
+        ".config/tuios"
+
         # Joplin
         ".config/joplin" # tui client
         ".config/Joplin" # joplin-desktop
