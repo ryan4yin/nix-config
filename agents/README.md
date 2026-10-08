@@ -23,8 +23,6 @@ Keep one canonical home for each fact; link between layers instead of copying pa
 - `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
 - `install-tooling.md`: curated install snippets for external agent tooling (`npx skills`,
   `npx ctx7`, tuios integration).
-- `dsh.md`: how DeepSeek Harness composes a profile from patch layers, and which layer owns which
-  setting.
 
 The Nix side of the agents — deploying these rules, the agent CLIs, and their environment — lives in
 the Home Manager module [`home/base/tui/agents/`](../home/base/tui/agents/README.md).

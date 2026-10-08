@@ -15,8 +15,8 @@ Nix dependency; this module only wires it into place.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
 
 dsh is installed by this module but configured at runtime, not by Nix: profile patches live in
-`~/.dsh/profiles/<name>/cordis.patch.yml`. See [agents/dsh.md](../../../../agents/dsh.md) for the
-layer order and which layer owns which setting.
+`~/.dsh/profiles/<name>/cordis.patch.yml`. See [dsh.md](./dsh.md) for the layer order and the
+settings that bite.
 
 ## Deployed rule targets
 
