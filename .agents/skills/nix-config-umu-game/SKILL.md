@@ -164,7 +164,9 @@ goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
 
 - `~/Games/<name>/exec <exe-or-tool> [args...]` runs anything in the prefix with the right env: an
   absolute path to a game exe or repair tool, or a bare Wine tool (`winecfg`, `explorer`, `regedit`,
-  `uninstaller`), which it routes through Proton wine.
+  `uninstaller`), which it runs as `umu-run <Proton's wine> <tool>`. Both forms are handed to
+  `umu-run`, so they execute inside umu's Steam runtime container -- that is what makes them work on
+  a non-FHS distro like NixOS, where Proton's wine cannot start on its own.
 - `~/Games/<name>/run <game args>` passes extra args to the launcher.
 - Kill a stuck prefix with `pkill -f '/Games/<name>/prefix'`, or
   `rm -f ~/Games/<name>/prefix/pfx.lock`.
@@ -177,8 +179,10 @@ goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
 - Installing more CJK fonts when the text is mojibake -- decode the bytes first (see above).
 - Expecting umu to fetch DW-Proton: it only auto-manages GE-Proton / UMU-Proton; DW-Proton is
   `pkgs.dwproton-bin` and goes into `PROTONPATH` by path.
-- `umu-run winecfg` directly does not work (umu only special-cases `winetricks`); use
-  `~/Games/<name>/exec winecfg` or pass `$PROTONPATH/files/bin/wine winecfg`.
+- Running a Wine tool without umu. `umu-run winecfg` does not work -- umu only special-cases
+  `winetricks` -- and `$PROTONPATH/files/bin/wine winecfg` fails on any non-FHS distro (on NixOS the
+  32-bit loader it needs lives only inside the Steam runtime container). Use
+  `~/Games/<name>/exec winecfg`; `exec` goes through `umu-run`, which provides that container.
 - Waiting for the game download before calling the install done: the launcher's own download is out
   of scope here.
 - On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, and Steam is a
