@@ -163,6 +163,12 @@ niri mode="switch" verbosity="normal":
 shoukei-home-wifi:
   sudo nu {{absolute_path("scripts/shoukei-home-wifi-static.nu")}}
 
+# Install a Windows game launcher into ~/Games via umu, and generate its launch script.
+[linux]
+[group('desktop')]
+umu-install *args:
+  nu {{absolute_path("scripts/umu-install.nu")}} {{args}}
+
 ############################################################################
 #
 #  Darwin related commands
