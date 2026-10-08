@@ -61,8 +61,8 @@ in
 
     # Expose DW-Proton to umu-run: umu ignores Steam's
     # STEAM_EXTRA_COMPAT_TOOLS_PATHS, and a store path baked into a generated
-    # launcher goes stale on every dwproton-bin update. scripts/umu-install.nu
-    # and the generated run/exec scripts read this first.
+    # launcher goes stale on every dwproton-bin update. The nix-config-umu-game
+    # skill and the run/exec scripts it generates read this first.
     environment.variables.UMU_PROTONPATH = "${pkgs.dwproton-bin.steamcompattool}";
 
     # GameScope: run a game in its own nested compositor and let it renice

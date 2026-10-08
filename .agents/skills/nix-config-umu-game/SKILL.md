@@ -8,9 +8,15 @@ description:
 
 # Installing a Windows game launcher with umu
 
-`just umu-install` is the only code this repo owns. It is generic: it creates a prefix, runs the
-installer, and writes launchers. **Every per-game detail lives under `~/Games/`**, never in this
-repo. This skill runs the whole flow for one game and leaves a working launcher.
+The bundled `scripts/umu-install.nu` is the only code this skill owns. It is generic: it creates a
+prefix, runs the installer, and writes launchers -- run it as-is; its `PROTONPATH`/`GAMEID` handling
+is what makes this work. **Every per-game detail lives under `~/Games/`**, never in this repo.
+
+## Bundled files
+
+| Path                     | What                               |
+| ------------------------ | ---------------------------------- |
+| `scripts/umu-install.nu` | the installer; run it, do not edit |
 
 ## Layout
 
@@ -24,14 +30,13 @@ repo. This skill runs the whole flow for one game and leaves a working launcher.
 | `~/Games/<name>/exec`      | generated helper: `exec <exe-or-tool> [args...]`        |
 | `~/Games/<name>/setup.exe` | the downloaded installer                                |
 
-`just umu-install <name> <setup.exe> <launcher> [gameid]`, where `<launcher>` is relative to the
-prefix and `GAMEID` defaults to `umu-default` (no protonfixes).
-
-`PROTONPATH` is resolved from `$PROTONPATH`, then `$UMU_PROTONPATH` (exported by
+From the repo root, run
+`nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> <setup.exe> <launcher> [gameid]`,
+where `<launcher>` is relative to the prefix and `GAMEID` defaults to `umu-default` (no
+protonfixes). `PROTONPATH` is resolved from `$PROTONPATH`, then `$UMU_PROTONPATH` (exported by
 `modules/nixos/desktop/gaming.nix` from `pkgs.dwproton-bin.steamcompattool`), then the newest
 `dwproton` in `/nix/store`, then Steam's per-user `compatibilitytools.d`. The generated `run`/`exec`
-re-read `$PROTONPATH`/`$UMU_PROTONPATH` at launch, so a Nix update is picked up without
-regenerating.
+re-read it at launch, so a Nix update is picked up without regenerating.
 
 ## Procedure
 
@@ -49,11 +54,12 @@ regenerating.
    match the title; use its `umu-<id>`. If nothing matches, leave the default.
 4. **Download.** `curl -fL <url> -o ~/Games/<name>/setup.exe`. The CN store pages are JS/token
    driven, so the user normally supplies the URL or the file itself.
-5. **Install.** Run `just umu-install <name> ~/Games/<name>/setup.exe <launcher> <gameid>`. The
-   setup is usually a GUI, so the user clicks through it; everything after that is unattended. Exit
-   the installer without starting the game.
+5. **Install.** Run the bundled script:
+   `nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> ~/Games/<name>/setup.exe <launcher> <gameid>`.
+   The setup is usually a GUI, so the user clicks through it; everything after that is unattended.
+   Exit the installer without starting the game.
 6. **Find the launcher.** If `<launcher>` is only known after the install:
-   `find ~/Games/<name>/prefix/drive_c -iname '*launcher*.exe'`, then re-run `just umu-install`
+   `find ~/Games/<name>/prefix/drive_c -iname '*launcher*.exe'`, then re-run the bundled script
    (idempotent) or set `LAUNCHER` in `~/Games/<name>/conf`.
 7. **Per-game fix.** Port step 1 findings into `~/Games/<name>/prelaunch` (bash, `chmod +x`):
    `winetricks` verbs via `~/Games/<name>/exec winetricks <verbs>`, file patches or registry tweaks
