@@ -23,6 +23,9 @@ in
     #  Steam - add this as a launch option: `mangohud %command%` / `gamemoderun %command%`
     # ==========================================================================
 
+    # The nix-config-umu-game skill and the launchers it generates rely on
+    # umu-launcher, mangohud, winetricks and bbe from this list.
+
     home.packages =
       (with pkgs; [
         # https://github.com/flightlessmango/MangoHud
