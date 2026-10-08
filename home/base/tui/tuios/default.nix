@@ -24,11 +24,18 @@ in
   programs.nushell.extraConfig = ''
     # auto start tuios
     if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) {
+      let sessions = (^tuios ls --json | from json | get name)
       let work_root = ($nu.home-dir | path join "work")
       if $env.PWD == $work_root or ($env.PWD | str starts-with $"($work_root)/") {
-        ^tuios attach work -c --cwd $work_root
+        if "work" not-in $sessions {
+          ^tuios new work --detach --cwd $work_root
+        }
+        ^tuios attach work
       } else {
-        ^tuios attach personal -c --cwd $nu.home-dir
+        if "personal" not-in $sessions {
+          ^tuios new personal --detach --cwd $nu.home-dir
+        }
+        ^tuios attach personal
       }
     }
   '';
