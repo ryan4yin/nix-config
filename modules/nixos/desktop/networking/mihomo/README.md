@@ -45,6 +45,12 @@ targets instead of writing a config the core rejects.
   media still stalls: `tun_exclude_process: [wechat, WeChatAppEx, qq]` (Linux names; the fix that
   won clash-verge-rev#1762).
 - `find-process-mode: off` unless `PROCESS-*` rules or `tun_exclude_process` need it.
+- Steam's download caches follow the public IP Steam sees on the login (CM) connection, so a proxied
+  Steam downloads from Tokyo/Singapore/HK/Los Angeles. `policy.yaml` pins the CM hosts,
+  `steamcontent.com` and Valve's AS32590 ranges DIRECT and keeps `steamcommunity.com` on the proxy;
+  the IP rules are not decoration, Steam dials cached CM addresses without a lookup. Not
+  `GEOSITE,steam` -- that category includes the community. Sources and how to verify: "Steam
+  download region" below.
 - CDN selection depends on launcher probes, not the patch download route. On this host,
   `launcher-webstatic.hoyoverse.com` went through a US proxy node while `autopatchcn.bhsr.com` was
   DIRECT; the download rose from ~0.5 to 102 MB/s after the proxy group was switched to DIRECT.
@@ -59,6 +65,39 @@ targets instead of writing a config the core rejects.
   `hosts/idols-ai/default.nix`), prefixed with `+` to run outside the unit sandbox. Never set link
   DNS statically to mihomo: a dead mihomo would take DNS down with it, and resolved does not fall
   back.
+
+## Steam download region
+
+Steam hands the client a content-server list keyed by a `cell_id`, and the cell follows the public
+IP Steam sees on the login (CM) connection. A proxied login means a foreign cell, which means
+foreign download caches. Nothing in the Steam client overrides that. What the Steam rules in
+`policy.yaml` rest on, and how far to trust each source:
+
+| Source                                                                                                                                                    | Establishes                                                                                                                                                  | Trust                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| [Valve's content-server directory API](https://api.steampowered.com/IContentServerDirectoryService/GetServersForSteamPipe/v1/?cell_id=0&max_servers=2000) | the list is keyed by `cell_id`; `cell_id=0` means "use geolocation". Ask for any cell with `?cell_id=<n>&max_servers=2000`                                   | Valve, live, authoritative                                                                                            |
+| [xPaw's Web API reference](https://steamapi.xpaw.me/IContentServerDirectoryService)                                                                       | the endpoint and its parameters                                                                                                                              | community, mirrors the shipped client                                                                                 |
+| [steam-lancache-prefill: CDN Regions](https://tpill90.github.io/steam-lancache-prefill/en/steam-docs/CDN-Regions/)                                        | the `CellId` to city table, and that since 2024-10-04 the Download Region override selects no CDN at all                                                     | community; the page calls itself "non-exhaustive and likely inaccurate", so trust the API over the table              |
+| `~/.local/share/Steam/logs/content_log.txt`                                                                                                               | what this host actually got: 2024 (CellID 201) came from mainland CDN partners, 2025-2026 (CellID 171/177) from the `tyo3`/`sgp1`/`hkg1`/`lax1` Valve caches | your own client, the strongest evidence here                                                                          |
+| [羽翼城 / Dogfight360](https://www.dogfight360.com/blog/knowledge-base/fix_steamdl_region/)                                                               | the trick itself: pin `*.cm.steampowered.com`, `*.steamserver.net` and Valve's ranges direct; 2022 article, still maintained (2026-05)                       | the origin every other recipe copies; single-operator, but the mechanism checks out against the API and the local log |
+| [femoon](https://femoon.top/blog/steam-slow-download-clash-split-routing), [teapotium](https://teapotium.com/2024/12/let-steam-downloads-bypass-proxy/)   | the same rules for Clash/mihomo, and the CM-IP-cached-without-DNS detail                                                                                     | derivative reports; the IP list in both is stale, regenerate it                                                       |
+| [RIPE stat: AS32590 announced prefixes](https://stat.ripe.net/data/announced-prefixes/data.json?resource=AS32590)                                         | which ranges Valve actually owns today                                                                                                                       | registry data; regenerate the IP rules from it, never hand-copy a blog's list                                         |
+| [meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)                                                                                             | geosite category names: `steam` and `category-games` exist, `category-games@cn` (in several guides) does not                                                 | upstream data, checked against `GeoSite.dat` (2026-10)                                                                |
+| [Steam support: slow downloads and content servers](https://help.steampowered.com/en/faqs/view/5AC5-8056-E88F-F3FF)                                       | Valve's own troubleshooting page                                                                                                                             | canonical, but JS-rendered, so nothing scrapes it                                                                     |
+| [Steam forum: honour the download region setting](https://steamcommunity.com/discussions/forum/10/6741412150961222653/)                                   | users have failed to pin a region for years                                                                                                                  | Valve forum, anecdotal                                                                                                |
+| [PAM 2024 measurement of Steam's CDN (PDF)](https://www.iijlab.net/en/members/romain/pdf/chris_pam2024.pdf)                                               | how Steam picks caches, measured                                                                                                                             | peer-reviewed background; no rule here depends on it                                                                  |
+
+Two things that look like levers and are not: the Download Region dropdown, and
+`CellIDServerOverride` in `config.vdf` -- this host has it pinned to 35 (Singapore) while the log
+shows downloads arriving from Tokyo. The IP Steam sees is the only lever.
+
+Check the result with `steam://open/console` then `user_info` (`IPCountry` must read `CN`), and by
+listing the cache groups the client was actually served:
+
+```sh
+grep -oE 'cache[0-9]+-[a-z]{3}[0-9]+' ~/.local/share/Steam/logs/content_log.txt |
+  sed -E 's/^cache[0-9]+-//' | sort -u
+```
 
 ## References
 

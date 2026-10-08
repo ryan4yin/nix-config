@@ -51,4 +51,11 @@ extend-ignore-re = [
 
   # nftables keyword `iif` (input interface); the spell checker wants `if`.
   "iif",
+
+  # Steam content-server group names (tyo3 = Tokyo, sgp1 = Singapore, hkg1 = Hong
+  # Kong), not English words.
+  "tyo3",
+
+  # nixos-facter is the upstream hardware-report tool; the dictionary wants "factor".
+  "facter",
 ]

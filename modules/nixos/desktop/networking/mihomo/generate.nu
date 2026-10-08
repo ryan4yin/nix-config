@@ -115,13 +115,15 @@ def rule-target [rule: string] {
 # across two lines (`DOMAIN-SUFFIX,https://qlogo.cn` then `,DIRECT`) becomes two
 # invalid entries. Fix the scheme, drop what is still broken, and say so.
 #
-# A `MATCH` rule from a source or from `sources.yaml` is dropped: it is a
-# catch-all, so keeping one there would shadow every policy rule after it.
-# policy.yaml may keep one, but only as its last rule, which is where the
-# catch-all belongs.
+# A `MATCH` rule from a source or from `sources.yaml` is dropped: mihomo stops at
+# the first match, so a catch-all in the middle would shadow every policy rule after
+# it. policy.yaml may keep one, but only as its last rule, which is where the
+# catch-all belongs. What a source loses is its default route for leftovers, not the
+# specific rules it also brings -- those still match ahead of the policy tail.
 def sanitize-rules [rules: list<any>, who: string, keep_match: bool = false] {
   mut ok = []
   mut bad = []
+  mut catchalls = []
   let last = (($rules | length) - 1)
   for e in ($rules | enumerate) {
     let i = $e.index
@@ -136,14 +138,20 @@ def sanitize-rules [rules: list<any>, who: string, keep_match: bool = false] {
     if ($head == "MATCH") and ($keep_match and ($i == $last)) {
       $ok = ($ok ++ [$fixed])
     } else if ($head == "MATCH") {
-      $bad = ($bad ++ [$"($who): catch-all dropped, it belongs last: ($raw)"])
+      $catchalls = ($catchalls ++ [$fixed])
     } else if (($parts | length) < 3) or ($head | is-empty) or ($tail | is-empty) {
       $bad = ($bad ++ [$"($who): malformed rule dropped: ($raw)"])
     } else {
       $ok = ($ok ++ [$fixed])
     }
   }
-  { ok: $ok, bad: $bad }
+  let kept = ($ok | length)
+  let dropped = ($catchalls | each { |c|
+    let target = (rule-target $c)
+    let rest = (if $kept == 0 { "it brings no other rule" } else { $"its other ($kept) rules still match ahead of the policy tail" })
+    $"($who): catch-all dropped: ($c) -- the last rule is policy.yaml's MATCH, so leftovers no longer go to ($target); ($rest)"
+  })
+  { ok: $ok, bad: ($bad ++ $dropped) }
 }
 
 # PROCESS-* rules and tun.exclude-process both need the core to look up the
