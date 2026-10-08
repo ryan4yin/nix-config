@@ -102,6 +102,7 @@ rules:
   - IP-CIDR,205.196.6.0/24,DIRECT,no-resolve
   - IP-CIDR,208.64.200.0/22,DIRECT,no-resolve
   - IP-CIDR,208.78.164.0/22,DIRECT,no-resolve
+  - DOMAIN,launcher-webstatic.hoyoverse.com,DIRECT
 
   # CN consumer services: proxied they fail in ways that look like app bugs --
   # WeChat pictures spin, JD and Taobao product images go blank. Much of it is

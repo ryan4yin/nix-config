@@ -56,23 +56,39 @@ window-rule {
 
 // Entertainment applications - open in workspace 4
 window-rule {
-    match app-id="steam"
+    // niri matches app-id anywhere in the string, so a bare "steam" would also
+    // catch the `steam_app_<GAMEID>` game windows below and hand them
+    // `open-maximized`, which fights their fullscreen rule. Anchor it so this
+    // only affects the Steam client window itself.
+    match app-id="^steam$"
     open-on-workspace "4entertainment"
+    open-maximized true
 }
 window-rule {
     match app-id="steam_app_default"
     open-on-workspace "4entertainment"
 }
 window-rule {
+    // Games launched through umu/Proton -- including the launchers the
+    // nix-config-umu-game skill generates -- report `steam_app_<GAMEID>`.
+    // Without a rule Niri tiles them at the default 50% column width, and a
+    // DXGI "fullscreen" window larger than the output (a 4K panel here runs at
+    // scale 1.5, so Niri's logical space is 2560x1440) cannot take over the
+    // screen by itself.
+    //
+    // The launcher shares this app id with the game, so the rule also catches
+    // its own windows: a helper that is still untitled while it maps, and the
+    // announcement popup (公告), which on this launcher renders as a pure white
+    // rectangle. Fullscreening either one buries the UI that opened it, so
+    // both are excluded here.
+    match app-id="^steam_app_[0-9]+$"
+    exclude title="^$"
+    exclude title="^(公告|Announcement|Notice)$"
+    open-on-workspace "4entertainment"
+    open-fullscreen true
+}
+window-rule {
     match app-id="heroic"
-    open-on-workspace "4entertainment"
-}
-window-rule {
-    match app-id="net.lutris.Lutris"
-    open-on-workspace "4entertainment"
-}
-window-rule {
-    match app-id="com.vysp3r.ProtonPlus"
     open-on-workspace "4entertainment"
 }
 window-rule {

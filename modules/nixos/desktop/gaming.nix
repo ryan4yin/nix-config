@@ -17,7 +17,7 @@ in
 
   options.modules.desktop = {
     gaming = {
-      enable = mkEnableOption "Install Game Suite(steam, lutris, etc)";
+      enable = mkEnableOption "Enable desktop gaming support";
     };
   };
 
@@ -58,6 +58,12 @@ in
         pkgs.proton-ge-bin
       ];
     };
+
+    # Expose DW-Proton to umu-run: umu ignores Steam's
+    # STEAM_EXTRA_COMPAT_TOOLS_PATHS, and a store path baked into a generated
+    # launcher goes stale on every dwproton-bin update. The nix-config-umu-game
+    # skill and the run/exec scripts it generates read this first.
+    environment.variables.UMU_PROTONPATH = "${pkgs.dwproton-bin.steamcompattool}";
 
     # GameScope: run a game in its own nested compositor and let it renice
     # itself for steadier frame pacing. GPU-specific PRIME render offload belongs
