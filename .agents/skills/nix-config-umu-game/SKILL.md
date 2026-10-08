@@ -24,10 +24,14 @@ repo. This skill runs the whole flow for one game and leaves a working launcher.
 | `~/Games/<name>/exec`      | generated helper: `exec <exe-or-tool> [args...]`        |
 | `~/Games/<name>/setup.exe` | the downloaded installer                                |
 
-`@bash just umu-install <name> <setup.exe> <launcher> [gameid] `@
+`just umu-install <name> <setup.exe> <launcher> [gameid]`, where `<launcher>` is relative to the
+prefix and `GAMEID` defaults to `umu-default` (no protonfixes).
 
-`<launcher>` is relative to the prefix. Defaults: `PROTONPATH` is the Nix `dwproton-bin` tool at
-`~/.local/share/Steam/compatibilitytools.d/dwproton`; `GAMEID` is `umu-default` (no fixes).
+`PROTONPATH` is resolved from `$PROTONPATH`, then `$UMU_PROTONPATH` (exported by
+`modules/nixos/desktop/gaming.nix` from `pkgs.dwproton-bin.steamcompattool`), then the newest
+`dwproton` in `/nix/store`, then Steam's per-user `compatibilitytools.d`. The generated `run`/`exec`
+re-read `$PROTONPATH`/`$UMU_PROTONPATH` at launch, so a Nix update is picked up without
+regenerating.
 
 ## Procedure
 
@@ -51,7 +55,7 @@ repo. This skill runs the whole flow for one game and leaves a working launcher.
 6. **Find the launcher.** If `<launcher>` is only known after the install:
    `find ~/Games/<name>/prefix/drive_c -iname '*launcher*.exe'`, then re-run `just umu-install`
    (idempotent) or set `LAUNCHER` in `~/Games/<name>/conf`.
-7. **Per-game fix.** Port step 1's findings into `~/Games/<name>/prelaunch` (bash, `chmod +x`):
+7. **Per-game fix.** Port step 1 findings into `~/Games/<name>/prelaunch` (bash, `chmod +x`):
    `winetricks` verbs via `~/Games/<name>/exec winetricks <verbs>`, file patches or registry tweaks
    via `~/Games/<name>/exec`. Never commit the fix to this repo.
 8. **Re-run every launch, not once.** A launcher that self-updates overwrites files it patches, so
@@ -71,8 +75,9 @@ goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
 
 ## Escape hatches
 
-- `~/Games/<name>/exec <exe-or-tool> [args...]` runs anything inside the prefix with the right
-  `WINEPREFIX`/`PROTONPATH`/`GAMEID` -- installers, `winecfg`, `explorer`, repair tools.
+- `~/Games/<name>/exec <exe-or-tool> [args...]` runs anything inside the prefix with the right env:
+  an absolute path to a game exe or repair tool, or a bare Wine tool (`winecfg`, `explorer`,
+  `regedit`, `uninstaller`, which it routes through Proton wine).
 - `~/Games/<name>/run <game args>` passes extra args to the launcher.
 - Kill a stuck prefix with `pkill -f '/Games/<name>/prefix'`.
 
@@ -83,6 +88,8 @@ goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
 - Dropping the `GAMEID` -- the in-game CJK fonts and the save location go wrong.
 - Expecting umu to fetch DW-Proton: it only auto-manages GE-Proton / UMU-Proton; DW-Proton is
   `pkgs.dwproton-bin` and goes into `PROTONPATH` by path.
+- `umu-run winecfg` directly does not work (umu only special-cases `winetricks`); use
+  `~/Games/<name>/exec winecfg` or pass `$PROTONPATH/files/bin/wine winecfg`.
 - On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, and Steam is a
   module rather than a package -- see the `nix-config-desktop` skill.
 

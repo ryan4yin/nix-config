@@ -13,22 +13,50 @@
 #   prelaunch   optional executable, run before every launch
 #   conf        optional shell file overriding the generated defaults
 #   run         generated launcher
-#   exec        generated helper: run any exe/tool in the prefix
+#   exec        generated helper: run any exe/wine tool in the prefix
 #
 # ~/Games/global.conf, if present, is sourced by every run script before the
 # game's own conf; both may set ENABLE_GAMEMODE, ENABLE_GAMESCOPE,
 # GAMESCOPE_ARGS, ENABLE_LOG, PROTONPATH, GAMEID, LAUNCHER, ...
+#
+# PROTONPATH is resolved from $PROTONPATH, then $UMU_PROTONPATH (exported by
+# modules/nixos/desktop/gaming.nix from pkgs.dwproton-bin), then the newest
+# dwproton in /nix/store, then Steam's per-user compatibilitytools.d.
 #
 #   just umu-install wuthering-waves \
 #     ~/Downloads/WutheringWaves_setup_3.5.0.exe \
 #     "drive_c/Program Files/Wuthering Waves/launcher.exe" \
 #     umu-3513350
 
-# Defaults to the DW-Proton compatibility tool installed by programs.steam.
-$env.PROTONPATH = ($env.PROTONPATH? | default ($nu.home-dir | path join ".local/share/Steam/compatibilitytools.d" "dwproton"))
-
 def games-dir [] {
   $env.UMU_GAMES_DIR? | default ($nu.home-dir | path join "Games")
+}
+
+# Newest Nix-provided DW-Proton, if any.
+def dwproton-store [] {
+  let hits = (glob "/nix/store/*-dwproton-bin-*-steamcompattool")
+  if ($hits | is-empty) { null } else { $hits | last }
+}
+
+# First candidate that actually contains a proton script.
+def resolve-protonpath [] {
+  let explicit = ($env.PROTONPATH? | default "")
+  if (not ($explicit | is-empty)) and (($explicit | path join "proton") | path exists) {
+    return $explicit
+  }
+  let umu = ($env.UMU_PROTONPATH? | default "")
+  if (not ($umu | is-empty)) and (($umu | path join "proton") | path exists) {
+    return $umu
+  }
+  let store = (dwproton-store)
+  if $store != null {
+    return $store
+  }
+  let steam = ($nu.home-dir | path join ".local/share/Steam/compatibilitytools.d/dwproton")
+  if (($steam | path join "proton") | path exists) {
+    return $steam
+  }
+  null
 }
 
 def usage [] {
@@ -41,7 +69,8 @@ def usage [] {
   print ""
   print "Writes ~/Games/<name>/run and ~/Games/<name>/exec. A per-game fix"
   print "goes in ~/Games/<name>/prelaunch; overrides go in ~/Games/<name>/conf"
-  print "or ~/Games/global.conf."
+  print "or ~/Games/global.conf. PROTONPATH comes from $PROTONPATH,"
+  print "$UMU_PROTONPATH, or the newest dwproton in /nix/store."
 }
 
 def write-run [name: string, launcher: string] {
@@ -56,7 +85,7 @@ def write-run [name: string, launcher: string] {
     'HERE="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"'
     '# Defaults; ~/Games/global.conf and this game conf/ override them.'
     ('WINEPREFIX="' + $env.WINEPREFIX + '"')
-    ('PROTONPATH="' + $env.PROTONPATH + '"')
+    ('PROTONPATH="${PROTONPATH:-${UMU_PROTONPATH:-' + $env.PROTONPATH + '}}"')
     ('GAMEID="' + $env.GAMEID + '"')
     ('LAUNCHER="' + $launcher + '"')
     'ENABLE_GAMEMODE=0'
@@ -86,9 +115,15 @@ def write-run [name: string, launcher: string] {
     '#   exec <exe-or-tool> [args...]    e.g. exec winecfg / exec explorer'
     'set -euo pipefail'
     ('export WINEPREFIX="' + $env.WINEPREFIX + '"')
-    ('export PROTONPATH="' + $env.PROTONPATH + '"')
+    ('export PROTONPATH="${PROTONPATH:-${UMU_PROTONPATH:-' + $env.PROTONPATH + '}}"')
     ('export GAMEID="' + $env.GAMEID + '"')
-    'exec umu-run "$@"'
+    '# Bare wine tools are not executables on disk; run them through Proton wine.'
+    'case "${1:-}" in'
+    '  winecfg|wineboot|explorer|regedit|control|uninstaller|taskmgr)'
+    '    exec umu-run "$PROTONPATH/files/bin/wine" "$@" ;;'
+    '  *)'
+    '    exec umu-run "$@" ;;'
+    'esac'
     ''
   ] | str join (char nl))
   mkdir $dir
@@ -107,6 +142,13 @@ def main [...args: string] {
   let setup = ($args | get 1)
   let launcher = ($args | get 2)
   let gameid = (if ($args | length) >= 4 { $args | get 3 } else { "umu-default" })
+
+  let protonpath = (resolve-protonpath)
+  if $protonpath == null {
+    print --stderr "error: no Proton found. Set PROTONPATH or UMU_PROTONPATH, or rebuild NixOS so modules/nixos/desktop/gaming.nix exports UMU_PROTONPATH."
+    exit 1
+  }
+  $env.PROTONPATH = $protonpath
 
   let dir = ((games-dir) | path join $name)
   $env.WINEPREFIX = ($dir | path join "prefix")
