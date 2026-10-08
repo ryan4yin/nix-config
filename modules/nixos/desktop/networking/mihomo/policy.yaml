@@ -62,6 +62,8 @@ rules:
   - GEOSITE,private,DIRECT
   - GEOSITE,category-ads-all,REJECT
 
+  - DOMAIN,launcher-webstatic.hoyoverse.com,DIRECT
+
   # CN consumer services: proxied they fail in ways that look like app bugs --
   # WeChat pictures spin, JD and Taobao product images go blank. Much of it is
   # served over bare CDN IPs and IPv6, so pin the whole category DIRECT.
