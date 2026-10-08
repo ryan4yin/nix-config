@@ -31,11 +31,19 @@ printf "%s\n" "$WINEPREFIX" "$PROTONPATH" "$GAMEID" "$@" > "$CALL_LOG"
 exit "${STUB_EXIT:-0}"
 """)
         stub.chmod(0o755)
+        self.mangohud_log = root / "mangohud-call"
+        hud = bin_dir / "mangohud"
+        hud.write_text("""#!/usr/bin/env bash
+printf "%s\n" "${MANGOHUD_CONFIG-unset}" "$@" > "$MANGOHUD_LOG"
+exec "$@"
+""")
+        hud.chmod(0o755)
         self.env = dict(
             os.environ,
             HOME=str(home),
             PROTONPATH=str(self.proton),
             CALL_LOG=str(self.log),
+            MANGOHUD_LOG=str(self.mangohud_log),
             PATH=str(bin_dir) + os.pathsep + os.environ["PATH"],
         )
         for key in ("XDG_DATA_HOME", "BASH_ENV", "ENV"):
@@ -194,6 +202,26 @@ exit "${STUB_EXIT:-0}"
             self.assertTrue(path.is_file(), str(path))
             self.assertFalse(os.access(path, os.X_OK), str(path))
 
+    def test_run_enables_minimal_top_left_mangohud_by_default(self):
+        self.install()
+
+        self.call("run")
+
+        hud_call = self.mangohud_log.read_text().splitlines()
+        self.assertEqual(hud_call[0], "fps=1,frametime=1,position=top-left")
+        self.assertEqual(
+            hud_call[1:], ["umu-run", str(self.game / "prefix" / self.launcher)]
+        )
+
+    def test_run_can_disable_mangohud_per_game(self):
+        self.install()
+        (self.game / "conf").write_text("ENABLE_MANGOHUD=0\n")
+
+        values = self.call("run")
+
+        self.assertFalse(self.mangohud_log.exists())
+        self.assertEqual(values[3:], [str(self.game / "prefix" / self.launcher)])
+
     def test_generation_and_setup_arguments(self):
         self.install()
         self.assertEqual(self.log.read_text().splitlines()[3:], ["setup.exe", "/S"])
@@ -247,6 +275,20 @@ exit "${STUB_EXIT:-0}"
         self.assertEqual(values[0], str(self.game / "prefix"))
         self.assertEqual(values[3], str(self.game / "prefix" / self.launcher))
 
+    def test_game_conf_pins_installed_proton_over_system_default(self):
+        self.install()
+        selected = self.home / "steam-dwproton"
+        system_default = self.home / "system-dwproton"
+        (selected / "files/bin").mkdir(parents=True)
+        (selected / "proton").touch()
+        (system_default / "files/bin").mkdir(parents=True)
+        (system_default / "proton").touch()
+        (self.game / "conf").write_text(f"PROTONPATH='{selected}'\n")
+        self.env.pop("PROTONPATH")
+        self.env["UMU_PROTONPATH"] = str(system_default)
+
+        self.assertEqual(self.call("run")[1], str(selected))
+
     def test_runtime_proton_override(self):
         self.install()
         self.env["PROTONPATH"] = str(self.home / "override")
@@ -274,8 +316,8 @@ exit "${STUB_EXIT:-0}"
         self.call("run")
         self.assertEqual(gamemode_log.read_text(), "called\n")
         self.assertEqual(
-            gamescope_log.read_text().splitlines()[:5],
-            ["-f", "-w", "1920", "--", "umu-run"],
+            gamescope_log.read_text().splitlines()[:6],
+            ["-f", "-w", "1920", "--", "mangohud", "umu-run"],
         )
 
     def test_exec_routes_wine_tools(self):

@@ -12,18 +12,21 @@ ENABLE_GAMEMODE=0
 ENABLE_GAMESCOPE=0
 GAMESCOPE_ARGS="-f"
 ENABLE_LOG=0
+ENABLE_MANGOHUD=1
+MANGOHUD_CONFIG="fps=1,frametime=1,position=top-left"
 
 # shellcheck source=/dev/null
 if [ -f "$HERE/../global.conf" ]; then . "$HERE/../global.conf"; fi
 
 # shellcheck source=/dev/null
 if [ -f "$HERE/conf" ]; then . "$HERE/conf"; fi
-export WINEPREFIX PROTONPATH GAMEID
+export WINEPREFIX PROTONPATH GAMEID MANGOHUD_CONFIG
 export VKD3D_SHADER_CACHE_PATH="$HERE/shader-cache"
 mkdir -p "$VKD3D_SHADER_CACHE_PATH"
 PRE=""
 if [ "$ENABLE_GAMEMODE" = "1" ] && command -v gamemoderun >/dev/null 2>&1; then PRE="gamemoderun"; fi
 if [ "$ENABLE_GAMESCOPE" = "1" ] && command -v gamescope >/dev/null 2>&1; then PRE="$PRE gamescope $GAMESCOPE_ARGS --"; fi
+if [ "$ENABLE_MANGOHUD" = "1" ] && command -v mangohud >/dev/null 2>&1; then PRE="$PRE mangohud"; fi
 if [ -x "$HERE/prelaunch" ]; then "$HERE/prelaunch"; fi
 if [ "$ENABLE_LOG" = "1" ]; then
   set -o pipefail

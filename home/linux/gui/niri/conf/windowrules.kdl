@@ -92,14 +92,6 @@ window-rule {
     open-on-workspace "4entertainment"
 }
 window-rule {
-    match app-id="net.lutris.Lutris"
-    open-on-workspace "4entertainment"
-}
-window-rule {
-    match app-id="com.vysp3r.ProtonPlus"
-    open-on-workspace "4entertainment"
-}
-window-rule {
     // Run anime games on Linux
     match app-id="^moe.launcher"
     open-on-workspace "4entertainment"

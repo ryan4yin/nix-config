@@ -1,6 +1,5 @@
 {
   pkgs,
-  osConfig,
   config,
   lib,
   ...
@@ -12,7 +11,7 @@ in
 {
   options.modules.desktop = {
     gaming = {
-      enable = mkEnableOption "Install Game Suite(steam, lutris, etc)";
+      enable = mkEnableOption "Enable desktop gaming support";
     };
   };
 
@@ -20,8 +19,8 @@ in
     # ==========================================================================
     # Other Optimizations
     # Usage:
-    #  Lutris - enable advanced options, go to the System options -> Command prefix, add: `mangohud`
-    #  Steam  - add this as a launch option: `mangohud %command%` / `gamemoderun %command%`
+    #  UMU game launchers use MangoHud by default; set ENABLE_MANGOHUD=0 in their conf to disable.
+    #  Steam - add this as a launch option: `mangohud %command%` / `gamemoderun %command%`
     # ==========================================================================
 
     home.packages =
@@ -30,9 +29,6 @@ in
         # a simple overlay program for monitoring FPS, temperature, CPU and GPU load, and more.
         mangohud
 
-        # GUI for installing custom Proton versions like GE_Proton
-        # proton - a Wine distribution aimed at gaming
-        protonplus
         # Script to install various redistributable runtime libraries in Wine.
         winetricks
         # https://github.com/Open-Wine-Components/umu-launcher
@@ -53,25 +49,5 @@ in
         })
       ]);
 
-    # Game launchers for Epic/GOG/Ubisoft/etc. (use Steam + DWProton for common games)
-
-    # a GUI game launcher for Steam/GoG/Epic/Ubisoft
-    # https://lutris.net/games?ordering=-popularity
-    programs.lutris = {
-      enable = true;
-      defaultWinePackage = pkgs.proton-ge-bin;
-      steamPackage = osConfig.programs.steam.package;
-      protonPackages = [ pkgs.proton-ge-bin ];
-      winePackages = with pkgs; [
-        wineWow64Packages.full
-      ];
-      extraPackages = with pkgs; [
-        winetricks
-        gamescope
-        gamemode
-        mangohud
-        umu-launcher
-      ];
-    };
   };
 }

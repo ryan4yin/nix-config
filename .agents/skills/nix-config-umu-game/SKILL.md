@@ -8,10 +8,10 @@ description:
 
 # Installing a Windows game launcher with umu
 
-The bundled `scripts/umu-install.nu` renders the files in `scripts/templates/`. It is generic: it
-creates a prefix, runs the installer, and writes the launchers -- run it as-is; its
-`PROTONPATH`/`GAMEID` handling is what makes this work. **Every per-game detail lives under
-`~/Games/`**, never in this repo.
+The bundled `scripts/umu-install.nu` renders the files in `scripts/templates/`. It creates a prefix,
+runs the installer, and writes launchers. Use the Nix DW-Proton default unless research identifies a
+specific installed release; then select it with `PROTONPATH` and pin that path in the game's `conf`.
+**Every per-game detail lives under `~/Games/`**, never in this repo.
 
 ## Bundled files
 
@@ -27,7 +27,7 @@ creates a prefix, runs the installer, and writes the launchers -- run it as-is; 
 | ------------------------------- | -------------------------------------------------------- |
 | `~/Games/global.conf`           | optional, sourced by every game before its own `conf`    |
 | `~/Games/<name>/prefix`         | the Wine prefix (`WINEPREFIX`)                           |
-| `~/Games/<name>/conf`           | optional per-game overrides (`ENABLE_GAMESCOPE=1`, ...)  |
+| `~/Games/<name>/conf`           | optional per-game overrides (`ENABLE_MANGOHUD=0`, ...)   |
 | `~/Games/<name>/prelaunch`      | optional executable, run before every launch             |
 | `~/Games/<name>/run`            | generated launcher                                       |
 | `~/Games/<name>/exec`           | generated helper: `exec <exe-or-tool> [args...]`         |
@@ -38,19 +38,29 @@ Run, from the repo root:
 
 `nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> <setup.exe> <launcher> [gameid] [setup-args...]`
 
-`<launcher>` is relative to the prefix and `GAMEID` defaults to `umu-default`. `PROTONPATH` resolves
-from `$PROTONPATH`, `$UMU_PROTONPATH` (exported by `modules/nixos/desktop/gaming.nix` from
-`pkgs.dwproton-bin.steamcompattool`), the newest `dwproton` in `/nix/store`, then Steam's per-user
-`compatibilitytools.d`; the generated scripts re-read it at launch, so a Nix update is picked up
-without regenerating.
+`<launcher>` is relative to the prefix and `GAMEID` defaults to `umu-default`. At install,
+`PROTONPATH` resolves from `$PROTONPATH`, `$UMU_PROTONPATH` (the Nix-provided DW-Proton), the newest
+Nix `dwproton`, then Steam's per-user `compatibilitytools.d`. At launch, the generated `run` script
+checks the current `$PROTONPATH` and `$UMU_PROTONPATH` before its saved default. A game's `conf` is
+sourced after those defaults, so set `PROTONPATH` there to pin a particular installed version across
+launches.
 
 ## Procedure
 
 1. **Research first.** Mandatory before inventing any fix: a documented fix beats a custom patch
-   every time. Check the game's Lutris installer YAML
-   (`https://lutris.net/api/installers/<game-slug>`, which encodes `winetricks` verbs, `write_file`
-   content, and `prelaunch_command`), then ProtonDB (`protondb.com/app/<id>`), the Steam Community /
-   r/linux_gaming threads, and GitHub issues for the launcher and Proton.
+   every time. Check the game's Lutris installer YAML as data only
+   (`https://lutris.net/api/installers/<game-slug>` encodes `winetricks` verbs, `write_file`
+   content, and `prelaunch_command`; do not install or run Lutris), then ProtonDB
+   (`protondb.com/app/<id>`), Steam Community / r/linux_gaming threads, and GitHub issues for the
+   launcher and Proton. Record whether reports require a Proton family and exact release. If no
+   exact release is required, use the Nix-provided DW-Proton default. If one is required, inspect
+   `$UMU_PROTONPATH`, `/nix/store/*-dwproton-bin-*-steamcompattool`, and installed Steam tools under
+   `~/.local/share/Steam/compatibilitytools.d/` or `~/.steam/root/compatibilitytools.d/`; select the
+   matching installed path with `PROTONPATH`. Prefix the installer command with
+   `PROTONPATH="<selected-tool-directory>"` and set the same value in the game's `conf` to pin it
+   across launches; otherwise the runtime Nix `UMU_PROTONPATH` may take precedence. If the required
+   release is absent from Nix and Steam, stop and ask the user before downloading it from elsewhere.
+   Do not substitute a different release or use ProtonPlus/Lutris to fetch one.
 2. **Slug.** Pick a lowercase `<name>` (e.g. `wuthering-waves`).
 3. **GAMEID.** The umu database maps a title to a `GAMEID` whose protonfixes add CJK fonts, drop the
    `SteamOS`/`SteamDeck` vars, and keep Wine's `Documents` inside the prefix. **Without it some
@@ -65,18 +75,21 @@ without regenerating.
    `--silent`); if it ignores them, fall back to clicking. On some CN installers the last page
    auto-starts the launcher. The script writes `run`/`exec` even if the installer exits non-zero, so
    a killed installer is not fatal.
-6. **Find the launcher.** If `<launcher>` is only known after the install:
-   `find ~/Games/<name>/prefix/drive_c -iname '*launcher*.exe'`, then re-run the bundled script
-   (idempotent) or set `LAUNCHER` in `~/Games/<name>/conf`.
+6. **Find the launcher.** If `<launcher>` is only known after install, locate it under
+   `~/Games/<name>/prefix/drive_c` and set `LAUNCHER` in `~/Games/<name>/conf`. Re-running the
+   installer script invokes `setup.exe` again; only do so if that installer is known to handle
+   reruns.
 7. **Per-game fix.** Port step 1 findings into `~/Games/<name>/prelaunch` (bash, `chmod +x`):
    `winetricks` verbs via `~/Games/<name>/exec winetricks <verbs>`, file patches or registry tweaks
    via `~/Games/<name>/exec`. Never commit the fix to this repo.
 8. **Re-run every launch, not once.** A launcher that self-updates overwrites files it patches, so
    those patches belong in `prelaunch`.
-9. **Verify.** `~/Games/<name>/run` must open a visible launcher window and re-running `prelaunch`
-   must be idempotent. The launcher may then download the game body itself (tens of GB) -- that is
-   the launcher's job, not this skill's, so the install is **done** once the window is usable.
-   `ENABLE_LOG=1` captures `last-run.log` when something misbehaves.
+9. **Verify.** `~/Games/<name>/run` must open a visible launcher window. MangoHud is enabled by
+   default with FPS and frame time at the top-left; set `ENABLE_MANGOHUD=0` in `conf` to disable it,
+   or override `MANGOHUD_CONFIG`. Re-running `prelaunch` must be idempotent. The launcher may then
+   download the game body itself (tens of GB) -- that is the launcher's job, not this skill's, so
+   the install is **done** once the window is usable. `ENABLE_LOG=1` captures `last-run.log` when
+   something misbehaves.
 
 ## Invisible / transparent launcher window
 
@@ -157,12 +170,13 @@ Run `~/Games/<name>/uninstall`: it removes the desktop entry and then asks befor
 
 ## Optimize the launch
 
-`~/Games/<name>/conf` (or `~/Games/global.conf`) is a shell file the generated `run` sources, with
-defaults `ENABLE_GAMEMODE=0`, `ENABLE_GAMESCOPE=0`, `GAMESCOPE_ARGS="-f"`, and `ENABLE_LOG=0`. Set
-`ENABLE_GAMESCOPE=1` + `GAMESCOPE_ARGS="-f -w 3840 -h 2160"` for the handheld / multi-monitor case,
-`ENABLE_GAMEMODE=1` for gamemoderun, and `ENABLE_LOG=1` to capture the run. A dGPU wrapper still
-goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
-`~/Games/<name>/shader-cache`.
+`~/Games/<name>/conf` (or `~/Games/global.conf`) is a shell file the generated `run` sources.
+Defaults are `ENABLE_MANGOHUD=1`, `MANGOHUD_CONFIG="fps=1,frametime=1,position=top-left"`,
+`ENABLE_GAMEMODE=0`, `ENABLE_GAMESCOPE=0`, `GAMESCOPE_ARGS="-f"`, and `ENABLE_LOG=0`. Set
+`ENABLE_MANGOHUD=0` to hide the overlay, `ENABLE_GAMESCOPE=1` +
+`GAMESCOPE_ARGS="-f -w 3840 -h 2160"` for the handheld / multi-monitor case, `ENABLE_GAMEMODE=1` for
+GameMode, and `ENABLE_LOG=1` to capture the run. A dGPU wrapper still goes outside:
+`nvidia-offload ~/Games/<name>/run`. Shader caches are kept in `~/Games/<name>/shader-cache`.
 
 ## Escape hatches
 
@@ -181,8 +195,8 @@ goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
 - Patching once instead of in `prelaunch` -- the next launcher self-update undoes it.
 - Dropping the `GAMEID` -- the in-game CJK fonts and the save location go wrong.
 - Installing more CJK fonts when the text is mojibake -- decode the bytes first (see above).
-- Expecting umu to fetch DW-Proton: it only auto-manages GE-Proton / UMU-Proton; DW-Proton is
-  `pkgs.dwproton-bin` and goes into `PROTONPATH` by path.
+- Expecting umu to fetch DW-Proton: it only auto-manages GE-Proton / UMU-Proton; use Nix or Steam
+  installed paths. Ask the user before obtaining a required release from elsewhere.
 - Running a Wine tool without umu. `umu-run winecfg` does not work -- umu only special-cases
   `winetricks` -- and `$PROTONPATH/files/bin/wine winecfg` fails on any non-FHS distro (on NixOS the
   32-bit loader it needs lives only inside the Steam runtime container). Use
