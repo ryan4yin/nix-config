@@ -55,4 +55,7 @@ extend-ignore-re = [
   # Steam content-server group names (tyo3 = Tokyo, sgp1 = Singapore, hkg1 = Hong
   # Kong), not English words.
   "tyo3",
+
+  # nixos-facter is the upstream hardware-report tool; the dictionary wants "factor".
+  "facter",
 ]
