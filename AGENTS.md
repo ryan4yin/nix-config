@@ -109,6 +109,8 @@ is discovered by OpenCode and compatible tools.
   wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
 - [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) — mapping
   a broken eval, build, activation, unit, host, or MicroVM guest to the command that localizes it.
+- [`.agents/skills/nix-config-umu-game/SKILL.md`](./.agents/skills/nix-config-umu-game/SKILL.md) —
+  installing a Windows game launcher via umu and keeping its per-game fixes under `~/Games/`.
 - [`.agents/skills/nixpkgs-review/SKILL.md`](./.agents/skills/nixpkgs-review/SKILL.md) — reviewing
   nixpkgs PRs locally first, with GHA for cross-architecture or larger reviews.
 - [`.agents/skills/nixpkgs-patched/SKILL.md`](./.agents/skills/nixpkgs-patched/SKILL.md) — carrying
