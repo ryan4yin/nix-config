@@ -13,8 +13,10 @@ Nix dependency; this module only wires it into place.
 - `packages.nix`: agent CLIs (`codex`, `opencode2`, `pi`) from the `llm-agents` flake input, plus
   `pkgs.mcp-grafana` for the Grafana MCP server.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
-- `dsh/`: the shared dsh home-layer patch linked to `~/.dsh/cordis.patch.yml`. See
-  [dsh/README.md](./dsh/README.md) for why the shared layer is linked and the profile patch is not.
+
+dsh is installed by this module but configured at runtime, not by Nix: profile patches live in
+`~/.dsh/profiles/<name>/cordis.patch.yml`. See [dsh.md](./dsh.md) for the layer order and the
+settings that bite.
 
 ## Deployed rule targets
 
