@@ -208,7 +208,7 @@
     # terminal window manager / multiplexer; nixpkgs lags behind upstream,
     # so track the upstream flake.
     tuios = {
-      url = "github:Gaurav-Gosain/tuios";
+      url = "github:Gaurav-Gosain/tuios/v0.9.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

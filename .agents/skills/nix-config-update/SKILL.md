@@ -21,6 +21,11 @@ deploying the result to any host.
    `boot` mode, `just darwin-rollback`, or `git revert`.
 5. **Security first.** An update re-opens the supply chain. Re-audit every input whose revision
    moved before you deploy it.
+6. **Pin third-party inputs.** A third-party input — not one of the user's own `ryan4yin/*`
+   repositories — MUST name a version tag or a fixed commit, not a branch. Official channel
+   upstreams that publish no release (nixpkgs' `nixos-unstable`/`master`) are the exception. When
+   only a branch carries a needed third-party change, keep the resolved revision in the lock, record
+   why next to the declaration, and re-audit each update.
 
 ## 1. Pre-flight
 
