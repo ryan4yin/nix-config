@@ -8,16 +8,18 @@ description:
 
 # Installing a Windows game launcher with umu
 
-The bundled `scripts/umu-install.nu` is the only code this skill owns. It is generic: it creates a
-prefix, runs the installer, and writes the launchers -- run it as-is; its `PROTONPATH`/`GAMEID`
-handling is what makes this work. **Every per-game detail lives under `~/Games/`**, never in this
-repo.
+The bundled `scripts/umu-install.nu` renders the files in `scripts/templates/`. It is generic: it
+creates a prefix, runs the installer, and writes the launchers -- run it as-is; its
+`PROTONPATH`/`GAMEID` handling is what makes this work. **Every per-game detail lives under
+`~/Games/`**, never in this repo.
 
 ## Bundled files
 
-| Path                     | What                               |
-| ------------------------ | ---------------------------------- |
-| `scripts/umu-install.nu` | the installer; run it, do not edit |
+| Path                            | What                                                |
+| ------------------------------- | --------------------------------------------------- |
+| `scripts/umu-install.nu`        | installer and template renderer                     |
+| `scripts/templates/*.tpl`       | non-executable templates; placeholders use `@NAME@` |
+| `scripts/tests/test_install.py` | offline regression tests                            |
 
 ## Layout
 
@@ -144,3 +146,17 @@ goes outside: `nvidia-offload ~/Games/<name>/run`. Shader caches are kept in
 `ESKAP3/umu-skeleton` (filesystem-as-game-manager, global.conf, tools), `gizmo-ds/endfield-run`
 (`-exec` installer), `Septa-Serpenta-Seraph/Vesper` (umu + GAMEID notes), `joshsymonds/nix-config`
 (research-first debugging), `olafkfreund/nixarchy` (NixOS gaming skill).
+
+## Regression tests
+
+From the repo root:
+
+```bash
+python3 .agents/skills/nix-config-umu-game/scripts/tests/test_install.py
+```
+
+Requires `python3`, `nu`, `bash`, and `shellcheck`. Uses temporary homes and a stub `umu-run`; no
+game downloads, Wine windows, or changes to existing games. It checks template permissions, rendered
+shell syntax and lint, installer arguments and failures, configuration precedence, prelaunch,
+logging, launch wrappers, literal paths, runtime Proton overrides, tool routing, and uninstall
+confirmation.
