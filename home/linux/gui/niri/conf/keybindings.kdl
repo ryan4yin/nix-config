@@ -16,7 +16,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return { spawn "ghostty"; }
     Mod+Shift+Return { spawn "kitty"; }
-    Mod+Ctrl+Return { spawn-sh "exec ghostty --working-directory=$HOME/work"; }
+    Mod+Ctrl+Return { spawn "ghostty" "--working-directory=~/work"; }
 
     // Launcher
     Mod+D { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
