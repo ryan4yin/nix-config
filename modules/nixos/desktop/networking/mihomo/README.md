@@ -93,6 +93,9 @@ grep -oE 'cache[0-9]+-[a-z]{3}[0-9]+' ~/.local/share/Steam/logs/content_log.txt 
   sed -E 's/^cache[0-9]+-//' | sort -u
 ```
 
+Imported rules outrank `policy.yaml`, so what actually matched is `GET /connections` and its `rule`
+field, not the file. `GEOSITE,cn` carries a bare `+.cn`: every `.cn` domain is DIRECT.
+
 ## References
 
 - [clash-verge-rev#1762](https://github.com/clash-verge-rev/clash-verge-rev/issues/1762) — WeChat

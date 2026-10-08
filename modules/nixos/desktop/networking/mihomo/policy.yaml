@@ -72,14 +72,8 @@ rules:
   - DOMAIN-SUFFIX,steamcontent.com,DIRECT
   - DOMAIN-SUFFIX,steamcommunity.com,PROXY
   - DOMAIN-SUFFIX,steampowered.com,PROXY
-  # Steam's mainland CDN partners. Not `manlaxy.com`: Valve's worldwide store/CDN
-  # domain, so pinning it DIRECT would break a proxied store.
-  - DOMAIN-SUFFIX,clngaa.com,DIRECT
-  - DOMAIN-SUFFIX,eccdnx.com,DIRECT
-  - DOMAIN-SUFFIX,pphimalayanrt.com,DIRECT
-  - DOMAIN-SUFFIX,nsclouds.cn,DIRECT
-  - DOMAIN-SUFFIX,wanwang.space,DIRECT
-  - DOMAIN-SUFFIX,baishancdnx.cn,DIRECT
+  # Mainland CDN partners (clngaa, eccdnx, pphimalayanrt, nsclouds, wanwang, baishan)
+  # are already DIRECT through `GEOSITE,cn` and its bare `+.cn`.
   # Steam dials cached CM IPs on 27018/27020/27024 without a lookup, so domain rules
   # leak. Regenerate: stat.ripe.net/data/announced-prefixes/data.json?resource=AS32590
   - IP-CIDR,45.121.184.0/24,DIRECT,no-resolve
