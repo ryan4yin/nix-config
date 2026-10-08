@@ -56,8 +56,13 @@ window-rule {
 
 // Entertainment applications - open in workspace 4
 window-rule {
-    match app-id="steam"
+    // niri matches app-id anywhere in the string, so a bare "steam" would also
+    // catch the `steam_app_<GAMEID>` game windows below and hand them
+    // `open-maximized`, which fights their fullscreen rule. Anchor it so this
+    // only affects the Steam client window itself.
+    match app-id="^steam$"
     open-on-workspace "4entertainment"
+    open-maximized true
 }
 window-rule {
     match app-id="steam_app_default"
