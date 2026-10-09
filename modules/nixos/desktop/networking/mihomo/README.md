@@ -8,10 +8,13 @@ Native mihomo core + metacubexd dashboard, replacing the Clash Verge GUI. Enable
 ```sh
 cp sources.example.yaml ~/.config/mihomo/sources.yaml && chmod 600 ~/.config/mihomo/sources.yaml
 $EDITOR ~/.config/mihomo/sources.yaml           # fill in: secret, private_domains, providers
-nu generate.nu                                  # -> ~/.config/mihomo/config.yaml, mode 0600
-mihomo -t -f ~/.config/mihomo/config.yaml       # validate before restarting
+just mihomo-gen                                 # -> ~/.config/mihomo/config.yaml, mode 0600
 sudo systemctl restart mihomo.service           # dashboard: http://127.0.0.1:9090/ui
 ```
+
+`~/.config/mihomo` holds only `sources.yaml` and the generated `config.yaml` (plus geodata and the
+cache); the generator, `policy.yaml` and `gateway-config.nu` are run from here and never copied
+over. `just mihomo-gen` renders the config and validates it with the core the service runs.
 
 `sources.yaml` holds everything private (subscription URLs, secret, private domains) and stays out
 of the repo and the Nix store; the module loads `config.yaml` via `LoadCredential`. Generate the

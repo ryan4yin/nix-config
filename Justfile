@@ -290,6 +290,25 @@ dsh-web:
     NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
   } { ^dsh web --no-open }
 
+# Render the mihomo config from this repo and validate it with the live core.
+[linux]
+[group('services')]
+mihomo-gen:
+  #!/usr/bin/env nu
+  # ~/.config/mihomo holds only the private sources.yaml and the generated
+  # config.yaml. The generator and policy.yaml stay in the repository, so the
+  # live directory can never keep a stale copy of them.
+  let mod = ("{{ justfile() }}" | path dirname | path join modules nixos desktop networking mihomo)
+  nu ($mod | path join generate.nu)
+  # Validate with the core the service actually runs; a nixpkgs one may differ.
+  let core = (systemctl show mihomo.service -p ExecStart | str trim | split row "path=" | get 1 | split row " " | get 0)
+  let check = (^$core -t -f ($env.HOME | path join .config mihomo config.yaml) | complete)
+  if $check.exit_code != 0 {
+    print --stderr ($check.stderr | str trim)
+    exit $check.exit_code
+  }
+  print "validated -- restart: sudo systemctl restart mihomo.service"
+
 # Seed mihomo's geodata into the service's state dir, so a cold start needs no DNS.
 [linux]
 [group('services')]

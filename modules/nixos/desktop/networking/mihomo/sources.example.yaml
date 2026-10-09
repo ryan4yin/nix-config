@@ -1,4 +1,4 @@
-# Copy to ~/.config/mihomo/sources.yaml, fill it in, then run `nu generate.nu`.
+# Copy to ~/.config/mihomo/sources.yaml, fill it in, then run `just mihomo-gen`.
 # Keep it mode 0600 and never commit it: subscription URLs, the dashboard
 # password and private domain names all live here.
 #
