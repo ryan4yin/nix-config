@@ -71,10 +71,11 @@ one program does not merge them into a single action.
 
 For an impactful change, follow these steps in order, scaled to its risk:
 
-1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers only that
-   target, including follow-up actions of the same kind in the task (e.g. more pushes to the PR
-   branch the user asked for): "deploy to staging" does not cover production or shared resources
-   like IAM and DNS. If the target is unclear, ask.
+1. **Authorize.** Agents MUST get authorization for the exact target and action. It covers repeating
+   that action on that target for the requested changes only (e.g. more pushes to the PR branch the
+   user asked for); never for default branches: confirm with the user before every push to
+   main/master. "Deploy to staging" does not cover production or shared resources like IAM and DNS.
+   If the target is unclear, ask.
 2. **Confirm the target** with read-only commands (e.g. current cloud account, kube context,
    Terraform workspace, git remote and branch). Specify the destination and applicable context,
    region, and namespace explicitly. Defaults and directory names are not evidence. Reuse earlier
