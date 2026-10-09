@@ -31,18 +31,23 @@ def main [
 
   let gw = (open --raw $tmp
     | from yaml
-    | update ipv6 true
     | update allow-lan true
     | update external-controller $"($address):9090"
     | insert tproxy-port 7893
     | insert external-ui "ui"
     | insert external-ui-url $UI_URL
     | update secret "GATEWAY-SECRET-PLACEHOLDER"
-    | update tun.stack "mixed"
+    # the base leaves the stack at upstream's default; this box has run the kernel stack for months
+    | upsert tun.stack "mixed"
     | update tun.strict-route false
-    | insert tun.route-address ["0.0.0.0/1", "128.0.0.0/1", "::/1", "8000::/1"]
+    # the desktop's resolver is loopback; a gateway serves the LAN instead
     | update dns.listen ":1053"
-    | update dns.ipv6 true)
+    # LAN clients that use DoH dial the IPs they resolved; sniff so the node dials a name
+    | insert sniffer {
+        enable: true,
+        "parse-pure-ip": true,
+        sniff: { TLS: { ports: [443] }, HTTP: { ports: [80] }, QUIC: { ports: [443] } }
+      })
 
   let gw = (if $redact {
     # a file-backed provider (localyaml) has no url to hide

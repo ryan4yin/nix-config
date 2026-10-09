@@ -8,10 +8,13 @@ Native mihomo core + metacubexd dashboard, replacing the Clash Verge GUI. Enable
 ```sh
 cp sources.example.yaml ~/.config/mihomo/sources.yaml && chmod 600 ~/.config/mihomo/sources.yaml
 $EDITOR ~/.config/mihomo/sources.yaml           # fill in: secret, private_domains, providers
-nu generate.nu                                  # -> ~/.config/mihomo/config.yaml, mode 0600
-mihomo -t -f ~/.config/mihomo/config.yaml       # validate before restarting
+just mihomo-gen                                 # -> ~/.config/mihomo/config.yaml, mode 0600
 sudo systemctl restart mihomo.service           # dashboard: http://127.0.0.1:9090/ui
 ```
+
+`~/.config/mihomo` holds only `sources.yaml` and the generated `config.yaml` (plus geodata and the
+cache); the generator, `policy.yaml` and `gateway-config.nu` are run from here and never copied
+over. `just mihomo-gen` renders the config and validates it with the core the service runs.
 
 `sources.yaml` holds everything private (subscription URLs, secret, private domains) and stays out
 of the repo and the Nix store; the module loads `config.yaml` via `LoadCredential`. Generate the
@@ -31,7 +34,10 @@ Rule order: `private_domains`, your `rules`, imported rules, then `policy.yaml`,
 
 The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
 `gateway-config.nu` renders it, `--redact` for a shareable template. Its output carries the
-subscriptions, so never commit it; the secret is filled in on the box, not here.
+subscriptions, so never commit it; the secret is filled in on the box, not here. Its binary is a
+static release build under `/usr/local/bin`, not a package: update it by hand, validate the live
+config with the new core (`mihomo -t -d /etc/mihomo -f <candidate>`) before swapping, and keep the
+previous binary. The release ships no checksums, so TLS plus `-v` is the whole verification.
 
 ## Why generate
 
@@ -43,17 +49,39 @@ targets instead of writing a config the core rejects.
 
 ## Gotchas
 
-- `ipv6: false`: nodes without IPv6 egress + AAAA = routing black hole (WeChat/JD/Taobao images);
-  mihomo's IPv6 fake-ip also hung ssh/git locally for ~2 minutes, so it stays off.
+- `ipv6`, `dns.ipv6`, `fake-ip-range6`: the fake v6 pool is a lookup key, so the family the client
+  picks never picks the egress family -- a fake-IPv6 client dials an IPv4 proxy target, and CN
+  services answer identically over `-6` and `-4`. What does break is a fake v6 pool on a line whose
+  IPv6 is dead: apps that resolve for themselves (WeChat) dial a real AAAA, stall, and do not fall
+  back. mihomo has no IPv6 reachability probe (mihomo#2233), so the config has to match the line.
+  SSH over a fake AAAA is the local exception: it connects, authenticates, then never closes --
+  WA-028's IPv4 pin covers it. The pool is `2001:2::/64`, not the shipped `fdfe:dcba:9876::/64`:
+  that is ULA (`fc00::/7`), which Local Network Access calls **local**, so a public page pulling a
+  dual-stack subresource prompts. `2001:2::/48` is RFC 5180 benchmarking, the v6 twin of the
+  `198.18.0.0/15` v4 default. Never grant that prompt broadly -- it also covers `192.168.5.0/24`,
+  `fd05:5::/64` and Tailscale. Moving the pool leaves mihomo's own TUN addresses (`198.18.0.1`,
+  `fdfe:dcba:9876::1`) alone; no client is ever handed those as an answer.
+- `tun.stack` stays at upstream's default `mips`; nftables rules out `system` and `mixed`. The
+  gateway runs `mixed`.
+- The gateway sniffs, the desktop does not. LAN clients that use DoH dial the IP they resolved
+  themselves, and a node may not reach an IP a foreign resolver handed out, so the gateway sniffs
+  the name out of the handshake (`sniffer`, TLS and QUIC on 443, HTTP on 80) and dials that. The
+  cost: a bare-IP connection is judged by its SNI, so `IP-CIDR`/`IP-ASN` rules stop applying to it.
+  On the desktop the fake-ip table already names every flow.
 - `private_domains`: each entry becomes a DIRECT rule + a `fake-ip-filter` entry.
-- WeChat/QQ media go over bare CDN IPs, hence `multimedia.nt.qq.com.cn` in `fake-ip-filter`. If
-  media still stalls: `tun_exclude_process: [wechat, WeChatAppEx, qq]` (Linux names; the fix that
-  won clash-verge-rev#1762).
+- WeChat resolves for itself, but its queries still cross the TUN, so `dns-hijack: any:53` catches
+  them and the fake-ip table hands the name back to the rules: `mmbiz.qpic.cn` measured DIRECT.
+  `multimedia.nt.qq.com.cn` stays in `fake-ip-filter` for the same reason. The exclude-process fix
+  that won clash-verge-rev#1762 is not available here: `hardening/bwraps/wechat.nix` sets
+  `unsharePid = true` and the sandbox reports uid 0, so no process name resolves.
 - `find-process-mode: off` unless `PROCESS-*` rules or `tun_exclude_process` need it.
 - `tun_exclude_address`: a destination that can never be a proxy target should not pay a fake-ip
   round trip -- RFC1918, RFC 6598's `100.64.0.0/10` (where Tailscale addresses come from),
-  link-local, multicast, reserved and documentation prefixes, `fc00::/7`, `fe80::/10`. Never exclude
-  `198.18.0.0/15`, the fake-ip range itself; `tun_exclude_address: []` puts everything back in TUN.
+  link-local, multicast, reserved and documentation prefixes, the cluster ULA `fd05:5::/64` and
+  Tailscale's `fd7a:115c:a1e0::/48`. Never exclude a range that holds a fake-ip pool: that is
+  `198.18.0.0/16` and `2001:2::/64`. The two ULAs are spelled out instead of taking all of
+  `fc00::/7`, which would also exempt any other ULA a client dials; `tun_exclude_address: []` puts
+  everything back in TUN.
 - Steam's download caches follow the public IP Steam sees on the login (CM) connection, so a proxied
   Steam downloads from Tokyo/Singapore/HK/Los Angeles. `policy.yaml` pins the CM hosts,
   `steamcontent.com` and `IP-ASN,32590` DIRECT and keeps `steamcommunity.com` on the proxy -- Steam
@@ -106,9 +134,12 @@ grep -oE 'cache[0-9]+-[a-z]{3}[0-9]+' ~/.local/share/Steam/logs/content_log.txt 
 ## References
 
 - [clash-verge-rev#1762](https://github.com/clash-verge-rev/clash-verge-rev/issues/1762) — WeChat
-  media under TUN: fake-ip-filter, qlogo/qpic, the exclude-process fix.
-- [WeChat-under-TUN retrospective](https://x.com/realchendahuang/status/2104381806862795161) — the
-  IPv6 black hole logic; JD and Taobao break the same way.
+  media under TUN: fake-ip-filter, qlogo/qpic, the exclude-process fix. Its closing comment is the
+  one that matters: a fake v6 pool works on a line with working IPv6 and hangs on a line without.
+- [mihomo#2233](https://github.com/MetaCubeX/mihomo/issues/2233) — open: the core has no IPv6
+  reachability probe, so `ipv6` cannot stay on for a line that lost IPv6.
+- [WeChat-under-TUN retrospective](https://x.com/realchendahuang/status/2104381806862795161) — five
+  community fixes; "turn IPv6 off" only ever worked where the line's IPv6 was already broken.
 - [mihomo wiki](https://wiki.metacubex.one/),
   [proxy providers](https://wiki.metacubex.one/config/proxy-providers/) — why subscription rules are
   dropped.

@@ -32,3 +32,7 @@ env/
 .ruff_cache/
 .coverage
 htmlcov/
+
+# mihomo's private input and its subscription snapshots live in ~/.config/mihomo; guard a stray copy
+modules/nixos/desktop/networking/mihomo/sources.yaml
+modules/nixos/desktop/networking/mihomo/snapshots/

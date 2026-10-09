@@ -14,8 +14,9 @@
 # `filter` (Go regex, case-insensitive). The generator also adds "🌍 其他地区"
 # (manual, everything not matched below) and "🌐 全部地区" (manual, all nodes);
 # AUTO is the all-node auto pick. Edit the regions freely; the single-char
-# keywords (港/台/日/新/美/韩) deliberately catch naming variants like
-# 美西, 日服 and 狮城.
+# keywords (港/台/日/美/韩) deliberately catch naming variants like 美西, 日服
+# and 狮城. Spell a country out where one character would also catch a
+# neighbour: 新 alone catches 新西兰.
 node_groups:
   - name: "🇭🇰 香港"
     filter: "(?i)(港|hk|hong ?kong|🇭🇰)"
@@ -24,7 +25,7 @@ node_groups:
   - name: "🇯🇵 日本"
     filter: "(?i)(日|jp|japan|东京|🇯🇵)"
   - name: "🇸🇬 新加坡"
-    filter: "(?i)(新|狮城|sg|singapore|🇸🇬)"
+    filter: "(?i)(新加坡|狮城|sg|singapore|🇸🇬)"
   - name: "🇰🇷 韩国"
     filter: "(?i)(韩|kr|korea|🇰🇷)"
   - name: "🇺🇸 美国"
@@ -63,7 +64,8 @@ tun_exclude_address:
   - 203.0.113.0/24
   - 224.0.0.0/4 # multicast: mDNS, SSDP
   - 240.0.0.0/4 # reserved, includes limited broadcast
-  - fc00::/7 # ULA: home network and Tailscale IPv6
+  - fd05:5::/64 # clusterULA6: the k3s node plane, on-link on the LAN
+  - fd7a:115c:a1e0::/48 # Tailscale IPv6 CGNAT: stays on tailscale0
   - fe80::/10
   - 2001:db8::/32 # IPv6 documentation
   - 2002::/16 # deprecated 6to4
@@ -126,6 +128,9 @@ rules:
 
   # local ranges, by address as well as by name
   - DOMAIN-SUFFIX,lan,DIRECT
+  # MagicDNS names are dialed by name, so the tailnet CIDR rules below cannot see
+  # them; a proxied tailnet peer is unreachable either way.
+  - DOMAIN-SUFFIX,ts.net,DIRECT
   - IP-CIDR,0.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
@@ -134,6 +139,10 @@ rules:
   - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
   - IP-CIDR,224.0.0.0/4,DIRECT,no-resolve
   - IP-CIDR6,fe80::/10,DIRECT,no-resolve
+  # IPv6 counterparts of the LAN and tailnet CIDR rules above; a belt for the
+  # route-exclude-address entries, which keep these off the TUN already.
+  - IP-CIDR6,fd05:5::/64,DIRECT,no-resolve
+  - IP-CIDR6,fd7a:115c:a1e0::/48,DIRECT,no-resolve
 
   # everything else that is CN by geolocation, then the catch-all
   - GEOSITE,cn,DIRECT
