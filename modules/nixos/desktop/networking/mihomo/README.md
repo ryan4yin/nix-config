@@ -34,7 +34,10 @@ Rule order: `private_domains`, your `rules`, imported rules, then `policy.yaml`,
 
 The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
 `gateway-config.nu` renders it, `--redact` for a shareable template. Its output carries the
-subscriptions, so never commit it; the secret is filled in on the box, not here.
+subscriptions, so never commit it; the secret is filled in on the box, not here. Its binary is a
+static release build under `/usr/local/bin`, not a package: update it by hand, validate the live
+config with the new core (`mihomo -t -d /etc/mihomo -f <candidate>`) before swapping, and keep the
+previous binary. The release ships no checksums, so TLS plus `-v` is the whole verification.
 
 ## Why generate
 
@@ -52,15 +55,19 @@ targets instead of writing a config the core rejects.
   IPv6 is dead: apps that resolve for themselves (WeChat) dial a real AAAA, stall, and do not fall
   back. mihomo has no IPv6 reachability probe (mihomo#2233), so the config has to match the line.
   SSH over a fake AAAA is the local exception: it connects, authenticates, then never closes --
-  WA-028's IPv4 pin covers it.
-  The pool is `2001:2::/64`, not the shipped `fdfe:dcba:9876::/64`: that is ULA (`fc00::/7`), which
-  Local Network Access calls **local**, so a public page pulling a dual-stack subresource prompts.
-  `2001:2::/48` is RFC 5180 benchmarking, the v6 twin of the `198.18.0.0/15` v4 default. Never grant
-  that prompt broadly -- it also covers `192.168.5.0/24`, `fd05:5::/64` and Tailscale. Moving the
-  pool leaves mihomo's own TUN addresses (`198.18.0.1`, `fdfe:dcba:9876::1`) alone; no client is
-  ever handed those as an answer.
+  WA-028's IPv4 pin covers it. The pool is `2001:2::/64`, not the shipped `fdfe:dcba:9876::/64`:
+  that is ULA (`fc00::/7`), which Local Network Access calls **local**, so a public page pulling a
+  dual-stack subresource prompts. `2001:2::/48` is RFC 5180 benchmarking, the v6 twin of the
+  `198.18.0.0/15` v4 default. Never grant that prompt broadly -- it also covers `192.168.5.0/24`,
+  `fd05:5::/64` and Tailscale. Moving the pool leaves mihomo's own TUN addresses (`198.18.0.1`,
+  `fdfe:dcba:9876::1`) alone; no client is ever handed those as an answer.
 - `tun.stack` stays at upstream's default `mips`; nftables rules out `system` and `mixed`. The
   gateway runs `mixed`.
+- The gateway sniffs, the desktop does not. LAN clients that use DoH dial the IP they resolved
+  themselves, and a node may not reach an IP a foreign resolver handed out, so the gateway sniffs
+  the name out of the handshake (`sniffer`, TLS and QUIC on 443, HTTP on 80) and dials that. The
+  cost: a bare-IP connection is judged by its SNI, so `IP-CIDR`/`IP-ASN` rules stop applying to it.
+  On the desktop the fake-ip table already names every flow.
 - `private_domains`: each entry becomes a DIRECT rule + a `fake-ip-filter` entry.
 - WeChat resolves for itself, but its queries still cross the TUN, so `dns-hijack: any:53` catches
   them and the fake-ip table hands the name back to the rules: `mmbiz.qpic.cn` measured DIRECT.

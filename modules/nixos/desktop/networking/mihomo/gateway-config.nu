@@ -41,7 +41,13 @@ def main [
     | upsert tun.stack "mixed"
     | update tun.strict-route false
     # the desktop's resolver is loopback; a gateway serves the LAN instead
-    | update dns.listen ":1053")
+    | update dns.listen ":1053"
+    # LAN clients that use DoH dial the IPs they resolved; sniff so the node dials a name
+    | insert sniffer {
+        enable: true,
+        "parse-pure-ip": true,
+        sniff: { TLS: { ports: [443] }, HTTP: { ports: [80] }, QUIC: { ports: [443] } }
+      })
 
   let gw = (if $redact {
     # a file-backed provider (localyaml) has no url to hide
