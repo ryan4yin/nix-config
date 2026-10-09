@@ -48,6 +48,10 @@ confirmation, preview, or verification.
   the value and stop propagation. Report only evidenced exposure, distinguishing local consumption,
   tool output/model context, and external publication. Revocation or rotation requires
   authorization.
+- Before publishing (push, PR, issue, message), scan the exact content for disclosure beyond
+  secrets: internal identifiers (org/brand names, internal domains, derived filenames) new to that
+  public repository, real addresses, personal paths. Fix wording before the first push --
+  force-pushing does not retract (GitHub keeps force-pushed commits in the PR timeline).
 
 ### Impactful changes
 
@@ -116,8 +120,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
 ### Git commits
 
 - Commit only when asked, including commits needed for a user-requested PR. Follow the repository's
-  convention (default: Conventional Commits), derive the message from the staged diff, and keep it
-  short and clear; add a body only when the reason is not obvious.
+  convention (default: Conventional Commits) and derive the message from the staged diff: subject
+  only unless the reason is not obvious from the diff. PR titles/bodies and code comments hold to
+  the same bar -- one line where one line suffices, why not what, no filler or ritual notes. Squash
+  privacy or style fix-ups into the commit they fix.
 - Each commit should be one logical change that leaves the tree working.
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits
