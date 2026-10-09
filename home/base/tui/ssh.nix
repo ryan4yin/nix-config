@@ -27,7 +27,7 @@
 
     settings = {
       "github.com" = {
-        # avoid mihomo fake-IP6 hang, see modules/nixos/desktop/networking/mihomo/
+        # WA-028: pinned to IPv4 until the mihomo v6 fake-ip pool is proven here
         AddressFamily = "inet";
         HostName = "ssh.github.com";
         Port = 443;

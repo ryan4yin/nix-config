@@ -31,7 +31,6 @@ def main [
 
   let gw = (open --raw $tmp
     | from yaml
-    | update ipv6 true
     | update allow-lan true
     | update external-controller $"($address):9090"
     | insert tproxy-port 7893
@@ -40,9 +39,8 @@ def main [
     | update secret "GATEWAY-SECRET-PLACEHOLDER"
     | update tun.stack "mixed"
     | update tun.strict-route false
-    | insert tun.route-address ["0.0.0.0/1", "128.0.0.0/1", "::/1", "8000::/1"]
-    | update dns.listen ":1053"
-    | update dns.ipv6 true)
+    # the desktop's resolver is loopback; a gateway serves the LAN instead
+    | update dns.listen ":1053")
 
   let gw = (if $redact {
     # a file-backed provider (localyaml) has no url to hide

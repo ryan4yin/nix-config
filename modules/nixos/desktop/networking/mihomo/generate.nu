@@ -496,10 +496,10 @@ def main [
   let fpm = (process_mode $all_rules $excluded)
 
   let config = {
-    # IPv6 stays off on purpose: most proxy nodes have no IPv6 egress, so an
-    # AAAA record becomes a routing black hole that apps such as WeChat, JD,
-    # Taobao and Feishu sit on until they fall back to IPv4.
-    ipv6: false
+    # IPv6 on. fake-ip answers AAAA from a v6 pool, so the family the client
+    # picks never decides the egress family: mihomo dials the proxy, the proxy
+    # dials IPv4. Taobao, JD, WeChat and Bilibili answer identically over -6 and -4.
+    ipv6: true
     mode: "rule"
     "mixed-port": 7897
     "allow-lan": false
@@ -533,9 +533,12 @@ def main [
       # answers over loopback (systemd-resolved) need their resolver taken over
       # while mihomo runs, or fake-ip is bypassed entirely.
       listen: "127.0.0.1:1053"
-      ipv6: false
+      ipv6: true
       "enhanced-mode": "fake-ip"
       "fake-ip-range": "198.18.0.1/16"
+      # AAAA needs a pool of its own (fake-ip-range6, mihomo >= 1.19.16); one
+      # prefix per family, no comma list. Keep it out of route-exclude-address.
+      "fake-ip-range6": "fdfe:dcba:9876::1/64"
       "fake-ip-filter-mode": "blacklist"
       "prefer-h3": false
       "respect-rules": false
