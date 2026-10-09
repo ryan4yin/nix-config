@@ -517,7 +517,6 @@ def main [
     tun: (
       clean ({
         enable: true
-        stack: "gvisor"
         "auto-route": true
         "strict-route": ($spec | get -o tun_strict_route | default true)
         "auto-detect-interface": true
@@ -536,9 +535,9 @@ def main [
       ipv6: true
       "enhanced-mode": "fake-ip"
       "fake-ip-range": "198.18.0.1/16"
-      # AAAA needs a pool of its own (fake-ip-range6, mihomo >= 1.19.16); one
-      # prefix per family, no comma list. Keep it out of route-exclude-address.
-      "fake-ip-range6": "fdfe:dcba:9876::1/64"
+      # AAAA needs its own pool (fake-ip-range6, mihomo >= 1.19.16) and must stay out of
+      # route-exclude-address. Why this pool and not the ULA default: README.md.
+      "fake-ip-range6": "2001:2::1/64"
       "fake-ip-filter-mode": "blacklist"
       "prefer-h3": false
       "respect-rules": false

@@ -37,7 +37,8 @@ def main [
     | insert external-ui "ui"
     | insert external-ui-url $UI_URL
     | update secret "GATEWAY-SECRET-PLACEHOLDER"
-    | update tun.stack "mixed"
+    # the base leaves the stack at upstream's default; this box has run the kernel stack for months
+    | upsert tun.stack "mixed"
     | update tun.strict-route false
     # the desktop's resolver is loopback; a gateway serves the LAN instead
     | update dns.listen ":1053")

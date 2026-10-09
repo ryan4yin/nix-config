@@ -53,6 +53,14 @@ targets instead of writing a config the core rejects.
   back. mihomo has no IPv6 reachability probe (mihomo#2233), so the config has to match the line.
   SSH over a fake AAAA is the local exception: it connects, authenticates, then never closes --
   WA-028's IPv4 pin covers it.
+  The pool is `2001:2::/64`, not the shipped `fdfe:dcba:9876::/64`: that is ULA (`fc00::/7`), which
+  Local Network Access calls **local**, so a public page pulling a dual-stack subresource prompts.
+  `2001:2::/48` is RFC 5180 benchmarking, the v6 twin of the `198.18.0.0/15` v4 default. Never grant
+  that prompt broadly -- it also covers `192.168.5.0/24`, `fd05:5::/64` and Tailscale. Moving the
+  pool leaves mihomo's own TUN addresses (`198.18.0.1`, `fdfe:dcba:9876::1`) alone; no client is
+  ever handed those as an answer.
+- `tun.stack` stays at upstream's default `mips`; nftables rules out `system` and `mixed`. The
+  gateway runs `mixed`.
 - `private_domains`: each entry becomes a DIRECT rule + a `fake-ip-filter` entry.
 - WeChat resolves for itself, but its queries still cross the TUN, so `dns-hijack: any:53` catches
   them and the fake-ip table hands the name back to the rules: `mmbiz.qpic.cn` measured DIRECT.
@@ -64,8 +72,9 @@ targets instead of writing a config the core rejects.
   round trip -- RFC1918, RFC 6598's `100.64.0.0/10` (where Tailscale addresses come from),
   link-local, multicast, reserved and documentation prefixes, the cluster ULA `fd05:5::/64` and
   Tailscale's `fd7a:115c:a1e0::/48`. Never exclude a range that holds a fake-ip pool: that is
-  `198.18.0.0/16` and `fdfe:dcba:9876::/64`, which is why the list spells the two ULAs out instead
-  of taking `fc00::/7`; `tun_exclude_address: []` puts everything back in TUN.
+  `198.18.0.0/16` and `2001:2::/64`. The two ULAs are spelled out instead of taking all of
+  `fc00::/7`, which would also exempt any other ULA a client dials; `tun_exclude_address: []` puts
+  everything back in TUN.
 - Steam's download caches follow the public IP Steam sees on the login (CM) connection, so a proxied
   Steam downloads from Tokyo/Singapore/HK/Los Angeles. `policy.yaml` pins the CM hosts,
   `steamcontent.com` and `IP-ASN,32590` DIRECT and keeps `steamcommunity.com` on the proxy -- Steam
