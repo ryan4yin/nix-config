@@ -336,6 +336,15 @@ mihomo-geo:
     print $"seeded ($names) -- restart mihomo to pick them up"
   }
 
+# Render the mihomo config into a Clash Verge Rev local profile on macOS.
+# sources.yaml comes from the encrypted dotfiles sync (nix-secrets `just restore`).
+[macos]
+[group('services')]
+mihomo-verge *args:
+  #!/usr/bin/env nu
+  let mod = ("{{ justfile() }}" | path dirname | path join modules nixos desktop networking mihomo)
+  nu ($mod | path join verge-sync.nu) {{ args }}
+
 # =================================================
 #
 # Other useful commands
