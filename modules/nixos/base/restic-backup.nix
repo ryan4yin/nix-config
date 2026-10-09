@@ -23,9 +23,13 @@ in
   # snapshots for rollbacks; off-host copies are restic's job (restic can
   # exclude the regenerable bulk at the file level).
   #
-  # Keys and credentials are NEVER included: restic's own password lives in
-  # /etc/agenix, so backing that up would store the repository's password
-  # inside the repository.
+  # Plaintext keys and credentials are NEVER included: restic's own password
+  # lives in /etc/agenix, so backing that up would store the repository's
+  # password inside the repository.
+  #
+  # Already-encrypted material is a different case and is fine to back up. The
+  # private nix-secrets clone under ~/codes is age ciphertext, and restic
+  # encrypts again on top of that, so it is deliberately not excluded here.
   #
   # ==================================================================
   options.modules.restic-backup = {
@@ -158,9 +162,13 @@ in
       # Relative to the backed-up tree, so they work for both the snapshot and
       # a direct path.
       exclude = [
-        # Universal: keys and credentials are never backed up, on any host.
-        # (restic's own password lives in /etc/agenix, so backing that up would
-        # store the repository's password inside the repository.)
+        # Universal: plaintext keys and credentials are never backed up, on any
+        # host. (restic's own password lives in /etc/agenix, so backing that up
+        # would store the repository's password inside the repository.)
+        #
+        # Ciphertext is not covered by this rule: an age-encrypted store such as
+        # the nix-secrets clone under ~/codes is safe to snapshot, since restic
+        # encrypts again on top of the age layer.
         #
         # Host-specific excludes (regenerable bulk, VM images, ...) belong in
         # the host's own config.

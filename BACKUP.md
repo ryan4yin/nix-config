@@ -48,8 +48,8 @@ Consequences worth remembering:
   (`restic snapshots`, `restic check`) for a desktop repository must run on that desktop.
 - Keep both repository passwords offline (password manager or paper). If a host dies, its password
   is the only way to restore its data.
-- restic's own password is never stored inside a backed-up tree: `etc/agenix` and all key material
-  are excluded (see below).
+- restic's own password is never stored inside a backed-up tree: `etc/agenix` and all plaintext key
+  material are excluded (see below).
 - Recipients follow the secrets repository's rule: every secret is decryptable by the desktops
   (`desktop_keys`, which also carries the offline `recovery_key`), so a desktop can edit or rekey
   anything and no secret becomes unrecoverable when a host is lost. The desktop repository password
@@ -72,9 +72,12 @@ Set per host via `modules.restic-backup.onCalendar` and `randomizedDelaySec`.
 
 ## What is never backed up
 
-- **Keys and credentials**, excluded by the module on every host: `etc/agenix`,
+- **Plaintext keys and credentials**, excluded by the module on every host: `etc/agenix`,
   `etc/ssh/ssh_host_*`, `**/.ssh`, `**/.gnupg`, `**/.aws`, `**/.config/gcloud`. Backing these up
   would put repository and host credentials inside the repository itself.
+- **Ciphertext is not excluded, and that is deliberate.** The private `~/codes/nix-secrets` clone
+  under `~/codes` is age ciphertext, and restic encrypts again on top of that layer, so snapshotting
+  it is safe.
 - **Regenerable bulk**, excluded per host: podman's storage tree, microVM/libvirt images, NFS and
   cache/log directories on youko; language build artefacts, caches, model weights and anything
   larger than 500M on desktops.
