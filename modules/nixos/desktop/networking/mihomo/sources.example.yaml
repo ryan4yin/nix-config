@@ -29,6 +29,10 @@ tun_strict_route: true
 tun_exclude_process:
   # - some-app
 
+# CIDRs kept out of TUN; the default is policy.yaml's list. Setting this replaces
+# the whole list, and `[]` puts everything back through TUN.
+# tun_exclude_address: [192.168.0.0/16]
+
 providers:
   # The core imports a subscription's proxies only; `rules_from` carries its
   # rules and groups over from a local snapshot copy. Only worth it when the

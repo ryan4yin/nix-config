@@ -47,6 +47,27 @@ dns_filters:
   - +.market.xiaomi.com
   - "*.tailscale.com"
 
+# CIDRs kept out of TUN: a destination that can never be proxied should not pay
+# the fake-ip round trip. Never add `198.18.0.0/15` -- that is the fake-ip range.
+# Override per machine with `tun_exclude_address:` in sources.yaml.
+tun_exclude_address:
+  - 0.0.0.0/8 # this network on this host
+  - 10.0.0.0/8
+  - 100.64.0.0/10 # RFC 6598 shared space: Tailscale, cloud metadata
+  - 169.254.0.0/16 # link-local: 169.254.169.254
+  - 172.16.0.0/12
+  - 192.0.2.0/24 # documentation prefixes
+  - 192.88.99.0/24 # deprecated 6to4 relay anycast
+  - 192.168.0.0/16
+  - 198.51.100.0/24
+  - 203.0.113.0/24
+  - 224.0.0.0/4 # multicast: mDNS, SSDP
+  - 240.0.0.0/4 # reserved, includes limited broadcast
+  - fc00::/7 # ULA: home network and Tailscale IPv6
+  - fe80::/10
+  - 2001:db8::/32 # IPv6 documentation
+  - 2002::/16 # deprecated 6to4
+
 # Optional extra rule-sets, usable by the rules below:
 #   rule_providers:
 #     my_list:

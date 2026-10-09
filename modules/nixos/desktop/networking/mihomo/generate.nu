@@ -366,6 +366,8 @@ def main [
   let policy_rules = (sanitize-rules ($policy_doc | get -o rules | default []) "policy.yaml" true)
   let policy_rp = ($policy_doc | get -o rule_providers | default {})
   let node_groups = ($policy_doc | get -o node_groups | default [])
+  # kept out of TUN; sources.yaml may override the whole list
+  let policy_exclude = ($policy_doc | get -o tun_exclude_address | default [])
 
   let spec = (open $src)
   # an empty secret leaves the dashboard open to anything on the machine
@@ -520,6 +522,7 @@ def main [
         "strict-route": ($spec | get -o tun_strict_route | default true)
         "auto-detect-interface": true
         "dns-hijack": ["any:53"]
+        "route-exclude-address": ($spec | get -o tun_exclude_address | default $policy_exclude)
       } | upsert 'exclude-process' $excluded)
     )
     dns: {

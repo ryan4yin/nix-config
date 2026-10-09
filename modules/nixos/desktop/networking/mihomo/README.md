@@ -45,12 +45,15 @@ targets instead of writing a config the core rejects.
   media still stalls: `tun_exclude_process: [wechat, WeChatAppEx, qq]` (Linux names; the fix that
   won clash-verge-rev#1762).
 - `find-process-mode: off` unless `PROCESS-*` rules or `tun_exclude_process` need it.
+- `tun_exclude_address`: a destination that can never be a proxy target should not pay a fake-ip
+  round trip -- RFC1918, RFC 6598's `100.64.0.0/10` (where Tailscale addresses come from),
+  link-local, multicast, reserved and documentation prefixes, `fc00::/7`, `fe80::/10`. Never exclude
+  `198.18.0.0/15`, the fake-ip range itself; `tun_exclude_address: []` puts everything back in TUN.
 - Steam's download caches follow the public IP Steam sees on the login (CM) connection, so a proxied
   Steam downloads from Tokyo/Singapore/HK/Los Angeles. `policy.yaml` pins the CM hosts,
-  `steamcontent.com` and Valve's AS32590 ranges DIRECT and keeps `steamcommunity.com` on the proxy;
-  the IP rules are not decoration, Steam dials cached CM addresses without a lookup. Not
-  `GEOSITE,steam` -- that category includes the community. Sources and how to verify: "Steam
-  download region" below.
+  `steamcontent.com` and `IP-ASN,32590` DIRECT and keeps `steamcommunity.com` on the proxy -- Steam
+  dials cached CM addresses without a lookup, so that rule is not decoration. Not `GEOSITE,steam`:
+  that category includes the community. Sources and how to verify: "Steam download region" below.
 - CDN selection depends on launcher probes, not the patch download route. On this host,
   `launcher-webstatic.hoyoverse.com` went through a US proxy node while `autopatchcn.bhsr.com` was
   DIRECT; the download rose from ~0.5 to 102 MB/s after the proxy group was switched to DIRECT.
