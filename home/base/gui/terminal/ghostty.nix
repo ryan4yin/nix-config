@@ -32,6 +32,9 @@
       background-opacity = 0.85;
       background-blur-radius = 10; # macOS only
 
+      # Start fullscreen on macOS; window managers control this on Linux.
+      fullscreen = pkgs.stdenv.hostPlatform.isDarwin;
+
       #  To resolve issues:
       #    1. https://github.com/ryan4yin/nix-config/issues/26
       #    2. https://github.com/ryan4yin/nix-config/issues/8

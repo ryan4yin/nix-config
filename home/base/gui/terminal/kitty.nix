@@ -39,6 +39,6 @@
     };
 
     # macOS specific settings
-    darwinLaunchOptions = [ "--start-as=maximized" ];
+    darwinLaunchOptions = [ "--start-as=fullscreen" ];
   };
 }
