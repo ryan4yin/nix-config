@@ -276,12 +276,46 @@ k3s-test mode="switch":
 [group('agents')]
 dsh-web:
   #!/usr/bin/env nu
-  # dsh's web fetch refuses a DNS answer it does not call public, and a fake-ip
-  # resolver answers with 198.18.0.0/15. A proxied hop lets mihomo resolve the
-  # origin instead, which skips that check and leaves fake-ip acceleration
-  # intact. The policy reaches every Node fetch the harness makes, so mihomo
-  # becomes a dependency for LLM, web search and HTTP MCP traffic too.
-  with-env { HTTPS_PROXY: "http://127.0.0.1:7897", HTTP_PROXY: "http://127.0.0.1:7897" } { ^dsh web --no-open }
+  # no_proxy keeps local endpoints out of the proxy; the proxy is here for fake-ip.
+  # dsh's web fetch refuses a DNS answer it does not call public and fake-ip answers
+  # with 198.18.0.0/15, so a proxied hop makes mihomo resolve the origin instead.
+  # That makes mihomo a dependency of every Node fetch the harness makes, so it has
+  # to stop at the LAN: without no_proxy this host's own llama-swap endpoint goes
+  # through it too. Node reads only lowercase `no_proxy` and matches exact hosts,
+  # not CIDR; curl and Go do honor CIDR.
+  with-env {
+    HTTPS_PROXY: "http://127.0.0.1:7897"
+    HTTP_PROXY: "http://127.0.0.1:7897"
+    no_proxy: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+  } { ^dsh web --no-open }
+
+# Seed mihomo's geodata into the service's state dir, so a cold start needs no DNS.
+[linux]
+[group('services')]
+mihomo-geo:
+  #!/usr/bin/env nu
+  # Copy geodata in by hand, so a cold start never has to fetch it. The core
+  # fetches it while parsing rules, before its own DNS is up and while the link
+  # DNS points at it -- that fetch can only fail.
+  let src = ($env.HOME | path join .config mihomo)
+  let dst = "/var/lib/private/mihomo"
+  sudo mkdir -p $dst
+  mut seeded = []
+  for f in [GeoSite.dat geoip.metadb ASN.mmdb] {
+    let p = ($src | path join $f)
+    if ($p | path exists) {
+      sudo cp $p $dst
+      $seeded = ($seeded | append ($dst | path join $f))
+    } else {
+      print $"(!) ($f) is not in ($src) -- fetch it first: mihomo -t -d ($src) -f ($src)/config.yaml"
+    }
+  }
+  if ($seeded | is-not-empty) {
+    sudo chmod 644 ...$seeded
+    let names = ($seeded | path basename | str join ', ')
+    print $"seeded ($names) -- restart mihomo to pick them up"
+  }
 
 # =================================================
 #

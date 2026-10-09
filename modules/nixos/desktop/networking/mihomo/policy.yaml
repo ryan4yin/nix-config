@@ -47,6 +47,27 @@ dns_filters:
   - +.market.xiaomi.com
   - "*.tailscale.com"
 
+# CIDRs kept out of TUN: a destination that can never be proxied should not pay
+# the fake-ip round trip. Never add `198.18.0.0/15` -- that is the fake-ip range.
+# Override per machine with `tun_exclude_address:` in sources.yaml.
+tun_exclude_address:
+  - 0.0.0.0/8 # this network on this host
+  - 10.0.0.0/8
+  - 100.64.0.0/10 # RFC 6598 shared space: Tailscale, cloud metadata
+  - 169.254.0.0/16 # link-local: 169.254.169.254
+  - 172.16.0.0/12
+  - 192.0.2.0/24 # documentation prefixes
+  - 192.88.99.0/24 # deprecated 6to4 relay anycast
+  - 192.168.0.0/16
+  - 198.51.100.0/24
+  - 203.0.113.0/24
+  - 224.0.0.0/4 # multicast: mDNS, SSDP
+  - 240.0.0.0/4 # reserved, includes limited broadcast
+  - fc00::/7 # ULA: home network and Tailscale IPv6
+  - fe80::/10
+  - 2001:db8::/32 # IPv6 documentation
+  - 2002::/16 # deprecated 6to4
+
 # Optional extra rule-sets, usable by the rules below:
 #   rule_providers:
 #     my_list:
@@ -80,28 +101,9 @@ rules:
   - DOMAIN-SUFFIX,nsclouds.cn,DIRECT
   - DOMAIN-SUFFIX,wanwang.space,DIRECT
   - DOMAIN-SUFFIX,baishancdnx.cn,DIRECT
-  # Steam dials cached CM IPs on 27018/27020/27024 without a lookup, so domain rules
-  # leak. Regenerate: stat.ripe.net/data/announced-prefixes/data.json?resource=AS32590
-  - IP-CIDR,45.121.184.0/24,DIRECT,no-resolve
-  - IP-CIDR,103.10.124.0/23,DIRECT,no-resolve
-  - IP-CIDR,103.28.54.0/24,DIRECT,no-resolve
-  - IP-CIDR,146.66.152.0/24,DIRECT,no-resolve
-  - IP-CIDR,146.66.155.0/24,DIRECT,no-resolve
-  - IP-CIDR,155.133.224.0/21,DIRECT,no-resolve
-  - IP-CIDR,155.133.236.0/22,DIRECT,no-resolve
-  - IP-CIDR,155.133.240.0/23,DIRECT,no-resolve
-  - IP-CIDR,155.133.244.0/24,DIRECT,no-resolve
-  - IP-CIDR,155.133.246.0/24,DIRECT,no-resolve
-  - IP-CIDR,155.133.248.0/22,DIRECT,no-resolve
-  - IP-CIDR,155.133.252.0/24,DIRECT,no-resolve
-  - IP-CIDR,155.133.254.0/23,DIRECT,no-resolve
-  - IP-CIDR,162.254.192.0/21,DIRECT,no-resolve
-  - IP-CIDR,185.25.180.0/24,DIRECT,no-resolve
-  - IP-CIDR,185.25.182.0/23,DIRECT,no-resolve
-  - IP-CIDR,192.69.96.0/22,DIRECT,no-resolve
-  - IP-CIDR,205.196.6.0/24,DIRECT,no-resolve
-  - IP-CIDR,208.64.200.0/22,DIRECT,no-resolve
-  - IP-CIDR,208.78.164.0/22,DIRECT,no-resolve
+  # Match Valve by ASN so its content servers stay direct. Steam dials cached CM
+  # IPs without a lookup, so domain rules leak; needs ASN.mmdb via `geox-url.asn`.
+  - IP-ASN,32590,DIRECT,no-resolve
   - DOMAIN,launcher-webstatic.hoyoverse.com,DIRECT
 
   # CN consumer services: proxied they fail in ways that look like app bugs --

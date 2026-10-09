@@ -138,17 +138,33 @@ in
     linkConfig.RequiredForOnline = "routable";
   };
 
-  # Dynamic DNS takeover: sing-tun normally asks resolved to use the TUN DNS
-  # address through resolvectl. That built-in call is not usable from nixpkgs'
-  # DynamicUser+hardened unit: the D-Bus socket is blocked, and resolve1's
-  # SetLinkDNS/SetLinkDomains methods require privileged authorization. Without
-  # it, resolved's upstream queries bypass dns-hijack and leave via the NIC.
-  # Run the takeover as a privileged lifecycle hook instead. ExecStopPost also
-  # runs on crashes, so a dead mihomo leaves the network usable.
-  # The '+' prefix escapes the unit's sandbox; without it, resolvectl's D-Bus
-  # connect fails and a failed ExecStartPost kills the otherwise healthy service.
+  # Point this link's DNS at mihomo while it runs, and revert it when it stops.
+  #
+  # Why a lifecycle hook: mihomo's sing-tun stack would call resolvectl itself,
+  # but nixpkgs' DynamicUser+hardened unit closes the D-Bus socket and SetLinkDNS
+  # needs privileged authorization; without the takeover resolved's upstream
+  # queries bypass dns-hijack and leave via the NIC. The '+' prefix escapes that
+  # sandbox -- a failed ExecStartPost would kill a healthy service -- and
+  # ExecStopPost also runs on crashes, so a dead mihomo leaves the network usable.
+  #
+  # Why the probe: the core opens :1053 only after parsing the rules, and rule
+  # parsing is where missing geodata gets fetched. Flipping at fork time pointed
+  # that fetch at a port nobody was listening on -- SERVFAIL, a fatal config
+  # error, a unit that could never start.
   systemd.services.mihomo.serviceConfig = {
-    ExecStartPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl dns ${iface} 127.0.0.1:1053";
+    ExecStartPost = lib.mkDefault "+${pkgs.writeShellScript "mihomo-dns-takeover" ''
+      probe() { (exec 3<>/dev/tcp/127.0.0.1/1053) 2>/dev/null; }
+      up=0
+      for ((i = 0; i < 100; i++)); do
+        if probe; then up=1; break; fi
+        sleep 0.1
+      done
+      if [ "$up" = 0 ]; then
+        echo "mihomo never opened 127.0.0.1:1053; leaving ${iface} on its own DNS" >&2
+        exit 0
+      fi
+      exec ${pkgs.systemd}/bin/resolvectl dns ${iface} 127.0.0.1:1053
+    ''}";
     ExecStopPost = lib.mkDefault "+${pkgs.systemd}/bin/resolvectl revert ${iface}";
   };
 
