@@ -290,6 +290,33 @@ dsh-web:
     NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
   } { ^dsh web --no-open }
 
+# Seed mihomo's geodata into the service's state dir, so a cold start needs no DNS.
+[linux]
+[group('services')]
+mihomo-geo:
+  #!/usr/bin/env nu
+  # Copy geodata in by hand, so a cold start never has to fetch it. The core
+  # fetches it while parsing rules, before its own DNS is up and while the link
+  # DNS points at it -- that fetch can only fail.
+  let src = ($env.HOME | path join .config mihomo)
+  let dst = "/var/lib/private/mihomo"
+  sudo mkdir -p $dst
+  mut seeded = []
+  for f in [GeoSite.dat geoip.metadb ASN.mmdb] {
+    let p = ($src | path join $f)
+    if ($p | path exists) {
+      sudo cp $p $dst
+      $seeded = ($seeded | append ($dst | path join $f))
+    } else {
+      print $"(!) ($f) is not in ($src) -- fetch it first: mihomo -t -d ($src) -f ($src)/config.yaml"
+    }
+  }
+  if ($seeded | is-not-empty) {
+    sudo chmod 644 ...$seeded
+    let names = ($seeded | path basename | str join ', ')
+    print $"seeded ($names) -- restart mihomo to pick them up"
+  }
+
 # =================================================
 #
 # Other useful commands
