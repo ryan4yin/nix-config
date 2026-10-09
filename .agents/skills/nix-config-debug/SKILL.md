@@ -36,6 +36,7 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
 | remote host   | anything on a Colmena host                     | `ssh root@<host> journalctl -b -p err`, same commands over SSH                                                                              |
 | MicroVM guest | guest down or unreachable                      | on the VM host: `systemctl status microvm@<guest>` and `microvm-tap-interfaces@<guest>`; then `br0`                                         |
 | secrets       | missing or unreadable `/etc/agenix/*`          | the `nix-config-secrets` skill                                                                                                              |
+| shell         | nushell exits 1 with `File not found`          | whether `~/.secrets/` exists on the host; the `nix-config-secrets` skill                                                                    |
 
 ## 2. Read the evaluated value
 

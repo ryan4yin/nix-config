@@ -17,7 +17,8 @@ in [hosts/README.md](../../../hosts/README.md).
    the configuration name; Niri desktops append `-niri`, because `just niri` deploys
    `$(hostname)-niri`. The `hostname` eval test encodes this.
 2. **Secrets come from another repository.** The new host decrypts nothing until its host key is a
-   recipient in `nix-secrets`; see the `nix-config-secrets` skill.
+   recipient in `nix-secrets`; see the `nix-config-secrets` skill. A new desktop also needs its
+   synced dotfiles restored before the first switch, or the shell starts without them.
 3. **The shared policy modules are not optional.** Several eval tests assert a policy for every
    configuration, so an under-wired host fails `just test` instead of failing in production.
 4. **Build before you install.** `just test`, `just eval-host <name>`, and `just build-host <name>`

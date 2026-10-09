@@ -3,8 +3,8 @@
   // cost context here and nowhere else.
   //
   // mcp-grafana talks to the homelab Grafana. The service-account token stays in
-  // the environment (GRAFANA_SERVICE_ACCOUNT_TOKEN, set by nushell-secrets.nu),
-  // never in git.
+  // the environment (GRAFANA_SERVICE_ACCOUNT_TOKEN, exported by the hand-edited
+  // ~/.secrets/nushell-secrets.nu), never in git.
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "servers": {
