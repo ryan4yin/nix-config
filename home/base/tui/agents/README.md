@@ -29,6 +29,10 @@ settings that bite.
 | OpenCode   | `~/.config/opencode/AGENTS.md` |
 | Pi         | `~/.pi/agent/AGENTS.md`        |
 | Cross-tool | `~/.agents/AGENTS.md`          |
+| dsh        | `~/.dsh/AGENTS.md`             |
+
+dsh reads both `~/.dsh/AGENTS.md` (`$DSH_HOME`) and, from `0.2.1-alpha.2` on, `~/.agents/AGENTS.md`
+(`$DSH_AGENTS_HOME`); identical content renders once.
 
 Out-of-store means an edit to `agents/AGENTS.md` takes effect on the next agent session without a
 Home Manager switch. The trade-off is that the rules stay writable in the checkout; use a store

@@ -39,3 +39,13 @@ The `dsh-base` bundle sets `agent-default-model` to the API-key route (`deepseek
 `DEEPSEEK_API_KEY` fails new sessions with `ACCOUNT_SIGN_IN_REQUIRED`.
 
 In this repository, `just dsh-web` boots the web profile through mihomo's mixed port.
+
+## Global rules
+
+`dsh-base` already mounts `dsh-agent-instructions` (`maxBytes: 65536`) and `rules.nix` links
+`agents/AGENTS.md` into both scopes it reads — `$DSH_HOME/AGENTS.md` and, from `0.2.1-alpha.2` on,
+`$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical content renders once.
+
+- The scopes come from the environment: `0.2.1-alpha.2` removed the row's `dshHome` / `agentsHome`.
+- Nested `AGENTS.md` files are discovered by `read` / `write` / `edit`, not by `cd` inside `bash`,
+  and nothing is watched: an external edit lands on the next such call, or on resume.
