@@ -27,6 +27,8 @@
 
     settings = {
       "github.com" = {
+        # WA-028: pinned to IPv4 until the mihomo v6 fake-ip pool is proven here
+        AddressFamily = "inet";
         HostName = "ssh.github.com";
         Port = 443;
         User = "git";
