@@ -8,6 +8,8 @@ rec {
   # it's a subrouter with a transparent proxy
   proxyGateway = "192.168.5.178";
   proxyGateway6 = "fe80::8";
+  # node identity must not ride the WAN /64: the ISP retires it, Cilium never refreshes it.
+  clusterULA6 = "fd05:5::";
   nameservers = [
     # IPv4
     "119.29.29.29" # DNSPod https://www.dnspod.cn/Products/publicdns
