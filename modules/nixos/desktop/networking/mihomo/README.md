@@ -28,9 +28,36 @@ config before enabling the module, or the service will not start.
 | `policy.yaml`          | portable routing policy: ads, CN services, local ranges, tail |
 | `generate.nu`          | renders `config.yaml` from `sources.yaml` + `policy.yaml`     |
 | `gateway-config.nu`    | the same output plus the gateway deltas                       |
+| `verge-sync.nu`        | renders the same config into a Clash Verge profile (macOS)    |
 | `sources.example.yaml` | schema for `sources.yaml`                                     |
 
 Rule order: `private_domains`, your `rules`, imported rules, then `policy.yaml`, ending in `MATCH`.
+
+## Clash Verge on macOS
+
+The Mac (`frieren`) runs the same policy through Clash Verge Rev rather than the native service.
+`sources.yaml` and the inline proxy yaml reach it via the encrypted dotfiles sync
+(`~/codes/nix-secrets`, `just restore`); the generated config is built on the Mac and never synced:
+
+```sh
+just mihomo-verge        # generate, validate with verge-mihomo -t, install as a local profile
+```
+
+`verge-sync.nu` reuses `generate.nu` + `policy.yaml`, drops the sections Verge owns unconditionally
+(ports, TUN, controller, geodata), and installs the rest -- providers, groups, rules, and the whole
+`dns` section -- as one local profile under a fixed uid, so re-running replaces it. It enables
+Verge's per-profile DNS override (`profile_dns_settings` in verge.yaml), so the profile's `dns`
+replaces the global panel for it, and it replaces `fake-ip-filter`, the fake-ip ranges and `ipv6` in
+the global panel (`dns_config.yaml`) too, so subscription profiles get the same table:
+sources.yaml + policy.yaml are the single source of truth, and panel-only entries are a sources.yaml
+fix, not a per-machine patch. Because the panel then hands out fake AAAA records, `Merge.yaml`
+(Verge's global extension) gets `ipv6: true` pinned when absent: subscription profiles set no
+top-level ipv6 and Verge's base config hardcodes false, and fake v6 answers on a core that refuses
+v6 dials is the clash-verge-rev#1762 WeChat failure. TUN is global, so `tun_exclude_address` is
+merged into verge.yaml's `tun_config.route_exclude_address` instead. It quits and restarts Verge
+around the edit (`--dry-run` to preview, `--no-restart` to skip that); select the profile in the
+Verge UI. Verge logs `Unregistered Clash configuration key "ipv6"` for the pin -- harmless, the key
+still reaches the core.
 
 The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
 `gateway-config.nu` renders it, `--redact` for a shareable template. Its output carries the
@@ -60,7 +87,12 @@ targets instead of writing a config the core rejects.
   dual-stack subresource prompts. `2001:2::/48` is RFC 5180 benchmarking, the v6 twin of the
   `198.18.0.0/15` v4 default. Never grant that prompt broadly -- it also covers `192.168.5.0/24`,
   `fd05:5::/64` and Tailscale. Moving the pool leaves mihomo's own TUN addresses (`198.18.0.1`,
-  `fdfe:dcba:9876::1`) alone; no client is ever handed those as an answer.
+  `fdfe:dcba:9876::1`) alone; no client is ever handed those as an answer. To check the line,
+  resolve through GSLB and dial the carrier's own-block AAAA (`dig AAAA www.jd.com` on China Telecom
+  -> `240e:...`, then `curl -6`): hardcoded cross-carrier literals (Unicom `2408:...`, some
+  Alibaba/Baidu blocks) are CT v6 interconnect dead zones that GSLB normally steers around, and a
+  bare-IP TLS test needs `-k` -- a certificate name mismatch (curl error 60) means the connection
+  itself worked. A browser IPv6 test under TUN measures the proxy node, not the line.
 - `tun.stack` stays at upstream's default `mips`; nftables rules out `system` and `mixed`. The
   gateway runs `mixed`.
 - The gateway sniffs, the desktop does not. LAN clients that use DoH dial the IP they resolved
