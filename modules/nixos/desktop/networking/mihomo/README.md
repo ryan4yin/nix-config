@@ -24,9 +24,14 @@ config before enabling the module, or the service will not start.
 | `default.nix`          | the service: `services.mihomo` + TUN + `metacubexd`           |
 | `policy.yaml`          | portable routing policy: ads, CN services, local ranges, tail |
 | `generate.nu`          | renders `config.yaml` from `sources.yaml` + `policy.yaml`     |
+| `gateway-config.nu`    | the same output plus the gateway deltas                       |
 | `sources.example.yaml` | schema for `sources.yaml`                                     |
 
 Rule order: `private_domains`, your `rules`, imported rules, then `policy.yaml`, ending in `MATCH`.
+
+The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
+`gateway-config.nu` renders it, `--redact` for a shareable template. Its output carries the
+subscriptions, so never commit it; the secret is filled in on the box, not here.
 
 ## Why generate
 
