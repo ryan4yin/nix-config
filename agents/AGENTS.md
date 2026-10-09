@@ -105,8 +105,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
   overwrite, discard, or restore unrelated user changes or removals without authorization.
 - Keep diffs minimal and backward compatible; ask before a breaking change.
 - Documentation should be self-contained for its reader and omit irrelevant history.
-- Verify in proportion to risk. Agents MUST NOT claim a check passed without running it, or make it
-  pass by weakening what it verifies (e.g. mocking the code under test).
+- Verify in proportion to risk. Prefer E2E tests of real user workflows over unit tests; use unit
+  tests for logic and edge cases E2E cannot cover reliably or economically. Agents MUST NOT claim a
+  check passed without running it, or make it pass by weakening what it verifies (e.g. mocking the
+  code under test).
 - Cleanup: when a PR the agent opened is merged, finish up as part of that task: delete the local
   branch and worktrees it created and fast-forward the default branch if the checkout is free. Touch
   nothing it did not create; skip and report instead of forcing.
