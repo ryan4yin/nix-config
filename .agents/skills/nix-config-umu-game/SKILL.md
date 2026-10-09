@@ -2,8 +2,9 @@
 name: nix-config-umu-game
 description:
   Use when installing a Windows game launcher (二次元 / gacha or any non-Steam game) on a NixOS
-  desktop via umu-launcher, given an installer URL or an .exe, or when such a launcher opens an
-  invisible, transparent, black, or empty window under Wine.
+  desktop via umu-launcher, given an installer URL or an .exe, when such a launcher opens an
+  invisible, transparent, black, or empty window under Wine, or when its download crawls behind the
+  proxy.
 ---
 
 # Installing a Windows game launcher with umu
@@ -87,8 +88,11 @@ defaults, so set `PROTONPATH` there to pin a particular installed version across
    default with FPS and frame time at the top-left; set `ENABLE_MANGOHUD=0` in `conf` to disable it,
    or override `MANGOHUD_CONFIG`. Re-running `prelaunch` must be idempotent. The launcher may then
    download the game body itself (tens of GB) -- that is the launcher's job, not this skill's, so
-   the install is **done** once the window is usable. `ENABLE_LOG=1` captures `last-run.log` when
-   something misbehaves.
+   the install is **done** once the window is usable. A crawl usually means the proxy: the launcher
+   probes the CDN itself and mihomo routes that probe through a distant node, so the download starts
+   from a far mirror; routing is in the
+   [mihomo README](../../../modules/nixos/desktop/networking/mihomo/README.md). `ENABLE_LOG=1`
+   captures `last-run.log` when something misbehaves.
 
 ## Invisible / transparent launcher window
 
@@ -158,8 +162,7 @@ installers honour it; try `/quiet` or `--silent` too, then fall back to the GUI.
 The script also writes `~/.local/share/applications/<name>.desktop` (and a copy at
 `~/Games/<name>/<name>.desktop`), so the game shows up in the desktop launcher. Under an
 impermanence setup both `~/Games` and `~/.local/share/applications` must be in the host's
-`preservation.preserveAt` list; in this repo `~/Games` and `.local/share/umu` already are, and
-`hosts/idols-ai/preservation.nix` now persists `.local/share/applications` too.
+`preservation.preserveAt` list, in `hosts/<dir>/preservation.nix`.
 
 ## Uninstall
 
@@ -203,13 +206,7 @@ GameMode, and `ENABLE_LOG=1` to capture the run. A dGPU wrapper still goes outsi
 - Waiting for the game download before calling the install done: the launcher's own download is out
   of scope here.
 - On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, and Steam is a
-  module rather than a package -- see the `nix-config-desktop` skill.
-
-## Prior art
-
-`ESKAP3/umu-skeleton` (filesystem-as-game-manager, global.conf, tools), `gizmo-ds/endfield-run`
-(`-exec` installer), `Septa-Serpenta-Seraph/Vesper` (umu + GAMEID notes), `joshsymonds/nix-config`
-(research-first debugging), `olafkfreund/nixarchy` (NixOS gaming skill).
+  module rather than a package: `modules/nixos/desktop/gaming.nix`.
 
 ## Regression tests
 

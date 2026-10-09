@@ -1,8 +1,8 @@
 ---
 name: nix-config-new-host
 description:
-  Use when adding a NixOS, macOS, or MicroVM host in this repo, including its outputs, networking,
-  secrets, and eval-test wiring.
+  Use when adding a NixOS, macOS, or MicroVM host in this repo, or wiring an existing machine into
+  `outputs/`, `hostsAddr`, secrets recipients, and the eval tests.
 ---
 
 # Adding a host
@@ -35,11 +35,12 @@ in [hosts/README.md](../../../hosts/README.md).
 | macOS                    | `hosts/darwin-fern/` + `outputs/aarch64-darwin/src/fern.nix` (`darwinConfigurations`, no Colmena) |
 | MicroVM guest            | `hosts/k8s/k3s-test-1-worker-1/` + `outputs/x86_64-linux/src/k3s-test-1-worker-1.nix`             |
 
-A MicroVM guest is also registered in its VM host's `microvm.nix`, and is deployed with
-`just microvm-deploy`. On a VM host with the `br0` bridge it also needs a `systemd.network.networks`
-unit that attaches the guest's tap to `br0`; the tap name comes from the guest IP (`192.168.5.116`
-to `vm116`). Some guest outputs also expose a Colmena node for evaluation or other workflows; do not
-assume the physical-host deployment is done through Colmena.
+A MicroVM guest is also registered in its VM host's `microvm.nix`; deploy it with the procedure in
+WA-026 of [WORKAROUNDS.md](../../../WORKAROUNDS.md), not `just microvm-deploy`. On a VM host with
+the `br0` bridge it also needs a `systemd.network.networks` unit that attaches the guest's tap to
+`br0`; the tap name comes from the guest IP (`192.168.5.116` to `vm116`). Some guest outputs also
+expose a Colmena node for evaluation or other workflows; do not assume the physical-host deployment
+is done through Colmena.
 
 ## 2. Files to create or edit
 
@@ -60,10 +61,12 @@ assume the physical-host deployment is done through Colmena.
    unused `args`: haumea passes them lazily and they are still required.
 5. `vars/networking.nix` - `hostsAddr.<name> = { iface; ipv4; }` for a LAN host. That entry drives
    the static address, the SSH `Host` alias used for remote builds, and `known_hosts`, so a wrong
-   `iface` takes the host offline at activation. Skip it for a DHCP or mobile host. If the host
-   enables `modules.networking.mihomo` and runs systemd-resolved, it needs a DNS takeover tied to
-   mihomo's lifecycle (`resolvectl dns`/`revert` in `ExecStartPost`/`ExecStopPost`, see
-   `hosts/idols-ai/default.nix`); a static link DNS would kill DNS when mihomo dies.
+   `iface` takes the host offline at activation. Skip it for a DHCP or mobile host;
+   `homeOnly = true` only drops the SSH alias and the local exporters, not `known_hosts` or the
+   scrape targets. If the host enables `modules.networking.mihomo` and runs systemd-resolved, it
+   needs a DNS takeover tied to mihomo's lifecycle (`resolvectl dns`/`revert` in
+   `ExecStartPost`/`ExecStopPost`, see `hosts/idols-ai/default.nix`); a static link DNS would kill
+   DNS when mihomo dies.
 6. `hosts/README.md` - add the host to the inventory.
 
 Pin service user and group ids (`service-user-ids.nix`, as on `shoryu`) before the host has state on

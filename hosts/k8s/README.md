@@ -36,7 +36,8 @@ just microvm-deploy <guest> <physical-host> <guest-ip>
 
 For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`. The recipe installs
 the runner on the physical host first, then activates the guest with the microvm.nix SSH deployment
-interface.
+interface. WA-026 in [WORKAROUNDS.md](../../WORKAROUNDS.md) currently replaces that activation,
+because the SSH switch cannot write the guest's read-only `/nix/store`.
 
 Use `just build-microvm <guest>` to build a runner without deploying it. Preserve the guest's
 `etc.img`, `var.img`, and `home.img` when updating it; they contain its identity and K3s state.

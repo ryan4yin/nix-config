@@ -39,7 +39,7 @@ eval-host host:
 build-host host:
   nix build $".#nixosConfigurations.{{host}}.config.system.build.toplevel" --no-link --print-build-logs
 
-# Build a MicroVM runner locally. Deploy it with microvm-deploy so the closure is copied remotely.
+# Build a MicroVM runner locally. WA-026 in WORKAROUNDS.md covers how to deploy it.
 [group('nix')]
 build-microvm guest:
   nix build $".#nixosConfigurations.{{guest}}.config.microvm.declaredRunner" --no-link --print-build-logs
@@ -210,7 +210,8 @@ reset-launchpad:
 col tag mode="switch":
   colmena apply {{mode}} --on '@{{tag}}' --verbose --show-trace
 
-# Deploy one microVM guest through microvm.nix's SSH deployment workflow.
+# Deploy one microVM guest through microvm.nix's SSH deployment workflow (WA-026: the
+# activation step currently fails; see WORKAROUNDS.md).
 # The host is the physical machine running the guest; the guest address is used for activation.
 [linux]
 [group('homelab')]

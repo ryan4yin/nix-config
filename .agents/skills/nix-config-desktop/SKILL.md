@@ -1,8 +1,9 @@
 ---
 name: nix-config-desktop
 description:
-  Use when changing the Niri/Noctalia desktop, the Wayland session, input method (fcitx5), theming,
-  fonts, or desktop autostart in this repo.
+  Use when changing what the desktop shows or runs: Niri/Noctalia config, a window that is the wrong
+  size, garbled, or missing after a reboot, autostart, fcitx5 or vinput input, theming and fonts,
+  interface names a widget reads, or `$HOME` state that must survive a tmpfs root.
 ---
 
 # Changing the desktop
@@ -35,17 +36,20 @@ back with git, and needs no rebuild. Only the store layer needs one.
 
 ## 1. Pick the layer
 
-| Change                                        | Where it lives                                                | Applies                  |
-| --------------------------------------------- | ------------------------------------------------------------- | ------------------------ |
-| Niri compositor (binds, layout, window rules) | `home/linux/gui/niri/conf/*.kdl`                              | live                     |
-| Niri per-host outputs                         | `hosts/<dir>/niri-hardware.kdl`                               | live                     |
-| Noctalia shared baseline                      | `home/linux/gui/base/noctalia/config/config.toml`             | live                     |
-| Noctalia per-host override                    | `home/hosts/linux/<dir>/noctalia.toml` (`host-<host>.toml`)   | store: needs `just niri` |
-| Noctalia value saved by the Settings UI       | `~/.local/state/noctalia/settings.toml` (not in the repo)     | live, wins over the rest |
-| Mozc dictionary                               | `home/linux/gui/base/fcitx5/mozc-config1.db`                  | live                     |
-| fcitx5 profile and addons                     | `home/linux/gui/base/fcitx5/`                                 | store: needs `just niri` |
-| Theme (catppuccin), fonts                     | `home/base/core/theme.nix`, `modules/nixos/desktop/fonts.nix` | store: needs `just niri` |
-| Session, portal, and systemd wiring           | `modules/nixos/desktop/**`, `home/linux/gui/base/xdg/`        | store: needs `just niri` |
+| Change                                        | Where it lives                                                                              | Applies                  |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------ |
+| Niri compositor (binds, layout, window rules) | `home/linux/gui/niri/conf/*.kdl`                                                            | live                     |
+| Niri per-host outputs                         | `hosts/<dir>/niri-hardware.kdl`                                                             | live                     |
+| Noctalia shared baseline                      | `home/linux/gui/base/noctalia/config/config.toml`                                           | live                     |
+| Noctalia per-host override                    | `home/hosts/linux/<dir>/noctalia.toml` (`host-<host>.toml`)                                 | store: needs `just niri` |
+| Noctalia value saved by the Settings UI       | `~/.local/state/noctalia/settings.toml` (not in the repo)                                   | live, wins over the rest |
+| Mozc dictionary                               | `home/linux/gui/base/fcitx5/mozc-config1.db`                                                | live                     |
+| fcitx5 profile and addons                     | `home/linux/gui/base/fcitx5/`                                                               | store: needs `just niri` |
+| vinput (voice input)                          | `home/linux/gui/base/vinput/` (tag-pinned: the `fcitx5-vinput` row in WORKAROUNDS.md §Pins) | store: needs `just niri` |
+| Interface a net-speed widget reads            | `home/hosts/linux/<dir>/noctalia.toml` (`[widget.net_rx]`/`[widget.net_tx]` `interface`)    | store: needs `just niri` |
+| `$HOME` state that must survive               | `hosts/<dir>/preservation.nix` (tmpfs root)                                                 | store: needs `just niri` |
+| Theme (catppuccin), fonts                     | `home/base/core/theme.nix`, `modules/nixos/desktop/fonts.nix`                               | store: needs `just niri` |
+| Session, portal, and systemd wiring           | `modules/nixos/desktop/**`, `home/linux/gui/base/xdg/`                                      | store: needs `just niri` |
 
 Noctalia's merge order and `[include]` are in
 [home/linux/gui/base/README.md](../../../home/linux/gui/base/README.md). A per-host difference goes
@@ -122,15 +126,3 @@ What a screenshot cannot show:
 
 Do not "test" with commands that act on the session the user is looking at: `niri msg action quit`,
 `niri msg action power-off-monitors`, `noctalia msg dpms-off`, `noctalia msg session lock`.
-
-## Why these rules exist
-
-- `063c31cc refactor(noctalia): hot-reload config via out-of-store symlink` - the baseline is
-  out-of-store precisely so shell edits do not need a switch.
-- `1546e54b chore(noctalia): move OSD and notifications to the bottom-right` and
-  `e93cb979 fix(noctalia): keep the bar readable in light mode` - changes that parse fine and only a
-  screenshot can judge.
-- `495c3669 fix(xdg): order autostart apps after xdg-desktop-portal` - sandboxed apps raced the
-  portal at login; the fix orders the unit.
-- `33383414 fix(niri): match outputs by EDID to survive connector renumbering` - match outputs by
-  EDID, not by connector name.

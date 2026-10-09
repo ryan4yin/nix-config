@@ -33,7 +33,8 @@ rebuild and switch on every desktop.
 Nothing in this flake evaluates the sync flow: no `secrets.nix` entry, no `agenix -r`, no lock bump,
 so the three-step order in §2 does not apply to it. Its manifest and file list live in
 `~/codes/nix-secrets/dotfiles/`; this repository carries the pointer, never the inventory. Do not
-list synced paths here or copy one into a Nix module.
+list synced paths here or copy one into a Nix module. The flow covers the desktops only; do not set
+it up on a server or a cluster node.
 
 `nushell-secrets.nu` already moved to `~/.secrets/nushell-secrets.nu`. It has no agenix entry and
 must not get one back.
@@ -71,8 +72,8 @@ must not get one back.
 | Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
 | Secret-bearing dotfiles edited in place       | `~/codes/nix-secrets/dotfiles/` — private, not a flake input, no entry in `secrets.nix`        |
 
-The private repository groups the `.age` files: `desktop/` (only desktops decrypt them), `server/`
-(any server), `certs/`, and `public/`.
+The private repository keeps its `.age` files in `desktop/` (only desktops decrypt them), `server/`
+(any server), and `certs/`; `public/` holds publishable plaintext, not `.age`.
 
 ## 2. Add or change a secret
 
@@ -115,10 +116,6 @@ just -f secrets/Justfile rekey                                   # re-encrypt af
 encrypts to the recipients in `secrets.nix`, so it needs no `sudo`. `edit` passes `EDITOR=hx` to the
 root `agenix` process, because `sudo` resets the environment and the invoking user's `EDITOR` would
 not reach it; do not add `sudo -E` or set `EDITOR` yourself.
-
-The repository keeps a single amended commit: `git commit --amend -a --no-edit`,
-`git reflog expire --expire-unreachable=now --all`, `git gc --prune=now`, then force push. Treat
-amend and force push as impactful and get authorization first.
 
 ## 4. Modes and ownership
 
@@ -180,16 +177,3 @@ you set, an old copy gone) instead of assuming activation did it.
   reads that as a local edit and reports a conflict.
 - **A secret is gone after a reboot on a desktop:** it moved out of agenix and its `$HOME` directory
   is not in `preservation.preserveAt`, so the tmpfs root drops it.
-
-## Why these rules exist
-
-- `4909f635 security: scope privileges and stop a world-readable secret copy (#335)` - the
-  `environment.etc` copy trap in step 3.
-- `c8e76cef fix(darwin): agenix - remove non-exist secret` - a declaration left behind after its
-  file was deleted.
-- `4211d18a` - a shared `modules/nixos/base` module included `nix-access-tokens`, which not every
-  host had; the reference moved to `modules/nixos/desktop/nix.nix` (core rule 4).
-- `260da1ee chore: rename the nushell secret, and forbid reading decrypted secrets` - the no-reading
-  rule.
-- The move of `nushell-secrets.nu` out of agenix - the `flake.lock` pin, not the encryption, made
-  each edit of a hand-edited secret cost a rebuild and switch on every desktop.

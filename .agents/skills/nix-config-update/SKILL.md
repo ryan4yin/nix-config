@@ -1,7 +1,9 @@
 ---
 name: nix-config-update
 description:
-  Use when updating flake inputs, bumping nixpkgs, or rolling an update out to hosts in this repo.
+  Use when a version changes here: upgrading or updating a package or nixpkgs, bumping or pinning a
+  flake input (a tag or commit, not a branch), or deploying the result to hosts, VMs, and MicroVM
+  guests.
 ---
 
 # Updating this flake safely
@@ -31,7 +33,11 @@ deploying the result to any host.
 
 - `git status` is clean, and you are on `main` or a fresh branch for the work. If you are on an
   unrelated feature branch, stop and ask for the right branch before bumping.
-- `just test` is green _before_ the update, so you have a baseline to compare against.
+- `just test` is green _before_ the update, so you have a baseline to compare against. It and every
+  eval fetch the private `mysecrets` input over SSH; without that access they hang instead of
+  failing.
+- Check [WORKAROUNDS.md](../../../WORKAROUNDS.md) for the inputs and recipes you are about to use;
+  an active row that names one of them replaces its command here.
 - Enough disk for the new closures: `df -h /nix/store`. Broad nixpkgs bumps pull a lot.
 - Know what will move and choose the narrowest recipe that does the job.
 
@@ -72,7 +78,7 @@ Treat an update as a supply-chain event.
    - `lib.mkForce` overrides that silently replace existing settings;
    - eval-time network access or import-from-derivation.
 4. For nixpkgs-class inputs, skim the lock diff and expect broken packages and eval deprecation
-   warnings (see "Lessons from past updates").
+   warnings.
 5. Write the audit conclusion into the update commit message. If an automatic recipe already made
    the commit, amend it only after reviewing the diff; do not push the unaudited commit first.
 
@@ -85,6 +91,7 @@ Run these before any host is touched:
 - `just build-host <host>` — builds the full system closure and catches broken packages or build
   failures that eval misses.
 - `just build-microvm <guest>` — same, for a MicroVM guest.
+- `just test-vm` — the runtime security-VM check (needs `/dev/kvm`); `just test` does not run it.
 - `nix flake check` — broader checks when the change touches shared code.
 
 Cover every host you are about to deploy, and prefer building the closure over trusting a green
@@ -126,12 +133,14 @@ ssh root@<host> hostname  # the host that actually answers
 - Remote servers: `just shoryu [mode]`, `just shushou`, `just youko`, `just ruby`, `just kana`
 - All VM hosts at once: `just lab [mode]`; any Colmena tag: `just col <tag> [mode]`
 - k3s test nodes: `just k3s-test [mode]`
-- MicroVM guest: `just microvm-deploy <guest> <host> <guest-ip>` — deploy guests serially and check
-  each one before moving on.
+- MicroVM guest: `just microvm-deploy` currently fails at its activation step on the guest's
+  read-only `/nix/store`; WA-026 in [WORKAROUNDS.md](../../../WORKAROUNDS.md) carries the manual
+  path. Deploy guests serially and check each one before moving on.
 
 Use `boot` plus a deliberate reboot for anything that can drop networking mid-flight: the VM hosts
 with the `br0` bridge, and broad nixpkgs bumps. See
-[hosts/README.md](../../../hosts/README.md#deploying-vm-hosts).
+[hosts/README.md](../../../hosts/README.md#deploying-vm-hosts). Pause Flux sync on the k3s cluster
+before changing a node's networking, and resume it once the node is back.
 
 ## 6. Verify after deploying
 
@@ -158,15 +167,3 @@ with the `br0` bridge, and broad nixpkgs bumps. See
 would roll back to, so run them last, once the update has proven stable. `just gcroot` only lists GC
 roots. The full list of hazardous recipes is in the Command Hazards section of
 [AGENTS.md](../../../AGENTS.md#command-hazards).
-
-## Why these rules exist
-
-- `0fe12bef fix(nix): preserve default sandbox shell` - a `nix.settings` change used
-  `sandbox-paths`, which replaced Nix's compiled defaults (including the sandbox shell used for
-  legacy shebangs). Use `extra-sandbox-paths`, and verify with
-  `nix config show | grep sandbox-paths`.
-- `125bce3b fix: cuda12.8-cuda_cudart-12.8.90 is marked as broken` and
-  `78fc64e1 fix(neovim): disable nixvim manpage on broken nixpkgs pin` - broken packages after a
-  nixpkgs bump are normal; `just build-host` finds them before a deploy does.
-- `4bd463a7 chore(eval): resolve catppuccin and rust-overlay deprecation warnings` - input bumps
-  surface deprecation warnings that become errors in a later bump.

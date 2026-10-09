@@ -1,8 +1,9 @@
 ---
 name: nixpkgs-review
 description:
-  Use when reviewing an upstream NixOS/nixpkgs pull request before it is merged, including its
-  package changes, passthru tests, dependencies, or CI results.
+  Use when reviewing an upstream NixOS/nixpkgs pull request before it is merged -- a PR number or
+  `NixOS/nixpkgs#123` link -- including its package changes, passthru tests, dependencies, or CI
+  results.
 ---
 
 # Reviewing nixpkgs changes
@@ -12,10 +13,9 @@ changes against a PR base and can build selected packages and passthru tests. It
 way to build a package for local use or validate a nix-config lock update. For local use, build the
 needed package or test directly with the project's Nix commands.
 
-Review only the package(s) changed by the PR that are relevant to the review question. Add
-`--tests` when the selected package's passthru tests are part of the review. Do not broaden a review
-to unrelated packages; selecting a large source package can trigger substantial downloads and
-builds.
+Review only the package(s) changed by the PR that are relevant to the review question. Add `--tests`
+when the selected package's passthru tests are part of the review. Do not broaden a review to
+unrelated packages; selecting a large source package can trigger substantial downloads and builds.
 
 ## Choose the runner
 
