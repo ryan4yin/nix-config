@@ -128,7 +128,9 @@ repository, and cross-link them — no need to be told.
 - `~/codes/containers` — container images consumed by k8s-gitops; a tag bump is often a two-repo
   change.
 - `~/codes/nix-secrets` — the private agenix store behind `secrets/` and the `mysecrets` input:
-  ciphertext and recipient rules for the secrets declared here.
+  ciphertext and recipient rules for the secrets declared here. It also holds the `dotfiles/`
+  ciphertext behind [`dotfiles/`](./dotfiles/README.md); nothing in the flake consumes that subtree,
+  so a dotfiles change needs no lock bump and no `secrets.nix` entry.
 - `wallpapers`, `nur-ryan4yin`, `pyclipsync`, `nu_scripts` — flake inputs; bump with
   `just upp <input>` after their source changes, do not edit them from here.
 
@@ -139,6 +141,6 @@ repository, and cross-link them — no need to be told.
 - [Outputs and tests](./outputs/README.md)
 - [Hosts](./hosts/README.md), [system modules](./modules/README.md), and
   [Home Manager](./home/README.md)
-- [Secrets](./secrets/README.md), [backups](./BACKUP.md), and
+- [Secrets](./secrets/README.md), [dotfiles sync](./dotfiles/README.md), [backups](./BACKUP.md), and
   [hardened app wrappers](./hardening/README.md)
 - [Installing NixOS from the ISO](./nixos-installer/README.md)
