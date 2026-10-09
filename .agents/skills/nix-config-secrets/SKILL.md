@@ -1,8 +1,9 @@
 ---
 name: nix-config-secrets
 description:
-  Use when adding, changing, renaming, or removing an agenix secret, wiring one into a host, or
-  fixing a decryption or activation failure in this repo.
+  Use when adding, changing, renaming, or removing an agenix secret, deciding whether a secret
+  belongs to agenix or to the encrypted dotfiles sync, wiring a secret into a host, or fixing a
+  decryption or activation failure in this repo.
 ---
 
 # Working with secrets
@@ -14,10 +15,35 @@ in this public repository.
 
 Read [secrets/README.md](../../../secrets/README.md) for the concepts and the recipient rule.
 
+## Which flow a file belongs to
+
+Two age flows live in `~/codes/nix-secrets`, and a file belongs to exactly one.
+
+| Flow                            | Shape                                                          | Consumed as                                              | `flake.lock` bump |
+| ------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------- | ----------------- |
+| **agenix** (`secrets.nix`)      | static and one-way: repository → host, decrypted at activation | `/run/agenix/<name>` or an `environment.etc` copy        | yes               |
+| **dotfiles sync** (`dotfiles/`) | changes on the host; `save`/`restore` are manual, outside Nix  | a real file under `$HOME`, edited by hand or by its tool | **no**            |
+
+agenix is for the secrets that barely change and that a Nix module or service reads from the
+decrypted path. Everything else is a synced dotfile: Nix does not read it, it changes often, or it
+is a config file its tool keeps rewriting that happens to carry a few secrets inside. The pin
+decides it, not the encryption: `flake.lock` fixes the agenix revision, so every edit costs a
+rebuild and switch on every desktop.
+
+Nothing in this flake evaluates the sync flow: no `secrets.nix` entry, no `agenix -r`, no lock bump,
+so the three-step order in §2 does not apply to it. Its manifest and file list live in
+`~/codes/nix-secrets/dotfiles/`; this repository carries the pointer, never the inventory. Do not
+list synced paths here or copy one into a Nix module.
+
+`nushell-secrets.nu` already moved to `~/.secrets/nushell-secrets.nu`. It has no agenix entry and
+must not get one back.
+
 ## Core rules
 
 1. **Never read a decrypted secret.** Reference its path; do not `cat`, copy, or print it. Prove a
-   change with metadata (mode, owner, timestamps), never with content.
+   change with metadata (mode, owner, timestamps), never with content. The same holds for a file the
+   sync flow owns: it is a live credential under `$HOME`, and its path is listed in the private
+   repository, not here.
 2. **Three steps, in order.** The private repository changes first, then this repository's
    `flake.lock` moves `mysecrets` to that commit, then the declaration and consumer change here.
    `file = "${mysecrets}/x.age"` resolves against the locked revision, so a declaration that lands
@@ -43,6 +69,7 @@ Read [secrets/README.md](../../../secrets/README.md) for the concepts and the re
 | Which host gets which group                   | `modules.secrets.<group>.enable` in `outputs/<system>/src/<name>.nix` or a host module         |
 | Consumers                                     | modules reading `config.age.secrets."<name>".path` (default `/run/agenix/<name>`)              |
 | Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
+| Secret-bearing dotfiles edited in place       | `~/codes/nix-secrets/dotfiles/` — private, not a flake input, no entry in `secrets.nix`        |
 
 The private repository groups the `.age` files: `desktop/` (only desktops decrypt them), `server/`
 (any server), `certs/`, and `public/`.
@@ -124,9 +151,16 @@ you set, an old copy gone) instead of assuming activation did it.
   Check `secrets/`, `home/`, `modules/`, `hosts/`, outputs, tests, and the private repository.
 
 - Delete the `age.secrets` entry, its `environment.etc` placement, and every consumer in one change;
-  a declaration whose file no longer exists breaks activation.
+  a declaration whose file no longer exists breaks activation. On darwin also drop the path from the
+  `chown`/`chmod` list in `system.activationScripts.postActivation`.
 - Remove it from `secrets.nix` and delete the file in the private repository, then bump the lock.
 - A rename changes the attribute name and every consumer. The `.age` filename is separate.
+- Moving a secret **out** of agenix into the sync flow is that deletion plus what agenix used to
+  guarantee: the consumer points at a `$HOME` path, and on a preservation host the directory joins
+  `preservation.preserveAt`, which also sets its mode. A sourced file that may be missing is left to
+  fail: nushell has no conditional `source`
+  ([nushell#8214](https://github.com/nushell/nushell/issues/8214)), and a host without the file is
+  misconfigured, not half-working.
 
 ## 7. Failure modes
 
@@ -140,6 +174,12 @@ you set, an old copy gone) instead of assuming activation did it.
   `/persistent/etc/ssh/...` path, which exists before preservation mounts `/etc`.
 - **The first macOS activation fails** on the `/etc/agenix` copies, because they run before
   `activate-agenix` has decrypted anything. Run it again.
+- **Nushell exits 1 with `File not found` and the shell has no aliases:** the sourced secret file is
+  missing. agenix guaranteed the path; the sync flow does not, and the failure is left loud on
+  purpose. Restore the file on that host. Never silence it with an empty placeholder: the sync tool
+  reads that as a local edit and reports a conflict.
+- **A secret is gone after a reboot on a desktop:** it moved out of agenix and its `$HOME` directory
+  is not in `preservation.preserveAt`, so the tmpfs root drops it.
 
 ## Why these rules exist
 
@@ -151,3 +191,5 @@ you set, an old copy gone) instead of assuming activation did it.
   host had; the reference moved to `modules/nixos/desktop/nix.nix` (core rule 4).
 - `260da1ee chore: rename the nushell secret, and forbid reading decrypted secrets` - the no-reading
   rule.
+- The move of `nushell-secrets.nu` out of agenix - the `flake.lock` pin, not the encryption, made
+  each edit of a hand-edited secret cost a rebuild and switch on every desktop.

@@ -115,12 +115,6 @@ in
         }
         // user_readable;
 
-        # decrypted secret: AI agents must not read it, only reference the path
-        "nushell-secrets.nu" = {
-          file = "${mysecrets}/desktop/nushell-secrets.nu.age";
-        }
-        // user_readable;
-
         # work git identity, symlinked to ~/work/.gitconfig by home-manager
         "work-gitconfig" = {
           file = "${mysecrets}/desktop/work-gitconfig.age";
@@ -143,16 +137,6 @@ in
         "agenix/ryan4yin-gpg-subkeys.priv.age" = {
           source = config.age.secrets."ryan4yin-gpg-subkeys.priv.age".path;
           mode = "0000";
-        };
-
-        # Used by a home-manager module, so it must be readable by the user.
-        # Setting `mode` makes environment.etc copy the file instead of
-        # symlinking the runtime secret, so the owner must be set as well —
-        # otherwise it becomes a world-readable, root-owned copy of the secret.
-        "agenix/nushell-secrets.nu" = {
-          source = config.age.secrets."nushell-secrets.nu".path;
-          mode = "0400";
-          user = myvars.username;
         };
 
         # Used by a home-manager module, so it must be readable by the user.

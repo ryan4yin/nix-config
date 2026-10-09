@@ -77,12 +77,6 @@
       }
       // user_readable;
 
-      # decrypted secret: AI agents must not read it, only reference the path
-      "nushell-secrets.nu" = {
-        file = "${mysecrets}/desktop/nushell-secrets.nu.age";
-      }
-      // user_readable;
-
       # work git identity, symlinked to ~/work/.gitconfig by home-manager
       "work-gitconfig" = {
         file = "${mysecrets}/desktop/work-gitconfig.age";
@@ -108,10 +102,6 @@
     # The following secrets are used by home-manager modules
     # But nix-darwin doesn't support environment.etc.<name>.mode
     # So we need to change its mode manually
-    "agenix/nushell-secrets.nu" = {
-      source = config.age.secrets."nushell-secrets.nu".path;
-    };
-
     "agenix/work-gitconfig" = {
       source = config.age.secrets."work-gitconfig".path;
     };
@@ -124,11 +114,9 @@
     if [ -d /etc/agenix ]; then
       ${pkgs.coreutils}/bin/chown ${myvars.username} \
         /etc/agenix/ssh-key-romantic \
-        /etc/agenix/nushell-secrets.nu \
         /etc/agenix/work-gitconfig
       ${pkgs.coreutils}/bin/chmod 0500 \
         /etc/agenix/ssh-key-romantic \
-        /etc/agenix/nushell-secrets.nu \
         /etc/agenix/work-gitconfig
 
       ${pkgs.coreutils}/bin/chown root /etc/agenix/rclone.conf

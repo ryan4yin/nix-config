@@ -21,6 +21,18 @@ This directory contains this `README.md`, the `Justfile` with the agenix recipes
 `nixos.nix`/`darwin.nix` files that decrypt all my secrets via `agenix`. Then, I can use them in
 this flake.
 
+## Two Flows, and Which One a File Belongs To
+
+agenix holds the secrets that barely change and that a Nix module or service reads from the
+decrypted path. `flake.lock` pins `mysecrets`, so an agenix secret is a frozen revision: each edit
+costs a lock bump plus a rebuild and switch on every host that reads it.
+
+Anything else is a synced dotfile: Nix does not read it, it changes often, or it is a config file
+its tool keeps rewriting that happens to carry a few secrets inside. The private repository syncs
+those as age ciphertext under `dotfiles/`, by hand and outside Nix, so there is no `secrets.nix`
+entry and no lock bump. `nushell-secrets.nu` moved that way and is `~/.secrets/nushell-secrets.nu`
+now; do not re-add it to `age.secrets`. The file list stays in the private repository.
+
 ## Which Keys Go on a Secret
 
 **Every secret is decryptable by the desktops and by the offline `recovery_key`, and those two have
@@ -229,6 +241,10 @@ the `age.secrets.<name>.path` argument, which defaults to `/run/agenix/<name>`.
 3. On the new host:
    1. Clone this repo and run `nixos-rebuild switch` to deploy it, all the secrets will be decrypted
       automatically via the host private key.
+   2. A desktop also needs the synced dotfiles: regenerate their recipient list from `desktop_keys`
+      and run the sync's `restore` there before the first switch, so the shell's secret block is
+      present when the config sources it. See
+      [Two Flows](#two-flows-and-which-one-a-file-belongs-to).
 
 ## Troubleshooting
 

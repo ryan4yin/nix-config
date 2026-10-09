@@ -260,6 +260,11 @@ in
           directory = ".gnupg";
           mode = "0700";
         }
+        # hand-edited secret config; Nix does not deploy it
+        {
+          directory = ".secrets";
+          mode = "0700";
+        }
         {
           directory = ".ssh";
           mode = "0700";

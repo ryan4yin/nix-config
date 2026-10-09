@@ -1,17 +1,17 @@
 {
+  config,
   nu_scripts,
   ...
 }:
 {
   programs.nushell = {
-    # load the alias file for work
     # the file must exist, otherwise nushell will complain about it!
     #
     # currently, nushell does not support conditional sourcing of files
     # https://github.com/nushell/nushell/issues/8214
     extraConfig = ''
       # decrypted secret: AI agents must not read it
-      source /etc/agenix/nushell-secrets.nu
+      source ${config.home.homeDirectory}/.secrets/nushell-secrets.nu
 
       # Directories in this constant are searched by the
       # `use` and `source` commands.
