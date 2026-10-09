@@ -4,9 +4,10 @@
 
 ## Target configuration
 
-This is the best configuration tested so far and the target for normal use. It passed a **6-hour
-100G stress test with 0 errors**; highest sampled memory temperature: **56.8°C**. Keep these
-settings rather than increasing voltage further.
+This is the settled configuration for normal use. It passed a **6-hour 100G stress test with 0
+errors** (highest sampled memory temperature: **56.8°C**) and then **29.6 hours of daily use over
+two nights and one workday**, displays on and off, LLM serving throughout. Keep these settings
+rather than increasing voltage further.
 
 | Field                   | Target                    |
 | ----------------------- | ------------------------- |
@@ -19,10 +20,6 @@ settings rather than increasing voltage further.
 | DRAM VDDQ               | **1.28 V fixed**          |
 | DRAM VPP                | Auto (1.8 V)              |
 | tCL / tRCD / tRP / tRAS | 40 / 40 / 40 / 77         |
-
-Displays stayed on during the passing test. Daily-use stability and display-off transitions still
-need checking. Both voltage and the screen condition changed from the failed run, so their
-individual effects have not been isolated.
 
 ## Hardware
 
@@ -64,7 +61,8 @@ changed in each test.**
 | **1.13 V** | 1.28 V                   | 1.28 V                   | BIOS normal; no long test.                                   | Not recorded                       |
 | **1.15 V** | 1.28 V                   | 1.28 V                   | 100G, 15 minutes: PASS.                                      | 45.5°C*                            |
 | **1.15 V** | 1.28 V                   | 1.28 V                   | Long test froze; last saved duration: 21 minutes 17 seconds. | 56.5°C                             |
-| **1.17 V** | 1.28 V                   | 1.28 V                   | 100G, **6 hours: PASS**, displays kept on.                   | **56.8°C**                         |
+| **1.17 V** | 1.28 V                   | 1.28 V                   | 100G, **6 hours: PASS**.                                     | **56.8°C**                         |
+| **1.17 V** | 1.28 V                   | 1.28 V                   | **2 nights + 1 workday: no freeze**, displays on and off.    | Not recorded                       |
 | **1.20 V** | 1.28 V                   | 1.28 V                   | BIOS display corruption and freeze within 10 to 20 seconds.  | Not recorded                       |
 
 *The 15-minute test used sparse temperature samples; its true peak is unknown. Long tests sampled
@@ -76,3 +74,14 @@ Both recent long tests were on 2026-10-09:
   durations are lower bounds, not exact freeze times.
 - At 1.17 V, the test ran from 01:29 to 07:30, with 0 errors or hardware incidents and no swap use.
   Recorded temperatures stayed below 60°C.
+
+## Daily use
+
+One unbroken boot, 2026-10-09 01:24 to 2026-10-10 07:02: the 6-hour test and a workday with the
+displays on, then a night with them off. Load stayed high — 100G stress test, then continuous LLM
+serving with the KV cache streaming from RAM — and occupancy stayed around 70% or more.
+
+No machine check, hardware error, BUG, Oops, or GPU fall-off; no OOM or hung task; no log gap over
+60 seconds. Sleep/wake is untested — displays off only blanks them. Occupancy and temperature were
+not logged and the board has no EDAC counters, so an error would show up as a freeze or corruption,
+not a count.
