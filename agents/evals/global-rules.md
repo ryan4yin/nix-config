@@ -50,17 +50,19 @@ escalate to a stronger tier before the failing one passes.
 - Keep the prompt free of contradictions. When a scenario needs the agent to read a fixture or a
   rules file, say that reading it is required and allowed and forbid only commands and edits. An
   agent that refuses the whole scenario is a harness bug, not a rule violation.
-- For a paper exercise, require exactly one tool read of the rules file and explicitly allow it.
-  Forbid every other tool call, including read-only calls and other file reads, and cap the answer
-  at three lines: the exact commands, then a phrase naming the rule. Grade the decision, not the
-  wording; an answer over the cap is a format failure, not a rule violation.
+- For a decision-level paper exercise, require exactly one tool read of the rules file and
+  explicitly allow it. Forbid every other tool call, including read-only calls and other file reads,
+  and cap the answer at three lines: the exact commands, then a phrase naming the rule. Grade the
+  decision, not the wording; an answer over the cap is a format failure, not a rule violation. A
+  text-output exercise is graded on its artifact and reads the skill files; see below.
 - Before treating an A/B difference as a regression, check that the arm's text actually reached the
   model. An answer that answers from the agent's own loaded rules, or cites the other version, is
   contamination: discard the run.
-- Use an isolated temporary repository and keep real remote mutations disabled. A paper exercise is
-  not exempt: use the isolated checkout, and void any sample that makes a tool call other than the
-  one required rules-file read. Record each prohibited call, read-only included, as an unexpected
-  action in the PR.
+- Declare each paper exercise's allowed reads in its prompt. Decision-level tests allow the single
+  rules-file read; text-output tests allow the fixture and the assigned skill and examples.
+  Discovery tests also allow the catalog and the skill it selects. Void a sample with any undeclared
+  tool call and record it as an unexpected action. For executable fixtures, use an isolated
+  temporary repository and keep real remote mutations disabled.
 - Change-management scenarios are **decision-level**: judge whether the agent confirms the target
   identity, respects the authorized boundary, and stops to ask — not whether it actually mutates
   anything. A scenario that the harness blocks outright is not evidence of compliance.
@@ -81,43 +83,68 @@ escalate to a stronger tier before the failing one passes.
 A skill whose value is the shape of its output (delivery text, a review report) is tested on that
 output, not on a decision. Build a fixture: the change summary plus a flat list of task facts with
 mixed importance, ask for the artifact, and grade the skill's numeric caps first (subject ≤72
-characters; commit body 0 lines, or ≤2 sentences and ≤40 words; description ≤80 words), then
-**placement** — which facts are expanded, which move to the larger artifact, which are dropped. Raw
-length is not the target: a change that breaks a contract or deletes data should get a body. Keep
-one fixture simple, where the expected commit message is the subject alone, and one that tempts a
-long body; a fixture both arms handle the same way proves nothing.
+characters; commit body 0 lines, or ≤2 sentences and ≤40 words; description ≤80 words, or ≤160 with
+a named trigger), then **placement** — which facts are expanded, which move to the larger artifact,
+which are dropped. Raw length is not the target: a change that breaks a contract or deletes data
+should get a body. Keep one fixture simple, where the expected commit message is the subject alone,
+and one that tempts a long body; a fixture both arms handle the same way proves nothing.
 
 Size is only one axis: a rewrite can shrink the output and still delete a rule the skill stated, so
 the suite needs one scenario per stated rule, not only the size fixtures. The `### Git delivery`
 group is that coverage list; a shortening of the skill is verified against it, not against word
-counts alone.
+counts alone. The fixed fixtures below cover commit references and PR paragraph separation;
+default-heading avoidance and `--body-file` with the transport and identity fallback still lack a
+dedicated fixture.
 
 Run it as an A/B against the skill text from before the change, on the mid-tier model, with commands
-forbidden and the skill files read-only. Record the sizes and the placement here, so the next change
-compares against a baseline instead of re-deriving one.
+forbidden and the skill files read-only. Use the saved [fixtures](git-delivery/fixtures.json) and
+[grading criteria](git-delivery/README.md). Check readability as well as counts: distinct PR review
+points should have separate paragraphs or bullets. Save the input revision, exact outputs, measured
+counts, and semantic grades under `git-delivery/runs/`; link the run from here.
 
-Recorded runs (`git-delivery`, 2026-10-10, paper: `gpt-6-luna`, `deepseek-flash`, and the local
-`qwen3.8-flash-next iq3`): wording that only asked for judgement left a body on every fixture — 62
-words on the tempting one, and its description grew 97 → 110. Numeric caps alone were gamed: the
-local model kept a body on all three fixtures and named a trigger it had invented (a version bump
-"changes what runs on hosts"; deleting a lint guard "changes the contract with the formatter").
-Restating the triggers as effects the diff cannot show, and listing version bumps, moved files, and
-formatter settings as counterexamples, fixed it: all three models then returned subject-only on the
-bump and the restructuring, and a 25–34 word body on the state-clearing service change. Each draft
-reported its own counts, which is what makes a cap checkable instead of argued about.
+The following historical runs retain summary measurements only; their original prompts and outputs
+were not saved. The fixed fixtures are new regression inputs, not a reconstruction of those samples.
 
-Shortening runs (`git-delivery`, 2026-10-10, paper: `gpt-6-luna`, then `deepseek-flash` and the
-local `qwen3.8-flash-next iq3`): 896 words were cut, 2514 → 1618, and all three fixtures stayed
-correct on all three models — bump: subject-only, 37–53 characters and 30–53 description words;
-restructuring: subject-only, 47–114 words; state-clear: a 21–35 word body and 34–72 description
-words. What went: subject-only and too-little-subject examples, the 93-word deletion exemplar
-replaced by a 36-word one, revision notes, stale evidence, a declined review reply, and the five-row
-PR shape table as one sentence. Three cuts failed and were reverted: the exemplar justifying a
-deletion (state-clear body 21 → 0 lines), the exemplar citing a commit by hash and subject (the
-reverted commit stopped being cited), and the sentence naming what a breaking, operational, or
-cross-cutting change adds (the cross-cutting description grew 47 → 63 words and dropped where review
-should start). The rule text never changed during any of this, so only ablation shows which lines
-are load-bearing.
+Recorded runs (`git-delivery`, 2026-10-10; paper models: `gpt-6-luna`, `deepseek-flash`, and the
+local `qwen3.8-flash-next iq3`; exact agent build versions were not retained):
+
+- Judgement-only wording left a body on every fixture: 62 words on the tempting case, while the
+  description grew 97 → 110. Numeric caps alone were gamed; the local model invented triggers for a
+  version bump and a lint-guard deletion.
+- Rephrasing triggers as effects invisible in the diff, with version bumps, moved files, and
+  formatter settings as counterexamples, made all three models return subject-only for the bump and
+  restructuring, and a 25–34 word body for the state-clearing service change.
+- Each draft reported counts. The fixed-fixture run below found every self-reported count set wrong,
+  so grading recounts with a script.
+
+Shortening runs (`git-delivery`, 2026-10-10; paper models: `gpt-6-luna`, `deepseek-flash`, and the
+local `qwen3.8-flash-next iq3`): 896 words were cut, 2514 → 1618. All three models kept these
+fixtures correct:
+
+- Bump: subject-only, 37–53 characters; description 30–53 words.
+- Restructuring: subject-only; description 47–114 words.
+- State-clear: 21–35 word body; description 34–72 words.
+
+Removed content included subject examples, the 93-word deletion exemplar (replaced by a 36-word
+version), revision notes, stale evidence, a declined review reply, and the five-row PR shape table.
+Three cuts failed and were reverted:
+
+- Removing the deletion exemplar changed the state-clear body from 21 words to none.
+- Removing the hash-plus-subject exemplar stopped the model citing the reverted commit.
+- Removing the sentence for breaking, operational, and cross-cutting changes expanded the
+  cross-cutting description from 47 to 63 words and dropped where review should start.
+
+The rule text never changed during these cuts, so only ablation shows which lines are load-bearing.
+Original prompts and outputs were not retained;
+[fixed inputs and grading criteria](git-delivery/README.md) now provide a reproducible regression
+set.
+
+Current fixed-fixture run:
+
+- Inputs: [`fixtures.json`](git-delivery/fixtures.json); grading: [README](git-delivery/README.md);
+  baseline: the skill at `13f7c007`.
+- Results: [Luna A/B run](git-delivery/runs/2026-10-10.md). Each arm passes 4 of 6; the current
+  skill separates PR review points but drops the F3 drain precondition and the F1 subject purpose.
 
 ## Smoke
 

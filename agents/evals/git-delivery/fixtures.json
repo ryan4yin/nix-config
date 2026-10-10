@@ -1,0 +1,73 @@
+{
+  "repository": {
+    "name": "delivery-fixture",
+    "conventions": "Recent subjects use Conventional Commits. There is no PR template and no required disclosure or sign-off trailer. Refs trailers accept an abbreviated hash with its subject.",
+    "delivery": "The change summary is the complete staged and PR diff. This is an inactive paper exercise; no commits, publishing, or activation occurred."
+  },
+  "fixtures": [
+    {
+      "id": "F1-bump",
+      "change": "Pin worker-lib from 1.2.3 to 1.2.4; no other lines change.",
+      "facts": [
+        "Version 1.2.4 fixes retry handling under intermittent connection resets.",
+        "Revision aaa1111 reduced failed jobs by 35% in a Linux load test before the final pin change.",
+        "The final revision bbb2222 passed a retry smoke test on Linux x86_64; the load test was not repeated.",
+        "macOS was not tested."
+      ]
+    },
+    {
+      "id": "F2-restructure",
+      "change": "Convert 12 prose tables to grouped lists, remove a markdown table-padding lint guard, and move duplicated activation guidance into the shared command guide. No commands or runtime behavior change.",
+      "facts": [
+        "Prettier rewrote 187 lines when only three table entries changed.",
+        "Tables used only for mappings remain tables.",
+        "The shared command guide still says the user runs local activation commands.",
+        "The changes affect global guidance, repo skills, and eval instructions; they share the same table-padding problem.",
+        "Start review with the shared command guide to check that activation boundaries survived.",
+        "Revision ccc3333 passed a semantic content comparison on the documentation; no runtime test was relevant."
+      ]
+    },
+    {
+      "id": "F3-state-clear",
+      "change": "Add ExecStartPre=/bin/rm -rf %t/state to worker.service to remove stale startup state.",
+      "facts": [
+        "Every restart now deletes cached state, including pending jobs; completed jobs remain in the database.",
+        "Operators must drain pending jobs before restarting; removing the new pre-start command stops further deletion but cannot restore already deleted jobs.",
+        "Upstream issue #87 reports the stale-state startup failure; this patch is a workaround and does not resolve the upstream issue.",
+        "The investigation included five restart attempts and two discarded approaches.",
+        "Revision ddd4444 passed a stale-state restart test on Linux x86_64; no live host has been activated."
+      ]
+    },
+    {
+      "id": "F4-build-rule",
+      "change": "Add a Python3 build rule for status.py next to its existing Python2 rule.",
+      "facts": [
+        "Consumers can reference the local Python3 rule instead of defining their own.",
+        "Keeping the rules together simplifies upcoming automated build-file refactoring.",
+        "There is no runtime state deletion, stored-format change, or host activation.",
+        "Revision eee5555 built the new rule on Linux x86_64; runtime behavior was not tested."
+      ]
+    },
+    {
+      "id": "F5-commit-reference",
+      "change": "Remove the pre-start state deletion from worker.service to restore pending-job retention across restarts.",
+      "facts": [
+        "The deletion was introduced by commit 1a2b3c4, subject fix(worker): clear stale state before startup.",
+        "Pending jobs survive restarts again. Previously deleted jobs cannot be recovered by this fix.",
+        "Stale state is now rejected by the worker library, so the deletion workaround is obsolete.",
+        "Revision fff6666 passed the pending-job restart test on Linux x86_64; no live host has been activated."
+      ]
+    },
+    {
+      "id": "F6-format-migration",
+      "change": "Write cache expiry timestamps in seconds instead of milliseconds; readers invalidate old millisecond timestamps.",
+      "facts": [
+        "Old cache entries are invalidated on first read; the cache repopulates automatically.",
+        "Deploy readers that accept the new unit before writers; rolling back writers is safe while those readers remain deployed.",
+        "The rollout risks extra database reads while the cache warms; no performance improvement was measured.",
+        "Revision aaa7777 passed old-format invalidation and new-format round-trip tests on Linux x86_64.",
+        "No production rollout has happened."
+      ]
+    }
+  ]
+}
