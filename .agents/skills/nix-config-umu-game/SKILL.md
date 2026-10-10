@@ -16,24 +16,20 @@ specific installed release; then select it with `PROTONPATH` and pin that path i
 
 ## Bundled files
 
-| Path                            | What                                                |
-| ------------------------------- | --------------------------------------------------- |
-| `scripts/umu-install.nu`        | installer and template renderer                     |
-| `scripts/templates/*.tpl`       | non-executable templates; placeholders use `@NAME@` |
-| `scripts/tests/test_install.py` | offline regression tests                            |
+- `scripts/umu-install.nu`: installer and template renderer
+- `scripts/templates/*.tpl`: non-executable templates; placeholders use `@NAME@`
+- `scripts/tests/test_install.py`: offline regression tests
 
 ## Layout
 
-| Path                            | What                                                     |
-| ------------------------------- | -------------------------------------------------------- |
-| `~/Games/global.conf`           | optional, sourced by every game before its own `conf`    |
-| `~/Games/<name>/prefix`         | the Wine prefix (`WINEPREFIX`)                           |
-| `~/Games/<name>/conf`           | optional per-game overrides (`ENABLE_MANGOHUD=0`, ...)   |
-| `~/Games/<name>/prelaunch`      | optional executable, run before every launch             |
-| `~/Games/<name>/run`            | generated launcher                                       |
-| `~/Games/<name>/exec`           | generated helper: `exec <exe-or-tool> [args...]`         |
-| `~/Games/<name>/<name>.desktop` | generated desktop entry                                  |
-| `~/Games/<name>/uninstall`      | generated: drop the desktop entry and (with `y`) the dir |
+- `~/Games/global.conf`: optional, sourced by every game before its own `conf`
+- `~/Games/<name>/prefix`: the Wine prefix (`WINEPREFIX`)
+- `~/Games/<name>/conf`: optional per-game overrides (`ENABLE_MANGOHUD=0`, ...)
+- `~/Games/<name>/prelaunch`: optional executable, run before every launch
+- `~/Games/<name>/run`: generated launcher
+- `~/Games/<name>/exec`: generated helper: `exec <exe-or-tool> [args...]`
+- `~/Games/<name>/<name>.desktop`: generated desktop entry
+- `~/Games/<name>/uninstall`: generated: drop the desktop entry and (with `y`) the dir
 
 Run, from the repo root:
 

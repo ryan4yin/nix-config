@@ -31,8 +31,7 @@ back with git, and needs no rebuild. Only the store layer needs one.
    until a screenshot shows it correct. A setting that parses is not a setting that looks right.
 4. **Screenshots are the user's screen.** Capture as little as proves the change, keep the file out
    of the user's folders, and delete it afterwards (step 3).
-5. **`just niri` is the user's to run.** It activates the machine you are on through
-   `nixos-rebuild --sudo` and blocks on a password prompt.
+5. **`just niri` is the user's to run.**
 
 ## 1. Pick the layer
 

@@ -89,10 +89,11 @@ secret handling.
 Remaining work on the agent context, ordered by expected payoff. The goal is fewer tokens per
 session and closer adherence to these rules. Done so far: the rules source rename, the move of
 global skills to flake inputs (dropping superpowers, `find-skills`, and `caveman`), the i-have-adhd
-always-on block, and the table-padding and duplication cleanup in the repo skills. Historical
+always-on block, `find-docs` rewritten onto the nixpkgs `ctx7` CLI, the scenario and skill tables
+converted to lists, and the duplication cleanup in the repo skills. Historical
 [behavioral runs](evals/global-rules.md) cover tool-execution compression, whole-file compression,
 and boundaries for readiness waits, process inspection, and shell command sequencing on
-`gpt-6-luna`, the local model, and `gpt-6.1-sol`. A later full-table paper pass ran on
+`gpt-6-luna`, the local model, and `gpt-6.1-sol`. A later full-scenario-set paper pass ran on
 `DeepSeek-V41-Flash`, with focused verification on that model and `gpt-6-luna`. The added boundaries
 cost more than the compression saved; revision-specific sizes, results, and coverage limits are
 recorded in [#428](https://github.com/ryan4yin/nix-config/pull/428).
@@ -111,8 +112,6 @@ recorded in [#428](https://github.com/ryan4yin/nix-config/pull/428).
 - **Adapt `domain-modeling` in the fork** to record decisions in the repository's existing documents
   (here `AGENTS.md`, `WORKAROUNDS.md`, `SECURITY.md`, READMEs) and create `GLOSSARY.md` or ADRs only
   where none exist.
-- **Trim `find-docs`**: its description (~930 characters) is the longest in the catalog and says
-  "always use", and its body runs `npx ctx7@latest` unpinned and suggests `npm install -g`.
 - **Borrow small gstack ideas into the rules**: completion statuses (done, done with concerns,
   blocked, needs context); never call a failure pre-existing without running the same check on the
   base branch; a subagent with no one to ask takes the recommended option but never a destructive or

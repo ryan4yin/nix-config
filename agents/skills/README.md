@@ -12,22 +12,15 @@ Repository-scoped skills do not belong here; they live in the owning repository'
 
 ## Skills from flake inputs
 
-| Skill                      | Input               | Source                                                                                    |
-| -------------------------- | ------------------- | ----------------------------------------------------------------------------------------- |
-| `diagnosing-bugs`          | `mattpocock-skills` | [ryan4yin/mattpocock-skills](https://github.com/ryan4yin/mattpocock-skills) `main` (fork) |
-| `domain-modeling`          | `mattpocock-skills` | same                                                                                      |
-| `grill-with-docs`          | `mattpocock-skills` | same                                                                                      |
-| `grilling`                 | `mattpocock-skills` | same                                                                                      |
-| `prototype`                | `mattpocock-skills` | same                                                                                      |
-| `research`                 | `mattpocock-skills` | same                                                                                      |
-| `retro`                    | `mattpocock-skills` | same                                                                                      |
-| `setup-matt-pocock-skills` | `mattpocock-skills` | same                                                                                      |
-| `wayfinder`                | `mattpocock-skills` | same                                                                                      |
-| `writing-for-agents`       | `mattpocock-skills` | same                                                                                      |
-| `i-have-adhd`              | `i-have-adhd`       | [ryan4yin/i-have-adhd](https://github.com/ryan4yin/i-have-adhd) `main` (fork)             |
-| `humanizer`                | `humanizer`         | [blader/humanizer](https://github.com/blader/humanizer) `v3.1.0`                          |
-| `find-docs`                | `context7`          | [upstash/context7](https://github.com/upstash/context7) commit `522c4db4`                 |
-| `ponytail-review`          | `ponytail`          | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) `v5.1.0`            |
+- **`mattpocock-skills`** —
+  [ryan4yin/mattpocock-skills](https://github.com/ryan4yin/mattpocock-skills) `main` (fork):
+  `diagnosing-bugs`, `domain-modeling`, `grill-with-docs`, `grilling`, `prototype`, `research`,
+  `retro`, `setup-matt-pocock-skills`, `wayfinder`, `writing-for-agents`
+- **`i-have-adhd`** — [ryan4yin/i-have-adhd](https://github.com/ryan4yin/i-have-adhd) `main` (fork):
+  `i-have-adhd`
+- **`humanizer`** — [blader/humanizer](https://github.com/blader/humanizer) `v3.1.0`: `humanizer`
+- **`ponytail`** — [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) `v5.1.0`:
+  `ponytail-review`
 
 Dependencies travel together: `grill-with-docs` and `wayfinder` call `grilling` and
 `domain-modeling`; `wayfinder` also calls `research` and `prototype`, and points at
@@ -50,6 +43,13 @@ the pinned tag/commit in `flake.nix`) and check `git diff flake.lock`.
 `git-delivery` is maintained here rather than pulled from an input: commit messages, PR text, review
 replies, and cleanup after merge, all following the target repository's conventions. Edit it in
 place; the change reaches the next agent session without a switch.
+
+`find-docs` is a rewrite of `upstash/context7` `skills/find-docs` (MIT), vendored because the
+upstream body drives the CLI with `npx ctx7@latest` and suggests a global `npm install`, both of
+which the global rules forbid. This one calls the `ctx7` that Home Manager installs from nixpkgs
+(see [`packages.nix`](../../home/base/tui/agents/packages.nix)), and its flags match the packaged
+version: 0.5.12 has no `--language`, which upstream documents. Re-check `ctx7 --help` when nixpkgs
+bumps it.
 
 A third-party skill starts here only when it is being rewritten. Until then, pin it as a flake input
 so the license and provenance stay with the upstream repository and the diff stays reviewable.
