@@ -89,14 +89,13 @@ secret handling.
 Remaining work on the agent context, ordered by expected payoff. The goal is fewer tokens per
 session and closer adherence to these rules. Done so far: the rules source rename, the move of
 global skills to flake inputs (dropping superpowers, `find-skills`, and `caveman`), the i-have-adhd
-always-on block, and the table-padding and duplication cleanup in the repo skills. Four rounds were
-tested with [behavioral scenarios](evals/global-rules.md) on `gpt-6-luna`, then the local model,
-then `gpt-6.1-sol`: tool-execution compression, a whole-file compression, boundaries for readiness
-waits, process inspection, and shell command sequencing, and a paper pass over the full scenario
-tables on `gpt-6-luna` and `DeepSeek-V41-Flash`. The file is 14,989 characters, 213 above the
-version on `main`: the boundaries written down cost more than the compression saved. On `gpt-6-luna`
-the compression round took clean readiness waits from 0 of 4 to 4 of 4, and answers that assumed a
-shell variable survived between calls from 2 of 4 to 0 of 4.
+always-on block, and the table-padding and duplication cleanup in the repo skills. Historical
+[behavioral runs](evals/global-rules.md) cover tool-execution compression, whole-file compression,
+and boundaries for readiness waits, process inspection, and shell command sequencing on
+`gpt-6-luna`, the local model, and `gpt-6.1-sol`. A later full-table paper pass ran on
+`DeepSeek-V41-Flash`, with focused verification on that model and `gpt-6-luna`. The added boundaries
+cost more than the compression saved; revision-specific sizes, results, and coverage limits are
+recorded in [#428](https://github.com/ryan4yin/nix-config/pull/428).
 
 - **Fold `mattpocock/skills` `pr` into `git-delivery`**: before/after evidence, one-way or two-way
   door, and blast radius for PR bodies.

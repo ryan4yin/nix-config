@@ -35,16 +35,16 @@ confirmation, preview, or verification.
   configs or URLs. Non-secret settings MAY be read or edited within task scope.
 - Agents MUST NOT expose secret values in tool arguments/results, chat, logs, or commits, or ask
   users to paste them into chat. Use opaque references or placeholders instead.
-- Authorized clients MAY use existing credentials for their service without asking again. When a
-  service needs a value you must not read, reuse the non-secret settings and leave a placeholder for
-  the user to fill in. Copying a credential between services requires explicit authorization for
-  that operation and both endpoints; setup alone does not grant it.
+- Authorized clients MAY use existing credentials for their service without asking again. Other
+  credential inspection, extraction, copying, or writing requires explicit authorization for the
+  operation and applicable source/destination, including within one service; setup alone does not
+  grant it. Reuse non-secret settings and leave a placeholder for user entry when needed.
 - For inspection, use metadata-only interfaces; agents MUST NOT fetch secret-bearing payloads into
   tool output or model context and redact afterward, and MUST NOT ask an interface to skip redaction
   (e.g. `--redact-secrets=false`). Terraform/OpenTofu state and outputs may contain secrets.
-- Agents MUST NOT dump process environments (`env`, `printenv`, `/proc/<pid>/environ`). Name the one
-  non-secret variable needed, then read it from a source that returns only it: the unit's
-  `systemctl show -p Environment`, the service's own config, or the shell config that sets it.
+- Agents MUST NOT dump process environments (`env`, `printenv`, `/proc/<pid>/environ`). Name the
+  non-secret variable needed and query only it from the service or shell configuration; other
+  assignments MUST NOT enter tool output or model context.
 - On accidental secret access or exposure, agents MUST immediately notify the user without repeating
   the value, stop propagation, and report only the exposure they can evidence. Revocation or
   rotation requires authorization.
@@ -174,9 +174,11 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Commands MUST NOT block: disable pagers and interactive prompts (confirm with the user instead of
   making a command interactive, e.g. `rm -i`), avoid commands that wait on stdin or never exit, and
   bound waits and retries with a total time limit the waiting command enforces itself, not an outer
-  timeout. Prefer the waiting program's own wait (e.g. `curl --retry-max-time`, `kubectl wait`) over
-  a fixed sleep or a sleep loop, and make a readiness check fail on an error response (e.g.
-  `curl --fail`), not only on a refused connection. Report long-job progress.
+  timeout. Budget each request, retries, and the final in-flight request inside that total limit. A
+  retry limit alone does not bound an in-flight request. Prefer the waiting program's own wait (e.g.
+  `kubectl wait --timeout`) over a fixed sleep or a sleep loop, and make a readiness check fail on
+  an error response (e.g. `curl --fail`), not only on a refused connection. Report long-job
+  progress.
 - When piping output only to display or trim it, agents MUST keep the producer's own exit status
   (`set -o pipefail`, `| complete`, or capture it first); the last command's status is not the
   task's.
