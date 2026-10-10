@@ -46,10 +46,10 @@ suite passes when every `expr` equals its `expected`.
 Some tests iterate over every configuration, so a new host is covered automatically and must satisfy
 them. Others name specific hosts and only cover a new host if you add it.
 
-| Kind                | Tests                                                                                                                                                                                                      |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Every configuration | `hostname`, `kernel`, `nix-system-features`, `security-apparmor`, `security-container-groups`, `security-exporters`, `security-firewall`, `security-k3s-kubeconfig`, `security-kernel`, `security-ssh-x11` |
-| Named hosts only    | `btrbk`, `home-manager`, `home-manager-xdg`, `computer-use-headless`, `k3s-api-endpoint`, `k3s-master-home-manager`, `idols-ai-gpu`, `youko-metrics`, `ups-metrics`, `shoukei-logind`                      |
+| Kind                | Tests                                                                                                                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Every configuration | `hostname`, `kernel`, `nix-system-features`, `security-apparmor`, `security-container-groups`, `security-exporters`, `security-firewall`, `security-k3s-kubeconfig`, `security-k3s-pod-firewall`, `security-kernel`, `security-ssh-x11` |
+| Named hosts only    | `btrbk`, `home-manager`, `home-manager-xdg`, `computer-use-headless`, `k3s-api-endpoint`, `k3s-master-home-manager`, `idols-ai-gpu`, `idols-ai-voice-input`, `security-postgres-auth`, `youko-metrics`, `ups-metrics`, `shoukei-logind` |
 
 `hostname` expects each configuration's `networking.hostName` to equal its name. Niri desktop
 configurations are the exception (`ai-niri` → `ai`, `shoukei-niri` → `shoukei`) and are listed in
@@ -71,15 +71,8 @@ Problems:
       agenix secrets.
   - [ ] Maybe it's better to test every service separately, not the whole host?
 
-How to run a host's NixOS tests:
-
-```bash
-# Format: nix build .#<name>-nixos-tests
-
-nix build .#ruby-nixos-tests
-```
-
-Only `ruby` currently defines a `*-nixos-tests` output.
+No host defines a NixOS integration test yet: full-host tests are tracked as WA-013 in
+[WORKAROUNDS.md](../WORKAROUNDS.md). What runs today is the eval set above, with `just test`.
 
 ## Overview
 

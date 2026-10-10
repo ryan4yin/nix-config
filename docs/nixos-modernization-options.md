@@ -1,8 +1,8 @@
 # NixOS Modernization — Options and Decision Record
 
 > **Purpose:** let the maintainer decide, per candidate, whether it is worth adopting — by comparing
-> it against what this repository does **today**. The plan documents under `docs/plans/` are
-> downstream of this file: a plan item is only approved work once its card here says **adopt**.
+> it against what this repository does **today**. A plan derived from this file is only approved
+> work once its card here says **adopt**.
 >
 > Researched against nixpkgs `nixos-unstable` on 2026-10-07. Option names and upstream wording are
 > quoted from the module sources cited in each card.
