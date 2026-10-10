@@ -19,11 +19,15 @@ Commits guidance when shaping a body, a PR description, or a review reply.
 
 ## Before writing
 
-1. Read the target repository's conventions: contribution guide, PR template, and
-   `git log --no-merges` on the touched files for subject prefixes, trailers, and body style. They
-   override the defaults below. Supply required metadata (sign-off, issue or release links, AI
-   disclosure) only when it is true; never invent identities or reviews, or carry one repository's
-   requirements into another.
+**First, every time, even for a one-line change:** run
+`git log --no-merges -n 20 -- <touched paths>` and read the contribution guide and PR template if
+present. When you present a draft, name in one line the convention you followed and where you found
+it.
+
+1. The repository's subject prefixes, trailers, and body style override the defaults below, which
+   apply only when the repository shows no convention. Supply required metadata (sign-off, issue or
+   release links, AI disclosure) only when it is true; never invent identities or reviews, or carry
+   one repository's requirements into another.
 2. Identify the comparison base and destination separately (fork, release branch, an existing PR's
    base). Check that the commit identity and hosting account fit this repository; report a mismatch
    instead of editing Git config.
@@ -48,8 +52,9 @@ Commits guidance when shaping a body, a PR description, or a review reply.
 - Notes meant only for current reviewers, such as changes since the last round, stay out of the
   message.
 - Pass the message with `git commit -F <file>` or one `-m` per paragraph, never an editor or literal
-  `\n`. If a hook rejects the commit, nothing was committed: fix the cause and commit again, since
-  `--amend` would rewrite the previous commit.
+  `\n`. Never bypass hooks (`--no-verify`, `-c core.hooksPath=...`) without the user's
+  authorization. If a hook rejects the commit, nothing was committed: fix the cause and commit
+  again, since `--amend` would rewrite the previous commit.
 
 ## Pull/merge requests
 

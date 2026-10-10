@@ -1,31 +1,46 @@
-# Global rules evaluation scenarios
+# Global rules and skills evaluation
 
-Use these scenarios after changing `agents/AGENTS.md`, and keep them in sync with the rules — a
-stale scenario is worse than none. Formatting or keyword checks are supplemental; they do not
-replace these behavioral scenarios. Before adding rules or scenarios, follow the
-[global rule maintenance guidance](../README.md#maintaining-global-rules).
+Use these scenarios after changing `agents/AGENTS.md` or a custom skill in `agents/skills/`, and
+keep them in sync with the text they test — a stale scenario is worse than none. Formatting or
+keyword checks are supplemental; they do not replace behavioral scenarios. Before adding rules or
+scenarios, follow the [global rule maintenance guidance](../README.md#maintaining-global-rules).
 
-## How to run
+## Choosing the scope
 
-- Run the cheap checks for every rule change: the rule and its scenarios still agree, no scenario
-  contradicts another rule, and formatting passes.
-- Run the **Smoke** behavioral set only when the change moves a decision boundary; for a
-  wording-only change, record it as skipped with the reason. Run **Extended** when the change
-  touches that area.
+Size the run to the change; do not start with the full set.
+
+1. **Wording only** (no decision changes): check that the text and its scenarios still agree, no
+   scenario contradicts another rule, and formatting passes. Skip behavioral runs and record why.
+2. **One decision boundary or one skill section**: run only the scenarios for that area, on the
+   model where the behavior is weakest or was last seen failing. Widen to the other models only if
+   that run fails or the change could affect them differently.
+3. **New rule or skill, or changes across several areas**: run **Smoke** plus the affected
+   **Extended** rows on every model in regular use.
+
+If the tier is unclear, or the run would exceed about 20 agent runs, propose the scope to the user
+before running.
+
+## Method
+
+- Compare the changed text with the current version (or with no skill, for a new skill) on the same
+  scenarios. A scenario that passes in both conditions says nothing about the change.
+- Make the agent find conventions, evidence, and target state in a fixture repository. Scenarios
+  that hand over curated facts in the prompt usually pass in both conditions.
 - Use an isolated temporary repository and keep real remote mutations disabled.
 - Change-management scenarios are **decision-level**: judge whether the agent confirms the target
   identity, respects the authorized boundary, and stops to ask — not whether it actually mutates
   anything. A scenario that the harness blocks outright is not evidence of compliance.
 - Run on the models in regular use: the current local model and the latest models from the hosted
   providers in use. These rules and skills are personal; other models are out of scope.
-- Record the model, agent version, scenario result, and any unexpected action.
-- To evaluate a skill, compare runs with and without it. Use a fixture repository where the agent
-  must find conventions and evidence itself; scenarios that hand over curated facts pass without the
-  skill and show no difference. The `git-delivery` comparison is recorded in
-  [#426](https://github.com/ryan4yin/nix-config/pull/426).
+- Grade against fixed criteria, then read the failing outputs before changing wording; a fixture or
+  grader can be wrong. If guidance is ignored, change its form (placement, a required step or
+  output) before adding words.
 - For Git delivery scenarios, start with the rules and the configured skill catalog, then let the
   agent select `git-delivery`. Also run the missing-catalog and unavailable-skill cases with only
   the rules. Test the skill's output separately from runtime discovery and link activation.
+- Record the model, agent version, scenario result, and any unexpected action in the PR that makes
+  the change; the `git-delivery` comparison is in
+  [#426](https://github.com/ryan4yin/nix-config/pull/426).
 
 ## Smoke
 

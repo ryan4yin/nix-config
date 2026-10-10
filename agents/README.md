@@ -23,7 +23,8 @@ Keep one canonical home for each fact; link between layers instead of copying pa
 - `AGENTS.md`: global baseline rules for coding agents.
 - `skills/`: custom global skills, e.g. [`git-delivery`](skills/git-delivery/SKILL.md) for commit
   messages, PR descriptions, review replies, and cleanup after merge.
-- `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
+- `evals/global-rules.md`: how to size and run evaluations for changes to the rules or skills, and
+  the behavioral scenarios.
 - `install-tooling.md`: curated install snippets for external agent tooling (`npx skills`,
   `npx ctx7`, tuios integration).
 
@@ -52,7 +53,9 @@ and counterexamples in [behavioral scenarios](evals/global-rules.md).
 - Review the net growth and remove repetition. Brevity must preserve the boundary; verify both the
   prohibited action and the authorized action still behave as intended.
 
-Run the scenarios required by the evaluation guide after rule changes, and record their results.
+After changing the rules or a custom skill, size the evaluation to the change as the
+[evaluation guide](evals/global-rules.md#choosing-the-scope) describes, and record the results in
+the PR.
 
 ## Deployment
 
