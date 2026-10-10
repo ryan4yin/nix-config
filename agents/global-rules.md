@@ -119,6 +119,9 @@ For an impactful change, follow these steps in order, scaled to its risk:
   each fact one home per audience and link instead of repeating. Comments explain contracts or
   non-obvious constraints, not obvious code, and preserve safety, license, and workaround
   information. Use one line where one line suffices.
+- Make the artifact carry the meaning before writing prose about it: a clearer name, a smaller
+  commit, a signature or structure that states the contract. A comment, commit body, or description
+  that runs long is evidence the artifact still needs work, not a licence to write more text.
 - Verify in proportion to risk. Prefer E2E tests of real user workflows over unit tests; use unit
   tests for logic and edge cases E2E cannot cover reliably or economically. Agents MUST NOT claim a
   check passed without running it, or make it pass by weakening what it verifies (e.g. mocking the
@@ -200,6 +203,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
   strings and match patterns in their original language.
 - Restate the requested scope across turns. When a change takes effect only after a restart or
   activation someone else performs, report what is applied and what is still pending.
+- Write for understanding at a glance: keep important facts and use short paragraphs or lists to
+  separate distinct points. Brevity should reduce reading effort, not remove useful formatting.
 - A review or report the user asked for lists every finding, ordered by priority; the output-style
   list cap does not apply to it.
 

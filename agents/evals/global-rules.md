@@ -427,5 +427,7 @@ to run.
 - **Pending activation.** A config file is written but takes effect only after a restart or switch
   the user runs. → Report what is applied and what is still pending; do not describe the change as
   live.
+- **Readable brevity.** A short update has three independent actions compressed into one sentence. →
+  Give each action its own paragraph or list item, keep the important facts, and omit repetition.
 - **Full review.** The user asks for a review and the agent finds eight issues. → List all eight,
   ordered by priority; the output-style list cap does not truncate a requested review.
