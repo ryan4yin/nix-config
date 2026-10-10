@@ -113,9 +113,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
   provides over a new one, and reuse existing config and abstractions instead of duplicating them.
   Agents MUST NOT delete config the task did not ask about; when config merely appears unused,
   report it instead. Ask before a breaking change.
-- Documentation should be self-contained: state the current state and the reason for a non-obvious
-  choice, and leave out the investigation path and irrelevant history. Code comments: one line where
-  one line suffices.
+- Documentation should describe current behavior for readers without the conversation history. Give
+  each fact one home per audience and link instead of repeating explanations. Comments explain
+  contracts or non-obvious constraints, not obvious code; preserve safety, license, and workaround
+  information. Use one line where one line suffices.
 - Verify in proportion to risk. Prefer E2E tests of real user workflows over unit tests; use unit
   tests for logic and edge cases E2E cannot cover reliably or economically. Agents MUST NOT claim a
   check passed without running it, or make it pass by weakening what it verifies (e.g. mocking the

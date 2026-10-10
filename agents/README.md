@@ -81,9 +81,9 @@ To add a custom global skill:
    the shared root; see the module's
    [discovery references](../home/base/tui/agents/README.md#global-skills).
 
-For the first migration, `AGENTS.md` includes a direct source fallback for `git-delivery`, so the
-procedure stays accessible after updating the checkout but before activating its link. Source edits
-in a separate worktree do not update the deployed checkout; merge or update that checkout first.
+`AGENTS.md` provides a direct source fallback for `git-delivery`, so the procedure stays accessible
+before activating its link. Out-of-store links point at the canonical checkout; a separate worktree
+must be merged into that checkout before its content is deployed.
 
 The repository-root `AGENTS.md` contains guidance for this Nix configuration repository. It is not
 the global rules source and is not deployed.
@@ -113,4 +113,13 @@ Ideas worth adopting once a concrete need appears; nothing here is implemented y
 
 - Keep files portable and reviewable.
 - Keep secrets and machine-specific credentials out of this directory.
-- Keep guidance generic enough to reuse across multiple agent environments.
+- Keep guidance generic enough to reuse across multiple agent environments. Repository contribution
+  policies remain the source for commit formats, required metadata, and upstream review
+  requirements.
+
+Useful writing references:
+[GitHub's commit skill](https://github.com/github/awesome-copilot/blob/main/skills/git-commit/SKILL.md),
+[Sentry's PR writer](https://github.com/getsentry/skills/blob/main/skills/pr-writer/SKILL.md),
+[Nixpkgs contribution guidance](https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md), and
+[prune-comments-and-docs](https://github.com/MidAutumnMoon/TaysiTsuki/blob/master/home/agents/skills/prune-comments-and-docs/SKILL.md).
+These are references, not installed skills or additional authorization.
