@@ -60,6 +60,24 @@ projects live in [agents/](./agents/README.md).
 - Use `lib.mkDefault` for defaults and `lib.mkForce` only when necessary.
 - Give module options a `description` and preserve platform-specific conditions.
 
+## AI Disclosure
+
+Follow the
+[Nixpkgs Automation/AI policy](https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#automationai-policy)
+for disclosure of AI-assisted contributions:
+
+- Every commit containing non-trivial AI-generated code, documentation, or commit-message text MUST
+  include an `Assisted-by:` Git trailer, even when the generated text was subsequently edited.
+- The trailer MUST identify the tool and the primary model's name and version, for example:
+  `Assisted-by: DeepSeek Harness (gpt-6.1-sol)`. Record the actual identifiers used; if unavailable,
+  obtain them before committing rather than guessing. `Co-authored-by:` does not satisfy this rule.
+- Preserve applicable `Assisted-by:` trailers when amending, rebasing, or squashing commits. Before
+  committing, verify that the final message contains the required disclosure.
+- AI-generated PR descriptions, reviews, and issue comments MUST disclose AI assistance separately;
+  commit trailers alone do not cover them. Routine formatting and short boilerplate completions are
+  exempt. Research, testing, debugging, and private review are exempt when no substantial generated
+  output is included in the contribution; disclose significant technical influence where relevant.
+
 ## Security
 
 Security architecture, control limitations, rollout checks, and prioritized work are documented in
