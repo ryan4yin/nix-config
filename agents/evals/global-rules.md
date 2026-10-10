@@ -1,7 +1,7 @@
 # Global rules and skills evaluation
 
-Use these scenarios after changing `agents/AGENTS.md` or a custom skill in `agents/skills/`, and
-keep them in sync with the text they test — a stale scenario is worse than none. Formatting or
+Use these scenarios after changing `agents/global-rules.md` or a custom skill in `agents/skills/`,
+and keep them in sync with the text they test — a stale scenario is worse than none. Formatting or
 keyword checks are supplemental; they do not replace behavioral scenarios. Before adding rules or
 scenarios, follow the [global rule maintenance guidance](../README.md#maintaining-global-rules).
 

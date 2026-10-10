@@ -1,62 +1,18 @@
 # Agent Tooling Commands
 
-Reference commands for installing external agent tooling: skills via `npx skills`, the `ctx7` docs
-tool, and the tuios harness integration. Keep the global set small and install task-specific skills
-in the relevant project.
+Reference commands for project-scoped skills and other external agent tooling. Global skills are not
+installed here: they are pinned flake inputs or live in `agents/skills/`, deployed by Home Manager;
+see [skills/README.md](skills/README.md). Do not install global skills with `npx skills add -g`; its
+copies collide with the Home Manager links in `~/.agents/skills`.
 
 This repository's own skills live in `.agents/skills/`: they are tracked in git and discovered
-automatically, so do not install, overwrite, or remove them with `npx skills`. The commands below
-are for external and global skills.
-
-## Inspect and update installed skills
-
-```bash
-# list all installed skills (project + global)
-npx skills list
-
-# list only global skills
-npx skills ls -g
-
-# check for updates
-npx skills check
-
-# update all installed skills
-npx skills update
-```
+automatically, so do not install, overwrite, or remove them with `npx skills`.
 
 ## Discover skills from repositories
 
 ```bash
-# list skills in a repository
+# list skills in a repository without installing anything
 npx skills add anthropics/skills --list
-```
-
-## Global baseline
-
-```bash
-# structured planning, testing, debugging, review, and verification workflows
-npx skills add -g obra/superpowers --skill '*'
-
-# discover task-specific skills when needed
-npx skills add -g vercel-labs/skills --skill 'find-skills'
-```
-
-`find-docs` is also installed globally from a local source, so it has no upstream install command.
-
-## Optional global skills
-
-```bash
-# rewrite prose to sound natural while preserving claims and technical meaning
-npx skills add -g blader/humanizer --skill 'humanizer'
-
-# review code for unnecessary abstractions and over-engineering
-npx skills add -g DietrichGebert/ponytail --skill 'ponytail-review'
-
-# enable a terse response mode when context or token usage matters
-npx skills add -g JuliusBrussee/caveman --skill 'caveman'
-
-# shape replies for an ADHD reader: next action first, numbered steps, restated state
-npx skills add -g ayghri/i-have-adhd --skill 'i-have-adhd'
 ```
 
 ## Optional project skills
@@ -76,15 +32,13 @@ npx skills add anthropics/skills --skill 'webapp-testing'
 npx skills add anthropics/skills --skill 'pdf'
 
 # run CodeQL and Semgrep on repositories written in supported languages; not for pure Nix projects
+# (CC-BY-SA-4.0: copies and modifications carry attribution and the same license)
 npx skills add trailofbits/skills --skill 'codeql' --skill 'semgrep'
 ```
 
 ## Other agent tooling
 
 ```bash
-# context7: up-to-date library docs and code examples for LLMs and agents
-npx ctx7 setup
-
 # tuios: register it as an MCP server for the harness (read-only, or --mcp-write
 # for typing tools); also reports agent state into the tuios pane
 tuios integration install opencode --mcp-write
@@ -92,12 +46,7 @@ tuios integration install opencode --mcp-write
 
 References:
 
-- https://github.com/obra/superpowers
 - https://github.com/vercel-labs/skills
-- https://github.com/blader/humanizer
-- https://github.com/DietrichGebert/ponytail
-- https://github.com/JuliusBrussee/caveman
-- https://github.com/ayghri/i-have-adhd
 - https://github.com/Gaurav-Gosain/tuios
 - https://github.com/anthropics/skills
 - https://github.com/trailofbits/skills

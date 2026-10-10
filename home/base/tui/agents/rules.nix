@@ -3,8 +3,9 @@ let
   # The global rules are edited often, so link them out-of-store: an edit reaches
   # the next agent session without a Home Manager switch. Same rationale as
   # `home/base/tui/tuios`; the checkout path is hardcoded, like the repo's other
-  # out-of-store links.
-  rules = "${config.home.homeDirectory}/nix-config/agents/AGENTS.md";
+  # out-of-store links. The source is not named AGENTS.md, so agents working in
+  # this checkout do not load it a second time as nested instructions for agents/.
+  rules = "${config.home.homeDirectory}/nix-config/agents/global-rules.md";
   link = config.lib.file.mkOutOfStoreSymlink rules;
 in
 {
