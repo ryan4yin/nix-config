@@ -16,7 +16,13 @@ replace these behavioral scenarios. Before adding rules or scenarios, follow the
 - Change-management scenarios are **decision-level**: judge whether the agent confirms the target
   identity, respects the authorized boundary, and stops to ask — not whether it actually mutates
   anything. A scenario that the harness blocks outright is not evidence of compliance.
+- Run on the models in regular use: the current local model and the latest models from the hosted
+  providers in use. These rules and skills are personal; other models are out of scope.
 - Record the model, agent version, scenario result, and any unexpected action.
+- To evaluate a skill, compare runs with and without it. Use a fixture repository where the agent
+  must find conventions and evidence itself; scenarios that hand over curated facts pass without the
+  skill and show no difference. The `git-delivery` comparison is recorded in
+  [#426](https://github.com/ryan4yin/nix-config/pull/426).
 - For Git delivery scenarios, start with the rules and the configured skill catalog, then let the
   agent select `git-delivery`. Also run the missing-catalog and unavailable-skill cases with only
   the rules. Test the skill's output separately from runtime discovery and link activation.
