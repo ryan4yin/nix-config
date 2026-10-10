@@ -111,8 +111,7 @@ for unexpected removals, major-version jumps, and kernel or systemd changes that
 Modes are `switch` (take effect now, the default) and `boot` (only the next boot). Add `debug` for
 verbose output. Anything else is rejected.
 
-Activating the machine you are on runs `nixos-rebuild --sudo` (or `sudo -E darwin-rebuild`) and
-blocks on a password prompt. **An agent cannot run these; they are for the user to run by hand.**
+The user runs these for the machine you are on:
 
 - Current desktop: `just niri [mode] [verbosity]`
 - Other local NixOS host: `just local [mode] [verbosity]`
