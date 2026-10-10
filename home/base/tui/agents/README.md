@@ -3,14 +3,16 @@
 Home Manager module that owns the Nix side of the AI coding agents: deploying the global rules and
 custom global skills, the agent CLIs, and their environment.
 
-The canonical rules text, behavioral scenarios, and external-tool snippets live in the top-level
-[`agents/`](../../../../agents/README.md) directory. That directory stays portable Markdown with no
-Nix dependency; this module only wires it into place.
+The canonical rules text, local skills, behavioral scenarios, and external-tool snippets live in the
+top-level [`agents/`](../../../../agents/README.md) directory. That directory stays portable
+Markdown with no Nix dependency; this module only wires it into place.
 
 ## Files
 
 - `rules.nix`: links the global rules to every agent's config location.
-- `skills.nix`: links individual custom global skills into `~/.agents/skills/`.
+- `skills.nix`: links the global skills into `~/.agents/skills/<name>`, from pinned flake inputs and
+  from `agents/skills/`; the inventory is
+  [agents/skills/README.md](../../../../agents/skills/README.md).
 - `packages.nix`: agent CLIs (`codex`, `opencode2`, `pi`) from the `llm-agents` flake input, plus
   `pkgs.mcp-grafana` for the Grafana MCP server.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
@@ -22,7 +24,7 @@ settings that bite.
 ## Deployed rule targets
 
 `rules.nix` creates one out-of-store symlink per target, all pointing at
-`~/nix-config/agents/AGENTS.md`:
+`~/nix-config/agents/global-rules.md`:
 
 | Agent      | Target                         |
 | ---------- | ------------------------------ |
@@ -35,17 +37,18 @@ settings that bite.
 dsh reads both `~/.dsh/AGENTS.md` (`$DSH_HOME`) and, from `0.2.1-alpha.2` on, `~/.agents/AGENTS.md`
 (`$DSH_AGENTS_HOME`); identical content renders once.
 
-Out-of-store means an edit to `agents/AGENTS.md` takes effect on the next agent session without a
-Home Manager switch. The trade-off is that the rules stay writable in the checkout; use a store
-symlink (`home.file.<target>.source = ../../../../agents/AGENTS.md`) if immutability matters more
-than fast iteration.
+Out-of-store means an edit to `agents/global-rules.md` takes effect on the next agent session
+without a Home Manager switch. The trade-off is that the rules stay writable in the checkout; use a
+store symlink (`home.file.<target>.source = ../../../../agents/global-rules.md`) if immutability
+matters more than fast iteration.
 
 ## Global skills
 
-`skills.nix` links `~/nix-config/agents/skills/git-delivery` into `~/.agents/skills/git-delivery`
-using the same out-of-store mechanism. Each custom skill gets an explicit link; the parent directory
-and third-party skills remain unmanaged. Home Manager's normal collision checks apply: do not force
-replacement of an existing same-name skill.
+`skills.nix` links every directory under `agents/skills/` out-of-store, so an edit applies on the
+next session, and the skills selected from pinned flake inputs as store paths, which change only
+with a lock bump and a switch. Home Manager's normal collision checks apply: do not force
+replacement of an existing same-name skill, and do not install global skills with
+`npx skills add -g` alongside these links.
 
 The installed releases support the shared root and symlinked skill directories, so no agent-specific
 compatibility links are needed:
@@ -63,4 +66,4 @@ them. After activation, verify the link target and that `git-delivery` appears i
 Custom root overrides or disabled discovery still need runtime configuration.
 
 The rules include a direct checkout fallback for `git-delivery` before its link is installed.
-Third-party skills and runtime permissions are not managed by this module.
+Runtime permissions are not managed by this module.

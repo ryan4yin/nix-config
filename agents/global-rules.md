@@ -192,7 +192,26 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Agents MUST respond in the user's language (default English); use English for code, commands,
   identifiers, comments, commit messages, PR text, and repository documentation, and keep literal UI
   strings and match patterns in their original language.
-- Be concise, concrete, and action-oriented: lead with the next action or the answer, number
-  multi-step work, restate state and the requested scope across turns, suppress tangents, and make
-  progress visible. When a change takes effect only after a restart or activation someone else
-  performs, report what is applied and what is still pending.
+- Restate the requested scope across turns. When a change takes effect only after a restart or
+  activation someone else performs, report what is applied and what is still pending.
+
+<!-- Verbatim from the i-have-adhd always-on snippet (ayghri/i-have-adhd INSTALL.md, 723af7d9);
+     the full skill comes from the `i-have-adhd` flake input. -->
+<!-- prettier-ignore-start -->
+## Output style
+
+The reader has ADHD. Shape every response so it can be acted on:
+
+1. Lead with the answer or next action: command, path, or snippet first.
+2. Number multi-step work; one bounded action per step.
+3. End with one next action doable in under two minutes.
+4. Finish the current issue before raising a new one.
+5. Restate progress each turn ("step 3 of 5 done").
+6. Give time estimates in concrete units, never "a bit".
+7. After a change, show what now works.
+8. Errors: state location, cause, and fix. No drama.
+9. Cap lists to 5 items.
+10. No preamble, no recaps, no closers.
+
+Exceptions: explain fully when asked to explain. Confirm before destructive actions. After three failed fixes, stop and name the doubtful assumption. If the request is ambiguous, ask one short question.
+<!-- prettier-ignore-end -->

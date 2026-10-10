@@ -173,6 +173,32 @@
       flake = false;
     };
 
+    # Global agent skills, linked into ~/.agents/skills by
+    # home/base/tui/agents/skills.nix. The ryan4yin forks track main; a fork sync
+    # pulls upstream changes, so review the lock diff before deploying it.
+    mattpocock-skills = {
+      url = "github:ryan4yin/mattpocock-skills";
+      flake = false;
+    };
+    i-have-adhd = {
+      url = "github:ryan4yin/i-have-adhd";
+      flake = false;
+    };
+    # Third-party skills pinned to a tag or commit; bump deliberately.
+    humanizer = {
+      url = "github:blader/humanizer/v3.1.0";
+      flake = false;
+    };
+    ponytail = {
+      url = "github:DietrichGebert/ponytail/v5.1.0";
+      flake = false;
+    };
+    # context7's release tags predate skills/find-docs, so pin a commit.
+    context7 = {
+      url = "github:upstash/context7/522c4db4fa2e1e31f1b320f09fa8c8fab376987a";
+      flake = false;
+    };
+
     ########################  My own repositories  #########################################
 
     # my private secrets, it's a private repository, you need to replace it with your own.

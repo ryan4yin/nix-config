@@ -109,6 +109,23 @@
         "type": "github"
       }
     },
+    "context7": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791560179,
+        "narHash": "sha256-cChMAOd8cYTcNZt0AaUcJ4G+tT0w/64PRsbKJ3ADeY8=",
+        "owner": "upstash",
+        "repo": "context7",
+        "rev": "522c4db4fa2e1e31f1b320f09fa8c8fab376987a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "upstash",
+        "repo": "context7",
+        "rev": "522c4db4fa2e1e31f1b320f09fa8c8fab376987a",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1781825982,
@@ -536,6 +553,39 @@
         "type": "github"
       }
     },
+    "humanizer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790574878,
+        "narHash": "sha256-n8cbTzhlGf8VnWpPukq7XD2mucIrqyE1XMpAAc5oA8A=",
+        "owner": "blader",
+        "repo": "humanizer",
+        "rev": "225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "blader",
+        "ref": "v3.1.0",
+        "repo": "humanizer",
+        "type": "github"
+      }
+    },
+    "i-have-adhd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791329026,
+        "narHash": "sha256-5EYLKtrg0RQN0CHR51Sc2qSkgYklu6lqzuH87Dp3gv4=",
+        "owner": "ryan4yin",
+        "repo": "i-have-adhd",
+        "rev": "723af7d9afaf43eb871dbcce6129e2bf80de90d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "i-have-adhd",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -581,6 +631,22 @@
       "original": {
         "owner": "numtide",
         "repo": "llm-agents.nix",
+        "type": "github"
+      }
+    },
+    "mattpocock-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791543409,
+        "narHash": "sha256-NljCSZNI3sZ+vbCw7pRdrwR7try4BxOFp4gdjuWYtzs=",
+        "owner": "ryan4yin",
+        "repo": "mattpocock-skills",
+        "rev": "49dd158d1076134a641b33efb035946536778336",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "mattpocock-skills",
         "type": "github"
       }
     },
@@ -975,6 +1041,23 @@
         "type": "github"
       }
     },
+    "ponytail": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791476378,
+        "narHash": "sha256-diYM3gqcEboVi7OQff/SvlE0TKAIPTJDIggX7rZWslY=",
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "rev": "9cc65d03aa2da1db7121b912d03596409ee340b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DietrichGebert",
+        "ref": "v5.1.0",
+        "repo": "ponytail",
+        "type": "github"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -1060,12 +1143,16 @@
         "agenix": "agenix",
         "catppuccin": "catppuccin",
         "colmena": "colmena",
+        "context7": "context7",
         "disko": "disko",
         "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",
         "home-manager": "home-manager",
+        "humanizer": "humanizer",
+        "i-have-adhd": "i-have-adhd",
         "lanzaboote": "lanzaboote",
         "llm-agents": "llm-agents",
+        "mattpocock-skills": "mattpocock-skills",
         "microvm": "microvm",
         "my-asahi-firmware": "my-asahi-firmware",
         "mysecrets": "mysecrets",
@@ -1083,6 +1170,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nu_scripts": "nu_scripts",
         "nur-ryan4yin": "nur-ryan4yin",
+        "ponytail": "ponytail",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
         "pyclipsync": "pyclipsync",

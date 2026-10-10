@@ -1,8 +1,8 @@
 # Repository Agent Guide
 
 This flake manages NixOS hosts, macOS via nix-darwin, shared Home Manager profiles, and Colmena
-deployments. Keep repository guidance here; reusable global rules live in `agents/AGENTS.md`. See
-[agents/README.md](./agents/README.md) for their scope and deployment targets.
+deployments. Keep repository guidance here; the global rules and global skills shared across
+projects live in [agents/](./agents/README.md).
 
 ## Where Changes Belong
 
@@ -18,7 +18,7 @@ deployments. Keep repository guidance here; reusable global rules live in `agent
   the `nix-config-secrets` skill.
 - `overlays/` and `hardening/` hold package overlays and hardened (nixpak/bwrap) wrappers.
 - Desktop (Niri and Noctalia) config is mostly out-of-store symlinks that hot-reload without a
-  rebuild; see the desktop skill below before changing it.
+  rebuild; use the `nix-config-desktop` skill before changing it.
 
 ## Commands and Platforms
 
@@ -100,29 +100,8 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
 
 ## Task Skills
 
-Reusable, repo-scoped task procedures live in `.agents/skills/`. Note the leading dot: `agents/` is
-the global rules source shared across projects, while `.agents/` applies only to this repository and
-is discovered by OpenCode and compatible tools.
-
-- [`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md) —
-  updating flake inputs and rolling the result out to hosts safely.
-- [`.agents/skills/nix-config-desktop/SKILL.md`](./.agents/skills/nix-config-desktop/SKILL.md) —
-  which layer owns a Niri/Noctalia, input-method, or autostart setting, live reload vs a rebuild,
-  and on-screen verification.
-- [`.agents/skills/nix-config-secrets/SKILL.md`](./.agents/skills/nix-config-secrets/SKILL.md) —
-  adding, changing, or removing an agenix secret, and verifying it without reading it.
-- [`.agents/skills/nix-config-new-host/SKILL.md`](./.agents/skills/nix-config-new-host/SKILL.md) —
-  wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
-- [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) — mapping
-  a broken eval, build, activation, unit, proxy or DNS outage, host, MicroVM guest, or CI job to the
-  command that localizes it.
-- [`.agents/skills/nix-config-umu-game/SKILL.md`](./.agents/skills/nix-config-umu-game/SKILL.md) —
-  installing a Windows game launcher via the umu installer it bundles; per-game fixes stay under
-  `~/Games/`.
-- [`.agents/skills/nixpkgs-review/SKILL.md`](./.agents/skills/nixpkgs-review/SKILL.md) — reviewing
-  nixpkgs PRs locally first, with GHA for cross-architecture or larger reviews.
-- [`.agents/skills/nixpkgs-patched/SKILL.md`](./.agents/skills/nixpkgs-patched/SKILL.md) — carrying
-  selected unmerged nixpkgs changes through the personal patched fork safely.
+Repo-scoped task procedures live in `.agents/skills/` (leading dot; agents discover them and list
+them in their skill catalog). `agents/` without the dot holds the global rules and skills.
 
 ## Related Repositories
 
@@ -136,8 +115,9 @@ repository, and cross-link them — no need to be told.
   change.
 - `~/codes/nix-secrets` — the private agenix store behind `secrets/` and the `mysecrets` input:
   ciphertext and recipient rules for the secrets declared here.
-- `wallpapers`, `nur-ryan4yin`, `pyclipsync`, `nu_scripts` — flake inputs; bump with
-  `just upp <input>` after their source changes, do not edit them from here.
+- `wallpapers`, `nur-ryan4yin`, `pyclipsync`, `nu_scripts`, `mattpocock-skills`, `i-have-adhd` —
+  flake inputs from the user's own repositories; bump with `just upp <input>` after their source
+  changes, do not edit them from here.
 
 ## Further Context
 
