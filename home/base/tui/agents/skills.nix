@@ -4,6 +4,7 @@
   mattpocock-skills,
   i-have-adhd,
   humanizer,
+  ponytail,
   context7,
   ...
 }:
@@ -14,7 +15,7 @@ let
   local = ../../../../agents/skills;
   checkout = "${config.home.homeDirectory}/nix-config/agents/skills";
   localNames = lib.attrNames (
-    lib.filterAttrs (name: type: type == "directory" && name != "LICENSES") (builtins.readDir local)
+    lib.filterAttrs (name: type: type == "directory") (builtins.readDir local)
   );
 
   # Skills taken from flake inputs: name -> directory in the input. Dependencies
@@ -39,6 +40,7 @@ let
 
       i-have-adhd = "${i-have-adhd}/skills/i-have-adhd";
       find-docs = "${context7}/skills/find-docs";
+      ponytail-review = "${ponytail}/skills/ponytail-review";
     };
 
   # humanizer's skill is its repository root, which also carries an AGENTS.md

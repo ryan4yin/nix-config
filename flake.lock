@@ -1041,6 +1041,23 @@
         "type": "github"
       }
     },
+    "ponytail": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791476378,
+        "narHash": "sha256-diYM3gqcEboVi7OQff/SvlE0TKAIPTJDIggX7rZWslY=",
+        "owner": "DietrichGebert",
+        "repo": "ponytail",
+        "rev": "9cc65d03aa2da1db7121b912d03596409ee340b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DietrichGebert",
+        "ref": "v5.1.0",
+        "repo": "ponytail",
+        "type": "github"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -1153,6 +1170,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nu_scripts": "nu_scripts",
         "nur-ryan4yin": "nur-ryan4yin",
+        "ponytail": "ponytail",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
         "pyclipsync": "pyclipsync",

@@ -11,6 +11,3 @@ temp
 # its YAML dumper wraps prose differently from prettier; formatting them here
 # would be undone on the next write.
 home/base/tui/agents/dsh/web
-
-# Skills vendored verbatim from upstream; reformatting would make upstream diffs noisy.
-agents/skills/*/

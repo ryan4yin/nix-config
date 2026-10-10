@@ -27,6 +27,7 @@ Repository-scoped skills do not belong here; they live in the owning repository'
 | `i-have-adhd`              | `i-have-adhd`       | [ryan4yin/i-have-adhd](https://github.com/ryan4yin/i-have-adhd) `main` (fork)             |
 | `humanizer`                | `humanizer`         | [blader/humanizer](https://github.com/blader/humanizer) `v3.1.0`                          |
 | `find-docs`                | `context7`          | [upstash/context7](https://github.com/upstash/context7) commit `522c4db4`                 |
+| `ponytail-review`          | `ponytail`          | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) `v5.1.0`            |
 
 Dependencies travel together: `grill-with-docs` and `wayfinder` call `grilling` and
 `domain-modeling`; `wayfinder` also calls `research` and `prototype`, and points at
@@ -46,12 +47,9 @@ the pinned tag/commit in `flake.nix`) and check `git diff flake.lock`.
 
 ## Skills in this directory
 
-| Skill             | Upstream                                                                                                  | Modified |
-| ----------------- | --------------------------------------------------------------------------------------------------------- | -------- |
-| `git-delivery`    | none; maintained here (commit messages, PR text, review replies, cleanup after merge)                     | n/a      |
-| `ponytail-review` | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) `88cedebb` `skills/ponytail-review` | no       |
+`git-delivery` is maintained here rather than pulled from an input: commit messages, PR text, review
+replies, and cleanup after merge, all following the target repository's conventions. Edit it in
+place; the change reaches the next agent session without a switch.
 
-`ponytail-review` is copied verbatim from upstream; `Modified` stays `no` until a local edit lands,
-then record what changed. Its upstream license text is in [`LICENSES/`](LICENSES/). Every directory
-here is excluded from Prettier and typos so upstream diffs stay exact; drop the exclusion for a
-skill once it is fully rewritten.
+A third-party skill starts here only when it is being rewritten. Until then, pin it as a flake input
+so the license and provenance stay with the upstream repository and the diff stays reviewable.
