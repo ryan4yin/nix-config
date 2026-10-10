@@ -66,5 +66,11 @@ in
     # wait for it: otherwise activation can start mihomo before the mount is up
     # and fail with "Failed to set up credentials: No such file or directory".
     systemd.services.mihomo.unitConfig.RequiresMountsFor = builtins.dirOf configFile;
+
+    # Force the TUN's v6 address up: left to itself mihomo skips the v6 half when
+    # no NIC has an IPv6 address at startup, yet still installs its strict-route v6
+    # blackhole, which locks the host out of IPv6. Upstream knob (`inet6-address`,
+    # meta-docs tun.md); the full chain is WA-030.
+    systemd.services.mihomo.serviceConfig.Environment = [ "SKIP_SYSTEM_IPV6_CHECK=1" ];
   };
 }

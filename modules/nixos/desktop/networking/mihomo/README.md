@@ -95,6 +95,8 @@ targets instead of writing a config the core rejects.
   Alibaba/Baidu blocks) are CT v6 interconnect dead zones that GSLB normally steers around, and a
   bare-IP TLS test needs `-k` -- a certificate name mismatch (curl error 60) means the connection
   itself worked. A browser IPv6 test under TUN measures the proxy node, not the line.
+- `SKIP_SYSTEM_IPV6_CHECK=1` on the unit: the core's startup IPv6 check plus `strict-route`'s v6
+  blackhole otherwise lock the host out of ever getting a GUA (WA-030).
 - `tun.stack` stays at upstream's default `mips`; nftables rules out `system` and `mixed`. The
   gateway runs `mixed`.
 - The gateway sniffs, the desktop does not. LAN clients that use DoH dial the IP they resolved
