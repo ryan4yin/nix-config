@@ -109,23 +109,6 @@
         "type": "github"
       }
     },
-    "context7": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1791560179,
-        "narHash": "sha256-cChMAOd8cYTcNZt0AaUcJ4G+tT0w/64PRsbKJ3ADeY8=",
-        "owner": "upstash",
-        "repo": "context7",
-        "rev": "522c4db4fa2e1e31f1b320f09fa8c8fab376987a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "upstash",
-        "repo": "context7",
-        "rev": "522c4db4fa2e1e31f1b320f09fa8c8fab376987a",
-        "type": "github"
-      }
-    },
     "crane": {
       "locked": {
         "lastModified": 1781825982,
@@ -1143,7 +1126,6 @@
         "agenix": "agenix",
         "catppuccin": "catppuccin",
         "colmena": "colmena",
-        "context7": "context7",
         "disko": "disko",
         "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",

@@ -193,11 +193,6 @@
       url = "github:DietrichGebert/ponytail/v5.1.0";
       flake = false;
     };
-    # context7's release tags predate skills/find-docs, so pin a commit.
-    context7 = {
-      url = "github:upstash/context7/522c4db4fa2e1e31f1b320f09fa8c8fab376987a";
-      flake = false;
-    };
 
     ########################  My own repositories  #########################################
 

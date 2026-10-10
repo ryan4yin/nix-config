@@ -5,7 +5,6 @@
   i-have-adhd,
   humanizer,
   ponytail,
-  context7,
   ...
 }:
 let
@@ -39,7 +38,6 @@ let
       writing-for-agents = "${mp}/productivity/writing-for-agents";
 
       i-have-adhd = "${i-have-adhd}/skills/i-have-adhd";
-      find-docs = "${context7}/skills/find-docs";
       ponytail-review = "${ponytail}/skills/ponytail-review";
     };
 
