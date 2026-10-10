@@ -70,5 +70,6 @@ export def darwin-switch [
 }
 
 export def darwin-rollback [] {
-    ./result/sw/bin/darwin-rebuild --rollback
+    # darwin-rebuild refuses switch/activate/rollback/check unless it runs as root.
+    sudo -E ./result/sw/bin/darwin-rebuild --rollback
 }

@@ -58,4 +58,9 @@ extend-ignore-re = [
 
   # nixos-facter is the upstream hardware-report tool; the dictionary wants "factor".
   "facter",
+
+  # wluma's ambient-light-sensor key (`als`, `als.iio`, `aop-sensors-als`); the
+  # checker wants `also`, and the pre-commit hook rewrites it.
+  "als",
+  "ALS",
 ]

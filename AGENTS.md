@@ -75,14 +75,19 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
 
 - `just eval-host <host>`, `just build-host <host>`, `just build-microvm <guest>`, and `just test`
   evaluate or build without activating a system. Use these commands for previews and validation.
-- `just up`, `just upp`, and `just up-nix` update flake inputs and commit the lock file. Use
-  `nix flake update <input>` when the update should remain uncommitted.
+- `just up`, `just upp`, `just up-nix`, and `just override-pkgs <hash>` update flake inputs and
+  commit the lock file. Use `nix flake update <input>` when the update should remain uncommitted.
 - `just niri` and `just local` activate the machine you are on through `sudo` and block on a
-  password prompt; the user runs them, not an agent.
-- `just shoryu`, `just shushou`, `just youko`, `just lab`, and `just k3s-test` activate systems
-  through Colmena. Use the narrower recipe that matches the intended host scope.
-- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM guest.
-  Deploy guests serially and check the guest Node and host services after each activation.
+  password prompt; `just darwin-rollback` switches the macOS generation on the machine you are on,
+  and a bare `sudo systemctl restart <unit>` activates a running service the same way. The user runs
+  these, not an agent.
+- `just shoryu`, `just shushou`, `just youko`, `just ruby`, `just kana`, `just lab`,
+  `just k3s-test`, and `just col <tag>` activate systems through Colmena. Use the narrower recipe
+  that matches the intended host scope.
+- `just microvm-deploy <guest> <physical-host>` installs one MicroVM guest's runner on the physical
+  host and restarts its unit there. A later host activation re-points the guest at the runner baked
+  into the host's system; see WA-026 in [WORKAROUNDS.md](./WORKAROUNDS.md) before deploying. Deploy
+  guests serially and check the guest Node and host services after each activation.
 - VM hosts (`shoryu`, `shushou`, `youko`) carry the `br0` bridge for their guests. Use the
   `boot`-based host deployment procedure for network stack or broad nixpkgs changes; see
   [hosts/README.md](./hosts/README.md#deploying-vm-hosts).
@@ -102,13 +107,15 @@ is discovered by OpenCode and compatible tools.
 - [`.agents/skills/nix-config-update/SKILL.md`](./.agents/skills/nix-config-update/SKILL.md) —
   updating flake inputs and rolling the result out to hosts safely.
 - [`.agents/skills/nix-config-desktop/SKILL.md`](./.agents/skills/nix-config-desktop/SKILL.md) —
-  which layer owns a Niri/Noctalia setting, live reload vs a rebuild, and on-screen verification.
+  which layer owns a Niri/Noctalia, input-method, or autostart setting, live reload vs a rebuild,
+  and on-screen verification.
 - [`.agents/skills/nix-config-secrets/SKILL.md`](./.agents/skills/nix-config-secrets/SKILL.md) —
   adding, changing, or removing an agenix secret, and verifying it without reading it.
 - [`.agents/skills/nix-config-new-host/SKILL.md`](./.agents/skills/nix-config-new-host/SKILL.md) —
   wiring a new host into `hosts/`, `outputs/`, networking, secrets, and the eval tests.
 - [`.agents/skills/nix-config-debug/SKILL.md`](./.agents/skills/nix-config-debug/SKILL.md) — mapping
-  a broken eval, build, activation, unit, host, or MicroVM guest to the command that localizes it.
+  a broken eval, build, activation, unit, proxy or DNS outage, host, MicroVM guest, or CI job to the
+  command that localizes it.
 - [`.agents/skills/nix-config-umu-game/SKILL.md`](./.agents/skills/nix-config-umu-game/SKILL.md) —
   installing a Windows game launcher via the umu installer it bundles; per-game fixes stay under
   `~/Games/`.

@@ -3,7 +3,8 @@ name: nixpkgs-patched
 description:
   Use when temporarily carrying an unmerged nixpkgs pull request or commit in the personal
   ryan4yin/nixpkgs fork, updating the nixos-unstable-patched branch, or consuming that branch from
-  this nix-config flake.
+  this nix-config flake, including a WORKAROUNDS.md row whose removal condition is carrying the
+  patch.
 ---
 
 # Carrying a nixpkgs patch
@@ -25,20 +26,21 @@ Before changing either repository, confirm the remotes, branch, PR commits, and 
 git remote -v
 git status --short
 git branch --show-current
-git fetch upstream nixos-unstable
-git fetch origin nixos-unstable-patched
+git fetch origin nixos-unstable
+git fetch fork nixos-unstable-patched
 gh pr view <pr> --repo NixOS/nixpkgs --json state,baseRefName,commits
 ```
 
-The intended fork is `ryan4yin/nixpkgs` and the intended branch is `nixos-unstable-patched`. Confirm
-those names; do not infer a remote from its position in the remote list.
+The intended fork is `ryan4yin/nixpkgs` and the intended branch is `nixos-unstable-patched`. In
+`~/src/nixpkgs`, `origin` is `NixOS/nixpkgs` and the fork is `fork` (or `ryan4yin`); never push the
+patched branch to `origin`. Confirm the names; do not infer a remote from its position in the list.
 
 ## 2. Refresh the patched branch
 
 Do this in the nixpkgs checkout (`~/src/nixpkgs`), preserving any existing work:
 
 1. Save a rollback ref to the current patched tip.
-2. Align the branch with the current `upstream/nixos-unstable`.
+2. Align the branch with the current `origin/nixos-unstable`.
 3. Cherry-pick the exact PR commit(s), using `-x` so the upstream source remains recorded.
 4. Resolve conflicts deliberately and inspect the complete diff against upstream.
 
@@ -61,7 +63,7 @@ package use or a patched-branch lock update. For this workflow, inspect the diff
 
 ```bash
 git diff --check
-git log --oneline --decorate upstream/nixos-unstable..HEAD
+git log --oneline --decorate origin/nixos-unstable..HEAD
 ```
 
 Run package builds or tests only when the user requests them or when the selected package is needed
@@ -73,8 +75,8 @@ never imply that unrelated packages or platforms were covered.
 After authorization and validation:
 
 ```bash
-git push --force-with-lease origin nixos-unstable-patched
-git ls-remote origin refs/heads/nixos-unstable-patched
+git push --force-with-lease fork nixos-unstable-patched
+git ls-remote fork refs/heads/nixos-unstable-patched
 ```
 
 Then in this repository, update only the patched input and inspect the lock diff:
@@ -88,8 +90,8 @@ just build-host <affected-host>
 ```
 
 The nix-config eval and host-build commands validate this configuration. They are not a reason to
-build every package in the patched nixpkgs branch. Run a host build only for a host that consumes the
-changed package and only when the user asks for that validation.
+build every package in the patched nixpkgs branch. Run a host build only for a host that consumes
+the changed package and only when the user asks for that validation.
 
 Keep the nixpkgs fork change, lock update, and unrelated configuration changes separate. Do not run
 `just niri`, `just local`, or a remote deployment from this skill; activation is a separate

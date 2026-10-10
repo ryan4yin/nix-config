@@ -200,8 +200,8 @@ checks remain necessary after deployment.
   `root_squash` is deferred: the existing PVC subdirectories are root-owned (observed
   `drwxr-xr-x root root` and `drwxrwsr-x root 107`), so enabling it needs a one-time ownership
   migration and a maintenance window. See WORKAROUNDS.md.
-- **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the shared firewall
-  drops 5900-5910 on every host. Reach a console through an SSH tunnel.
+- **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the k3s firewall
+  drops 5900-5903 from pod sources. Reach a console through an SSH tunnel.
 - **Pod-to-host firewall:** two independent layers deny pod access to the credential-bearing host
   ports (SSH, NFS, Postgres, restic, VNC, Immich, exporter/monitoring). The
   `deny-pod-to-node-admin-ports` `CiliumClusterwideNetworkPolicy` in

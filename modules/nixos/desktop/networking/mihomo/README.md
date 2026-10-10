@@ -12,9 +12,11 @@ just mihomo-gen                                 # -> ~/.config/mihomo/config.yam
 sudo systemctl restart mihomo.service           # dashboard: http://127.0.0.1:9090/ui
 ```
 
-`~/.config/mihomo` holds only `sources.yaml` and the generated `config.yaml` (plus geodata and the
-cache); the generator, `policy.yaml` and `gateway-config.nu` are run from here and never copied
-over. `just mihomo-gen` renders the config and validates it with the core the service runs.
+`~/.config/mihomo` holds `sources.yaml` and the generated `config.yaml`, which the service loads
+through systemd `LoadCredential`; the core's own state — geodata and cache — is in
+`/var/lib/private/mihomo` (`StateDirectory`, `DynamicUser`). The generator, `policy.yaml` and
+`gateway-config.nu` are run from here and never copied over. `just mihomo-gen` renders the config
+and validates it with the core the service runs.
 
 `sources.yaml` holds everything private (subscription URLs, secret, private domains) and stays out
 of the repo and the Nix store; the module loads `config.yaml` via `LoadCredential`. Generate the
