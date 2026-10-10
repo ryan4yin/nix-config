@@ -187,11 +187,6 @@ in
           directory = ".config/context7";
           mode = "0700";
         }
-        # Legacy ctx7 login, still read: ctx7 cannot rename it across the two bind mounts.
-        {
-          directory = ".context7";
-          mode = "0700";
-        }
 
         # nvim
         ".local/share/nvim"
