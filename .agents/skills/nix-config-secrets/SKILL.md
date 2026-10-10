@@ -19,10 +19,10 @@ Read [secrets/README.md](../../../secrets/README.md) for the concepts and the re
 
 Two age flows live in `~/codes/nix-secrets`, and a file belongs to exactly one.
 
-| Flow                            | Shape                                                          | Consumed as                                              | `flake.lock` bump |
-| ------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------- | ----------------- |
-| **agenix** (`secrets.nix`)      | static and one-way: repository → host, decrypted at activation | `/run/agenix/<name>` or an `environment.etc` copy        | yes               |
-| **dotfiles sync** (`dotfiles/`) | changes on the host; `save`/`restore` are manual, outside Nix  | a real file under `$HOME`, edited by hand or by its tool | **no**            |
+- **agenix** (`secrets.nix`): static and one-way, repository → host, decrypted at activation.
+  Consumed as `/run/agenix/<name>` or an `environment.etc` copy; needs a `flake.lock` bump.
+- **dotfiles sync** (`dotfiles/`): changes on the host; `save`/`restore` are manual, outside Nix.
+  Consumed as a real file under `$HOME`, edited by hand or by its tool; **no** lock bump.
 
 agenix is for the secrets that barely change and that a Nix module or service reads from the
 decrypted path. Everything else is a synced dotfile: Nix does not read it, it changes often, or it
@@ -62,15 +62,17 @@ must not get one back.
 
 ## 1. Where the pieces live
 
-| Piece                                         | Location                                                                                       |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Recipient list, encrypted files, `agenix` CLI | `~/codes/nix-secrets` (private; `git@github.com:ryan4yin/nix-secrets.git`)                     |
-| The pinned revision of that repository        | `flake.lock`, input `mysecrets`                                                                |
-| Declaration: file, mode/owner, `/etc` copy    | `secrets/nixos.nix`, `secrets/darwin.nix`                                                      |
-| Which host gets which group                   | `modules.secrets.<group>.enable` in `outputs/<system>/src/<name>.nix` or a host module         |
-| Consumers                                     | modules reading `config.age.secrets."<name>".path` (default `/run/agenix/<name>`)              |
-| Decryption key                                | `age.identityPaths`: the host's SSH host key; `/persistent/etc/ssh/...` on a preservation host |
-| Secret-bearing dotfiles edited in place       | `~/codes/nix-secrets/dotfiles/` — private, not a flake input, no entry in `secrets.nix`        |
+- Recipient list, encrypted files, `agenix` CLI: `~/codes/nix-secrets` (private;
+  `git@github.com:ryan4yin/nix-secrets.git`)
+- The pinned revision of that repository: `flake.lock`, input `mysecrets`
+- Declaration (file, mode/owner, `/etc` copy): `secrets/nixos.nix`, `secrets/darwin.nix`
+- Which host gets which group: `modules.secrets.<group>.enable` in `outputs/<system>/src/<name>.nix`
+  or a host module
+- Consumers: modules reading `config.age.secrets."<name>".path` (default `/run/agenix/<name>`)
+- Decryption key: `age.identityPaths` — the host's SSH host key; `/persistent/etc/ssh/...` on a
+  preservation host
+- Secret-bearing dotfiles edited in place: `~/codes/nix-secrets/dotfiles/` — private, not a flake
+  input, no entry in `secrets.nix`
 
 The private repository keeps its `.age` files in `desktop/` (only desktops decrypt them), `server/`
 (any server), and `certs/`; `public/` holds publishable plaintext, not `.age`.

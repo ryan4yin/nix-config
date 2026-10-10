@@ -27,13 +27,15 @@ in [hosts/README.md](../../../hosts/README.md).
 
 ## 1. Pick the template
 
-| New host                 | Copy from                                                                                         |
-| ------------------------ | ------------------------------------------------------------------------------------------------- |
-| Desktop workstation      | `hosts/idols-ai/` + `outputs/x86_64-linux/src/idols-ai.nix`                                       |
-| Homelab server / VM host | `hosts/12kingdoms-shoryu/` + `outputs/x86_64-linux/src/12kingdoms-shoryu.nix`                     |
-| Apple Silicon Linux      | `hosts/12kingdoms-shoukei/` + `outputs/aarch64-linux/src/12kingdoms-shoukei.nix`                  |
-| macOS                    | `hosts/darwin-fern/` + `outputs/aarch64-darwin/src/fern.nix` (`darwinConfigurations`, no Colmena) |
-| MicroVM guest            | `hosts/k8s/k3s-test-1-worker-1/` + `outputs/x86_64-linux/src/k3s-test-1-worker-1.nix`             |
+- Desktop workstation: `hosts/idols-ai/` + `outputs/x86_64-linux/src/idols-ai.nix`
+- Homelab server / VM host: `hosts/12kingdoms-shoryu/` +
+  `outputs/x86_64-linux/src/12kingdoms-shoryu.nix`
+- Apple Silicon Linux: `hosts/12kingdoms-shoukei/` +
+  `outputs/aarch64-linux/src/12kingdoms-shoukei.nix`
+- macOS: `hosts/darwin-fern/` + `outputs/aarch64-darwin/src/fern.nix` (`darwinConfigurations`, no
+  Colmena)
+- MicroVM guest: `hosts/k8s/k3s-test-1-worker-1/` +
+  `outputs/x86_64-linux/src/k3s-test-1-worker-1.nix`
 
 A MicroVM guest is also registered in its VM host's `microvm.nix`; deploy it with the procedure in
 WA-026 of [WORKAROUNDS.md](../../../WORKAROUNDS.md), not `just microvm-deploy`. On a VM host with

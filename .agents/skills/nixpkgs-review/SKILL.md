@@ -19,13 +19,12 @@ unrelated packages; selecting a large source package can trigger substantial dow
 
 ## Choose the runner
 
-| Situation                                            | Runner                                                      |
-| ---------------------------------------------------- | ----------------------------------------------------------- |
-| One package, one Linux architecture, local debugging | local `nixpkgs-review`                                      |
-| Need to inspect the package interactively            | local review shell                                          |
-| Need aarch64/Darwin or a reproducible remote build   | `just pkg-review <pr>`                                      |
-| Only one package's passthru tests matter             | `just pkg-test <pr> <pname>` or local `--package`/`--tests` |
-| Review a local commit proposed for an upstream PR    | `nixpkgs-review rev <rev>`                                  |
+- One package, one Linux architecture, local debugging: local `nixpkgs-review`
+- Need to inspect the package interactively: local review shell
+- Need aarch64/Darwin or a reproducible remote build: `just pkg-review <pr>`
+- Only one package's passthru tests matter: `just pkg-test <pr> <pname>` or local
+  `--package`/`--tests`
+- Review a local commit proposed for an upstream PR: `nixpkgs-review rev <rev>`
 
 The local tool defaults to the current system. This machine is `x86_64-linux`; do not imply that a
 successful local result covers Darwin or aarch64. Use `--systems` explicitly when builders or
@@ -116,14 +115,16 @@ check repeatable and catch failures such as a GUI process exiting before its win
 
 Examples of the smallest useful check:
 
-| Change                                 | Additional evidence                                                                                       |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| CLI or library                         | Run `--version`/help and one representative operation                                                     |
-| GUI package                            | Launch it locally for a simple check; use a NixOS test for startup/crash regressions                      |
-| Service or module                      | Evaluate the relevant option, inspect generated units/config, and build the affected host                 |
-| Sandbox, permission, or network policy | Inspect the effective wrapper/unit and test the allowed/denied behavior without exposing secrets          |
-| Driver, kernel, or hardware support    | Build the relevant configuration and perform a host-specific check; do not claim other architectures work |
-| Package with passthru tests            | Build selected tests, then run a focused smoke test if the package can be exercised                       |
+- CLI or library: run `--version`/help and one representative operation
+- GUI package: launch it locally for a simple check; use a NixOS test for startup/crash regressions
+- Service or module: evaluate the relevant option, inspect generated units/config, and build the
+  affected host
+- Sandbox, permission, or network policy: inspect the effective wrapper/unit and test the
+  allowed/denied behavior without exposing secrets
+- Driver, kernel, or hardware support: build the relevant configuration and perform a host-specific
+  check; do not claim other architectures work
+- Package with passthru tests: build selected tests, then run a focused smoke test if the package
+  can be exercised
 
 Record the result as one of: existing tests sufficient, local smoke check sufficient, upstream test
 PR recommended, or blocked by missing hardware/architecture. A test improvement should normally be a

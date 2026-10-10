@@ -53,12 +53,19 @@ replacement of an existing same-name skill, and do not install global skills wit
 The installed releases support the shared root and symlinked skill directories, so no agent-specific
 compatibility links are needed:
 
-| Agent    | Discovery reference                                                                                                                                                                                                                                                                                       |
-| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Codex    | [Skill documentation](https://learn.chatgpt.com/docs/build-skills.md) lists `~/.agents/skills` and symlinked skill folders.                                                                                                                                                                               |
-| OpenCode | [v2.0.22 discovery](https://github.com/anomalyco/opencode/blob/v2.0.22/packages/core/src/config/discovery.ts) includes the global `.agents` root; its [compatibility loader](https://github.com/anomalyco/opencode/blob/v2.0.22/packages/core/src/config/plugin/compatibility.ts) follows skill symlinks. |
-| Pi       | [v1.0.1 discovery](https://github.com/badlogic/pi-mono/blob/v1.0.1/packages/coding-agent/src/core/package-manager.ts) includes `~/.agents/skills` and follows symlink directories.                                                                                                                        |
-| dsh      | [Filesystem skill package](https://www.npmjs.com/package/@deepseek-ai/dsh-skill-filesystem) documents `~/.agents/skills` and directory symlinks; confirmed in the shipped 0.2.0-rc.2 loader.                                                                                                              |
+- **Codex**: [Skill documentation](https://learn.chatgpt.com/docs/build-skills.md) lists
+  `~/.agents/skills` and symlinked skill folders.
+- **OpenCode**:
+  [v2.0.22 discovery](https://github.com/anomalyco/opencode/blob/v2.0.22/packages/core/src/config/discovery.ts)
+  includes the global `.agents` root; its
+  [compatibility loader](https://github.com/anomalyco/opencode/blob/v2.0.22/packages/core/src/config/plugin/compatibility.ts)
+  follows skill symlinks.
+- **Pi**:
+  [v1.0.1 discovery](https://github.com/badlogic/pi-mono/blob/v1.0.1/packages/coding-agent/src/core/package-manager.ts)
+  includes `~/.agents/skills` and follows symlink directories.
+- **dsh**:
+  [Filesystem skill package](https://www.npmjs.com/package/@deepseek-ai/dsh-skill-filesystem)
+  documents `~/.agents/skills` and directory symlinks; confirmed in the shipped 0.2.0-rc.2 loader.
 
 Adding or removing links requires a user-run Home Manager switch. Changes to an already-linked skill
 are available without a rebuild; start a new session or use the harness's reload mechanism to read

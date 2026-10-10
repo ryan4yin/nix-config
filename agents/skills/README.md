@@ -12,21 +12,15 @@ Repository-scoped skills do not belong here; they live in the owning repository'
 
 ## Skills from flake inputs
 
-| Skill                      | Input               | Source                                                                                    |
-| -------------------------- | ------------------- | ----------------------------------------------------------------------------------------- |
-| `diagnosing-bugs`          | `mattpocock-skills` | [ryan4yin/mattpocock-skills](https://github.com/ryan4yin/mattpocock-skills) `main` (fork) |
-| `domain-modeling`          | `mattpocock-skills` | same                                                                                      |
-| `grill-with-docs`          | `mattpocock-skills` | same                                                                                      |
-| `grilling`                 | `mattpocock-skills` | same                                                                                      |
-| `prototype`                | `mattpocock-skills` | same                                                                                      |
-| `research`                 | `mattpocock-skills` | same                                                                                      |
-| `retro`                    | `mattpocock-skills` | same                                                                                      |
-| `setup-matt-pocock-skills` | `mattpocock-skills` | same                                                                                      |
-| `wayfinder`                | `mattpocock-skills` | same                                                                                      |
-| `writing-for-agents`       | `mattpocock-skills` | same                                                                                      |
-| `i-have-adhd`              | `i-have-adhd`       | [ryan4yin/i-have-adhd](https://github.com/ryan4yin/i-have-adhd) `main` (fork)             |
-| `humanizer`                | `humanizer`         | [blader/humanizer](https://github.com/blader/humanizer) `v3.1.0`                          |
-| `ponytail-review`          | `ponytail`          | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) `v5.1.0`            |
+- **`mattpocock-skills`** —
+  [ryan4yin/mattpocock-skills](https://github.com/ryan4yin/mattpocock-skills) `main` (fork):
+  `diagnosing-bugs`, `domain-modeling`, `grill-with-docs`, `grilling`, `prototype`, `research`,
+  `retro`, `setup-matt-pocock-skills`, `wayfinder`, `writing-for-agents`
+- **`i-have-adhd`** — [ryan4yin/i-have-adhd](https://github.com/ryan4yin/i-have-adhd) `main` (fork):
+  `i-have-adhd`
+- **`humanizer`** — [blader/humanizer](https://github.com/blader/humanizer) `v3.1.0`: `humanizer`
+- **`ponytail`** — [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) `v5.1.0`:
+  `ponytail-review`
 
 Dependencies travel together: `grill-with-docs` and `wayfinder` call `grilling` and
 `domain-modeling`; `wayfinder` also calls `research` and `prototype`, and points at
