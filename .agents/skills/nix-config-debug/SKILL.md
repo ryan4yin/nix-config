@@ -1,9 +1,9 @@
 ---
 name: nix-config-debug
-description:
+description: >-
   Use when something here is broken or stops working: an eval or build error, a failed activation, a
-  dead or restarting unit, a mihomo or DNS outage, an unreachable host or MicroVM guest, or a failing
-  CI action.
+  dead or restarting unit, a mihomo or DNS outage, an unreachable host or MicroVM guest, or a
+  failing CI action.
 ---
 
 # Debugging this repository

@@ -129,9 +129,11 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Commit only when asked, including commits needed for a user-requested PR, and keep planning notes,
   scratch files, and raw test data out of commits unless the task asks for them. Follow the
   repository's convention (default: Conventional Commits) and derive the message from the staged
-  diff: subject only unless the reason is not obvious from the diff. PR titles/bodies and code
-  comments hold to the same bar -- one line where one line suffices, why not what, no filler or
-  ritual notes. Squash privacy or style fix-ups into the commit they fix.
+  diff: subject only for most commits, aiming at 50 characters with 72 as the ceiling. Add a body
+  only for a why the diff cannot show -- a constraint, a side effect, an easily missed detail -- one
+  sentence usually, a few lines only when the change is genuinely complex. A PR body may go further:
+  why not what, scope, rationale and verification, but only what a reader needs. Code comments: one
+  line where one line suffices. Squash privacy or style fix-ups into the commit they fix.
 - Each commit should be one logical change that leaves the tree working.
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits

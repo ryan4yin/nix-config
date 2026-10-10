@@ -1,6 +1,6 @@
 ---
 name: nix-config-update
-description:
+description: >-
   Use when a version changes here: upgrading or updating a package or nixpkgs, bumping or pinning a
   flake input (a tag or commit, not a branch), or deploying the result to hosts, VMs, and MicroVM
   guests.

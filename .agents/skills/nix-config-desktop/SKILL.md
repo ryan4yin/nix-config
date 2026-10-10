@@ -1,6 +1,6 @@
 ---
 name: nix-config-desktop
-description:
+description: >-
   Use when changing what the desktop shows or runs: Niri/Noctalia config, a window that is the wrong
   size, garbled, or missing after a reboot, autostart, fcitx5 or vinput input, theming and fonts,
   interface names a widget reads, or `$HOME` state that must survive a tmpfs root.
