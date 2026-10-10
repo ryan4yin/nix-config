@@ -21,8 +21,10 @@ Keep one canonical home for each fact; link between layers instead of copying pa
 ## What this directory contains
 
 - `AGENTS.md`: global baseline rules for coding agents.
-- [`skills/git-delivery/SKILL.md`](skills/git-delivery/SKILL.md): commit and PR writing, GitHub
-  tooling, and cleanup after merge.
+- [`skills/git-delivery/SKILL.md`](skills/git-delivery/SKILL.md): context, commit and PR writing,
+  verification evidence, hosting tools, and cleanup after merge. Read its
+  [portable examples](skills/git-delivery/examples.md) for non-obvious constraints and repository
+  conventions.
 - `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
 - `install-tooling.md`: curated install snippets for external agent tooling (`npx skills`,
   `npx ctx7`, tuios integration).

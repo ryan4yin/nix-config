@@ -127,8 +127,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 ### Git delivery
 
-- Use `git-delivery` when preparing commits, performing authorized GitHub operations, or finishing a
-  task after its PR merges. If it is absent from the skill catalog, read
+- Use `git-delivery` when preparing commits, performing authorized repository-hosting operations, or
+  finishing a task after its reviewed changes merge. If it is absent from the skill catalog, read
   `~/nix-config/agents/skills/git-delivery/SKILL.md`; report if unavailable. This fallback also
   covers the interval before the skill links are deployed.
 - Commit only when asked, including commits needed for a user-requested PR, and keep planning notes,
@@ -148,6 +148,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
   occasionally, for tasks nushell can't do. Put shell env, aliases, and per-session secrets in the
   Nushell config, not in `bashrc`/`zshrc`. The secret block is `~/.secrets/nushell-secrets.nu`:
   hand-edited, sourced as code by the shell, not Nix-managed, and agents MUST NOT read or edit it.
+- Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes and make sure the
+  Nix-managed `~/.ssh/config` is used; rerun outside the sandbox if it is rejected.
 - Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
 - Agents MUST publish only to repositories that are already public or that the user names; content
   that is not already public MUST NOT be published to a public repository.
