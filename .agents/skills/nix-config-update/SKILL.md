@@ -133,9 +133,10 @@ ssh root@<host> hostname  # the host that actually answers
 - Remote servers: `just shoryu [mode]`, `just shushou`, `just youko`, `just ruby`, `just kana`
 - All VM hosts at once: `just lab [mode]`; any Colmena tag: `just col <tag> [mode]`
 - k3s test nodes: `just k3s-test [mode]`
-- MicroVM guest: `just microvm-deploy` currently fails at its activation step on the guest's
-  read-only `/nix/store`; WA-026 in [WORKAROUNDS.md](../../../WORKAROUNDS.md) carries the manual
-  path. Deploy guests serially and check each one before moving on.
+- MicroVM guest: `just microvm-deploy <guest> <physical-host>` installs the runner on the physical
+  host and restarts the guest unit there (WA-026); switch that host afterwards, or the next
+  activation reverts the guest to its own runner. Deploy guests serially and check each one before
+  moving on.
 
 Use `boot` plus a deliberate reboot for anything that can drop networking mid-flight: the VM hosts
 with the `br0` bridge, and broad nixpkgs bumps. See

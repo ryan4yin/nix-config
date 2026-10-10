@@ -84,10 +84,10 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
 - `just shoryu`, `just shushou`, `just youko`, `just ruby`, `just kana`, `just lab`,
   `just k3s-test`, and `just col <tag>` activate systems through Colmena. Use the narrower recipe
   that matches the intended host scope.
-- `just microvm-deploy <guest> <physical-host> <guest-ip>` installs and activates one MicroVM guest.
-  WA-026 currently replaces the activation step; check [WORKAROUNDS.md](./WORKAROUNDS.md) before
-  deploying. Deploy guests serially and check the guest Node and host services after each
-  activation.
+- `just microvm-deploy <guest> <physical-host>` installs one MicroVM guest's runner on the physical
+  host and restarts its unit there. A later host activation re-points the guest at the runner baked
+  into the host's system; see WA-026 in [WORKAROUNDS.md](./WORKAROUNDS.md) before deploying. Deploy
+  guests serially and check the guest Node and host services after each activation.
 - VM hosts (`shoryu`, `shushou`, `youko`) carry the `br0` bridge for their guests. Use the
   `boot`-based host deployment procedure for network stack or broad nixpkgs changes; see
   [hosts/README.md](./hosts/README.md#deploying-vm-hosts).

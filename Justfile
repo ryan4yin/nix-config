@@ -39,7 +39,7 @@ eval-host host:
 build-host host:
   nix build $".#nixosConfigurations.{{host}}.config.system.build.toplevel" --no-link --print-build-logs
 
-# Build a MicroVM runner locally. WA-026 in WORKAROUNDS.md covers how to deploy it.
+# Build a MicroVM runner locally. microvm-deploy copies the closure to the physical host.
 [group('nix')]
 build-microvm guest:
   nix build $".#nixosConfigurations.{{guest}}.config.microvm.declaredRunner" --no-link --print-build-logs
@@ -210,14 +210,15 @@ reset-launchpad:
 col tag mode="switch":
   colmena apply {{mode}} --on '@{{tag}}' --verbose --show-trace
 
-# Deploy one microVM guest through microvm.nix's SSH deployment workflow (WA-026: the
-# activation step currently fails; see WORKAROUNDS.md).
-# The host is the physical machine running the guest; the guest address is used for activation.
+# Deploy one microVM guest: copy its runner to the physical host, then restart the
+# guest unit there. microvm.nix's sshSwitch step is not used: it switches the guest over
+# SSH and dies on the read-only virtiofs /nix/store (WA-026 in WORKAROUNDS.md).
+# The host is the physical machine running the guest.
 [linux]
 [group('homelab')]
-microvm-deploy guest host guest_ip:
+microvm-deploy guest host:
   nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.installOnHost" -- root@{{host}}
-  nix run $".#nixosConfigurations.{{guest}}.config.microvm.deploy.sshSwitch" -- root@{{guest_ip}} --use-remote-sudo
+  ssh root@{{host}} systemctl restart microvm@{{guest}}
 
 # Deploy all the VM hosts (physical machines running the VMs)
 [linux]

@@ -31,13 +31,15 @@ complete Nix closure to the physical host, installs it under `/var/lib/microvms/
 activates the guest:
 
 ```sh
-just microvm-deploy <guest> <physical-host> <guest-ip>
+just microvm-deploy <guest> <physical-host>
 ```
 
-For example, `just microvm-deploy k3s-test-1-master-3 shushou 192.168.5.116`. The recipe installs
-the runner on the physical host first, then activates the guest with the microvm.nix SSH deployment
-interface. WA-026 in [WORKAROUNDS.md](../../WORKAROUNDS.md) currently replaces that activation,
-because the SSH switch cannot write the guest's read-only `/nix/store`.
+For example, `just microvm-deploy k3s-test-1-master-3 shushou`. The recipe copies the runner to the
+physical host, then restarts `microvm@<guest>` there; microvm.nix's SSH switch is not used because
+it cannot write the guest's read-only `/nix/store` (WA-026 in
+[WORKAROUNDS.md](../../WORKAROUNDS.md)). A later activation of the physical host re-points the guest
+at the runner baked into the host's system, so switch the host after installing a guest from a newer
+tree.
 
 Use `just build-microvm <guest>` to build a runner without deploying it. Preserve the guest's
 `etc.img`, `var.img`, and `home.img` when updating it; they contain its identity and K3s state.
