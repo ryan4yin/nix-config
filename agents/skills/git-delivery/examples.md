@@ -5,6 +5,19 @@ Formatting differs between projects; the content pattern transfers, and the targ
 conventions still decide format. Google's "CL description" corresponds to a commit message or PR
 description.
 
+Contents:
+
+- [Subject only](#subject-only)
+- [Subjects that say too little](#subjects-that-say-too-little)
+- [A small change that still needs context](#a-small-change-that-still-needs-context)
+- [Explain why, not how](#explain-why-not-how)
+- [A behavior change and its cost](#a-behavior-change-and-its-cost)
+- [Explain a removal and add trailers](#explain-a-removal-and-add-trailers)
+- [Point at the commit being fixed](#point-at-the-commit-being-fixed)
+- [Permanent record versus review notes](#permanent-record-versus-review-notes)
+- [Evidence after the code changes](#evidence-after-the-code-changes)
+- [Disagreeing with a reviewer](#disagreeing-with-a-reviewer)
+
 ## Subject only
 
 ```text
