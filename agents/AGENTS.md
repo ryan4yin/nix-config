@@ -114,26 +114,24 @@ For an impactful change, follow these steps in order, scaled to its risk:
   Agents MUST NOT delete config the task did not ask about; when config merely appears unused,
   report it instead. Ask before a breaking change.
 - Documentation should be self-contained: state the current state and the reason for a non-obvious
-  choice, and leave out the investigation path and irrelevant history.
+  choice, and leave out the investigation path and irrelevant history. Code comments: one line where
+  one line suffices.
 - Verify in proportion to risk. Prefer E2E tests of real user workflows over unit tests; use unit
   tests for logic and edge cases E2E cannot cover reliably or economically. Agents MUST NOT claim a
   check passed without running it, or make it pass by weakening what it verifies (e.g. mocking the
   code under test). Agents MUST cite the observation behind a stated cause or conclusion, or mark it
   unverified.
-- Cleanup: when a PR the agent opened is merged, finish up as part of that task: delete the local
-  branch and worktrees it created and fast-forward the default branch if the checkout is free. Touch
-  nothing it did not create; skip and report instead of forcing.
+- Cleanup MUST preserve user work: remove only branches and worktrees the task created; skip and
+  report when cleanup or a default-branch fast-forward would require forcing.
 
-### Git commits
+### Git delivery
 
+- Use `git-delivery` when preparing commits, performing authorized GitHub operations, or finishing a
+  task after its PR merges. If it is absent from the skill catalog, read
+  `~/nix-config/agents/skills/git-delivery/SKILL.md`; report if unavailable. This fallback also
+  covers the interval before the skill links are deployed.
 - Commit only when asked, including commits needed for a user-requested PR, and keep planning notes,
-  scratch files, and raw test data out of commits unless the task asks for them. Follow the
-  repository's convention (default: Conventional Commits) and derive the message from the staged
-  diff: subject only for most commits, aiming at 50 characters with 72 as the ceiling. Add a body
-  only for a why the diff cannot show -- a constraint, a side effect, an easily missed detail -- one
-  sentence usually, a few lines only when the change is genuinely complex. A PR body may go further:
-  why not what, scope, rationale and verification, but only what a reader needs. Code comments: one
-  line where one line suffices. Squash privacy or style fix-ups into the commit they fix.
+  scratch files, and raw test data out of commits unless the task asks for them.
 - Each commit should be one logical change that leaves the tree working.
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits
@@ -149,8 +147,6 @@ For an impactful change, follow these steps in order, scaled to its risk:
   occasionally, for tasks nushell can't do. Put shell env, aliases, and per-session secrets in the
   Nushell config, not in `bashrc`/`zshrc`. The secret block is `~/.secrets/nushell-secrets.nu`:
   hand-edited, sourced as code by the shell, not Nix-managed, and agents MUST NOT read or edit it.
-- Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes and make sure the
-  Nix-managed `~/.ssh/config` is used; rerun outside the sandbox if it is rejected.
 - Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
 - Agents MUST publish only to repositories that are already public or that the user names; content
   that is not already public MUST NOT be published to a public repository.
