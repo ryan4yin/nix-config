@@ -304,6 +304,16 @@ in
         ".local/share/umu"
 
         ".local/share/Steam"
+        # WiVRn atomically replaces its settings and pairing files, so preserve
+        # the directory rather than individual files.
+        {
+          directory = ".config/wivrn";
+          mode = "0700";
+        }
+        {
+          directory = ".android"; # ADB host keys for Quest USB authorization
+          mode = "0700";
+        }
         ".local/state/Heroic"
         ".config/heroic"
 

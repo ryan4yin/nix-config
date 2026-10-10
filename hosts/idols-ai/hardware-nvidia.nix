@@ -3,6 +3,22 @@
   pkgs,
   ...
 }:
+let
+  # prime.offload keeps the Intel iGPU as the default renderer so the dGPU stays
+  # free for LLM workloads, so each consumer that should use the RTX 4090 opts
+  # into PRIME render offload explicitly. Games need these variables in their
+  # Steam launch options: Steam's bubblewrap sandbox does not expose /run, so
+  # the nvidia-offload wrapper on PATH is unusable there. WiVRn's server is a
+  # headless Vulkan app and needs the same environment; headset-launched games
+  # start in separate units or an already running Steam client, so they need
+  # the same per-game launch option (see hosts/idols-ai/VR.md).
+  dgpuEnv = {
+    __NV_PRIME_RENDER_OFFLOAD = "1";
+    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    __VK_LAYER_NV_optimus = "NVIDIA_only";
+  };
+in
 {
   # ===============================================================================================
   # for Nvidia GPU
@@ -22,16 +38,11 @@
     nvidiaBusId = "PCI:2@0:0:0";
   };
 
-  # Games launched through GameScope should use the dGPU. prime.offload keeps the
-  # Intel iGPU as the default renderer so the dGPU stays free for LLM workloads,
-  # so opt GameScope games into PRIME render offload here. Games launched outside
-  # GameScope need `nvidia-offload %command%` in their Steam launch options.
-  programs.gamescope.env = {
-    __NV_PRIME_RENDER_OFFLOAD = "1";
-    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    __VK_LAYER_NV_optimus = "NVIDIA_only";
-  };
+  programs.gamescope.env = dgpuEnv;
+
+  # Apply offload to the WiVRn server (see ai/vr.nix). Games need their own
+  # offload configuration; this service environment does not propagate to them.
+  services.wivrn.monadoEnvironment = dgpuEnv;
 
   boot.kernelParams = [
     # Since NVIDIA does not load kernel mode setting by default,
