@@ -12,6 +12,8 @@ extend-exclude = [
   # small-duck flypy user dictionary: entries are pinyin codes ("delt", "juli"),
   # not English words, so the spell checker flags every one of them
   "home/base/gui/rime/flypy_user.txt",
+  # skills vendored verbatim from upstream; fixes belong upstream
+  "agents/skills/*/",
 ]
 
 [default]

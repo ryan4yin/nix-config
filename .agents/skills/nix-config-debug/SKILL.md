@@ -8,9 +8,10 @@ description: >-
 
 # Debugging this repository
 
-Follow the global `systematic-debugging` skill for the process (root cause before any fix). This
-skill is only the map: which layer failed, and where to look. Rolling back, isolating a bad input
-bump, and the commands that destroy rollback points are in the `nix-config-update` skill.
+Follow the global `diagnosing-bugs` skill for the process (a reproducible signal and root cause
+before any fix). This skill is only the map: which layer failed, and where to look. Rolling back,
+isolating a bad input bump, and the commands that destroy rollback points are in the
+`nix-config-update` skill.
 
 ## Core rules
 
@@ -18,27 +19,38 @@ bump, and the commands that destroy rollback points are in the `nix-config-updat
    investigation. Rolling back the machine you are on needs `sudo`, so the user does it.
 2. **Name the layer before touching code.** Eval, build, activation, and runtime failures have
    different causes; a green `just test` says nothing about activation.
-3. **Never get to green by weakening a check**: no disabled test, dropped assertion, or `mkForce`
-   over the failing value.
-4. **Preserve existing user changes.** Do not discard or stash them without authorization. If a
-   clean baseline is needed, record the current diff and ask before isolating it.
 
 ## 1. Localize by layer
 
-| Layer         | Symptom                                                          | Look with                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| eval          | `just test` fails, an eval error                                 | `just eval-host <host>` (already passes `--show-trace`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| build         | build error, hash mismatch, "marked as broken"                   | `just build-host <host>`, then `nix log <drv>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| activation    | the deploy fails after building                                  | the deploy output; `journalctl -u home-manager-$USER -b` for Home Manager                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| runtime       | a unit is failed or restarting                                   | `just list-failed`, `systemctl status <unit>`, `journalctl -u <unit> -b`                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| proxy/DNS     | proxied sites time out, or DNS still resolves after mihomo stops | `dig +short <site>` must return a fake-ip (`198.18.x.x`); a real IP means the resolver bypasses `dns-hijack`; on `ai` the `resolvectl dns`/`revert` hook in `hosts/idols-ai/default.nix` ties link DNS to mihomo's lifecycle and other mihomo hosts have no such hook, so read `resolvectl status` before concluding; a statically set link DNS would outlive a dead mihomo. Config and gotchas: [mihomo README](../../../modules/nixos/desktop/networking/mihomo/README.md); regenerate with `just mihomo-gen`, then restart `mihomo.service` |
-| boot          | errors at boot, wrong kernel                                     | `journalctl -b -p err`; `just history` for what is booted                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| session       | desktop or app misbehaves                                        | `journalctl --user -b -p err`; the `nix-config-desktop` skill                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| remote host   | anything on a Colmena host                                       | `ssh root@<host> journalctl -b -p err`, same commands over SSH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| MicroVM guest | guest down or unreachable                                        | on the VM host: `systemctl status microvm@<guest>` and `microvm-tap-interfaces@<guest>`; then `br0`                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| secrets       | missing or unreadable `/run/agenix/<name>`                       | the `nix-config-secrets` skill                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| shell         | nushell exits 1 with `File not found`                            | whether `~/.secrets/` exists on the host; the `nix-config-secrets` skill                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| CI            | a GitHub Action keeps failing                                    | `gh run list --workflow <wf>`, `gh run view <run> --log-failed`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+Each layer: symptom, then where to look.
+
+- **eval** (`just test` fails, an eval error): `just eval-host <host>` (already passes
+  `--show-trace`)
+- **build** (build error, hash mismatch, "marked as broken"): `just build-host <host>`, then
+  `nix log <drv>`
+- **activation** (the deploy fails after building): the deploy output;
+  `journalctl -u home-manager-$USER -b` for Home Manager
+- **runtime** (a unit is failed or restarting): `just list-failed`, `systemctl status <unit>`,
+  `journalctl -u <unit> -b`
+- **proxy/DNS** (proxied sites time out, or DNS still resolves after mihomo stops):
+  `dig +short <site>` must return a fake-ip (`198.18.x.x`); a real IP means the resolver bypasses
+  `dns-hijack`; on `ai` the `resolvectl dns`/`revert` hook in `hosts/idols-ai/default.nix` ties link
+  DNS to mihomo's lifecycle and other mihomo hosts have no such hook, so read `resolvectl status`
+  before concluding; a statically set link DNS would outlive a dead mihomo. Config and gotchas:
+  [mihomo README](../../../modules/nixos/desktop/networking/mihomo/README.md); regenerate with
+  `just mihomo-gen`, then restart `mihomo.service`
+- **boot** (errors at boot, wrong kernel): `journalctl -b -p err`; `just history` for what is booted
+- **session** (desktop or app misbehaves): `journalctl --user -b -p err`; the `nix-config-desktop`
+  skill
+- **remote host** (anything on a Colmena host): `ssh root@<host> journalctl -b -p err`, same
+  commands over SSH
+- **MicroVM guest** (guest down or unreachable): on the VM host: `systemctl status microvm@<guest>`
+  and `microvm-tap-interfaces@<guest>`; then `br0`
+- **secrets** (missing or unreadable `/run/agenix/<name>`): the `nix-config-secrets` skill
+- **shell** (nushell exits 1 with `File not found`): whether `~/.secrets/` exists on the host; the
+  `nix-config-secrets` skill
+- **CI** (a GitHub Action keeps failing): `gh run list --workflow <wf>`,
+  `gh run view <run> --log-failed`
 
 ## 2. Read the evaluated value
 
