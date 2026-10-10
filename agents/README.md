@@ -21,10 +21,8 @@ Keep one canonical home for each fact; link between layers instead of copying pa
 ## What this directory contains
 
 - `AGENTS.md`: global baseline rules for coding agents.
-- [`skills/git-delivery/SKILL.md`](skills/git-delivery/SKILL.md): context, commit and PR writing,
-  verification evidence, hosting tools, and cleanup after merge. Read its
-  [portable examples](skills/git-delivery/examples.md) for non-obvious constraints and repository
-  conventions.
+- `skills/`: custom global skills, e.g. [`git-delivery`](skills/git-delivery/SKILL.md) for commit
+  messages, PR descriptions, review replies, and cleanup after merge.
 - `evals/global-rules.md`: behavioral scenarios for validating changes to the global rules.
 - `install-tooling.md`: curated install snippets for external agent tooling (`npx skills`,
   `npx ctx7`, tuios integration).
@@ -67,25 +65,11 @@ The module is imported through `home/base/tui`, so it covers the hosts that impo
 `home/linux/gui.nix` or the macOS `home/darwin` stack; core-only servers are unchanged.
 
 [`home/base/tui/agents/skills.nix`](../home/base/tui/agents/skills.nix) links each custom skill
-directory into `~/.agents/skills/<name>`. It leaves the parent directory and third-party skills
-unmanaged. Permission configuration and third-party skill installation remain runtime-managed; the
-agent CLIs are installed through `packages.nix`.
-
-To add a custom global skill:
-
-1. Create `agents/skills/<name>/SKILL.md` with matching `name` and a `description` that identifies
-   when to load it. Keep reusable details there and safety boundaries in the rules.
-2. Add an explicit per-directory out-of-store link in `skills.nix`; never link the whole skill root
-   or enable forced replacement. Check for a conflicting existing directory before activation and
-   resolve its ownership with the user rather than overwriting it.
-3. Validate the skill's behavior and Linux/Darwin configuration, then have the user activate the
-   links and verify discovery in a new session. Current Codex, OpenCode, Pi, and dsh releases use
-   the shared root; see the module's
-   [discovery references](../home/base/tui/agents/README.md#global-skills).
-
-`AGENTS.md` provides a direct source fallback for `git-delivery`, so the procedure stays accessible
-before activating its link. Out-of-store links point at the canonical checkout; a separate worktree
-must be merged into that checkout before its content is deployed.
+directory into `~/.agents/skills/<name>`, leaving third-party skills unmanaged; see the module's
+[global skills](../home/base/tui/agents/README.md#global-skills) section. To add a skill, create
+`agents/skills/<name>/SKILL.md` and add its link there; the user activates it with a Home Manager
+switch. Links point at the canonical checkout, so changes in another worktree deploy only after they
+are merged there.
 
 The repository-root `AGENTS.md` contains guidance for this Nix configuration repository. It is not
 the global rules source and is not deployed.
@@ -115,13 +99,4 @@ Ideas worth adopting once a concrete need appears; nothing here is implemented y
 
 - Keep files portable and reviewable.
 - Keep secrets and machine-specific credentials out of this directory.
-- Keep guidance generic enough to reuse across multiple agent environments. Repository contribution
-  policies remain the source for commit formats, required metadata, and upstream review
-  requirements.
-
-Useful writing references:
-[GitHub's commit skill](https://github.com/github/awesome-copilot/blob/main/skills/git-commit/SKILL.md),
-[Sentry's PR writer](https://github.com/getsentry/skills/blob/main/skills/pr-writer/SKILL.md),
-[Nixpkgs contribution guidance](https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md), and
-[prune-comments-and-docs](https://github.com/MidAutumnMoon/TaysiTsuki/blob/master/home/agents/skills/prune-comments-and-docs/SKILL.md).
-These are references, not installed skills or additional authorization.
+- Keep guidance generic enough to reuse across multiple agent environments.

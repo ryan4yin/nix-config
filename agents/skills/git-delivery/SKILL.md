@@ -1,137 +1,95 @@
 ---
 name: git-delivery
 description:
-  Use when preparing a Git commit, working with hosted repository issues or pull/merge requests, or
-  finishing a task after its reviewed changes have merged.
+  Use when writing a Git commit message, creating or updating a pull/merge request or hosted issue,
+  replying to code review, or cleaning up branches and worktrees after a reviewed change has merged.
 ---
 
 # Git Delivery
 
-Write delivery text from the final change and verified, relevant context. Use the diff to check what
-is included; use the task goal, observed behavior, constraints, and evidence to explain why it
-matters. Follow repository conventions and the always-loaded authorization, privacy, and user-work
-boundaries. This skill grants no permission to commit, push, or merge. PR also refers to the hosting
-service's equivalent merge request here.
+A diff shows what changed. Delivery text records why, for a reader without the task's context: the
+reviewer now, and the maintainer reading `git log` or `git blame` years later. Write plainly and
+specifically; reviewers distrust generic, inflated text. This skill grants no authorization:
+commits, pushes, hosting writes, and merges still need the authorization the governing rules
+require.
 
-Read [examples.md](examples.md) when a small diff depends on runtime or operational context, a PR
-contains several commits, evidence predates the final change, or repository conventions differ from
-the default. It uses portable examples with explicitly stated repository requirements.
+Read [examples.md](examples.md) for annotated messages from the Git, Linux, Google, and Conventional
+Commits guidance when shaping a body, a PR description, or a review reply.
 
-## Establish the delivery context
+## Before writing
 
-1. Read repository instructions, applicable contribution guides, the PR template, and recent commits
-   in the touched area. Identify the comparison base, push destination, and PR repository
-   separately. Existing PRs supply their current base/head. Check Git attribution and the hosting
-   account when moving between personal and work repositories.
-2. Recover the user's goal and the problem being solved from the task, existing code, and safe
-   observations already collected. Record the meaningful trigger and previous behavior, final
-   behavior, and affected users or systems. Collect further evidence only within the authorized
-   scope, without inspecting secrets or dumping environments.
-3. Identify the reasons a reviewer cannot infer from the diff: runtime lookup behavior, platform or
-   deployment constraints, dependency/closure costs, compatibility requirements, and necessary
-   exceptions to project mechanisms. Keep an alternative only when it explains the final choice.
-4. Inspect the final staged changes for each commit and all commits plus the full branch diff for
-   the PR. Reconcile this scope with the context: retain verified reasons for surviving changes;
-   remove features, claims, and conclusions that the final implementation no longer supports.
-5. Associate each verification result with the revision or configuration, platform, conditions, and
-   workflow it actually tested. Distinguish observed facts, supported inferences, and unresolved
-   hypotheses. Update this context whenever the implementation or relevant environment changes.
+1. Read the target repository's conventions: contribution guide, PR template, and
+   `git log --no-merges` on the touched files for subject prefixes, trailers, and body style. They
+   override the defaults below. Supply required metadata (sign-off, issue or release links, AI
+   disclosure) only when it is true; never invent identities or reviews, or carry one repository's
+   requirements into another.
+2. Identify the comparison base and destination separately (fork, release branch, an existing PR's
+   base), and check that the commit identity and hosting account fit this repository.
+3. Inspect what is actually delivered: the final staged diff for a commit; every commit plus the
+   full diff against the base for a PR. Describe that, not the task title or an earlier attempt.
+4. Collect what the diff cannot show from the task and existing observations: the problem and its
+   user-visible impact, why this approach, costs and side effects (with numbers when measured),
+   constraints, and rejected alternatives a reader would otherwise propose. Keep observations
+   separate from inferences; gather more evidence only within the task's scope.
 
-Keep this context in the task's working notes or conversation. Add a repository document only when
-requested or when it belongs in existing project documentation; leave scratch and raw logs out of
-commits.
+## Commit messages
 
-## Put each fact where its reader needs it
+- Subject: what the commit does, in imperative mood; it should complete "If applied, this commit
+  will ...". Use the repository's prefix (`area:`, `type(scope):`), defaulting to Conventional
+  Commits. Aim for 50 characters, 72 at most, no trailing period.
+- Body: omit it when the subject and diff say everything. Otherwise describe the problem as it
+  exists without the change, why this change solves it, and side effects, costs, or compatibility
+  consequences. Leave out line-by-line mechanics and how the problem was found. Wrap at 72 columns
+  unless the repository differs.
+- Self-contained: summarize the relevant point of an issue or discussion instead of only linking it.
+  Cite another commit by abbreviated hash and subject.
+- Trailers go last, in the repository's format (`Fixes:`, `Refs:`, `Signed-off-by:`,
+  `BREAKING CHANGE:`). Name other people in credit trailers only as the repository's policy allows.
+- One logical change per commit. A subject that needs "and" suggests a split. Notes meant only for
+  current reviewers, such as changes since the last round, stay out of the message.
 
-| Location       | Information it should carry                                                                                                                         |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Commit subject | The logical change in this commit, using the repository's vocabulary.                                                                               |
-| Commit body    | Durable reasons, constraints, consequences, and required metadata that explain this commit to a future maintainer without the conversation.         |
-| PR description | The problem and resulting behavior of the complete change, its scope, material rationale/tradeoffs, actual verification, and remaining limitations. |
-| Code comment   | A contract or local constraint a maintainer must know while reading the code. Follow the global documentation rule.                                 |
-| Review reply   | The answer to that technical point, evidence for the decision, and what remains unresolved.                                                         |
+## Pull/merge requests
 
-Give a fact a primary home for each audience and link when another location needs it. A maintainer
-reading a commit and a reviewer reading a PR may both need the reason for a dependency; include it
-briefly in each when necessary. Explanations should describe current behavior and obligations.
-Investigation chronology belongs in discussion only when it helps resolve an open question.
+The description informs the reviewer now and often becomes the squash-merge message.
 
-## Write the commit
+- Title: a commit subject for the whole change.
+- Body: lead with the problem and resulting behavior, then what a reviewer needs to judge it:
+  approach and why, scope and deliberate exclusions, risks and tradeoffs, where to focus review, and
+  verification. Keep the template's required fields; check only boxes that are true.
+- Verification: state what ran, against which revision and platform, and what it establishes. A
+  build does not show runtime behavior; a unit test does not show the user workflow. Once the
+  relevant code changes, an earlier result is historical: rerun it, or label it and say what remains
+  unverified. Do not describe a change as live before it is deployed.
+- Closing keywords (`Fixes #123`) only for a verified issue in the target repository that this
+  change resolves.
+- When review changes the implementation, rewrite title and description to match the final diff;
+  summarize changes since the last review in a comment instead of appending history.
+- Pass multiline text from a file or structured argument (e.g. `gh pr create --body-file`). Keep the
+  configured Git transport and identity; do not switch them to work around a failure.
+- Review the exact outgoing text before publishing: no internal identifiers, private paths, raw
+  logs, or anything not already public in that repository.
 
-- Derive the subject from the final staged scope and its verified purpose, not from a task title or
-  an earlier implementation. Follow repository conventions; otherwise default to Conventional
-  Commits. Aim for 50 characters, with 72 as the ceiling.
-- Usually omit explanatory prose for self-evident changes. Preserve required release/changelog
-  links, issue references, and trailers. Add a body when the why, constraint, side effect, or
-  compatibility consequence would otherwise be lost. One sentence often suffices; complex changes
-  can need more.
-- Keep commits independently reviewable and working. If the staged diff mixes unrelated changes,
-  select only the authorized logical change and preserve user edits. Squash style/privacy fix-ups
-  only within the authorized history-edit boundary.
+## Review replies
 
-Repository requirements can include component/package prefixes, issue identifiers, release links,
-sign-offs, attribution, automation disclosure, or human review before submission. Read the current
-policy and preserve applicable requirements even when explanatory prose is unnecessary. Do not
-invent metadata, identity, or a review that has not happened, or carry one repository's policy into
-another.
+- If a reviewer misunderstood the code, first make the code clearer or add a comment; a reply alone
+  does not help later readers. A question that leads to no code change often deserves a note in the
+  commit message.
+- Answer the specific point: the decision, its evidence, and what remains open. When disagreeing,
+  state the tradeoff you weighed and ask what the reviewer weighs differently. Do not concede
+  without a reason, or claim a fix or check that did not happen.
+- Reply in the relevant thread and notify only relevant reviewers. An approval covers only what that
+  reviewer reviewed.
 
-## Write or update the PR
+## After merge
 
-Lead with the concrete problem and resulting behavior. Explain only the scope and rationale that a
-reviewer needs to assess the full change; include material operational effects even when the diff is
-small. Follow the repository template and verify issue references before using closing keywords.
+For a confirmed-merged PR the agent opened:
 
-For an existing PR, inspect its current base/head, title, and body. Review every branch commit and
-the complete diff against that base; an update may include changes beyond the latest commit. When
-scope changes, rewrite title/body around the final implementation and reconcile removed features,
-tradeoffs, verification claims, and template checkboxes.
+1. Identify the branch and worktrees the task created from its own record, not by name pattern.
+2. Remove a task-owned worktree only when it is clean, running the command from outside it.
+3. Delete the local branch with `git branch -d`; when it refuses (e.g. after a squash merge), report
+   instead of forcing.
+4. Fast-forward the default branch only when its checkout is clean and not diverged; verify the
+   result.
 
-Report relevant checks actually run, what each establishes, and meaningful limits. A successful
-build establishes buildability on that platform; it does not establish hardware execution, rollout
-health, or the complete user workflow. Results from an earlier revision remain historical evidence
-unless still valid for the current change. Re-run affected checks when justified; otherwise label
-the older result and state what the final revision has not verified. Do not imply an edit is active
-before the required deployment or restart.
-
-Use the hosting service's supported tooling; for GitHub, use `gh` for authorized operations. Keep
-the configured Git transport and authentication settings. If the sandbox rejects that configuration,
-use a permitted retry without bypassing it or silently switching identities/transports. Pass
-multiline text through a supported file or structured argument (`--body-file` with `gh`). Review the
-exact commits and outgoing text for privacy before publication, including internal identifiers or
-personal paths from working context. Express necessary constraints without disclosing private
-project details.
-
-## Handle review replies
-
-Read the feedback against current code and evidence. Answer the technical point directly: the
-decision, supporting observation or check, and remaining limitation. Correct disproven claims and
-keep that correction out of durable documentation unless the resulting constraint matters.
-
-Use project mechanisms where they fit. Explain a necessary exception with the actual constraint; do
-not accept a suggestion solely because it came from a reviewer or claim a fix/check was completed
-without evidence. Reply in the relevant thread and contact only relevant reviewers within the
-authorized scope. A partial approval verifies only the area the reviewer covered.
-
-## Finish after merge
-
-For a confirmed merged PR opened by the agent:
-
-1. Confirm the repository, default branch, and task-created branches/worktrees from creation
-   records.
-2. Check tracked/untracked changes and resolved paths. Remove only clean task-owned worktrees from
-   outside them; preserve unexpected files and other worktrees.
-3. Delete only the task-owned local branch with `git branch -d`; skip/report refusals, including
-   after squash merges, without forcing.
-4. Fetch and fast-forward the default branch only if its checkout is free of user work; skip/report
-   dirty, occupied, or diverged state. Verify cleanup and update results.
-
-Keep the branch/worktree during review. Remote branch deletion needs separate authorization.
-
-## Final check
-
-- Does the text match the final scope and retain the verified context needed to understand it?
-- Are facts, inferences, and unverified claims distinguishable, with evidence valid for this
-  revision?
-- Are required metadata and template fields present, and are publication details safe for this
-  target?
-- Can the intended reader understand the decision without reading the conversation?
+Keep branches and worktrees while review is open. Deleting the remote branch needs separate
+authorization.

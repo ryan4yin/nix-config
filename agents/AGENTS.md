@@ -129,8 +129,7 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 - Use `git-delivery` when preparing commits, performing authorized repository-hosting operations, or
   finishing a task after its reviewed changes merge. If it is absent from the skill catalog, read
-  `~/nix-config/agents/skills/git-delivery/SKILL.md`; report if unavailable. This fallback also
-  covers the interval before the skill links are deployed.
+  `~/nix-config/agents/skills/git-delivery/SKILL.md`; report if unavailable.
 - Commit only when asked, including commits needed for a user-requested PR, and keep planning notes,
   scratch files, and raw test data out of commits unless the task asks for them.
 - Each commit should be one logical change that leaves the tree working.
