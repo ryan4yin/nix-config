@@ -50,22 +50,29 @@ changing implementation, running destructive examples, publishing, or activating
    evidence. Silence in a newer source does not erase an earlier fact. Use the newest dated
    confirmation for 'current' or 'last verified'; keep older observations as history. Match results
    to their actual run and conditions; the same number occurring elsewhere is not supporting
-   evidence. Check the introduction, tables, history and conclusions against that map. Missing logs
-   establish missing records, not a failed boot or an unperformed test. Distinguish last verified
-   settings from proposals, reverted edits and fresh readbacks. Preserve units and measurement
-   scope: a last sample bounds the interruption time; a sampled maximum is not the true peak. A
-   short pass, cooling change or absent diagnostic error does not establish long-term stability or
-   isolate or exclude a cause. Attribute user reports and mark unresolved hypotheses.
+   evidence. Check the introduction, tables, history and conclusions against that map. When a
+   corrected fact has several components — how a setting was entered, whether it was saved, whether
+   it was ever exercised — every home that restates it carries all the components its reader needs;
+   a summary, table cell or conclusion keeping only part of the correction is still a defect.
+   Missing logs establish missing records, not a failed boot or an unperformed test. Distinguish
+   last verified settings from proposals, reverted edits and fresh readbacks. Preserve units and
+   measurement scope: a last sample bounds the interruption time; a sampled maximum is not the true
+   peak. A short pass, cooling change or absent diagnostic error does not establish long-term
+   stability or isolate or exclude a cause, and no condition is reported as fine, safe or acceptable
+   on partial or retained evidence: state what that evidence bounds and leave the rest unknown.
+   Attribute user reports and mark unresolved hypotheses.
 
    For a contract/implementation conflict, find the authoritative contract in tests, specs or
    callers. If it establishes that the comment is stale, correct the comment within scope. If intent
    remains unclear, preserve the conflict and report the alternative fixes; do not recommend
    matching the comment to the implementation as if the implementation were already correct.
 
-2. **In scope?** Keep a discovery only when it changes what this audience needs to understand or do.
-   Separate unrelated incidents from limitations that affect the documented evidence. References
-   must be usable by this audience; summarize necessary inaccessible evidence and state its access
-   or verification limit. Do not claim to have checked a source that was unavailable.
+2. **In scope?** Keep a discovery only when it changes what this audience needs to understand or do
+   about this artifact's subject. An incident in another subsystem is not a limitation of this one:
+   remove it from the artifact, name it in the report, and say where it belongs. For every reference
+   this audience cannot open, state what it contains, who can open it and how, and that this
+   artifact did not verify it; never point to material 'below' or elsewhere that the artifact does
+   not contain, and do not claim to have checked a source that was unavailable.
 3. **Self-contained in reading order?** Check each paragraph using only the preceding text and
    explicit prerequisites. Knowing the explanation from later in the file is not enough: supply the
    needed antecedent before the statement or state the actual current condition directly. After
@@ -77,18 +84,29 @@ changing implementation, running destructive examples, publishing, or activating
    explanations. A user correction requires searching all in-scope occurrences and conclusions that
    depend on it, not just changing the reported sentence. Check dates, configuration labels and
    every broad claim such as 'all', 'never' or 'first' against the recorded counterexamples.
-5. **Necessary and preserved?** Remove narration, padding and process chatter. Keep safety, license,
-   attribution, caller contracts, compatibility constraints, upstream references and workaround
-   reasons. Before shortening an operation, list its prerequisites, order, completion conditions,
-   observation period and rollback limits; each must survive in the result. Keep unresolved
-   verification tasks in intentional history. A field does not become disposable because its meaning
-   is uncertain; verify or mark that uncertainty.
+5. **Necessary and preserved?** Remove narration, padding and process chatter. Dated material is not
+   automatically content: keep an unfinished verification, action or condition a reader must act on,
+   and remove the author's drafting, buffering and relocation notes even when dated. Keep safety,
+   license, attribution, caller contracts, compatibility constraints, upstream references and
+   workaround reasons. Before shortening an operation, list its prerequisites, order, completion
+   conditions, observation period and rollback limits; each must survive in the result. A field does
+   not become disposable because its meaning is uncertain; verify or mark that uncertainty.
 
 ## Finish
 
-Reread from the beginning without borrowing later context. Compare the result with the fact map and
-original artifact: every necessary fact and operational condition must be accounted for, each
-corrected claim and its dependent conclusions must agree, and uncertain intent must remain visible.
+Reread from the beginning without borrowing later context, then check each gate against the fact map
+and the original artifact:
+
+1. Every corrected fact appears in every home that stated the old one, each carrying its full
+   condition.
+2. Nothing retained belongs to another subsystem, and the report names what was removed and where it
+   belongs.
+3. Every reference the reader cannot open says what it contains and how to get access.
+4. Every retained item still changes what this reader understands or does, and no verdict of fine,
+   safe or acceptable rests on partial evidence.
+5. Every in-scope operational condition and unresolved verification task survived, and uncertain
+   intent remains visible.
+
 Check neighboring sections for new contradictions or accidental changes outside the request.
 
 Validate relevant links, formatting, and executable examples with the project's existing tools where

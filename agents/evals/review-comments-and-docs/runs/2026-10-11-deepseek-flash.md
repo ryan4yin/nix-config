@@ -89,4 +89,7 @@ record actually shows (F17).
   [`../.gitignore`](../.gitignore)), so reproducing a number means rerunning the comparison.
 - The run measures the skill body only. Automatic discovery, real editing sessions and other models
   are separate tests and remain unmeasured.
-- On this suite the skill body produced no measured net improvement over the global rules alone.
+- On this suite the first skill body produced no measured net improvement over the global rules
+  alone. The revised body was measured separately in the [Luna run](./2026-10-11-luna.md), which
+  changed the skill body and the actor family at once; a re-measurement on this actor family with
+  the revised body is still pending.

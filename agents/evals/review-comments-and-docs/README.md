@@ -1,9 +1,9 @@
 # review-comments-and-docs evaluation
 
 Synthetic text and code fixtures for `review-comments-and-docs`. The authoritative pre-run criteria
-are in [`fixtures.json`](fixtures.json); the
-[DeepSeek-V41-Flash run record](runs/2026-10-11-deepseek-flash.md) holds the grades, findings and
-limits. The suite has 21 cases: F01–F19 plus the bounded no-change controls F07b and F12b.
+are in [`fixtures.json`](fixtures.json); the run records under [`runs/`](runs/) hold the grades,
+findings and limits of each round. The suite has 21 cases: F01–F19 plus the bounded no-change
+controls F07b and F12b.
 
 Suite design:
 
@@ -61,8 +61,8 @@ source hashes and task boundary rather than an AST check on `NONE`.
 
 Cases are `F01`–`F19` plus the bounded no-change controls `F07b` and `F12b`. Each case's sources,
 task, requirements and forbidden items live in [`fixtures.json`](fixtures.json), with the input
-files under [`fixtures/`](fixtures/). The [run record](runs/2026-10-11-deepseek-flash.md) names each
-case's boundary and outcome, so it is not repeated here.
+files under [`fixtures/`](fixtures/). The [run records](runs/) name each case's boundary and
+outcome, so it is not repeated here.
 
 ## Grading
 
@@ -88,8 +88,9 @@ case's boundary and outcome, so it is not repeated here.
 - Byte- and AST-level checks are described per case in `fixtures.json` and applied when grading a
   run; no output is stored here for a script to re-check.
 - This README is the human-readable companion; it is **not** actor input.
-- The [DeepSeek-V41-Flash run record](runs/2026-10-11-deepseek-flash.md) summarizes the grades,
-  findings and limits of this round; further rounds add one file each under `runs/`. Per-sample
-  responses and per-item score rows are generated locally and not committed, so reproducing a number
-  means rerunning the comparison. A round compares explicit skill-body exposure only; automatic
-  discovery, real editing workflows and other model tiers are separate tests and remain unverified.
+- The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
+  one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
+  first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised one. Per-sample responses
+  and per-item score rows are generated locally and not committed, so reproducing a number means
+  rerunning the comparison. A round compares explicit skill-body exposure only; automatic discovery,
+  real editing workflows and other model tiers are separate tests and remain unverified.
