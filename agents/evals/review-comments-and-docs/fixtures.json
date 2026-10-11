@@ -1,7 +1,7 @@
 {
   "suite": "review-comments-and-docs",
-  "version": "1",
-  "status": "frozen-before-deepseek-flash-run",
+  "version": "2",
+  "status": "corrected-rules-input-not-remeasured",
   "language": {
     "request": "zh",
     "artifact": "en"
@@ -13,7 +13,7 @@
   "protocol": {
     "allowed_reads": [
       "the fixture and evidence paths named in the task under fixtures/",
-      "agents/evals/global-rules.md",
+      "agents/global-rules.md",
       "agents/skills/review-comments-and-docs/SKILL.md for the assigned arm only, never for baseline"
     ],
     "forbidden": [
@@ -534,10 +534,11 @@
     }
   ],
   "scoring": {
+    "scope": "Historical version 1 denominators only; current case selection and reporting use README.md and SCORING.md, not role labels.",
     "primary": "all 21 cases; the ambiguity controls F07 and F12 are included",
-    "excluding_controls": "19 cases; F07 and F12 are excluded because their task invites an edit while the correct answer is no change, so they measure over-editing rather than the skill's target behaviours",
+    "excluding_controls": "19 cases; F07 and F12 were excluded as ambiguity controls under the old rubric; their grades do not settle whether every reasonable edit was a defect",
     "informative": "12 cases (F01 F02 F03 F06 F08 F09 F11 F13 F15 F17 F18 F07b): the ambiguity controls and the saturated cases are excluded. F07 and F12 are reported separately as controls.",
-    "saturated": "F04 F05 F10 F14 F16 F19 F12b; the baseline arm passes every measured round, so these cases can only lose, never separate the arms. They stay in the suite as regression guards and are not measured in focused rounds.",
+    "saturated": "F04 F05 F10 F14 F16 F19 F12b; historical labels from early single-sample rounds. Later baselines fail some of these cases, so this list is not a current exclusion rule.",
     "observed_judge_noise": "the unchanged baseline samples scored 13/21 and 15/21 in two rounds of the same judge model, and 13/21 against 14/21 in two later rounds; treat a 1-2 case difference between skill bodies as noise"
   }
 }
