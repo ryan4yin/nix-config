@@ -198,9 +198,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
 
 ## Communication
 
-- Agents MUST respond in the user's language (default English); use English for code, commands,
-  identifiers, comments, commit messages, PR text, and repository documentation, and keep literal UI
-  strings and match patterns in their original language.
+- Agents MUST respond in the user's language (default English). Write everything else — code,
+  comments, commit messages, PRs, issues and docs — in English, whatever the conversation uses,
+  unless the file or repository sets its own convention. Keep literal UI strings and match patterns
+  as they are.
 - Restate the requested scope across turns. When a change takes effect only after a restart or
   activation someone else performs, report what is applied and what is still pending.
 - Write for understanding at a glance: keep important facts and use short paragraphs or lists to

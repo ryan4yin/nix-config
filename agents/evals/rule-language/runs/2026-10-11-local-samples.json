@@ -1,0 +1,44 @@
+[
+  {
+    "scenario": "L1-inline-local",
+    "arm": "baseline",
+    "sample": 1,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。",
+    "raw": "<artifact>\n\n2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。\n</artifact>"
+  },
+  {
+    "scenario": "L1-inline-local",
+    "arm": "baseline",
+    "sample": 2,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。",
+    "raw": "<artifact>\n\n2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。\n</artifact>"
+  },
+  {
+    "scenario": "L1-inline-local",
+    "arm": "baseline",
+    "sample": 3,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。",
+    "raw": "<artifact>\n\n2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。\n</artifact>"
+  },
+  {
+    "scenario": "L1-inline-local",
+    "arm": "current",
+    "sample": 1,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。",
+    "raw": "<artifact>\n\n2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。\n</artifact>"
+  },
+  {
+    "scenario": "L1-inline-local",
+    "arm": "current",
+    "sample": 2,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。",
+    "raw": "<artifact>\n\n2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。\n</artifact>"
+  },
+  {
+    "scenario": "L1-inline-local",
+    "arm": "current",
+    "sample": 3,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。",
+    "raw": "<artifact>\n\n2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。\n</artifact>"
+  }
+]
