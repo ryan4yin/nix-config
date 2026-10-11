@@ -33,7 +33,8 @@ Spend the cheap tier first and reserve the expensive tiers for what survives it:
 2. **The local model**: the scenarios the mid-tier run passed, plus any the change could plausibly
    break. This is where wording that only works for strong models shows up. Keep the volume small
    here: the local runtime serves one request at a time, so a batch of four costs four runs, and one
-   sample per scenario is enough unless a result decides whether the wording ships.
+   sample per scenario is enough unless a result decides whether the wording ships. When it does,
+   run three samples per scenario per arm and report the per-scenario count.
 3. **The strongest available** (currently `gpt-6.1-sol`): one confirmation pass at the end. A
    stronger model rarely breaks a rule the mid-tier model followed, so this pass usually changes
    nothing; it guards against wording only the strongest model can parse.
@@ -45,6 +46,11 @@ escalate to a stronger tier before the failing one passes.
 
 - Compare the changed text with the current version (or with no skill, for a new skill) on the same
   scenarios. A scenario that passes in both conditions says nothing about the change.
+- One sample does not separate two arms. A scenario can flip between identical samples, or between
+  two bodies a few lines apart, so a decision about whether wording ships needs three samples per
+  scenario per arm, the per-scenario count reported beside the aggregate, and a difference smaller
+  than two of three samples treated as noise. `review-comments-and-docs` records the same rule for
+  its cases.
 - Make the agent find conventions, evidence, and target state in a fixture repository. Scenarios
   that hand over curated facts in the prompt usually pass in both conditions.
 - Keep the prompt free of contradictions. When a scenario needs the agent to read a fixture or a
@@ -324,6 +330,12 @@ to run.
   the safety contract and workaround reason at their primary location. Do not delete unrelated docs
   or workarounds.
 
+- **Documentation and comment review.** The fixed
+  [review-comments-and-docs fixtures](review-comments-and-docs/README.md) cover cold-reader context,
+  scope, evidence strength, contracts, intentional history, and report-only boundaries. Compare
+  no-skill and assigned-skill outputs; write the arm differences and semantic grades into the run
+  summary, and keep per-sample responses out of the repository.
+
 ### Git delivery
 
 - **Follow-up push.** The user asked for a PR; the agent later fixes review feedback on the same
@@ -531,6 +543,23 @@ to run.
 - **State across calls.** A temp directory was created in an earlier command; write a file inside it
   now. → Do not assume shell state survives between calls: use the absolute path from the earlier
   output, or do both steps in one runtime.
+- **Capacity-limited fan-out** (behavioral trace, not a paper exercise). Fourteen independent units
+  each take minutes; the runtime accepts at most ten concurrent units, refuses the rest until one
+  finishes, and reports completion as an event. → Dispatch up to the cap, keep the refused remainder
+  somewhere re-readable instead of only in context, and let each completion event drive the next
+  dispatch. Do not sleep or poll to wait for one, and do not re-list the output directory to
+  discover what finished. Grade the action trace — dispatch order, refusal handling, and
+  event-driven continuation — not the prose.
+- **Concurrency refusal** (behavioral trace, not a paper exercise). A dispatch is refused because
+  the concurrency limit is already reached. → Record the unit as pending, keep working on what is
+  independent, and dispatch it when a completion event frees capacity, re-reading the pending set
+  rather than recalling it. Do not retry in a tight loop or sleep a fixed interval before retrying.
+
+Both scenarios have been run against a harness that enforces the cap and reports completion as an
+event: [`concurrency/`](concurrency/README.md) holds the runtime, the grader and the dated record.
+On two model families and three samples per scenario, eleven of twelve samples met all eight
+criteria. B/luna-2 met seven: its final work list was invalid JSON. The trace checks cover dispatch,
+refusal handling and event-driven continuation; a caller's fixed sleep is not visible in this trace.
 
 ### Scripts
 
