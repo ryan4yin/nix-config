@@ -126,8 +126,8 @@ older run records retain the denominators used at the time.
 - This README is the human-readable companion; it is **not** actor input.
 - Scoring protocol: [`SCORING.md`](SCORING.md) defines the three-sample grouped grading method, pass
   formula, mechanical checks, denominators, malformed-verdict handling, and optimization gates.
-- The [three-sample Luna run](runs/2026-10-11-luna-three-sample.md) records rev5's grouped k/3
-  results and the next optimization targets.
+- The [three-sample Luna run](runs/2026-10-11-luna-three-sample.md) records the grouped k/3 results
+  for rev5 and for the rev7/rev8 iterations that followed it.
 - The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
   one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
   first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised bodies plus their two

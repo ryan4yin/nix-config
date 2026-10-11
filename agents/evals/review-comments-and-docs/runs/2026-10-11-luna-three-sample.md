@@ -100,3 +100,50 @@ not averaged with the grouped score.
 
 No criteria were changed after seeing these samples. The F02 reading was corrected before this round
 and frozen for all grouped grading. The unmeasured rev6 wording is not included in this score.
+
+## Iterations under the same protocol
+
+Two surgical revisions were measured with fresh three-sample rounds under the same grouped protocol
+and judge. Each re-ran the cases its edit could affect plus F06 as the reading-order guard.
+
+| body | words | F06 | F07b | F12 | F08 | F09 | 12-case informative |
+| ---- | ----- | --- | ---- | --- | --- | --- | ------------------- |
+| rev5 | 1066  | 3/3 | 1/3  | 1/3 | 0/3 | 2/3 | 30/36               |
+| rev8 | 1314  | 3/3 | 3/3  | 0/3 | 1/3 | 3/3 | 34/36               |
+
+rev5 is the body measured in the Setup section above. rev8 is SHA-256
+`f7a6603e8dc5621079b6133660f89727db20b53ddf1aefbd6ceff1b468518589`.
+
+rev7 (`33a52d29…`, 1242 words, intermediate) added the evidence requirement to the edit decision,
+made out-of-scope material leave the artifact instead of being relabelled, required the report to
+name each removal and the retained uncertainty, and folded the once-only history check into the
+finish gates. It moved F07b from 1/3 to 2/3 and F08 from 0/3 to 1/3, left F12 and F09 unchanged, and
+held F06. A one-sample move is not a stable result.
+
+rev8 (1314 words) added two rules after reading the failing artifacts: the code showing which
+function is called is not the same statement as why it must be that function, so a rationale comment
+or an authoritative link is not redundant; and no change means byte-for-byte, so re-wrapping or
+merging lines is itself an edit. It also requires the report to match the returned artifact, after
+one sample claimed no change while its artifact had been reflowed.
+
+rev8 fixes the scoreable no-change boundary: F07b reaches 3/3 and F06 stays 3/3. F08 improves to 1/3
+and F09 to 3/3, and every case that was 3/3 at rev5 is still 3/3, so the informative set moves from
+30/36 to 34/36 on the same cases.
+
+F12 is not pursued further. Every body from rev4 to rev8 fails it, and the rev8 samples delete
+different comments with different rationales, so no single rule targets it. It is an ambiguity
+control, reported separately and excluded from the informative denominator, and F07b is its
+scoreable form.
+
+The remaining weakness is length: 1314 words is the longest body measured. A trim is prepared but
+not shipped, because the committed body must be the one the record measured; a trimmed body needs
+its own three-sample re-measurement of the affected cases and guards first.
+
+## Limits of the iterations
+
+- Each iteration was measured once, on the cases its edit could affect; the nine stable cases were
+  not re-sampled at rev8, so their 3/3 status carries over from rev5 rather than being re-confirmed.
+- F07 was not sampled at rev7 or rev8, so the 13-case denominator is used in the table above. Its
+  rev5 result (0/3) remains the recorded value.
+- The baseline still has one sample per case. rev8's 34/36 characterizes the assigned body; it is
+  not yet an A/B gain over the global rules.

@@ -13,12 +13,20 @@ the text says before deciding how it reads.
 
 ## 1. Decide whether to change anything
 
-- **Edit only to fix a defect you can name**: a wrong fact, a missing contract, a reference the
-  reader cannot open, a statement they cannot understand, or a consequence they cannot act on.
+- **Edit only to fix a defect you can name, together with the evidence that contradicts the text**:
+  a wrong fact, a missing contract, a reference the reader cannot open, a statement they cannot
+  understand, or a consequence they cannot act on. Name both before touching the file.
 - **If the artifact is accurate and complete for its purpose, return it unchanged and report no
-  findings.** A preferable phrasing, a style preference, a shorter sentence, or a detail you would
-  have organized differently is not a defect. Rewriting a file that needed no edit is itself the
-  error.
+  findings.** A preferable phrasing, a style preference, a shorter sentence, a detail you would have
+  organized differently, and a sentence whose support merely appears further down are not defects.
+  Rewriting a file that needed no edit is itself the error.
+- **A comment is not redundant because the code looks readable.** Keep the non-obvious reason,
+  contract, safety property, workaround, rationale, and any authoritative link that anchors a
+  requirement. The code showing which function is called is not the same statement as why it must be
+  that function, so remove a comment only when the same statement already appears beside it.
+- **No change means byte-for-byte.** Re-wrapping a paragraph, merging lines, or reformatting is an
+  edit; a file that needs no fix needs no reflow. When you return it unchanged, it must match the
+  original exactly.
 - **Review only when the task says review**: report findings, change nothing. Zero findings is a
   valid result, and a one-line report saying the artifact is fine is a complete answer.
 - Keep the change to the defect and to the places that state the same fact. Preserve unrelated user
@@ -64,8 +72,8 @@ the text says before deciding how it reads.
 ## 4. Keep the scope and the obligations
 
 - Keep a discovery only when it changes what this audience needs to understand or do about **this**
-  artifact's subject. Another subsystem's incident comes out of the artifact and goes into the
-  report with where it belongs.
+  artifact's subject. Another subsystem's incident **leaves the artifact** — delete it rather than
+  keeping it under an `Out of scope` heading — and the report says where it belongs.
 - **A recorded condition, reason or result stays** even when it looks incidental to the technical
   story.
 - For every reference the reader cannot open, state what it contains, who can open it and how, and
@@ -83,21 +91,31 @@ the text says before deciding how it reads.
 - Findings first, ordered by consequence, each stated as the discrepancy: what the artifact claimed,
   what the source shows, and why it matters. Reporting only the corrected state hides that the
   artifact was wrong.
-- Say what you read, what you changed, and what you did not verify. Keep unrelated discoveries out
-  of the findings, or mark them out of scope in one line.
+- **Name each removal and each uncertainty that remains**: the item you took out with the evidence
+  that identified it, and the limitation the artifact still carries with its scope, so a reader can
+  tell what is known, what is not, and what left the file.
+- **Tell an incident once, in the dated history.** The current state and the procedure keep only
+  what the reader needs to act on, without repeating the narrative.
+- Say what you read, what you changed, and what you did not verify, and keep that true of the
+  artifact you return: a report that says nothing was changed must accompany an unchanged file. Keep
+  unrelated discoveries out of the findings, or mark them out of scope in one line.
 - No per-edit changelog.
 
 ## Finish
 
 Reread the result from the top without borrowing later context, and check:
 
-1. Everything I changed is a defect I can name; if not, the file should be unchanged.
+1. Everything I changed is a defect I can name, with the evidence that contradicts the text; if not,
+   the file should be unchanged.
 2. Every corrected fact is fixed in every place that stated it.
-3. The opening and every current-state sentence stand alone without the history below them.
+3. The opening and every current-state sentence stand alone without the history below them, and no
+   incident narrative is told twice.
 4. No recorded condition, result, reason, comparison row or procedure purpose was lost.
-5. Nothing from another subsystem remains, and no reference is left unusable.
+5. Nothing from another subsystem remains — deleted, not relabelled — and no reference is left
+   unusable.
 6. No verdict of fine, safe or acceptable rests on partial evidence.
-7. The report names the discrepancies it found and its own scope.
+7. The report names the discrepancies it found, every removal it made, the uncertainty that remains,
+   and its own scope.
 
 Check neighboring sections for contradictions or accidental changes outside the request. Validate
 links, formatting, and executable examples with the project's own tools where authorized; report
