@@ -176,9 +176,8 @@ groups:
 
       - alert: PostgresqlConfigurationChanged
         expr:
-          '{__name__=~"pg_settings_.*"} != ON(__name__, instance)
-          {__name__=~"pg_settings_([^t]|t[^r]|tr[^a]|tra[^n]|tran[^s]|trans[^a]|transa[^c]|transac[^t]|transact[^i]|transacti[^o]|transactio[^n]|transaction[^_]|transaction_[^r]|transaction_r[^e]|transaction_re[^a]|transaction_rea[^d]|transaction_read[^_]|transaction_read_[^o]|transaction_read_o[^n]|transaction_read_on[^l]|transaction_read_only[^y]).*"}
-          OFFSET 5m'
+          'changes({__name__=~"pg_settings_.*", __name__!="pg_settings_transaction_read_only"}[5m])
+          > 0'
         for: 0m
         labels:
           severity: info

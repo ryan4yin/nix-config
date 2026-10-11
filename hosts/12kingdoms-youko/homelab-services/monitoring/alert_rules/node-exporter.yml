@@ -166,9 +166,10 @@ groups:
 
       - alert: HostUnusualDiskReadLatency
         expr:
-          '(rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m])
-          > 0.1 and rate(node_disk_reads_completed_total[1m]) > 0) * on(instance) group_left
-          (nodename) node_uname_info{nodename=~".+"}'
+          '((rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m])
+          > 0.1) and rate(node_disk_reads_completed_total[1m]) > 5) * on(instance, device)
+          group_left node_disk_info{rotational="0", device!~"^(dm-|loop|ram|zram|sr|fd).*"} *
+          on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
         for: 2m
         labels:
           severity: warning
@@ -180,10 +181,11 @@ groups:
 
       - alert: HostUnusualDiskWriteLatency
         expr:
-          '(rate(node_disk_write_time_seconds_total[1m]) /
-          rate(node_disk_writes_completed_total[1m]) > 0.1 and
-          rate(node_disk_writes_completed_total[1m]) > 0) * on(instance) group_left (nodename)
-          node_uname_info{nodename=~".+"}'
+          '((rate(node_disk_write_time_seconds_total[1m]) /
+          rate(node_disk_writes_completed_total[1m]) > 0.1) and
+          rate(node_disk_writes_completed_total[1m]) > 5) * on(instance, device) group_left
+          node_disk_info{rotational="0", device!~"^(dm-|loop|ram|zram|sr|fd).*"} * on(instance)
+          group_left (nodename) node_uname_info{nodename=~".+"}'
         for: 2m
         labels:
           severity: warning
