@@ -1,0 +1,141 @@
+# Review skill evaluation: final report
+
+The single record for the `review-comments-and-docs` skill: what ships, what it was measured
+against, the one complete result table, what was tried and rejected on the way, and the limits that
+remain.
+
+## What ships
+
+| item           | value                                                                               |
+| -------------- | ----------------------------------------------------------------------------------- |
+| Skill body     | `agents/skills/review-comments-and-docs/SKILL.md`, 1282 words                       |
+| Body digest    | sha256 `2bac7a6688ba98fd26dfa2ef714f85571d3ee3408262e623a3de9eb5161d42aa`           |
+| Suite          | 21 frozen cases in [`../fixtures.json`](../fixtures.json), fixtures beside them     |
+| Grading method | [`../SCORING.md`](../SCORING.md): three samples per case and arm, one grouped judge |
+| Provenance     | the skill's public sources live in `agents/skills/README.md`, not in the body       |
+
+The skill is graded on two arms. The **assigned** arm reads the fixture, the global rules and the
+skill; the **baseline** arm reads the fixture and the global rules only. Both arms get three fresh
+actor samples per case, and one judge grades all three samples of a case in a single call, with the
+samples anonymized by content digest so the judge cannot tell arm or replicate.
+
+Scope of this record: explicit skill-body exposure only. Automatic skill discovery, real editing
+workflows, other model tiers, and the two behavioral scenarios recorded as a `TODO` in
+`agents/evals/global-rules.md` are not measured here.
+
+## The one complete result
+
+All 21 cases, both arms, both actor families, three samples per cell. `P` is a passing sample.
+Judges are cross-family: Luna samples graded by `deepseek-flash`, DeepSeek samples by `gpt-6-luna`.
+
+| case | role              | DS baseline | DS assigned | Luna baseline | Luna assigned |
+| ---- | ----------------- | ----------- | ----------- | ------------- | ------------- |
+| F01  | scored            | PP.         | P..         | PPP           | PPP           |
+| F02  | scored            | PPP         | PPP         | ...           | PPP           |
+| F03  | scored            | P.P         | PPP         | P.P           | PPP           |
+| F04  | saturated         | P.P         | PPP         | PPP           | PPP           |
+| F05  | saturated         | PPP         | PPP         | PPP           | PPP           |
+| F06  | guard             | P..         | PPP         | .PP           | PPP           |
+| F07  | ambiguity-control | ...         | PPP         | ...           | ...           |
+| F08  | scored            | ..P         | PP.         | P..           | ..P           |
+| F09  | scored            | PPP         | PPP         | .P.           | PPP           |
+| F10  | saturated         | PPP         | PPP         | PPP           | PPP           |
+| F11  | scored            | ...         | P..         | ...           | PPP           |
+| F12  | ambiguity-control | P..         | PPP         | ...           | ...           |
+| F13  | scored            | PPP         | PPP         | PPP           | PPP           |
+| F14  | saturated         | PPP         | PPP         | PP.           | PPP           |
+| F15  | scored            | .P.         | .P.         | PPP           | PPP           |
+| F16  | saturated         | P.P         | P..         | .PP           | PPP           |
+| F17  | scored            | ...         | PPP         | .PP           | PPP           |
+| F18  | scored            | PPP         | ...         | PPP           | PPP           |
+| F19  | saturated         | ...         | PPP         | PPP           | PPP           |
+| F07b | scored            | ...         | PP.         | .P.           | PPP           |
+| F12b | saturated         | PPP         | PPP         | .P.           | PPP           |
+
+| group                            | cases | cells | DS baseline | DS assigned | Luna baseline | Luna assigned |
+| -------------------------------- | ----- | ----- | ----------- | ----------- | ------------- | ------------- |
+| all cases                        | 21    | 63    | 36          | **50**      | 38            | **55**        |
+| excluding the ambiguity controls | 19    | 57    | 35          | **44**      | 38            | **55**        |
+| informative: scored + guard      | 12    | 36    | 19          | **25**      | 21            | **34**        |
+| saturated                        | 7     | 21    | 16          | 19          | 17            | **21**        |
+| ambiguity controls               | 2     | 6     | 1           | **6**       | 0             | 0             |
+
+## Conclusion
+
+- **The skill improves both families**, most where a case can move: DeepSeek 36/63 to 50/63, Luna
+  38/63 to 55/63; on the informative twelve, DeepSeek 19/36 to 25/36 and Luna 21/36 to 34/36.
+- **The ambiguity controls are the sharpest result and the families differ there.** Both controls
+  have "change nothing" as the only correct answer. Luna fails all six cells in both arms, so the
+  skill neither causes nor repairs its over-editing on them. DeepSeek passes one of six without the
+  skill and six of six with it: on this model the clearest measured effect is that the skill stops
+  edits the artifact did not need.
+- **The benefit is not model-independent.** Only F07b improves stably on both families. F02, F09 and
+  F11 gain on Luna while DeepSeek's baseline already passes F02 and F09, and DeepSeek loses F18 and
+  moves backwards on F16.
+- **"Saturated" is a historical label, not a live property.** It came from the earliest one-sample
+  rounds. At three samples the baseline fails five DeepSeek cells and four Luna cells in that group,
+  and the assigned arm passes every Luna saturated case. Read the measured rates above, not the role
+  column, whenever a denominator matters.
+- **The skill is not free of regressions.** DeepSeek F18 falls 3/3 to 0/3: the assigned samples keep
+  an unsupported p99 figure looking measured. DeepSeek F16 falls 2/3 to 1/3, with samples folding an
+  unrelated ledger migration into dated history and misattributing an interval's source. F08 stays
+  weak on both families.
+
+## What was tried and rejected
+
+Every rejected body was measured and reverted; the numbers below are why the shipped body is the one
+that ships. Bodies are identified by digest prefix.
+
+| body        | change                                                      | measured effect                                                                                      | outcome  |
+| ----------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------- |
+| `33a52d29…` | rev7: evidence requirement, out-of-scope material deleted   | F07b 1/3 to 2/3, F08 0/3 to 1/3, F06 held                                                            | interim  |
+| `f7a6603e…` | rev8: comment rationale kept, no change means byte-for-byte | F07b 1/3 to 3/3, F09 2/3 to 3/3, F08 0/3 to 1/3, informative 30/36 to 34/36, no regression           | shipped  |
+| `f05e9ef8…` | rev9: report must match the returned artifact in both ways  | F08 1/3 to 3/3, F06 held, but F09 3/3 then 0/3 and 1/3 in two batches                                | rejected |
+| `ae45e551…` | four clauses for the weak DeepSeek cases                    | DeepSeek weak set 9/18 to 11/18, Luna 16/18 to 15/18                                                 | rejected |
+| `f556ab77…` | one clause: label each claim's status where it is discussed | DeepSeek F18 0/3 to 3/3 and F15 1/3 to 3/3, at 53 words; Luna's no-change case fell to 3/9 identical | rejected |
+| `f2afa601…` | the same clause plus a prohibition-shaped guardrail         | all three Luna samples rewrote a byte-identical fixture's table as prose                             | rejected |
+
+Two lessons are worth keeping beyond this suite. First, the last rejection is the negation effect:
+the guardrail said the rule must never turn a value's missing provenance into a defect and never
+justify an edit, and every sample then did exactly that. A prohibition activates the behaviour it
+forbids; the fix would be a positive target, not a stronger ban. Second, a one-sample move is not
+evidence. The status-label clause was first rejected on one modified sample in three, which is
+inside the measured judge noise; it was only settled after nine samples under the clause against six
+under the shipped body (3/9 against 6/6 identical).
+
+F12 was pursued for five body revisions and never passed (0/3 to 1/3 throughout, with samples
+deleting different comments for different reasons). It is an ambiguity control, excluded from the
+informative denominator, and F07b is its scoreable form.
+
+## Judge noise and grading defects
+
+The suite's own noise bound: identical baseline samples, graded twice, scored 13/21 and 15/21, and a
+second pair differed by one case. **A one-sample move is therefore not a result**; only a two-sample
+move or larger is treated as one, which is why three samples per cell is the floor for any ship
+decision.
+
+Grading defects found and closed, each regraded rather than averaged away:
+
+- F02: a judge failed a surviving comparison row that the pinned reading keeps. Pinned reading
+  corrected before the affected round.
+- F18: a judge applied a stricter self-declaration reading than the pinned meaning-based note.
+  Regraded; the failures moved to genuine content criteria.
+- F07b: a judge failed byte-identity samples because their findings block contained text. Findings
+  are required output and never part of the artifact; [SCORING.md](../SCORING.md) now states this.
+- Criterion counts: a judge was told five forbidden criteria for a case that defines four.
+  SCORING.md now says a judge grades only the indices the task file lists and never invents one.
+- Malformed judge output was regraded in the F12, F15, F17 and F19 batches; one stalled batch was
+  cancelled and its remaining case graded on its own.
+
+## Limits
+
+- Three samples per cell. Movements of one sample are noise here; F07b, F09 and F16 have each moved
+  that much between batches.
+- The two families do not share a judge, so per-case comparisons inside a round are sound while
+  cross-family deltas carry judge variation.
+- The round measures explicit exposure to the skill body. Whether an agent discovers and applies the
+  skill on its own is untested.
+- The two behavioral scenarios for waiting and fan-out concurrency remain unrun; they are recorded
+  as a `TODO` in `agents/evals/global-rules.md`.
+- The body is 1282 words, the longest measured. Its length is a deliberate open item: any trim
+  changes the measured body and needs its own three-sample round.

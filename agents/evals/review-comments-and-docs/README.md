@@ -1,9 +1,9 @@
 # review-comments-and-docs evaluation
 
 Synthetic text and code fixtures for `review-comments-and-docs`. The authoritative pre-run criteria
-are in [`fixtures.json`](fixtures.json); the run records under [`runs/`](runs/) hold the grades,
-findings and limits of each round. The suite has 21 cases: F01–F19 plus the bounded no-change
-controls F07b and F12b.
+are in [`fixtures.json`](fixtures.json); the [final report](runs/final-report.md) holds the measured
+grades, the rejected revisions and the limits. The suite has 21 cases: F01–F19 plus the bounded
+no-change controls F07b and F12b.
 
 Suite design:
 
@@ -126,23 +126,14 @@ older run records retain the denominators used at the time.
 - This README is the human-readable companion; it is **not** actor input.
 - Scoring protocol: [`SCORING.md`](SCORING.md) defines the three-sample grouped grading method, pass
   formula, mechanical checks, denominators, malformed-verdict handling, and optimization gates.
-- The [three-sample Luna run](runs/2026-10-11-luna-three-sample.md) records the grouped k/3 results
-  for rev5 and for the rev7/rev8 iterations that followed it. The
-  [three-sample DeepSeek run](runs/2026-10-11-deepseek-three-sample.md) measures both arms on the
-  same thirteen cases and finds the benefit is not model-independent: only F07b improves stably on
-  both models, while DeepSeek loses F18.
-- The [global round](runs/2026-10-11-global-round.md) measures all 21 cases on the shipped body for
-  both arms and both actor families, and is the reference table: DeepSeek moves from 36/63 to 50/63
-  and Luna from 38/63 to 55/63 overall, with the ambiguity controls separating the families
-  (DeepSeek 1/6 to 6/6, Luna 0/6 in both arms). Its three-sample baseline rates supersede the role
-  labels in `fixtures.json`, which come from the earliest one-sample rounds; read that column as
-  historical classification, not as a live property of a case.
-- The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
-  one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
-  first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised bodies plus their two
-  iterations, and the [DeepSeek and local Qwen rounds](runs/2026-10-11-deepseek-and-qwen.md) the
-  committed body on two further actor families under the Luna judge. Every round is scored on both
-  denominators and bounded by the measured judge noise. Per-sample responses and per-item score rows
-  are generated locally and not committed, so reproducing a number means rerunning the comparison. A
-  round compares explicit skill-body exposure only; automatic discovery, real editing workflows and
-  other model tiers are separate tests and remain unverified.
+- The [final report](runs/final-report.md) is the single record: the complete 21-case result on the
+  shipped body for both arms and both actor families, the revisions that were measured and rejected
+  with their numbers, the judge-noise bound, the grading defects that were closed, and the limits.
+  Reference numbers: DeepSeek 36/63 to 50/63 and Luna 38/63 to 55/63 overall; the ambiguity controls
+  separate the families (DeepSeek 1/6 to 6/6, Luna 0/6 in both arms). Its three-sample baseline
+  rates supersede the role labels in `fixtures.json`, which come from the earliest one-sample
+  rounds; read that column as historical classification, not as a live property of a case.
+- Per-sample responses and per-item score rows are generated locally and are not committed, so
+  reproducing a number means rerunning the comparison against [`SCORING.md`](SCORING.md). The suite
+  measures explicit skill-body exposure only; automatic discovery, real editing workflows and other
+  model tiers are separate tests and remain unverified.
