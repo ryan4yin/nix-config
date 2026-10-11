@@ -1,0 +1,50 @@
+[
+  {
+    "scenario": "L1-zh-doc",
+    "arm": "baseline",
+    "sample": 1,
+    "artifact": "2026-10-11: Backend upgraded to v9.9.9, image `localhost/backend:bbb222`. Container memory limit raised from 72 GiB to 96 GiB."
+  },
+  {
+    "scenario": "L1-zh-doc",
+    "arm": "baseline",
+    "sample": 2,
+    "artifact": "2026-10-11: Backend upgraded to v9.9.9, image `localhost/backend:bbb222`. Container memory limit raised from 72 GiB to 96 GiB."
+  },
+  {
+    "scenario": "L1-zh-doc",
+    "arm": "baseline",
+    "sample": 3,
+    "artifact": "2026-10-11: Backend upgraded to v9.9.9, image `localhost/backend:bbb222`. Container memory limit raised from 72 GiB to 96 GiB."
+  },
+  {
+    "scenario": "L1-zh-doc",
+    "arm": "current",
+    "sample": 1,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。"
+  },
+  {
+    "scenario": "L1-zh-doc",
+    "arm": "current",
+    "sample": 2,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。"
+  },
+  {
+    "scenario": "L1-zh-doc",
+    "arm": "current",
+    "sample": 3,
+    "artifact": "2026-10-11：后端升级到 v9.9.9，镜像为 `localhost/backend:bbb222`；容器内存上限从 72 GiB 提到 96 GiB。"
+  },
+  {
+    "scenario": "L4-en-doc",
+    "arm": "baseline",
+    "sample": 1,
+    "artifact": "2026-10-11: the backend moved to v9.9.9 (`localhost/backend:bbb222`). The container memory limit rose from 72 GiB to 96 GiB."
+  },
+  {
+    "scenario": "L4-en-doc",
+    "arm": "current",
+    "sample": 1,
+    "artifact": "2026-10-11: the backend moved to v9.9.9 (`localhost/backend:bbb222`). The container memory limit rose from 72 GiB to 96 GiB."
+  }
+]
