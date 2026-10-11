@@ -2,24 +2,26 @@
 
 128G from JUHOR 2×48G + GLOWY 2×16G. All four DIMMs are needed because 96G is insufficient.
 
-## Target configuration
+## Current configuration
 
-This is the settled configuration for normal use. It passed a **6-hour 100G stress test with 0
-errors** (highest sampled memory temperature: **56.8°C**) and then **29.6 hours of daily use over
-two nights and one workday**, displays on and off, LLM serving throughout. Keep these settings
-rather than increasing voltage further.
+CPU VDD2 is set to **1.17 V** (BIOS reads **1.168 V**). This is the best configuration tested so
+far, but it still froze during daily use on 2026-10-11. Keep it for normal use for now; higher
+tested VDD2 settings have not provided a stable alternative.
 
-| Field                   | Target                    |
-| ----------------------- | ------------------------- |
-| XMP                     | Disabled                  |
-| Gear mode               | Gear2                     |
-| Memory speed            | 4800 MT/s                 |
-| CPU VDD2                | **1.17 V fixed**          |
-| VCCSA                   | Auto (BIOS reads 1.288 V) |
-| DRAM VDD                | **1.28 V fixed**          |
-| DRAM VDDQ               | **1.28 V fixed**          |
-| DRAM VPP                | Auto (1.8 V)              |
-| tCL / tRCD / tRP / tRAS | 40 / 40 / 40 / 77         |
+| Field                   | Setting                                      |
+| ----------------------- | -------------------------------------------- |
+| XMP                     | Disabled                                     |
+| Gear mode               | Gear2                                        |
+| Memory speed            | 4800 MT/s                                    |
+| CPU VDD2                | **1.17 V fixed (BIOS reads 1.168 V)**        |
+| VCCSA                   | Auto (BIOS reads 1.288 V)                    |
+| VDD2_MV (BIOS label)    | Auto (BIOS reads 1.280 V)                    |
+| DRAM VDD                | **1.28 V fixed**                             |
+| DRAM VDDQ               | **1.28 V fixed**                             |
+| DRAM VPP                | Auto (1.8 V)                                 |
+| tCL / tRCD / tRP / tRAS | 40 / 40 / 40 / 77 (last photographed values) |
+
+Voltage settings and readings come from BIOS and user reports, not OS measurements.
 
 ## Hardware
 
@@ -41,47 +43,56 @@ Earlier attempts starting with the 48G pair or all four DIMMs did not reach BIOS
 2. Enter BIOS and disable XMP.
 3. Power off and add the 2×48G in DIMM0.
 4. Allow 1 to 3 minutes for retraining, possibly with several reboots.
-5. Apply the target settings above.
+5. Apply the current settings above.
 
 If failed training prevents BIOS entry, repeat this order; clear CMOS first if necessary. Failed
 training can silently restore defaults; re-check settings in BIOS afterwards.
 
 ## Test results
 
-Earlier DRAM tests used CPU VDD2 Auto (BIOS reading 1.104 V). **Bold values identify the rails
-changed in each test.**
+CPU VDD2 entries below are BIOS settings: Auto read 1.104 V in the earlier DRAM tests; the 1.17 V
+setting reads 1.168 V. These BIOS readings are not measurements during the OS tests.
 
-| CPU VDD2   | DRAM VDD                 | DRAM VDDQ                | Result                                                       | Highest sampled memory temperature |
-| ---------- | ------------------------ | ------------------------ | ------------------------------------------------------------ | ---------------------------------- |
-| Auto       | **1.10 V**               | **1.10 V**               | Immediate freezes during memory tests, even 4G.              | Not recorded                       |
-| Auto       | **1.25 V**               | **1.25 V**               | 8G / 32G / 100G short tests passed; llama.cpp load froze.    | Not recorded                       |
-| Auto       | **1.28 V**               | **1.28 V**               | 100G short test passed; daily use froze twice on 2026-10-08. | Not recorded                       |
-| Auto       | **1.282 V**              | **1.282 V**              | Display corruption in BIOS.                                  | Not recorded                       |
-| Auto       | **1.29 / 1.30 / 1.32 V** | **1.29 / 1.30 / 1.32 V** | Each setting failed training.                                | Not recorded                       |
-| **1.13 V** | 1.28 V                   | 1.28 V                   | BIOS normal; no long test.                                   | Not recorded                       |
-| **1.15 V** | 1.28 V                   | 1.28 V                   | 100G, 15 minutes: PASS.                                      | 45.5°C*                            |
-| **1.15 V** | 1.28 V                   | 1.28 V                   | Long test froze; last saved duration: 21 minutes 17 seconds. | 56.5°C                             |
-| **1.17 V** | 1.28 V                   | 1.28 V                   | 100G, **6 hours: PASS**.                                     | **56.8°C**                         |
-| **1.17 V** | 1.28 V                   | 1.28 V                   | **2 nights + 1 workday: no freeze**, displays on and off.    | Not recorded                       |
-| **1.20 V** | 1.28 V                   | 1.28 V                   | BIOS display corruption and freeze within 10 to 20 seconds.  | Not recorded                       |
+| CPU VDD2   | DRAM VDD             | DRAM VDDQ            | Result                                                                                                 | Highest sampled DIMM temperature               |
+| ---------- | -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| Auto       | 1.10 V               | 1.10 V               | Immediate freezes during memory tests, even 4G.                                                        | Not recorded                                   |
+| Auto       | 1.25 V               | 1.25 V               | 8G / 32G / 100G short tests passed; llama.cpp load froze.                                              | Not recorded                                   |
+| Auto       | 1.28 V               | 1.28 V               | 100G short test passed; daily use froze on 2026-10-08.                                                 | Not recorded                                   |
+| Auto       | 1.282 V              | 1.282 V              | Display corruption in BIOS.                                                                            | Not recorded                                   |
+| Auto       | 1.29 / 1.30 / 1.32 V | 1.29 / 1.30 / 1.32 V | Each setting failed training.                                                                          | Not recorded                                   |
+| 1.13 V     | 1.28 V               | 1.28 V               | BIOS normal; no long test.                                                                             | Not recorded                                   |
+| 1.15 V     | 1.28 V               | 1.28 V               | 100G, 15 minutes: PASS.                                                                                | 45.5°C*                                        |
+| 1.15 V     | 1.28 V               | 1.28 V               | Long test froze; last saved duration 21 min 17 s.                                                      | 56.5°C                                         |
+| **1.17 V** | **1.28 V**           | **1.28 V**           | **100G, 6 hours: PASS, 0 errors or hardware incidents.**                                               | **56.8°C**                                     |
+| 1.17 V     | 1.28 V               | 1.28 V               | About 56 hours across three boots ending cleanly; next boot froze during LLM serving (2026-10-11).     | 47.2°C in the last available monitoring sample |
+| 1.20 V     | 1.28 V               | 1.28 V               | Earlier attempt: BIOS display corruption and freeze within 10 to 20 s.                                 | Not recorded                                   |
+| 1.20 V     | 1.28 V               | 1.28 V               | 100G test froze with screen corruption; last saved duration 7 min 23 s (2026-10-11).                   | 55.25°C                                        |
+| 1.18 V     | 1.28 V               | 1.28 V               | 100G test froze with screen corruption; last saved duration 14 min 36 s (2026-10-11).                  | 59.5°C                                         |
+| 1.28 V     | 1.28 V               | 1.28 V               | Reached the desktop, then froze; journal spans 16:30:16 to 16:31:20 (64 s). No recorded pressure test. | Not recorded                                   |
+| 1.30 V     | 1.28 V               | 1.28 V               | Set in BIOS only; rolled back without booting or testing.                                              | Not tested                                     |
+| **1.17 V** | **1.28 V**           | **1.28 V**           | **100G, 15 minutes: PASS, 0 errors or hardware incidents (2026-10-11 17:29–17:45).**                   | **59.25°C**                                    |
 
-*The 15-minute test used sparse temperature samples; its true peak is unknown. Long tests sampled
-about every 5 seconds and used a 60°C stop threshold.
+*The 1.15 V short test used sparse temperature samples; its true peak is unknown. The monitored long
+tests and the 2026-10-11 100G tests sampled about every 5 seconds with a 60°C stop threshold. Saved
+durations are lower bounds on time before interruption, not exact freeze times.
 
-Both recent long tests were on 2026-10-09:
+The passing 1.17 V test ran on 2026-10-09 from 01:29 to 07:30 without swap use. Subsequent daily use
+included displays on and off with LLM serving. Sleep/wake is untested.
 
-- At 1.15 V, the last record was at 01:02, with machine uptime of 1 hour 53 seconds. The saved
-  durations are lower bounds, not exact freeze times.
-- At 1.17 V, the test ran from 01:29 to 07:30, with 0 errors or hardware incidents and no swap use.
-  Recorded temperatures stayed below 60°C.
+The 1.17 V freeze on 2026-10-11 ended logging at 13:55:46, about 4 h 47 min after boot. Logs stopped
+during generation without a shutdown sequence or a recorded machine check, BUG or Oops.
 
-## Daily use
+## BIOS limitations and conclusion
 
-One unbroken boot, 2026-10-09 01:24 to 2026-10-10 07:02: the 6-hour test and a workday with the
-displays on, then a night with them off. Load stayed high — 100G stress test, then continuous LLM
-serving with the KV cache streaming from RAM — and occupancy stayed around 70% or more.
+Attempts to apply tRFC 1180 and primary timings 42 / 42 / 42 / 82 reverted automatically after
+saving, according to the user's BIOS checks. Those relaxed settings never became a tested
+configuration. The memory frequency control is also locked at 4800 MT/s in the current BIOS setup.
+The table above retains the last photographed timings; a later readback has not been recorded.
 
-No machine check, hardware error, BUG, Oops, or GPU fall-off; no OOM or hung task; no log gap over
-60 seconds. Sleep/wake is untested — displays off only blanks them. Occupancy and temperature were
-not logged and the board has no EDAC counters, so an error would show up as a freeze or corruption,
-not a count.
+Keep CPU VDD2 at 1.17 V and DRAM VDD/VDDQ at 1.28 V for now. The passing stress test and daily-use
+record make this the best tested option, but the later freeze means stability remains unresolved.
+
+The user reports a possible ambient temperature rise of about 10°C. Temperature may affect the
+remaining margin, but neither temperature nor an IMC, DIMM or motherboard fault has been isolated.
+Manual timing relaxation and frequency reduction are currently unavailable; further tuning is
+paused. Revisit only if freezes continue or those BIOS controls become usable.
