@@ -557,9 +557,9 @@ to run.
 
 Both scenarios have been run against a harness that enforces the cap and reports completion as an
 event: [`concurrency/`](concurrency/README.md) holds the runtime, the grader and the dated record.
-On two model families and three samples per scenario, every exercised sample met all eight criteria
-— dispatch up to the cap, the refused work kept re-readable before it was dispatched, waiting on the
-runtime's own event primitive instead of sleeping or polling, and no tight retry loop.
+On two model families and three samples per scenario, eleven of twelve samples met all eight
+criteria. B/luna-2 met seven: its final work list was invalid JSON. The trace checks cover dispatch,
+refusal handling and event-driven continuation; a caller's fixed sleep is not visible in this trace.
 
 ### Scripts
 

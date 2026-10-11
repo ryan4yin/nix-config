@@ -13,10 +13,14 @@ on the _action trace_: what the caller dispatched, when, and what it did when th
 - no way to list units, so the caller has to keep its own re-readable work list,
 - every call appended to `trace.jsonl` with a monotonic timestamp.
 
+`status` only observes saved counts; elapsed time alone does not release a slot. A per-directory
+file lock serializes state and trace updates across processes. `wait` releases that lock between
+checks so other commands can proceed; lock acquisition has a five-second timeout.
+
 Global options come before the subcommand:
 
 ```
-python3 runtime.py --dir <run dir> reset --units 14 --cap 10 --duration 2 [--preload 10]
+python3 runtime.py --dir <run dir> reset --units 14 --cap 10 --duration 2 [--preload 10 --preload-remaining 60]
 python3 runtime.py --dir <run dir> status
 python3 runtime.py --dir <run dir> start u01
 python3 runtime.py --dir <run dir> wait
@@ -28,15 +32,16 @@ commands; no sleep and no other command; finish when the owned units are done.
 
 ## Grading
 
-`grade.py --dir <run dir> --units N --cap M [--owned u11-u14]` reads the trace, the runtime state
-and the plan file, then checks:
+`python3 grade.py --dir <run dir> --units N --cap M [--owned u11-u14]` reads the trace, the runtime
+state and the plan file. It rejects a scenario with no real capacity refusal or a mismatched reset,
+then checks:
 
 1. unique dispatch: no unit started twice;
 2. refusal discipline: no unit refused twice (a tight retry loop);
 3. refused work stayed re-readable before dispatch: the runtime snapshots the caller's work list on
    every call, so this is judged from the moment of the refusal, not from the file's final state,
    where a dispatched unit is no longer listed as refused;
-4. native wait used for completions;
+4. native wait events observed for every owned completion;
 5. no status polling loop (four or more status calls in a row);
 6. every dispatch into a full runtime follows a completion event — capacity is reconstructed from
    the trace, so a start using a slot an event already freed passes and one that ignores a full
@@ -45,13 +50,23 @@ and the plan file, then checks:
    this and is reported as such);
 8. every owned unit finished.
 
-The [2026-10-11 record](runs/2026-10-11.md) holds the twelve runs, what the traces show, the three
-harness defects this round exposed, and the limits.
+The [2026-10-11 record](runs/2026-10-11.md) keeps the twelve model runs and historical scorer
+results. The corrected scorer was checked against those existing local traces without rerunning the
+actors: eleven still score 8/8 and B/luna-2 scores 7/8.
 
-The grader is itself tested: a scripted correct trace scores 8/8 and a scripted tight-retry trace
-scores 1/8 (see the run record). Two things the trace cannot show, stated rather than papered over:
-a fixed sleep is indistinguishable from model thinking time in a call trace, and the trace cannot
-tell whether the plan file was written before or after a given call — only its final state.
+Run the focused regressions from the repository root:
+
+```
+python3 -B -m unittest discover -s agents/evals/concurrency -v
+```
+
+They cover concurrent starts, status/event separation, a valid event-driven trace, rejection of the
+old status bypass, preloaded capacity and an unexercised scenario. No model or Nix build is
+involved.
+
+A call trace cannot distinguish a fixed sleep from thinking time, or prove the caller re-read its
+plan. Snapshots only show what the plan contained when each command ran; they do not record file
+reads or every write.
 
 ## Scenarios
 

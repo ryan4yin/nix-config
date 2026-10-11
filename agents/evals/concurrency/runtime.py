@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """A tiny runtime with a hard concurrency cap and event-reported completion.
 
 It exists to observe an agent's *scheduling behaviour*: the trace of every call it makes. The
@@ -20,11 +19,32 @@ State lives in ``<dir>/state.json``; every call is appended to ``<dir>/trace.jso
 from __future__ import annotations
 
 import argparse
+import fcntl
 import json
 import time
+from contextlib import contextmanager
 from pathlib import Path
 
 DEFAULT_DIR = Path(__file__).resolve().parent
+
+
+@contextmanager
+def state_lock(d: Path):
+    """Serialize state and trace updates; release the lock between wait iterations."""
+    with (d / "state.lock").open("a") as lock:
+        deadline = time.monotonic() + 5
+        while True:
+            try:
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except BlockingIOError:
+                if time.monotonic() >= deadline:
+                    raise SystemExit("state lock timed out") from None
+                time.sleep(0.01)
+        try:
+            yield
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
 
 
 def paths(d: Path) -> tuple[Path, Path]:
@@ -51,10 +71,16 @@ def trace(d: Path, entry: dict) -> None:
     if plan_file.exists():
         try:
             raw = json.loads(plan_file.read_text())
-            entry["plan"] = {k: sorted(raw.get(k, [])) for k in ("dispatched", "pending", "refused")}
+            entry["plan"] = {
+                k: sorted(raw.get(k, [])) for k in ("dispatched", "pending", "refused")
+            }
         except (json.JSONDecodeError, AttributeError):
             entry["plan"] = {"unparsable": True}
-    entry = {"t": round(time.monotonic(), 3), "wall": time.strftime("%H:%M:%S"), **entry}
+    entry = {
+        "t": round(time.monotonic(), 3),
+        "wall": time.strftime("%H:%M:%S"),
+        **entry,
+    }
     with trace_file.open("a") as fh:
         fh.write(json.dumps(entry, sort_keys=True) + "\n")
 
@@ -76,10 +102,9 @@ def active(state: dict) -> int:
 
 def cmd_reset(args) -> None:
     d = Path(args.dir)
-    d.mkdir(parents=True, exist_ok=True)
     units = {f"u{i:02d}": {"status": "pending"} for i in range(1, args.units + 1)}
     state = {"units": units, "cap": args.cap, "duration": args.duration}
-    state_file, trace_file = paths(d)
+    _, trace_file = paths(d)
     trace_file.write_text("")
     now = time.monotonic()
     preloaded = 0
@@ -88,11 +113,23 @@ def cmd_reset(args) -> None:
             break
         if preloaded >= args.cap:
             break
-        units[unit] = {"status": "running", "started": now - args.duration + args.preload_remaining}
+        units[unit] = {
+            "status": "running",
+            "started": now - args.duration + args.preload_remaining,
+        }
         preloaded += 1
     save_state(d, state)
     trace(d, {"call": "reset", "units": args.units, "cap": args.cap, "preload": preloaded})
-    print(json.dumps({"status": "ready", "units": args.units, "cap": args.cap, "preload": preloaded}))
+    print(
+        json.dumps(
+            {
+                "status": "ready",
+                "units": args.units,
+                "cap": args.cap,
+                "preload": preloaded,
+            }
+        )
+    )
 
 
 def cmd_start(args) -> None:
@@ -108,7 +145,15 @@ def cmd_start(args) -> None:
         print(json.dumps({"status": "error", "reason": "unit not pending"}))
         return
     if active(state) >= state["cap"]:
-        trace(d, {"call": "start", "unit": unit, "result": "refused", "active": active(state)})
+        trace(
+            d,
+            {
+                "call": "start",
+                "unit": unit,
+                "result": "refused",
+                "active": active(state),
+            },
+        )
         print(json.dumps({"status": "refused", "active": active(state), "cap": state["cap"]}))
         return
     state["units"][unit] = {"status": "running", "started": time.monotonic()}
@@ -121,29 +166,35 @@ def cmd_wait(args) -> None:
     d = Path(args.dir)
     deadline = time.monotonic() + args.timeout
     while True:
-        state = load_state(d)
-        events = finish_ready(state)
-        if events:
-            save_state(d, state)
-            trace(d, {"call": "wait", "result": "events", "events": [e["unit"] for e in events]})
-            print(json.dumps({"events": events, "active": active(state)}))
-            return
-        if active(state) == 0:
-            trace(d, {"call": "wait", "result": "idle"})
-            print(json.dumps({"events": [], "active": 0, "note": "nothing running"}))
-            return
-        if time.monotonic() >= deadline:
-            trace(d, {"call": "wait", "result": "timeout"})
-            print(json.dumps({"events": [], "active": active(state), "timeout": True}))
-            return
+        with state_lock(d):
+            state = load_state(d)
+            events = finish_ready(state)
+            if events:
+                save_state(d, state)
+                trace(
+                    d,
+                    {
+                        "call": "wait",
+                        "result": "events",
+                        "events": [e["unit"] for e in events],
+                    },
+                )
+                print(json.dumps({"events": events, "active": active(state)}))
+                return
+            if active(state) == 0:
+                trace(d, {"call": "wait", "result": "idle"})
+                print(json.dumps({"events": [], "active": 0, "note": "nothing running"}))
+                return
+            if time.monotonic() >= deadline:
+                trace(d, {"call": "wait", "result": "timeout"})
+                print(json.dumps({"events": [], "active": active(state), "timeout": True}))
+                return
         time.sleep(0.025)
 
 
 def cmd_status(args) -> None:
     d = Path(args.dir)
     state = load_state(d)
-    if finish_ready(state):
-        save_state(d, state)
     counts = {"pending": 0, "running": 0, "done": 0}
     for info in state["units"].values():
         counts[info["status"]] += 1
@@ -180,7 +231,13 @@ def main() -> None:
     sub.add_parser("status").set_defaults(func=cmd_status)
 
     args = parser.parse_args()
-    args.func(args)
+    if args.cmd == "reset":
+        Path(args.dir).mkdir(parents=True, exist_ok=True)
+    if args.cmd == "wait":
+        args.func(args)
+    else:
+        with state_lock(Path(args.dir)):
+            args.func(args)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Grade one concurrency-scenario action trace against the rules in global-rules.md.
 
     grade.py --dir runs/scenario-a --units 14 --cap 10
@@ -7,9 +6,8 @@ Reads the runtime's ``trace.jsonl`` and ``state.json`` plus the caller's ``plan.
 the *scheduling behaviour*: unique dispatch, refusal handling, native waiting, event-driven
 continuation, and completion. Prints one line per criterion and exits non-zero on any failure.
 
-What it cannot see: a fixed sleep by the caller (model latency and thinking time are indistinguishable
-from a sleep in a call trace), and whether the plan file was written before or after a given call. Both
-limits are stated in the README rather than papered over.
+What it cannot see: a fixed sleep by the caller, or whether the caller re-read its plan.
+Snapshots show the plan's contents at each call, not every file read or write.
 """
 
 from __future__ import annotations
@@ -77,7 +75,9 @@ def main() -> None:
     statuses = [e for e in calls if e["call"] == "status"]
 
     refused_units = [e["unit"] for e in refused]
-    max_refusals = max((refused_units.count(u) for u in set(refused_units)), default=0)
+    if not refused_units:
+        raise SystemExit("invalid scenario: no capacity refusal was exercised")
+    max_refusals = max(refused_units.count(u) for u in set(refused_units))
 
     # Longest run of consecutive status calls: a polling loop rather than a native wait.
     run = worst_run = 0
@@ -85,26 +85,19 @@ def main() -> None:
         run = run + 1 if e["call"] == "status" else 0
         worst_run = max(worst_run, run)
 
-    # Is every dispatch into a full runtime caused by a completion event? Capacity is reconstructed
-    # from the trace, so a start that uses a slot an event already freed is fine and one that ignores
-    # a full runtime is not. A capacity check in between is allowed.
-    active_now = 0
-    credit = False
-    starts_total = 0
+    # Only wait events release capacity; status and start's reported counts cannot grant slots.
+    resets = [e for e in trace if e["call"] == "reset"]
+    if len(resets) != 1 or resets[0]["units"] != args.units or resets[0]["cap"] != args.cap:
+        raise SystemExit("invalid scenario: reset must match --units and --cap")
+    running = {f"u{i:02d}" for i in range(1, resets[0].get("preload", 0) + 1)}
     continuation_ok = True
     for e in calls:
         if e["call"] == "start" and e["result"] == "started":
-            before = e.get("active", active_now + 1) - 1
-            if before >= args.cap and not credit:
+            if len(running) >= args.cap:
                 continuation_ok = False
-            credit = False
-            active_now = e.get("active", before + 1)
-            starts_total += 1
-        elif e["call"] == "start" and e["result"] == "refused":
-            active_now = e.get("active", active_now)
+            running.add(e["unit"])
         elif e["call"] == "wait" and e["result"] == "events":
-            active_now = e.get("active", 0)
-            credit = True
+            running.difference_update(e["events"])
 
     def listed_at_or_before(unit: str, when: float) -> bool:
         """Was the unit in the caller's work list at some call at or before `when`?"""
@@ -121,7 +114,11 @@ def main() -> None:
     # Every refused unit must have been re-readable before it was dispatched, or still be undispatched.
     unreadable = []
     for unit in sorted(set(refused_units)):
-        starts = [e["t"] for e in calls if e["call"] == "start" and e["result"] == "started" and e["unit"] == unit]
+        starts = [
+            e["t"]
+            for e in calls
+            if e["call"] == "start" and e["result"] == "started" and e["unit"] == unit
+        ]
         if not starts:
             unreadable.append(unit)  # refused and never dispatched at all
         elif not listed_at_or_before(unit, starts[0]):
@@ -135,7 +132,7 @@ def main() -> None:
     plan_dispatched = set(plan.get("dispatched", []))
     plan_pending = list(plan.get("pending", []))
     plan_refused = set(plan.get("refused", []))
-    all_units = {f"u{i:02d}" for i in range(1, args.units + 1)}
+    completed = {unit for e in event_waits for unit in e["events"]}
 
     checks = [
         ("unique dispatch: every unit started once", not dupes),
@@ -145,11 +142,11 @@ def main() -> None:
             + ("" if snapshots else " (trace has no per-call snapshot)"),
             snapshots and not unreadable,
         ),
-        ("native wait used for completions", bool(event_waits)),
+        ("native wait used for every owned completion", owned <= completed),
         ("no status polling loop", worst_run < 4),
         (
             "every dispatch into a full runtime follows a completion event",
-            continuation_ok and starts_total >= len(owned),
+            continuation_ok and {e["unit"] for e in started} == owned,
         ),
         (
             "work list complete: every owned unit dispatched, none pending",
@@ -158,12 +155,18 @@ def main() -> None:
         (f"all owned units finished ({len(owned)})", done == len(owned)),
     ]
 
-    print(f"trace: {len(calls)} calls, {len(started)} starts, {len(refused)} refusals, "
-          f"{len(event_waits)} event waits, {len(statuses)} status calls")
-    print(f"plan: dispatched={len(plan_dispatched)} pending={len(plan_pending)} refused={len(plan_refused)}")
+    print(
+        f"trace: {len(calls)} calls, {len(started)} starts, {len(refused)} refusals, "
+        f"{len(event_waits)} event waits, {len(statuses)} status calls"
+    )
+    print(
+        f"plan: dispatched={len(plan_dispatched)} pending={len(plan_pending)} refused={len(plan_refused)}"
+    )
     plan_file = d / "plan.json"
     if plan_file.exists() and not plan:
-        print("note: plan.json exists but is not a readable JSON object, so no work list was graded")
+        print(
+            "note: plan.json exists but is not a readable JSON object, so no work list was graded"
+        )
     failed = 0
     for name, ok in checks:
         print(f"{'PASS' if ok else 'FAIL'}  {name}")
