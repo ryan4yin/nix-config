@@ -3,9 +3,6 @@
   ...
 }:
 {
-  # Part 1 of the backup plan: a local restic repository on this machine.
-  # The off-machine target (youko, or a cloud) is a later step.
-  #
   # Be specific here and keep `exclude` minimal: an allowlist of the
   # irreplaceable directories beats backing up a broad tree and excluding half
   # of it. Large files anywhere are skipped by size (excludeLargerThan), which
