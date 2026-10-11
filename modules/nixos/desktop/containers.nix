@@ -36,11 +36,15 @@
 
   # Prune the rootless store (the module's autoPrune only covered the rootful
   # one). Runs in the user's session, so it fires while the desktop is logged in.
+  #
+  # No `--all`: prune only dangling images, keeping rollback tags and pinned base
+  # images. An `until=` filter cannot do this, since these images are built with
+  # a fixed epoch (reproducible builds) and the filter reads that build time.
   systemd.user.services.podman-prune = {
     description = "Prune rootless podman resources";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${lib.getExe config.virtualisation.podman.package} system prune -f --all";
+      ExecStart = "${lib.getExe config.virtualisation.podman.package} system prune -f";
     };
   };
   systemd.user.timers.podman-prune = {
