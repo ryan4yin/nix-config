@@ -555,10 +555,11 @@ to run.
   independent, and dispatch it when a completion event frees capacity, re-reading the pending set
   rather than recalling it. Do not retry in a tight loop or sleep a fixed interval before retrying.
 
-TODO: neither behavioral scenario above has been run. They need a harness where the runtime enforces
-the concurrency cap and reports each completion as an event, and where the grade reads the action
-trace. Run them after the `review-comments-and-docs` skill measurement finishes, and record the
-trace and grade here.
+Both scenarios have been run against a harness that enforces the cap and reports completion as an
+event: [`concurrency/`](concurrency/README.md) holds the runtime, the grader and the dated record.
+On two model families and three samples per scenario, every exercised sample met all eight criteria
+— dispatch up to the cap, the refused work kept re-readable before it was dispatched, waiting on the
+runtime's own event primitive instead of sleeping or polling, and no tight retry loop.
 
 ### Scripts
 
