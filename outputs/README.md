@@ -49,7 +49,7 @@ them. Others name specific hosts and only cover a new host if you add it.
 | Kind                | Tests                                                                                                                                                                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Every configuration | `hostname`, `kernel`, `nix-system-features`, `security-apparmor`, `security-container-groups`, `security-exporters`, `security-firewall`, `security-k3s-kubeconfig`, `security-k3s-pod-firewall`, `security-kernel`, `security-ssh-x11` |
-| Named hosts only    | `btrbk`, `home-manager`, `home-manager-xdg`, `computer-use-headless`, `k3s-api-endpoint`, `k3s-master-home-manager`, `idols-ai-gpu`, `idols-ai-voice-input`, `security-postgres-auth`, `youko-metrics`, `ups-metrics`, `shoukei-logind` |
+| Named hosts only    | `btrbk`, `home-manager`, `home-manager-xdg`, `computer-use-headless`, `k3s-api-endpoint`, `k3s-node-home-manager`, `idols-ai-gpu`, `idols-ai-voice-input`, `security-postgres-auth`, `youko-metrics`, `ups-metrics`, `shoukei-logind`   |
 
 `hostname` expects each configuration's `networking.hostName` to equal its name. Niri desktop
 configurations are the exception (`ai-niri` → `ai`, `shoukei-niri` → `shoukei`) and are listed in
