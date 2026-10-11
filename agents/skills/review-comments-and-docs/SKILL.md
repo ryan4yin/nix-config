@@ -47,20 +47,28 @@ changing implementation, running destructive examples, publishing, or activating
 1. **Accurate?** Build a fact map before revising: the subject or configuration, source and date,
    configured/applied/observed/tested state, result, and uncertainty. Include relevant baseline
    values, dated results and verification follow-ups from the original artifact as well as the
-   evidence. Silence in a newer source does not erase an earlier fact. Use the newest dated
-   confirmation for 'current' or 'last verified'; keep older observations as history. Match results
-   to their actual run and conditions; the same number occurring elsewhere is not supporting
-   evidence. Check the introduction, tables, history and conclusions against that map. When a
-   corrected fact has several components — how a setting was entered, whether it was saved, whether
-   it was ever exercised — every home that restates it carries all the components its reader needs;
-   a summary, table cell or conclusion keeping only part of the correction is still a defect.
-   Missing logs establish missing records, not a failed boot or an unperformed test. Distinguish
-   last verified settings from proposals, reverted edits and fresh readbacks. Preserve units and
-   measurement scope: a last sample bounds the interruption time; a sampled maximum is not the true
-   peak. A short pass, cooling change or absent diagnostic error does not establish long-term
-   stability or isolate or exclude a cause, and no condition is reported as fine, safe or acceptable
-   on partial or retained evidence: state what that evidence bounds and leave the rest unknown.
-   Attribute user reports and mark unresolved hypotheses.
+   evidence. A row or entry whose value is the comparison point — a vendor default, `Auto`, an
+   unmeasured baseline — is content even when it reports no result, and it stays where the original
+   stated it. A dated result is a date plus the outcome observed on that run: carrying only the
+   resulting setting, or only the conditions, is not the record. State where a current value comes
+   from when that provenance changes how the reader should use it — read from the running
+   configuration, measured, taken from an alert rule, or a vendor default never exercised — and keep
+   the verification behind a setting now in force: when the evidence records a dated test or soak
+   that supports it, the record names that test and its outcome, not only the state. Silence in a
+   newer source does not erase an earlier fact. Use the newest dated confirmation for 'current' or
+   'last verified'; keep older observations as history. Match results to their actual run and
+   conditions; the same number occurring elsewhere is not supporting evidence. Check the
+   introduction, tables, history and conclusions against that map. When a corrected fact has several
+   components — how a setting was entered, whether it was saved, whether it was ever exercised —
+   every home that restates it carries all the components its reader needs; a summary, table cell or
+   conclusion keeping only part of the correction is still a defect. Missing logs establish missing
+   records, not a failed boot or an unperformed test. Distinguish last verified settings from
+   proposals, reverted edits and fresh readbacks. Preserve units and measurement scope: a last
+   sample bounds the interruption time; a sampled maximum is not the true peak. A short pass,
+   cooling change or absent diagnostic error does not establish long-term stability or isolate or
+   exclude a cause, and no condition is reported as fine, safe or acceptable on partial or retained
+   evidence: state what that evidence bounds and leave the rest unknown. Attribute user reports and
+   mark unresolved hypotheses.
 
    For a contract/implementation conflict, find the authoritative contract in tests, specs or
    callers. If it establishes that the comment is stale, correct the comment within scope. If intent
@@ -88,9 +96,11 @@ changing implementation, running destructive examples, publishing, or activating
    automatically content: keep an unfinished verification, action or condition a reader must act on,
    and remove the author's drafting, buffering and relocation notes even when dated. Keep safety,
    license, attribution, caller contracts, compatibility constraints, upstream references and
-   workaround reasons. Before shortening an operation, list its prerequisites, order, completion
-   conditions, observation period and rollback limits; each must survive in the result. A field does
-   not become disposable because its meaning is uncertain; verify or mark that uncertainty.
+   workaround reasons. Before shortening an operation, list its prerequisites, purpose or trigger,
+   order, completion conditions, observation period and rollback limits; each must survive in the
+   result, and a procedure whose reason for existing was dropped leaves a reader unable to tell when
+   to run it. A field does not become disposable because its meaning is uncertain; verify or mark
+   that uncertainty.
 
 ## Finish
 
@@ -104,8 +114,9 @@ and the original artifact:
 3. Every reference the reader cannot open says what it contains and how to get access.
 4. Every retained item still changes what this reader understands or does, and no verdict of fine,
    safe or acceptable rests on partial evidence.
-5. Every in-scope operational condition and unresolved verification task survived, and uncertain
-   intent remains visible.
+5. Every in-scope operational condition, unresolved verification task, dated result,
+   comparison-point row and procedure purpose survived, every current value that needs it carries
+   its provenance, and uncertain intent remains visible.
 
 Check neighboring sections for new contradictions or accidental changes outside the request.
 
@@ -114,7 +125,11 @@ authorized and feasible. These checks supplement semantic review. Report unverif
 skipped checks explicitly; formatting success does not establish factual accuracy.
 
 Report the scope, substantive changes or findings, validation, and remaining uncertainty briefly.
-For a review, order findings by consequence and identify their evidence. Avoid a per-edit changelog.
+For a review, order findings by consequence and identify their evidence. State a finding as the
+discrepancy it is: what the artifact claimed and what the source shows — a value presented as
+current that the record shows was reverted, a dated photograph or log presented as a fresh reading,
+a baseline dropped from a table. Reporting only the corrected state does not tell the reader the
+artifact was wrong. Avoid a per-edit changelog.
 
 ## Sources
 
