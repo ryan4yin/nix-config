@@ -30,7 +30,7 @@ in
   # HDR/DoVi transcoding needs OpenCL for `tonemap_opencl`. With only Mesa
   # installed, ffmpeg cannot create an OpenCL device (`Failed to get number of
   # OpenCL platforms: -1001`) and the transcode aborts with exit code 237, so
-  # HDR titles fail to play. ROCm's clr provides the ICD for the Barceló iGPU
+  # HDR titles fail to play. ROCm's clr provides the ICD for the Cezanne iGPU
   # (reported as `gfx90c`); `ocl-icd` finds it under
   # /run/opengl-driver/etc/OpenCL/vendors.
   hardware.graphics.extraPackages = [ pkgs.rocmPackages.clr.icd ];
@@ -38,7 +38,7 @@ in
   services.jellyfin = {
     enable = true;
 
-    # AMD Barceló iGPU: VA-API hardware transcoding. renderD128 is world
+    # AMD Cezanne iGPU: VA-API hardware transcoding. renderD128 is world
     # readable/writable, and the user is in `render`/`video` as well.
     hardwareAcceleration = {
       enable = true;
@@ -55,7 +55,7 @@ in
       # for decode/scale and falls back to the CPU `libx264`, which pins
       # several cores per stream.
       enableHardwareEncoding = true;
-      # Vega (Barceló) decodes these.
+      # Vega (Cezanne) decodes these.
       hardwareDecodingCodecs = {
         h264 = true;
         hevc = true;

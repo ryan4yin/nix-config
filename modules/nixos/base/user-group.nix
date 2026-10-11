@@ -29,7 +29,7 @@
     # misc
     uinput = { };
     # shared group for services that read/write the same data directory
-    # (e.g. sftpgo + transmission on aquamarine)
+    # (e.g. sftpgo + transmission on youko)
     fileshare = { };
   };
 

@@ -52,10 +52,12 @@ in
     matchConfig.Name = [ iface ];
     networkConfig = {
       Address = [ ipv4WithMask ];
+      # DNS goes to the proxy gateway, which resolves through the proxy;
+      # `nameservers` is the plain upstream-DNS alternative.
       # DNS = nameservers;
       DNS = [ proxyGateway ];
       DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
-      IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
+      IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguration (SLAAC)
       LinkLocalAddressing = "ipv6";
     };
     routes = [

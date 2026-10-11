@@ -54,9 +54,9 @@ in
       "vm.watermark_boost_factor" = lib.mkDefault 0;
 
       # vm.watermark_scale_factor - Controls kswapd wakeup frequency (range: 1-1000, default: 10)
-      # A higher value triggers background memory reclamation earlier (at 12.5% memory pressure).
-      # Value 125 means kswapd becomes active when free memory drops below 1/125 of total memory,
-      # balancing memory more proactively to prevent sudden swap storms at high swappiness values.
+      # The unit is 1/10000 of total memory, so 125 widens the low-to-min watermark gap by
+      # 1.25%: kswapd starts reclaiming earlier, which avoids swap storms at the high
+      # swappiness above.
       "vm.watermark_scale_factor" = lib.mkDefault 125;
 
       # vm.page-cluster - Controls swap readahead (range: 0-6, default: 3)

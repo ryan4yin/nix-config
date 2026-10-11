@@ -7,7 +7,7 @@
     min-release-age=2
   '';
 
-  # npm - set min release age (in minutes) for supply-chain security
+  # pnpm - same supply-chain policy; minimumReleaseAge is in minutes (2880 = 2 days)
   xdg.configFile."pnpm/config.yaml".text = ''
     minimumReleaseAge: 2880
   '';

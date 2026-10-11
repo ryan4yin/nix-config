@@ -1,7 +1,7 @@
 { pkgs, ... }:
 #############################################################
 #
-#  Fern - MacBook Pro 2024 14-inch M4 Pro 48G, mainly for business.
+#  Frieren - MacBook Pro 2024 14-inch M4 Pro 48G, mainly for business.
 #
 #############################################################
 let

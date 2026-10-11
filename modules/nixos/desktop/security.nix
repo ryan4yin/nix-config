@@ -9,7 +9,8 @@
   # security with gnome-kering
   services.gnome = {
     gnome-keyring.enable = true;
-    # Use gnome keyring's SSH Agent
+    # Not gcr's SSH agent: OpenSSH's own agent runs instead
+    # (programs.ssh.startAgent below).
     # https://wiki.gnome.org/Projects/GnomeKeyring/Ssh
     gcr-ssh-agent.enable = false;
   };

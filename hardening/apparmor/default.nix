@@ -3,7 +3,7 @@
   ...
 }:
 {
-  # AppArmor in complain mode: log violations instead of blocking.
+  # AppArmor policy for D-Bus.
   services.dbus.apparmor = "enabled";
 
   security.apparmor = {

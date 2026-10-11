@@ -41,7 +41,8 @@ in
   ];
 
   # Zram consumes physical memory for compression, which can cause a deadlock and system hang if the model size approaches the physical memory limit.
-  # Disable the whole module (zram device + its swappiness=180 sysctl tunings); this host uses a disk swapfile instead.
+  # Disable the whole module (zram device + its swappiness=180 sysctl tunings); this host uses a
+  # disk swapfile instead, created by disko at /swap (see ./disko-fs.nix). The two must move together.
   modules.zram.enable = false;
 
   # zswap: compressed writeback cache in front of the disk swapfile.
@@ -93,8 +94,9 @@ in
   networking = {
     inherit hostName;
 
-    # we use networkd instead
-    networkmanager.enable = false; # provides nmcli/nmtui for wifi adjustment
+    # off: this host uses networkd (below). NetworkManager would otherwise
+    # provide nmcli/nmtui for wifi adjustment.
+    networkmanager.enable = false;
     useDHCP = false;
   };
 
@@ -117,7 +119,7 @@ in
       ];
       DNS = nameservers;
       DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
-      IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguraton (SLAAC)
+      IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguration (SLAAC)
       LinkLocalAddressing = "ipv6";
       # r8169 drops carrier on S3 resume; without this, networkd tears down the
       # static address/route and mihomo's TUN auto-detect briefly loses its

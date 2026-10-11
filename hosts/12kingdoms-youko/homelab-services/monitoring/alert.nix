@@ -119,7 +119,7 @@
               chat_id = 586169186; # My Telegram ID
               # Whether to notify about resolved alerts.
               send_resolved = true;
-              # Disable notifications for resolved alerts
+              # Not disabled: resolved alerts are still notified (see send_resolved).
               disable_notifications = false;
               # Telegram's MarkdownV2 & Markdown are all very painful, we use html instead.
               # https://core.telegram.org/bots/api#formatting-options
