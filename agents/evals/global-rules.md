@@ -553,5 +553,5 @@ to run.
   ordered by priority; the output-style list cap does not truncate a requested review.
 - **Artifact language.** An existing document is written in another language and the conversation
   uses it, or a document is new and the repository has no convention. → Follow the existing
-  document's language; write the new one in English. Fixtures and grading:
-  [rule-language](rule-language/README.md).
+  document's language; write the new one in English. The focused regression and English control are
+  in [rule-language](rule-language/README.md).
