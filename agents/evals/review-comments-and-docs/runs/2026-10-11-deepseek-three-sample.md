@@ -65,6 +65,10 @@ than a judging artifact.
   req1/forbidden 2, and the case stays 0/3.
 - F17 baseline: the grouped batch stalled after twelve verdicts. Cancelled and regraded on its own;
   the case is 2/3, which raises the Luna baseline total from the 19/36 the partial batch implied.
+- A judge reported a criterion-count conflict: the instruction said five forbidden criteria for
+  F07b, which defines four. It emitted the four the case writes and said so in `notes`, which is
+  correct. [SCORING.md](../SCORING.md) now says the task file's indices are the only ones to grade
+  and that a judge never invents a missing index.
 - A later grading of F07b failed every sample because its findings block contained text. Findings
   are required output and are not part of the artifact, so the verdict was void. The regrade
   restored 3/3. [SCORING.md](../SCORING.md) now states the artifact is the `<artifact>` block alone
@@ -108,6 +112,42 @@ drop, and the body stays at `2bac7a6688ba98fd26dfa2ef714f85571d3ee3408262e623a3d
 
 The Luna F07b drop still matters: one sample rewrote a byte-identical fixture, deleting the settings
 table and replacing `restored` with `Returned`, which is the boundary that case exists to guard.
+
+## A second attempt on the same cases: the status-label clause
+
+The DeepSeek gap was then attacked one clause at a time instead of in a batch. The F18 failures
+pointed at a mechanism: the report declared every claim unverified once, at the top, and then
+repeated the note's own `measured on the staging benchmark` phrasing where it discussed the p99
+figure, so each claim read as measured at the point the judge checked. Two wordings were measured on
+DeepSeek's F18 and F15 plus Luna guards, three samples each; the baseline arm reads no skill and
+does not move.
+
+| body       | clause                                | DS F18        | DS F15        | Luna F18 | Luna F15 | Luna F07b                             |
+| ---------- | ------------------------------------- | ------------- | ------------- | -------- | -------- | ------------------------------------- |
+| `2bac7a66` | shipped, none                         | 0/3           | 1/3           | 3/3      | 3/3      | 3/3, and 3/3 again on a control batch |
+| `f556ab77` | label each claim where you discuss it | 3/3           | 3/3           | 3/3      | 3/3      | 2/3, one sample rewrote the table     |
+| `f2afa601` | the same clause plus a guardrail      | not collected | not collected | —        | —        | 0/3, all three rewrote the table      |
+
+The first wording fixed DeepSeek's two worst cases, including the 3-sample F18 gap, at 53 words. It
+also cost one Luna sample on the no-change boundary, which the pre-registered rule treats as a loss.
+Because a single-sample move can be batch luck, the shipped body's F07b was sampled a second time as
+a control: it came back 3/3, giving the shipped body two clean batches against one modified sample
+in each edited body. The control turned the drop into a boundary loss rather than noise, so the
+first wording was reverted too.
+
+The second wording added a guardrail and made the boundary worse: all three Luna samples deleted the
+settings table and rewrote it as prose. The guardrail was written as a prohibition — it told the
+report rule never to turn a value's missing provenance into a defect and never to justify an edit —
+which puts provenance defects and edits in the same sentence as the behaviour it means to prevent,
+and every sample then did exactly that. This is the negation effect the `writing-for-agents` skill
+names: a prohibition activates the material it forbids. A next attempt would have to steer this
+clause with a positive target.
+
+The line is closed at the shipped body
+`2bac7a6688ba98fd26dfa2ef714f85571d3ee3408262e623a3de9eb5161d42aa` (1282 words), not retried: two
+wordings that each fix DeepSeek's F18 and F15 and each cost the byte-identity boundary on Luna, with
+a plausible causal path both times, is enough evidence that this clause trades one failure mode for
+another at this length.
 
 ## Limits
 

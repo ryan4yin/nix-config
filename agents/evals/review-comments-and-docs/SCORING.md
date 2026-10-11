@@ -41,6 +41,11 @@ content digest. A judge grades all three in **one call per case**:
 3. Emit one complete required-criterion and forbidden-criterion verdict list for each sample.
 4. Re-derive the mechanical check from the sample file; do not trust a flag supplied by the actor.
 
+The task file lists the criteria that exist, and their counts differ per case — F07b has four
+forbidden criteria, not five. A judge emits exactly the indices in that file and never invents a
+missing one: an index the case does not define cannot be graded, and the correct response to a count
+that disagrees with the instruction is to follow the file and say so in `notes`.
+
 The judge must not infer a sample's replicate number, arm, or expected result. Grouping the three
 samples fixes the criteria interpretation within a case. Three independent grading calls would add
 judge-reading drift to the actor's measured variation and are not the primary protocol.
