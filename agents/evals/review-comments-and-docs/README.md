@@ -64,6 +64,33 @@ task, requirements and forbidden items live in [`fixtures.json`](fixtures.json),
 files under [`fixtures/`](fixtures/). The [run records](runs/) name each case's boundary and
 outcome, so it is not repeated here.
 
+## Case roles and scoring
+
+`fixtures.json` labels every case with a `role`; the run records score each round on both
+denominators.
+
+| role                | cases           | meaning                                                                               |
+| ------------------- | --------------- | ------------------------------------------------------------------------------------- |
+| `scored`            | 13 cases        | ordinary case                                                                         |
+| `guard`             | F10 F13 F14 F19 | accurate as-is case; no measured sample has failed it, so it only catches regressions |
+| `bounded-control`   | F07b F12b       | no-change boundary whose correct answer is a byte-identical return                    |
+| `ambiguity-control` | F07 F12         | the same boundary with wording that invites an edit                                   |
+
+- Primary score: all 21 cases. Control-excluded score: 19 cases, dropping F07 and F12.
+- F07 and F12 are satisfiable, not broken: the correct answer is to return the file unchanged and
+  report no issue. Every measured sample has instead edited it, so these two cases separate neither
+  arm and only compress the ratio. Report both denominators instead of presenting either as the
+  score. F07b and F12b are the scoreable forms of the same boundary: there the baseline arm fails
+  F07b in most rounds while the assigned arm passes it.
+- Criteria stay frozen. Each criterion that grading rounds have read inconsistently carries a
+  `grader_notes` entry pinning one reading, applied to every sample of every round: F02 req3 (the
+  Auto baseline survives as a row or as an explicit statement), F03 req2 and F11 req2 (the dated
+  item itself must survive, not only the state or the uncertainty it describes), F09 req4 and forb4,
+  and F18 req4 (the report states its own scope explicitly).
+- Judge noise bounds every comparison: the unchanged baseline samples scored 13/21 in one round and
+  15/21 in another under the same judge model, flipping F02 and F09. A 1–2 case difference between
+  skill bodies is noise.
+
 ## Grading
 
 - A case passes only when every `requirements` item holds and no `forbidden` item is met. The
@@ -90,7 +117,8 @@ outcome, so it is not repeated here.
 - This README is the human-readable companion; it is **not** actor input.
 - The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
   one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
-  first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised one. Per-sample responses
-  and per-item score rows are generated locally and not committed, so reproducing a number means
-  rerunning the comparison. A round compares explicit skill-body exposure only; automatic discovery,
-  real editing workflows and other model tiers are separate tests and remain unverified.
+  first skill body, and the [Luna round](runs/2026-10-11-luna.md) the revised one plus its two
+  iterations, scored on both denominators and bounded by the measured judge noise. Per-sample
+  responses and per-item score rows are generated locally and not committed, so reproducing a number
+  means rerunning the comparison. A round compares explicit skill-body exposure only; automatic
+  discovery, real editing workflows and other model tiers are separate tests and remain unverified.

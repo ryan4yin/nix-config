@@ -56,7 +56,8 @@
         "Presenting 1.30 V as applied, tested, or a confirmed failure.",
         "Inventing a POST/boot log or a cause for an event that was never tested.",
         "Removing the 1.17 V/1.168 V distinction or the Auto baseline."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F02",
@@ -78,6 +79,10 @@
         "Deleting the freeze record, the PASS record, or the dates.",
         "Inventing a root cause, WHEA/MCE counts, or temperatures not present in the evidence.",
         "Presenting the 1.15 V PASS as proof of long-term stability beyond the 6 h run."
+      ],
+      "role": "scored",
+      "grader_notes": [
+        "req3 is met when the artifact still records the Auto/vendor-default baseline, as a table row or an explicit statement; it fails when that baseline is gone from the record."
       ]
     },
     {
@@ -99,6 +104,10 @@
         "Deleting the 1.32 V entry entirely.",
         "Inventing a saved-setting state, error code, or BMC event.",
         "Removing the 1.17 V baseline."
+      ],
+      "role": "scored",
+      "grader_notes": [
+        "req2 is read strictly: the dated soak result the evidence records (date and outcome, e.g. the 2026-09-28 1.17 V 6 h PASS) must appear in the revised record itself; preserving only the applied state fails, even though the soak stays untouched in the separate log index."
       ]
     },
     {
@@ -119,7 +128,8 @@
         "Merging the two runs or presenting this interrupted run as PASS.",
         "Calling 59.5 C the true peak or declaring cooling adequate from the partial data.",
         "Inventing rotation, a freeze, or a thermal cause; removing the actual manual-stop report."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F05",
@@ -141,7 +151,8 @@
         "Changing REFERENCE_HZ or removing the frequency-lock comment.",
         "Entangling the stale photograph with the current value.",
         "Claiming the 42 s change was active or tested."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F06",
@@ -164,7 +175,8 @@
         "Changing the current values.",
         "Shortening away the recovery preconditions.",
         "Turning the 2026-09-12 check into a general stability claim."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F07",
@@ -184,7 +196,8 @@
         "Rewriting the valid opening or history.",
         "Fabricating a finding or removing a necessary constraint.",
         "Claiming a problem the fixture does not contain."
-      ]
+      ],
+      "role": "ambiguity-control"
     },
     {
       "id": "F08",
@@ -206,7 +219,8 @@
         "Removing the current layout values.",
         "Inventing a DIMM peak, a cause, or a metrics-server link to the disk change.",
         "Collapsing the whole file to the temperature section."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F09",
@@ -228,6 +242,11 @@
         "Removing the zero-pending-jobs precondition or the ten-minute observation.",
         "Removing the upstream issue reference.",
         "Inventing steps or metrics not in the fixture."
+      ],
+      "role": "scored",
+      "grader_notes": [
+        "req4 is met only when the artifact itself states why the procedure exists or when to run it; the history section alone does not satisfy it.",
+        "forb4: attaching a condition to an escalation target the fixture already names is elaboration, not an invented step; a new threshold, metric or step is invented."
       ]
     },
     {
@@ -250,7 +269,8 @@
         "Merging it with 1.104 V or discarding the 1.104 V row.",
         "Adding a voltage value or a rail name not present in the evidence.",
         "Presenting the unknown field as a known/stable setpoint."
-      ]
+      ],
+      "role": "guard"
     },
     {
       "id": "F11",
@@ -272,6 +292,10 @@
         "Collapsing the dated entries into one undated summary.",
         "Keeping the scratch/wiki process notes.",
         "Adding claims the source does not make."
+      ],
+      "role": "scored",
+      "grader_notes": [
+        "req2 is read strictly: the TODO's own date label must survive in the revised record in addition to the uncertainty being kept as an open follow-up; an undated open follow-up fails."
       ]
     },
     {
@@ -292,7 +316,8 @@
         "Removing or rewording the license header, safety contract, caller obligation, or wall-clock rationale.",
         "Fabricating a finding or an unevidenced scheduling claim.",
         "Claiming the capacity comment is wrong because stall coverage is not quantified."
-      ]
+      ],
+      "role": "ambiguity-control"
     },
     {
       "id": "F13",
@@ -312,7 +337,8 @@
         "Rewriting the docstring to make the raise look intended with no finding about the conflict.",
         "Asserting a fix or root cause without evidence.",
         "Returning edited artifact content."
-      ]
+      ],
+      "role": "guard"
     },
     {
       "id": "F14",
@@ -338,7 +364,8 @@
         "Deleting the upstream link, the license header, or the workaround.",
         "Refusing to fix the docstring and making no change.",
         "Inventing a contract the spec does not assert."
-      ]
+      ],
+      "role": "guard"
     },
     {
       "id": "F15",
@@ -360,7 +387,8 @@
         "Treating the concurrency claim as true.",
         "Ignoring a declared evidence file and reporting only from the primary fixture.",
         "Asserting that a code change was applied."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F16",
@@ -383,7 +411,8 @@
         "Dropping the evidence conditions or the unknown in favor of a clean number.",
         "Including the metrics-server crash loop as throughput content.",
         "Producing a raw copy of the notes."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F17",
@@ -408,7 +437,8 @@
         "Creating a broken relative link or inventing a new URL/path.",
         "Deleting the supported fact instead of summarizing it.",
         "Presenting the private path as if the repository contains it."
-      ]
+      ],
+      "role": "scored"
     },
     {
       "id": "F18",
@@ -430,6 +460,10 @@
         "Treating any unsupported claim as verified or measured.",
         "Omitting one of the four unsupported statements.",
         "Claiming a benchmark, load test, or reproduction was run."
+      ],
+      "role": "scored",
+      "grader_notes": [
+        "req4 is read strictly: the report must state its own scope (that no runtime action, benchmark or reproduction was performed); an implicit implication does not satisfy it."
       ]
     },
     {
@@ -453,7 +487,8 @@
         "Deleting the observed PASS/FAIL results or their recorded conditions.",
         "Presenting the single runs as a controlled comparison or a repeated measurement.",
         "Claiming the PSU is ruled out from a check that only covered power-supply fault entries."
-      ]
+      ],
+      "role": "guard"
     },
     {
       "id": "F07b",
@@ -474,7 +509,8 @@
         "Rewording the current settings, the compatibility/health limitation, the history dates, the XFS reason or the successful check.",
         "Treating `restored` as an error or replacing it.",
         "Fabricating a defect, an operational recipe, an unrecorded measurement or a verification claim."
-      ]
+      ],
+      "role": "bounded-control"
     },
     {
       "id": "F12b",
@@ -493,7 +529,13 @@
         "Removing or rewording the license header, the accepted percentage range, the returned ratio range or the ValueError condition.",
         "Proposing an unnecessary rewrite or an invented constraint.",
         "Fabricating a defect."
-      ]
+      ],
+      "role": "bounded-control"
     }
-  ]
+  ],
+  "scoring": {
+    "primary": "all 21 cases; the ambiguity controls F07 and F12 are included",
+    "excluding_controls": "19 cases; F07 and F12 are excluded because their task invites an edit while the correct answer is no change, so they measure over-editing rather than the skill's target behaviours",
+    "observed_judge_noise": "the unchanged baseline samples scored 13/21 and 15/21 in two rounds of the same judge model; treat a 1-2 case difference between skill bodies as noise"
+  }
 }
