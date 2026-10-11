@@ -14,7 +14,11 @@ Each case has two arms:
 The skill body is identified by its SHA-256 hash and word count. A round must use one immutable body
 for every assigned sample. The baseline must use the same global-rules revision throughout the
 round. Changing a criterion, fixture, pinned reading, or mechanical expectation starts a new suite
-version; it is not an optimization of the current round.
+version; it is not an optimization of the current round. Editing, adding or removing any instruction
+also invalidates the body's measurement and needs a fresh round. Removing text that carries no
+instruction — attribution, a citation list, a link kept only for provenance — does not, because no
+sample's behavior can depend on it; the run record states which body was measured and which one
+ships.
 
 ## Actor samples
 

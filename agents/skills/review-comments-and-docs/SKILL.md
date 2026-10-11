@@ -120,14 +120,3 @@ Reread the result from the top without borrowing later context, and check:
 Check neighboring sections for contradictions or accidental changes outside the request. Validate
 links, formatting, and executable examples with the project's own tools where authorized; report
 skipped checks explicitly, and never present formatting success as factual accuracy.
-
-## Sources
-
-Original synthesis informed by:
-
-- [prune-comments-and-docs](https://github.com/MidAutumnMoon/TaysiTsuki/blob/45696e5e79848787e23c0498c9fded89b068f0f7/home/agents/skills/prune-comments-and-docs/SKILL.md):
-  reader-specific fact placement and pruning.
-- [documentation-verification](https://github.com/PracticalSwan/agent-skills/blob/4069d9998049fe3f0eab69af733d50df82dbd5c2/documentation-verification/SKILL.md):
-  source, reference, and factual checks.
-- [Google Technical Writing: Documents](https://developers.google.com/tech-writing/one/documents):
-  audience, scope, and organization around reader needs.

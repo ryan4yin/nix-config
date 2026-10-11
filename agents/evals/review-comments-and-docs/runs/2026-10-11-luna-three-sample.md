@@ -164,6 +164,14 @@ informative case at 1/6. F09 is the least stable case in the suite — 2/3 at re
 and 1/3 in two rev9 batches — so a future round must measure it with repeated batches before any
 body is judged on it, and the report-versus-artifact clause stays out until then.
 
+## Shipped body versus measured body
+
+The measured rev8 body ended with a `## Sources` citation list. It now lives in the
+[global skills index](../../../skills/README.md#skills-in-this-directory), where the other local
+skills record provenance, because a citation list at the end of a skill is loaded by every actor run
+and changes no behavior. The shipped body is rev8 minus that block (1282 words); no instruction,
+criterion or mechanical expectation changed, so the round above still measures it.
+
 ## Limits of the iterations
 
 - Each iteration was measured once, on the cases its edit could affect; the nine stable cases were

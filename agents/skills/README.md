@@ -54,8 +54,14 @@ bumps it.
 `review-comments-and-docs` reviews documentation, inline comments, and API contracts for accuracy,
 reader context, scope, and duplication. It preserves intentional history and safety information;
 [behavioral fixtures](../evals/review-comments-and-docs/README.md) test those boundaries. Its
-[skill](review-comments-and-docs/SKILL.md#sources) records the public sources used for the original
-synthesis.
+original synthesis drew on
+[prune-comments-and-docs](https://github.com/MidAutumnMoon/TaysiTsuki/blob/45696e5e79848787e23c0498c9fded89b068f0f7/home/agents/skills/prune-comments-and-docs/SKILL.md)
+(reader-specific fact placement and pruning),
+[documentation-verification](https://github.com/PracticalSwan/agent-skills/blob/4069d9998049fe3f0eab69af733d50df82dbd5c2/documentation-verification/SKILL.md)
+(source, reference, and factual checks), and
+[Google Technical Writing: Documents](https://developers.google.com/tech-writing/one/documents)
+(audience, scope, and organization around reader needs). That provenance lives here, not in the
+skill body, which agents load on every run.
 
 A third-party skill starts here only when it is being rewritten. Until then, pin it as a flake input
 so the license and provenance stay with the upstream repository and the diff stays reviewable.
