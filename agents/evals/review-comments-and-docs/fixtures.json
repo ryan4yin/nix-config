@@ -463,7 +463,7 @@
       ],
       "role": "scored",
       "grader_notes": [
-        "req4 is read strictly: the report must state its own scope (that no runtime action, benchmark or reproduction was performed); an implicit implication does not satisfy it."
+        "req4 is judged on meaning like every other criterion: it is met when the report's own scope is clear — a reader can tell that nothing was run, deployed or reproduced and that the claims were checked against the note's own sources — and it fails when the report implies a benchmark, load test or reproduction was performed, or presents an unsupported claim as verified. Do not require one specific self-declaration sentence."
       ]
     },
     {

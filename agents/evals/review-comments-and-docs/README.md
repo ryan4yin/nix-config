@@ -117,8 +117,10 @@ denominators.
 - This README is the human-readable companion; it is **not** actor input.
 - The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
   one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
-  first skill body, and the [Luna round](runs/2026-10-11-luna.md) the revised one plus its two
-  iterations, scored on both denominators and bounded by the measured judge noise. Per-sample
-  responses and per-item score rows are generated locally and not committed, so reproducing a number
-  means rerunning the comparison. A round compares explicit skill-body exposure only; automatic
-  discovery, real editing workflows and other model tiers are separate tests and remain unverified.
+  first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised bodies plus their two
+  iterations, and the [DeepSeek and local Qwen rounds](runs/2026-10-11-deepseek-and-qwen.md) the
+  committed body on two further actor families under the Luna judge. Every round is scored on both
+  denominators and bounded by the measured judge noise. Per-sample responses and per-item score rows
+  are generated locally and not committed, so reproducing a number means rerunning the comparison. A
+  round compares explicit skill-body exposure only; automatic discovery, real editing workflows and
+  other model tiers are separate tests and remain unverified.
