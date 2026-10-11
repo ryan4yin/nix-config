@@ -139,6 +139,31 @@ The remaining weakness is length: 1314 words is the longest body measured. A tri
 not shipped, because the committed body must be the one the record measured; a trimmed body needs
 its own three-sample re-measurement of the affected cases and guards first.
 
+## rev9: tested and not shipped
+
+A third revision (`f05e9ef8…`, 1350 words) extended the report rule to both directions: a report
+that says nothing changed must accompany an unchanged file, and a report that says an item left the
+file must not return an artifact that still contains it, where a heading calling it out of scope or
+historical does not count as a removal. It targeted the F08 failures, where two samples reported a
+removal that the artifact still showed.
+
+| case | rev8 | rev9 first batch | rev9 confirmation |
+| ---- | ---- | ---------------- | ----------------- |
+| F06  | 3/3  | 3/3              | —                 |
+| F08  | 1/3  | 3/3              | —                 |
+| F09  | 3/3  | 0/3              | 1/3               |
+
+The F08 gain is corroborated independently of the judge: in all three rev9 samples the 112-restart
+detail is absent from the artifact, while two of three rev8 samples retained it under a heading. The
+F09 result goes the other way and is unexplained: the clause rev9 added does not touch F09's
+criteria, and the failures are on the pre-existing requirements that the incident narrative be told
+once and that the procedure state when to run it.
+
+The body was reverted to rev8 because no measurement supports shipping a body that fails an
+informative case at 1/6. F09 is the least stable case in the suite — 2/3 at rev5, 3/3 at rev8, 0/3
+and 1/3 in two rev9 batches — so a future round must measure it with repeated batches before any
+body is judged on it, and the report-versus-artifact clause stays out until then.
+
 ## Limits of the iterations
 
 - Each iteration was measured once, on the cases its edit could affect; the nine stable cases were
