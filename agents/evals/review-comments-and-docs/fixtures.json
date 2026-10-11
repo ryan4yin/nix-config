@@ -82,7 +82,7 @@
       ],
       "role": "scored",
       "grader_notes": [
-        "req3 is met when the artifact still records the Auto/vendor-default baseline, as a table row or an explicit statement; it fails when that baseline is gone from the record."
+        "req3 is met when the artifact still records the Auto/vendor-default baseline, as a table row or an explicit statement. Keeping the row while recording that no result was measured for it counts as surviving; changing the wording of its result cell is not a defect. It fails only when the Auto baseline is gone from the record entirely."
       ]
     },
     {
@@ -129,7 +129,7 @@
         "Calling 59.5 C the true peak or declaring cooling adequate from the partial data.",
         "Inventing rotation, a freeze, or a thermal cause; removing the actual manual-stop report."
       ],
-      "role": "scored"
+      "role": "saturated"
     },
     {
       "id": "F05",
@@ -152,7 +152,7 @@
         "Entangling the stale photograph with the current value.",
         "Claiming the 42 s change was active or tested."
       ],
-      "role": "scored"
+      "role": "saturated"
     },
     {
       "id": "F06",
@@ -176,7 +176,7 @@
         "Shortening away the recovery preconditions.",
         "Turning the 2026-09-12 check into a general stability claim."
       ],
-      "role": "scored"
+      "role": "guard"
     },
     {
       "id": "F07",
@@ -270,7 +270,7 @@
         "Adding a voltage value or a rail name not present in the evidence.",
         "Presenting the unknown field as a known/stable setpoint."
       ],
-      "role": "guard"
+      "role": "saturated"
     },
     {
       "id": "F11",
@@ -338,7 +338,7 @@
         "Asserting a fix or root cause without evidence.",
         "Returning edited artifact content."
       ],
-      "role": "guard"
+      "role": "scored"
     },
     {
       "id": "F14",
@@ -365,7 +365,7 @@
         "Refusing to fix the docstring and making no change.",
         "Inventing a contract the spec does not assert."
       ],
-      "role": "guard"
+      "role": "saturated"
     },
     {
       "id": "F15",
@@ -412,7 +412,7 @@
         "Including the metrics-server crash loop as throughput content.",
         "Producing a raw copy of the notes."
       ],
-      "role": "scored"
+      "role": "saturated"
     },
     {
       "id": "F17",
@@ -488,7 +488,7 @@
         "Presenting the single runs as a controlled comparison or a repeated measurement.",
         "Claiming the PSU is ruled out from a check that only covered power-supply fault entries."
       ],
-      "role": "guard"
+      "role": "saturated"
     },
     {
       "id": "F07b",
@@ -510,7 +510,7 @@
         "Treating `restored` as an error or replacing it.",
         "Fabricating a defect, an operational recipe, an unrecorded measurement or a verification claim."
       ],
-      "role": "bounded-control"
+      "role": "scored"
     },
     {
       "id": "F12b",
@@ -530,12 +530,14 @@
         "Proposing an unnecessary rewrite or an invented constraint.",
         "Fabricating a defect."
       ],
-      "role": "bounded-control"
+      "role": "saturated"
     }
   ],
   "scoring": {
     "primary": "all 21 cases; the ambiguity controls F07 and F12 are included",
     "excluding_controls": "19 cases; F07 and F12 are excluded because their task invites an edit while the correct answer is no change, so they measure over-editing rather than the skill's target behaviours",
-    "observed_judge_noise": "the unchanged baseline samples scored 13/21 and 15/21 in two rounds of the same judge model; treat a 1-2 case difference between skill bodies as noise"
+    "informative": "12 cases (F01 F02 F03 F06 F08 F09 F11 F13 F15 F17 F18 F07b): the ambiguity controls and the saturated cases are excluded. F07 and F12 are reported separately as controls.",
+    "saturated": "F04 F05 F10 F14 F16 F19 F12b; the baseline arm passes every measured round, so these cases can only lose, never separate the arms. They stay in the suite as regression guards and are not measured in focused rounds.",
+    "observed_judge_noise": "the unchanged baseline samples scored 13/21 and 15/21 in two rounds of the same judge model, and 13/21 against 14/21 in two later rounds; treat a 1-2 case difference between skill bodies as noise"
   }
 }

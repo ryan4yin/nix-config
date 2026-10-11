@@ -66,27 +66,36 @@ outcome, so it is not repeated here.
 
 ## Case roles and scoring
 
-`fixtures.json` labels every case with a `role`; the run records score each round on both
-denominators.
+`fixtures.json` labels every case with a `role`. New ship-decision rounds use three denominators;
+older run records retain the denominators used at the time.
 
-| role                | cases           | meaning                                                                               |
-| ------------------- | --------------- | ------------------------------------------------------------------------------------- |
-| `scored`            | 13 cases        | ordinary case                                                                         |
-| `guard`             | F10 F13 F14 F19 | accurate as-is case; no measured sample has failed it, so it only catches regressions |
-| `bounded-control`   | F07b F12b       | no-change boundary whose correct answer is a byte-identical return                    |
-| `ambiguity-control` | F07 F12         | the same boundary with wording that invites an edit                                   |
+| role                | cases                        | meaning                                                                            |
+| ------------------- | ---------------------------- | ---------------------------------------------------------------------------------- |
+| `scored`            | 11 cases                     | ordinary case                                                                      |
+| `guard`             | F06                          | accurate as-is case the baseline passes every round; it only catches regressions   |
+| `saturated`         | F04 F05 F10 F14 F16 F19 F12b | the baseline arm passes every measured round, so the case cannot separate the arms |
+| `ambiguity-control` | F07 F12                      | the no-change boundary with wording that invites an edit                           |
 
-- Primary score: all 21 cases. Control-excluded score: 19 cases, dropping F07 and F12.
+- Primary score: all 21 cases. Control-excluded score: 19 cases, dropping F07 and F12. Informative
+  score: 12 cases, also dropping the saturated ones. Report all three; the informative score is the
+  one that measures the skill.
 - F07 and F12 are satisfiable, not broken: the correct answer is to return the file unchanged and
-  report no issue. Every measured sample has instead edited it, so these two cases separate neither
-  arm and only compress the ratio. Report both denominators instead of presenting either as the
-  score. F07b and F12b are the scoreable forms of the same boundary: there the baseline arm fails
-  F07b in most rounds while the assigned arm passes it.
+  report no issue. The first three-sample grouped Luna run confirms this is a real skill failure:
+  F07 passed 0/3 and F12 passed 1/3. F07b and F12b are scoreable forms of the same no-change
+  boundary; report their measured rates rather than presuming either arm wins.
+- Saturated cases stay in the suite as regression guards and are not measured in a focused round; a
+  case the baseline passes every round can only lose, never separate the arms.
 - Criteria stay frozen. Each criterion that grading rounds have read inconsistently carries a
   `grader_notes` entry pinning one reading, applied to every sample of every round: F02 req3 (the
-  Auto baseline survives as a row or as an explicit statement), F03 req2 and F11 req2 (the dated
-  item itself must survive, not only the state or the uncertainty it describes), F09 req4 and forb4,
-  and F18 req4 (the report states its own scope explicitly).
+  Auto row survives, including when its result cell records that no result was measured), F03 req2
+  and F11 req2 (the dated item itself must survive, not only the state or the uncertainty it
+  describes), F09 req4 and forb4, and F18 req4 (the report's own scope is clear — judged on meaning,
+  not on one required sentence).
+- **Three samples per case per arm.** Any round that decides whether a body ships runs three
+  independent actor samples per case per arm. One judge call per case grades the three anonymized
+  samples under one pinned reading; report each case's `k/3` beside the aggregate. Separate judge
+  calls are diagnostic only because they introduce criterion-reading drift into the measured spread.
+  A difference smaller than two of three samples is not a stable result.
 - Judge noise bounds every comparison: the unchanged baseline samples scored 13/21 in one round and
   15/21 in another under the same judge model, flipping F02 and F09. A 1–2 case difference between
   skill bodies is noise.
@@ -115,6 +124,10 @@ denominators.
 - Byte- and AST-level checks are described per case in `fixtures.json` and applied when grading a
   run; no output is stored here for a script to re-check.
 - This README is the human-readable companion; it is **not** actor input.
+- Scoring protocol: [`SCORING.md`](SCORING.md) defines the three-sample grouped grading method, pass
+  formula, mechanical checks, denominators, malformed-verdict handling, and optimization gates.
+- The [three-sample Luna run](runs/2026-10-11-luna-three-sample.md) records rev5's grouped k/3
+  results and the next optimization targets.
 - The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
   one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
   first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised bodies plus their two
