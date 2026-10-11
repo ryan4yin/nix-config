@@ -131,6 +131,12 @@ older run records retain the denominators used at the time.
   [three-sample DeepSeek run](runs/2026-10-11-deepseek-three-sample.md) measures both arms on the
   same thirteen cases and finds the benefit is not model-independent: only F07b improves stably on
   both models, while DeepSeek loses F18.
+- The [global round](runs/2026-10-11-global-round.md) measures all 21 cases on the shipped body for
+  both arms and both actor families, and is the reference table: DeepSeek moves from 36/63 to 50/63
+  and Luna from 38/63 to 55/63 overall, with the ambiguity controls separating the families
+  (DeepSeek 1/6 to 6/6, Luna 0/6 in both arms). Its three-sample baseline rates supersede the role
+  labels in `fixtures.json`, which come from the earliest one-sample rounds; read that column as
+  historical classification, not as a live property of a case.
 - The run records under [`runs/`](runs/) summarize the grades, findings and limits of each round,
   one file per round: the [DeepSeek-V41-Flash round](runs/2026-10-11-deepseek-flash.md) measured the
   first skill body, the [Luna round](runs/2026-10-11-luna.md) the revised bodies plus their two
