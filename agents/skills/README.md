@@ -51,5 +51,11 @@ which the global rules forbid. This one calls the `ctx7` that Home Manager insta
 version: 0.5.12 has no `--language`, which upstream documents. Re-check `ctx7 --help` when nixpkgs
 bumps it.
 
+`review-comments-and-docs` reviews documentation, inline comments, and API contracts for accuracy,
+reader context, scope, and duplication. It preserves intentional history and safety information;
+[behavioral fixtures](../evals/review-comments-and-docs/README.md) test those boundaries. Its
+[skill](review-comments-and-docs/SKILL.md#sources) records the public sources used for the original
+synthesis.
+
 A third-party skill starts here only when it is being rewritten. Until then, pin it as a flake input
 so the license and provenance stay with the upstream repository and the diff stays reviewable.

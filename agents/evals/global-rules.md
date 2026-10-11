@@ -324,6 +324,12 @@ to run.
   the safety contract and workaround reason at their primary location. Do not delete unrelated docs
   or workarounds.
 
+- **Documentation and comment review.** The fixed
+  [review-comments-and-docs fixtures](review-comments-and-docs/README.md) cover cold-reader context,
+  scope, evidence strength, contracts, intentional history, and report-only boundaries. Compare
+  no-skill and assigned-skill outputs; write the arm differences and semantic grades into the run
+  summary, and keep per-sample responses out of the repository.
+
 ### Git delivery
 
 - **Follow-up push.** The user asked for a PR; the agent later fixes review feedback on the same
