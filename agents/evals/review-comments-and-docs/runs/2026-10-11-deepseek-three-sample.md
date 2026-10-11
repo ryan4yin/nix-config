@@ -125,15 +125,18 @@ does not move.
 | body       | clause                                | DS F18        | DS F15        | Luna F18 | Luna F15 | Luna F07b                             |
 | ---------- | ------------------------------------- | ------------- | ------------- | -------- | -------- | ------------------------------------- |
 | `2bac7a66` | shipped, none                         | 0/3           | 1/3           | 3/3      | 3/3      | 3/3, and 3/3 again on a control batch |
-| `f556ab77` | label each claim where you discuss it | 3/3           | 3/3           | 3/3      | 3/3      | 2/3, one sample rewrote the table     |
+| `f556ab77` | label each claim where you discuss it | 3/3           | 3/3           | 3/3      | 3/3      | 3/9 identical across three batches    |
 | `f2afa601` | the same clause plus a guardrail      | not collected | not collected | —        | —        | 0/3, all three rewrote the table      |
 
 The first wording fixed DeepSeek's two worst cases, including the 3-sample F18 gap, at 53 words. It
 also cost one Luna sample on the no-change boundary, which the pre-registered rule treats as a loss.
-Because a single-sample move can be batch luck, the shipped body's F07b was sampled a second time as
-a control: it came back 3/3, giving the shipped body two clean batches against one modified sample
-in each edited body. The control turned the drop into a boundary loss rather than noise, so the
-first wording was reverted too.
+That first reading was weak — one modified sample in three against none in six is not an established
+difference — so two more Luna batches were sampled under the same body before deciding, nine samples
+in total. Six of those nine edited the fixture, against six of six byte-identical under the shipped
+body. The edits are substantive: two samples deleted the settings table and rewrote it as prose, and
+another appended a dated successful-check sentence the source does not carry. With nine samples
+against six the difference is established, so the first wording was reverted on evidence rather than
+on one batch.
 
 The second wording added a guardrail and made the boundary worse: all three Luna samples deleted the
 settings table and rewrote it as prose. The guardrail was written as a prohibition — it told the
@@ -144,10 +147,11 @@ names: a prohibition activates the material it forbids. A next attempt would hav
 clause with a positive target.
 
 The line is closed at the shipped body
-`2bac7a6688ba98fd26dfa2ef714f85571d3ee3408262e623a3de9eb5161d42aa` (1282 words), not retried: two
-wordings that each fix DeepSeek's F18 and F15 and each cost the byte-identity boundary on Luna, with
-a plausible causal path both times, is enough evidence that this clause trades one failure mode for
-another at this length.
+`2bac7a6688ba98fd26dfa2ef714f85571d3ee3408262e623a3de9eb5161d42aa` (1282 words). The clause buys
+DeepSeek's F18 and F15 and spends the boundary that keeps an agent from rewriting a file that needed
+no edit; six of nine samples crossing that line is the worse trade, and it is the boundary the user
+named as important. The DeepSeek gap therefore stands as a documented limitation, with a known fix
+whose cost is known too, rather than as an open optimization.
 
 ## Limits
 
