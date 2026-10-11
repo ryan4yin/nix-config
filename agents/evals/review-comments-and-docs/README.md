@@ -1,9 +1,9 @@
 # review-comments-and-docs evaluation
 
 Synthetic text and code fixtures for `review-comments-and-docs`. The authoritative pre-run criteria
-are in [`fixtures.json`](fixtures.json); the [final report](runs/final-report.md) holds the measured
-grades, the rejected revisions and the limits. The suite has 21 cases: F01–F19 plus the bounded
-no-change controls F07b and F12b.
+are in [`fixtures.json`](fixtures.json); the [2026-10-11 report](runs/2026-10-11-report.md) holds
+the measured grades, the rejected revisions and the limits. The suite has 21 cases: F01–F19 plus the
+bounded no-change controls F07b and F12b.
 
 Suite design:
 
@@ -126,13 +126,14 @@ older run records retain the denominators used at the time.
 - This README is the human-readable companion; it is **not** actor input.
 - Scoring protocol: [`SCORING.md`](SCORING.md) defines the three-sample grouped grading method, pass
   formula, mechanical checks, denominators, malformed-verdict handling, and optimization gates.
-- The [final report](runs/final-report.md) is the single record: the complete 21-case result on the
-  shipped body for both arms and both actor families, the revisions that were measured and rejected
-  with their numbers, the judge-noise bound, the grading defects that were closed, and the limits.
-  Reference numbers: DeepSeek 36/63 to 50/63 and Luna 38/63 to 55/63 overall; the ambiguity controls
-  separate the families (DeepSeek 1/6 to 6/6, Luna 0/6 in both arms). Its three-sample baseline
-  rates supersede the role labels in `fixtures.json`, which come from the earliest one-sample
-  rounds; read that column as historical classification, not as a live property of a case.
+- The [2026-10-11 report](runs/2026-10-11-report.md) records this round: the complete 21-case result
+  on the shipped body for both arms and both actor families, the revisions that were measured and
+  rejected with their numbers, the judge-noise bound, the grading defects that were closed, and the
+  limits. It is the record for this revision, not a standing final word. Reference numbers: DeepSeek
+  36/63 to 50/63 and Luna 38/63 to 55/63 overall; the ambiguity controls separate the families
+  (DeepSeek 1/6 to 6/6, Luna 0/6 in both arms). Its three-sample baseline rates supersede the role
+  labels in `fixtures.json`, which come from the earliest one-sample rounds; read that column as
+  historical classification, not as a live property of a case.
 - Per-sample responses and per-item score rows are generated locally and are not committed, so
   reproducing a number means rerunning the comparison against [`SCORING.md`](SCORING.md). The suite
   measures explicit skill-body exposure only; automatic discovery, real editing workflows and other
