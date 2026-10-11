@@ -65,9 +65,49 @@ than a judging artifact.
   req1/forbidden 2, and the case stays 0/3.
 - F17 baseline: the grouped batch stalled after twelve verdicts. Cancelled and regraded on its own;
   the case is 2/3, which raises the Luna baseline total from the 19/36 the partial batch implied.
+- A later grading of F07b failed every sample because its findings block contained text. Findings
+  are required output and are not part of the artifact, so the verdict was void. The regrade
+  restored 3/3. [SCORING.md](../SCORING.md) now states the artifact is the `<artifact>` block alone
+  and that such a verdict is a grading defect to regrade.
 
 No criterion, fixture or pinned reading changed. All three defects are disclosed rather than
 averaged away.
+
+## A DeepSeek-targeted revision, measured and not shipped
+
+The weak DeepSeek cases were traced to three causes: a claim stated more strongly than its evidence
+(an unsupported p99 figure called measured or partially supported, an unsynchronized access reported
+as an observed lost count, a date mismatch reported as an established contradiction, an operational
+reason invented for a comment); a correction that never reached the table cell stating the same
+fact; and item-level scope mistakes (a wiki-musing TODO kept, a dated TODO converted into an undated
+limitation). Four clauses were added to the body (`ae45e551…`, 1388 words, 106 more than the shipped
+body) and the six weak cases were re-sampled three times for both actor families. The baseline arm
+reads no skill, so its numbers stand.
+
+| case | DS before | DS after | Luna before | Luna after |
+| ---- | --------- | -------- | ----------- | ---------- |
+| F01  | 1/3       | 1/3      | 3/3         | 3/3        |
+| F07b | 2/3       | 3/3      | 3/3         | 2/3        |
+| F08  | 2/3       | 2/3      | 1/3         | 2/3        |
+| F11  | 1/3       | 2/3      | 3/3         | 3/3        |
+| F15  | 1/3       | 3/3      | 3/3         | 3/3        |
+| F18  | 0/3       | 0/3      | 3/3         | 2/3        |
+| all  | 9/18      | 11/18    | 16/18       | 15/18      |
+
+The revision was reverted under the rule fixed before the run, that no Luna case which was 3/3 may
+drop, and the body stays at `2bac7a6688ba98fd26dfa2ef714f85571d3ee3408262e623a3de9eb5161d42aa` with
+1282 words. Two points are recorded rather than smoothed over:
+
+- Only the DeepSeek F15 move reaches the 2/3 margin this suite treats as a result. The other five
+  moves, including both Luna drops, are single-sample moves inside the measured judge band, so this
+  run shows a real gain on one case and no established loss while the pre-registered rule reads the
+  Luna drops as a loss. The smaller, already-measured body was kept, and a future round may read the
+  same numbers differently with more samples.
+- The revision cost 106 words — the largest single addition so far — for that one case. Length is an
+  independent reason to prefer the body that ships.
+
+The Luna F07b drop still matters: one sample rewrote a byte-identical fixture, deleting the settings
+table and replacing `restored` with `Returned`, which is the boundary that case exists to guard.
 
 ## Limits
 

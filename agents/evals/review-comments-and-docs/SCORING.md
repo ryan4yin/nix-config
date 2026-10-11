@@ -59,7 +59,10 @@ A sample passes exactly when all of these hold:
 
 `byte_identical` compares artifact bytes with the fixture. `implementation_unchanged` compares the
 code AST after removing docstrings. `none` requires the literal `NONE` for a report-only case.
-`free` has no byte or AST comparison, but its semantic criteria still apply.
+`free` has no byte or AST comparison, but its semantic criteria still apply. The artifact is the
+content of the sample's `<artifact>` block alone: the `<findings>` block is required output and can
+never break a no-change, byte-identity or scope criterion, so a verdict that fails a sample because
+its findings say something is a grading defect, and that sample is regraded.
 
 A malformed, incomplete, or count-mismatched judge response is a **grading failure**, not an actor
 failure. Mark that sample `REVIEW`, repair or replace the judge response with the same grouped
