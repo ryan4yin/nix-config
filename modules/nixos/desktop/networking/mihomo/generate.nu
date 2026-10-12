@@ -598,18 +598,40 @@ def main [
     rules: ($all_rules | uniq)
   }
 
+  let local = ($declared | where { |p| ($p | get -o file) != null })
+
   if not ($out | path dirname | path exists) {
     mkdir ($out | path dirname)
   }
   $config | to yaml | save --force $out
   ^chmod 600 $out
 
+  # The profiles directory is generator-managed: a provider that was renamed or
+  # dropped would otherwise leave its node credentials group-readable forever.
+  # Prune only after the new config is on disk, so a failed render cannot strand
+  # the one the service is running.
+  let stale = (
+    if (not $inline_file_providers) and ($PROFILES_DIR | path exists) {
+      let wanted = ($local | each { |p| $"($PROFILES_DIR)/($p.name).yaml" })
+      ls $PROFILES_DIR | where type == "file" | where { |f|
+        ($f.name | str ends-with ".yaml") and ($wanted | all { |w| $w != $f.name })
+      }
+    } else {
+      []
+    }
+  )
+  for f in $stale {
+    rm $f.name
+  }
+
   let breakdown = $"private ($priv_rules | length), user ($user_rules.ok | length), imported ($imported_rules | length), policy ($policy_rules.ok | length)"
   print $"wrote ($out)"
   print $"  providers:         ($names | str join ', ')"
-  let local = ($declared | where { |p| ($p | get -o file) != null })
   if (not $inline_file_providers) and ($local | is-not-empty) {
     print $"  node files:        ($local | length) copied to ($PROFILES_DIR)"
+  }
+  if ($stale | is-not-empty) {
+    print $"  pruned:            ($stale | each { |f| $f.name | path basename } | str join ', ')"
   }
   print $"  proxy-groups:      ($groups | length)"
   print $"  rule-providers:    ($rule_providers | columns | length)"
