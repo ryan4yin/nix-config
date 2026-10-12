@@ -63,8 +63,9 @@ Verge UI. Verge logs `Unregistered Clash configuration key "ipv6"` for the pin -
 still reaches the core.
 
 The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
-`gateway-config.nu` renders it, `--redact` for a shareable template. Its output carries the
-subscriptions, so never commit it; the secret is filled in on the box, not here. Its binary is a
+`gateway-config.nu` renders it, `--redact` for a shareable template: it replaces the subscription
+urls and empties any inline provider payload, since that is where the nodes live. Its output carries
+the subscriptions, so never commit it; the secret is filled in on the box, not here. Its binary is a
 static release build under `/usr/local/bin`, not a package: update it by hand, validate the live
 config with the new core (`mihomo -t -d /etc/mihomo -f <candidate>`) before swapping, and keep the
 previous binary. The release ships no checksums, so TLS plus `-v` is the whole verification.
@@ -132,13 +133,20 @@ targets instead of writing a config the core rejects.
   [HoyoPlay API endpoints](https://gist.github.com/DynamiByte/0ad250bbe1930e2736a6d4e6e842bcb2).
 - `file:` providers: the node list is copied to `/var/lib/mihomo-profiles/<name>.yaml` and
   referenced by path, so uuids and keys stay out of `config.yaml`. The core reads a provider `path`
-  only below its `-d` HomeDir, so the unit names that directory in `SAFE_PATHS`. The directory is
-  2770 `user:mihomo-profiles` with setgid and the copies are 0640: the group, given to the
-  `DynamicUser` unit through `SupplementaryGroups`, is the access -- not world-readable files. It
-  cannot live under `$HOME`, because `ProtectHome=true` hides `/home` from the unit. The core
-  watches the copied file, so re-running `just mihomo-gen` after editing the source is enough: no
-  restart, no API call. `--inline-file-providers` keeps the nodes in the output for the Clash Verge
-  profile and the gateway config, which have no such directory.
+  only below its `-d` HomeDir, so the unit names that directory in `SAFE_PATHS`. It is 2750
+  `user:mihomo-profiles` (setgid) with 0640 copies: the generator owns the write bit, and the group
+  -- handed to the `DynamicUser` unit through `SupplementaryGroups` -- is the read access, not
+  world-readable files. A group-writable directory would let a compromised core replace its own node
+  lists, and those survive a restart. It cannot live under `$HOME`: `ProtectHome=true` hides `/home`
+  from the unit. The core watches the copied file, so re-running `just mihomo-gen` after editing the
+  source is enough: no restart, no API call. The directory is generator-managed -- copies of
+  providers no longer declared in `sources.yaml` are deleted -- and `--inline-file-providers` keeps
+  the nodes in the output for the Clash Verge profile and the gateway config, which have no such
+  directory.
+- On the tmpfs-root hosts that directory is a preservation bind mount
+  (`hosts/idols-ai/preservation.nix`, shared with `shoukei`). Without that entry a reboot empties
+  it: the core logs `initial proxy provider …: no such file or directory`, starts anyway, and the
+  local proxy groups come up with no nodes until `just mihomo-gen` runs again.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
 - On a systemd-resolved host, sing-tun normally points resolved at the TUN DNS with `resolvectl`.
   The nixpkgs `DynamicUser` sandbox cannot make those privileged D-Bus changes, so resolved's own
