@@ -57,11 +57,10 @@ in
                 keyFile = cryptKeyFile;
                 # The maximum size of the keyfile is 8192 KiB
                 # type `cryptsetup --help` to see the compiled-in key and passphrase maximum sizes
-                # The key file must be at least keyFileOffset + keyFileSize bytes;
-                # the command below makes a larger one (512 KiB).
+                # The key file must be at least keyFileOffset + keyFileSize bytes.
                 #    dd bs=512 count=1024 iflag=fullblock if=/dev/random of=./hdd-luks-crypt-key
-                keyFileSize = 512 * 64; # read 32 KiB
-                keyFileOffset = 512 * 128; # starting 64 KiB into the file
+                keyFileSize = 512 * 64;
+                keyFileOffset = 512 * 128;
                 fallbackToPassword = true;
                 allowDiscards = true;
               };

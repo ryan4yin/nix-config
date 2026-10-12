@@ -6,7 +6,7 @@
 {
   # Normal priority on purpose: it must beat the base module's
   # `lib.mkDefault 8` without forcing (two mkDefault definitions would conflict).
-  boot.loader.timeout = 10; # 10 seconds at the boot menu
+  boot.loader.timeout = 10; # wait for x seconds to select the boot entry
 
   # add user's shell into /etc/shells
   environment.shells = with pkgs; [
