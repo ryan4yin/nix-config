@@ -38,7 +38,7 @@ Run `:tutor` inside Helix, or `hx --tutor` from the shell
 
 ### Terminal related
 
-tuios shortcuts used often (leader is `Ctrl + B`; same idea as in the Neovim notes):
+tuios shortcuts used often (leader is `Ctrl + B`):
 
 | Action            | tuios shortcut             |
 | ----------------- | -------------------------- |

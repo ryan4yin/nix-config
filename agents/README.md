@@ -102,11 +102,11 @@ recorded in [#428](https://github.com/ryan4yin/nix-config/pull/428).
   door, and blast radius for PR bodies.
 - **Write a `testing-strategy` skill**: E2E of real workflows first, unit tests for logic and edge
   cases E2E cannot reach.
-- **Merge `ponytail-review` with a comment and doc pruning pass** (reference:
-  `MidAutumnMoon/TaysiTsuki` `home/agents/skills/prune-comments-and-docs`). Worth borrowing from
-  `garrytan/gstack` `review/checklist.md`: a critical pass before an informational one, reading
-  consumers outside the diff for a new enum value or loosened validator, a do-not-flag list, and
-  "zero findings is valid". Keep review report-only.
+- **Merge `ponytail-review` into the shipped `review-comments-and-docs` skill** (its doc-pruning
+  half came from `MidAutumnMoon/TaysiTsuki` `home/agents/skills/prune-comments-and-docs`). Worth
+  borrowing from `garrytan/gstack` `review/checklist.md`: a critical pass before an informational
+  one, reading consumers outside the diff for a new enum value or loosened validator, a do-not-flag
+  list, and "zero findings is valid". Keep review report-only.
 - **Adapt `wayfinder` in the fork** so its map and tickets default to local Markdown and research
   stays local, instead of GitHub issues and pushed `research/` branches.
 - **Adapt `domain-modeling` in the fork** to record decisions in the repository's existing documents

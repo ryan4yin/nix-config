@@ -20,9 +20,9 @@ Named after characters from "Oshi no Ko":
 On 2026-04-27 `ai` was rebuilt on a new platform. The MSI board and i5-13600KF it was added with in
 2023-05 (the host was originally named `msi-rtx4090`) gave way to the Colorful CVN Z890 ARK FROZEN +
 Intel Core Ultra 7 270K Plus. The traces in the history are PR #257 (the NIC moved from `enp5s0` to
-`enp130s0`) and PR #258 (Niri output names renamed, `hardware-intel.nix` added with the Arrow Lake
-NPU, kernel moved to `linuxPackages_latest`). The 2×48G DDR5 kit was already in place at that point;
-the repo has no record of when it went in.
+`enp130s0`) and PR #258 (Niri output names renamed, `hardware-intel.nix` added). The kernel moved to
+`linuxPackages_latest` in `77ca37ea`, the same day but outside #258. The 2×48G DDR5 kit was already
+in place at that point; the repo has no record of when it went in.
 
 On 2026-10-06 `ai` grew from 2×48G (96G) to 2×48G + 2×16G (128G) across all four DIMM slots, at
 DDR5-4800 with XMP off — the only stable setting with four DIMMs on this board. The 16G pair must be
@@ -71,7 +71,8 @@ disks.
 
 #### `k8s` - Kubernetes Infrastructure
 
-- **VM Cluster**: 3 physical mini PCs (shoryu, shushou, youko) running all VMs
+- **VM Cluster**: 3 physical mini PCs (shoryu, shushou, youko) run the k3s VMs; `akane` is a NixOS
+  VM under UTM on macOS
 - **K3s Testing**: `k3s-test-1` control plane and workers, running as microVMs; placement and
   rollout are documented in [`k8s/README.md`](./k8s/README.md)
 
@@ -122,8 +123,8 @@ just build-host <host>
 ```
 
 `eval-host` only evaluates the configuration. `build-host` builds the system closure without
-activating it. Host activation remains an explicit Colmena operation such as `just shoryu`,
-`just shushou`, or `just youko`.
+activating it. Host activation is always explicit: Colmena (`just shoryu`, `just shushou`,
+`just youko`) from another machine, or `just local` on the machine itself.
 
 ## Distributed Building
 

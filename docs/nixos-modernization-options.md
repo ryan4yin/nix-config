@@ -25,7 +25,7 @@ repository already runs** or **unlocks a concrete need**. "It exists and is newe
 
 ## A1. Tailscale Serve instead of caddy vhosts
 
-**Current:** one caddy instance on `youko` fronts 12 vhosts on `*.writefor.fun` by Host/SNI, with
+**Current:** one caddy instance on `youko` fronts 17 vhosts on `*.writefor.fun` by Host/SNI, with
 two TLS chains — a private `ecc-ca` (only repo machines trust it) and a lego/Cloudflare DNS-01
 wildcard for phone/TV clients — plus `file_server`, `header_up Host` (SigV4), a wildcard 404
 fallback, and a root-readable Cloudflare token in agenix.
@@ -56,8 +56,9 @@ LAN-only client can run Tailscale.
 
 ## A2. systemd-resolved
 
-**Current:** `services.resolved.enable` is set **nowhere**; hosts use dhcpcd or static config and
-the default `/etc/resolv.conf`. Note `modules/nixos/base/networking/mdns.nix` already sets
+**Current:** `services.resolved.enable` is set **nowhere**; hosts get DNS from systemd-networkd or
+NetworkManager (or static config) and use the default `/etc/resolv.conf`. Note
+`modules/nixos/base/networking/mdns.nix` already sets
 `services.resolved.settings.Resolve.MulticastDNS = false` — currently inert, and it will activate
 the moment resolved is enabled. mDNS itself is provided by avahi.
 
@@ -83,14 +84,17 @@ changes.
 
 ## A3. systemd-networkd instead of dhcpcd
 
-**Current:** physical hosts use `networking.useDHCP` (dhcpcd script); VM hosts and MicroVM guests
-use static config with `useDHCP = false`; the `br0` bridge on VM hosts is declared through
-`systemd.network.netdevs/networks` already.
+**Current:** dhcpcd is not used anywhere in this repo. `ai`, `kana` and `ruby` already set
+`networking.useNetworkd = true`; `shoukei` and `akane` run NetworkManager; VM hosts and MicroVM
+guests use static config with `useDHCP = false` (`useDHCP` itself appears only in the generated
+`hardware-configuration.nix` files, where networkd serves it). The `br0` bridge on VM hosts is
+declared through `systemd.network.netdevs/networks` already.
 
 **Proposed:** `networking.networkd.enable = true` with `networking.networks`/`networkdOptions`.
 
 **Pros:** declarative per-interface config, one implementation for stage 1 and stage 2, no dhcpcd
-shell script in the path, and VM hosts already speak `systemd.network` for the bridge.
+anywhere in the path (nothing in this repo uses it), and VM hosts already speak `systemd.network`
+for the bridge.
 
 **Cons:** bigger blast radius than any other item — a mistake on a `br0` VM host cuts the guests and
 possibly remote reachability; migration touches every DHCP host; behaviour differences around
@@ -152,8 +156,10 @@ the gain over a working `zramSwap` is mostly cosmetic.
 
 ## A6. nixos-facter instead of hand-written hardware-configuration.nix
 
-**Current:** 8 hosts carry hand-written `hardware-configuration.nix` (plus deliberate per-host
-quirks such as the NVMe APST workaround WA-008 and USB-SATA mitigations WA-009).
+**Current:** 3 hosts carry hand-written `hardware-configuration.nix` (`shoryu`, `shoukei`, `ai`;
+`shushou` and `youko` import `shoryu`'s, and the qemu guests use the shared
+`modules/nixos/server/qemu-guest-hardware-configuration.nix`), plus deliberate per-host quirks such
+as the NVMe APST workaround WA-008 and USB-SATA mitigations WA-009.
 
 **Proposed:** `hardware.facter` from nixpkgs (nixos-facter-modules upstreamed), report generated on
 the machine.
@@ -294,8 +300,9 @@ validates); no benefit for hosts without Secure Boot.
 
 ## B3. Declarative images with systemd-repart
 
-**Current:** guest images come from the existing pipeline (nixos-generators / disko-based); k8s
-guests are MicroVMs booting declared state images.
+**Current:** libvirt guest images are one-time reflink copies of the VMs' former KubeVirt disks
+(`hosts/12kingdoms-shoryu/libvirtd.nix`); k8s guests are MicroVMs booting declared state images
+against a read-only host store, with no OS image built at all.
 
 **Proposed:** `image.repart.enable` + `system.build.images.{qemu,raw-efi,raw,sd-card}`.
 
@@ -479,7 +486,7 @@ only.
 | B5    | sysupdate                   |          |      |      |
 | B6    | measured boot / FIDO2       |          |      |      |
 | B7    | systemd-vmspawn             |          |      |      |
-| C1–C4 | tooling + cleanups          |          |      |      |
+| C1–C5 | tooling + cleanups          |          |      |      |
 | D1–D7 | lab-only group              |          |      |      |
 | E     | rejected set                |          |      |      |
 

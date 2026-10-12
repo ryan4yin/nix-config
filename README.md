@@ -140,7 +140,7 @@ For macOS (nix-darwin):
 # If you are deploying for the first time,
 # 1. install nix & homebrew manually.
 # 2. prepare the deployment environment with essential packages available
-nix-shell -p just nushell
+nix shell nixpkgs#just nixpkgs#nushell
 # 3. comment home-manager's code in lib/macosSystem.nix to speed up the first deployment.
 
 # Deploy the darwinConfiguration by hostname match (fern, frieren)

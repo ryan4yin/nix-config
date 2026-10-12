@@ -125,7 +125,7 @@ verify-store:
 repair-store *paths:
   nix store repair {{paths}}
 
-# Update all Nixpkgs inputs
+# Update the secondary nixpkgs inputs (the primary `nixpkgs` needs `just up`)
 [group('nix')]
 up-nix:
   nix flake update --commit-lock-file nixpkgs-stable nixpkgs-master nixpkgs-darwin nixpkgs-patched
