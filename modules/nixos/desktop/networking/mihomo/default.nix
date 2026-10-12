@@ -19,12 +19,17 @@ let
   configFile = "${config.users.users.${myvars.username}.home}/.config/mihomo/config.yaml";
   host = config.networking.hostName;
 
-  # Where generate.nu copies the local node lists (`file:` in sources.yaml) so
-  # config.yaml can reference them by path instead of inlining them. Not under
-  # $HOME: ProtectHome=true hides /home from the unit. generate.nu keeps the same
-  # path in a constant.
-  profilesDir = "/var/lib/mihomo-profiles";
-  profilesGroup = "mihomo-profiles";
+  # generate.nu keeps the same directory in a constant; the host's preservation
+  # entry (tmpfs-root hosts) reads both names from the options below.
+  profilesDir = cfg.profilesDir;
+  profilesGroup = cfg.profilesGroup;
+
+  # 2750, not 2770: the owner (the generator) writes, the mihomo group only reads.
+  # A group-writable directory would let a compromised core replace its own
+  # provider files, and unlike config.yaml those copies are not re-injected on
+  # restart, so the tampering would survive. Setgid makes the copies inherit the
+  # group without anyone adding the human user to it.
+  profilesDirMode = "2750";
 
   # metacubexd hardcodes its tab title ("MetaCubeXD") in the SPA and exposes no
   # config hook, so dashboards on different hosts look identical. Append the
@@ -56,8 +61,31 @@ let
   '';
 in
 {
-  options.modules.networking.mihomo.enable =
-    lib.mkEnableOption "the native Mihomo core with TUN and a local web UI";
+  options.modules.networking.mihomo = {
+    enable = lib.mkEnableOption "the native Mihomo core with TUN and a local web UI";
+
+    # Internal: one home for the two names the unit and the host's preservation
+    # entry both need. generate.nu repeats the directory in a constant.
+    profilesDir = lib.mkOption {
+      type = lib.types.str;
+      internal = true;
+      default = "/var/lib/mihomo-profiles";
+      description = ''
+        Directory holding the local proxy-provider node lists, which config.yaml
+        references by path. Never under $HOME: ProtectHome=true hides /home from
+        the unit.
+      '';
+    };
+    profilesGroup = lib.mkOption {
+      type = lib.types.str;
+      internal = true;
+      default = "mihomo-profiles";
+      description = ''
+        Supplementary group allowed to read `profilesDir`. It has no human
+        members: membership is the access, so never add an unrelated unit to it.
+      '';
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     services.mihomo = {
@@ -72,7 +100,12 @@ in
     # tmpfs-root hosts that path is a persistent bind mount, so make the service
     # wait for it: otherwise activation can start mihomo before the mount is up
     # and fail with "Failed to set up credentials: No such file or directory".
-    systemd.services.mihomo.unitConfig.RequiresMountsFor = builtins.dirOf configFile;
+    # The profiles directory is a bind mount on the same hosts, and starting
+    # before it is up would leave the local proxy groups empty.
+    systemd.services.mihomo.unitConfig.RequiresMountsFor = [
+      (builtins.dirOf configFile)
+      profilesDir
+    ];
 
     # Force the TUN's v6 address up: left to itself mihomo skips the v6 half when
     # no NIC has an IPv6 address at startup, yet still installs its strict-route v6
@@ -92,13 +125,12 @@ in
     systemd.services.mihomo.serviceConfig.SupplementaryGroups = [ profilesGroup ];
 
     # `+` runs as root, outside the unit sandbox. tmpfiles rules only run at boot
-    # and a switch restarts mihomo, so the directory is prepared here: 2770 with
-    # setgid makes the copies generate.nu writes inherit the group.
+    # and a switch restarts mihomo, so the directory is prepared on every start.
     systemd.services.mihomo.serviceConfig.ExecStartPre =
       "+${pkgs.writeShellScript "mihomo-profiles-dir" ''
         mkdir -p ${profilesDir}
         chown ${myvars.username}:${profilesGroup} ${profilesDir}
-        chmod 2770 ${profilesDir}
+        chmod ${profilesDirMode} ${profilesDir}
       ''}";
   };
 }

@@ -1,5 +1,6 @@
 {
   preservation,
+  config,
   lib,
   pkgs,
   myvars,
@@ -105,6 +106,19 @@ in
       # logrotate state. Persist the directory: a single-file bind mount cannot
       # be replaced by logrotate's atomic rename() (EBUSY).
       "/var/lib/logrotate"
+    ]
+    # Local proxy-provider node lists that config.yaml references by path
+    # (modules/nixos/desktop/networking/mihomo). The core reads them at startup,
+    # so a reboot that dropped this directory leaves the local proxy groups empty
+    # until `just mihomo-gen` runs again. Owner writes, mihomo group reads; the
+    # mode must match the module's ExecStartPre.
+    ++ lib.optionals config.services.mihomo.enable [
+      {
+        directory = config.modules.networking.mihomo.profilesDir;
+        user = username;
+        group = config.modules.networking.mihomo.profilesGroup;
+        mode = "2750";
+      }
     ];
     files = [
       # auto-generated machine ID
