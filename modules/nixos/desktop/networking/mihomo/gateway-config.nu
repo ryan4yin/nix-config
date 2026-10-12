@@ -51,12 +51,15 @@ def main [
       })
 
   let gw = (if $redact {
-    # a file-backed provider (localyaml) has no url to hide
+    # The template is meant to be shared, so hide the subscription urls and empty
+    # any inline provider payload: the payload is the node uuids and keys.
     let pp = ($gw.proxy-providers
       | items {|k, v| {
         name: $k,
         conf: (if ($v | columns | any {|c| $c == "url" }) {
           $v | update url "https://xx.xx.xx.xx"
+        } else if ($v | columns | any {|c| $c == "payload" }) {
+          $v | update payload []
         } else {
           $v
         })
@@ -71,4 +74,7 @@ def main [
   $gw | to yaml | save -f $out
   rm $tmp
   print $"gateway config -> ($out)"
+  if $redact {
+    print "  redacted: urls replaced and inline provider payloads emptied -- paste nodes back before use"
+  }
 }
