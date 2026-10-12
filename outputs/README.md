@@ -72,11 +72,11 @@ Problems:
       agenix secrets.
   - [ ] Maybe it's better to test every service separately, not the whole host?
 
-No host has a wired NixOS integration test yet: full-host tests are tracked as WA-013 in
-[WORKAROUNDS.md](../WORKAROUNDS.md), and `outputs/x86_64-linux/nixos-tests/idols-ruby.nix` exists
-but nothing in the flake outputs loads it. What runs today is the eval set above with `just test`,
-plus one NixOS-driver check of the shared firewall — `checks.x86_64-linux.security-exporters`, built
-in CI.
+Full-host tests are tracked as WA-013 in [WORKAROUNDS.md](../WORKAROUNDS.md).
+`outputs/x86_64-linux/nixos-tests/idols-ruby.nix` is exported as
+`packages.x86_64-linux.ruby-nixos-tests`, but it is not a `checks` entry, so CI never builds it and
+nothing else runs it. What runs today is the eval set above with `just test`, plus one NixOS-driver
+check of the shared firewall — `checks.x86_64-linux.security-exporters`, built in CI.
 
 ## Overview
 

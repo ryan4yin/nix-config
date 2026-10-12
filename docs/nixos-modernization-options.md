@@ -86,9 +86,8 @@ changes.
 
 **Current:** dhcpcd is not used anywhere in this repo. `ai`, `kana` and `ruby` already set
 `networking.useNetworkd = true`; `shoukei` and `akane` run NetworkManager; VM hosts and MicroVM
-guests use static config with `useDHCP = false` (`useDHCP` itself appears only in the generated
-`hardware-configuration.nix` files, where networkd serves it). The `br0` bridge on VM hosts is
-declared through `systemd.network.netdevs/networks` already.
+guests use static config with `useDHCP = false`. The `br0` bridge on VM hosts is declared through
+`systemd.network.netdevs/networks` already.
 
 **Proposed:** `networking.networkd.enable = true` with `networking.networks`/`networkdOptions`.
 
