@@ -44,7 +44,8 @@ suite passes when every `expr` equals its `expected`.
 #### Which tests cover a new host
 
 Some tests iterate over every configuration, so a new host is covered automatically and must satisfy
-them. Others name specific hosts and only cover a new host if you add it.
+them. Others name specific hosts — or a name prefix, like `k3s-api-endpoint`, which covers every
+`k3s-test-1-*` configuration — and only cover a new host if you add it.
 
 | Kind                | Tests                                                                                                                                                                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -71,8 +72,11 @@ Problems:
       agenix secrets.
   - [ ] Maybe it's better to test every service separately, not the whole host?
 
-No host defines a NixOS integration test yet: full-host tests are tracked as WA-013 in
-[WORKAROUNDS.md](../WORKAROUNDS.md). What runs today is the eval set above, with `just test`.
+Full-host tests are tracked as WA-013 in [WORKAROUNDS.md](../WORKAROUNDS.md).
+`outputs/x86_64-linux/nixos-tests/idols-ruby.nix` is exported as
+`packages.x86_64-linux.ruby-nixos-tests`, but it is not a `checks` entry, so CI never builds it and
+nothing else runs it. What runs today is the eval set above with `just test`, plus one NixOS-driver
+check of the shared firewall — `checks.x86_64-linux.security-exporters`, built in CI.
 
 ## Overview
 

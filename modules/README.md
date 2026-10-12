@@ -102,8 +102,9 @@ Platform-specific NixOS configuration:
 
 ## Usage
 
-Modules are imported based on platform detection:
+There is no automatic platform detection. Each host's entry under `outputs/<system>/src/` lists its
+imports explicitly:
 
-- **NixOS Systems**: Import `nixos/` modules
-- **macOS Systems**: Import `darwin/` modules
-- **All Systems**: Import `base/` modules for shared configuration
+- **NixOS Systems**: import `nixos/` modules
+- **macOS Systems**: import `darwin/` modules
+- **Both**: import `base/` modules for shared configuration

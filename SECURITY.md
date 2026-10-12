@@ -33,18 +33,18 @@ small, reversible controls and narrow exceptions; benchmark before adopting expe
 
 ## Architecture and trust boundaries
 
-| Boundary        | Current design                                                                                                                                          | Limitation                                                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Administration  | Key-based SSH; root key login retained for Colmena/MicroVM deployment                                                                                   | Deployment credentials are root-equivalent; password login being disabled does not restrict stolen keys                                                     |
-| Host network    | Shared nftables firewall trusts the home LAN, tailnet interface and local Podman bridge; IPv6 link-local is accepted                                    | These are broad trust zones, not service-level least privilege; router exposure and tailnet ACLs require separate verification                              |
-| Monitoring      | node/smartctl exporters bind the host LAN IPv4 (9100/9633); firewall rules restrict exporter ports 9100, 9835 and 9633 to the monitoring host over IPv4 | nvidia_gpu_exporter (9835) still binds wildcard; IPv6 denial is planned in the baseline implementation; current running hosts require separate verification |
-| VM hosts        | shoryu, shushou and youko run guests behind `br0`; ruby/kana are libvirt guests                                                                         | A bridge is not network isolation; host compromise affects its guests                                                                                       |
-| k3s             | Three control-plane and three worker MicroVMs; Cilium, API VIP and NFS CSI                                                                              | Cluster-admin, privileged/host-mounted pods and writable NFS data are powerful trust boundaries                                                             |
-| MicroVM storage | Host store shared read-only through virtiofs; guest `/etc`, `/var` and `/home` persisted in separate images                                             | Read-only store does not isolate the host-side virtiofs implementation or protect writable guest state                                                      |
-| Desktop apps    | Selected apps use nixpak/bubblewrap; Podman is rootless                                                                                                 | Rules and shared directories vary per app; user namespaces are needed for these sandboxes                                                                   |
-| Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                                                          | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                                              |
-| Supply chain    | Locked flake inputs; explicit binary-cache trust keys; normal user is not a Nix trusted-user                                                            | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                                                |
-| Recovery        | NixOS generations, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                         | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned  |
+| Boundary        | Current design                                                                                                                                          | Limitation                                                                                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Administration  | Key-based SSH; root key login retained for Colmena/MicroVM deployment                                                                                   | Deployment credentials are root-equivalent; password login being disabled does not restrict stolen keys                                                               |
+| Host network    | Shared nftables firewall trusts the home LAN, tailnet interface and local Podman bridge; IPv6 link-local is accepted                                    | These are broad trust zones, not service-level least privilege; router exposure and tailnet ACLs require separate verification                                        |
+| Monitoring      | node/smartctl exporters bind the host LAN IPv4 (9100/9633); firewall rules restrict exporter ports 9100, 9835 and 9633 to the monitoring host over IPv4 | nvidia_gpu_exporter (9835) still binds wildcard; the IPv6 denial for those three ports is in the shared firewall; current running hosts require separate verification |
+| VM hosts        | shoryu, shushou and youko run guests behind `br0`; ruby/kana are libvirt guests                                                                         | A bridge is not network isolation; host compromise affects its guests                                                                                                 |
+| k3s             | Three control-plane and three worker MicroVMs; Cilium, API VIP and NFS CSI                                                                              | Cluster-admin, privileged/host-mounted pods and writable NFS data are powerful trust boundaries                                                                       |
+| MicroVM storage | Host store shared read-only through virtiofs; guest `/etc`, `/var` and `/home` persisted in separate images                                             | Read-only store does not isolate the host-side virtiofs implementation or protect writable guest state                                                                |
+| Desktop apps    | Selected apps use nixpak/bubblewrap; Podman is rootless                                                                                                 | Rules and shared directories vary per app; user namespaces are needed for these sandboxes                                                                             |
+| Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                                                          | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                                                        |
+| Supply chain    | Locked flake inputs; explicit binary-cache trust keys; normal user is not a Nix trusted-user                                                            | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                                                          |
+| Recovery        | NixOS generations, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                         | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned            |
 
 Sources: [host layout](hosts/README.md), [k3s deployment](hosts/k8s/README.md),
 [firewall](modules/nixos/base/networking/firewall.nix), [SSH](modules/nixos/base/ssh.nix),
@@ -153,14 +153,14 @@ configuration and certificate lifecycle procedures. Never bypass TLS verificatio
 hostname mismatch. Eval tests protect the domain join endpoint and server SAN declarations; live TLS
 checks remain necessary after deployment.
 
-## Implementation plan and completed audit findings
+## Implementation status and completed audit findings
 
 ### Implementation status
 
-| Component                                                        | Status                                | Runtime verification                                |
-| ---------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------- |
-| Architecture, agent-first policy, audits and canonical API tests | Included in this documentation change | Only the dated observations below were checked live |
-| Explicit sysctl baseline and IPv6 exporter defence               | Implemented in this baseline change   | Not deployed or verified on running hosts           |
+| Component                                                        | Status                                  | Runtime verification                                |
+| ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------- |
+| Architecture, agent-first policy, audits and canonical API tests | In this repository                      | Only the dated observations below were checked live |
+| Explicit sysctl baseline and IPv6 exporter defence               | In `hardening/` and the shared firewall | Not deployed or verified on running hosts           |
 
 ### Baseline implementation checks
 
@@ -168,11 +168,11 @@ checks remain necessary after deployment.
 - IPv6 exporter denial precedes broad LAN/tailnet/container rules. The monitoring configuration uses
   IPv4 targets for these ports, so no scrape endpoint migration is needed.
 - x86_64/aarch64 eval checks cover baseline values, normal host overrides and generated exporter
-  rules. Canonical API endpoint checks for all six cluster nodes already accompany this document.
+  rules. Canonical API endpoint checks cover all six cluster nodes.
 - A reusable isolated VM check exercises allowed monitoring IPv4 access, denied other IPv4/IPv6
   access to all three exporter ports, retained IPv6 loopback and a reachable ordinary IPv4/IPv6
-  service. Run `nix build .#checks.x86_64-linux.security-exporters`, importing only the shared
-  firewall, not real-host secrets or workloads, and does not replace deployment-time checks.
+  service. Run it with `nix build .#checks.x86_64-linux.security-exporters`. It imports only the
+  shared firewall, not real-host secrets or workloads, and does not replace deployment-time checks.
 
 ### Read-only audit snapshot — 2026-10-03
 

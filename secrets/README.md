@@ -65,7 +65,8 @@ Placing a secret under `/etc/agenix/` with `environment.etc` has one trap: setti
 `environment.etc` **copy** the file instead of symlinking it, and the copy is owned by root unless
 `user` is set too. Widening the mode so the user can read a root-owned copy makes it readable by
 every local account. Always set `user` together with `mode`. nix-darwin ignores both on
-`environment.etc`, so `secrets/darwin.nix` chowns `/etc/agenix/*` after activation instead.
+`environment.etc`, so `secrets/darwin.nix` re-applies each secret's owner and mode after activation;
+a blanket chown over `/etc/agenix/*` would make the root-only secrets readable by the login user.
 
 ## Adding or Updating Secrets
 

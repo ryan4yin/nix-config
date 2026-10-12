@@ -142,7 +142,8 @@ in
   # Packages
   packages = forAllSystems (system: allSystems.${system}.packages or { });
 
-  # Eval Tests for all NixOS & darwin systems.
+  # Eval Tests for all NixOS & darwin systems. Each system's `evalTests` lists its
+  # failures, so an empty attrset means that system passed.
   evalTests = lib.lists.all (it: it.evalTests == { }) allSystemValues;
 
   checks = forAllSystems (

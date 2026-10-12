@@ -36,7 +36,8 @@ appimageTools.wrapAppImage {
     substituteInPlace $out/share/applications/wechat.desktop --replace-fail AppRun wechat
   '';
 
-  # Add these root paths to FHS sandbox to prevent WeChat from accessing them by default
+  # Prepare the WeChat data dirs before the sandbox starts. The isolation itself
+  # is the `--tmpfs /home` / `--tmpfs /root` in `extraBwrapArgs` below.
   # Adapted from https://aur.archlinux.org/cgit/aur.git/tree/wechat-universal.sh?h=wechat-universal-bwrap
   extraPreBwrapCmds = ''
     XDG_DOCUMENTS_DIR="''${XDG_DOCUMENTS_DIR:-$(xdg-user-dir DOCUMENTS)}"

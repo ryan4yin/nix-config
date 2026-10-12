@@ -249,8 +249,8 @@ cd ~/nix-config/nixos-installer/
 rm -rf /mnt/etc
 
 # install nixos
-# NOTE: --no-root-password leaves root locked; log in as ryan with the password from
-# vars/default.nix
+# NOTE: --no-root-password leaves root locked; log in as ryan with the password whose hash is
+# `initialHashedPassword` in vars/default.nix
 nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --verbose # install-1
 
 # if you want to use a cache mirror, run this command instead
@@ -259,7 +259,8 @@ nixos-install --root /mnt --flake .#shoukei --no-root-password --show-trace --ve
 
 # enter into the installed system, check password & users
 # `su ryan` => `sudo -i` => enter ryan's password => successfully login
-# if login failed, check ryan's initial password in vars/default.nix, and try again
+# if login failed, check that the password you typed is the one hashed by
+# `initialHashedPassword` in vars/default.nix, and try again
 nixos-enter
 
 
@@ -327,7 +328,8 @@ cd ~/nix-config
 just niri
 ```
 
-Finally, to enable secure boot, follow the instructions in
+Secure Boot is not configured for `shoukei` (Apple Silicon, Asahi firmware). The links below are the
+setup for `ai`, kept here as a reference:
 [lanzaboote - Quick Start](https://github.com/nix-community/lanzaboote/blob/master/docs/QUICK_START.md)
 and
 [hosts/idols-ai/secureboot.nix](https://github.com/ryan4yin/nix-config/blob/main/hosts/idols-ai/secureboot.nix)

@@ -6,10 +6,10 @@ to run, but compatibility still depends on the game and translation layer.
 
 ## First activation and persistence
 
-Run `just niri` on idols-ai from this branch's worktree, or after merging it. Log out and back in so
-Steam sees `PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1`. That variable is what makes pressure-vessel
-mount WiVRn's `$XDG_RUNTIME_DIR/wivrn/comp_ipc` socket into a game's container; without it the
-game's OpenXR client fails with `ERROR_RUNTIME_UNAVAILABLE` and the headset stays black.
+Run `just niri` on idols-ai. Log out and back in so Steam sees
+`PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1`. That variable is what makes pressure-vessel mount
+WiVRn's `$XDG_RUNTIME_DIR/wivrn/comp_ipc` socket into a game's container; without it the game's
+OpenXR client fails with `ERROR_RUNTIME_UNAVAILABLE` and the headset stays black.
 
 The root filesystem is a 4 GiB tmpfs. These directories are preserved with mode 0700:
 

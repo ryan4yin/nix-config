@@ -9,7 +9,7 @@
   etcSize ? 64,
   varSize ? 4096,
   homeSize ? 4096,
-  # extra stateful mounts (e.g. aquamarine's /data on the passed-through HDDs)
+  # extra stateful mounts, e.g. a guest's /data on passed-through HDDs
   extraVolumes ? [ ],
   ...
 }:

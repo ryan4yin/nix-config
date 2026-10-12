@@ -72,8 +72,8 @@ hardening/
   - https://gitlab.com/apparmor/apparmor/-/wikis/Documentation
   - AppArmor.d is a set of over 1500 AppArmor profiles whose aim is to confine most Linux based
     applications and processes.
-  - But all the profiles of AppArmor assume a FHS filesystem, which caused all apparmor policies
-    takes no effect on NixOS.
+  - But its profiles assume an FHS filesystem, so most of them never match the Nix store paths a
+    NixOS system actually executes.
   - Apparmor on NixOS Roadmap:
     - https://discourse.nixos.org/t/apparmor-on-nixos-roadmap/57217
     - https://github.com/LordGrimmauld/aa-alias-manager

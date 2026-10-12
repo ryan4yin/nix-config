@@ -14,7 +14,7 @@ let
   lanAddr = if hostAddr.homeOnly or false then null else hostAddr.ipv4 or null;
 in
 {
-  # enable the node exporter on all nixos hosts
+  # node_exporter on every host that has a static LAN IPv4 (see `lanAddr` above)
   # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/services/monitoring/prometheus/exporters/node.nix
   services.prometheus.exporters.node = lib.mkIf (lanAddr != null) {
     enable = true;

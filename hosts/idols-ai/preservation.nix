@@ -469,13 +469,11 @@ in
     "D! /var/lib/systemd/coredump 0755 root root"
   ];
 
-  # systemd-machine-id-commit.service would fail but it is not relevant
-  # in this specific setup for a persistent machine-id so we disable it
-  #
-  # see the firstboot example below for an alternative approach
+  # Mask the commit service: /etc/machine-id is persisted by preservation
+  # (see the `files` entry above), so there is no transient ID to commit.
   systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
 
-  # let the service commit the transient ID to the persistent volume
+  # Inert while the unit is masked above; kept as the alternative approach.
   systemd.services.systemd-machine-id-commit = {
     unitConfig.ConditionPathIsMountPoint = [
       ""

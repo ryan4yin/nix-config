@@ -78,7 +78,7 @@ let
             # Shared NSS client-certificate store (imported outside Firefox).
             (sloth.concat' sloth.homeDir "/.pki/nssdb")
 
-            # Unsure
+            # dconf settings. Not verified as needed; candidate for removal.
             (sloth.concat' sloth.xdgConfigHome "/dconf")
           ];
         };

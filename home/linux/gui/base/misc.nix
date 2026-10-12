@@ -20,8 +20,8 @@
     # discord # update too frequently, use the web version instead
   ];
 
-  # allow fontconfig to discover fonts and configurations installed through home.packages
-  # Install fonts at system-level, not user-level
+  # Fonts install at system level, not user level, so fontconfig does not
+  # scan home.packages for them.
   fonts.fontconfig.enable = false;
 
 }

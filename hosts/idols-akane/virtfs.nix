@@ -11,8 +11,8 @@
       "auto" # Mount automatically with -a
 
       # Ownership mapping - all files appear as specified user/group
-      "uid=1000" # Map to user ID 1000
-      "gid=1000" # Map to group ID 100
+      "uid=1000"
+      "gid=1000"
     ];
   };
 }

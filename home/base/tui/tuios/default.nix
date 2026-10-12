@@ -22,7 +22,6 @@ in
   # `work` for the ~/work tree, `personal` for everything else (a host with no
   # ~/work gets `personal` everywhere).
   programs.nushell.extraConfig = ''
-    # auto start tuios
     if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) {
       # Exit 3 means the daemon is stopped; stdout still lists saved sessions.
       let listing = (^tuios ls --json | complete)

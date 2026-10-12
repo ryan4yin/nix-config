@@ -95,6 +95,8 @@ document is the agreed design and the rationale.
 
 ## Rollout
 
+Applied — immich runs on youko. The steps below are the procedure as deployed:
+
 1. `../valkey.nix`: the shared Valkey instance.
 2. `./default.nix`: the `services.immich` configuration (server, database, machine-learning,
    tmpfiles).

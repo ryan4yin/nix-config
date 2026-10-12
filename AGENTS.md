@@ -35,7 +35,7 @@ projects live in [agents/](./agents/README.md).
 ## Validation
 
 - For Nix changes, run `just fmt` and inspect the diff: it formats all Nix files. Nix style is
-  `nixfmt` with width 100.
+  `nixfmt`, whose default width is 100.
 - For supported non-Nix files, use `prettier --write <file>` and `prettier --check <file>`;
   configuration lives in `.prettierrc.yaml`. Spelling checks use `typos` and `.typos.toml`.
 - Run `just test` for configuration changes; it evaluates `.#evalTests` across Linux and Darwin and
