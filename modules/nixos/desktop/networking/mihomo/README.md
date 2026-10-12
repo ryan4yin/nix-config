@@ -146,7 +146,9 @@ targets instead of writing a config the core rejects.
 - On the tmpfs-root hosts that directory is a preservation bind mount
   (`hosts/idols-ai/preservation.nix`, shared with `shoukei`). Without that entry a reboot empties
   it: the core logs `initial proxy provider …: no such file or directory`, starts anyway, and the
-  local proxy groups come up with no nodes until `just mihomo-gen` runs again.
+  local proxy groups come up with no nodes until `just mihomo-gen` runs again. The mount's source
+  under `/persistent` is itself only created at boot, so the first boot after adding the entry still
+  comes up empty: run `just mihomo-gen` once, and the next reboot keeps the nodes.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
 - On a systemd-resolved host, sing-tun normally points resolved at the TUN DNS with `resolvectl`.
   The nixpkgs `DynamicUser` sandbox cannot make those privileged D-Bus changes, so resolved's own

@@ -100,12 +100,13 @@ in
     # tmpfs-root hosts that path is a persistent bind mount, so make the service
     # wait for it: otherwise activation can start mihomo before the mount is up
     # and fail with "Failed to set up credentials: No such file or directory".
-    # The profiles directory is a bind mount on the same hosts, and starting
-    # before it is up would leave the local proxy groups empty.
-    systemd.services.mihomo.unitConfig.RequiresMountsFor = [
-      (builtins.dirOf configFile)
-      profilesDir
-    ];
+    systemd.services.mihomo.unitConfig.RequiresMountsFor = builtins.dirOf configFile;
+
+    # The profiles directory is a preservation bind mount on those hosts, so order
+    # after the preservation target instead of RequiresMountsFor it: when the mount
+    # is missing the unit should still start and log an empty provider, not fail to
+    # start at all.
+    systemd.services.mihomo.unitConfig.After = [ "preservation.target" ];
 
     # Force the TUN's v6 address up: left to itself mihomo skips the v6 half when
     # no NIC has an IPv6 address at startup, yet still installs its strict-route v6
