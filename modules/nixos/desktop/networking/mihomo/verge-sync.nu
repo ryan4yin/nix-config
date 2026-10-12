@@ -92,6 +92,8 @@ def main [
       -s $src
       -o $staged
       -p ($mod | path join "policy.yaml")
+      # no profiles dir here: the Verge profile carries the nodes itself
+      --inline-file-providers
       | complete
   )
   print ($gen.stdout | str trim)

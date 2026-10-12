@@ -22,10 +22,11 @@ def main [
   let tmp = ($out + ".base")
 
   let gen = ($env.FILE_PWD | path join "generate.nu")
+  # the gateway has no profiles dir: its config carries the nodes, as before
   let args = if $policy == null {
-    ["-s", ($sources | path expand), "-o", $tmp]
+    ["-s", ($sources | path expand), "-o", $tmp, "--inline-file-providers"]
   } else {
-    ["-s", ($sources | path expand), "-p", ($policy | path expand), "-o", $tmp]
+    ["-s", ($sources | path expand), "-p", ($policy | path expand), "-o", $tmp, "--inline-file-providers"]
   }
   nu $gen ...$args
 

@@ -14,9 +14,10 @@ sudo systemctl restart mihomo.service           # dashboard: http://127.0.0.1:90
 
 `~/.config/mihomo` holds `sources.yaml` and the generated `config.yaml`, which the service loads
 through systemd `LoadCredential`; the core's own state — geodata and cache — is in
-`/var/lib/private/mihomo` (`StateDirectory`, `DynamicUser`). The generator, `policy.yaml` and
-`gateway-config.nu` are run from here and never copied over. `just mihomo-gen` renders the config
-and validates it with the core the service runs.
+`/var/lib/private/mihomo` (`StateDirectory`, `DynamicUser`). A `file:` provider's node list is
+copied to `/var/lib/mihomo-profiles` and referenced by path, so it never enters `config.yaml`
+(Gotchas). The generator, `policy.yaml` and `gateway-config.nu` are run from here and never copied
+over. `just mihomo-gen` renders the config and validates it with the core the service runs.
 
 `sources.yaml` holds everything private (subscription URLs, secret, private domains) and stays out
 of the repo and the Nix store; the module loads `config.yaml` via `LoadCredential`. Generate the
@@ -129,6 +130,15 @@ targets instead of writing a config the core rejects.
   `policy.yaml` bypasses proxy only for that observed probe, not game CDNs or broad vendor domains.
   Verify future probes in `/connections` and add only confirmed hosts. Reference:
   [HoyoPlay API endpoints](https://gist.github.com/DynamiByte/0ad250bbe1930e2736a6d4e6e842bcb2).
+- `file:` providers: the node list is copied to `/var/lib/mihomo-profiles/<name>.yaml` and
+  referenced by path, so uuids and keys stay out of `config.yaml`. The core reads a provider `path`
+  only below its `-d` HomeDir, so the unit names that directory in `SAFE_PATHS`. The directory is
+  2770 `user:mihomo-profiles` with setgid and the copies are 0640: the group, given to the
+  `DynamicUser` unit through `SupplementaryGroups`, is the access -- not world-readable files. It
+  cannot live under `$HOME`, because `ProtectHome=true` hides `/home` from the unit. The core
+  watches the copied file, so re-running `just mihomo-gen` after editing the source is enough: no
+  restart, no API call. `--inline-file-providers` keeps the nodes in the output for the Clash Verge
+  profile and the gateway config, which have no such directory.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
 - On a systemd-resolved host, sing-tun normally points resolved at the TUN DNS with `resolvectl`.
   The nixpkgs `DynamicUser` sandbox cannot make those privileged D-Bus changes, so resolved's own

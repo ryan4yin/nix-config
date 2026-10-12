@@ -42,7 +42,8 @@ providers:
     # interval: 86400
     # rules_from: "~/.config/mihomo/snapshots/provider-a.yaml"
 
-  # A local Clash YAML file: proxies are inlined (the service user cannot read
-  # /home), and its groups, rules and rule-providers are carried over too.
+  # A local Clash YAML file: it is copied to /var/lib/mihomo-profiles/<name>.yaml
+  # and referenced by path, so the nodes never land in config.yaml. Its groups,
+  # rules and rule-providers are carried over too.
   - name: provider-b
     file: "~/work/example/client-proxy.yaml"

@@ -304,7 +304,11 @@ mihomo-gen:
   nu ($mod | path join generate.nu)
   # Validate with the core the service actually runs; a nixpkgs one may differ.
   let core = (systemctl show mihomo.service -p ExecStart | str trim | split row "path=" | get 1 | split row " " | get 0)
-  let check = (^$core -t -f ($env.HOME | path join .config mihomo config.yaml) | complete)
+  # The unit's SAFE_PATHS is what lets the core read the copied node files, and
+  # this check needs the same allowance to reach them as the invoking user.
+  let check = (with-env { SAFE_PATHS: "/var/lib/mihomo-profiles" } {
+    ^$core -t -f ($env.HOME | path join .config mihomo config.yaml) | complete
+  })
   if $check.exit_code != 0 {
     print --stderr ($check.stderr | str trim)
     exit $check.exit_code

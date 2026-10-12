@@ -10,6 +10,11 @@
 
 const HEALTH_URL = "https://www.gstatic.com/generate_204"
 
+# Where `file:` providers are copied so config.yaml can reference them by path.
+# The mihomo module names the same directory, gives the service the matching
+# supplementary group, and lists this path in the unit's SAFE_PATHS.
+const PROFILES_DIR = "/var/lib/mihomo-profiles"
+
 # The portable tail -- dns fake-ip-filter entries, optional rule-providers and
 # the rules that close every config -- lives in policy.yaml next to this script.
 
@@ -275,8 +280,29 @@ def health-check [] {
   { enable: true, url: $HEALTH_URL, interval: 300 }
 }
 
+# Copy a local provider file into PROFILES_DIR under the provider's name. The
+# core watches that path, so re-running the generator is enough to pick up new
+# nodes -- no restart, no API call. `cp` truncates in place, which keeps the
+# watched inode; the setgid directory gives the copy the group the service is
+# granted, and 0640 keeps it to that group (the 2770 directory already denies
+# every other account).
+def stage-provider-file [src: string, name: string] {
+  if not ($PROFILES_DIR | path exists) {
+    fail $"provider ($name): ($PROFILES_DIR) does not exist -- the module creates it when the service starts, so rebuild the host first"
+  }
+  let dest = ($PROFILES_DIR | path join $"($name).yaml")
+  let copied = (^cp ($src | path expand) $dest | complete)
+  if $copied.exit_code != 0 {
+    fail $"provider ($name): cannot copy ($src) to ($dest): ($copied.stderr | str trim)"
+  }
+  let chmodded = (^chmod 640 $dest | complete)
+  if $chmodded.exit_code != 0 {
+    fail $"provider ($name): chmod 640 ($dest) failed: ($chmodded.stderr | str trim)"
+  }
+}
+
 # -> { name, provider, groups, rules, bad_rules, rule-providers }
-def build-entry [p: record] {
+def build-entry [p: record, inline_file_providers: bool] {
   let name = ($p | get -o name | default "" | str trim)
   if ($name | is-empty) {
     fail "every provider needs a `name`"
@@ -309,18 +335,25 @@ def build-entry [p: record] {
       "rule-providers": $imported."rule-providers"
     }
   } else if ($file != null) {
-    # a local YAML file: inline its proxies (the service user cannot read files
-    # under /home), and carry over its groups, rules and rule-providers too
+    # A local YAML file: its groups, rules and rule-providers are carried over
+    # either way. Its nodes are copied to PROFILES_DIR and referenced by path, so
+    # uuids and keys never reach config.yaml. `--inline-file-providers` keeps them
+    # in the output for the consumers that have no profiles dir: the Clash Verge
+    # profile and the gateway config.
     let doc = (open-doc $file $"provider ($name)")
     let payload = ($doc | get -o proxies)
     if (($payload == null) or (($payload | describe) | str starts-with "list") and (($payload | length) == 0)) {
       fail $"provider ($name): ($file) has no top-level `proxies:` list"
     }
-    let provider = {
-      type: "inline"
-      "health-check": (health-check)
-      payload: $payload
-    }
+    let provider = (
+      if $inline_file_providers {
+        { type: "inline", "health-check": (health-check), payload: $payload }
+      } else {
+        stage-provider-file $file $name
+        # no interval: the core watches the copied file
+        { type: "file", path: $"($PROFILES_DIR)/($name).yaml", "health-check": (health-check) }
+      }
+    )
     let imported = (import-doc $doc $name)
     {
       name: $name
@@ -343,6 +376,7 @@ def main [
   --sources (-s): path = "~/.config/mihomo/sources.yaml"
   --out (-o): path = "~/.config/mihomo/config.yaml"
   --policy (-p): path
+  --inline-file-providers # keep `file:` providers inline; no PROFILES_DIR copy (Verge, gateway)
 ] {
   let src = ($sources | path expand)
   let out = ($out | path expand)
@@ -385,7 +419,7 @@ def main [
     fail $"duplicate provider names: ($name_dups | str join ', ')"
   }
 
-  let entries = ($declared | each { |p| build-entry $p })
+  let entries = ($declared | each { |p| build-entry $p $inline_file_providers })
 
   let providers_map = (
     $entries
@@ -573,6 +607,10 @@ def main [
   let breakdown = $"private ($priv_rules | length), user ($user_rules.ok | length), imported ($imported_rules | length), policy ($policy_rules.ok | length)"
   print $"wrote ($out)"
   print $"  providers:         ($names | str join ', ')"
+  let local = ($declared | where { |p| ($p | get -o file) != null })
+  if (not $inline_file_providers) and ($local | is-not-empty) {
+    print $"  node files:        ($local | length) copied to ($PROFILES_DIR)"
+  }
   print $"  proxy-groups:      ($groups | length)"
   print $"  rule-providers:    ($rule_providers | columns | length)"
   print $"  rules:             (($config | get rules) | length)  -- ($breakdown)"
