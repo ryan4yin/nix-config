@@ -50,8 +50,9 @@ rec {
       ipv6 = "fe80::10"; # Link-local Address
     };
     aquamarine = {
-      # VM (retired)
-      iface = "enp2s0";
+      # Physical AI inference server. Reuses the retired VM's address, so check
+      # that the router still reserves .101 for this machine. No `iface`: the host
+      # matches the wired interface by its `en*` prefix (hosts/idols-aquamarine/).
       ipv4 = "192.168.5.101";
     };
     ruby = {
@@ -202,7 +203,9 @@ rec {
         {
           # Define the root user's host key for remote builders, so that nix can verify all the remote builders
 
-          aquamarine.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEOXFhFu9Duzp6ZBE288gDZ6VLrNaeWL4kDrFUh9Neic root@aquamarine";
+          # Reinstalled on 2026-10-13; this is the host key its first boot
+          # generated (hosts/idols-aquamarine/README.md).
+          aquamarine.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHeZ1eTvzcoOOSmRCto/v9hKfirzaGh6/7bl5I2ly3Hj root@aquamarine";
           # the restic backup server
           youko.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEs8b3CmxM+utXZVKvJBssXBupBXvvzjHP40HcY7PSyZ root@youko";
           # ruby.publicKey = "";

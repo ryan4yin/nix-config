@@ -1,7 +1,7 @@
 # Youko - Homelab Services
 
 Storage, operation and maintenance related services are running on this host (migrated here from the
-retired `idols-aquamarine` guest):
+retired `aquamarine` VM — the name now belongs to the inference server, not this host):
 
 1. Storage such as a git server, file server, torrent downloader, etc.
 1. Back up my personal data with restic; the data is encrypted on the client.

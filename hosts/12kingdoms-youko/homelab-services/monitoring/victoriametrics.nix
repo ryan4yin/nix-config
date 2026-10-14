@@ -6,10 +6,7 @@
 let
   # Powered-off hosts (SBCs) plus shoukei (exporter disabled on the
   # machine); remove entries when they come back online.
-  # `aquamarine` is decommissioned: its IP now lives on youko's bridge, so
-  # scraping it would relabel youko's metrics as aquamarine.
   offlineHosts = [
-    "aquamarine"
     "shoukei"
     "suzu"
     "suzi"
@@ -25,6 +22,7 @@ let
   # `vars/networking.nix`.
   physicalHosts = [
     "ai"
+    "aquamarine"
     "shoryu"
     "shushou"
     "youko"

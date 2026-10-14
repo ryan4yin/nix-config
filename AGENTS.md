@@ -99,9 +99,9 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
   password prompt; `just darwin-rollback` switches the macOS generation on the machine you are on,
   and a bare `sudo systemctl restart <unit>` activates a running service the same way. The user runs
   these, not an agent.
-- `just shoryu`, `just shushou`, `just youko`, `just ruby`, `just kana`, `just lab`,
-  `just k3s-test`, and `just col <tag>` activate systems through Colmena. Use the narrower recipe
-  that matches the intended host scope.
+- `just shoryu`, `just shushou`, `just youko`, `just aquamarine`, `just ruby`, `just kana`,
+  `just lab`, `just k3s-test`, and `just col <tag>` activate systems through Colmena. Use the
+  narrower recipe that matches the intended host scope.
 - `just microvm-deploy <guest> <physical-host>` installs one MicroVM guest's runner on the physical
   host and restarts its unit there. A later host activation re-points the guest at the runner baked
   into the host's system; see WA-026 in [WORKAROUNDS.md](./WORKAROUNDS.md) before deploying. Deploy
