@@ -1,5 +1,4 @@
 {
-  pkgs,
   ...
 }:
 {
@@ -18,34 +17,8 @@
   '';
   boot.extraModulePackages = [ ];
 
-  # Intel Graphics
-  # https://wiki.nixos.org/wiki/Intel_Graphics
-
-  services.xserver.videoDrivers = [ "modesetting" ];
-
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      # Required for modern Intel GPUs (Xe iGPU and ARC)
-      intel-media-driver # VA-API (iHD) userspace
-      vpl-gpu-rt # oneVPL (QSV) runtime
-
-      # Optional (compute / tooling):
-      intel-compute-runtime # OpenCL (NEO) + Level Zero for Arc/Xe
-    ];
-  };
-
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "iHD"; # Prefer the modern iHD backend
-  };
-
-  # May help if FFmpeg/VAAPI/QSV init fails (esp. on Arc with i915):
+  # The i5-13600KF has no iGPU; the RTX 4090 and vkms are the DRM devices.
   hardware.enableRedistributableFirmware = true;
-  # (dropped) `i915.enable_guc=3`: i915's `enable_guc` is a "dangerous" option
-  # (it taints the kernel), and since Alder Lake the driver already auto-enables
-  # HuC + GuC submission on non-TGL/RKL Gen12+ platforms -- including this Arrow
-  # Lake-S iGPU, where auto = `HuC | GuC submission` = 3. Re-add only if
-  # VAAPI/QSV init regresses.
 
   # May help services that have trouble accessing /dev/dri (e.g., jellyfin/plex):
   # users.users.<service>.extraGroups = [ "video" "render" ];
