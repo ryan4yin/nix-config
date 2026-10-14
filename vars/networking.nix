@@ -44,8 +44,10 @@ rec {
   # monitoring skip those entries.
   hostsAddr = {
     ai = {
-      # Desktop PC
-      iface = "enp130s0";
+      # Desktop PC. `iface` is only for the two consumers that need one exact name
+      # — mihomo's DNS takeover hook and the Noctalia net-speed widget; networkd
+      # matches the wired interface by its `en*` prefix (hosts/idols-ai/default.nix).
+      iface = "enp4s0";
       ipv4 = "192.168.5.100";
       ipv6 = "fe80::10"; # Link-local Address
     };
