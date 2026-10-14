@@ -36,9 +36,14 @@ def main [
     | insert external-ui "ui"
     | insert external-ui-url $UI_URL
     | update secret "GATEWAY-SECRET-PLACEHOLDER"
-    # the base leaves the stack at upstream's default; this box has run the kernel stack for months
-    | upsert tun.stack "mixed"
+    # The gateway uses nftables TProxy for LAN traffic; its desktop-style TUN
+    # auto-route would capture the gateway's own DIRECT IPv6 dials again.
+    | upsert tun.enable false
+    | upsert tun.auto-route false
     | update tun.strict-route false
+    # TProxy handles fake IPv4 and IPv6 destinations when the desktop TUN
+    # auto-route is disabled; fake-IP preserves the domain mapping for LAN flows.
+    | upsert dns.enhanced-mode "fake-ip"
     # the desktop's resolver is loopback; a gateway serves the LAN instead
     | update dns.listen ":1053"
     # LAN clients that use DoH dial the IPs they resolved; sniff so the node dials a name

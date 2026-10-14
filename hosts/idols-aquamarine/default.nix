@@ -74,24 +74,6 @@ in
     useDHCP = false;
   };
 
-  # suzi's fake-ip DNS hands out AAAA records whose IPv6 path does not work: a
-  # `curl -6` to a registry returns 502 or times out, while `curl -4` answers in
-  # 0.1 s. Clients that try the AAAA first (podman, git, pip) then hang on the
-  # handshake, which is why docker.io, github.com and pypi.org looked blocked
-  # here. These are RFC 6724's default precedences with the IPv4-mapped row
-  # raised, so IPv4 sorts first; glibc drops its whole built-in table as soon as
-  # the file lists any entry, hence spelling all of it out.
-  #
-  # The real fix belongs on that gateway: stop answering AAAA for proxied names
-  # (`dns.ipv6: false` in mihomo; the module README says the same).
-  networking.getaddrinfo.precedence = {
-    "::1/128" = 50;
-    "::/0" = 40;
-    "2002::/16" = 30;
-    "::/96" = 20;
-    "::ffff:0:0/96" = 100;
-  };
-
   # A `boot.kernel.sysctl` that disabled IPv6 was removed on 2026-10-14: networkd
   # re-enables it on the wired link for the `DHCP = "ipv6"`/`IPv6AcceptRA` settings
   # below, so it never applied and the AAAA attempt already fails at once (WA-034).

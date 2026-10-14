@@ -6,7 +6,7 @@
   gpuRecoveryEnabled = true;
   aspmDisabled = true;
   cStatesCapped = true;
-  prefersIpv4 = true;
+  nativeIpv6Preference = true;
   sourceCheckoutsPersistent = true;
   rootlessPodmanEnabled = true;
   stableKernel = true;
