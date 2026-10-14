@@ -71,6 +71,11 @@ not a package: update it by hand, validate the live config with the new core (`m
 -f <candidate>`) before swapping, and keep the previous binary. The release ships no checksums, so TLS
 plus `-v` is the whole verification.
 
+Gateway mode contract: the tested working combinations are nftables TProxy with both `tun.enable`
+and `tun.auto-route` disabled, using either `redir-host` or `fake-ip` DNS. This generator selects
+`fake-ip` because it preserves more domain information. Do not combine LAN TProxy with the desktop
+TUN auto-route: in this gateway topology it can recapture fake IPv6 dials and cause timeouts.
+
 ## Why generate
 
 `proxy-provider` imports proxies only — a subscription's rules and groups are dropped by the core.
