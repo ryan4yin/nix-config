@@ -51,6 +51,8 @@ in
     inherit (myvars.networking) nameservers;
   };
 
+  modules.networking.mihomo.resolvedIntegration = true;
+
   fileSystems."/btr_pool" = {
     device = "/dev/disk/by-uuid/c2e8b249-240e-4eef-bf4e-81e7dbbf4887";
     fsType = "btrfs";

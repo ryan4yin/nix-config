@@ -138,6 +138,17 @@ targets instead of writing a config the core rejects.
   `hosts/idols-ai/default.nix`), prefixed with `+` to run outside the unit sandbox. Never set link
   DNS statically to mihomo: a dead mihomo would take DNS down with it, and resolved does not fall
   back.
+- On shoukei, `modules.networking.mihomo.resolvedIntegration` enables resolved and the
+  NetworkManager resolved backend. Once DNS is listening, the service registers `127.0.0.1:1053` and
+  `~.` on `Meta`, which NetworkManager leaves unmanaged. Wi-Fi reconnects can update their own DNS
+  without overwriting this route. Stopping mihomo reverts only `Meta`; removing the TUN also removes
+  its DNS configuration, leaving the physical links' DNS available. More-specific VPN DNS routes
+  still win; another VPN claiming `~.` (including Tailscale's full DNS override) would share the
+  catch-all and must not be used concurrently. This relies on mihomo's default `Meta` device name
+  and the generator's local DNS port; apply TUN changes with a service restart so the DNS hook runs
+  for the new interface. After activation, verify normal and reconnected Wi-Fi queries return fake
+  IPs, and that stopping mihomo restores network DNS. See
+  [systemd's VPN DNS routing guide](https://github.com/systemd/systemd/blob/main/docs/RESOLVED-VPNS.md).
 
 ## Steam download region
 
