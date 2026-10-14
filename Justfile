@@ -208,7 +208,7 @@ reset-launchpad:
 [linux]
 [group('homelab')]
 col tag mode="switch":
-  colmena apply {{mode}} --on '@{{tag}}' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@{{tag}}' --verbose --show-trace
 
 # Deploy one microVM guest: copy its runner to the physical host, then restart the
 # guest unit there. microvm.nix's sshSwitch step is not used: it switches the guest over
@@ -224,22 +224,27 @@ microvm-deploy guest host:
 [linux]
 [group('homelab')]
 lab mode="switch":
-  colmena apply {{mode}} --on '@virt-*' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@virt-*' --verbose --show-trace
 
 [linux]
 [group('homelab')]
 shoryu mode="switch":
-  colmena apply {{mode}} --on '@shoryu' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@shoryu' --verbose --show-trace
 
 [linux]
 [group('homelab')]
 shushou mode="switch":
-  colmena apply {{mode}} --on '@shushou' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@shushou' --verbose --show-trace
 
 [linux]
 [group('homelab')]
 youko mode="switch":
-  colmena apply {{mode}} --on '@youko' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@youko' --verbose --show-trace
+
+[linux]
+[group('homelab')]
+aquamarine mode="switch":
+  colmena apply {{mode}} --build-on-target --on '@aquamarine' --verbose --show-trace
 
 ############################################################################
 #
@@ -250,12 +255,12 @@ youko mode="switch":
 [linux]
 [group('homelab')]
 ruby mode="switch":
-  colmena apply {{mode}} --on '@ruby' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@ruby' --verbose --show-trace
 
 [linux]
 [group('homelab')]
 kana mode="switch":
-  colmena apply {{mode}} --on '@kana' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@kana' --verbose --show-trace
 
 ############################################################################
 #
@@ -266,7 +271,7 @@ kana mode="switch":
 [linux]
 [group('homelab')]
 k3s-test mode="switch":
-  colmena apply {{mode}} --on '@k3s-test-*' --verbose --show-trace
+  colmena apply {{mode}} --build-on-target --on '@k3s-test-*' --verbose --show-trace
 
 # =================================================
 #
@@ -282,14 +287,14 @@ dsh-web:
   # dsh's web fetch refuses a DNS answer it does not call public and fake-ip answers
   # with 198.18.0.0/15, so a proxied hop makes mihomo resolve the origin instead.
   # That makes mihomo a dependency of every Node fetch the harness makes, so it has
-  # to stop at the LAN: without no_proxy this host's own llama-swap endpoint goes
-  # through it too. Node reads only lowercase `no_proxy` and matches exact hosts,
-  # not CIDR; curl and Go do honor CIDR.
+  # to stop at the LAN: without no_proxy the llama-swap endpoint (aquamarine,
+  # 192.168.5.101) goes through it too. Node reads only lowercase `no_proxy` and
+  # matches exact hosts, not CIDR; curl and Go do honor CIDR.
   with-env {
     HTTPS_PROXY: "http://127.0.0.1:7897"
     HTTP_PROXY: "http://127.0.0.1:7897"
-    no_proxy: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-    NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    no_proxy: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.101,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.101,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
   } { ^dsh web --no-open }
 
 # Render the mihomo config from this repo and validate it with the live core.
