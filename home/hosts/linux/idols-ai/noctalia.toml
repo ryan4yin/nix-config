@@ -1,6 +1,9 @@
 # The default total counts packets on both Mihomo's TUN and the physical uplink.
+# Noctalia matches an exact name and takes no pattern, so the wired NIC is named
+# here and in `hostsAddr.ai.iface`; `idols-ai-net` asserts each widget separately.
+# networkd itself matches the `en*` prefix.
 [widget.net_rx]
-interface = "enp130s0"
+interface = "enp4s0"
 
 [widget.net_tx]
-interface = "enp130s0"
+interface = "enp4s0"
