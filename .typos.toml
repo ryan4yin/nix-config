@@ -63,4 +63,8 @@ extend-ignore-re = [
   # checker wants `also`, and the pre-commit hook rewrites it.
   "als",
   "ALS",
+
+  # ROCm's `HSA_OVERRIDE_GFX_VERSION` (Heterogeneous System Architecture); the
+  # dictionary wants "HAS".
+  "HSA",
 ]

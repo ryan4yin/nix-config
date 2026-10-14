@@ -10,34 +10,40 @@ This directory contains all host-specific configurations for my NixOS and macOS 
 
 Named after characters from "Oshi no Ko":
 
-| Host    | Platform        | Hardware                                | Purpose            | Status    |
-| ------- | --------------- | --------------------------------------- | ------------------ | --------- |
-| `ai`    | NixOS           | Ultra 7 270K Plus + RTX 4090, 128G DDR5 | Gaming & Daily Use | ✅ Active |
-| `kana`  | NixOS (libvirt) | Virtual                                 | Run AI Agents      | ✅ Active |
-| `ruby`  | NixOS (libvirt) | Virtual                                 | Run AI Agents      | ✅ Active |
-| `akane` | NixOS (aarch64) | Virtual (UTM)                           | aarch64 test VM    | ✅ Active |
+| Host         | Platform        | Hardware                                             | Purpose            | Status    |
+| ------------ | --------------- | ---------------------------------------------------- | ------------------ | --------- |
+| `ai`         | NixOS           | i5-13600KF + RTX 4090, 32G DDR5                      | Gaming & Daily Use | ✅ Active |
+| `aquamarine` | NixOS           | Ultra 7 270K Plus + 2x Radeon AI PRO R9700, 96G DDR5 | AI Inference       | ✅ Active |
+| `kana`       | NixOS (libvirt) | Virtual                                              | Run AI Agents      | ✅ Active |
+| `ruby`       | NixOS (libvirt) | Virtual                                              | Run AI Agents      | ✅ Active |
+| `akane`      | NixOS (aarch64) | Virtual (UTM)                                        | aarch64 test VM    | ✅ Active |
 
-On 2026-04-27 `ai` was rebuilt on a new platform. The MSI board and i5-13600KF it was added with in
-2023-05 (the host was originally named `msi-rtx4090`) gave way to the Colorful CVN Z890 ARK FROZEN +
-Intel Core Ultra 7 270K Plus. The traces in the history are PR #257 (the NIC moved from `enp5s0` to
-`enp130s0`) and PR #258 (Niri output names renamed, `hardware-intel.nix` added). The kernel moved to
-`linuxPackages_latest` in `77ca37ea`, the same day but outside #258. The 2×48G DDR5 kit was already
-in place at that point; the repo has no record of when it went in.
+On 2026-04-27 `ai` was rebuilt on a new platform. The MSI board it was added with in 2023-05, with
+the i5-13600KF (the host was originally named `msi-rtx4090`), gave way to the Colorful CVN Z890 ARK
+FROZEN + Intel Core Ultra 7 270K Plus. The traces in the history are PR #257 (the NIC moved from
+`enp5s0` to `enp130s0`) and PR #258 (Niri output names renamed, `hardware-intel.nix` added). The
+kernel moved to `linuxPackages_latest` in `77ca37ea`, the same day but outside #258. The 2×48G DDR5
+kit was already in place at that point; the repo has no record of when it went in.
 
 On 2026-10-06 `ai` grew from 2×48G (96G) to 2×48G + 2×16G (128G) across all four DIMM slots, at
 DDR5-4800 with XMP off — the only stable setting with four DIMMs on this board. The 16G pair must be
-installed first; with the 48G pair in first the board does not POST. The bring-up order, the BIOS
-settings, the stress-test recipe, and how to recover a board that will not POST are in
-[`idols-ai/MIXED-MEMORY.md`](./idols-ai/MIXED-MEMORY.md).
+installed first; with the 48G pair in first the board does not POST. It did run, in stretches of one
+to two days at a time, before a sudden hard freeze, and resuming from suspend was unreliable too;
+the stress test passed and no BIOS setting, DIMM or IMC fault was ever isolated, so 128G in four
+DIMMs stayed untrusted.
+
+On 2026-10-13 that platform was split in two. The Z890 board, the 270K Plus, the 2×48G kit and two
+Radeon AI PRO R9700 cards became `aquamarine`, a headless inference server; `ai` went back to the
+MSI MAG B760M MORTAR board with the i5-13600KF, the 2×16G kit and the RTX 4090. `aquamarine` boots
+from the NVMe that used to be `ai`'s `/data` disk. Its name and the address `192.168.5.101` are
+reused from the `aquamarine` VM retired on 2026-09-21; that VM's services still run directly on
+`youko` (`hosts/12kingdoms-youko/homelab-services/`). Hardware, install and runbook:
+[`idols-aquamarine/README.md`](./idols-aquamarine/README.md).
 
 ##### Retired
 
-| Host         | Platform        | Hardware | Purpose               | Status     |
-| ------------ | --------------- | -------- | --------------------- | ---------- |
-| `aquamarine` | NixOS (libvirt) | Virtual  | Monitoring & Services | ⚪ Retired |
-
-`aquamarine` is retired; its services now run directly on `youko`
-(`hosts/12kingdoms-youko/homelab-services/`).
+_No physical host in this group is retired. The `aquamarine` VM (NixOS on libvirt, monitoring and
+services) was retired on 2026-09-21 and its name was reused for the inference server above._
 
 #### `darwin` - macOS Systems
 
@@ -124,7 +130,7 @@ just build-host <host>
 
 `eval-host` only evaluates the configuration. `build-host` builds the system closure without
 activating it. Host activation is always explicit: Colmena (`just shoryu`, `just shushou`,
-`just youko`) from another machine, or `just local` on the machine itself.
+`just youko`, `just aquamarine`) from another machine, or `just local` on the machine itself.
 
 ## Distributed Building
 

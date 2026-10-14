@@ -48,8 +48,8 @@ nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols
 # Mount only (e.g. after first format, without wiping):
 # nix run github:nix-community/disko -- --mode mount ../hosts/idols-ai/disko-fs.nix
 
-# the separate data disk (mounts at /data):
-nix run github:nix-community/disko -- --mode destroy,format,mount ../hosts/idols-ai/disko-fs-data.nix
+# Other hosts keep their own layout file. The inference server's root disk is installed from a
+# running host, not from this ISO flow: see ../hosts/idols-aquamarine/README.md for the order.
 
 # setup the automatic unlock via the tpm2 chip
 # find the LUKS partition with: lsblk -f
