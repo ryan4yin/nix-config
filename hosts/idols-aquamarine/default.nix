@@ -74,8 +74,6 @@ in
     useDHCP = false;
   };
 
-  # IPv6 stays native on aqua. The gateway returns real AAAA records and handles
-  # LAN traffic with TProxy, so this host does not need an IPv4 precedence override.
   # A `boot.kernel.sysctl` that disabled IPv6 was removed on 2026-10-14: networkd
   # re-enables it on the wired link for the `DHCP = "ipv6"`/`IPv6AcceptRA` settings
   # below, so it never applied and the AAAA attempt already fails at once (WA-034).
