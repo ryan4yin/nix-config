@@ -25,9 +25,11 @@ in
   aspmDisabled = builtins.elem "pcie_aspm=off" cfg.boot.kernelParams;
   cStatesCapped = builtins.elem "processor.max_cstate=2" cfg.boot.kernelParams;
 
-  # suzi's fake-ip DNS returns AAAA records with no working IPv6 path, so the
-  # generated gai.conf has to sort IPv4 first (see ./default.nix).
-  prefersIpv4 = lib.hasInfix "precedence ::ffff:0:0/96 100" cfg.environment.etc."gai.conf".text;
+  # Aqua uses native IPv6; the gateway returns real AAAA records instead of
+  # requiring a host-local IPv4 precedence workaround.
+  nativeIpv6Preference =
+    !(cfg.environment.etc ? "gai.conf")
+    || !lib.hasInfix "precedence ::ffff:0:0/96 100" cfg.environment.etc."gai.conf".text;
 
   # The Strata checkout lives under ~/src, which has to survive the tmpfs root
   # like ~/codes does.

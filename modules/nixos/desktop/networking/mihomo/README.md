@@ -62,12 +62,14 @@ Verge UI. Verge logs `Unregistered Clash configuration key "ipv6"` for the pin -
 still reaches the core.
 
 The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
-`gateway-config.nu` renders it from the same `sources.yaml` and `policy.yaml`. Its output carries
-the subscriptions and the private domains, so never commit it; the secret is filled in on the box,
-not here. Its binary is a static release build under `/usr/local/bin`, not a package: update it by
-hand, validate the live config with the new core (`mihomo -t -d /etc/mihomo -f <candidate>`) before
-swapping, and keep the previous binary. The release ships no checksums, so TLS plus `-v` is the
-whole verification.
+`gateway-config.nu` renders it from the same `sources.yaml` and `policy.yaml`. The gateway uses
+nftables TProxy for LAN traffic, disables the desktop TUN auto-route, and uses `redir-host` DNS with
+`dns.ipv6: true`: LAN clients receive real A/AAAA destinations, which the gateway TProxy can handle.
+Its output carries the subscriptions and the private domains, so never commit it; the secret is
+filled in on the box, not here. Its binary is a static release build under `/usr/local/bin`, not a
+package: update it by hand, validate the live config with the new core (`mihomo -t -d /etc/mihomo -f
+<candidate>`) before swapping, and keep the previous binary. The release ships no checksums, so TLS
+plus `-v` is the whole verification.
 
 ## Why generate
 
