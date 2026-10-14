@@ -41,9 +41,9 @@ def main [
     | upsert tun.enable false
     | upsert tun.auto-route false
     | update tun.strict-route false
-    # TProxy can handle real IPv6 destinations, while fake IPv6 addresses are
-    # a desktop TUN mechanism and time out on this gateway.
-    | upsert dns.enhanced-mode "redir-host"
+    # TProxy handles fake IPv4 and IPv6 destinations when the desktop TUN
+    # auto-route is disabled; fake-IP preserves the domain mapping for LAN flows.
+    | upsert dns.enhanced-mode "fake-ip"
     # the desktop's resolver is loopback; a gateway serves the LAN instead
     | update dns.listen ":1053"
     # LAN clients that use DoH dial the IPs they resolved; sniff so the node dials a name
