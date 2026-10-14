@@ -63,18 +63,20 @@ still reaches the core.
 
 The gateway (`suzi`, not a host in this flake) runs the same config with a fixed set of deltas --
 `gateway-config.nu` renders it from the same `sources.yaml` and `policy.yaml`. The gateway uses
-nftables TProxy, disables the desktop TUN auto-route, and uses `fake-ip` DNS with `dns.ipv6: true`:
-LAN clients receive stable fake A/AAAA mappings so mihomo retains the domain for routing and
-sniffing. Its output carries the subscriptions and the private domains, so never commit it; the
-secret is filled in on the box, not here. Its binary is a static release build under `/usr/local/bin`,
-not a package: update it by hand, validate the live config with the new core (`mihomo -t -d /etc/mihomo
--f <candidate>`) before swapping, and keep the previous binary. The release ships no checksums, so TLS
-plus `-v` is the whole verification.
+nftables TProxy, disables the desktop TUN auto-route, and uses `fake-ip` DNS with `dns.ipv6: false`:
+LAN clients receive fake A mappings so mihomo retains the domain for routing and sniffing while their
+traffic uses the working IPv4 TProxy path. The gateway withholds AAAA records because LAN IPv6
+transparent handling is unreliable on this gateway. Its output carries the subscriptions and the
+private domains, so never commit it; the secret is filled in on the box, not here. Its binary is a
+static release build under `/usr/local/bin`, not a package: update it by hand, validate the live
+config with the new core (`mihomo -t -d /etc/mihomo -f <candidate>`) before swapping, and keep the
+previous binary. The release ships no checksums, so TLS plus `-v` is the whole verification.
 
-Gateway mode contract: the tested working combinations are nftables TProxy with both `tun.enable`
-and `tun.auto-route` disabled, using either `redir-host` or `fake-ip` DNS. This generator selects
-`fake-ip` because it preserves more domain information. Do not combine LAN TProxy with the desktop
-TUN auto-route: in this gateway topology it can recapture fake IPv6 dials and cause timeouts.
+Gateway mode contract: keep nftables TProxy with both `tun.enable` and `tun.auto-route` disabled,
+and keep `dns.ipv6` disabled. The gateway currently withholds AAAA records because LAN IPv6
+transparent handling is unreliable; clients therefore use the working fake-IPv4 path. Do not combine
+LAN TProxy with the desktop TUN auto-route: in this gateway topology it can recapture fake dials and
+cause timeouts.
 
 ## Why generate
 
