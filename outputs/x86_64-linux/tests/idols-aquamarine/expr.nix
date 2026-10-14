@@ -52,11 +52,24 @@ in
   # Headless: no desktop session, no Home Manager.
   noHomeManager = !cfg ? home-manager.users;
 
-  # The board renames the wired NIC with the PCIe topology, so networkd matches the
-  # `en*` prefix; a name-based match leaves the host without an address.
-  staticAddressMatchesWiredInterface =
-    builtins.elem "${ipv4}/24" cfg.systemd.network.networks."10-lan".networkConfig.Address
-    && cfg.systemd.network.networks."10-lan".matchConfig.Name == [ "en*" ];
+  # wpa_supplicant authenticates the wireless link while networkd keeps the
+  # existing static address, route and DNS, even if the adapter is renamed.
+  staticAddressMatchesWifi =
+    let
+      wifi = cfg.systemd.network.networks."10-wifi";
+    in
+    cfg.networking.wireless.enable
+    && cfg.networking.wireless.allowAuxiliaryImperativeNetworks
+    && builtins.any (
+      d: d.directory == "/etc/wpa_supplicant"
+    ) cfg.preservation.preserveAt."/persistent".directories
+    && builtins.elem "${ipv4}/24" wifi.networkConfig.Address
+    && wifi.matchConfig.Name == [ "wl*" ]
+    && wifi.networkConfig.DNS == [ myvars.networking.proxyGateway ]
+    && builtins.elem {
+      Destination = "0.0.0.0/0";
+      Gateway = myvars.networking.proxyGateway;
+    } wifi.routes;
 
   # Ephemeral root with the persistent volume required at boot, as on `ai`.
   rootIsTmpfs = cfg.fileSystems."/".fsType or null == "tmpfs";

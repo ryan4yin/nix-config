@@ -54,7 +54,7 @@ rec {
     aquamarine = {
       # Physical AI inference server. Reuses the retired VM's address, so check
       # that the router still reserves .101 for this machine. No `iface`: the host
-      # matches the wired interface by its `en*` prefix (hosts/idols-aquamarine/).
+      # matches the wireless interface by its `wl*` prefix (hosts/idols-aquamarine/).
       ipv4 = "192.168.5.101";
     };
     ruby = {

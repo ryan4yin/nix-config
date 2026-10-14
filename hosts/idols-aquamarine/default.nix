@@ -2,6 +2,7 @@
   disko,
   myvars,
   lib,
+  pkgs,
   ...
 }:
 #############################################################
@@ -13,7 +14,7 @@
 let
   hostName = "aquamarine"; # Define your hostname.
 
-  inherit (myvars.networking) proxyGateway proxyGateway6 nameservers;
+  inherit (myvars.networking) proxyGateway proxyGateway6;
   inherit (myvars.networking.hostsAddr.${hostName}) ipv4;
   ipv4WithMask = "${ipv4}/24";
 in
@@ -93,30 +94,32 @@ in
   };
 
   # A `boot.kernel.sysctl` that disabled IPv6 was removed on 2026-10-14: networkd
-  # re-enables it on the wired link for the `DHCP = "ipv6"`/`IPv6AcceptRA` settings
+  # re-enables it on the Wi-Fi link for the `DHCP = "ipv6"`/`IPv6AcceptRA` settings
   # below, so it never applied and the AAAA attempt already fails at once (WA-034).
 
   networking.useNetworkd = true;
   systemd.network.enable = true;
+  networking.wireless.enable = true;
+  networking.wireless.allowAuxiliaryImperativeNetworks = true;
+  networking.wireless.extraConfig = "ctrl_interface=/run/wpa_supplicant";
+  # nixpkgs makes the auxiliary profile world-readable; it contains Wi-Fi credentials.
+  systemd.services.wpa_supplicant.serviceConfig.ExecStartPre = lib.mkAfter [
+    "+${pkgs.coreutils}/bin/chmod 0600 /etc/wpa_supplicant/imperative.conf"
+  ];
 
-  # Predictable names follow the PCIe topology, so match the `en*` prefix instead of
-  # a name; one wired port, so one link.
-  systemd.network.networks."10-lan" = {
-    matchConfig.Name = [ "en*" ];
+  # wpa_supplicant authenticates the Wi-Fi link; networkd owns its static address
+  # and routes. Match the prefix as PCIe topology may rename the adapter.
+  systemd.network.networks."10-wifi" = {
+    matchConfig.Name = [ "wl*" ];
     networkConfig = {
       Address = [
         ipv4WithMask
       ];
-      # DNS goes to the proxy gateway, which resolves through the proxy;
-      # `nameservers` is the plain upstream-DNS alternative.
-      # DNS = nameservers;
+      # DNS goes to the proxy gateway, which resolves through the proxy.
       DNS = [ proxyGateway ];
       DHCP = "ipv6"; # enable DHCPv6 only, so we can get a GUA.
       IPv6AcceptRA = true; # for Stateless IPv6 Autoconfiguration (SLAAC)
       LinkLocalAddressing = "ipv6";
-      # The RTL8125BG flaps carrier on link re-training; without this networkd
-      # tears the static address and route down and the host drops off the LAN.
-      IgnoreCarrierLoss = "10s";
     };
     routes = [
       {

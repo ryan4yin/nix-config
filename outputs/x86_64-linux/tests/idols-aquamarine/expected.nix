@@ -16,7 +16,7 @@
   collectorFlagsUnique = true;
   inferenceUserCanRender = true;
   noHomeManager = true;
-  staticAddressMatchesWiredInterface = true;
+  staticAddressMatchesWifi = true;
   rootIsTmpfs = true;
   stateIsPersistent = true;
   luksMapperNamed = true;

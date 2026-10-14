@@ -29,6 +29,7 @@ in
   preservation.preserveAt."/persistent" = {
     directories = [
       "/etc/ssh"
+      "/etc/wpa_supplicant" # local Wi-Fi profile, not stored in the public flake
       "/etc/nix/inputs"
       "/etc/secureboot" # lanzaboote - secure boot (see ./secureboot.nix)
 

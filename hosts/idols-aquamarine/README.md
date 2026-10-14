@@ -13,7 +13,7 @@ that name was decommissioned; this is a different, physical machine that reuses 
 | Memory | 2x48G JUHOR (96G), 4800 MT/s                          | the 2x16G kit stayed with `ai`                          |
 | GPU    | 2x AMD Radeon AI PRO R9700, 32G each (RDNA4, gfx1201) | 64G of VRAM total                                       |
 | Root   | Fanxiang S790 2TB                                     | was `ai`'s `/data` disk until 2026-10-13                |
-| NIC    | Realtek RTL8125BG 2.5GbE, `enp133s0` today            | matched by the `en*` prefix                             |
+| NIC    | Realtek RTL8125BG 2.5GbE, `enp133s0` today            | retained for local recovery                             |
 
 Two things about this board set the ceiling for the GPU work:
 
@@ -201,9 +201,44 @@ and they belong together: the machine comes back on the new board with this disk
    the `/etc/ssh` copy under `/persistent` is incomplete — repeat step 5's check from the console
    before deploying anything else.
 
-   `ip addr` must show `192.168.5.101` on the wired interface. The networkd match uses the `en*`
-   prefix, so a renamed NIC cannot strand the host; if the address is missing, check the cable and
-   `ip -br link` first.
+   `ip addr` must show `192.168.5.101` on the Wi-Fi interface. If it is missing, check `ip -br link`
+   and the association status with `wpa_cli -i <interface> status`.
+
+## Wi-Fi setup and cutover
+
+networkd assigns `192.168.5.101/24` to interfaces matching `wl*`, with `192.168.5.178` as the IPv4
+gateway and DNS server. IPv6 still uses DHCPv6/SLAAC and the existing link-local gateway.
+`wpa_supplicant` handles Wi-Fi authentication; its local profile directory `/etc/wpa_supplicant` is
+persisted across reboots. The Wi-Fi adapter model and actual interface name have not been recorded
+here.
+
+1. Use the local console for the first cutover. Check `ip -br link` for a `wl*` wireless interface,
+   keep the previous wired generation available, then run `just local`. This removes the wired
+   static address and can disconnect SSH. On a fresh installation, complete the Wi-Fi setup before
+   the remote first-boot checks.
+2. Edit `sudoedit /etc/wpa_supplicant/imperative.conf` on the host and add the profile below,
+   replacing the placeholders locally. Do not enter the password in shell arguments, commit this
+   file, or share its contents. The service creates the file and restricts it to `0600`, owned by
+   `wpa_supplicant`.
+
+   ```conf
+   network={
+       ssid="<home SSID>"
+       psk="<Wi-Fi password>"
+   }
+   ```
+
+   Run `sudo systemctl restart wpa_supplicant` after saving. If the network uses enterprise
+   authentication or requires WPA3-only settings, use the corresponding wpa_supplicant profile
+   rather than this WPA-Personal example.
+
+3. Verify `sudo wpa_cli -i <interface> status` reports `wpa_state=COMPLETED`,
+   `ip -4 addr show dev <interface>` shows `192.168.5.101/24`, and `ip -4 route` shows a default
+   route through `192.168.5.178` on Wi-Fi. Check `resolvectl status <interface>` and SSH from
+   another LAN host. Confirm `stat -c '%a %U:%G' /etc/wpa_supplicant/imperative.conf` shows
+   `600 wpa_supplicant:wpa_supplicant`. Reboot and repeat these checks before considering the
+   cutover complete. If Wi-Fi fails, select the previous wired generation from the console or boot
+   menu; rollback may require a reboot.
 
 ## After the first boot
 
