@@ -1,13 +1,10 @@
 // Outputs are matched by monitor manufacturer/model/serial instead of the
 // connector name: the kernel/NVIDIA driver decides DRM connector numbering by
-// probe order, so Intel's connectors were renamed DP-1 -> DP-4 and
-// HDMI-A-2 -> HDMI-A-3 on the 2026-09 nixpkgs update. Run `niri msg outputs`
-// to read the exact "make model serial" string.
-debug {
-    // Keep desktop rendering and ordinary applications on the Intel iGPU.
-    // Physical outputs remain on the NVIDIA GPU and use cross-GPU scanout.
-    render-drm-device "/dev/dri/by-path/pci-0000:00:02.0-render"
-}
+// probe order. Run `niri msg outputs` to read the exact "make model serial"
+// string.
+//
+// No renderer pinning: the RTX 4090 is the only GPU here, so niri's own device
+// choice and the outputs' scanout are the same card.
 
 output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000" {
     // Uncomment this line to disable this output.

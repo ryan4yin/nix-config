@@ -67,7 +67,7 @@ Manage paired headsets with `wivrnctl list-paired`, `wivrnctl rename`, or `wivrn
 
 ## Service, settings and logs
 
-Manage the server through systemd so starts retain NVIDIA offload and the CAP_SYS_NICE wrapper:
+Manage the server through systemd so starts retain the CAP_SYS_NICE wrapper:
 
 ```console
 systemctl --user restart wivrn
@@ -83,26 +83,26 @@ configuration schema, then restart the service. The NixOS module also supports d
 configuration; an enabled declarative config takes precedence over the user file. Headset-side
 settings remain available in the headset application.
 
-## Launch games on the RTX 4090
+## Games and the RTX 4090
 
-Set this in each VR game's Steam Properties -> Launch Options:
+The RTX 4090 is the only GPU on this host, so the WiVRn server, the compositor and the game land on
+the same card by themselves.
+
+That is not how it used to be. While `ai` ran the Z890 board, its Arrow Lake iGPU did the desktop
+rendering under PRIME offload, and a game left on the iGPU while the server ran on the dGPU failed
+with `vkAllocateMemory: VK_ERROR_OUT_OF_DEVICE_MEMORY` and `xrt_comp_create_swapchain failed` in
+`journalctl --user -u wivrn`, followed by an xrizer panic that killed the game. The fix then was the
+variables below, written out as Steam launch options because Steam runs inside a bubblewrap sandbox
+that does not mount `/run`, so it cannot see `/run/current-system/sw/bin/nvidia-offload`:
 
 ```text
 __NV_PRIME_RENDER_OFFLOAD=1 __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0 __GLX_VENDOR_LIBRARY_NAME=nvidia __VK_LAYER_NV_optimus=NVIDIA_only %command%
 ```
 
-These are the variables the system's `nvidia-offload` wrapper sets, written out because Steam runs
-inside a bubblewrap sandbox that does not mount `/run`, so it cannot see
-`/run/current-system/sw/bin/nvidia-offload`.
-
-The game has to land on the same GPU as the server. A game left on the Intel iGPU makes the server's
-swapchain allocation fail, which shows up as `vkAllocateMemory: VK_ERROR_OUT_OF_DEVICE_MEMORY` and
-`xrt_comp_create_swapchain failed` in `journalctl --user -u wivrn`, followed by an xrizer panic that
-kills the game. This applies when launching from the headset too: WiVRn starts applications in
-separate systemd units, and an already running Steam client keeps its own environment, so neither
-path inherits the server's GPU environment. For non-Steam applications, start them under
-`nvidia-offload` from a normal shell. Select a Proton version according to the game's compatibility
-reports; GE-Proton or DW-Proton alone does not guarantee VR compatibility.
+It mattered for headset-launched games too: WiVRn starts applications in separate systemd units, and
+an already running Steam client keeps its own environment. Re-add those variables only if a second
+GPU comes back. Select a Proton version according to the game's compatibility reports; GE-Proton or
+DW-Proton alone does not guarantee VR compatibility.
 
 ## USB connection
 
@@ -131,9 +131,8 @@ mapping after disconnecting USB.
 
 The package enables Vulkan Video encoding but does not enable NVENC. WiVRn 26.9 probes Vulkan
 encoding before falling back to VAAPI or x264 when NVENC is absent. Check the journal's encoder
-configuration after connecting: offload variables alone do not prove hardware encoding. Vulkan
-encoding in this release supports H.264/H.265, not AV1. NVENC/AV1 requires a CUDA-enabled WiVRn
-build.
+configuration after connecting: GPU activity alone does not prove hardware encoding. Vulkan encoding
+in this release supports H.264/H.265, not AV1. NVENC/AV1 requires a CUDA-enabled WiVRn build.
 
 - Pair, connect, launch a game, and check both compositor and game GPU usage:
   `nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv` has to list both

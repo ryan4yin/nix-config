@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   # WiVRn supplies the OpenXR runtime; xrizer translates OpenVR games.
-  # The server uses the host GPU environment from hardware-nvidia.nix.
+  # The RTX 4090 is the only GPU, so the server needs no GPU environment of its own.
   services.wivrn = {
     enable = true;
     autoStart = false; # Start only when requested with just vr.
@@ -24,8 +24,8 @@
       '';
     };
 
-    # CAP_SYS_NICE for the server. Games need their own PRIME offload: WiVRn
-    # starts them in separate units, which do not inherit this environment.
+    # CAP_SYS_NICE for the server. WiVRn starts games in separate units, and an
+    # already running Steam client keeps its own environment.
     highPriority = true;
     steam.importOXRRuntimes = true;
   };
