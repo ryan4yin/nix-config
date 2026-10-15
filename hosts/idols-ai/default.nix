@@ -81,7 +81,16 @@ in
   services.smartd.enable = true;
 
   # QEMU/KVM(HostCpuOnly) for local VMs.
-  environment.systemPackages = [ pkgs.qemu_kvm ];
+  environment.systemPackages = [
+    pkgs.qemu_kvm
+    pkgs.ddcutil # external monitor control over DDC/CI (brightness, input source)
+  ];
+
+  # The external monitors answer DDC/CI on /dev/i2c-*: this loads i2c-dev and installs the
+  # udev rules that grant the i2c group and locally logged-in users access, so `ddcutil`
+  # works without sudo.
+  # https://github.com/ryan4yin/nix-config/issues/447
+  hardware.i2c.enable = true;
 
   # Re-evaluate after the Insta360 Link firmware or the kernel's uvcvideo changes.
   powerManagement.resumeCommands = ''
