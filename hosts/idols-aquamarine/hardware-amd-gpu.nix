@@ -78,10 +78,10 @@
     description = "Cap the power limit of every amdgpu card at 250 W";
     wantedBy = [ "multi-user.target" ];
     after = [ "systemd-modules-load.service" ];
+    path = [ pkgs.coreutils ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      path = [ pkgs.coreutils ];
       ExecStart = pkgs.writeShellScript "amdgpu-power-cap" ''
         cap=250000000 # microwatts
         want=2 # both R9700s; this host has no other amdgpu device
