@@ -89,8 +89,10 @@
           capped=0
           for hwmon in /sys/class/hwmon/hwmon*; do
             [ "$(cat "$hwmon/name" 2>/dev/null)" = amdgpu ] || continue
-            if echo "$cap" > "$hwmon/power1_cap" 2>/dev/null &&
-              [ "$(cat "$hwmon/power1_cap")" = "$cap" ]; then
+            # The subshell keeps a rejected write from printing one shell error per retry; the
+            # summary below is the line an operator needs.
+            if (echo "$cap" > "$hwmon/power1_cap") 2>/dev/null &&
+              [ "$(cat "$hwmon/power1_cap" 2>/dev/null)" = "$cap" ]; then
               capped=$((capped + 1))
             fi
           done
