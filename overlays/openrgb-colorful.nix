@@ -1,6 +1,6 @@
 # OpenRGB has no Colorful motherboard driver, so aquamarine's ARGB header blinks with no way to set
 # it. This carries the controller from MR !3543 (`2F4C:1000`, Direct mode only) until upstream
-# releases it — see WA-035. https://github.com/ryan4yin/nix-config/issues/451
+# releases it — see WA-035.
 { ... }:
 _final: prev: {
   openrgb = prev.openrgb.overrideAttrs (old: {
