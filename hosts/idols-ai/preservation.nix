@@ -39,6 +39,10 @@ in
   # NOTE: preservation only mounts the directory/file list below to /persistent
   # If the directory/file already exists in the root filesystem you should
   # move those files/directories to /persistent first!
+  # Removing an entry stops its mount on the next activation, but leaves the empty
+  # root-owned mountpoint behind on the tmpfs root, so a Home Manager link into that
+  # path fails with "Permission denied" until it is removed once (`sudo rmdir
+  # <path>`); nothing recreates it afterwards.
   preservation.preserveAt."/persistent" = {
     directories = [
       "/etc/NetworkManager/system-connections"
