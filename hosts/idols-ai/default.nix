@@ -92,6 +92,13 @@ in
   # https://github.com/ryan4yin/nix-config/issues/447
   hardware.i2c.enable = true;
 
+  # The board's ARGB controller is a USB HID device (MSI Mystic Light, 1462:7e01). This
+  # module installs openrgb with its udev rules and runs `openrgb --server`, so the GUI and
+  # the CLI reach the board without root. `motherboard` needs no value here: it follows
+  # hardware.cpu.intel.updateMicrocode, which hardware-configuration.nix already sets.
+  # https://github.com/ryan4yin/nix-config/issues/448
+  services.hardware.openrgb.enable = true;
+
   # Re-evaluate after the Insta360 Link firmware or the kernel's uvcvideo changes.
   powerManagement.resumeCommands = ''
     # Insta360 Link may stay enumerated with a stalled UVC endpoint after S3 resume.
