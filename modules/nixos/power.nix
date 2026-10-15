@@ -1,4 +1,4 @@
-{ ... }:
+{ config, lib, ... }:
 {
   # TuneD - Tuning Profile Delivery Mechanism for Linux
   # A modern replacement for PPD(power-profiles-daemon), and the only power manager
@@ -20,4 +20,10 @@
 
   # Battery/AC state, used by the desktops; tuned-ppd was the other consumer.
   services.upower.enable = true;
+
+  # ppdSupport = false drops /etc/tuned/ppd.conf, but the tuned package ships its
+  # own tuned-ppd.service (WantedBy=graphical.target) which systemd.packages links
+  # regardless, so activation starts it, it fails on the missing config file and
+  # switch-to-configuration exits 4. Mask it.
+  systemd.units."tuned-ppd.service".enable = lib.mkIf (!config.services.tuned.ppdSupport) false;
 }
