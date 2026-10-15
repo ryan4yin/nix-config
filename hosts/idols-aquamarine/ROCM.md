@@ -3,8 +3,9 @@
 `aquamarine` runs Radeon AI PRO R9700 cards (Navi 48, RDNA4, PCI ID `1002:7551`, ROCm target
 `gfx1201`) as headless compute devices; the Intel iGPU drives the console. This note records which
 versions support the card, why amdgpu runtime power management leaves it unusable, and which
-decisions that produced. Claims are marked **verified** (primary source), **community-reported**, or
-**inference** (read from kernel source, not confirmed by a maintainer).
+decisions that produced. Claims are marked **verified** (primary source), **community-reported**,
+**measured here** (taken on this machine), or **inference** (read from kernel source, not confirmed
+by a maintainer).
 
 ## Versions
 
@@ -238,6 +239,9 @@ equivalent-generation consumer cards are "known to work", and never mentions
   `pp_od_clk_voltage`, and writes watts to hwmon `power1_cap` from a systemd oneshot. No NixOS
   module exists. **community-reported**
   ([tune_r9700.sh](https://github.com/stew675/r9700-setup/blob/HEAD/tune_r9700.sh))
+- **What a power cap costs here**: against the 300 W default, a 250 W cap costs roughly 4% of
+  prefill and decode throughput and a 230 W cap roughly 7%, the same order in both phases — measured
+  with a 27B model on the second card. **measured here**
 
 ## What this repository does, and what is still open
 
@@ -251,8 +255,10 @@ equivalent-generation consumer cards are "known to work", and never mentions
    `Fail to open libdrm_amdgpu.so` message only appeared while the card was wedged (see "ROCm
    userland in nixpkgs"). Expect `Card Series: N/A` until upstream names the R9700.
 5. `hardware.amdgpu.overdrive` stays off unless undervolting is wanted; if it is turned on, set
-   `ppfeaturemask = "0xfff7ffff"` (nixpkgs#564601). Power-cap scripting stays out of Nix.
-   `amdgpu.gpu_recovery=1` is set, because the driver default is auto/off except SRIOV.
+   `ppfeaturemask = "0xfff7ffff"` (nixpkgs#564601). A oneshot unit in `hardware-amd-gpu.nix` caps
+   both cards at 250 W through hwmon `power1_cap` to keep their fans quiet, and exits non-zero when
+   a card does not take the value; the cap needs no overdrive. `amdgpu.gpu_recovery=1` is set,
+   because the driver default is auto/off except SRIOV.
 6. **Open:** set `HIP_VISIBLE_DEVICES` (and `ROCR_VISIBLE_DEVICES` where honoured) so the iGPU is
    never selected; for llama.cpp prefer `--split-mode layer` or an RPC/pipeline split over tensor
    parallelism, and build with `-DGGML_HIP=ON -DGPU_TARGETS=gfx1201`, no `HSA_OVERRIDE_GFX_VERSION`.
