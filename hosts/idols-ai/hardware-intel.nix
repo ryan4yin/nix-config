@@ -9,7 +9,7 @@
     # Provide a connected DRM output when the NVIDIA-attached monitors are off.
     # Niri exposes it as Virtual-1 for headless Sunshine sessions.
     "vkms"
-    # Bind the board's NCT6687D SuperIO, otherwise fan RPM and PCH/VRM
+    # Bind the board's NCT6687D SuperIO, otherwise fan RPM and board
     # temperatures are missing.
     "nct6683"
   ];
