@@ -23,7 +23,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # Pinned to release tag v2.4.0 (not a branch); bump deliberately when needed.
     fcitx5-vinput = {
-      url = "github:xifan2333/fcitx5-vinput/v2.4.0";
+      url = "github:xifan2333/fcitx5-vinput/v2.4.2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";

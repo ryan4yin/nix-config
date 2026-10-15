@@ -174,16 +174,16 @@
         "sherpa-onnx": "sherpa-onnx"
       },
       "locked": {
-        "lastModified": 1790069778,
-        "narHash": "sha256-Fs3dTHfde74C4MXZLJWvhDY6fQUIrY2Qwcgnq59aKJ0=",
+        "lastModified": 1791980447,
+        "narHash": "sha256-jZxyxDEUYuGDh7c27yiGYn6BW0KzfgwX+HW9nXmvCoo=",
         "owner": "xifan2333",
         "repo": "fcitx5-vinput",
-        "rev": "eada49c62ddcb1a4efd7473794bad71a7cacc075",
+        "rev": "ac545c6c5ec1105f0c4ec8b54b21dd3a79a544a4",
         "type": "github"
       },
       "original": {
         "owner": "xifan2333",
-        "ref": "v2.4.0",
+        "ref": "v2.4.2",
         "repo": "fcitx5-vinput",
         "type": "github"
       }
