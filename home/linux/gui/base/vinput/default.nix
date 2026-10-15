@@ -40,6 +40,13 @@ in
         Type = "dbus";
         BusName = "org.fcitx.Vinput";
         ExecStart = "${vinput}/bin/vinput-daemon";
+
+        # Provider keys are `{{env.*}}` references the daemon resolves from its own environment,
+        # and a systemd user service inherits neither the interactive shell's environment nor any
+        # app's env file. No `-` prefix: a host without the file is misconfigured, not
+        # half-working, and the daemon logs "unset or empty" without it.
+        EnvironmentFile = "%h/.secrets/nushell-secrets.env";
+
         Restart = "on-failure";
         RestartSec = 3;
       };

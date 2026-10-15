@@ -264,7 +264,7 @@ in
           directory = ".gnupg";
           mode = "0700";
         }
-        # hand-edited secret config; Nix does not deploy it
+        # hand-edited secret config, plus the env file derived from it; Nix deploys neither
         {
           directory = ".secrets";
           mode = "0700";

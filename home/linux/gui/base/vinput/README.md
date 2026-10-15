@@ -26,6 +26,23 @@ systemctl --user restart vinput-daemon
 
 `vinput model list -a` lists the available registry models.
 
+## API keys
+
+Scene providers reference the DeepSeek key as `{{env.DEEPSEEK_API_KEY}}` (see `vinput scene list`),
+and the daemon resolves that from its own environment. A systemd user service inherits neither the
+interactive shell's environment nor any app's env file, so the unit reads
+`EnvironmentFile=%h/.secrets/nushell-secrets.env`. A missing file fails the unit; a file without the
+variable still starts, but every correction fails with
+`vinput-daemon: environment variable in api_key (...) for provider 'deepseek' is unset or empty`.
+
+```sh
+systemctl --user show -p EnvironmentFiles vinput-daemon   # which file the unit reads
+systemctl --user restart vinput-daemon                    # after the file changes
+```
+
+`~/.secrets` is bind-mounted from `/persistent` on the tmpfs-root host (see
+`hosts/idols-ai/preservation.nix`), so the file survives a reboot once it exists there.
+
 ## Persistence
 
 Models are stored in `~/.local/share/vinput/models/sherpa-onnx/` and the core config lives in
