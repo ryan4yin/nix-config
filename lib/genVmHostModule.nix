@@ -10,9 +10,9 @@ let
   ipv4WithMask = "${ipv4}/24";
 in
 {
-  # These VM hosts are always-on mini PCs, so pin TuneD's power-saving profile
-  # (power-biased EPP, cpufreq boost off) instead of the default balanced CPU
-  # policy; the MicroVMs they carry are idle most of the day.
+  # Physical machines only: these three always-on mini PCs hold their CPU at
+  # TuneD's power-saving profile (EPP biased to power, cpufreq boost off). A
+  # MicroVM guest has no EPP or boost of its own, so it never imports this module.
   imports = [ ../modules/nixos/power.nix ];
   services.tuned.recommend = {
     powersave = { };
