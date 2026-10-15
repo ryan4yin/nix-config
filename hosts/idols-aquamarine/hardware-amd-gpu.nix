@@ -72,7 +72,6 @@
   # Cap both cards at 220 W. amdgpu exposes the cap through hwmon in microwatts and accepts any
   # value inside [power1_cap_min, power1_cap_max] — 210-300 W on these cards. The set path
   # (amdgpu_dpm_set_power_limit) has no overdrive gate, so ppfeaturemask keeps its default.
-  # https://github.com/ryan4yin/nix-config/issues/449
   systemd.services.amdgpu-power-cap = {
     description = "Cap the power limit of every amdgpu card at 220 W";
     wantedBy = [ "multi-user.target" ];
