@@ -58,7 +58,10 @@ in
   };
 
   services.sunshine.enable = true;
-  services.tuned.ppdSettings.main.default = lib.mkForce "performance";
+  # inference server: keep the CPU pinned to the performance profile
+  services.tuned.recommend = {
+    throughput-performance = { };
+  };
 
   modules.btrbk.enable = true;
 
