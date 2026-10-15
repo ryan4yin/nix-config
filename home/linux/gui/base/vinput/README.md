@@ -43,13 +43,20 @@ systemctl --user restart vinput-daemon                    # after the file chang
 `~/.secrets` is bind-mounted from `/persistent` on the tmpfs-root host (see
 `hosts/idols-ai/preservation.nix`), so the file survives a reboot once it exists there.
 
-## Persistence
+## Where the config lives
 
-Models are stored in `~/.local/share/vinput/models/sherpa-onnx/` and the core config lives in
-`~/.config/vinput/config.json`. Both directories are bind-mounted from `/persistent` on the
-tmpfs-root hosts (see `hosts/idols-ai/preservation.nix`); without that they are wiped on every
-reboot and the daemon logs `Local ASR provider model is not configured`. Review model source and
-license before installing.
+`~/.config/vinput/config.json` is an out-of-store symlink to [config.json](./config.json) in this
+repository, so the edits vinput makes itself — the settings GUI, `vinput scene edit`,
+`vinput config set` — land in the checkout and show up in `git status`. That works because the
+daemon writes through a temporary file plus `rename` **after resolving symlinks**, so the link
+survives the write; a write that ever did replace it leaves a real file, and `force` in the module
+retakes the path on the next switch. Editing the file by hand needs `just niri`; editing it through
+vinput does not.
+
+Models are stored in `~/.local/share/vinput/models/sherpa-onnx/`, and that directory is bind-mounted
+from `/persistent` on the tmpfs-root hosts (see `hosts/idols-ai/preservation.nix`); without it the
+models are wiped on every reboot and the daemon logs `Local ASR provider model is not configured`.
+Review model source and license before installing.
 
 ## Diagnostics
 

@@ -11,3 +11,8 @@ temp
 # its YAML dumper wraps prose differently from prettier; formatting them here
 # would be undone on the next write.
 home/base/tui/agents/dsh/web
+
+# vinput dumps this one itself (4-space, keys in its own order) and follows the
+# out-of-store link to rewrite the checkout copy, so formatting it here would be
+# undone on the next edit.
+home/linux/gui/base/vinput/config.json

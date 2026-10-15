@@ -30,6 +30,14 @@ in
       force = true;
     };
 
+    # The daemon rewrites this itself (the GUI, `vinput scene edit`) and resolves symlinks before
+    # writing, so the link keeps those edits in the checkout instead of a read-only store copy.
+    # `force` retakes the path if a write ever leaves a real file there. See the README.
+    xdg.configFile."vinput/config.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/linux/gui/base/vinput/config.json";
+      force = true;
+    };
+
     systemd.user.services.vinput-daemon = {
       Unit = {
         Description = "Fcitx5 Vinput voice input daemon";
