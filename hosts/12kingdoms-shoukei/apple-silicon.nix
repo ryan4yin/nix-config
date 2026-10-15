@@ -66,6 +66,36 @@
     HibernateDelaySec = "5min";
   };
 
+  # Cap charging at 90%: the SMC's charge_control_end_threshold does not reliably survive a reboot,
+  # and a udev rule that writes it races the driver probe, so re-apply it from a boot-time service.
+  # TLP would set it too but conflicts with tuned (modules/nixos/desktop/power.nix); the driver
+  # derives charge_control_start_threshold as end - 5 and ignores writes to it.
+  systemd.services.apple-charge-limit = {
+    description = "Cap the battery charge at 90%";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-modules-load.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      path = [ pkgs.coreutils ];
+      ExecStart = pkgs.writeShellScript "apple-charge-limit" ''
+        limit=90 # percent
+        node=/sys/class/power_supply/macsmc-battery/charge_control_end_threshold
+        # macsmc probes asynchronously, so retry briefly instead of racing the driver.
+        for _ in $(seq 1 30); do
+          if [ -e "$node" ] && echo "$limit" > "$node" 2>/dev/null &&
+            [ "$(cat "$node")" = "$limit" ]; then
+            echo "battery charge capped at $limit%"
+            exit 0
+          fi
+          sleep 1
+        done
+        echo "battery charge cap: $(cat "$node" 2>/dev/null || echo "$node missing")" >&2
+        exit 1
+      '';
+    };
+  };
+
   # After adding this snippet, you need to restart the system for the touchbar to work.
   hardware.apple.touchBar = {
     enable = true;
