@@ -30,6 +30,14 @@ in
       force = true;
     };
 
+    # The daemon rewrites this itself (the GUI, `vinput scene edit`) and resolves symlinks before
+    # writing, so the link keeps those edits in the checkout instead of a read-only store copy.
+    # `force` retakes the path if a write ever leaves a real file there. See the README.
+    xdg.configFile."vinput/config.json" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home/linux/gui/base/vinput/config.json";
+      force = true;
+    };
+
     systemd.user.services.vinput-daemon = {
       Unit = {
         Description = "Fcitx5 Vinput voice input daemon";
@@ -40,6 +48,13 @@ in
         Type = "dbus";
         BusName = "org.fcitx.Vinput";
         ExecStart = "${vinput}/bin/vinput-daemon";
+
+        # Provider keys are `{{env.*}}` references the daemon resolves from its own environment,
+        # and a systemd user service inherits neither the interactive shell's environment nor any
+        # app's env file. No `-` prefix: a host without the file is misconfigured, not
+        # half-working, and the daemon logs "unset or empty" without it.
+        EnvironmentFile = "%h/.secrets/nushell-secrets.env";
+
         Restart = "on-failure";
         RestartSec = 3;
       };

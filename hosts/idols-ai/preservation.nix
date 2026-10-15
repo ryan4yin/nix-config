@@ -39,6 +39,10 @@ in
   # NOTE: preservation only mounts the directory/file list below to /persistent
   # If the directory/file already exists in the root filesystem you should
   # move those files/directories to /persistent first!
+  # Removing an entry stops its mount on the next activation, but leaves the empty
+  # root-owned mountpoint behind on the tmpfs root, so a Home Manager link into that
+  # path fails with "Permission denied" until it is removed once (`sudo rmdir
+  # <path>`); nothing recreates it afterwards.
   preservation.preserveAt."/persistent" = {
     directories = [
       "/etc/NetworkManager/system-connections"
@@ -264,7 +268,7 @@ in
           directory = ".gnupg";
           mode = "0700";
         }
-        # hand-edited secret config; Nix does not deploy it
+        # hand-edited secret config, plus the env file derived from it; Nix deploys neither
         {
           directory = ".secrets";
           mode = "0700";
@@ -398,11 +402,11 @@ in
         # Japanese IME
         ".config/mozc" # used by fcitx5-mozc
 
-        # Vinput voice input (fcitx5-vinput): core config.json + downloaded
-        # sherpa-onnx models (~/.local/share/vinput/models/). Without these the
-        # daemon starts with "Local ASR provider model is not configured" after
-        # every reboot. Setup commands: home/linux/gui/base/vinput/README.md
-        ".config/vinput"
+        # Vinput voice input (fcitx5-vinput): the downloaded sherpa-onnx models
+        # (~/.local/share/vinput/models/). Without them the daemon starts with
+        # "Local ASR provider model is not configured" after every reboot. Its
+        # config needs no entry: it is an out-of-store link into the preserved
+        # nix-config checkout. Setup: home/linux/gui/base/vinput/README.md
         ".local/share/vinput"
 
         ".config/nushell"
