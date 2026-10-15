@@ -69,12 +69,12 @@
     pkgs.nvtopPackages.full
   ];
 
-  # Cap both cards at 210 W, the lowest value their hwmon `power1_cap_min` allows. amdgpu exposes
-  # the cap in microwatts and accepts anything inside [power1_cap_min, power1_cap_max] — 210-300 W
-  # on these cards. The set path (amdgpu_dpm_set_power_limit) has no overdrive gate, so the
-  # ppfeaturemask default stands.
+  # Cap both cards at 230 W. amdgpu exposes the cap in microwatts and accepts anything inside
+  # [power1_cap_min, power1_cap_max] — 210-300 W on these cards — so this keeps 20 W of margin above
+  # a floor that firmware or a driver update could raise. The set path
+  # (amdgpu_dpm_set_power_limit) has no overdrive gate, so the ppfeaturemask default stands.
   systemd.services.amdgpu-power-cap = {
-    description = "Cap the power limit of every amdgpu card at 210 W";
+    description = "Cap the power limit of every amdgpu card at 230 W";
     wantedBy = [ "multi-user.target" ];
     after = [ "systemd-modules-load.service" ];
     serviceConfig = {
@@ -82,7 +82,7 @@
       RemainAfterExit = true;
       path = [ pkgs.coreutils ];
       ExecStart = pkgs.writeShellScript "amdgpu-power-cap" ''
-        cap=210000000 # microwatts; equals power1_cap_min on these cards
+        cap=230000000 # microwatts; 20 W above the cards' power1_cap_min
         want=2 # both R9700s; this host has no other amdgpu device
         # The cards probe asynchronously, so retry briefly instead of racing the driver.
         for _ in $(seq 1 60); do
@@ -97,7 +97,7 @@
             fi
           done
           if [ "$capped" -ge "$want" ]; then
-            echo "capped $capped amdgpu cards at 210 W"
+            echo "capped $capped amdgpu cards at 230 W"
             exit 0
           fi
           sleep 1
