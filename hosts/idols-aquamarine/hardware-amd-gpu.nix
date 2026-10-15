@@ -69,7 +69,8 @@
     pkgs.nvtopPackages.full
   ];
 
-  # Cap both cards at 230 W. amdgpu exposes the cap in microwatts and accepts anything inside
+  # Cap both cards at 230 W to lower the power this host draws while serving inference, trading away
+  # some throughput. amdgpu exposes the cap in microwatts and accepts anything inside
   # [power1_cap_min, power1_cap_max] — 210-300 W on these cards — so this keeps 20 W of margin above
   # a floor that firmware or a driver update could raise. The set path
   # (amdgpu_dpm_set_power_limit) has no overdrive gate, so the ppfeaturemask default stands.
