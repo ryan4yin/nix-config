@@ -1,7 +1,9 @@
 { ... }:
 {
   # TuneD - Tuning Profile Delivery Mechanism for Linux
-  # A modern replacement for PPD(power-profiles-daemon)
+  # A modern replacement for PPD(power-profiles-daemon), and the only power manager
+  # here: nixpkgs' tuned module already disables power-profiles-daemon and fails
+  # the build if TLP, auto-cpufreq or system76-power is enabled as well.
   services.tuned = {
     enable = true;
     settings.dynamic_tuning = true;
@@ -18,7 +20,4 @@
 
   # Battery/AC state, used by the desktops; tuned-ppd was the other consumer.
   services.upower.enable = true;
-
-  services.power-profiles-daemon.enable = false; # conflicts with tuned
-  services.tlp.enable = false; # conflicts with tuned
 }
