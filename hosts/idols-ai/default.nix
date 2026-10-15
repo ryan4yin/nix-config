@@ -58,7 +58,7 @@ in
   };
 
   services.sunshine.enable = true;
-  # inference server: keep the CPU pinned to the performance profile
+  # desktop PC: keep the CPU pinned to the performance profile
   services.tuned.recommend = {
     throughput-performance = { };
   };
