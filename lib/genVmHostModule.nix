@@ -10,6 +10,14 @@ let
   ipv4WithMask = "${ipv4}/24";
 in
 {
+  # These VM hosts are always-on mini PCs, so pin TuneD's power-saving profile
+  # (power-biased EPP, cpufreq boost off) instead of the default balanced CPU
+  # policy; the MicroVMs they carry are idle most of the day.
+  imports = [ ../modules/nixos/power.nix ];
+  services.tuned.recommend = {
+    powersave = { };
+  };
+
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
     "ext4"
