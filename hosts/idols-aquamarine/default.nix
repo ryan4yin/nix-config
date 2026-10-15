@@ -31,6 +31,10 @@ in
     ./secureboot.nix
   ];
 
+  # Bind the board's NCT6798D SuperIO, otherwise fan RPM and board temperatures
+  # are missing.
+  boot.kernelModules = [ "nct6775" ];
+
   # Zram consumes physical memory for compression, which deadlocks when the
   # model being loaded approaches the physical memory limit — exactly the
   # workload this host exists for. Use the disk swapfile that disko creates at
