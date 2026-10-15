@@ -68,16 +68,16 @@
 
   # Cap charging at 90%: the SMC's charge_control_end_threshold does not reliably survive a reboot,
   # and a udev rule that writes it races the driver probe, so re-apply it from a boot-time service.
-  # TLP would set it too but conflicts with tuned (modules/nixos/desktop/power.nix); the driver
-  # derives charge_control_start_threshold as end - 5 and ignores writes to it.
+  # TLP is not used for this: its Mac plugin only accepts 80 or 100, so it cannot express the 90
+  # here. The driver ignores charge_control_start_threshold writes and derives it as end - 5.
   systemd.services.apple-charge-limit = {
     description = "Cap the battery charge at 90%";
     wantedBy = [ "multi-user.target" ];
     after = [ "systemd-modules-load.service" ];
+    path = [ pkgs.coreutils ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      path = [ pkgs.coreutils ];
       ExecStart = pkgs.writeShellScript "apple-charge-limit" ''
         limit=90 # percent
         node=/sys/class/power_supply/macsmc-battery/charge_control_end_threshold
