@@ -69,6 +69,43 @@
     pkgs.nvtopPackages.full
   ];
 
+  # Cap both cards at 220 W. amdgpu exposes the cap through hwmon in microwatts and accepts any
+  # value inside [power1_cap_min, power1_cap_max] — 210-300 W on these cards. The set path
+  # (amdgpu_dpm_set_power_limit) has no overdrive gate, so ppfeaturemask keeps its default.
+  # https://github.com/ryan4yin/nix-config/issues/449
+  systemd.services.amdgpu-power-cap = {
+    description = "Cap the power limit of every amdgpu card at 220 W";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-modules-load.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      path = [ pkgs.coreutils ];
+      ExecStart = pkgs.writeShellScript "amdgpu-power-cap" ''
+        cap=220000000 # microwatts
+        want=2 # both R9700s; this host has no other amdgpu device
+        # The cards probe asynchronously, so retry briefly instead of racing the driver.
+        for _ in $(seq 1 60); do
+          capped=0
+          for hwmon in /sys/class/hwmon/hwmon*; do
+            [ "$(cat "$hwmon/name" 2>/dev/null)" = amdgpu ] || continue
+            if echo "$cap" > "$hwmon/power1_cap" 2>/dev/null &&
+              [ "$(cat "$hwmon/power1_cap")" = "$cap" ]; then
+              capped=$((capped + 1))
+            fi
+          done
+          if [ "$capped" -ge "$want" ]; then
+            echo "capped $capped amdgpu cards at 220 W"
+            exit 0
+          fi
+          sleep 1
+        done
+        echo "amdgpu power cap: only $capped of $want cards took the cap" >&2
+        exit 1
+      '';
+    };
+  };
+
   # GPU panel in btop, and utilization/VRAM in node_exporter for the shared
   # VictoriaMetrics scrape — the same shape as the Radeon iGPU hosts.
   # perfmon: CAP_PERFMON is what btop needs for the i915 iGPU.
