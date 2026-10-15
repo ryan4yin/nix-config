@@ -37,9 +37,6 @@
 
       "192.168.*" = {
         ForwardAgent = true;
-        # decrypted secret: AI agents must not read it
-        IdentityFile = "/etc/agenix/ssh-key-romantic";
-        IdentitiesOnly = true;
       };
     };
   };
