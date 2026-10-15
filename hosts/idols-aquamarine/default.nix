@@ -59,6 +59,10 @@ in
   # that ./preservation.nix keeps.
   virtualisation.podman.enable = true;
 
+  # Keep the user systemd manager running after logout and start it at boot,
+  # so enabled user services can run without an active login session.
+  users.users."${myvars.username}".linger = true;
+
   # systemd-journal - cap disk usage
   # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html
   services.journald.settings.Journal = {
