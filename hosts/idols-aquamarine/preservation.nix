@@ -73,17 +73,25 @@ in
         # re-downloading tens of GB is not a boot step.
         "models"
 
+        # Caches. A cold flake cache makes `nix run <flake-ref>` re-download its
+        # input at boot, which needs DNS, and on a tmpfs root cache writes are RAM.
+        ".cache"
+
         ".config/systemd/user"
         ".config/containers/systemd"
       ];
     };
   };
 
-  # `.config`/`.local` are not immediate parents of any persisted path here, so
-  # tmpfiles would create them root:root 0755 and the user could not write
-  # under them. Same fix as hosts/idols-ai/preservation.nix, plus the `.config`
-  # subdirectories that hold a mount point.
+  # The parents of the persisted paths below are not themselves persisted, so
+  # tmpfiles would create them root:root 0755 and the user could not write under
+  # them. Same fix as hosts/idols-ai/preservation.nix.
   systemd.tmpfiles.settings.preservation = {
+    "/home/${username}/.cache".d = {
+      user = username;
+      group = lib.mkForce username;
+      mode = lib.mkForce "0750";
+    };
     "/home/${username}/.config".d = {
       user = username;
       group = lib.mkForce username;
