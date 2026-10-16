@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./remote-building.nix
     ../base
     ../../base
   ];

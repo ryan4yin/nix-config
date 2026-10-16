@@ -19,6 +19,10 @@ in
     ../idols-ai/preservation.nix
   ];
 
+  # 16G on a laptop: heavy derivations go to aquamarine's 96G instead of
+  # swapping here.
+  modules.remote-builders.enable = true;
+
   # disable sunshine for security
   services.sunshine.enable = lib.mkForce false;
 

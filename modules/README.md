@@ -62,7 +62,6 @@ modules/
     └── server/             # Server-specific modules
         ├── qemu-guest-hardware-configuration.nix
         ├── qemu-guest.nix  # VM guest base module (libvirt/QEMU guests)
-        ├── remote-building.nix # Remote build setup
         ├── server-aarch64.nix
         ├── server-riscv64.nix # module only; the riscv64 output is disabled
         └── server.nix

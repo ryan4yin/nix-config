@@ -30,7 +30,7 @@ Defines:
 - **DNS servers**: IPv4 and IPv6 name servers
 - **Host inventory**: static LAN hosts and their interfaces; DHCP/mobile hosts (such as the macOS
   hosts) are omitted by design
-- **SSH configuration**: Remote builder aliases and known hosts configuration
+- **SSH configuration**: Host aliases and known hosts configuration
 - **Network topology**: Physical machines, VMs, Kubernetes clusters, and SBCs
 
 ## Host Categories

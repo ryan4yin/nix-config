@@ -68,6 +68,9 @@ in
   # so enabled user services can run without an active login session.
   users.users."${myvars.username}".linger = true;
 
+  # The daemons of the hosts that build here (modules/nixos/base/remote-builders.nix).
+  users.users.root.openssh.authorizedKeys.keys = myvars.remoteBuilderClientKeys;
+
   # systemd-journal - cap disk usage
   # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html
   services.journald.settings.Journal = {

@@ -47,6 +47,9 @@ in
   # disk swapfile instead, created by disko at /swap (see ./disko-fs.nix). The two must move together.
   modules.zram.enable = false;
 
+  # 32G of RAM against aquamarine's 96G, so builds go to the server first.
+  modules.remote-builders.enable = true;
+
   # zswap: compressed writeback cache in front of the disk swapfile, so cold
   # anonymous pages stay in RAM instead of hitting the SSD. Safe here: the disk
   # swapfile remains the real backing store, no zram deadlock structure.
