@@ -25,11 +25,7 @@
     accent = "pink";
   };
 
-  # catppuccin/nix reads some ports at eval time (the starship port via
-  # `lib.importTOML "${sources.starship}/<flavor>.toml"`) and inlines the
-  # result, so no store path in the generation references the built port. gc
-  # then deletes it and the next deploy rebuilds it from scratch, alongside
-  # catppuccin's build/install hooks and the fetched port source. Listing the
-  # path here records it in the generation, which is a gc root. See WA-036.
+  # catppuccin/nix inlines the starship port at eval time, so nothing references
+  # the build and gc drops it; this keeps it in the home closure. See WA-036.
   home.extraDependencies = lib.optional config.catppuccin.starship.enable config.catppuccin.sources.starship;
 }
