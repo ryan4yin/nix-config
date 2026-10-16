@@ -35,6 +35,9 @@ in
 
     ./restic.nix
 
+    # WA-035: neighbour-probe fallback for the Mesh WiFi backhaul to the homelab.
+    ./neighbour-probe.nix
+
     # others
     ./ai
   ];
