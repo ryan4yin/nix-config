@@ -113,10 +113,6 @@ so this is not a frequency cap.
 TuneD is not enabled on any host. It tunes much more than CPU frequency and fits laptops, but our
 laptop is a MacBook with its own native support, so it has no use here.
 
-After migrating, reboot (VM hosts: the `boot` procedure below) and confirm 2.5G still negotiates
-after 60 seconds idle — TuneD's old restore mask can advertise only up to 1G. Incident:
-[#462](https://github.com/ryan4yin/nix-config/issues/462).
-
 ## Deploying VM Hosts
 
 The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs on the Linux bridge `br0`, with the
