@@ -36,6 +36,16 @@ in
   sourceCheckoutsPersistent = builtins.any (
     d: d.directory == "/home/${myvars.username}/src"
   ) cfg.preservation.preserveAt."/persistent".users.${myvars.username}.directories;
+
+  # Directories the tmpfs root would otherwise drop.
+  userUnitDirsPersistent =
+    let
+      dirs = cfg.preservation.preserveAt."/persistent".users.${myvars.username}.directories;
+    in
+    builtins.all (path: builtins.any (d: d.directory == "/home/${myvars.username}/${path}") dirs) [
+      ".config/systemd/user"
+      ".config/containers/systemd"
+    ];
   rootlessPodmanEnabled = cfg.virtualisation.podman.enable;
 
   # A server tracks the nixpkgs default (stable/LTS) kernel, not `-latest`.

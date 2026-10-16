@@ -72,15 +72,29 @@ in
         # not listed is gone on the next boot; weights are re-downloadable, but
         # re-downloading tens of GB is not a boot step.
         "models"
+
+        ".config/systemd/user"
+        ".config/containers/systemd"
       ];
     };
   };
 
   # `.config`/`.local` are not immediate parents of any persisted path here, so
   # tmpfiles would create them root:root 0755 and the user could not write
-  # under them. Same fix as hosts/idols-ai/preservation.nix.
+  # under them. Same fix as hosts/idols-ai/preservation.nix, plus the `.config`
+  # subdirectories that hold a mount point.
   systemd.tmpfiles.settings.preservation = {
     "/home/${username}/.config".d = {
+      user = username;
+      group = lib.mkForce username;
+      mode = lib.mkForce "0750";
+    };
+    "/home/${username}/.config/systemd".d = {
+      user = username;
+      group = lib.mkForce username;
+      mode = lib.mkForce "0750";
+    };
+    "/home/${username}/.config/containers".d = {
       user = username;
       group = lib.mkForce username;
       mode = lib.mkForce "0750";
