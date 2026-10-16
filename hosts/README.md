@@ -104,6 +104,36 @@ Copy the closest existing host and adapt it. The step-by-step procedure, includi
 networking wiring, secrets, and the eval tests a new host must pass, is in
 [`.agents/skills/nix-config-new-host/SKILL.md`](../.agents/skills/nix-config-new-host/SKILL.md).
 
+## CPU Power Policy
+
+Physical hosts share the native NixOS CPU policy in [`power.nix`](../modules/nixos/power.nix): `ai`,
+`aquamarine`, `shoryu`, `shushou`, and `youko` use `powersave` with their active Intel/AMD P-state
+drivers. In active mode this permits hardware-managed frequency scaling, rather than fixing the CPU
+at its minimum. `shoukei` retains the Apple Silicon module's `schedutil` governor; generic cpufreq
+`powersave` would instead select the minimum frequency. VM guests do not import this policy. UPower
+remains enabled on desktops for battery/AC reporting.
+
+TuneD is not enabled on any host. CPU frequency is configured by NixOS's native `cpufreq` service,
+without whole-system profiles, dynamic network/disk tuning, or a second CPU policy manager. EPP,
+boost, and power limits use kernel/firmware defaults; this policy neither forces a particular EPP
+nor sets a frequency or watt cap. Actual energy savings and application latency need measurement.
+Driver semantics:
+[Intel active P-state](https://docs.kernel.org/admin-guide/pm/intel_pstate.html#active-mode-with-hwp),
+[AMD active P-state](https://docs.kernel.org/admin-guide/pm/amd-pstate.html#active-mode), and
+[generic governors](https://docs.kernel.org/admin-guide/pm/cpufreq.html#generic-scaling-governors).
+
+When migrating away from TuneD, reboot to reset its old runtime settings, including CPU performance
+limits and device tuning. Use the `boot` deployment and serial reboot procedure below for VM hosts.
+Verify host/VM reachability, CPU driver/governor/EPP/boost/limits, and 2.5G advertisement and
+negotiation after at least 60 seconds idle. TuneD 2.28's old network restore mask can leave only
+10/100/1000 modes advertised, so stopping it alone does not establish recovery. Incident evidence:
+[#462](https://github.com/ryan4yin/nix-config/issues/462).
+
+For a CPU power ceiling, use the firmware's package-power controls when available; the AMD mini PCs
+may expose cTDP or STAPM. Keep CPPC, C-states, and boost enabled or on Auto for load-based scaling
+and burst responsiveness. Available controls depend on the OEM firmware; measure service latency and
+wall power before choosing a lower limit. CPU package limits do not cap whole-system power.
+
 ## Deploying VM Hosts
 
 The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs on the Linux bridge `br0`, with the

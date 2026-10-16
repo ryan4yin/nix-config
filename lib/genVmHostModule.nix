@@ -10,13 +10,8 @@ let
   ipv4WithMask = "${ipv4}/24";
 in
 {
-  # Physical machines only: these three always-on mini PCs hold their CPU at
-  # TuneD's power-saving profile (EPP biased to power, cpufreq boost off). A
-  # MicroVM guest has no EPP or boost of its own, so it never imports this module.
+  # CPU policy belongs to physical hosts; guests do not control hardware frequency.
   imports = [ ../modules/nixos/power.nix ];
-  services.tuned.recommend = {
-    powersave = { };
-  };
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [

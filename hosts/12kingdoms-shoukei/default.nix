@@ -21,11 +21,6 @@ in
 
   # disable sunshine for security
   services.sunshine.enable = lib.mkForce false;
-  # battery-first: pin the low-power profile. apple-cpufreq exposes no EPP or
-  # platform_profile, so the only thing this changes is cpufreq boost.
-  services.tuned.recommend = {
-    powersave = { };
-  };
 
   # Laptop joins untrusted networks and is never scraped (see youko's
   # `offlineHosts`); don't expose :9100, and don't keep the smartctl exporter
