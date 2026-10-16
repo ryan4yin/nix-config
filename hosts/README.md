@@ -104,6 +104,18 @@ Copy the closest existing host and adapt it. The step-by-step procedure, includi
 networking wiring, secrets, and the eval tests a new host must pass, is in
 [`.agents/skills/nix-config-new-host/SKILL.md`](../.agents/skills/nix-config-new-host/SKILL.md).
 
+## CPU Power Policy
+
+Physical hosts get `powersave` from [`power.nix`](../modules/nixos/power.nix); Apple hosts keep
+their own `schedutil`. On the active Intel/AMD P-state drivers `powersave` still scales with load,
+so this is not a frequency cap.
+
+TuneD is not enabled on any host. It tunes much more than CPU frequency and fits laptops, but our
+laptop is a MacBook with its own native support, so it has no use here.
+
+The desktops also run UPower for power-supply reporting: the laptop's battery, and peripheral
+batteries on a desktop. It only reports state, and changes no CPU or device setting.
+
 ## Deploying VM Hosts
 
 The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs on the Linux bridge `br0`, with the
