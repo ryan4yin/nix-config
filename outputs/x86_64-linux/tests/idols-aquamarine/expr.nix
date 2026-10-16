@@ -37,6 +37,11 @@ in
     d: d.directory == "/home/${myvars.username}/src"
   ) cfg.preservation.preserveAt."/persistent".users.${myvars.username}.directories;
 
+  # A cold flake cache re-downloads the input of a `nix run <flake-ref>` at boot.
+  cachePersistent = builtins.any (
+    d: d.directory == "/home/${myvars.username}/.cache"
+  ) cfg.preservation.preserveAt."/persistent".users.${myvars.username}.directories;
+
   # Directories the tmpfs root would otherwise drop.
   userUnitDirsPersistent =
     let
