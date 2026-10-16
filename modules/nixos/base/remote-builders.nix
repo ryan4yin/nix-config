@@ -30,8 +30,11 @@ let
       # root is the daemon's default trusted user on the builder; a normal user
       # would have to be made root-equivalent there to serve builds.
       sshUser = "root";
-      # On the client's root daemon; secrets/nixos.nix writes it to this path.
-      sshKey = "/etc/agenix/ssh-key-romantic";
+      # The daemon's ssh is non-interactive and cannot reach an agent, so the
+      # builder key must be passphrase-free; the agenix key that interactive
+      # logins use is not. Aquamarine authorizes this host key for root
+      # (hosts/idols-aquamarine/default.nix).
+      sshKey = "/etc/ssh/ssh_host_ed25519_key";
       inherit (cfg) maxJobs speedFactor;
       protocol = "ssh-ng";
     }
