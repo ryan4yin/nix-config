@@ -1,4 +1,9 @@
-{ catppuccin, ... }:
+{
+  config,
+  lib,
+  catppuccin,
+  ...
+}:
 {
   # https://github.com/catppuccin/nix
   imports = [
@@ -19,4 +24,8 @@
     # one of "blue", "flamingo", "green", "lavender", "maroon", "mauve", "peach", "pink", "red", "rosewater", "sapphire", "sky", "teal", "yellow"
     accent = "pink";
   };
+
+  # catppuccin/nix inlines the starship port at eval time, so nothing references
+  # the build and gc drops it; this keeps it in the home closure. See WA-036.
+  home.extraDependencies = lib.optional config.catppuccin.starship.enable config.catppuccin.sources.starship;
 }
