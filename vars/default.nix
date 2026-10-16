@@ -32,4 +32,10 @@
     # the backup ssh keys for disaster recovery
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzYT0Fpcp681eHY5FJV2G8Mve53iX3hMOLGbVvfL+TF ryan@romantic"
   ];
+  # The SSH host keys of the machines whose nix-daemons build through aquamarine
+  # (modules/nixos/base/remote-builders.nix).
+  remoteBuilderClientKeys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHZtzeaQyXwuRMLzoOAuTu8P9bu5yc5MBwo5LI3iWBV root@ai"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDkbOwOeuAem8BKbyTDliRiTfHVAFdiVpAKh1bhs2s0 root@shoukei"
+  ];
 }
