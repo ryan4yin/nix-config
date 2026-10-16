@@ -113,6 +113,9 @@ so this is not a frequency cap.
 TuneD is not enabled on any host. It tunes much more than CPU frequency and fits laptops, but our
 laptop is a MacBook with its own native support, so it has no use here.
 
+The desktops also run UPower for power-supply reporting: the laptop's battery, and peripheral
+batteries on a desktop. It only reports state, and changes no CPU or device setting.
+
 ## Deploying VM Hosts
 
 The three VM hosts (`shoryu`, `shushou`, `youko`) put their VMs on the Linux bridge `br0`, with the
