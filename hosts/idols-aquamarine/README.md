@@ -221,6 +221,15 @@ reinstall or a key rotation:
 This config enables no `modules.secrets.*` group, so aquamarine decrypts nothing today; adding a
 group is what requires the recipient step above.
 
+## Remote builds
+
+Aquamarine is the fleet's remote Nix builder: 24C/96G, plus `boot.binfmt.emulatedSystems` for
+`aarch64-linux` and `riscv64-linux`, so one machine serves all three platforms. Clients opt in with
+`modules.remote-builders.enable`, defined in `modules/nixos/base/remote-builders.nix`.
+
+The builder's login user is `root`, which the daemon trusts by default; clients reach it with the
+desktop SSH key, so this host needs no `nix.settings.trusted-users` entry of its own.
+
 ## Deploy
 
 ```bash

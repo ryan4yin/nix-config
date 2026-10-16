@@ -199,7 +199,10 @@ rec {
       #     => { x = "bar-a"; y = "bar-b"; }
       lib.attrsets.mapAttrs
         (host: value: {
-          hostNames = [ host ] ++ (lib.optional (hostsAddr ? host) hostsAddr.${host}.ipv4);
+          # Name plus address: the Nix daemon connects the builder by its
+          # address, and verifies the host key under that name. A name-only
+          # entry fails the build with "Host key verification failed".
+          hostNames = [ host ] ++ lib.optionals (builtins.hasAttr host hostsAddr) [ hostsAddr.${host}.ipv4 ];
           publicKey = value.publicKey;
         })
         {
