@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 {
@@ -15,36 +14,28 @@
   #
   #############################################################
 
-  home.packages =
-    with pkgs;
-    [
-      colmena # nixos's remote deployment tool
+  home.packages = with pkgs; [
+    colmena # nixos's remote deployment tool
 
-      # db related
-      # mycli
-      pgcli
-      sqlite
+    # db related
+    # mycli
+    pgcli
+    sqlite
 
-      # spreadsheets / data files: interactive viewer for csv, xlsx, tsv, json, sqlite
-      visidata
+    # spreadsheets / data files: interactive viewer for csv, xlsx, tsv, json, sqlite
+    visidata
 
-      # embedded development
-      minicom
+    # embedded development
+    minicom
 
-      # ai related
-      python313Packages.huggingface-hub # huggingface-cli
-      yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
+    # ai related
+    python313Packages.huggingface-hub # huggingface-cli
+    yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
 
-      # Automatically trims your branches whose tracking remote refs are merged or gone
-      # It's really useful when you work on a project for a long time.
-      git-trim
-    ]
-    # conda is not available on macOS
-    ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
-      # need to run `conda-install` before using it
-      # need to run `conda-shell` before using command `conda`
-      conda
-    ];
+    # Automatically trims your branches whose tracking remote refs are merged or gone
+    # It's really useful when you work on a project for a long time.
+    git-trim
+  ];
 
   programs = {
     direnv = {

@@ -78,11 +78,6 @@ in
       sqlite
 
       yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
-
-      # need to run `conda-install` before using it
-      # need to run `conda-shell` before using command `conda`
-      # conda is not available for MacOS
-      conda
     ]
     # AI Agent Tools
     ++ [

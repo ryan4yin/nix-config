@@ -188,7 +188,6 @@ in
       "mitmproxy" # HTTP/HTTPS traffic inspector
       "wireshark-app" # network analyzer
       # "google-cloud-sdk" # Google Cloud SDK
-      "miniforge" # Miniconda's community-driven distribution
 
       # Setup macfuse: https://github.com/macfuse/macfuse/wiki/Getting-Started
       "macfuse" # for rclone to mount a fuse filesystem
