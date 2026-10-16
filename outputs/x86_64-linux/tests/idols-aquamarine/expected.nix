@@ -8,6 +8,7 @@
   cStatesCapped = true;
   nativeIpv6Preference = true;
   sourceCheckoutsPersistent = true;
+  userUnitDirsPersistent = true;
   rootlessPodmanEnabled = true;
   stableKernel = true;
   btopShowsRadeon = true;
