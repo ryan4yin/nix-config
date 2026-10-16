@@ -112,10 +112,12 @@
                       "compress-force=zstd:1"
                     ];
                   };
-                  # Swap subvolume read-only; disko creates swapfile and adds swapDevices
+                  # Swap subvolume read-only; disko creates swapfile and adds swapDevices.
+                  # The swapfile is preallocated and never compressed (btrfs swapfile
+                  # requirements), so it consumes its full size on the pool.
                   "@swap" = {
                     mountpoint = "/swap";
-                    swap.swapfile.size = "96G";
+                    swap.swapfile.size = "32G";
                   };
                 };
               };

@@ -39,7 +39,7 @@ defect that is, the supported ROCm versions, and the inference notes.
 ## Disk layout
 
 Declarative via [disko-fs.nix](./disko-fs.nix): ESP + LUKS (`aqua-luks`) + btrfs subvolumes (`@nix`,
-`@persistent`, `@snapshots`, `@tmp`, `@swap` with a 96G swapfile), ephemeral tmpfs root, state under
+`@persistent`, `@snapshots`, `@tmp`, `@swap` with a 32G swapfile), ephemeral tmpfs root, state under
 `/persistent` via [preservation.nix](./preservation.nix). Secure Boot via lanzaboote
 ([secureboot.nix](./secureboot.nix)).
 
