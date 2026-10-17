@@ -2,6 +2,7 @@
 result
 result/
 .direnv/
+.work/
 .worktrees/
 .DS_Store
 .pre-commit-config.yaml
