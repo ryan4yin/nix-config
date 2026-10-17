@@ -141,6 +141,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits
   need authorization.
+- Create forks with only the default branch (`gh repo fork --default-branch-only`); the task adds
+  its own development branch.
 
 ## Environment and shell
 
