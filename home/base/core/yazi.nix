@@ -30,21 +30,19 @@
         }
       ];
     };
-    plugins = with pkgs.yaziPlugins; {
+    plugins = {
       git = {
-        package = git;
+        package = pkgs.yaziPlugins.git;
         setup = true;
         settings = {
           order = 1500;
         };
       };
-      inherit
-        jump-to-char
-        smart-enter
-        toggle-pane
-        vcs-files
-        zoom
-        ;
+      jump-to-char = pkgs.yaziPlugins.jump-to-char;
+      smart-enter = pkgs.yaziPlugins.smart-enter;
+      toggle-pane = pkgs.yaziPlugins.toggle-pane;
+      vcs-files = pkgs.yaziPlugins.vcs-files;
+      zoom = pkgs.yaziPlugins.zoom;
     };
     keymap.mgr.prepend_keymap = [
       {
