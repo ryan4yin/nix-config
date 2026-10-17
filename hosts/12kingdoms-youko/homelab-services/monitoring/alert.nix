@@ -27,8 +27,10 @@
       # https://docs.victoriametrics.com/victoriametrics/vmalert/#link-to-alert-source
       # Set this two args to generate the correct `.GeneratorURL`
       "external.url" = "https://grafana.writefor.fun";
+      # Grafana resolves this by UID, then by name; it must match the provisioned
+      # datasource name in grafana/datasources.nix.
       "external.alert.source" =
-        ''explore?left={"datasource":"{{ if eq .Type \"vlogs\" }}VictoriaLogs{{ else }}VictoriaMetrics{{ end }}","queries":[{"expr":{{ .Expr|jsonEscape|queryEscape }},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'';
+        ''explore?left={"datasource":"victoriametrics-homelab","queries":[{"expr":{{ .Expr|jsonEscape|queryEscape }},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'';
     };
   };
 
@@ -141,7 +143,7 @@
                 🟢 <b>告警恢复</b> [{{ .CommonLabels.severity | title }}] <b>{{ .CommonLabels.alertname }}</b>
                 {{- end }}
 
-                • <b>告警组</b>: {{ .CommonLabels.alertgroup }}
+                • <b>告警组</b>: {{ with .CommonLabels.alertgroup }}{{ . }}{{ else }}N/A{{ end }}
                 • <b>Cluster</b>: {{ with .CommonLabels.cluster }}{{ . }}{{ else }}N/A{{ end }}
                 • <b>Env</b>: {{ with .CommonLabels.env }}{{ . }}{{ else }}N/A{{ end }}
                 • <b>Namespace</b>: {{ with .CommonLabels.namespace }}{{ . }}{{ else }}N/A{{ end }}
