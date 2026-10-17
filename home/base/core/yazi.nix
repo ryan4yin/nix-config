@@ -17,9 +17,29 @@
         max_width = 2000;
         max_height = 2000;
       };
+      plugin.prepend_fetchers = [
+        {
+          url = "*";
+          run = "git";
+          group = "git";
+        }
+        {
+          url = "*/";
+          run = "git";
+          group = "git";
+        }
+      ];
     };
     plugins = with pkgs.yaziPlugins; {
+      git = {
+        package = git;
+        setup = true;
+        settings = {
+          order = 1500;
+        };
+      };
       inherit
+        jump-to-char
         smart-enter
         toggle-pane
         vcs-files
@@ -54,6 +74,11 @@
         ];
         run = "plugin vcs-files";
         desc = "Show Git file changes";
+      }
+      {
+        on = "F";
+        run = "plugin jump-to-char";
+        desc = "Jump to the next file starting with a character";
       }
     ];
   };
