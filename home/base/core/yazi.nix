@@ -18,11 +18,13 @@
         max_height = 2000;
       };
     };
-    plugins = {
-      zoom = pkgs.yaziPlugins.zoom;
-      toggle-pane = pkgs.yaziPlugins.toggle-pane;
-      smart-enter = pkgs.yaziPlugins.smart-enter;
-      vcs-files = pkgs.yaziPlugins.vcs-files;
+    plugins = with pkgs.yaziPlugins; {
+      inherit
+        smart-enter
+        toggle-pane
+        vcs-files
+        zoom
+        ;
     };
     keymap.mgr.prepend_keymap = [
       {
