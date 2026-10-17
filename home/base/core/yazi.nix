@@ -52,7 +52,7 @@
         desc = "Zoom in the preview";
       }
       {
-        on = "=";
+        on = "-";
         run = "plugin zoom -1";
         desc = "Zoom out the preview";
       }
