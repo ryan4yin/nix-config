@@ -47,7 +47,7 @@
     };
     keymap.mgr.prepend_keymap = [
       {
-        on = "+";
+        on = "=";
         run = "plugin zoom 1";
         desc = "Zoom in the preview";
       }
