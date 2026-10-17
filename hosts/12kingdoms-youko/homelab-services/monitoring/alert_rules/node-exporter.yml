@@ -306,18 +306,48 @@ groups:
             "btrbk-btrbk.service is in a failed state; btrfs snapshots are not being
             created.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
+      - alert: HostCpuTooHot
+        expr:
+          '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
+          node_hwmon_sensor_label{label=~"(?i)^(tctl|tccd|tdie|package.*|peci.*)$"} > 90)) *
+          on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host CPU too hot (instance {{ $labels.instance }})
+          description:
+            "CPU package/die temperature is above 90 C\n  VALUE = {{ $value }}\n  LABELS = {{
+            $labels }}"
+
+      - alert: HostGpuTooHot
+        expr:
+          '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
+          node_hwmon_sensor_label{label=~"(?i)^(edge|junction|mem)$"} > 95)) * on(instance)
+          group_left (nodename) node_uname_info{nodename=~".+"}'
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Host GPU too hot (instance {{ $labels.instance }})
+          description:
+            "GPU edge/junction/memory temperature is above 95 C\n  VALUE = {{ $value }}\n  LABELS =
+            {{ $labels }}"
+
       - alert: HostPhysicalComponentTooHot
         expr:
           '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
-          node_hwmon_sensor_label{label!~"(?i)^(tctl|tccd|tdie|auxtin[0-9]*|cputin)$"} > 75)) *
-          on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+          node_hwmon_sensor_label{label!~"(?i)^(tctl|tccd|tdie|aux.*|cputin|package.*|core
+          .*|peci.*|edge|junction|mem)$"} > 75)) * on(instance) group_left (nodename)
+          node_uname_info{nodename=~".+"}'
         for: 5m
         labels:
           severity: warning
         annotations:
           summary: Host physical component too hot (instance {{ $labels.instance }})
           description:
-            "Physical hardware component too hot\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+            "Non-CPU/GPU hardware component too hot\n  VALUE = {{ $value }}\n  LABELS = {{ $labels
+            }}"
 
       - alert: HostNodeOvertemperatureAlarm
         expr:
