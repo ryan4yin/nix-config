@@ -38,6 +38,10 @@
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    # ryan4yin/nixpkgs branch carrying NixOS/nixpkgs#570230 (the Intel NPU
+    # compiler and the driver change that loads it). Only aquamarine consumes it,
+    # through `pkgs-npu`; drop it once the PR merges.
+    nixpkgs-npu.url = "github:ryan4yin/nixpkgs/openvino-npu-compiler";
     # NixOS MicroVMs -- run the VMs directly on the hosts, replacing the former KubeVirt
     microvm = {
       url = "github:microvm-nix/microvm.nix";
