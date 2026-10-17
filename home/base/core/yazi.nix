@@ -42,7 +42,6 @@
         jump-to-char
         smart-enter
         toggle-pane
-        vcs-files
         zoom
         ;
     };
@@ -66,14 +65,6 @@
         on = "l";
         run = "plugin smart-enter";
         desc = "Enter the child directory, or open the file";
-      }
-      {
-        on = [
-          "g"
-          "c"
-        ];
-        run = "plugin vcs-files";
-        desc = "Show Git file changes";
       }
       {
         on = "F";
