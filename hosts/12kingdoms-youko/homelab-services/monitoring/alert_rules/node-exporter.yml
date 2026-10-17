@@ -306,6 +306,7 @@ groups:
             "btrbk-btrbk.service is in a failed state; btrfs snapshots are not being
             created.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
 
+      # TjMax is 105 C and thermal throttling starts near 100 C.
       - alert: HostCpuTooHot
         expr:
           '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
@@ -320,10 +321,11 @@ groups:
             "CPU package/die temperature is above 90 C\n  VALUE = {{ $value }}\n  LABELS = {{
             $labels }}"
 
+      # GPU edge/junction reports critical at 110 C, memory at 108 C.
       - alert: HostGpuTooHot
         expr:
           '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
-          node_hwmon_sensor_label{label=~"(?i)^(edge|junction|mem)$"} > 95)) * on(instance)
+          node_hwmon_sensor_label{label=~"(?i)^(edge|junction|mem)$"} > 90)) * on(instance)
           group_left (nodename) node_uname_info{nodename=~".+"}'
         for: 5m
         labels:
@@ -331,14 +333,17 @@ groups:
         annotations:
           summary: Host GPU too hot (instance {{ $labels.instance }})
           description:
-            "GPU edge/junction/memory temperature is above 95 C\n  VALUE = {{ $value }}\n  LABELS =
+            "GPU edge/junction/memory temperature is above 90 C\n  VALUE = {{ $value }}\n  LABELS =
             {{ $labels }}"
 
+      # Drives are covered by the SMART rules in storage.yml; this catches the
+      # board, PCH and Super I/O sensors, which idle around 30-55 C.
       - alert: HostPhysicalComponentTooHot
         expr:
-          '((node_hwmon_temp_celsius * ignoring(label) group_left(instance, job, node, sensor)
+          '((node_hwmon_temp_celsius{chip!~"nvme.*"} * ignoring(label) group_left(instance, job,
+          node, sensor)
           node_hwmon_sensor_label{label!~"(?i)^(tctl|tccd|tdie|aux.*|cputin|package.*|core
-          .*|peci.*|edge|junction|mem)$"} > 75)) * on(instance) group_left (nodename)
+          .*|peci.*|edge|junction|mem)$"} > 70)) * on(instance) group_left (nodename)
           node_uname_info{nodename=~".+"}'
         for: 5m
         labels:
