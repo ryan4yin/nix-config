@@ -176,8 +176,8 @@ groups:
 
       - alert: PostgresqlConfigurationChanged
         expr:
-          'changes({__name__=~"pg_settings_.*", __name__!="pg_settings_transaction_read_only"}[5m])
-          > 0'
+          'sum(changes({__name__=~"pg_settings_.*",
+          __name__!="pg_settings_transaction_read_only"}[5m])) > 0'
         for: 0m
         labels:
           severity: info
