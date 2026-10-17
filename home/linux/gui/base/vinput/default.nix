@@ -38,6 +38,12 @@ in
       force = true;
     };
 
+    # The OpenAI-transcription client vinput runs as a provider. config.json points at this
+    # absolute path, so the two must stay in sync.
+    xdg.configFile."vinput/aqua-asr-provider".source =
+      pkgs.writers.writePython3 "vinput-aqua-asr-provider" { }
+        ./aqua-provider.py;
+
     systemd.user.services.vinput-daemon = {
       Unit = {
         Description = "Fcitx5 Vinput voice input daemon";
