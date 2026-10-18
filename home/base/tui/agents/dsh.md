@@ -56,10 +56,10 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 
 `dsh-nushell-only.nix` replaces the two first-party shell providers with Nushell: every `ctx.shell`
 consumer (model shell tools, background jobs, hook bridges, in-process callers) runs
-`nu --no-config-file -c`, and a command that hands execution to `bash`, `sh`, `cmd`, `pwsh`, or
-`wsl` is refused before it spawns. The same layer adds Nushell rules and a syntax guide, and
-rewrites the `bash`/`pwsh` tool descriptions, so the model is told what actually runs. `nu` comes
-from `pkgs.nushell`, so it does not depend on `PATH`.
+`nu --no-config-file -c`, and a command that hands execution to another shell is refused before it
+spawns. The same layer adds Nushell rules and a syntax guide, and rewrites the shell-tool
+descriptions, so the model is told what actually runs. `nu` comes from `pkgs.nushell`, so it does
+not depend on `PATH`.
 
 The source is the `develop` branch of ryan4yin's fork carrying the reviewed patch set (Nu-builtin
 denial facts, test-harness fixes, the `find` hint, persistent-terminal scoping), commit-locked by
@@ -68,18 +68,19 @@ profile. On dsh 0.2.1-rc.2 the plugin installer accepts the package, so the moun
 (declarative shell choice, reviewed pin, rebuild rollback), not a compatibility workaround.
 Boundaries: preset rows that spawn a shell themselves (`custom-bash.mjs`, `persistent-shell`) bypass
 `ctx.shell`. So does `@deepseek-ai/dsh-experimental-terminal-bundle`: its `terminal_*` tools use a
-separate `ctx.terminals` seam and run bash (POSIX) or pwsh (Windows), so they coexist with this
-layer but stay outside the Nushell-only guarantee — keep the bundle off for a strict Nu-only machine
-(the fork's `--with-terminal-bundle` integration run covers the coexistence). Bash hooks now run
-under Nushell and need rewriting; remote hosts still run their own POSIX shell. A `--patch` overlay
-can disable the `nushell-*` rows and re-enable `bash-sandbox` for a rollback. Tested on Linux; the
-same home profile also applies to Darwin, where this mount has not been boot-tested.
+separate `ctx.terminals` seam and run the platform shell (bash on the POSIX hosts this repository
+manages), so they coexist with this layer but stay outside the Nushell-only guarantee — keep the
+bundle off for a strict Nu-only machine (the fork's `--with-terminal-bundle` integration run covers
+the coexistence). Bash hooks now run under Nushell and need rewriting; remote hosts still run their
+own POSIX shell. A `--patch` overlay can disable the `nushell-*` rows and re-enable `bash-sandbox`
+for a rollback. Tested on Linux; the same home profile also applies to Darwin, where this mount has
+not been boot-tested.
 
 Verify after a switch:
 
 ```sh
 dsh web --dump-config | grep -n "nushell"
-# expect bash-sandbox/pwsh-sandbox = disabled, nushell-executor and nushell-teaching inserted
+# expect the first-party shell rows disabled, nushell-executor and nushell-teaching inserted
 dsh web 2>&1 | grep "disabling profile plugin"
 # a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
 ```

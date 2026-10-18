@@ -34,9 +34,9 @@ in
 {
   home.file.".dsh/cordis.patch.yml".text = ''
     # Managed by home/base/tui/agents/dsh-nushell-only.nix.
+    # dsh-base already platform-disables the other first-party executor on the
+    # POSIX hosts this repository manages; disable only the active row.
     - id: bash-sandbox
-      disabled: true
-    - id: pwsh-sandbox
       disabled: true
     - insert:
         - id: nushell-executor
