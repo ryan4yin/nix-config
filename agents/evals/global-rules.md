@@ -480,7 +480,7 @@ to run.
 ### Tool execution
 
 - **Local pipeline.** Local output needs filtering or transformation. → Prefer native tool options,
-  then code-mode for returned tool results; use Nushell's structured pipelines, Python, or
+  then code-mode for returned tool results; default to Nushell's structured pipelines, Python, or
   TypeScript for local processing and structured data (e.g. JSONC, YAML/TOML, TSX/JSX; Node.js). Do
   not pipe or transform tool results through a Bash text pipeline.
 - **Remote pipeline.** Read-only remote diagnostics need filtering; the remote host has Python and
