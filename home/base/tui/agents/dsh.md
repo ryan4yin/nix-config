@@ -78,8 +78,8 @@ delete. Tested on Linux; the same package also builds for Darwin, where it has n
 Verify after a switch:
 
 ```sh
-dsh web --dump-config | grep -n "nushell"
+dsh --profile web --dump-config | grep -n "nushell"
 # expect the first-party shell rows disabled, nushell-executor and nushell-teaching inserted
-dsh web 2>&1 | grep "disabling profile plugin"
+dsh --profile web 2>&1 | grep "disabling profile plugin"
 # a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
 ```
