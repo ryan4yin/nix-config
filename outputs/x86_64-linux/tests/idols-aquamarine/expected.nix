@@ -14,6 +14,8 @@
   stableKernel = true;
   btopShowsRadeon = true;
   btopReadsIgpu = true;
+  igpuMediaStackInstalled = true;
+  openvinoGpuWrapperInstalled = true;
   gpuMetricsExported = true;
   collectorFlagsUnique = true;
   inferenceUserCanRender = true;
