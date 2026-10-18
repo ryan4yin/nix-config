@@ -143,16 +143,16 @@ For an impactful change, follow these steps in order, scaled to its risk:
   need authorization.
 - Never block a turn on CI, whatever its expected duration. After a push, report the head revision
   and the checks that started. Start a watch on the resolved run as a background job
-  (`gh run watch <id> --exit-status`, or `gh pr checks <pr> --watch` once checks exist) following
-  Keep every turn steerable under Communication; collect and report the result when it finishes. Do
+  (`gh run watch <id> --exit-status`, or `gh pr checks <pr> --watch` once checks exist), and collect
+  and report the result when it finishes. Keep the turn steerable meanwhile (see Communication); do
   not estimate the run's duration or wait it out because it looks short.
 - Create forks with only the default branch (`gh repo fork --default-branch-only`); the task adds
   its own development branch.
 
 ## Environment and shell
 
-- Shell syntax and dialect guidance belongs to the active shell plugin or project docs; these rules
-  keep only cross-agent safety and operational constraints.
+- Shell syntax guidance belongs to the active shell plugin or project docs; these rules keep only
+  cross-agent safety and operational constraints.
 - NixOS is non-FHS: agents MUST NOT assume FHS paths or install imperatively (`apt`, `nix-env`,
   `nix profile install`, global `npm`/`pip`). Use `nix shell nixpkgs#<pkg> -c <cmd>` or `nix run`
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
@@ -174,13 +174,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Prefer native tool options to reduce output at the source, and the native read, grep, glob, write,
   and edit tools over their shell equivalents. A single shell dispatch is for genuinely shell work
   (git, ssh, nix, remote commands).
-- Use the shell the runtime provides; if Nushell is unavailable, use Python or the project language.
-  This fallback applies only when no Nushell bundle is active; dsh-nu fails closed. Compose
-  multi-step work with code-mode (PTC) for orchestration, returned tool results, loops, and state
-  across calls; otherwise use the available runtime for genuinely shell work, `python -c '<code>'`
-  for complex local processing, or a script written with the write tool. Set the tool's
-  working-directory parameter instead of `cd`. A remote command usually runs under a POSIX shell:
-  keep it to one invocation or a copied script.
+- Use the shell the runtime provides; dsh-nu fails closed rather than substituting another shell.
+  For genuinely shell work use the available runtime, `python -c '<code>'` for complex local
+  processing, or a script written with the write tool. A remote command usually runs under a POSIX
+  shell: keep it to one invocation or a copied script.
 - Commands MUST NOT block: disable pagers and interactive prompts (confirm with the user instead of
   making a command interactive, e.g. `rm -i`), avoid commands that wait on stdin or never exit, and
   bound waits and retries with a total time limit the waiting command enforces itself, not an outer
