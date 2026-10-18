@@ -174,7 +174,7 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Prefer native tool options to reduce output at the source, and the native read, grep, glob, write,
   and edit tools over their shell equivalents. A single shell dispatch is for genuinely shell work
   (git, ssh, nix, remote commands).
-- Use the shell the runtime provides; if no shell is available, use Python or the project language.
+- Use the shell the runtime provides; if Nushell is unavailable, use Python or the project language.
   Compose multi-step work with code-mode (PTC) for orchestration, returned tool results, loops, and
   state across calls; otherwise use the available runtime for genuinely shell work,
   `python -c '<code>'` for complex local processing, or a script written with the write tool. Set
