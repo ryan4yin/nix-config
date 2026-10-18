@@ -166,23 +166,6 @@
         "type": "github"
       }
     },
-    "dsh-nushell-only": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1792291830,
-        "narHash": "sha256-bxY5JWZdp2t2wPXDK7x69OznQ1fWAW0U34i6COnr3cM=",
-        "owner": "ryan4yin",
-        "repo": "dsh-nushell-only",
-        "rev": "32809362e333ec00b1028309116dbd68f33fb7c9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryan4yin",
-        "ref": "develop",
-        "repo": "dsh-nushell-only",
-        "type": "github"
-      }
-    },
     "fcitx5-vinput": {
       "inputs": {
         "nixpkgs": [
@@ -1044,15 +1027,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1792229484,
-        "narHash": "sha256-6ETJhHm7tW/c5ys0kepRVC79cRze2gbHhNsfKDS+AzA=",
+        "lastModified": 1792294340,
+        "narHash": "sha256-cgjGvKN2XkVkmIfcKlUODZU2Q/9S1b659cWW/t2KjxY=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "6c543b8850770cd34a9d4793168cdb93b3a959c5",
+        "rev": "7faf3429bba4008682e40dfa6f63f8bf8b498049",
         "type": "github"
       },
       "original": {
         "owner": "ryan4yin",
+        "ref": "feat/dsh-with-plugins",
         "repo": "nur-packages",
         "type": "github"
       }
@@ -1160,7 +1144,6 @@
         "catppuccin": "catppuccin",
         "colmena": "colmena",
         "disko": "disko",
-        "dsh-nushell-only": "dsh-nushell-only",
         "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",
         "home-manager": "home-manager",
