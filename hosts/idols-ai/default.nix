@@ -63,6 +63,27 @@ in
     maxPoolPercent = 10;
   };
 
+  # zswap has no notion of "eager": it only compresses pages that reclaim has
+  # already decided to evict (Documentation/admin-guide/mm/zswap.rst). Tuning the
+  # reclaim policy, not zswap, is what keeps a long-running desktop responsive:
+  # - swappiness 20 (kernel default 60): drop page cache first instead of
+  #   compressing the compositor's and Firefox's anonymous pages, which then come
+  #   back as a fault plus a decompress every time. Not 0: at 0 the kernel only
+  #   swaps once free+file pages drop below the high watermark, so an anon spike
+  #   ends in an OOM kill instead of overflowing into zswap.
+  # - watermark_scale_factor 100 (default 10): wake kswapd earlier so it drains
+  #   cache ahead of allocation bursts, instead of the allocating app stalling in
+  #   direct reclaim (the path behind allocstall_movable and
+  #   kswapd_low_wmark_hit_quickly, both elevated after ~20h uptime here).
+  # - watermark_boost_factor 0 (default 15000): skip the fragmentation-triggered
+  #   extra reclaim that otherwise keeps evicting cache and anon pages on an
+  #   aging system. Same value modules/nixos/base/zram.nix uses.
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 20;
+    "vm.watermark_scale_factor" = 100;
+    "vm.watermark_boost_factor" = 0;
+  };
+
   services.sunshine.enable = true;
 
   modules.btrbk.enable = true;
