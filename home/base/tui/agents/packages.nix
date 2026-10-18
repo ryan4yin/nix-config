@@ -1,7 +1,7 @@
 {
   pkgs,
   llm-agents,
-  nurPkgs,
+  myNurPkgs,
   ...
 }:
 let
@@ -16,7 +16,7 @@ in
     # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
     # (node-addon-require-builtin probe), this one shims it. The Nushell-only
     # plugin rides in through the package's withPlugins wrapper.
-    (nurPkgs.dsh.withPlugins [ nurPkgs.dsh-nushell-only ])
+    (myNurPkgs.dsh.withPlugins [ myNurPkgs.dsh-nushell-only ])
 
     # Docs lookup CLI behind the find-docs skill (agents/skills/find-docs). The skill's flags are
     # written against this package, not against upstream's npx instructions.

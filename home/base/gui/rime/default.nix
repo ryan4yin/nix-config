@@ -1,13 +1,13 @@
 {
   lib,
-  nurPkgs,
+  myNurPkgs,
   pkgs,
   ...
 }:
 let
   # flypy (小鹤音形) rime data from nur-ryan4yin (`pkgs/rime-data-flypy`). The
   # package stays pristine; personal preferences live in flypy.custom.yaml.
-  rime-data-flypy = nurPkgs.rime-data-flypy;
+  rime-data-flypy = myNurPkgs.rime-data-flypy;
   # Personal Rime customisation, layered by Rime on top of the shared rime-data.
   custom = ./flypy.custom.yaml;
   # Manually maintained user dictionary (custom phrases, symbols, missing

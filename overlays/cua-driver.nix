@@ -1,3 +1,3 @@
-{ nurPkgs, ... }: _final: _prev: {
-  cua-driver = nurPkgs.cua-driver;
+{ myNurPkgs, ... }: _final: _prev: {
+  cua-driver = myNurPkgs.cua-driver;
 }
