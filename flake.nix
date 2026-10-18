@@ -204,6 +204,15 @@
       url = "github:DietrichGebert/ponytail/v5.1.0";
       flake = false;
     };
+    # Nushell-only shell for dsh (a profile bundle, not a flake). Pinned to the
+    # develop branch on ryan4yin's fork, which carries the reviewed patch set
+    # (sandbox-denial facts, tests, hints, persistent-terminal scoping); a fork
+    # sync or upstream release is unreviewed until fetched and diffed.
+    # Consumer: home/base/tui/agents/dsh-nushell-only.nix.
+    dsh-nushell-only = {
+      url = "github:ryan4yin/dsh-nushell-only/develop";
+      flake = false;
+    };
 
     ########################  My own repositories  #########################################
 

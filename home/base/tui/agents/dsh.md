@@ -61,15 +61,25 @@ consumer (model shell tools, background jobs, hook bridges, in-process callers) 
 rewrites the `bash`/`pwsh` tool descriptions, so the model is told what actually runs. `nu` comes
 from `pkgs.nushell`, so it does not depend on `PATH`.
 
-The source is the `dsh-nushell-only` input pinned to a reviewed commit of ryan4yin's fork; see
-`WORKAROUNDS.md` WA-024 for the removal condition. Boundaries: preset rows that spawn a shell
-themselves (`custom-bash.mjs`, `persistent-shell`) and the TUI's persistent PTY bypass `ctx.shell`;
-bash hooks now run under Nushell and need rewriting; remote hosts still run their own POSIX shell. A
-`--patch` overlay can disable the `nushell-*` rows and re-enable `bash-sandbox` for a rollback.
+The source is the `develop` branch of ryan4yin's fork carrying the reviewed patch set (Nu-builtin
+denial facts, test-harness fixes, the `find` hint, persistent-terminal scoping), commit-locked by
+`flake.lock`; see `WORKAROUNDS.md` WA-038 for why it is mounted from Nix instead of installed into a
+profile. On dsh 0.2.1-rc.2 the plugin installer accepts the package, so the mount is a policy choice
+(declarative shell choice, reviewed pin, rebuild rollback), not a compatibility workaround.
+Boundaries: preset rows that spawn a shell themselves (`custom-bash.mjs`, `persistent-shell`) bypass
+`ctx.shell`. So does `@deepseek-ai/dsh-experimental-terminal-bundle`: its `terminal_*` tools use a
+separate `ctx.terminals` seam and run bash (POSIX) or pwsh (Windows), so they coexist with this
+layer but stay outside the Nushell-only guarantee — keep the bundle off for a strict Nu-only machine
+(the fork's `--with-terminal-bundle` integration run covers the coexistence). Bash hooks now run
+under Nushell and need rewriting; remote hosts still run their own POSIX shell. A `--patch` overlay
+can disable the `nushell-*` rows and re-enable `bash-sandbox` for a rollback. Tested on Linux; the
+same home profile also applies to Darwin, where this mount has not been boot-tested.
 
 Verify after a switch:
 
 ```sh
 dsh web --dump-config | grep -n "nushell"
 # expect bash-sandbox/pwsh-sandbox = disabled, nushell-executor and nushell-teaching inserted
+dsh web 2>&1 | grep "disabling profile plugin"
+# a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
 ```

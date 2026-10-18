@@ -1,8 +1,10 @@
 # Nushell as the only dsh shell: every ctx.shell execution runs as
 # `nu --no-config-file -c`, a command handed to another shell is refused, and the
-# model is taught Nushell. The bundle comes from a pinned, reviewed source path;
-# dsh cannot install it through `dsh plugin` here because its peer range ends at
-# dsh 0.2.0-rc.2, while this repository runs 0.2.1-rc.x.
+# model is taught Nushell. The bundle comes from the pinned `develop` branch of
+# ryan4yin's fork; flake.lock locks the reviewed commit and WORKAROUNDS.md WA-038
+# records the pin.
+# It is mounted here instead of installed into a profile so the shell choice stays
+# declarative and a rebuild can roll it back with the rest of the configuration.
 #
 # This is a home-layer patch rather than a profile patch: the shell choice is part
 # of the machine configuration, not personal profile state. Patch layers apply
