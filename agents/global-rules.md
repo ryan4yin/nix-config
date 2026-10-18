@@ -143,21 +143,20 @@ For an impactful change, follow these steps in order, scaled to its risk:
   need authorization.
 - Never block a turn on CI, whatever its expected duration. After a push, report the head revision
   and the checks that started. Start a watch on the resolved run as a background job
-  (`gh run watch <id> --exit-status`, or `gh pr checks <pr> --watch` once checks exist) following
-  Keep every turn steerable under Communication; collect and report the result when it finishes. Do
+  (`gh run watch <id> --exit-status`, or `gh pr checks <pr> --watch` once checks exist), and collect
+  and report the result when it finishes. Keep the turn steerable meanwhile (see Communication); do
   not estimate the run's duration or wait it out because it looks short.
 - Create forks with only the default branch (`gh repo fork --default-branch-only`); the task adds
   its own development branch.
 
 ## Environment and shell
 
+- Shell syntax guidance belongs to the active shell plugin or project docs; these rules keep only
+  cross-agent safety and operational constraints.
 - NixOS is non-FHS: agents MUST NOT assume FHS paths or install imperatively (`apt`, `nix-env`,
   `nix profile install`, global `npm`/`pip`). Use `nix shell nixpkgs#<pkg> -c <cmd>` or `nix run`
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
   dependencies; ask before creating a flake or installing another way.
-- The user's interactive shell is **nushell**, and shell work defaults to Nushell. Bash is only
-  started from within nushell, occasionally, for tasks nushell can't do. Put shell env, aliases, and
-  per-session secrets in the Nushell config, not in `bashrc`/`zshrc`.
 - Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes and make sure the
   Nix-managed `~/.ssh/config` is used.
 - Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
@@ -175,13 +174,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Prefer native tool options to reduce output at the source, and the native read, grep, glob, write,
   and edit tools over their shell equivalents. A single shell dispatch is for genuinely shell work
   (git, ssh, nix, remote commands).
-- Use the shell the runtime provides, in its own dialect, and never hand a command string to another
-  shell (`bash -c`, `sh -c`). Default shell work to Nushell. Compose multi-step work with code-mode
-  (PTC) for orchestration, returned tool results, loops, and state across calls; otherwise use
-  Nushell's structured pipelines when available, Python for general local processing, one runtime
-  invocation (`python -c '<code>'`, `nu -c '<code>'`), or a script written with the write tool. Set
-  the tool's working-directory parameter instead of `cd`. A remote command usually runs under a
-  POSIX shell: keep it to one runtime invocation or a copied script.
+- Use the shell the runtime provides; dsh-nu fails closed rather than substituting another shell.
+  For genuinely shell work use the available runtime, `python -c '<code>'` for complex local
+  processing, or a script written with the write tool. A remote command usually runs under a POSIX
+  shell: keep it to one invocation or a copied script.
 - Commands MUST NOT block: disable pagers and interactive prompts (confirm with the user instead of
   making a command interactive, e.g. `rm -i`), avoid commands that wait on stdin or never exit, and
   bound waits and retries with a total time limit the waiting command enforces itself, not an outer
@@ -192,9 +188,9 @@ For an impactful change, follow these steps in order, scaled to its risk:
   when it fires; any poll MUST check the condition and exit as soon as it holds. A retry or protocol
   backoff MAY wait at most 5 seconds per attempt, never longer and never as a progress wait. Make a
   readiness check fail on an error response (e.g. `curl --fail`), not only on a refused connection.
-- When output is filtered or trimmed, agents MUST keep the producer's own exit status: capture
-  output and status together (`| complete` in Nushell, `set -o pipefail` in a POSIX shell) or in
-  code, and never report a successful filter as a successful command.
+- When output is filtered or trimmed, agents MUST keep the producer's own exit status. Capture
+  output and status together with the runtime's mechanism or in code, and never report a successful
+  filter as a successful command.
 - Start servers and watchers as runtime background jobs with their output going to logs; capture the
   job handle or PID when starting them, never by matching `ps` output or a shell `&`.
 
@@ -203,7 +199,7 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Scripts added to a project MUST follow its language and target environment, defaulting to Python
   unless the project ecosystem or data format has a clearer supported runtime.
 - Script files agents create or modify, including temporary ones, MUST pass the available checks
-  (e.g. `shellcheck`, `nu-check`, `py_compile`, `tsc --noEmit`); report any unavailable check.
+  (e.g. `py_compile`, `tsc --noEmit`); report any unavailable check.
 
 ## Communication
 
