@@ -1027,11 +1027,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792328699,
-        "narHash": "sha256-UOmsc839NEqw/fbmMwxnwVRl+2MV2qOGNEp4eNq5dno=",
+        "lastModified": 1792330633,
+        "narHash": "sha256-ICHmCPVtJxn5E2yNzF2+c++AajG4G4YEESxmwbjqVX4=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "c8b4a4b54c16190901fab8cc30cea9a7631ca479",
+        "rev": "b96977d219e9b2dcc30c67f89a698ea961fb68c3",
         "type": "github"
       },
       "original": {
