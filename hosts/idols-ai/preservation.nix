@@ -386,6 +386,14 @@ in
         ".config/pulse"
         ".local/state/wireplumber"
 
+        # EasyEffects 8: KConfig settings database plus user presets, autoload
+        # profiles and imported impulse responses/RNNoise models. The preset
+        # declared in home/linux/gui/base/media.nix is re-linked here by Home
+        # Manager activation; everything the GUI writes needs the persistent
+        # mount or it is gone after a reboot.
+        ".config/easyeffects"
+        ".local/share/easyeffects"
+
         # go-musicfox - TUI NetEase Cloud Music client
         # ~/.config/go-musicfox/config.toml is force-managed by Home Manager
         # (see home/linux/gui/base/go-musicfox/default.nix) and reset on each
