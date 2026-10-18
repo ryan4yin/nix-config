@@ -46,6 +46,10 @@ let
         # to use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
       };
+      pkgs-npu = import inputs.nixpkgs-npu {
+        inherit system;
+        config.allowUnfree = true;
+      };
       pkgs-blender = import inputs.nixpkgs-blender {
         inherit system;
         config = lib.optionalAttrs (system == "x86_64-linux") {

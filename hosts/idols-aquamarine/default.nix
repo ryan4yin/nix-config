@@ -2,6 +2,7 @@
   disko,
   myvars,
   lib,
+  pkgs-npu,
   ...
 }:
 #############################################################
@@ -30,6 +31,9 @@ in
 
     ./preservation.nix
     ./secureboot.nix
+
+    # services
+    ./asr.nix
   ];
 
   # Bind the board's NCT6798D SuperIO, otherwise fan RPM and board temperatures
@@ -67,6 +71,13 @@ in
   # Keep the user systemd manager running after logout and start it at boot,
   # so enabled user services can run without an active login session.
   users.users."${myvars.username}".linger = true;
+
+  # Speech recognition runs on the NPU, see ./asr.nix. The driver and the
+  # compiler it loads come from NixOS/nixpkgs#570230, which is unmerged, so they
+  # are taken from that branch as `pkgs-npu`; the stock driver cannot find the
+  # compiler, the patched one loads it from its own store path. The service sets
+  # this itself -- the session variable is for manual runs.
+  environment.sessionVariables.ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-npu.intel-npu-driver}/lib/libze_intel_npu.so";
 
   # The daemons of the hosts that build here (modules/nixos/base/remote-builders.nix).
   users.users.root.openssh.authorizedKeys.keys = myvars.remoteBuilderClientKeys;

@@ -13,7 +13,7 @@
         "duck_output_volume": 0.25
     },
     "asr": {
-        "active_provider": "sherpa-onnx",
+        "active_provider": "aqua-whisper",
         "normalize_audio": true,
         "input_gain": 1.0,
         "vad": {
@@ -29,6 +29,15 @@
                 "type": "local",
                 "model": "model.sherpa-onnx.qwen3-asr-0.6b-int8",
                 "timeout_ms": 15000
+            },
+            {
+                "id": "aqua-whisper",
+                "type": "command",
+                "command": "/home/ryan/.config/vinput/aqua-asr-provider",
+                "env": {
+                    "VINPUT_ASR_URL": "http://192.168.5.101:18080/v1/audio/transcriptions"
+                },
+                "timeout_ms": 60000
             }
         ]
     },
