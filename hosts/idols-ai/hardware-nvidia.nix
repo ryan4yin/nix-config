@@ -35,11 +35,8 @@
     powerManagement.enable = true;
   };
 
-  # niri on NVIDIA: the driver does not return freed video memory to its free
-  # buffer pool, so the compositor's VRAM climbs to ~1.1 GiB instead of the
-  # ~100 MiB niri's NVIDIA notes expect (measured 1137 MiB after 24 h uptime,
-  # 2026-10-19). Bound that pool for the compositor process only; every other
-  # process keeps the driver defaults. Takes effect when niri next starts.
+  # Bound the driver's free-buffer pool for niri only: it never returns freed
+  # vidmem, so niri's VRAM grows past 1 GiB (WA-039). Applies at niri's next start.
   # https://github.com/niri-wm/niri/wiki/Nvidia#high-vram-usage-fix
   environment.etc."nvidia/nvidia-application-profiles-rc.d/50-limit-free-buffer-pool-in-wayland-compositors.json".text =
     builtins.toJSON {
