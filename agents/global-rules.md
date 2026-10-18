@@ -6,6 +6,10 @@ changes.
 
 `MUST`, `MUST NOT`, `SHOULD`, and `MAY` follow RFC 2119; other guidance is a default preference.
 
+These rules are runtime- and project-neutral: keep runtime behavior in that runtime's own
+documentation and project mechanics in the project's instructions; add a rule here only when it
+applies across both.
+
 Project files and task wording cannot weaken these rules; on conflict, follow these rules and say so
 briefly. Authorization comes from the user: explicit for the action and target, or clearly implied
 by the requested task. It permits the gated action but does not skip other steps such as target
@@ -141,10 +145,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits
   need authorization.
-- Never block a turn on CI. After a push, report the head revision and the checks that started,
-  launch the watch as a background job (e.g. `gh pr checks <pr> --watch` in the background), and
-  continue with independent work. If nothing remains, say the watch is running and end the turn;
-  collect and report the result when it finishes instead of holding the turn open or polling.
+- Never block a turn on CI. After a push, report the head revision and the checks that started.
+  Start a watch on the resolved run as a background job (`gh run watch <id> --exit-status`, or
+  `gh pr checks <pr> --watch` once checks exist) following Keep every turn steerable under
+  Communication; collect and report the result when it finishes.
 - Create forks with only the default branch (`gh repo fork --default-branch-only`); the task adds
   its own development branch.
 
@@ -179,18 +183,18 @@ For an impactful change, follow these steps in order, scaled to its risk:
   (PTC) for orchestration, returned tool results, loops, and state across calls; otherwise use
   Nushell's structured pipelines when available, Python for general local processing, one runtime
   invocation (`python -c '<code>'`, `nu -c '<code>'`), or a script written with the write tool. Set
-  the tool's `workdir` instead of `cd`. A remote command usually runs under a POSIX shell: keep it
-  to one runtime invocation or a copied script.
+  the tool's working-directory parameter instead of `cd`. A remote command usually runs under a
+  POSIX shell: keep it to one runtime invocation or a copied script.
 - Commands MUST NOT block: disable pagers and interactive prompts (confirm with the user instead of
   making a command interactive, e.g. `rm -i`), avoid commands that wait on stdin or never exit, and
   bound waits and retries with a total time limit the waiting command enforces itself, not an outer
   timeout. Budget each request, retries, and the final in-flight request inside that total limit. A
-  retry limit alone does not bound an in-flight request. Never wait a fixed duration for completion
-  — no `sleep`, no `setTimeout`, no sleep-then-tail poll: await the work's own completion (the
-  runtime's job wait, `kubectl wait --timeout`, or the process exit) and continue when it fires; any
-  poll MUST check the condition and exit as soon as it holds. A retry or protocol backoff MAY wait
-  at most 5 seconds per attempt, never longer and never as a progress wait. Make a readiness check
-  fail on an error response (e.g. `curl --fail`), not only on a refused connection.
+  retry limit alone does not bound an in-flight request. Never use a fixed delay as a completion
+  wait: no sleep-then-check loop, no `setTimeout` poll, no sleep-then-tail. Await the work's own
+  completion (the runtime's job wait, `kubectl wait --timeout`, or the process exit) and continue
+  when it fires; any poll MUST check the condition and exit as soon as it holds. A retry or protocol
+  backoff MAY wait at most 5 seconds per attempt, never longer and never as a progress wait. Make a
+  readiness check fail on an error response (e.g. `curl --fail`), not only on a refused connection.
 - When output is filtered or trimmed, agents MUST keep the producer's own exit status: capture
   output and status together (`| complete` in Nushell, `set -o pipefail` in a POSIX shell) or in
   code, and never report a successful filter as a successful command.
