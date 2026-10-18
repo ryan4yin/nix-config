@@ -224,10 +224,9 @@
       flake = false;
     };
 
-    # Personal NUR packages. TODO: point back at main once
-    # ryan4yin/nur-packages#43 (dsh.withPlugins) merges.
+    # Personal NUR packages.
     nur-ryan4yin = {
-      url = "github:ryan4yin/nur-packages?ref=feat/dsh-with-plugins";
+      url = "github:ryan4yin/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -1027,16 +1027,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1792294340,
-        "narHash": "sha256-cgjGvKN2XkVkmIfcKlUODZU2Q/9S1b659cWW/t2KjxY=",
+        "lastModified": 1792295502,
+        "narHash": "sha256-OwknIWtVBcidZC3+g5fb8t3NmmQcFmBOtIiiXCs/6c0=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "7faf3429bba4008682e40dfa6f63f8bf8b498049",
+        "rev": "ceaeb479ff923a9a6083f2acef381c44c4366d9b",
         "type": "github"
       },
       "original": {
         "owner": "ryan4yin",
-        "ref": "feat/dsh-with-plugins",
         "repo": "nur-packages",
         "type": "github"
       }
