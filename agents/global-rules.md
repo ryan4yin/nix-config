@@ -141,6 +141,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits
   need authorization.
+- Never block a turn on CI. After a push, report the head revision and the checks that started,
+  launch the watch as a background job (e.g. `gh pr checks <pr> --watch` in the background), and
+  continue with independent work. If nothing remains, say the watch is running and end the turn;
+  collect and report the result when it finishes instead of holding the turn open or polling.
 - Create forks with only the default branch (`gh repo fork --default-branch-only`); the task adds
   its own development branch.
 
