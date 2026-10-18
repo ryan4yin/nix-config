@@ -29,10 +29,11 @@ Two things about this board set the ceiling for the GPU work:
 The iGPU carries display and video work: the kernel binds `i915`, and
 [hardware-intel-igpu.nix](./hardware-intel-igpu.nix) installs `intel-media-driver` (VA-API),
 `vpl-gpu-rt` (oneVPL/QSV) and `intel-compute-runtime` (OpenCL/Level-Zero), so transcoding can use
-its media engine while the R9700s stay on inference. VA-API targets `/dev/dri/renderD128`; OpenVINO
-jobs go through `openvino-gpu <command>`, which pins the OpenCL loader the GPU plugin needs
-(WA-038). A monitor plugged into the board's HDMI/DP ports still gets the text console
-(`multi-user.target`, no display manager) when SSH is unreachable.
+its media engine while the R9700s stay on inference. VA-API targets `/dev/dri/renderD128`, and
+OpenVINO jobs run through `openvino-gpu <command>`; [IGPU.md](./IGPU.md) records the wrapper, the
+static-shape workaround Whisper needs on `GPU`, and the measured NPU/iGPU/CPU timings. A monitor
+plugged into the board's HDMI/DP ports still gets the text console (`multi-user.target`, no display
+manager) when SSH is unreachable.
 
 `iommu=pt` is set in [hardware-amd-gpu.nix](./hardware-amd-gpu.nix) because ROCm documents hangs on
 multi-GPU systems without IOMMU passthrough. The same file disables amdgpu runtime power management:

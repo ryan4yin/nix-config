@@ -19,6 +19,7 @@
   # `/run/opengl-driver/lib/libOpenCL.so.1` comes from ROCm's clr (OpenCL 2.2), so the plugin
   # fails to load and OpenVINO silently drops GPU from `available_devices`. Run OpenVINO jobs
   # through this wrapper to put ocl-icd first and pin the Intel ICD (WORKAROUNDS.md, WA-038).
+  # See IGPU.md for running models on the iGPU.
   environment.systemPackages = [
     (pkgs.writeShellApplication {
       name = "openvino-gpu";
