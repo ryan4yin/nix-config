@@ -58,6 +58,20 @@ in
   btopShowsRadeon = cfg.modules.btop.package == eval.pkgs.btop-rocm;
   # CAP_PERFMON inside the wrapper is what the i915 iGPU needs.
   btopReadsIgpu = cfg.modules.btop.perfmon;
+  # The iGPU takes video work off the R9700s: VA-API, oneVPL and OpenCL/Level-Zero.
+  igpuMediaStackInstalled =
+    let
+      packageNames = map (package: package.pname or "") (cfg.hardware.graphics.extraPackages or [ ]);
+    in
+    builtins.all (name: builtins.elem name packageNames) [
+      "intel-media-driver"
+      "vpl-gpu-rt"
+      "intel-compute-runtime"
+    ];
+  # OpenVINO's GPU plugin needs ocl-icd ahead of ROCm's clr loader (WA-038).
+  openvinoGpuWrapperInstalled = builtins.any (
+    package: (package.name or "") == "openvino-gpu"
+  ) cfg.environment.systemPackages;
   gpuMetricsExported = builtins.elem "drm" cfg.services.prometheus.exporters.node.enabledCollectors;
   # node_exporter rejects a repeated flag, and this list merges with the base
   # module's entries, so a duplicate restart-loops the unit.

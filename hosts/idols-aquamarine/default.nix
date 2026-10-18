@@ -28,6 +28,7 @@ in
     # hardware
     ./hardware-configuration.nix
     ./hardware-amd-gpu.nix
+    ./hardware-intel-igpu.nix
 
     ./preservation.nix
     ./secureboot.nix
