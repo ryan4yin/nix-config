@@ -175,11 +175,12 @@ For an impactful change, follow these steps in order, scaled to its risk:
   and edit tools over their shell equivalents. A single shell dispatch is for genuinely shell work
   (git, ssh, nix, remote commands).
 - Use the shell the runtime provides; if Nushell is unavailable, use Python or the project language.
-  Compose multi-step work with code-mode (PTC) for orchestration, returned tool results, loops, and
-  state across calls; otherwise use the available runtime for genuinely shell work,
-  `python -c '<code>'` for complex local processing, or a script written with the write tool. Set
-  the tool's working-directory parameter instead of `cd`. A remote command usually runs under a
-  POSIX shell: keep it to one invocation or a copied script.
+  This fallback applies only when no Nushell bundle is active; dsh-nu fails closed. Compose
+  multi-step work with code-mode (PTC) for orchestration, returned tool results, loops, and state
+  across calls; otherwise use the available runtime for genuinely shell work, `python -c '<code>'`
+  for complex local processing, or a script written with the write tool. Set the tool's
+  working-directory parameter instead of `cd`. A remote command usually runs under a POSIX shell:
+  keep it to one invocation or a copied script.
 - Commands MUST NOT block: disable pagers and interactive prompts (confirm with the user instead of
   making a command interactive, e.g. `rm -i`), avoid commands that wait on stdin or never exit, and
   bound waits and retries with a total time limit the waiting command enforces itself, not an outer
