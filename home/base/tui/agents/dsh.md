@@ -53,31 +53,32 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 
 ## Nushell-only shell
 
-`nur-ryan4yin`'s `dsh.withPlugins [ ...dsh-nu ]` replaces the two first-party shell providers with
-Nushell: every `ctx.shell` consumer (model shell tools, background jobs, hook bridges, in-process
-callers) runs `nu --no-config-file -c`, and a command that hands execution to another shell is
-refused before it spawns. The plugin adds Nushell rules and a syntax guide, and rewrites the
-shell-tool descriptions, so the model is told what actually runs. `nu` comes from the NUR package,
-so it does not depend on `PATH`.
+`dsh-nu`'s flake builds the bundle and `nur-ryan4yin`'s `dsh.withPlugins` applies it: every
+`ctx.shell` consumer (model shell tools, background jobs, hook bridges, in-process callers) runs
+`nu --no-config-file -c`, and a command that hands execution to another shell is refused before it
+spawns. The plugin adds Nushell rules and a syntax guide, and rewrites the shell-tool descriptions,
+so the model is told what actually runs. `nu` is the Nixpkgs one, fixed at build time, so it does
+not depend on `PATH`.
 
-The source is the `dsh-nu` GitHub release tarball, pinned by `hashes.json` in `nur-packages`;
-nix-config locks that package set in its `flake.lock`. `dsh.withPlugins` wraps the binary: each
-invocation gets a generated `--patch <file>` overlay after the profile layer, while `dsh plugin`
-stays untouched. No `$DSH_HOME/cordis.patch.yml` is written, so there is no home-layer state to
-resolve or roll back. Boundaries: preset rows that spawn a shell themselves (`custom-bash.mjs`,
-`persistent-shell`) bypass `ctx.shell`. So does `@deepseek-ai/dsh-experimental-terminal-bundle`: its
-`terminal_*` tools use a separate `ctx.terminals` seam and run the platform shell (bash on the POSIX
-hosts this repository manages), so they coexist with this plugin but stay outside the Nushell-only
-guarantee — keep the bundle off for a strict Nu-only machine. Bash hooks now run under Nushell and
-need rewriting; remote hosts still run their own POSIX shell. Rollback: install plain `dsh` or pass
-an empty plugin list; there is no home file to delete. Tested on Linux; the same package also builds
-for Darwin, where it has not been boot-tested.
+`home/base/tui/agents/packages.nix` calls `dsh-nu.lib.mkDshNuPackage { inherit pkgs dsh; }` and
+passes the result to `withPlugins`; `flake.lock` pins both inputs. `dsh.withPlugins` wraps the
+binary: each invocation gets a generated `--patch <file>` overlay after the profile layer, while
+`dsh plugin` stays untouched. No `$DSH_HOME/cordis.patch.yml` is written, so there is no home-layer
+state to resolve or roll back. Boundaries: preset rows that spawn a shell themselves
+(`custom-bash.mjs`, `persistent-shell`) bypass `ctx.shell`. So does
+`@deepseek-ai/dsh-experimental-terminal-bundle`: its `terminal_*` tools use a separate
+`ctx.terminals` seam and run the platform shell (bash on the POSIX hosts this repository manages),
+so they coexist with this plugin but stay outside the Nushell-only guarantee — keep the bundle off
+for a strict Nu-only machine. Bash hooks now run under Nushell and need rewriting; remote hosts
+still run their own POSIX shell. Rollback: install plain `dsh` or pass an empty plugin list; there
+is no home file to delete. Tested on Linux; the same package also builds for Darwin, where it has
+not been boot-tested.
 
 Verify after a switch:
 
 ```sh
-dsh --profile web --dump-config | grep -n "nushell"
-# expect the first-party shell rows disabled, nushell-executor and nushell-teaching inserted
+dsh --profile web --dump-config | grep -n "nu-executor\|nu-teaching"
+# expect the first-party shell rows disabled, nu-executor and nu-teaching inserted
 dsh --profile web 2>&1 | grep "disabling profile plugin"
 # a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
 ```

@@ -166,6 +166,27 @@
         "type": "github"
       }
     },
+    "dsh-nu": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nur-ryan4yin": "nur-ryan4yin"
+      },
+      "locked": {
+        "lastModified": 1792343443,
+        "narHash": "sha256-5QpExZfeHrb3/crshRpJTdnpu4GdCmPK9YJvWXunzbI=",
+        "owner": "ryan4yin",
+        "repo": "dsh-nu",
+        "rev": "a7af102bf3ef942e09182c10cfee6a8951eed02d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "dsh-nu",
+        "type": "github"
+      }
+    },
     "fcitx5-vinput": {
       "inputs": {
         "nixpkgs": [
@@ -1023,15 +1044,36 @@
     "nur-ryan4yin": {
       "inputs": {
         "nixpkgs": [
+          "dsh-nu",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1792330633,
-        "narHash": "sha256-ICHmCPVtJxn5E2yNzF2+c++AajG4G4YEESxmwbjqVX4=",
+        "lastModified": 1792342725,
+        "narHash": "sha256-kalmu6yOiD8HiXoo2ipvQ12L4UXe2kk68ObaMHeVslw=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "b96977d219e9b2dcc30c67f89a698ea961fb68c3",
+        "rev": "a71fc275ec7dbbbb8b3e9ece422a2df7f55269db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
+    "nur-ryan4yin_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792342725,
+        "narHash": "sha256-kalmu6yOiD8HiXoo2ipvQ12L4UXe2kk68ObaMHeVslw=",
+        "owner": "ryan4yin",
+        "repo": "nur-packages",
+        "rev": "a71fc275ec7dbbbb8b3e9ece422a2df7f55269db",
         "type": "github"
       },
       "original": {
@@ -1143,6 +1185,7 @@
         "catppuccin": "catppuccin",
         "colmena": "colmena",
         "disko": "disko",
+        "dsh-nu": "dsh-nu",
         "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",
         "home-manager": "home-manager",
@@ -1168,7 +1211,7 @@
         "nixpkgs-patched": "nixpkgs-patched",
         "nixpkgs-stable": "nixpkgs-stable",
         "nu_scripts": "nu_scripts",
-        "nur-ryan4yin": "nur-ryan4yin",
+        "nur-ryan4yin": "nur-ryan4yin_2",
         "ponytail": "ponytail",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
