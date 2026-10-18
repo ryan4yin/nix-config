@@ -53,12 +53,12 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 
 ## Nushell-only shell
 
-`nur-ryan4yin`'s `dsh.withPlugins [ ...dsh-nushell-only ]` replaces the two first-party shell
-providers with Nushell: every `ctx.shell` consumer (model shell tools, background jobs, hook
-bridges, in-process callers) runs `nu --no-config-file -c`, and a command that hands execution to
-another shell is refused before it spawns. The plugin adds Nushell rules and a syntax guide, and
-rewrites the shell-tool descriptions, so the model is told what actually runs. `nu` comes from the
-NUR package, so it does not depend on `PATH`.
+`nur-ryan4yin`'s `dsh.withPlugins [ ...dsh-nu ]` replaces the two first-party shell providers with
+Nushell: every `ctx.shell` consumer (model shell tools, background jobs, hook bridges, in-process
+callers) runs `nu --no-config-file -c`, and a command that hands execution to another shell is
+refused before it spawns. The plugin adds Nushell rules and a syntax guide, and rewrites the
+shell-tool descriptions, so the model is told what actually runs. `nu` comes from the NUR package,
+so it does not depend on `PATH`.
 
 The source is the `develop` branch of ryan4yin's fork carrying the reviewed patch set (Nu-builtin
 denial facts, test-harness fixes, the `find` hint, persistent-terminal scoping), pinned by
