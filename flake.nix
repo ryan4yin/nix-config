@@ -149,6 +149,13 @@
     # AI coding agents
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    # terminal window manager / multiplexer; nixpkgs lags behind upstream,
+    # so track the upstream flake.
+    tuios = {
+      url = "github:Gaurav-Gosain/tuios/v0.10.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # -------------- Gaming ---------------------
 
     nix-gaming = {
@@ -227,13 +234,6 @@
     # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri)
     pyclipsync = {
       url = "github:ryan4yin/pyclipsync/v0.1.3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # terminal window manager / multiplexer; nixpkgs lags behind upstream,
-    # so track the upstream flake.
-    tuios = {
-      url = "github:Gaurav-Gosain/tuios/v0.10.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
