@@ -16,10 +16,13 @@ Markdown with no Nix dependency; this module only wires it into place.
 - `packages.nix`: agent CLIs (`codex`, `opencode2`, `pi`) from the `llm-agents` flake input, plus
   `pkgs.mcp-grafana` for the Grafana MCP server.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
+- `dsh-nushell-only.nix`: the dsh home layer that makes Nushell the only shell, from a pinned and
+  reviewed plugin source.
 
-dsh is installed by this module but configured at runtime, not by Nix: profile patches live in
-`~/.dsh/profiles/<name>/cordis.patch.yml`. See [dsh.md](./dsh.md) for the layer order and the
-settings that bite.
+dsh is installed by this module and mostly configured at runtime: profile patches live in
+`~/.dsh/profiles/<name>/cordis.patch.yml`. The shell swap is the one home-layer exception, because
+it belongs to the machine configuration rather than personal profile state. See [dsh.md](./dsh.md)
+for the layer order and the settings that bite.
 
 ## Deployed rule targets
 

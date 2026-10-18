@@ -12,9 +12,11 @@ profile: an ordered stack of patch layers over an empty root entry list, where l
 
 `$DSH_HOME` defaults to `~/.dsh`. Settings UI changes are written to the profile patch; a home-layer
 row outranks it, so the UI rejects that setting with
-`Configuration for "..." is overridden by a home patch`. This repository therefore ships no home
-layer — profile patches are machine-local runtime state, the place for private endpoints (LAN
-servers, staging gateways) too, and Nix only installs the CLI.
+`Configuration for "..." is overridden by a home patch`. This repository ships exactly one home
+layer — `home/base/tui/agents/dsh-nushell-only.nix`, the shell swap below — because that choice is
+part of the machine configuration. Everything else stays in the profile patch: machine-local runtime
+state, the place for private endpoints (LAN servers, staging gateways) too. Nix installs the CLI
+and, for the shell swap, links the reviewed plugin source.
 
 Three behaviours that are easy to get wrong:
 
@@ -49,3 +51,25 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 - The scopes come from the environment: `0.2.1-alpha.2` removed the row's `dshHome` / `agentsHome`.
 - Nested `AGENTS.md` files are discovered by `read` / `write` / `edit`, not by `cd` inside `bash`,
   and nothing is watched: an external edit lands on the next such call, or on resume.
+
+## Nushell-only shell
+
+`dsh-nushell-only.nix` replaces the two first-party shell providers with Nushell: every `ctx.shell`
+consumer (model shell tools, background jobs, hook bridges, in-process callers) runs
+`nu --no-config-file -c`, and a command that hands execution to `bash`, `sh`, `cmd`, `pwsh`, or
+`wsl` is refused before it spawns. The same layer adds Nushell rules and a syntax guide, and
+rewrites the `bash`/`pwsh` tool descriptions, so the model is told what actually runs. `nu` comes
+from `pkgs.nushell`, so it does not depend on `PATH`.
+
+The source is the `dsh-nushell-only` input pinned to a reviewed commit of ryan4yin's fork; see
+`WORKAROUNDS.md` WA-024 for the removal condition. Boundaries: preset rows that spawn a shell
+themselves (`custom-bash.mjs`, `persistent-shell`) and the TUI's persistent PTY bypass `ctx.shell`;
+bash hooks now run under Nushell and need rewriting; remote hosts still run their own POSIX shell. A
+`--patch` overlay can disable the `nushell-*` rows and re-enable `bash-sandbox` for a rollback.
+
+Verify after a switch:
+
+```sh
+dsh web --dump-config | grep -n "nushell"
+# expect bash-sandbox/pwsh-sandbox = disabled, nushell-executor and nushell-teaching inserted
+```
