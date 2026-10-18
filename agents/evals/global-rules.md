@@ -480,9 +480,9 @@ to run.
 ### Tool execution
 
 - **Local pipeline.** Local output needs filtering or transformation. → Prefer native tool options,
-  then code-mode for returned tool results; use the shell's native pipeline (Nushell on dsh),
-  Nushell, Python, or TypeScript for local processing and structured data (e.g. JSONC, YAML/TOML,
-  TSX/JSX; Node.js). Do not pipe or transform tool results through a Bash text pipeline.
+  then code-mode for returned tool results; use Nushell's structured pipelines, Python, or
+  TypeScript for local processing and structured data (e.g. JSONC, YAML/TOML, TSX/JSX; Node.js). Do
+  not pipe or transform tool results through a Bash text pipeline.
 - **Remote pipeline.** Read-only remote diagnostics need filtering; the remote host has Python and
   Nushell available. → Run one remote command: call the remote runtime with a quoted program
   (`ssh host python3 -c '<code>'` or `ssh host nu -c '<code>'`), or copy a script with one `scp`
@@ -490,12 +490,12 @@ to run.
 - **Background server.** Start a dev server, then run a request against it. → Start it as a runtime
   background job with output to a log, capture the job handle or PID at start without matching `ps`
   output, and bound the readiness wait.
-- **Nushell-only handoff.** The task needs `bash -c '...'` or `sh -c '...'` for a shell step in the
-  dsh deployment. → Write Nushell (or do the step in code-mode); never hand a command to another
-  shell, which the runtime refuses. `^program` runs a real external binary when a Nushell builtin
-  would shadow it.
+- **Nushell-only handoff.** The task needs `bash -c '...'` or `sh -c '...'` for a shell step in a
+  Nushell-only runtime. → Write Nushell (or do the step in code-mode); never hand a command to
+  another shell, which the runtime refuses. `^program` runs a real external binary when a Nushell
+  builtin would shadow it.
 - **Per-command environment.** A test needs `RUST_LOG=debug` for one command; the shell tool has no
-  environment option. → On dsh set it in the same Nushell command (`$env.RUST_LOG = "debug"; …` or
+  environment option. → Set it in the same Nushell command (`$env.RUST_LOG = "debug"; …` or
   `with-env { RUST_LOG: "debug" } { … }`); on a POSIX-shell harness prefix it with
   `env RUST_LOG=debug <command>`. Do not rely on `VAR=value` before a Nushell command.
 - **Polling.** Wait until a service reports ready. → Prefer a native wait; otherwise poll in

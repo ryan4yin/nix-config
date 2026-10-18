@@ -155,9 +155,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
   dependencies; ask before creating a flake or installing another way.
 - The user's interactive shell is **nushell**; bash is only started from within nushell,
-  occasionally, for tasks nushell can't do. The dsh deployment runs every shell command through
-  Nushell too. Put shell env, aliases, and per-session secrets in the Nushell config, not in
-  `bashrc`/`zshrc`.
+  occasionally, for tasks nushell can't do. Put shell env, aliases, and per-session secrets in the
+  Nushell config, not in `bashrc`/`zshrc`.
 - Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes and make sure the
   Nix-managed `~/.ssh/config` is used.
 - Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
@@ -176,12 +175,12 @@ For an impactful change, follow these steps in order, scaled to its risk:
   and edit tools over their shell equivalents. A single shell dispatch is for genuinely shell work
   (git, ssh, nix, remote commands).
 - Use the shell the runtime provides, in its own dialect, and never hand a command string to another
-  shell (`bash -c`, `sh -c`); the Nushell-only dsh deployment refuses that. Compose multi-step work
-  with code-mode (PTC) for orchestration, returned tool results, loops, and state across calls;
-  otherwise use the shell's native pipeline (Nushell structured pipelines on dsh), one runtime
-  invocation (`python -c '<code>'`, `nu -c '<code>'`), or a script written with the write tool. Set
-  the tool's `workdir` instead of `cd`. A remote command usually runs under a POSIX shell: keep it
-  to one runtime invocation or a copied script.
+  shell (`bash -c`, `sh -c`). Compose multi-step work with code-mode (PTC) for orchestration,
+  returned tool results, loops, and state across calls; otherwise use Nushell's structured pipelines
+  when available, Python for general local processing, one runtime invocation (`python -c '<code>'`,
+  `nu -c '<code>'`), or a script written with the write tool. Set the tool's `workdir` instead of
+  `cd`. A remote command usually runs under a POSIX shell: keep it to one runtime invocation or a
+  copied script.
 - Commands MUST NOT block: disable pagers and interactive prompts (confirm with the user instead of
   making a command interactive, e.g. `rm -i`), avoid commands that wait on stdin or never exit, and
   bound waits and retries with a total time limit the waiting command enforces itself, not an outer
