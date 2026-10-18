@@ -1,3 +1,3 @@
-{ inputs, ... }: _final: prev: {
-  cua-driver = inputs.nur-ryan4yin.packages.${prev.stdenv.hostPlatform.system}.cua-driver;
+{ nurPkgs, ... }: _final: _prev: {
+  cua-driver = nurPkgs.cua-driver;
 }
