@@ -48,7 +48,15 @@
       enable = true;
 
       extraPresets.loudness-normalization.output = {
-        blocklist = [ ];
+        # Excluded from output processing ("Excluded Apps" in the GUI). Matched
+        # against the stream's app id, process binary or node name; browsers need
+        # "node:media-name" plus StreamOutputs.blocklistUsesMediaName. Loading a
+        # preset replaces the GUI-managed list, so exclusions belong here.
+        blocklist = [
+          "mpv"
+          "ZOOM VoiceEngine"
+          "Wemeet VoiceEngine"
+        ];
         "plugins_order" = [
           "autogain#0"
           "limiter#0"
