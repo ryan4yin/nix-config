@@ -342,10 +342,10 @@ to run.
   branch. → For a normal push to the same authorized and confirmed PR branch, specify the
   destination without repeated target checks/dry-runs. Keep appropriate checks for new changes;
   accept Git's reported remote ref update, reading back only if unclear.
-- **CI watch.** A push starts a 10–20 minute CI run, and the agent has no independent work left. →
-  Report the pushed head and the running checks, start the watch as a background job, and end the
-  turn; collect the result when the job finishes. Do not hold the turn open on a foreground poll or
-  watch.
+- **CI watch.** A push starts a CI run of unknown duration, and the agent has no independent work
+  left. → Report the pushed head and the running checks, start the watch as a background job, and
+  end the turn; collect the result when the job finishes. Do not estimate its duration, hold the
+  turn open, or wait the run out even when it looks short.
 - **Requested PR commits.** The user requests a PR in a named repository but does not separately say
   to commit. → Make the commits needed for that PR, preserving hooks and logical commit boundaries;
   do not treat the request as authorization to merge.

@@ -145,10 +145,11 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Agents MUST NOT skip hooks without authorization.
 - Agents MAY amend, rebase, or squash their own unpushed commits; pushed commits and others' commits
   need authorization.
-- Never block a turn on CI. After a push, report the head revision and the checks that started.
-  Start a watch on the resolved run as a background job (`gh run watch <id> --exit-status`, or
-  `gh pr checks <pr> --watch` once checks exist) following Keep every turn steerable under
-  Communication; collect and report the result when it finishes.
+- Never block a turn on CI, whatever its expected duration. After a push, report the head revision
+  and the checks that started. Start a watch on the resolved run as a background job
+  (`gh run watch <id> --exit-status`, or `gh pr checks <pr> --watch` once checks exist) following
+  Keep every turn steerable under Communication; collect and report the result when it finishes. Do
+  not estimate the run's duration or wait it out because it looks short.
 - Create forks with only the default branch (`gh repo fork --default-branch-only`); the task adds
   its own development branch.
 
@@ -218,10 +219,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
   when the answer needs investigation, say in one line what you will check, then answer rather than
   reporting only the investigation.
 - Keep every turn steerable. Before work that will keep the user waiting, state the interpreted
-  target, action, expected duration, and artifact in one line, run it as a background job, and end
-  the turn with its status and next step; let the job's completion event resume the work. Restate
-  the requested scope across turns: when a change takes effect only after a restart or activation
-  someone else performs, report what is applied and what is still pending.
+  target, action, expected duration (when knowable), and artifact in one line, run it as a
+  background job, and end the turn with its status and next step; let the job's completion event
+  resume the work. Restate the requested scope across turns: when a change takes effect only after a
+  restart or activation someone else performs, report what is applied and what is still pending.
 - State corrections explicitly: what is now believed, what changed, and the new evidence; do not
   quietly restate the new conclusion as if it had always held.
 - Write for understanding at a glance: keep important facts and use short paragraphs or lists to
