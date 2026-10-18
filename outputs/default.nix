@@ -60,6 +60,9 @@ let
           cudaCapabilities = [ "8.9" ];
         };
       };
+      # NUR packages for this system, so modules use `myNurPkgs.dsh` instead of
+      # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
+      myNurPkgs = inputs.nur-ryan4yin.packages.${system};
     };
 
   # This is the args for all the haumea modules in this folder.

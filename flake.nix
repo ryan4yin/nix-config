@@ -204,7 +204,6 @@
       url = "github:DietrichGebert/ponytail/v5.1.0";
       flake = false;
     };
-
     ########################  My own repositories  #########################################
 
     # my private secrets, it's a private repository, you need to replace it with your own.

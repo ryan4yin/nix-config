@@ -8,13 +8,14 @@ profile: an ordered stack of patch layers over an empty root entry list, where l
 | 1   | bundles   | shipped with the profile                     | upstream        |
 | 2   | profile   | `$DSH_HOME/profiles/<name>/cordis.patch.yml` | dsh, at runtime |
 | 3   | home      | `$DSH_HOME/cordis.patch.yml`                 | you             |
-| 4   | `--patch` | whatever the launcher passes                 | you             |
+| 4   | `--patch` | whatever the launcher passes                 | package wrapper |
 
 `$DSH_HOME` defaults to `~/.dsh`. Settings UI changes are written to the profile patch; a home-layer
 row outranks it, so the UI rejects that setting with
-`Configuration for "..." is overridden by a home patch`. This repository therefore ships no home
-layer — profile patches are machine-local runtime state, the place for private endpoints (LAN
-servers, staging gateways) too, and Nix only installs the CLI.
+`Configuration for "..." is overridden by a home patch`. This repository ships no home layer:
+profile patches remain machine-local runtime state, the place for private endpoints (LAN servers,
+staging gateways) too. The shell swap is a package concern instead: Nix installs `dsh` from
+`nur-ryan4yin` with `dsh.withPlugins`, which adds a `--patch` overlay after the profile layer.
 
 Three behaviours that are easy to get wrong:
 
@@ -49,3 +50,36 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 - The scopes come from the environment: `0.2.1-alpha.2` removed the row's `dshHome` / `agentsHome`.
 - Nested `AGENTS.md` files are discovered by `read` / `write` / `edit`, not by `cd` inside `bash`,
   and nothing is watched: an external edit lands on the next such call, or on resume.
+
+## Nushell-only shell
+
+`nur-ryan4yin`'s `dsh.withPlugins [ ...dsh-nushell-only ]` replaces the two first-party shell
+providers with Nushell: every `ctx.shell` consumer (model shell tools, background jobs, hook
+bridges, in-process callers) runs `nu --no-config-file -c`, and a command that hands execution to
+another shell is refused before it spawns. The plugin adds Nushell rules and a syntax guide, and
+rewrites the shell-tool descriptions, so the model is told what actually runs. `nu` comes from the
+NUR package, so it does not depend on `PATH`.
+
+The source is the `develop` branch of ryan4yin's fork carrying the reviewed patch set (Nu-builtin
+denial facts, test-harness fixes, the `find` hint, persistent-terminal scoping), pinned by
+`fetchFromGitHub` and `hashes.json` in `nur-packages`; nix-config locks that package set in its
+`flake.lock`. `dsh.withPlugins` wraps the binary: each invocation gets a generated `--patch <file>`
+overlay after the profile layer, while `dsh plugin` stays untouched. No `$DSH_HOME/cordis.patch.yml`
+is written, so there is no home-layer state to resolve or roll back. Boundaries: preset rows that
+spawn a shell themselves (`custom-bash.mjs`, `persistent-shell`) bypass `ctx.shell`. So does
+`@deepseek-ai/dsh-experimental-terminal-bundle`: its `terminal_*` tools use a separate
+`ctx.terminals` seam and run the platform shell (bash on the POSIX hosts this repository manages),
+so they coexist with this plugin but stay outside the Nushell-only guarantee — keep the bundle off
+for a strict Nu-only machine (the fork's `--with-terminal-bundle` integration run covers the
+coexistence). Bash hooks now run under Nushell and need rewriting; remote hosts still run their own
+POSIX shell. Rollback: install plain `dsh` or pass an empty plugin list; there is no home file to
+delete. Tested on Linux; the same package also builds for Darwin, where it has not been boot-tested.
+
+Verify after a switch:
+
+```sh
+dsh --profile web --dump-config | grep -n "nushell"
+# expect the first-party shell rows disabled, nushell-executor and nushell-teaching inserted
+dsh --profile web 2>&1 | grep "disabling profile plugin"
+# a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
+```

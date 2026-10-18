@@ -295,7 +295,7 @@ dsh-web:
     HTTP_PROXY: "http://127.0.0.1:7897"
     no_proxy: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.101,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
     NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.101,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-  } { ^dsh web --no-open }
+  } { ^dsh --profile web --no-open }
 
 # Render the mihomo config from this repo and validate it with the live core.
 [linux]

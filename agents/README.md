@@ -47,7 +47,9 @@ lives in the Home Manager module [`home/base/tui/agents/`](../home/base/tui/agen
 
 Before adding or expanding a rule, read the current rules and identify the decision boundary that
 needs to change. Keep reusable boundaries in `global-rules.md`; put concrete incidents, bypass
-attempts, and counterexamples in [behavioral scenarios](evals/global-rules.md).
+attempts, and counterexamples in [behavioral scenarios](evals/global-rules.md). Keep the file
+runtime- and project-neutral: runtime behavior belongs in that runtime's documentation, project
+mechanics in the project's instructions, and a rule belongs here only when it applies across both.
 
 - If an existing rule already covers the incident, add or refine a scenario instead of another rule.
 - If the boundary is missing or ambiguous, amend the relevant rule rather than append a special

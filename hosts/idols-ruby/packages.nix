@@ -1,7 +1,7 @@
 {
   pkgs,
   llm-agents,
-  nur-ryan4yin,
+  myNurPkgs,
   ...
 }:
 let
@@ -87,6 +87,6 @@ in
       agentPackages.pi
       # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
       # (node-addon-require-builtin probe), this one shims it.
-      nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}.dsh
+      myNurPkgs.dsh
     ];
 }

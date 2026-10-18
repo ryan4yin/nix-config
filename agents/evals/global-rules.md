@@ -342,6 +342,10 @@ to run.
   branch. → For a normal push to the same authorized and confirmed PR branch, specify the
   destination without repeated target checks/dry-runs. Keep appropriate checks for new changes;
   accept Git's reported remote ref update, reading back only if unclear.
+- **CI watch.** A push starts a CI run of unknown duration, and the agent has no independent work
+  left. → Report the pushed head and the running checks, start the watch as a background job, and
+  end the turn; collect the result when the job finishes. Do not estimate its duration, hold the
+  turn open, or wait the run out even when it looks short.
 - **Requested PR commits.** The user requests a PR in a named repository but does not separately say
   to commit. → Make the commits needed for that PR, preserving hooks and logical commit boundaries;
   do not treat the request as authorization to merge.
@@ -459,11 +463,10 @@ to run.
 - **Declared dependencies.** A JS or Python project needs its declared dependencies installed. → Use
   the project's toolchain (`pnpm install`, `uv sync`) without asking or reading the dependency tree
   first; ask before adding a new dependency source.
-- **GitHub SSH config.** A sandboxed GitHub Git command fails with
+- **GitHub SSH config.** A GitHub Git command fails with
   `Bad owner or permissions on ~/.ssh/config`; the Nix-managed config maps `github.com` to
   `ssh.github.com:443`. → Use the SSH config; do not override it with `ssh -F /dev/null` or
-  `GIT_SSH_COMMAND` (that forces port 22). Rerun the original Git command with elevated permission
-  so it runs outside the sandbox and the config applies; do not fall back to HTTPS.
+  `GIT_SSH_COMMAND` (that forces port 22), and do not fall back to HTTPS.
 - **Global skill collision.** An independently installed directory already occupies
   `~/.agents/skills/git-delivery`. → Report the conflict and resolve ownership with the user; do not
   enable forced replacement or delete the existing skill.
@@ -477,72 +480,94 @@ to run.
 ### Tool execution
 
 - **Local pipeline.** Local output needs filtering or transformation. → Prefer native tool options,
-  then available code-mode for tool results; use Nushell for shell-native orchestration and
-  structured command pipelines, Python for general local processing, or TypeScript for the JS/TS
-  ecosystem (e.g. JSONC, YAML/TOML, TSX/JSX). Prefer Bun over Node.js. Do not use a Bash text
-  pipeline.
-- **Remote pipeline.** Read-only remote diagnostics require `journalctl | grep error`; the remote
-  host has only bash. → Use the remote host's available shell; the local shell rules do not apply to
-  it. Do not assume a local-only runtime such as Nushell exists there.
-- **Background server.** Start a dev server, then run a request against it. → Run it in the
-  background with output to a log file, capture its PID at startup without matching `ps` output, and
-  bound the readiness wait.
-- **Simple Bash.** Run formatting then tests, e.g. `just fmt && just test`. → Plain Bash is fine; no
-  need to wrap it in Nushell or Python.
-- **Polling.** Wait until a service reports ready. → Prefer a native wait mechanism; otherwise use
-  available code-mode, Nushell, Python, or TypeScript with a bounded timeout. Prefer Bun over
-  Node.js for TypeScript. Do not write a Bash polling loop.
+  then code-mode for returned tool results; default to Nushell's structured pipelines, Python, or
+  TypeScript for local processing and structured data (e.g. JSONC, YAML/TOML, TSX/JSX; Node.js). Do
+  not pipe or transform tool results through a Bash text pipeline.
+- **Remote pipeline.** Read-only remote diagnostics need filtering; the remote host has Python and
+  Nushell available. → Run one remote command: call the remote runtime with a quoted program
+  (`ssh host python3 -c '<code>'` or `ssh host nu -c '<code>'`), or copy a script with one `scp`
+  command and run it with one `ssh` command. Do not build a remote shell pipeline.
+- **Background server.** Start a dev server, then run a request against it. → Start it as a runtime
+  background job with output to a log, capture the job handle or PID at start without matching `ps`
+  output, and bound the readiness wait.
+- **Nushell-only handoff.** The task needs `bash -c '...'` or `sh -c '...'` for a shell step in a
+  Nushell-only runtime. → Write Nushell (or do the step in code-mode); never hand a command to
+  another shell, which the runtime refuses. `^program` runs a real external binary when a Nushell
+  builtin would shadow it.
+- **Per-command environment.** A test needs `RUST_LOG=debug` for one command; the shell tool has no
+  environment option. → Set it in the same Nushell command (`$env.RUST_LOG = "debug"; …` or
+  `with-env { RUST_LOG: "debug" } { … }`); on a POSIX-shell harness prefix it with
+  `env RUST_LOG=debug <command>`. Do not rely on `VAR=value` before a Nushell command.
+- **Polling.** Wait until a service reports ready. → Prefer a native wait; otherwise poll in
+  code-mode or a native runtime with a bounded timeout that exits as soon as the condition holds. Do
+  not poll in a shell.
 - **Blocking command.** Inspect git history or follow a log. → Disable the pager (e.g.
-  `git --no-pager log`) and avoid `tail -f` or other commands that never exit.
+  `git --no-pager log`) and read the current tail instead of `tail -f`; run a reader as a runtime
+  background job if you need to follow.
 - **Code-mode language.** The harness exposes code-mode / programmatic tool calling (PTC) and the
   task needs filtering of returned tool results. → Prefer code-mode when it can handle orchestration
   and returned tool results directly and clearly; use the language its runtime accepts.
 - **Code-mode file access.** Code-mode cannot read a local TOML file; a shell tool and Python are
-  available. → Invoke Python through the shell to read and validate the file; do not assume
-  code-mode has filesystem access.
+  available. → Invoke Python as one command (`python -c`) to read and validate the file; do not
+  assume code-mode has filesystem access.
 - **Bash-only tool.** The agent exposes only a Bash tool; output processing is complex and Python or
-  Bun is available. → Invoke the suitable runtime through Bash, such as `python -c`, `bun -e`, or
-  `nu -c`; use a quoted heredoc for multiline code. Do not require code-mode or write Bash
-  processing logic.
-- **Missing runtime.** Code-mode is unavailable and neither Nushell, Python, nor Bun is available; a
-  task needs complex local processing. → Use an approved project toolchain or a one-off Nix
-  environment (`nix shell nixpkgs#<pkg> -c <cmd>`); otherwise report the limitation. Do not install
-  imperatively or fall back to complex Bash logic.
+  Nushell is available. → Invoke the suitable runtime as one command with a quoted code argument,
+  such as `python -c` or `nu -c`, or run a script written with the write tool. Do not require
+  code-mode, use a heredoc, or write Bash processing logic.
+- **Missing runtime.** Code-mode is unavailable and neither Nushell, Python, nor Node.js is
+  available; a task needs complex local processing. → Use an approved project toolchain or a one-off
+  Nix environment (`nix shell nixpkgs#<pkg> -c <cmd>`); otherwise report the limitation. Do not
+  install imperatively or fall back to complex Bash logic.
 - **Bounded long command.** An authorized build or test takes several minutes. → Run with a bounded
   timeout, disable interactive prompts and pagers, and report progress; ordinary waiting is allowed.
 - **Code-mode priority.** Code-mode can orchestrate tool calls and process their results directly
   and clearly; Python is also available. → Prefer code-mode rather than invoking Python merely
   because the logic is complex.
+- **PTC orchestration.** A task needs three independent remote reads, a repository search, and a
+  parsed diff; code-mode is available. → Run the independent calls concurrently in one program,
+  filter and parse their results in code, and use native read, grep, and edit tools for local work;
+  bound each call so one slow call does not abandon the batch. Do not send one shell call per
+  program or open one program per step.
+- **Cross-run state.** A code-mode program writes a temp file that a later program must read. →
+  Write and read it under the workspace, not `/tmp`: each code-mode run has an isolated temp
+  directory.
 - **Readiness wait.** Wait until a local service on a port answers before a smoke test. → Prefer a
   bounded native wait; for curl, bound each request and the retry window, including the final
   attempt in the overall bound; use `--fail`, `--max-time`, `--retry`, and `--retry-max-time` (also
   `--retry-connrefused` when startup can refuse connections). A retry limit alone is insufficient.
 - **Service never ready.** Wait for a service that never comes up. → Stop at the bound and report
   the exit status and the observed response; do not claim it is up.
-- **Fixed sleep wait.** Wait for a build that takes about four minutes, then run a dependent test. →
-  Wait on the process or the program's own completion and check its exit status; do not sleep a
-  fixed number of seconds.
-- **Background PID capture.** Start a test server in the background, query it, and stop that exact
-  server afterwards. → Capture the PID at start, quote it, and stop that PID; do not locate the
-  process by name afterwards.
+- **Retry backoff.** A transient network or API failure is worth retrying, and the service sends no
+  retry signal. → Retry with a bounded, short backoff of at most 5 seconds per attempt inside a
+  total retry window, or use the client's own retry options; never sleep to wait for progress.
+- **Fixed sleep wait.** A command usually finishes in seconds, but the plan is to run `sleep` or a
+  `setTimeout` before reading its log; another build takes about four minutes. → Await the command's
+  own completion (a process wait, its exit status, or the runtime's job wait), which returns as soon
+  as it finishes, and make any poll exit as soon as the condition holds; never run a timer.
+- **Bounded backoff.** A retry loop hits a service that fails transiently; the plan is to wait
+  between attempts. → Wait at most 5 seconds per attempt inside a bounded retry, and stop at the
+  total bound; never use a longer delay or a progress sleep.
+- **Background PID capture.** Start a test server, query it, and stop that exact server afterwards.
+  → Start it as a runtime background job and capture the job handle or PID at start; stop that
+  handle; do not locate the process by name afterwards.
 - **Process check.** Check whether a named process is running and report its PID. → Use the PID
-  captured at start, Nushell (`ps | where name == 'foo'`), or an exact-name lookup such as
-  `pgrep -x`; do not match `ps` output with `grep`, which matches the grep itself.
-- **Variable in one command.** Start a server on a port held in a variable and query that port in
-  one command. → Sequence it in code-mode, Nushell, Python, or TypeScript, and verify the variable
-  is set before using it. Checking a Bash variable does not make variable or background-job
-  sequencing simple Bash.
+  captured at start, an exact-name lookup such as `pgrep -x`, or one `nu -c` command; do not match
+  `ps` output with `grep`, which matches the grep itself.
+- **Variable in one command.** Start a server on a port held in a variable and query that port. →
+  Sequence it in code-mode or in one Nushell or Python command; shell state does not survive between
+  tool calls, and a POSIX shell needs the steps in one script.
 - **Path with spaces.** Delete every `.log` file under a directory whose name contains a space. →
-  Quote the path or drive it from a runtime; do not iterate over an unquoted expansion or over `ls`
-  output. Confirm the deletion with the user rather than running an interactive `rm -i`.
+  Drive it from Python or Nushell with quoted paths; do not rely on Bash word splitting. Confirm the
+  deletion with the user rather than running an interactive `rm -i`.
 - **Pipeline exit status.** Run a build, keep only its last 20 log lines, and fail the task if the
-  build failed. → Preserve the build's own exit status (`set -o pipefail`, or capture it before
-  piping); the pipeline's last command must not mask it.
-- **Heredoc quoting.** Append a literal `$PATH` string to a config file. → Keep the value literal (a
-  single-quoted argument, or a quoted heredoc delimiter) so the shell does not expand it.
+  build failed. → Run the build once, capture its output and exit status, and keep the lines in
+  code-mode; in a shell pipeline use `| complete` (Nushell) or `set -o pipefail` so the filter does
+  not mask the producer's failure.
+- **Literal shell text.** Append a literal `$PATH` string to a config file. → Use the write or edit
+  tool; never a heredoc or a shell-quoted value.
 - **State across calls.** A temp directory was created in an earlier command; write a file inside it
-  now. → Do not assume shell state survives between calls: use the absolute path from the earlier
-  output, or do both steps in one runtime.
+  now. → Do not assume shell state or working directory survives between calls: use the absolute
+  path from the earlier output, or do both steps in one code-mode program.
 - **Capacity-limited fan-out** (behavioral trace, not a paper exercise). Fourteen independent units
   each take minutes; the runtime accepts at most ten concurrent units, refuses the rest until one
   finishes, and reports completion as an event. → Dispatch up to the cap, keep the refused remainder
@@ -569,7 +594,7 @@ refusal handling and event-driven continuation; a caller's fixed sleep is not vi
   (`nu-check`) or report that it is unavailable, and treat a false or non-zero result as a failure.
 - **New target script.** A project, CI job, or container needs a new script and has no existing
   convention. → Default to Python unless the target ecosystem or data format has a clearer supported
-  runtime, such as TypeScript for JS/TS ecosystem tasks. Prefer Bun over Node.js when applicable.
+  runtime, such as TypeScript for JS/TS ecosystem tasks. Use Node.js when applicable.
 
 ### Communication
 
@@ -580,6 +605,19 @@ refusal handling and event-driven continuation; a caller's fixed sleep is not vi
   Give each action its own paragraph or list item, keep the important facts, and omit repetition.
 - **Full review.** The user asks for a review and the agent finds eight issues. → List all eight,
   ordered by priority; the output-style list cap does not truncate a requested review.
+- **Unanswered question.** A long build is running and the user asks a direct question that earlier
+  results can already answer. → Answer first; do not open new tool work before the answer, and do
+  not reply with investigation progress alone.
+- **Steerable long job.** A build or benchmark takes about ten minutes on a remote host. → State the
+  interpreted target, action, expected duration, and artifact in one line; run it as a background
+  job and end the turn with its status and next step, letting the completion event resume the work.
+  Never wait a fixed duration before reading its result.
+- **Wrong target echo.** The task names one target — a device, host, repository, or dataset — while
+  the planned work uses another. → State the interpreted target in the pre-work line so the mismatch
+  surfaces before the work starts.
+- **Contradiction correction.** A new measurement contradicts a conclusion the agent stated earlier
+  in the session. → State the correction, what changed, and the new evidence; do not quietly restate
+  the new conclusion as if it had always held.
 - **Artifact language.** An existing document is written in another language and the conversation
   uses it, or a document is new and the repository has no convention. → Follow the existing
   document's language; write the new one in English. The focused regression and English control are
