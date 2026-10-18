@@ -30,31 +30,11 @@ let
     cp ${plugin}/package.json $out/package.json
     ln -s ${peers} $out/node_modules/@deepseek-ai
   '';
+  patch = pkgs.replaceVars ./dsh-cordis.patch.yml {
+    bundle = "${bundle}";
+    nu = "${nu}";
+  };
 in
 {
-  home.file.".dsh/cordis.patch.yml".text = ''
-    # Managed by home/base/tui/agents/dsh-nushell-only.nix.
-    # dsh-base already platform-disables the other first-party executor on the
-    # POSIX hosts this repository manages; disable only the active row.
-    - id: bash-sandbox
-      disabled: true
-    - insert:
-        - id: nushell-executor
-          name: ${bundle}/lib/executor.js
-          config:
-            nuPath: ${nu}/bin/nu
-            timeoutMs: 60000
-            maxTimeoutMs: 600000
-            maxOutputBytes: 64000
-            graceMs: 3000
-            enforceNushellOnly: true
-            requireNu: true
-            verifyNu: true
-        - id: nushell-teaching
-          name: ${bundle}/lib/teaching.js
-          config:
-            guide: full
-            rewriteToolDescriptions: true
-            rules: true
-  '';
+  home.file.".dsh/cordis.patch.yml".source = patch;
 }
