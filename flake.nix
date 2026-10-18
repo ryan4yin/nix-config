@@ -230,6 +230,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # The Nushell-only shell bundle. Its flake builds the plugin from the
+    # repository, so a release needs only `nix flake update dsh-nu`.
+    dsh-nu = {
+      url = "github:ryan4yin/dsh-nu";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri)
     pyclipsync = {
       url = "github:ryan4yin/pyclipsync/v0.1.3";

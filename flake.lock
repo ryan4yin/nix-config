@@ -166,6 +166,26 @@
         "type": "github"
       }
     },
+    "dsh-nu": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792342317,
+        "narHash": "sha256-nWHOaxrMI68jL2g5in2MKqMPSIi8TIfk46ICQ7aJd9Q=",
+        "owner": "ryan4yin",
+        "repo": "dsh-nu",
+        "rev": "0b1573ae7eddd10a5b705ce73ab5f276a5051c30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "dsh-nu",
+        "type": "github"
+      }
+    },
     "fcitx5-vinput": {
       "inputs": {
         "nixpkgs": [
@@ -1143,6 +1163,7 @@
         "catppuccin": "catppuccin",
         "colmena": "colmena",
         "disko": "disko",
+        "dsh-nu": "dsh-nu",
         "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",
         "home-manager": "home-manager",
