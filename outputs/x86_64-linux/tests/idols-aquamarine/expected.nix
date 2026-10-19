@@ -20,6 +20,7 @@
   collectorFlagsUnique = true;
   inferenceUserCanRender = true;
   noHomeManager = true;
+  pythonInstalled = true;
   staticAddressMatchesWiredInterface = true;
   rootIsTmpfs = true;
   stateIsPersistent = true;

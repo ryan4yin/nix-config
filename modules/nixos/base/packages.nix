@@ -37,6 +37,9 @@ in
         psmisc # killall/pstree/prtstat/fuser/...
         ethtool
         pv # pipe view
+
+        # System-wide interpreter; Home Manager's python313 on desktops is a separate profile.
+        python313
       ]
       ++ lib.optionals hardwareTools.enable [
         lm_sensors # `sensors` command

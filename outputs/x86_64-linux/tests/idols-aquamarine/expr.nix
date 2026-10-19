@@ -82,6 +82,9 @@ in
 
   # Headless: no desktop session, no Home Manager.
   noHomeManager = !cfg ? home-manager.users;
+  pythonInstalled = builtins.any (
+    package: lib.hasPrefix "python3-" (package.name or "")
+  ) cfg.environment.systemPackages;
 
   # The board renames the wired NIC with the PCIe topology, so networkd matches the
   # `en*` prefix; a name-based match leaves the host without an address.
