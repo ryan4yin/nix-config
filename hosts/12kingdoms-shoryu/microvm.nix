@@ -4,6 +4,7 @@
   mylib,
   agenix,
   mysecrets,
+  myNurPkgs,
   inputs,
   ...
 }:
@@ -21,6 +22,7 @@
         mylib
         agenix
         mysecrets
+        myNurPkgs
         ;
     };
     config.imports = [ ../k8s/k3s-test-1-master-1 ];
@@ -36,6 +38,7 @@
         mylib
         agenix
         mysecrets
+        myNurPkgs
         ;
     };
     config.imports = [ ../k8s/k3s-test-1-worker-1 ];
