@@ -57,8 +57,12 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 `ctx.shell` consumer (model shell tools, background jobs, hook bridges, in-process callers) runs
 `nu --no-config-file -c`, and a command that hands execution to another shell is refused before it
 spawns. The plugin adds Nushell rules and a syntax guide, and rewrites the shell-tool descriptions,
-so the model is told what actually runs. `nu` is the Nixpkgs one, fixed at build time, so it does
-not depend on `PATH`.
+so the model is told what actually runs. `nu` is the Nushell `dsh-nu`'s flake resolves — Nixpkgs',
+through `inputs.nixpkgs.follows` — substituted into the rendered patch at build time, so it does not
+depend on `PATH`. The bundle is tested with Nushell 0.115.1 and warns at evaluation time when the
+resolved Nushell differs; drop the `follows` to build against its own pin instead. A command that
+hands a script file to a shell (`bash scripts/build.sh`) is refused, and the refusal names the
+direct `./scripts/build.sh` spelling; the guard itself is unchanged.
 
 `home/base/tui/agents/packages.nix` calls `dsh-nu.lib.mkDshNuPackage { inherit pkgs dsh; }` and
 passes the result to `withPlugins`; `flake.lock` pins both inputs. `dsh.withPlugins` wraps the
@@ -79,6 +83,6 @@ Verify after a switch:
 ```sh
 dsh --profile web --dump-config | grep -n "nu-executor\|nu-teaching"
 # expect the first-party shell rows disabled, nu-executor and nu-teaching inserted
-dsh --profile web 2>&1 | grep "disabling profile plugin"
+dsh --profile web o+e>| grep "disabling profile plugin"
 # a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
 ```
