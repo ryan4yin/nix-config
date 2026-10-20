@@ -53,8 +53,8 @@ in
     ];
   rootlessPodmanEnabled = cfg.virtualisation.podman.enable;
 
-  # A server tracks the nixpkgs default (stable/LTS) kernel, not `-latest`.
-  stableKernel = cfg.boot.kernelPackages.kernel.version == eval.pkgs.linuxPackages.kernel.version;
+  latestKernel =
+    cfg.boot.kernelPackages.kernel.version == eval.pkgs.linuxPackages_latest.kernel.version;
   btopShowsRadeon = cfg.modules.btop.package == eval.pkgs.btop-rocm;
   # CAP_PERFMON inside the wrapper is what the i915 iGPU needs.
   btopReadsIgpu = cfg.modules.btop.perfmon;

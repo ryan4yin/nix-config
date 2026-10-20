@@ -18,10 +18,11 @@ by a maintainer).
 - **ROCm today**: system requirements list `AMD Radeon AI PRO R9700 | RDNA4 | gfx1201 | ✅`.
   **verified**
   ([requirements](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/reference/system-requirements.html))
-- **This repository**: nixpkgs `f45c6f0` provides `rocmPackages.clr` and `rocmPackages.rocm-smi`
-  7.2.3 and Mesa 26.2.4; the host runs the nixpkgs default kernel (6.18.x LTS), not
-  `linuxPackages_latest` (7.2.8), which is what the first bring-up booted. **verified** (checked by
-  `nix eval`)
+- **This repository**: the primary nixpkgs input `f71476e8` provides `rocmPackages.clr` 7.2.3.
+  Aquamarine selects `linuxPackages_latest` for newer amdgpu/KFD fixes; this does not establish
+  compatibility with ROCm 10.1 containers. On 2026-10-20, before activating this change, the host
+  reported kernel/driver 6.18.54, host CLR 7.2.3 and inference-container ROCm 7.2.4. The first
+  bring-up also used `linuxPackages_latest` (7.2.8).
 - **Mesa**: "initial GFX12 (RDNA4) support on RADV" landed in 25.0.0. **verified**
   ([notes](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/docs/relnotes/25.0.0.rst))
 - **Kernel**: amdgpu has no static `1002:7551` entry; its ID table ends with

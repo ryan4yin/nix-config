@@ -26,12 +26,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 
-  # The nixpkgs default (`linuxPackages`) is the stable/LTS line, which is what a
-  # server should run; `linuxPackages_latest` is for chasing new hardware. The
-  # R9700 (Navi 48) only needs the 6.14 AMD validates for it, so the default is
-  # far ahead of the requirement. See ./ROCM.md.
-  # https://github.com/nixpkgs/nixpkgs/blob/nixos-unstable/pkgs/top-level/linux-kernels.nix
-  boot.kernelPackages = pkgs.linuxPackages;
+  # Track newer amdgpu/KFD fixes for the R9700 inference containers.
+  # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/top-level/linux-kernels.nix
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"

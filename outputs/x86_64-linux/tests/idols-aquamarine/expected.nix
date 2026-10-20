@@ -11,7 +11,7 @@
   cachePersistent = true;
   userUnitDirsPersistent = true;
   rootlessPodmanEnabled = true;
-  stableKernel = true;
+  latestKernel = true;
   btopShowsRadeon = true;
   btopReadsIgpu = true;
   igpuMediaStackInstalled = true;

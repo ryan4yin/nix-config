@@ -55,6 +55,10 @@
     enable = true;
   };
 
+  # ROCm 10.1 is available: https://rocm.docs.amd.com/en/latest/.
+  # nixpkgs still ships 7.2.x while the upgrade awaits split reviews, LLVM/OpenMP
+  # fixes and compatibility work: https://github.com/NixOS/nixpkgs/pull/573885.
+  # Inference containers carry their own ROCm userspace.
   # The ROCm OpenCL ICD, which is also what HIP consumers resolve for compute.
   hardware.amdgpu.opencl.enable = true;
 
