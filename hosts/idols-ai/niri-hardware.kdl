@@ -23,10 +23,10 @@ output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000"
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    // Take the exact value from `niri msg outputs` on this host: niri matches
-    // refresh rates exactly, so this panel's 120 Hz mode is 119.880 (120/1.001)
-    // and "@120" falls back to 144 Hz, whose DSC link stays dark on wake.
-    mode "3840x2160@119.880"
+    // Pin the exact value from `niri msg outputs` on this host: niri matches
+    // refresh rates exactly, so a nominal "144" can miss and fall back silently
+    // (this panel's 120 Hz mode, for example, is 119.880, not 120).
+    mode "3840x2160@144.000"
 
     // Position of the output in the global coordinate space.
     // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
