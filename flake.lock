@@ -174,11 +174,11 @@
         "nur-ryan4yin": "nur-ryan4yin"
       },
       "locked": {
-        "lastModified": 1792394981,
-        "narHash": "sha256-ZQuL/y1p4BOC1xWXtLS26YXYpOwVTy3braeX/onuiDk=",
+        "lastModified": 1792594085,
+        "narHash": "sha256-Ua5VKHzb7iobq+6P7Q8t/2U8t+heFmdXl5zIQB4hJGI=",
         "owner": "ryan4yin",
         "repo": "dsh-nu",
-        "rev": "b8e30ec6693ab911513d52730bd664052ef89629",
+        "rev": "c7c0b2ca8fcd6fd5791823d6ed2a8f37e817b275",
         "type": "github"
       },
       "original": {
