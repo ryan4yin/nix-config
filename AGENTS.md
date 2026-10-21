@@ -95,6 +95,8 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
   evaluate or build without activating a system. Use these commands for previews and validation.
 - `just up`, `just upp`, `just up-nix`, and `just override-pkgs <hash>` update flake inputs and
   commit the lock file. Use `nix flake update <input>` when the update should remain uncommitted.
+- `git push` publishes: to GitHub and, through the mirror workflow, to Gitee. Commit locally as
+  needed; ask the user before pushing.
 - `just niri` and `just local` activate the machine you are on through `sudo` and block on a
   password prompt; `just darwin-rollback` switches the macOS generation on the machine you are on,
   and a bare `sudo systemctl restart <unit>` activates a running service the same way.
