@@ -2,10 +2,14 @@
 
 > **Purpose:** let the maintainer decide, per candidate, whether it is worth adopting — by comparing
 > it against what this repository does **today**. A plan derived from this file is only approved
-> work once its card here says **adopt**.
+> work once its card here says **adopt**. The plans are not on `main`: they exist only on the local,
+> unpushed git tag `modernization-plans-wip`, under `docs/plans/`:
+> `2026-10-07-boot-chain-limine-uki-repart.md`, `2026-10-07-host-level-modernization.md` and
+> `2026-10-07-lab-experimental-etc-init.md` (`git show modernization-plans-wip:docs/plans/<file>`).
 >
 > Researched against nixpkgs `nixos-unstable` on 2026-10-07. Option names and upstream wording are
-> quoted from the module sources cited in each card.
+> quoted from the module sources cited in each card. The **Current:** sections were re-checked
+> against this repository on 2026-10-21; the upstream research was not redone.
 
 ## How to use this file
 
@@ -56,16 +60,20 @@ LAN-only client can run Tailscale.
 
 ## A2. systemd-resolved
 
-**Current:** `services.resolved.enable` is set **nowhere**; hosts get DNS from systemd-networkd or
-NetworkManager (or static config) and use the default `/etc/resolv.conf`. Note
-`modules/nixos/base/networking/mdns.nix` already sets
-`services.resolved.settings.Resolve.MulticastDNS = false` — currently inert, and it will activate
-the moment resolved is enabled. mDNS itself is provided by avahi.
+**Current:** `services.resolved.enable` evaluates `true` on 14 of the 15 NixOS hosts (all but
+`akane`): nixpkgs enables it by default with systemd-networkd
+(`nixos/modules/system/boot/networkd.nix`), and `shoukei`, which runs NetworkManager, enables it
+through `modules.networking.mihomo.resolvedIntegration` (asserted by the eval test
+`outputs/aarch64-linux/tests/mihomo-dns`). On `ai`, a mihomo lifecycle hook points the link's
+resolved DNS at mihomo (`hosts/idols-ai/default.nix`). `DNSOverTLS` and `DNSSEC` evaluate `false`.
+The `services.resolved.settings.Resolve.MulticastDNS = false` in
+`modules/nixos/base/networking/mdns.nix` is therefore live; mDNS itself is provided by avahi.
 
-**Proposed:** `services.resolved.enable = true`, optionally with `DNSOverTLS`/DNSSEC and caching.
+**Proposed:** `DNSOverTLS`/DNSSEC and caching settings on the resolved instance the hosts already
+run (`services.resolved.enable = true` would still be new on `akane`).
 
-**Pros:** caching resolver, DoT/DNSSEC available, consistent stub across hosts, and the mDNS caveat
-is already handled by the existing setting.
+**Pros:** DoT/DNSSEC available; the caching resolver and a consistent stub across hosts already come
+with the resolved instance in use, and the mDNS caveat is already handled by the existing setting.
 
 **Cons:** the LAN gateway `suzi` is a mihomo transparent proxy that **hijacks DNS to fake IPs that
 are only routable through the proxy** — DoT/DoH on a host would bypass that hijack and break proxied
@@ -84,12 +92,16 @@ changes.
 
 ## A3. systemd-networkd instead of dhcpcd
 
-**Current:** dhcpcd is not used anywhere in this repo. `ai`, `kana` and `ruby` already set
-`networking.useNetworkd = true`; `shoukei` and `akane` run NetworkManager; VM hosts and MicroVM
-guests use static config with `useDHCP = false`. The `br0` bridge on VM hosts is declared through
-`systemd.network.netdevs/networks` already.
+**Current:** dhcpcd is not used anywhere in this repo. `networking.useNetworkd = true` is set on 13
+of the 15 hosts: every VM host (`lib/genVmHostModule.nix`) and MicroVM guest
+(`lib/genMicrovmGuestModule.nix`), plus `ai`, `aquamarine`, `kana` and `ruby`; only `shoukei` and
+`akane` run NetworkManager. VM hosts and MicroVM guests use static config with `useDHCP = false`.
+The `br0` bridge on VM hosts is declared through `systemd.network.netdevs/networks` already.
 
-**Proposed:** `networking.networkd.enable = true` with `networking.networks`/`networkdOptions`.
+**Proposed:** systemd-networkd on the remaining NetworkManager hosts, through the options the other
+hosts already use: `networking.useNetworkd` and `systemd.network.{networks,netdevs}`. The
+`networking.networkd.enable` / `networking.networks` / `networkdOptions` names first recorded here
+do not exist in the locked nixpkgs.
 
 **Pros:** declarative per-interface config, one implementation for stage 1 and stage 2, no dhcpcd
 anywhere in the path (nothing in this repo uses it), and VM hosts already speak `systemd.network`
@@ -103,7 +115,10 @@ lease/renew and DNS handling.
 
 **Trigger to adopt:** guest-only first, then a non-VM host with console access.
 
-**Recommendation:** **watch**, guest-only experiment (plan 3, task 5).
+**Recommendation:** **watch**, guest-only experiment (`lab-experimental-etc-init.md`, Task 5). The
+corrected facts make that experiment moot — every MicroVM guest already runs networkd, and the plan
+task uses the non-existent option names above — so the open call is whether `shoukei` and `akane`
+move off NetworkManager.
 
 **Decision:** _pending_
 
@@ -134,12 +149,16 @@ missing-log incident shows up.
 ## A5. zram-generator instead of zramSwap
 
 **Current:** a local module `modules/nixos/base/zram.nix` wraps `zramSwap` and adds sysctl tunings
-(swappiness, readahead), disabled on idols-ai (disk swapfile) and memoryPercent-tuned on shoukei.
+(swappiness, readahead), disabled on idols-ai (disk swapfile) and aquamarine, memoryPercent-tuned on
+shoukei, and not imported on akane. In the locked nixpkgs `zramSwap` is itself implemented on
+zram-generator (`nixos/modules/config/zram.nix` sets `services.zram-generator.enable`, which youko
+evaluates `true`).
 
 **Proposed:** `services.zram-generator.enable` with a `zram0` definition.
 
 **Pros:** systemd-native unit generator, config expressed as data, upstream-maintained, no
-NixOS-specific script.
+NixOS-specific script — all but writing the `zram0` settings directly already come with `zramSwap`
+(see Current).
 
 **Cons:** your module couples zram presence to sysctl tunings — the migration must keep that logic
 working when zram is off; two zram implementations are easy to have half-enabled during the change;
@@ -155,8 +174,8 @@ the gain over a working `zramSwap` is mostly cosmetic.
 
 ## A6. nixos-facter instead of hand-written hardware-configuration.nix
 
-**Current:** 3 hosts carry hand-written `hardware-configuration.nix` (`shoryu`, `shoukei`, `ai`;
-`shushou` and `youko` import `shoryu`'s, and the qemu guests use the shared
+**Current:** 4 hosts carry hand-written `hardware-configuration.nix` (`shoryu`, `shoukei`, `ai`,
+`aquamarine`; `shushou` and `youko` import `shoryu`'s, and the qemu guests use the shared
 `modules/nixos/server/qemu-guest-hardware-configuration.nix`), plus deliberate per-host quirks such
 as the NVMe APST workaround WA-008 and USB-SATA mitigations WA-009.
 
@@ -174,7 +193,7 @@ defaults become less transparent than a file you can read in the diff; your deli
 
 **Trigger to adopt:** on a new host build, or when a hardware change forces a regeneration anyway.
 
-**Recommendation:** **watch** — adopt on the next new host rather than retrofitting eight.
+**Recommendation:** **watch** — adopt on the next new host rather than retrofitting four.
 
 **Decision:** _pending_
 
@@ -204,10 +223,12 @@ cannot go to a public cache.
 
 **Current:** static `nix.buildMachines` (`modules/nixos/base/remote-builders.nix`); the plain user
 is deliberately not a trusted user on the clients, though the builder host trusts its builder login;
-Nix 2.35 via `nixVersions.latest` (WA-023).
+Nix 2.35 via `nixVersions.latest` (WA-023). `auto-allocate-uids` (with `cgroups`) is already enabled
+in `modules/nixos/base/nix.nix` for nixpkgs' nspawn-based tests, and the locked nixpkgs has no
+`nix-servd` module or package.
 
-**Proposed:** `nix-servd` for scheduling, plus `auto-allocate-uids` and `local-overlay-store`
-experimental features.
+**Proposed:** `nix-servd` for scheduling, plus the `local-overlay-store` experimental feature
+(`auto-allocate-uids` is already on, see Current).
 
 **Pros:** dynamic builder selection and health checks instead of a hand-maintained list; the
 experimental features move toward running the daemon without root, consistent with the
@@ -253,9 +274,10 @@ are hard to attribute; no measured problem to solve yet.
 
 ## B1. limine instead of systemd-boot + lanzaboote
 
-**Current:** systemd-boot everywhere, except qemu guests (GRUB on `/dev/vda`) and idols-ai, where
-lanzaboote provides Secure Boot with a `/etc/secureboot` (lzpt) bundle; the lanzaboote flake input
-must track a rust-overlay follow (WA-003).
+**Current:** systemd-boot on akane, shoukei and the VM hosts (shoryu, shushou, youko); GRUB on
+`/dev/vda` on the libvirt guests kana and ruby; no bootloader on the MicroVM guests; on idols-ai and
+aquamarine, lanzaboote provides Secure Boot with a `/etc/secureboot` (lzpt) bundle. The lanzaboote
+flake input must track a rust-overlay follow (WA-003).
 
 **Proposed:** `boot.loader.limine` — in nixpkgs, with `secureBoot`, `validateChecksums`,
 `panicOnChecksumMismatch`, `biosSupport`, `maxGenerations`, graphical menu.
@@ -282,8 +304,8 @@ but it is the highest-risk item on this list.
 
 ## B2. boot.uki / system.build.uki
 
-**Current:** lanzaboote already produces and signs a UKI on idols-ai; other hosts boot
-kernel+initrd.
+**Current:** lanzaboote already produces and signs a UKI on idols-ai and aquamarine; other hosts
+boot kernel+initrd.
 
 **Proposed:** `boot.uki`.
 
@@ -355,8 +377,13 @@ and its own state; unclear what problem it solves here.
 
 ## B6. Measured boot phases / FIDO2 credentials
 
-**Current:** Secure Boot via lanzaboote; TPM2/FIDO2 initrd options are off, so boot is signed but
-not measured into a policy.
+**Current:** Secure Boot via lanzaboote on ai and aquamarine, whose LUKS volumes are enrolled for
+TPM2 unlock bound to PCRs 0+7, with the passphrase slot as fallback (`hosts/idols-ai/README.md`,
+`hosts/idols-aquamarine/README.md`). `boot.initrd.systemd.tpm2.enable` evaluates `true` on every
+host except the MicroVM guests, and on ai and aquamarine `systemd.tpm2.enable` and
+`boot.initrd.systemd.fido2.enable` are `true` as well (nixpkgs defaults from the systemd package).
+Not adopted: `systemd.tpm2.pcrphases.enable` is `false`, and the READMEs document no FIDO2
+credential, only TPM2 and passphrase slots.
 
 **Proposed:** `systemd.tpm2.enable`, `systemd.tpm2.pcrphases.enable`,
 `boot.initrd.systemd.tpm2.enable`, `boot.initrd.systemd.fido2.enable`.
@@ -413,16 +440,22 @@ are deleted early. **Recommendation:** **adopt additively**. **Decision:** _pend
 
 ## C3. nix-fast-build
 
-**Current:** serial evaluation in CI. **Proposed:** `nix-fast-build` over the eval tests and the
-three host systems, reusing remote builders. **Pros:** parallel eval/build, no new CI infra.
-**Cons:** one more tool in the Justfile; CI already gates merges. **Recommendation:** **adopt**.
-**Decision:** _pending_
+**Current:** CI (`.github/workflows/flake_evaltests.yml`) runs one `nix eval .#evalTests` and one VM
+test (`checks.x86_64-linux.security-exporters`) on GitHub-hosted `ubuntu-latest` runners.
+**Proposed:** `nix-fast-build` over the eval tests and the three host systems; the remote builder
+(aquamarine, over SSH from repo machines) serves only a local Justfile run, not the hosted CI
+runners. **Pros:** parallel eval/build, no new CI infra. **Cons:** one more tool in the Justfile; CI
+already gates merges. **Recommendation:** **adopt**. **Decision:** _pending_
 
 ## C4. Cleanups (no decision needed)
 
 WA-001 (smartctl pin) should be dropped once nixpkgs carries the upstream fix; the "nixfmt with
 width 100" sentence in `AGENTS.md` should be checked against the formatter `just fmt` actually
-resolves to. **Recommendation:** **adopt**. **Decision:** _pending_
+resolves to. Checked 2026-10-21: the locked nixpkgs still ships smartctl_exporter 0.14.0, which
+lacks the #329 fix (`overlays/smartctl-exporter/`), so WA-001 stays; `just fmt` runs the dev shell's
+nixfmt 1.5.0, whose default width is 100, and `pre-commit-check` sets width 100
+(`outputs/default.nix`), so the `AGENTS.md` sentence is correct. **Recommendation:** **adopt**.
+**Decision:** _pending_
 
 ## C5. jj
 
@@ -434,18 +467,18 @@ _pending_
 # D. Lab-only experimental group
 
 The whole group shares one characteristic: upstream labels it experimental, and a mistake can
-prevent boot or login. **Recommendation for the group: evaluate in a disposable guest (plan 3),
-adopt individually only afterwards.**
+prevent boot or login. **Recommendation for the group: evaluate in a disposable guest
+(`lab-experimental-etc-init.md` on the plans tag), adopt individually only afterwards.**
 
-| #   | Candidate                                              | Current                                      | Main pro                                                                | Main con                                                                                                                                                                     | Recommendation               |
-| --- | ------------------------------------------------------ | -------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| D1  | `system.etc.overlay.enable`                            | /etc generated by the perl activation script | /etc becomes an EROFS + overlay mount; foundation for an immutable /etc | upstream: _"This is currently experimental. Only enable this option if you are confident that you can recover your system if it breaks."_; every /etc writer must be audited | lab only                     |
-| D2  | `systemd.sysusers.enable` / `services.userborn.enable` | `update-users-groups.pl`                     | removes the perl script; prerequisite for an immutable /etc             | experimental; uid/gid migration risk                                                                                                                                         | lab only                     |
-| D3  | `system.etc.overlay.mutable = false`                   | writable /etc                                | truly immutable /etc                                                    | **blocked**: agenix writes `/etc/agenix` (see the `environment.etc` copies in `secrets/nixos.nix`), so secrets must move to /run or to sops-nix first                        | lab only, after secrets move |
-| D4  | `system.nixos-init.enable`                             | `activationScripts`                          | bashless init                                                           | makes `activationScripts` a silent no-op — btrbk/restic hooks would stop running without an error                                                                            | lab only                     |
-| D5  | `security.pam.settings`                                | per-service booleans                         | freeform PAM config                                                     | upstream marks it subject to breaking changes; a mistake locks you out                                                                                                       | lab only                     |
-| D6  | `security.shadow.enable = false` + greetd              | shadow suite provides login/su               | fewer setuid programs                                                   | assertion couples the two; changes VT login semantics                                                                                                                        | lab only                     |
-| D7  | `security.apparmor.policies`                           | deprecated `profiles` option                 | policy set is now data                                                  | writing profiles is real work and breakage-prone; `SECURITY.md` explicitly warns against untested profiles                                                                   | lab only                     |
+| #   | Candidate                                              | Current                                                                                                          | Main pro                                                                | Main con                                                                                                                                                                     | Recommendation               |
+| --- | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| D1  | `system.etc.overlay.enable`                            | /etc generated by the perl activation script                                                                     | /etc becomes an EROFS + overlay mount; foundation for an immutable /etc | upstream: _"This is currently experimental. Only enable this option if you are confident that you can recover your system if it breaks."_; every /etc writer must be audited | lab only                     |
+| D2  | `systemd.sysusers.enable` / `services.userborn.enable` | `update-users-groups.pl`                                                                                         | removes the perl script; prerequisite for an immutable /etc             | experimental; uid/gid migration risk                                                                                                                                         | lab only                     |
+| D3  | `system.etc.overlay.mutable = false`                   | writable /etc                                                                                                    | truly immutable /etc                                                    | **blocked**: agenix writes `/etc/agenix` (see the `environment.etc` copies in `secrets/nixos.nix`), so secrets must move to /run or to sops-nix first                        | lab only, after secrets move |
+| D4  | `system.nixos-init.enable`                             | `activationScripts`                                                                                              | bashless init                                                           | makes `activationScripts` a silent no-op — youko's `data-ro-backing`, `installCaddyWallpapers` and `installHomepageDashboardConfig` would stop running without an error      | lab only                     |
+| D5  | `security.pam.services.<name>.rules`                   | per-service booleans                                                                                             | freeform PAM config                                                     | upstream marks it subject to breaking changes; a mistake locks you out                                                                                                       | lab only                     |
+| D6  | `security.shadow.enable = false` + greetd              | shadow suite provides login/su                                                                                   | fewer setuid programs                                                   | assertion couples the two; changes VT login semantics                                                                                                                        | lab only                     |
+| D7  | `security.apparmor.policies`                           | `policies.sudo` already in use (`hardening/apparmor/default.nix`); the old `profiles` option is removed upstream | policy set is now data                                                  | writing profiles is real work and breakage-prone; `SECURITY.md` explicitly warns against untested profiles                                                                   | lab only                     |
 
 ---
 
@@ -465,8 +498,8 @@ adopt individually only afterwards.**
 
 # F. Decision summary
 
-Fill this in as cards are decided; the plan documents should then be trimmed to **adopt** items
-only.
+Fill this in as cards are decided; the plan documents (on the `modernization-plans-wip` tag, see the
+header) should then be trimmed to **adopt** items only.
 
 | Card  | Candidate                   | Decision | Date | Note |
 | ----- | --------------------------- | -------- | ---- | ---- |

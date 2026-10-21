@@ -236,7 +236,7 @@ Then, generate the NixOS configuration:
 nixos-generate-config --root /mnt
 
 # we need to update our filesystem configs in old hardware-configuration.nix according to the generated one.
-cp /etc/nixos/hardware-configuration.nix ./nix-config/hosts/12kingdoms-shoukei/hardware-configuration-new.nix
+cp /mnt/etc/nixos/hardware-configuration.nix ./nix-config/hosts/12kingdoms-shoukei/hardware-configuration-new.nix
 vim ./nix-config
 ```
 
@@ -278,7 +278,7 @@ mv /etc/ssh /persistent/etc/
 exit
 
 # delete the generated configuration after editing
-rm -f /mnt/etc/nixos
+rm -rf /mnt/etc/nixos
 rm ~/nix-config/hosts/12kingdoms-shoukei/hardware-configuration-new.nix
 
 # NOTE: `cat README.shoukei.md | grep git-1 > git-1.sh` to generate this script
@@ -287,8 +287,10 @@ git config --global user.email "ryan4yin@linux.com"   # git-1
 git config --global user.name "Ryan Yin"              # git-1
 git commit -am "feat: update hardware-configuration"
 
-# copy our configuration to the installed file system
-cp -r ~/nix-config /mnt/etc/nixos
+# copy our configuration to the installed file system; / is tmpfs there, so put it where
+# preservation mounts ~/nix-config from
+mkdir -p /mnt/persistent/home/ryan
+cp -r ~/nix-config /mnt/persistent/home/ryan/nix-config
 
 # sync the disk, unmount the partitions, and close the encrypted device
 sync
@@ -319,7 +321,6 @@ decrypt them automatically on the new host when I deploy my NixOS configuration.
 After all these steps, we can finally deploy the main flake's NixOS configuration by:
 
 ```bash
-sudo mv /etc/nixos ~/nix-config
 sudo chown -R ryan:ryan ~/nix-config
 
 cd ~/nix-config

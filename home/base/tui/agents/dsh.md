@@ -81,8 +81,10 @@ not been boot-tested.
 Verify after a switch:
 
 ```sh
-dsh --profile web --dump-config | grep -n "nu-executor\|nu-teaching"
+dsh --profile web --dump-config | grep -nE 'nu-executor|nu-teaching'
 # expect the first-party shell rows disabled, nu-executor and nu-teaching inserted
-dsh --profile web o+e>| grep "disabling profile plugin"
-# a dsh bump can disable a row whose manifest no longer matches; nothing prints when healthy
 ```
+
+A dsh bump can disable a row whose manifest no longer matches. That compatibility check runs only
+when a profile boots, not under the boot-free `--dump-config`, so read the stderr of the next boot
+(for example `just dsh-web`) for `disabling profile plugin`; nothing prints when healthy.

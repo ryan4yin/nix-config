@@ -96,10 +96,11 @@ in
       # "local" is for Unix domain socket connections only
       local   all             all                                     peer     map=superuser_map
 
-      # TCP loopback: application roles may still connect without a password
-      # (Immich, the exporter), but the superuser and replication may not. That
-      # is the path a compromised local service would take. No password is set
-      # for postgres, so these lines deny it over TCP.
+      # TCP loopback: application roles may still connect without a password,
+      # but the superuser and replication may not. That is the path a
+      # compromised local service would take. No password is set for postgres,
+      # so these lines deny it over TCP. Immich and the exporter use the Unix
+      # socket above, so no configured client needs the loopback trust lines.
       host    all             postgres        127.0.0.1/32            scram-sha-256
       host    all             postgres        ::1/128                 scram-sha-256
       host    all             all             127.0.0.1/32            trust
