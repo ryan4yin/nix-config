@@ -1,5 +1,4 @@
 {
-  pkgs,
   myvars,
   ...
 }:
@@ -7,13 +6,14 @@ let
   inherit (myvars.networking) hostsAddr k8sVip;
 in
 {
-  environment.systemPackages = [ pkgs.tailscale ];
+  # `services.tailscale` already puts the CLI in `environment.systemPackages`.
 
   services.tailscale = {
     enable = true;
     port = 41641;
     interfaceName = "tailscale0";
-    # allow the Tailscale UDP port through the firewall
+    # No-op here: the shared firewall opens 41641 in `extraInputRules` and
+    # forces `allowedUDPPorts` empty.
     openFirewall = true;
 
     useRoutingFeatures = "server";
