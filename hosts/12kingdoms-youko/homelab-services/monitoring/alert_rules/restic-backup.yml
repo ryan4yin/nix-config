@@ -1,0 +1,31 @@
+groups:
+  - name: restic-backup.rules
+    rules:
+      # restic-backup.nix writes this after every fully successful run (backup,
+      # prune and check). The schedule is daily (02:30 on youko, 01:30 on the
+      # desktops, each with up to 15m of random delay), so 48h means two runs in
+      # a row were missed. Only hosts whose node_exporter is up report this.
+      - alert: ResticBackupStale
+        expr: time() - restic_backup_last_success_timestamp_seconds > 2 * 24 * 3600
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: No successful restic backup on {{ $labels.host }} in 2 days
+          description:
+            "The last successful restic backup on {{ $labels.host }} was {{ $value }} seconds ago.
+            Check `systemctl status restic-backups-homelab.service` and `journalctl -u
+            restic-backups-homelab` there."
+
+      # Staleness needs a sample to compare against; this covers the case where
+      # no host has ever published (or every textfile was wiped).
+      - alert: ResticBackupMetricMissing
+        expr: absent(restic_backup_last_success_timestamp_seconds)
+        for: 26h
+        labels:
+          severity: warning
+        annotations:
+          summary: No restic backup reports a successful run
+          description:
+            "restic_backup_last_success_timestamp_seconds is absent on every host, so backup
+            freshness cannot be evaluated."

@@ -12,6 +12,11 @@ let
   # exporters.
   hostAddr = myvars.networking.hostsAddr.${config.networking.hostName} or { };
   lanAddr = if hostAddr.homeOnly or false then null else hostAddr.ipv4 or null;
+
+  # Where node_exporter's textfile collector reads `*.prom` files. Keep in sync
+  # with modules/nixos/base/restic-backup.nix, which writes the last successful
+  # backup timestamp here.
+  textfileDir = "/var/lib/node_exporter/textfile_collector";
 in
 {
   # node_exporter on every host that has a static LAN IPv4 (see `lanAddr` above)
@@ -25,6 +30,9 @@ in
     enabledCollectors = [
       "systemd"
       "logind"
+      # Metrics that no exporter can produce itself, e.g. the timestamp of the
+      # last successful restic backup (written by restic-backup.nix).
+      "textfile"
     ];
 
     # use either enabledCollectors or disabledCollectors
@@ -46,8 +54,17 @@ in
       # Note: ^(/|/persistent/) prefix ensures both root-level and
       #       /persistent-prefixed paths (used in NixOS's tmpfs-as-root setup) are excluded.
       "--collector.filesystem.mount-points-exclude=^(/|/persistent/)(dev|proc|sys|run/credentials/.+|run/user/.+|var/lib/docker/.+|var/lib/containers/.+|var/lib/kubelet/.+|home/ryan/.+)($|/)"
+      # The collector does not create its directory, and a missing one logs an
+      # error on every scrape.
+      "--collector.textfile.directory=${textfileDir}"
     ];
   };
+
+  # Created here so the textfile collector has somewhere to read from before
+  # the first successful backup writes its metric.
+  systemd.tmpfiles.rules = lib.mkIf (lanAddr != null) [
+    "d ${textfileDir} 0755 root root - -"
+  ];
 
   # Drive SMART health (wear, spare, media errors, temperature, bytes written)
   # on physical hosts. node_exporter's nvme collector only exposes
