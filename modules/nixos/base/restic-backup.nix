@@ -173,9 +173,12 @@ in
       ]
       ++ cfg.exclude;
 
+      # Setting timerConfig replaces the module default, so keep its
+      # `Persistent`: a host that is off at the slot backs up once it is back.
       timerConfig = {
         OnCalendar = cfg.onCalendar;
         RandomizedDelaySec = cfg.randomizedDelaySec;
+        Persistent = true;
       };
 
       inherit (cfg) pruneOpts;
