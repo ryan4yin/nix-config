@@ -55,7 +55,7 @@
         # all other unknown schemes will be opened by this default application.
         # "x-scheme-handler/unknown" = editor;
 
-        "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop " ];
+        "x-scheme-handler/tg" = [ "org.telegram.desktop.desktop" ];
 
         "audio/*" = [ "mpv.desktop" ];
         "video/*" = [ "mpv.desktop" ];
