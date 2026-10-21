@@ -126,7 +126,6 @@
 
         #-- Optional Requirements:
         prettier # common code formatter
-        fzf
         ripgrep # recursively searches directories for a regex pattern
       ]
     );
