@@ -108,6 +108,42 @@ class StateTests(unittest.TestCase):
                 monitor.daemon(path)
             self.assertEqual(json.loads(path.read_text())["last_activity"], 100)
 
+    def test_media_interval_preserves_heartbeat_and_input(self):
+        now = 0.0
+        media_times = []
+        selector = Mock()
+
+        def select(timeout):
+            nonlocal now
+            now += timeout
+            if now >= 20:
+                raise KeyboardInterrupt
+            return [(SimpleNamespace(data="pad"), 1)] if now == 5 else []
+
+        def media():
+            media_times.append(now)
+            return False
+
+        selector.select.side_effect = select
+        manager = Mock()
+        manager.__enter__ = Mock(return_value=selector)
+        manager.__exit__ = Mock(return_value=False)
+        with (
+            patch.dict(sys.modules, {"evdev": Mock(), "pyudev": Mock()}),
+            patch.object(monitor.selectors, "DefaultSelector", return_value=manager),
+            patch.object(monitor, "Joysticks") as joysticks,
+            patch.object(monitor, "media_active", side_effect=media),
+            patch.object(monitor, "publish") as publish,
+            patch.object(monitor.time, "monotonic", side_effect=lambda: now),
+            patch.object(monitor.signal, "signal"),
+            self.assertRaises(KeyboardInterrupt),
+        ):
+            joysticks.return_value.read.return_value = True
+            monitor.daemon(Path("unused"))
+        self.assertEqual(media_times, [0, 15])
+        self.assertEqual([call.args[2] for call in publish.call_args_list], [0, 5, 5, 10, 15])
+        self.assertEqual(publish.call_args_list[-1].args[1], 5)
+
     def test_timeout_validation(self):
         for value in ["0", "-1", "nan", "inf"]:
             with self.subTest(value=value), self.assertRaises(argparse.ArgumentTypeError):

@@ -11,8 +11,8 @@ activation; editing these source files does not change the running desktop.
 - Gamepads are identified by udev's `ID_INPUT_JOYSTICK` property and read through evdev without
   grabbing the device. Discovery retries every five seconds, including after hotplug or permission
   changes. Centered analog-stick noise, synchronization and release events do not count as activity.
-- Media is sampled every five seconds through PipeWire Pulse's output-monitor peak API and MPRIS.
-  The `pulsectl` library reads peak amplitudes, not recorded audio waveforms; no audio is saved.
+- Media is sampled every 15 seconds through PipeWire Pulse's output-monitor peak API and MPRIS. The
+  `pulsectl` library reads peak amplitudes, not recorded audio waveforms; no audio is saved.
   Running, unmuted output sinks count only when their sampled peak exceeds 0.0001 (-80 dBFS), so a
   browser keeping a silent stream open does not prevent idling. Sampling uses up to one second per
   probe, rotating across outputs; the entire helper process has a two-second timeout. Only sink
@@ -26,11 +26,13 @@ activation; editing these source files does not change the running desktop.
   these approximate deadlines.
 
 The monitor writes atomic state under `$XDG_RUNTIME_DIR/hypridle-activity/` using monotonic time.
-Missing, malformed, future-dated or 30-second-old heartbeat data does **not** block idle actions.
-This prevents a crashed monitor from disabling automatic locking indefinitely; detection failure can
-consequently allow screen-off during use. Starting the monitor does not manufacture activity. The
-monitor prevents automatic idle actions; it does not unlock the session or power on an already
-blanked display when a controller is pressed.
+Heartbeat updates remain every five seconds and do not count as activity. Gamepad events update
+activity immediately, independently of media sampling. Missing, malformed, future-dated or
+30-second-old heartbeat data does **not** block idle actions. This prevents a crashed monitor from
+disabling automatic locking indefinitely; detection failure can consequently allow screen-off during
+use. Starting the monitor does not manufacture activity. The monitor prevents automatic idle
+actions; it does not unlock the session or power on an already blanked display when a controller is
+pressed.
 
 ## Verification
 

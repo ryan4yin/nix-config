@@ -29,7 +29,8 @@ def recovered(key):
         LOG.info("%s recovered", key)
 
 
-POLL_INTERVAL = 5.0
+POLL_INTERVAL = 5.0  # Device discovery and heartbeat; input events remain immediate.
+MEDIA_INTERVAL = 15.0
 HEARTBEAT_TTL = 30.0
 COMMAND_TIMEOUT = 2.0
 AUDIO_THRESHOLD = 0.0001  # -80 dBFS: ignore digital silence and tiny background noise.
@@ -127,7 +128,7 @@ def output_peak(pulse):
         return 0.0
     # Rotate the starting output so a large device list cannot starve later sinks.
     now = time.monotonic()
-    start = int(now / POLL_INTERVAL) % len(sinks)
+    start = int(now / MEDIA_INTERVAL) % len(sinks)
     sinks = sinks[start:] + sinks[:start]
     deadline = now + PEAK_BUDGET
     peak = 0.0
@@ -284,6 +285,7 @@ def daemon(path):
     last_activity = None
     last_event_publish = None
     next_poll = 0.0
+    next_media = 0.0
     with selectors.DefaultSelector() as selector:
         joysticks = Joysticks(pyudev.Context(), evdev.InputDevice, selector)
         try:
@@ -292,8 +294,10 @@ def daemon(path):
                 if now >= next_poll:
                     next_poll = now + POLL_INTERVAL
                     joysticks.reconcile()
-                    if media_active():
-                        last_activity = time.monotonic()
+                    if now >= next_media:
+                        next_media = now + MEDIA_INTERVAL
+                        if media_active():
+                            last_activity = time.monotonic()
                     now = time.monotonic()
                     publish(path, last_activity, now)
                 for key, _ in selector.select(max(0, next_poll - time.monotonic())):
