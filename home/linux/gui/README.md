@@ -22,9 +22,8 @@ Manager.
   - Fcitx5 input method framework
   - Games and gaming utilities
   - GTK theme configurations
-  - Immutable file handling
   - Note-taking applications
-  - Wayland applications
+  - Wayland session tools and environment variables
   - XDG desktop configurations
 
 ## Why install Desktop Environments in Home Manager instead of NixOS Module?

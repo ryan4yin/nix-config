@@ -97,8 +97,10 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
   commit the lock file. Use `nix flake update <input>` when the update should remain uncommitted.
 - `just niri` and `just local` activate the machine you are on through `sudo` and block on a
   password prompt; `just darwin-rollback` switches the macOS generation on the machine you are on,
-  and a bare `sudo systemctl restart <unit>` activates a running service the same way. The user runs
-  these, not an agent.
+  and a bare `sudo systemctl restart <unit>` activates a running service the same way.
+  `just mihomo-geo` (mihomo's state directory) and `just shoukei-home-wifi` (a persistent
+  NetworkManager profile) change the local machine through `sudo` too. The user runs these, not an
+  agent.
 - `just shoryu`, `just shushou`, `just youko`, `just aquamarine`, `just ruby`, `just kana`,
   `just lab`, `just k3s-test`, and `just col <tag>` activate systems through Colmena. Use the
   narrower recipe that matches the intended host scope.
@@ -115,6 +117,9 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
   only for the intended cleanup or history operation.
 - `just penvof` reads a process environment and can expose secrets. Use normal process inspection
   commands when environment values are not required.
+- `just del-failed` deletes failed pods in every namespace of the current kube context.
+- `just pkg-review <pr>` and `just pkg-test <pr> <pname>` dispatch a workflow in
+  `ryan4yin/nixpkgs-review-gha` that posts its result on the nixpkgs PR, a public GitHub write.
 
 ## Task Skills
 

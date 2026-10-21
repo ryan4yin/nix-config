@@ -2,7 +2,7 @@
 default:
     @just --list
 
-# Enter a shell session which has all the necessary tools for this flake
+# Build the ai host's system closure to check this flake
 [linux]
 test:
   nix build ".#nixosConfigurations.ai.config.system.build.toplevel" --show-trace --verbose

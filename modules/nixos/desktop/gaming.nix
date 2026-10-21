@@ -17,7 +17,7 @@ in
 
   options.modules.desktop = {
     gaming = {
-      enable = mkEnableOption "Enable desktop gaming support";
+      enable = mkEnableOption "desktop gaming support";
     };
   };
 

@@ -21,15 +21,20 @@ Contains user information, SSH keys, and password configuration:
 - Initial hashed password for new installations
 - SSH authorized keys (main and backup sets)
 - Public key references for system access
+- Remote-builder client host keys (`remoteBuilderClientKeys`) that may build through aquamarine
 
 ### 2. `networking.nix`
 
 Defines:
 
 - **Gateway settings**: Main router and proxy gateway configurations
+- **Home LAN** (`lanCidr`): the trusted LAN prefix the shared host firewall trusts by source
+- **Cluster addressing**: `clusterULA6`, the IPv6 ULA prefix for MicroVM guest addresses, and
+  `k8sVip`, each k3s cluster's kube-vip API and LoadBalancer VIP block
 - **DNS servers**: IPv4 and IPv6 name servers
 - **Host inventory**: static LAN hosts and their interfaces; DHCP/mobile hosts (such as the macOS
-  hosts) are omitted by design
+  hosts) are omitted by design. `homeOnly = true` marks an address that exists only at home; SSH
+  aliases and monitoring skip it
 - **SSH configuration**: Host aliases and known hosts configuration
 - **Network topology**: Physical machines, VMs, Kubernetes clusters, and SBCs
 

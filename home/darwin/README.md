@@ -19,7 +19,8 @@ This directory contains macOS-specific Home Manager configurations for Darwin sy
 ## Features
 
 - macOS-specific package installations and configurations
-- Native macOS applications and utilities
-- Touch ID and system integration
-- Homebrew integration for additional packages
-- macOS-specific shell configurations and aliases
+- macOS-specific shell configurations (Homebrew's `bin` directories on `PATH` for bash and zsh)
+
+System-level macOS settings live in the nix-darwin modules: Touch ID for `sudo` in
+[`modules/darwin/system.nix`](../../modules/darwin/system.nix), and native applications and Homebrew
+packages in [`modules/darwin/apps.nix`](../../modules/darwin/apps.nix).

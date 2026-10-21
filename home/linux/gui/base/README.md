@@ -84,14 +84,15 @@ Noctalia consolidates functionality that previously required multiple tools:
   screen recording, auto-mount, virt-manager/virt-viewer, `wlogout` emergency fallback)
 - **[`browsers.nix`](./browsers.nix)**: Web browsers
 - **[`vscode.nix`](./vscode.nix)**: VS Code
-- **[`media.nix`](./media.nix)**: Media players
+- **[`media.nix`](./media.nix)**: Audio control, mpv, go-musicfox, an image viewer, GPU video
+  diagnostics, Zoom (x86_64 only), and EasyEffects loudness normalization
 - **[`gaming.nix`](./gaming.nix)**: Gaming applications
 - **[`creative.nix`](./creative.nix)**: Creative software
 - **[`note-taking.nix`](./note-taking.nix)**: Note-taking apps
 
 ### Development
 
-- **[`dev-tools.nix`](./dev-tools.nix)**: Development tools and IDEs
+- **[`dev-tools.nix`](./dev-tools.nix)**: Android platform tools (`android-tools`)
 
 ### System Utilities
 

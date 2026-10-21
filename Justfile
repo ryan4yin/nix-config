@@ -60,7 +60,7 @@ upp input:
 history:
   nix profile history --profile /nix/var/nix/profiles/system
 
-# Open a nix shell with the flake
+# Open a nix repl with nixpkgs from the flake registry
 [group('nix')]
 repl:
   nix repl -f flake:nixpkgs

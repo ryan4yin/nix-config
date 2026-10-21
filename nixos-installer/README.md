@@ -84,6 +84,10 @@ nixos-enter
 #   mv /etc/ssh /persistent/etc/
 # Then exit and:
 exit
+# keep this checkout (still in nix-config/nixos-installer); / is tmpfs, so put it where
+# preservation mounts ~/nix-config from
+mkdir -p /mnt/persistent/home/ryan
+cp -r .. /mnt/persistent/home/ryan/nix-config
 umount -R /mnt
 reboot
 ```
@@ -115,7 +119,6 @@ After the first boot:
 3. Deploy the main config:
 
    ```bash
-   sudo mv /etc/nixos ~/nix-config
    sudo chown -R ryan:ryan ~/nix-config
    cd ~/nix-config
    just niri

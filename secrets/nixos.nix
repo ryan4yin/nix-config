@@ -268,8 +268,8 @@ in
           mode = "0400";
           owner = "root";
         };
-        # restic repository password (used by modules.restic-backup). Gated
-        # separately below so desktops get it without enabling a server group.
+        # restic repository password (used by modules.restic-backup): declared in
+        # the blocks above, so desktops get their own without a server group.
       };
 
       # place secrets in /etc/

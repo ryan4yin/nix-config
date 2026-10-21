@@ -6,7 +6,7 @@
 # HOME_SSID: the script refuses to run unless the current Wi-Fi network is that
 # exact SSID, so it can never pin the wrong network by accident. Every other
 # network keeps using DHCP. The change is stored in the profile under
-# /etc/NetworkManager/system-connections (preserved by impermanence), so it
+# /etc/NetworkManager/system-connections (preserved by preservation), so it
 # survives reboots and rebuilds -- no need to run it again.
 #
 #   just shoukei-home-wifi
