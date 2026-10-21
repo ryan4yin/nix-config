@@ -29,16 +29,23 @@ in
     path = [
       pkgs.btrfs-progs
       pkgs.coreutils
-      pkgs.findutils
     ];
     script = ''
       set -euo pipefail
       stamp=$(date +%Y%m%d%H%M%S)
       btrfs subvolume snapshot -r ${source} ${snapshotRoot}/backups.$stamp
       # Drop snapshots older than ${toString keepDays} days. The desktop cannot
-      # reach this tree, so it cannot shorten the window.
-      find ${snapshotRoot} -mindepth 1 -maxdepth 1 -type d -mtime +${toString keepDays} -print0 |
-        xargs -0 -r -n1 btrfs subvolume delete
+      # reach this tree, so it cannot shorten the window. Age comes from the
+      # name: a snapshot's root directory keeps the source's mtime, not the
+      # time it was taken, so `find -mtime` cannot date it.
+      cutoff=$(date -d '-${toString keepDays} days' +%Y%m%d%H%M%S)
+      for snap in ${snapshotRoot}/backups.*; do
+        [ -e "$snap" ] || continue
+        taken=''${snap##*/backups.}
+        if [[ $taken =~ ^[0-9]{14}$ && $taken < $cutoff ]]; then
+          btrfs subvolume delete "$snap"
+        fi
+      done
     '';
     unitConfig.RequiresMountsFor = source;
   };
