@@ -128,27 +128,47 @@ class AudioTests(unittest.TestCase):
         with self.assertLogs(monitor.LOG, level="WARNING"):
             monitor.report_failure("audio", "unavailable")
 
-    def test_pactl_string_client_fixture(self):
-        self.assertTrue(monitor.audio_active([
-            {"corked": False, "client": "389", "mute": False}
-        ]))
-        for client in ["4294967295", "n/a", "", "-1", "1.0", " 1", "+1"]:
-            with self.subTest(client=client):
-                self.assertFalse(monitor.audio_active([{"corked": False, "client": client}]))
+    def test_silent_running_firefox_output_does_not_block(self):
+        pulse = Mock()
+        pulse.sink_list.return_value = [
+            SimpleNamespace(state="running", mute=False, monitor_source=42)
+        ]
+        pulse.get_peak_sample.return_value = 0.0
+        self.assertFalse(monitor.audio_active(monitor.output_peak(pulse)))
+        pulse.get_peak_sample.assert_called_once_with(42, 0.25)
+        pulse.get_peak_sample.return_value = 0.01
+        self.assertTrue(monitor.audio_active(monitor.output_peak(pulse)))
 
-    def test_uncorked_valid_client_only(self):
-        self.assertTrue(monitor.audio_active([{"corked": False, "client": 0}]))
-        for stream in [
-            {}, {"corked": True, "client": 1}, {"corked": "false", "client": 1},
-            {"corked": False, "client": None}, {"corked": False, "client": -1},
-            {"corked": False, "client": 0xFFFFFFFF},
-            {"corked": False, "client": True},
-        ]:
-            with self.subTest(stream=stream):
-                self.assertFalse(monitor.audio_active([stream]))
-        self.assertFalse(monitor.audio_active([]))
-        with self.assertRaises(ValueError):
-            monitor.audio_active({})
+    def test_peak_threshold_and_invalid_values(self):
+        self.assertTrue(monitor.audio_active(0.001))
+        for value in [0, 0.00001, monitor.AUDIO_THRESHOLD, -1, None, True,
+                      float("nan"), float("inf"), "0.1"]:
+            with self.subTest(value=value):
+                self.assertFalse(monitor.audio_active(value))
+
+    def test_only_valid_running_output_monitors_are_sampled(self):
+        pulse = Mock()
+        pulse.sink_list.return_value = [
+            SimpleNamespace(state="suspended", mute=False, monitor_source=10),
+            SimpleNamespace(state="running", mute=True, monitor_source=11),
+            SimpleNamespace(state="running", mute=False, monitor_source=0xFFFFFFFF),
+            SimpleNamespace(state="running", mute=False, monitor_source=None),
+        ]
+        self.assertEqual(monitor.output_peak(pulse), 0)
+        pulse.get_peak_sample.assert_not_called()
+        pulse.source_list.assert_not_called()
+
+    def test_multiple_outputs_and_total_sampling_budget(self):
+        pulse = Mock()
+        pulse.sink_list.return_value = [
+            SimpleNamespace(state="running", mute=False, monitor_source=i)
+            for i in range(6)
+        ]
+        pulse.get_peak_sample.return_value = 0
+        with patch.object(monitor.time, "monotonic", side_effect=[0, 0, 0.8, 1.1]):
+            self.assertEqual(monitor.output_peak(pulse), 0)
+        self.assertEqual(pulse.get_peak_sample.call_count, 2)
+        self.assertLessEqual(sum(c.args[1] for c in pulse.get_peak_sample.call_args_list), 1)
 
     def test_mpris_requires_exact_playing_status(self):
         self.assertTrue(monitor.playing("Paused\nPlaying\n"))
@@ -157,7 +177,7 @@ class AudioTests(unittest.TestCase):
     @patch.object(monitor.subprocess, "run")
     def test_timeout_does_not_hide_other_media_source(self, run):
         run.side_effect = [
-            subprocess.TimeoutExpired("pactl", 2),
+            subprocess.TimeoutExpired("audio-peak", 2),
             SimpleNamespace(returncode=0, stdout="Playing\n"),
         ]
         with self.assertLogs(monitor.LOG, level="WARNING"):
@@ -168,8 +188,8 @@ class AudioTests(unittest.TestCase):
     @patch.object(monitor.subprocess, "run")
     def test_failed_probe_can_recover_next_poll(self, run):
         run.side_effect = [
-            FileNotFoundError("pactl"), SimpleNamespace(returncode=1, stdout=""),
-            SimpleNamespace(stdout='[{"corked": false, "client": 1}]'),
+            FileNotFoundError("python"), SimpleNamespace(returncode=1, stdout=""),
+            SimpleNamespace(stdout='0.01'),
             SimpleNamespace(returncode=1, stdout=""),
         ]
         with self.assertLogs(monitor.LOG, level="WARNING"):

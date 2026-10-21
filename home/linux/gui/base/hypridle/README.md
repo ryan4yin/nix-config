@@ -11,11 +11,15 @@ activation; editing these source files does not change the running desktop.
 - Gamepads are identified by udev's `ID_INPUT_JOYSTICK` property and read through evdev without
   grabbing the device. Discovery retries every five seconds, including after hotplug or permission
   changes. Centered analog-stick noise, synchronization and release events do not count as activity.
-- Media is sampled every five seconds using PulseAudio's sink-input API (including PipeWire Pulse)
-  and MPRIS. An uncorked client playback stream or an MPRIS player reporting `Playing` counts as
-  activity. Native PipeWire-only playback without MPRIS is not covered. This is stream-state
-  detection, not a measurement of audible sound: muted or silent active streams can keep the screen
-  awake. Recording alone does not count.
+- Media is sampled every five seconds through PipeWire Pulse's output-monitor peak API and MPRIS.
+  The `pulsectl` library reads peak amplitudes, not recorded audio waveforms; no audio is saved.
+  Running, unmuted output sinks count only when their sampled peak exceeds 0.0001 (-80 dBFS), so a
+  browser keeping a silent stream open does not prevent idling. Sampling uses up to one second per
+  probe, rotating across outputs; the entire helper process has a two-second timeout. Only sink
+  monitors are sampled, never microphones. Playback must reach an output exposed by PipeWire Pulse.
+  An MPRIS player reporting `Playing` also counts, preserving silent-video playback protection.
+  Brief sounds between samples or sound below the threshold can be missed; virtual outputs may be
+  measured before the final hardware volume or mute.
 - Screen-off and locking each require their configured timeout since the last observed activity, in
   addition to hypridle's keyboard/pointer timeout. Pausing playback or putting down the controller
   therefore leaves an idle grace period. Sampling and hypridle's 30-second condition retry make
@@ -41,6 +45,7 @@ After activating the configuration, inspect the service and its state:
 ```console
 systemctl --user status hypridle-activity.service
 journalctl --user -u hypridle-activity.service -n 50 --no-pager
+hypridle-activity audio-peak
 hypridle-activity check --timeout 1200
 ```
 

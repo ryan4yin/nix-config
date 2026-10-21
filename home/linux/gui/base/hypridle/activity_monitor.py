@@ -10,6 +10,7 @@ from pathlib import Path
 import selectors
 import signal
 import subprocess
+import sys
 import tempfile
 import time
 
@@ -31,6 +32,8 @@ def recovered(key):
 POLL_INTERVAL = 5.0
 HEARTBEAT_TTL = 30.0
 COMMAND_TIMEOUT = 2.0
+AUDIO_THRESHOLD = 0.0001  # -80 dBFS: ignore digital silence and tiny background noise.
+PEAK_BUDGET = 1.0
 # Linux input-event-codes.h; keep check and tests independent of evdev/pyudev.
 EV_KEY, EV_ABS = 1, 3
 STICKS = {0, 1, 3, 4}  # ABS_X/Y/RX/RY
@@ -108,27 +111,45 @@ def publish(path, activity, heartbeat):
         report_failure("state", f"Cannot publish activity state: {error}")
 
 
-def audio_active(payload):
-    """Match uncorked PulseAudio client streams, not idle output devices."""
-    if not isinstance(payload, list):
-        raise ValueError("pactl sink-inputs response must be a list")
-    for stream in payload:
-        if not isinstance(stream, dict):
-            continue
-        client = stream.get("client")
-        # pactl versions serialize client indices as either numbers or strings.
-        if isinstance(client, str):
-            if not (client.isascii() and client.isdecimal() and len(client) <= 10):
-                continue
-            client = int(client)
-        if (
-            stream.get("corked") is False
-            and isinstance(client, int)
-            and not isinstance(client, bool)
-            and 0 <= client < 0xFFFFFFFF
-        ):
-            return True
-    return False
+def audio_active(peak):
+    return timestamp(peak) and peak > AUDIO_THRESHOLD
+
+
+def output_peak(pulse):
+    """Sample output monitors only; a running sink can still contain silence."""
+    sinks = [
+        sink for sink in pulse.sink_list()
+        if sink.state == "running" and not sink.mute
+        and isinstance(sink.monitor_source, int)
+        and 0 <= sink.monitor_source < 0xFFFFFFFF
+    ]
+    if not sinks:
+        return 0.0
+    # Rotate the starting output so a large device list cannot starve later sinks.
+    now = time.monotonic()
+    start = int(now / POLL_INTERVAL) % len(sinks)
+    sinks = sinks[start:] + sinks[:start]
+    deadline = now + PEAK_BUDGET
+    peak = 0.0
+    for sink in sinks:
+        remaining = deadline - time.monotonic()
+        if remaining < 0.1:
+            break
+        value = pulse.get_peak_sample(sink.monitor_source, min(0.25, remaining))
+        if timestamp(value):
+            peak = max(peak, value)
+        if audio_active(peak):
+            break
+    return peak
+
+
+def probe_peak():
+    # Isolated by the caller's subprocess timeout, including connection/list calls.
+    import pulsectl
+
+    with pulsectl.Pulse("hypridle-activity", connect=False) as pulse:
+        pulse.connect(timeout=0.5)
+        return output_peak(pulse)
 
 
 def playing(output):
@@ -139,7 +160,7 @@ def media_active():
     active = False
     try:
         result = subprocess.run(
-            ["pactl", "--format=json", "list", "sink-inputs"],
+            [sys.executable, __file__, "audio-peak"],
             capture_output=True, text=True, timeout=COMMAND_TIMEOUT, check=True,
         )
         active = audio_active(json.loads(result.stdout))
@@ -296,10 +317,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("daemon")
+    commands.add_parser("audio-peak", help="print output peak amplitude without saving audio")
     check_parser = commands.add_parser("check")
     check_parser.add_argument("--timeout", type=positive_seconds, required=True)
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(name)s: %(levelname)s: %(message)s")
+    if args.command == "audio-peak":
+        print(json.dumps(probe_peak()))
+        return 0
     try:
         path = state_path()
     except ValueError as error:

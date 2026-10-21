@@ -8,14 +8,12 @@ let
   cfg = config.modules.desktop.hypridle;
   python = pkgs.python3.withPackages (ps: [
     ps.evdev
+    ps.pulsectl
     ps.pyudev
   ]);
   activityMonitor = pkgs.writeShellApplication {
     name = "hypridle-activity";
-    runtimeInputs = [
-      pkgs.pulseaudio
-      pkgs.playerctl
-    ];
+    runtimeInputs = [ pkgs.playerctl ];
     text = ''
       exec ${python}/bin/python3 ${./activity_monitor.py} "$@"
     '';
