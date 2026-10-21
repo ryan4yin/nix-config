@@ -12,6 +12,10 @@ let
   # postgres data directory is only crash-consistent). It is deleted right
   # after, so it is not a second backup - just a consistency step.
   snapshotPath = "${builtins.dirOf cfg.snapshotSource}/@restic-snapshot";
+
+  # node_exporter's textfile collector directory, kept in sync with
+  # modules/nixos/base/monitoring.nix, which points the collector here.
+  textfileDir = "/var/lib/node_exporter/textfile_collector";
 in
 {
   # ==================================================================
@@ -210,6 +214,21 @@ in
           RequiresMountsFor = cfg.requiresMountsFor;
         };
 
+    # Record when the last fully successful run finished, so staleness is
+    # alertable (hosts/12kingdoms-youko/homelab-services/monitoring/alert_rules/
+    # restic-backup.yml). ExecStartPost runs only after every ExecStart
+    # (backup, forget --prune, check) succeeded, and the rename keeps
+    # node_exporter from reading a half-written file.
+    systemd.services.restic-backups-homelab.postStart = ''
+      ${pkgs.coreutils}/bin/install -d -m 0755 ${textfileDir}
+      {
+        echo '# HELP restic_backup_last_success_timestamp_seconds Unix time of the last successful restic backup run.'
+        echo '# TYPE restic_backup_last_success_timestamp_seconds gauge'
+        echo "restic_backup_last_success_timestamp_seconds $(${pkgs.coreutils}/bin/date +%s)"
+      } > ${textfileDir}/restic-backup.prom.tmp
+      ${pkgs.coreutils}/bin/mv -f ${textfileDir}/restic-backup.prom.tmp ${textfileDir}/restic-backup.prom
+    '';
+
     # A failed backup must not be silent: report it to alertmanager, which
     # routes anything above info severity to telegram.
     systemd.services.restic-backups-homelab.onFailure = [ "restic-backup-notify.service" ];
@@ -217,8 +236,12 @@ in
     systemd.services.restic-backup-notify = {
       description = "Report a failed restic backup";
       serviceConfig.Type = "oneshot";
+      # `--fail` makes curl exit non-zero on an HTTP 4xx/5xx response: without
+      # it a rejected alert still ended the unit with status 0, i.e. silently.
+      # `--max-time` bounds the request so an unresponsive Alertmanager cannot
+      # hold the unit open.
       script = ''
-        ${pkgs.curl}/bin/curl -sS -o /dev/null -X POST ${cfg.alertManagerUrl}/api/v2/alerts \
+        ${pkgs.curl}/bin/curl -sS --fail --max-time 10 -o /dev/null -X POST ${cfg.alertManagerUrl}/api/v2/alerts \
           -H 'Content-Type: application/json' \
           --data "[{ \
             \"labels\": { \"alertname\": \"ResticBackupFailed\", \"severity\": \"critical\", \"host\": \"${config.networking.hostName}\" }, \
