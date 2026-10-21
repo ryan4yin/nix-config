@@ -1,10 +1,5 @@
 {
   microvm,
-  myvars,
-  mylib,
-  agenix,
-  mysecrets,
-  myNurPkgs,
   inputs,
   ...
 }:
@@ -12,20 +7,12 @@
   # Run the k3s-test VMs as MicroVMs instead of KubeVirt domains.
   imports = [ microvm.nixosModules.host ];
 
+  # Each guest runs its `nixosConfigurations` entry, the system that `just test`
+  # and `just microvm-deploy` see, instead of a second evaluation on the host.
   microvm.vms.k3s-test-1-master-2 = {
     autostart = true;
     restartIfChanged = true;
-    specialArgs = {
-      inherit
-        inputs
-        myvars
-        mylib
-        agenix
-        mysecrets
-        myNurPkgs
-        ;
-    };
-    config.imports = [ ../k8s/k3s-test-1-master-2 ];
+    evaluatedConfig = inputs.self.nixosConfigurations.k3s-test-1-master-2;
   };
 
   # Moved here from shushou after the SSD swap: the 5625U there is weaker and has
@@ -33,17 +20,7 @@
   microvm.vms.k3s-test-1-worker-2 = {
     autostart = true;
     restartIfChanged = true;
-    specialArgs = {
-      inherit
-        inputs
-        myvars
-        mylib
-        agenix
-        mysecrets
-        myNurPkgs
-        ;
-    };
-    config.imports = [ ../k8s/k3s-test-1-worker-2 ];
+    evaluatedConfig = inputs.self.nixosConfigurations.k3s-test-1-worker-2;
   };
 
   # Attach the guest's tap to the VM bridge, the same way the physical NIC is
