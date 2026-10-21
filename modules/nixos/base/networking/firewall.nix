@@ -14,9 +14,9 @@ in
   networking.firewall = {
     enable = true;
 
-    # Nothing is opened to the Internet. LAN/tailnet/local-container access
-    # comes from the rules below; per-service `openFirewall` ports are
-    # suppressed.
+    # Nothing is opened to the Internet except Tailscale's WireGuard port
+    # below. LAN/tailnet/local-container access comes from the rules below;
+    # per-service `openFirewall` ports are suppressed.
     allowedTCPPorts = lib.mkForce [ ];
     allowedUDPPorts = lib.mkForce [ ];
 
@@ -51,7 +51,9 @@ in
       # The home LAN is the trusted core.
       ip  saddr ${lanCidr} accept
       ip6 saddr fe80::/10 accept
-      # Tailscale's WireGuard port, for direct (non-DERP) connections.
+      # Tailscale's WireGuard port, for direct (non-DERP) connections. The LAN
+      # and tailnet are accepted above, so this is the only port open to the
+      # Internet.
       udp dport 41641 accept
     '';
   };
