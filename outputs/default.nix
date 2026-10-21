@@ -123,6 +123,7 @@ let
       deployment
       # Colmena evaluates with nixpkgs' plain lib, which lacks the version the
       # flake's lib reports; without this the toplevel differs (`26.11pre-git`).
+      # Recorded as WA-042 in WORKAROUNDS.md.
       {
         system.nixos.versionSuffix = lib.trivial.versionSuffix;
         system.nixos.revision = lib.trivial.revisionWithDefault null;
