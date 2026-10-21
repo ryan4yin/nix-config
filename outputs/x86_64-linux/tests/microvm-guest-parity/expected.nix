@@ -13,7 +13,7 @@ lib.mergeAttrsList (
   map (
     host:
     lib.mapAttrs' (
-      guest: _: lib.nameValuePair "${host}/${guest}" true
+      guest: _: lib.nameValuePair "${host}/${guest}" guest
     ) outputs.nixosConfigurations.${host}.config.microvm.vms
   ) vmHosts
 )

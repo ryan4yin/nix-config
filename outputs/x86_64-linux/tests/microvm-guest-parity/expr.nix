@@ -2,12 +2,12 @@
   lib,
   outputs,
 }:
-# A VM host must install the guest system that nixosConfigurations evaluates,
-# the one `just microvm-deploy` ships.
+# A VM host must run each guest from its `nixosConfigurations` entry, the system
+# `just microvm-deploy` ships, instead of a second evaluation on the host. Only
+# the wiring is checked here: reading the guest's own options would force its
+# full configuration, which needs the private secrets input CI cannot fetch.
 let
   inherit (outputs) nixosConfigurations;
-  # hasInfix matches with a regex, which rejects strings that carry store context.
-  plain = builtins.unsafeDiscardStringContext;
   vmHosts = [
     "shoryu"
     "shushou"
@@ -18,11 +18,12 @@ lib.mergeAttrsList (
   map (
     host:
     lib.mapAttrs' (
-      guest: _:
+      guest: vm:
       lib.nameValuePair "${host}/${guest}" (
-        lib.hasInfix (plain "${nixosConfigurations.${guest}.config.system.build.toplevel}") (
-          plain nixosConfigurations.${host}.config.systemd.services."install-microvm-${guest}".script
-        )
+        if vm.evaluatedConfig == null then
+          "no evaluatedConfig"
+        else
+          vm.evaluatedConfig.config.networking.hostName
       )
     ) nixosConfigurations.${host}.config.microvm.vms
   ) vmHosts
