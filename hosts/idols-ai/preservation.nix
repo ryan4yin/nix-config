@@ -79,6 +79,8 @@ in
       }
       # CUPS state (the print spool lives in /var/spool/cups, not here)
       "/var/lib/cups"
+      # OpenRGB SDK server settings and profiles
+      "/var/lib/OpenRGB"
 
       # system-core
       "/var/lib/nixos"
@@ -381,6 +383,9 @@ in
         # Bambu Studio - 3D Printer Slicer
         ".local/share/bambu-studio"
         ".config/BambuStudio"
+
+        # OpenRGB GUI settings, profiles and plugins
+        ".config/OpenRGB"
 
         # Audio
         ".config/pulse"
