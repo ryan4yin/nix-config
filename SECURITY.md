@@ -162,10 +162,10 @@ checks remain necessary after deployment.
 
 ### Implementation status
 
-| Component                                                        | Status                                  | Runtime verification                                |
-| ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------- |
-| Architecture, agent-first policy, audits and canonical API tests | In this repository                      | Only the dated observations below were checked live |
-| Explicit sysctl baseline and IPv6 exporter defence               | In `hardening/` and the shared firewall | Not deployed or verified on running hosts           |
+| Component                                                        | Status                                  | Runtime verification                                                                  |
+| ---------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------- |
+| Architecture, agent-first policy, audits and canonical API tests | In this repository                      | Only the dated observations below were checked live                                   |
+| Explicit sysctl baseline and IPv6 exporter defence               | In `hardening/` and the shared firewall | Live on 13 reachable hosts (readback 2026-10-22); ai root-privileged items still owed |
 
 ### Baseline implementation checks
 
@@ -208,7 +208,7 @@ checks remain necessary after deployment.
 - **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the k3s firewall
   drops 5900-5903 from pod sources. Reach a console through an SSH tunnel.
 - **Pod-to-host firewall:** two independent layers deny pod access to the credential-bearing host
-  ports (SSH, NFS, Postgres, restic, VNC, Immich, exporter/monitoring). The
+  ports (SSH, NFS, Postgres, restic, VNC, Immich, etcd, exporter/monitoring). The
   `deny-pod-to-node-admin-ports` `CiliumClusterwideNetworkPolicy` in
   [k8s-gitops#52](https://github.com/ryan4yin/k8s-gitops/pull/52) denies pod egress to
   `host`/`remote-node` on those ports at the pod's own node; the k3s nodes' nftables rule drops the
@@ -253,6 +253,38 @@ export, credential, DNS record or firmware configuration was changed during the 
   and replication now require `scram-sha-256`, closing the local-superuser path. Provisioning
   per-role passwords for full loopback `scram-sha-256` is the follow-up; the disabled Grafana
   `postgres-playground` datasource also waits on a `playground` password.
+
+### Follow-up audit — 2026-10-22
+
+- Baseline readback on live hosts: the ten unprivileged sysctl keys and the esp4/esp6/rxrpc modprobe
+  deny are in effect on all 13 reachable hosts; the #399/#400/#401 nft rules, NFS export scope and
+  pg_hba rules are live. `net.core.bpf_jit_harden` and ai's exact rule order need a root readback;
+  shoukei and akane were unreachable. k3s MicroVM guests have no system profile — compare
+  `/run/current-system` with `/run/booted-system` there.
+- Exporter sockets are LAN-IPv4-bound on every scraped host except ai's NVIDIA exporter (`*:9835`),
+  a gap #373 missed; `hosts/idols-ai/hardware-nvidia.nix` now binds it and the `security-exporters`
+  eval covers every enabled exporter's `listenAddress`.
+- Runtime drift on shoryu: the libvirt domains on 5902/5903 predate #400 and still bind wildcard;
+  only the nft VNC drop protects them until the guests are redefined and restarted.
+- The pod-to-node deny lists omitted etcd's client port (2379, bound `192.168.5.114:2379`); both
+  layers now include it. 2381 (etcd metrics, scraped by in-cluster monitoring) stays reachable by
+  design.
+- ServiceAccount effective access is now measured for all 41 live ns/SA pairs (on-node probes): the
+  Kiali operator gained a self-escalation path (`update`/`patch clusterroles` on a role bound to
+  itself, no `bind`/`escalate` verb needed); Kiali and kube-state-metrics deny `get secrets -A` but
+  allow `list`/`watch`, so probe sets must pair both verbs; 16 accounts enumerate secrets
+  cluster-wide and cert-manager can delete them. Narrowing proposals target k8s-gitops.
+- k3s-test-1 pod networking has been down since the 2026-10-14 full guest cold-restart: Cilium
+  bootstraps through the VIP while the VIP requires kube-vip's lease over ClusterIP — a cycle the
+  kube-proxy-replacement switch created (WA-043). The host nftables drops stay loaded, but the
+  CLiCNP layer enforces nothing while Cilium is down and the nft rule's pod-source-IP precondition
+  is not met, so the pod-to-node boundary is degraded until the cluster recovers.
+- The cluster recovered manually (VIP attached on one master, then handed back to kube-vip), and the
+  cycle itself is fixed in k8s-gitops: kube-vip's pod now overrides the kubelet-injected
+  `KUBERNETES_SERVICE_HOST/PORT` to reach its own node's apiserver (port 6443) instead of the
+  ClusterIP, so the VIP no longer needs Cilium on a cold start. A full cold start of all six guests
+  on 2026-10-24 brought the VIP back on master-1 with no manual action (6/6 nodes, Cilium 6/6,
+  kube-vip 3/3, no connection to the ClusterIP); WA-043 is dropped once that change merges.
 
 ### Sandbox and agent boundaries
 
@@ -322,6 +354,7 @@ separate verification.
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                                                           |
 | -------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P1       | Re-verify the pod-to-node drops and the CLiCNP on k3s-test-1                     | The bootstrap fix passed a full cold start on 2026-10-24; probe the host nftables rules and the CLiCNP from a pod now that networking is back, and confirm the 2379 deny once #54 merges           |
 | P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                                                             |
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                                                        |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                                                         |
