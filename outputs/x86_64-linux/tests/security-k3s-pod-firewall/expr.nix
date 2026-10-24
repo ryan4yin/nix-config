@@ -28,6 +28,7 @@ lib.genAttrs (builtins.attrNames outputs.nixosConfigurations) (
     && acceptAt != null
     && dropAt < acceptAt
     && lib.hasInfix "2049" rules
+    && lib.hasInfix "2379" rules
     && lib.hasInfix "5432" rules
     && lib.hasInfix "5902" rules
 )
