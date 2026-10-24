@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  myvars,
   ...
 }:
 {
@@ -72,7 +73,12 @@
   # GPU monitoring: CUDA btop, nvtop, and the community nvidia_gpu_exporter.
   modules.btop.package = pkgs.btop-cuda;
   environment.systemPackages = [ pkgs.nvtopPackages.full ];
-  services.prometheus.exporters.nvidia-gpu.enable = true;
+  # LAN-bound like node/smartctl in modules/nixos/base/monitoring.nix: the
+  # socket must not exist on tailscale0/br0 even if the firewall regresses.
+  services.prometheus.exporters.nvidia-gpu = {
+    enable = true;
+    listenAddress = myvars.networking.hostsAddr.ai.ipv4;
+  };
 
   services.sunshine.settings = {
     max_bitrate = 20000; # in Kbps
