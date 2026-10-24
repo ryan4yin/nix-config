@@ -276,15 +276,16 @@ export, credential, DNS record or firmware configuration was changed during the 
   cluster-wide and cert-manager can delete them. Narrowing proposals target k8s-gitops.
 - k3s-test-1 pod networking has been down since the 2026-10-14 full guest cold-restart: Cilium
   bootstraps through the VIP while the VIP requires kube-vip's lease over ClusterIP — a cycle the
-  kube-proxy-replacement switch created (WA-043). The host nftables drops stay loaded, but the
-  CLiCNP layer enforces nothing while Cilium is down and the nft rule's pod-source-IP precondition
-  is not met, so the pod-to-node boundary is degraded until the cluster recovers.
+  kube-proxy-replacement switch created. The host nftables drops stay loaded, but the CLiCNP layer
+  enforces nothing while Cilium is down and the nft rule's pod-source-IP precondition is not met, so
+  the pod-to-node boundary is degraded until the cluster recovers.
 - The cluster recovered manually (VIP attached on one master, then handed back to kube-vip), and the
-  cycle itself is fixed in k8s-gitops: kube-vip's pod now overrides the kubelet-injected
+  cycle itself is fixed: kube-vip's pod now overrides the kubelet-injected
   `KUBERNETES_SERVICE_HOST/PORT` to reach its own node's apiserver (port 6443) instead of the
   ClusterIP, so the VIP no longer needs Cilium on a cold start. A full cold start of all six guests
-  on 2026-10-24 brought the VIP back on master-1 with no manual action (6/6 nodes, Cilium 6/6,
-  kube-vip 3/3, no connection to the ClusterIP); WA-043 is dropped once that change merges.
+  on 2026-10-24 brought the VIP back with no manual action (6/6 nodes, Cilium 6/6, kube-vip 3/3, no
+  connection to the ClusterIP), and k8s-gitops#54 is merged and reconciled. A probe from a pod
+  confirms 2379 is denied while 2381 stays open for in-cluster metric scraping.
 
 ### Sandbox and agent boundaries
 
@@ -354,7 +355,6 @@ separate verification.
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                                                           |
 | -------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| P1       | Re-verify the pod-to-node drops and the CLiCNP on k3s-test-1                     | The bootstrap fix passed a full cold start on 2026-10-24; probe the host nftables rules and the CLiCNP from a pod now that networking is back, and confirm the 2379 deny once #54 merges           |
 | P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                                                             |
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                                                        |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                                                         |
