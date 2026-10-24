@@ -156,6 +156,7 @@ in
         "src" # third-party source checkouts
         "nix-config"
         "tmp"
+        "models"
 
         # ======================================
         # Nix / Home Manager Profiles
