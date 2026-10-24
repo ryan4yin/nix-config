@@ -47,8 +47,8 @@ in
 
   # Deny pods the credential-bearing host ports before the pod accept below.
   networking.firewall.extraInputRules = lib.mkAfter ''
-    ip  saddr 10.0.0.0/8 tcp dport { 22, 2049, 2283, 5432, 5900, 5901, 5902, 5903, 8000, 8081, 8082, 9090, 9093, 9100, 9633, 9835 } drop
-    ip6 saddr fd00::/104 tcp dport { 22, 2049, 2283, 5432, 5900, 5901, 5902, 5903, 8000, 8081, 8082, 9090, 9093, 9100, 9633, 9835 } drop
+    ip  saddr 10.0.0.0/8 tcp dport { 22, 2049, 2283, 2379, 5432, 5900, 5901, 5902, 5903, 8000, 8081, 8082, 9090, 9093, 9100, 9633, 9835 } drop
+    ip6 saddr fd00::/104 tcp dport { 22, 2049, 2283, 2379, 5432, 5900, 5901, 5902, 5903, 8000, 8081, 8082, 9090, 9093, 9100, 9633, 9835 } drop
     ip  saddr 10.0.0.0/8 accept
     ip6 saddr fd00::/104 accept
   '';
