@@ -57,7 +57,7 @@
       }
     ]
   },
-  "description": "Dashboard showing Prometheus Alertmanager metrics for observing status of the cluster and possible debbuging.",
+  "description": "Dashboard showing Prometheus Alertmanager metrics for observing status of the cluster and possible debugging.",
   "editable": true,
   "gnetId": 9578,
   "graphTooltip": 1,
