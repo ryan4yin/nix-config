@@ -147,9 +147,6 @@ in
 
       "ghostty" # terminal emulator
 
-      # code editor
-      "visual-studio-code"
-
       # AI agents
       "codex-app" # codex desktop app
 

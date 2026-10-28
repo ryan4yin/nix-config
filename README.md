@@ -88,8 +88,7 @@ Wallpapers: https://github.com/ryan4yin/wallpapers
 
 - **Terminal editors:** [./home/base/core/editors/](./home/base/core/editors/) — Helix / Neovim,
   `$EDITOR`, docs.
-- **GUI editors:** [Zed](./home/base/gui/zed-editor.nix) (primary) and
-  [VS Code](./home/linux/gui/base/vscode.nix).
+- **GUI editor:** [Zed](./home/base/gui/zed-editor.nix).
 - **LLM coding agents:** [./agents](./agents/) — rules, installers, CLI snippets; see
   [./agents/README.md](./agents/README.md).
 

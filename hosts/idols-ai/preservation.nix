@@ -171,10 +171,6 @@ in
         # IDE / Editors
         # ======================================
 
-        # vscode
-        ".vscode"
-        ".config/Code"
-
         # zed
         ".config/zed"
         ".local/share/zed"
