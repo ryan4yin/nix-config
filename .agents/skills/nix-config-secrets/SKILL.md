@@ -19,7 +19,7 @@ Read [secrets/README.md](../../../secrets/README.md) for the concepts and the re
 
 Two age flows live in `~/codes/nix-secrets`, and a file belongs to exactly one.
 
-- **agenix** (`secrets.nix`): static and one-way, repository → host, decrypted at activation.
+- **agenix** (`agenix-rules.nix`): static and one-way, repository → host, decrypted at activation.
   Consumed as `/run/agenix/<name>` or an `environment.etc` copy; needs a `flake.lock` bump.
 - **dotfiles sync** (`dotfiles/`): changes on the host; `save`/`restore` are manual, outside Nix.
   Consumed as a real file under `$HOME`, edited by hand or by its tool; **no** lock bump.
@@ -30,8 +30,8 @@ is a config file its tool keeps rewriting that happens to carry a few secrets in
 decides it, not the encryption: `flake.lock` fixes the agenix revision, so every edit costs a
 rebuild and switch on every desktop.
 
-Nothing in this flake evaluates the sync flow: no `secrets.nix` entry, no `agenix -r`, no lock bump,
-so the three-step order in §2 does not apply to it. Its manifest and file list live in
+Nothing in this flake evaluates the sync flow: no `agenix-rules.nix` entry, no `agenix -r`, no lock
+bump, so the three-step order in §2 does not apply to it. Its manifest and file list live in
 `~/codes/nix-secrets/dotfiles/`; this repository carries the pointer, never the inventory. Do not
 list synced paths here or copy one into a Nix module. The flow covers the desktops only; do not set
 it up on a server or a cluster node.
@@ -72,14 +72,14 @@ must not get one back.
 - Decryption key: `age.identityPaths` — the host's SSH host key; `/persistent/etc/ssh/...` on a
   preservation host
 - Secret-bearing dotfiles edited in place: `~/codes/nix-secrets/dotfiles/` — private, not a flake
-  input, no entry in `secrets.nix`
+  input, no entry in `agenix-rules.nix`
 
 The private repository keeps its `.age` files in `desktop/` (only desktops decrypt them), `server/`
 (any server), and `certs/`; `public/` holds publishable plaintext, not `.age`.
 
 ## 2. Add or change a secret
 
-Do the mechanical work yourself: edit `secrets.nix` in `~/codes/nix-secrets`, run the
+Do the mechanical work yourself: edit `agenix-rules.nix` in `~/codes/nix-secrets`, run the
 non-interactive steps, bump the lock, and add the declaration and consumer. For a new secret, or a
 full replacement, pipe the plaintext into the `replace` recipe: it removes the target first, so
 agenix only encrypts and needs no `sudo`. Hand back only what needs a human: the partial `edit` and
@@ -88,8 +88,8 @@ value, so they handle key material, `$EDITOR`, and `sudo`) and anything else und
 and pushes follow the global git rules.
 
 1. In `~/codes/nix-secrets`, add the file under `desktop/` or `server/` with a matching
-   `secrets.nix` entry, keyed by that exact path (e.g. `"./desktop/xxx.age"`), and the recipient set
-   from core rule 3. Then encrypt it with the `replace` recipe (§3); ask the user only when the
+   `agenix-rules.nix` entry, keyed by that exact path (e.g. `"desktop/xxx.age"`), and the recipient
+   set from core rule 3. Then encrypt it with the `replace` recipe (§3); ask the user only when the
    plaintext has to come from an interactive session.
 2. Here: `just upp mysecrets` (commits the lock) or `nix flake update mysecrets` (leaves it for you
    to commit). `git diff flake.lock` should show only `mysecrets` moving.
@@ -106,18 +106,18 @@ Changing only a secret's value is steps 1, 2, and the deploy: use `replace` for 
 The agenix operations run against `~/codes/nix-secrets`. Their single source is
 [`secrets/Justfile`](../../../secrets/Justfile), which pins the identity, option order, and
 `$EDITOR`; run them from this repository's root and keep each path identical to its key in
-`secrets.nix`:
+`agenix-rules.nix`:
 
 ```bash
-just -f secrets/Justfile replace ./desktop/xxx.age < plaintext   # add or fully replace (no sudo)
-just -f secrets/Justfile edit ./desktop/xxx.age                  # partial edit (sudo, $EDITOR)
+just -f secrets/Justfile replace desktop/xxx.age < plaintext   # add or fully replace (no sudo)
+just -f secrets/Justfile edit desktop/xxx.age                  # partial edit (sudo, $EDITOR)
 just -f secrets/Justfile rekey                                   # re-encrypt after a recipient change
 ```
 
 `edit` and `rekey` decrypt the current value with the host key, so they need `sudo`; `replace` only
-encrypts to the recipients in `secrets.nix`, so it needs no `sudo`. `edit` passes `EDITOR=hx` to the
-root `agenix` process, because `sudo` resets the environment and the invoking user's `EDITOR` would
-not reach it; do not add `sudo -E` or set `EDITOR` yourself.
+encrypts to the recipients in `agenix-rules.nix`, so it needs no `sudo`. `edit` passes `EDITOR=hx`
+to the root `agenix` process, because `sudo` resets the environment and the invoking user's `EDITOR`
+would not reach it; do not add `sudo -E` or set `EDITOR` yourself.
 
 ## 4. Modes and ownership
 
@@ -152,7 +152,8 @@ you set, an old copy gone) instead of assuming activation did it.
 - Delete the `age.secrets` entry, its `environment.etc` placement, and every consumer in one change;
   a declaration whose file no longer exists breaks activation. On darwin also drop the path from the
   `chown`/`chmod` list in `system.activationScripts.postActivation`.
-- Remove it from `secrets.nix` and delete the file in the private repository, then bump the lock.
+- Remove it from `agenix-rules.nix` and delete the file in the private repository, then bump the
+  lock.
 - A rename changes the attribute name and every consumer. The `.age` filename is separate.
 - Moving a secret **out** of agenix into the sync flow is that deletion plus what agenix used to
   guarantee: the consumer points at a `$HOME` path, and on a preservation host the directory joins
@@ -164,7 +165,8 @@ you set, an old copy gone) instead of assuming activation did it.
 ## 7. Failure modes
 
 - **Decryption fails on one host:** its host key is not a recipient. Add its
-  `/etc/ssh/ssh_host_ed25519_key.pub` to `secrets.nix`, rekey (§3), push, bump the lock, redeploy.
+  `/etc/ssh/ssh_host_ed25519_key.pub` to `agenix-rules.nix`, rekey (§3), push, bump the lock,
+  redeploy.
 - **Eval or activation cannot find the file:** the lock still points at a `mysecrets` revision
   without it (core rule 2).
 - **`permission denied` in a user service:** it reads a root-only secret. Fix that secret's owner;

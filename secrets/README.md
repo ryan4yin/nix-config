@@ -29,9 +29,10 @@ costs a lock bump plus a rebuild and switch on every host that reads it.
 
 Anything else is a synced dotfile: Nix does not read it, it changes often, or it is a config file
 its tool keeps rewriting that happens to carry a few secrets inside. The private repository syncs
-those as age ciphertext under `dotfiles/`, by hand and outside Nix, so there is no `secrets.nix`
-entry and no lock bump. `nushell-secrets.nu` moved that way and is `~/.secrets/nushell-secrets.nu`
-now; do not re-add it to `age.secrets`. The file list stays in the private repository.
+those as age ciphertext under `dotfiles/`, by hand and outside Nix, so there is no
+`agenix-rules.nix` entry and no lock bump. `nushell-secrets.nu` moved that way and is
+`~/.secrets/nushell-secrets.nu` now; do not re-add it to `age.secrets`. The file list stays in the
+private repository.
 
 ## Which Keys Go on a Secret
 
@@ -70,13 +71,13 @@ a blanket chown over `/etc/agenix/*` would make the root-only secrets readable b
 
 ## Adding or Updating Secrets
 
-> The encrypted `.age` files and `secrets.nix` live in my private `nix-secrets` repository. The
+> The encrypted `.age` files and `agenix-rules.nix` live in my private `nix-secrets` repository. The
 > `Justfile` referenced below lives in this repository and runs its recipes with `working-directory`
 > set to a local `~/codes/nix-secrets` checkout, so invoke it from this repository's root.
 
 This task is accomplished using the [agenix](https://github.com/ryantm/agenix) CLI tool with the
-`./secrets.nix` file in the private `nix-secrets` repository, so you need to have it installed
-first:
+`agenix-rules.nix` file in the private `nix-secrets` repository, so you need to have it installed
+first. Rule keys are paths relative to that file and must not start with `./` (agenix 0.18+).
 
 To use agenix temporarily, run:
 
@@ -93,8 +94,8 @@ nix shell github:ryan4yin/ragenix#ragenix
 Suppose you want to add a new secret file `xxx.age`. Follow these steps:
 
 1. Navigate to your private `nix-secrets` repository.
-2. Edit `secrets.nix` and add a new entry for `xxx.age`, defining the encryption keys and the secret
-   file path, for example:
+2. Edit `agenix-rules.nix` and add a new entry for `xxx.age`, defining the encryption keys and the
+   secret file path, for example:
 
 ```nix
 # This file is not imported into your NixOS configuration. It is only used for the agenix CLI.
@@ -121,7 +122,7 @@ let
   hosts = [ ];
 in
 {
-  "./xxx.age".publicKeys = desktop_keys ++ hosts;
+  "xxx.age".publicKeys = desktop_keys ++ hosts;
 }
 ```
 
@@ -129,20 +130,20 @@ in
    `replace` recipe, piping the plaintext on stdin:
 
 ```shell
-just -f secrets/Justfile replace ./xxx.age < plaintext
+just -f secrets/Justfile replace xxx.age < plaintext
 ```
 
-`replace` deletes the target first, so agenix only encrypts to the public keys in `secrets.nix` and
-never decrypts the old value — it needs no `sudo`. Use `edit` instead for a partial change to an
+`replace` deletes the target first, so agenix only encrypts to the public keys in `agenix-rules.nix`
+and never decrypts the old value — it needs no `sudo`. Use `edit` instead for a partial change to an
 existing secret: it decrypts the current value first with the host key
 (`/etc/ssh/ssh_host_ed25519_key`), so it needs `sudo`.
 
 ```shell
-just -f secrets/Justfile edit ./xxx.age
+just -f secrets/Justfile edit xxx.age
 ```
 
-`agenix` will encrypt the file with all the public keys we defined in `secrets.nix`, so all the
-users and systems defined in `secrets.nix` can decrypt it with their private keys.
+`agenix` will encrypt the file with all the public keys we defined in `agenix-rules.nix`, so all the
+users and systems defined in `agenix-rules.nix` can decrypt it with their private keys.
 
 After pushing, run `just upp mysecrets` in this repository: `flake.lock` pins `mysecrets`, so a new
 or changed file is invisible here until the lock moves. The repo-side steps are in
@@ -219,7 +220,7 @@ Then, create `./secrets/nixos.nix` (or `./secrets/darwin.nix` on macOS) with the
     # target path for decrypted file
     path = "/etc/xxx";
     # encrypted file path
-    file =  "${mysecrets}/xxx.age";  # refer to ./xxx.age located in `mysecrets` repo
+    file =  "${mysecrets}/xxx.age";  # refer to xxx.age located in `mysecrets` repo
     mode = "0400";
     owner = "root";
     group = "root";
@@ -236,7 +237,7 @@ the `age.secrets.<name>.path` argument, which defaults to `/run/agenix/<name>`.
 1. `cat` the system-level public key(`/etc/ssh/ssh_host_ed25519_key.pub`) of the new host, and send
    it to an old host which has already been configured.
 2. On the old host:
-   1. Add the public key to `secrets.nix`, then rekey all the secrets:
+   1. Add the public key to `agenix-rules.nix`, then rekey all the secrets:
       `just -f secrets/Justfile rekey`.
    2. Commit and push the changes to `nix-secrets`.
 3. On the new host:

@@ -218,7 +218,7 @@ reinstall or a key rotation:
 
 1. `ssh aquamarine cat /etc/ssh/ssh_host_ed25519_key.pub`.
 2. Put that key in `vars/networking.nix` under `knownHosts` (the entry was removed with the old key)
-   and, if this host should read agenix secrets, in `~/codes/nix-secrets/secrets.nix` under
+   and, if this host should read agenix secrets, in `~/codes/nix-secrets/agenix-rules.nix` under
    `application_server_keys`.
 3. Rekey and bump the pin: `just -f secrets/Justfile rekey`, push `nix-secrets`, then
    `just upp mysecrets` here.
