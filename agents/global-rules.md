@@ -118,6 +118,10 @@ For an impactful change, follow these steps in order, scaled to its risk:
   provides over a new one, and reuse existing config and abstractions instead of duplicating them.
   Agents MUST NOT delete config the task did not ask about; when config merely appears unused,
   report it instead. Ask before a breaking change.
+- Minimality is not a reason to encode a local workaround for an upstream defect. Fix the owning
+  upstream project first and consume the fixed revision; if a local stopgap is genuinely unavoidable,
+  stop and ask the user before adding it. "Minimal" means the smallest change that follows existing
+  best practice, not the smallest diff at any cost.
 - Documentation should describe current behavior for readers without the conversation history; give
   each fact one home per audience and link instead of repeating. Comments explain contracts or
   non-obvious constraints, not obvious code, and preserve safety, license, and workaround
