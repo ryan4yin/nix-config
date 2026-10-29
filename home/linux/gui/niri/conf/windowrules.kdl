@@ -90,6 +90,7 @@ window-rule {
     exclude title="^(公告|Announcement|Notice)$"
     open-on-workspace "4entertainment"
     open-fullscreen true
+    variable-refresh-rate true
 }
 window-rule {
     match app-id="heroic"

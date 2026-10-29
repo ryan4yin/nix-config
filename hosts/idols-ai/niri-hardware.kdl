@@ -28,6 +28,11 @@ output "Beihai Century Joint Innovation Technology Co.,Ltd P32A2V 0000000000000"
     // (this panel's 120 Hz mode, for example, is 119.880, not 120).
     mode "3840x2160@144.000"
 
+    // Adaptive sync only while a game window requests it. The desktop then
+    // stays fixed-rate, avoiding VRR flicker during low-load desktop work.
+    // The game window rule below opts in with variable-refresh-rate true.
+    variable-refresh-rate on-demand=true
+
     // Position of the output in the global coordinate space.
     // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
     // The cursor can only move between directly adjacent outputs.
