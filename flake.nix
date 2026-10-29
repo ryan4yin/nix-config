@@ -234,7 +234,9 @@
     # repository, so a release needs only `nix flake update dsh-nu`.
     dsh-nu = {
       url = "github:ryan4yin/dsh-nu";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # Do not follow the main nixpkgs: dsh-nu is tested against Nushell
+      # 0.115.1, while current nixpkgs carries 0.116.1. Its own pin keeps the
+      # runtime and the plugin contract in sync.
     };
 
     # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri)

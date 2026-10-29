@@ -18,6 +18,19 @@ let
         inherit system;
         config.allowUnfree = true;
       };
+
+      # NUR packages for this system, so modules use `myNurPkgs.dsh` instead of
+      # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
+      #
+      # nur-packages pins a pnpm version through callPackage but does not pass
+      # nodejs = null; nixpkgs now emits a deprecation warning for that legacy
+      # argument. Patch the copied package expression until the NUR input fixes it.
+      nurPkgs = inputs.nur-ryan4yin.packages.${system};
+      dshPatchedSrc = nixpkgs.legacyPackages.${system}.runCommand "nur-dsh-patched-src" { } ''
+        cp -r ${inputs.nur-ryan4yin.outPath}/pkgs/dsh $out
+        chmod -R u+w $out
+        sed -i 's#pnpm/generic.nix") {#pnpm/generic.nix") {\n    nodejs = null;#' $out/default.nix
+      '';
     in
     inputs
     // {
@@ -60,9 +73,13 @@ let
           cudaCapabilities = [ "8.9" ];
         };
       };
-      # NUR packages for this system, so modules use `myNurPkgs.dsh` instead of
-      # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
-      myNurPkgs = inputs.nur-ryan4yin.packages.${system};
+      myNurPkgs = nurPkgs // {
+        dsh = nixpkgs.legacyPackages.${system}.callPackage dshPatchedSrc {
+          mkUpdateScript = nixpkgs.legacyPackages.${system}.callPackage (
+            inputs.nur-ryan4yin.outPath + "/lib/mk-update-script.nix"
+          ) { };
+        };
+      };
     };
 
   # This is the args for all the haumea modules in this folder.

@@ -27,11 +27,16 @@ in
     services.avahi = {
       enable = true;
       nssmdns4 = true;
-      publish = {
-        enable = true;
-        domain = true;
-        userServices = true;
+      settings.publish = {
+        disable-publishing = false;
+        disable-user-service-publishing = false;
+        publish-addresses = true;
+        publish-domain = true;
       };
+      # The nixpkgs sunshine module still sets these legacy options. Force them
+      # to null so settings.publish above is the only source of truth.
+      publish.enable = lib.mkForce null;
+      publish.userServices = lib.mkForce null;
     };
 
     # avahi and systemd-resolved both run an mDNS responder, which makes mDNS
