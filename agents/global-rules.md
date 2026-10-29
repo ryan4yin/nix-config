@@ -165,7 +165,8 @@ For an impactful change, follow these steps in order, scaled to its risk:
   for one-off tools, and the project's existing toolchain (e.g. its flake, `uv`, `pnpm`) for its
   dependencies; ask before creating a flake or installing another way.
 - Use `gh` for authorized GitHub operations; keep SSH for GitHub Git remotes and make sure the
-  Nix-managed `~/.ssh/config` is used.
+  Nix-managed `~/.ssh/config` is used. If SSH authentication is unavailable, stop and ask the user
+  to grant access; do not silently fall back to HTTPS or another credential.
 - Code layout: `~/codes` = personal, `~/work` = work code, `~/src/<repo>` = source checkouts.
 - Agents MUST publish only to repositories that are already public or that the user names, and MUST
   NOT publish content from private repositories or internal sources to a public repository.
