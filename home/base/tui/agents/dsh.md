@@ -59,8 +59,9 @@ on, `$DSH_AGENTS_HOME/AGENTS.md` — so no patch row is needed; identical conten
 spawns. The plugin adds Nushell rules and a syntax guide, and rewrites the shell-tool descriptions,
 so the model is told what actually runs. `nu` is the Nushell `dsh-nu`'s flake resolves — Nixpkgs',
 through `inputs.nixpkgs.follows` — substituted into the rendered patch at build time, so it does not
-depend on `PATH`. The bundle is tested with Nushell 0.115.1 and warns at evaluation time when the
-resolved Nushell differs; drop the `follows` to build against its own pin instead. A command that
+depend on `PATH`. The bundle still records Nushell 0.115.1 as its tested release; nix-config follows
+the main nixpkgs and rewrites that manifest field to the resolved Nushell in `outputs/default.nix`
+until dsh-nu retests, rather than pinning an older nixpkgs for the whole plugin. A command that
 hands a script file to a shell (`bash scripts/build.sh`) is refused, and the refusal names the
 direct `./scripts/build.sh` spelling; the guard itself is unchanged.
 

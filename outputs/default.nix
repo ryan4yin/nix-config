@@ -31,6 +31,18 @@ let
         chmod -R u+w $out
         sed -i 's#pnpm/generic.nix") {#pnpm/generic.nix") {\n    nodejs = null;#' $out/default.nix
       '';
+
+      # dsh-nu still records Nushell 0.115.1 as its tested release. We now follow
+      # the main nixpkgs, so update that manifest field to the Nushell we build
+      # against; its runtime behaviour only uses it for diagnostics. Remove this
+      # patch once dsh-nu retests against the newer Nushell upstream.
+      dshNuPatchedSrc = nixpkgs.legacyPackages.${system}.runCommand "dsh-nu-patched-src" { } ''
+        cp -r ${inputs.dsh-nu.outPath} $out
+        chmod -R u+w $out
+        sed -i 's/"nushell": "[0-9.]*"/"nushell": "${
+          nixpkgs.legacyPackages.${system}.nushell.version
+        }"/' $out/package.json
+      '';
     in
     inputs
     // {
@@ -44,11 +56,6 @@ let
         pkgs-stable
         ;
 
-      pkgs-2505 = import inputs.nixpkgs-2505 {
-        inherit system;
-        # To use chrome, we need to allow the installation of non-free software
-        config.allowUnfree = true;
-      };
       pkgs-patched = import inputs.nixpkgs-patched {
         inherit system;
         # to use chrome, we need to allow the installation of non-free software
@@ -78,6 +85,21 @@ let
           mkUpdateScript = nixpkgs.legacyPackages.${system}.callPackage (
             inputs.nur-ryan4yin.outPath + "/lib/mk-update-script.nix"
           ) { };
+        };
+      };
+
+      dsh-nu = inputs.dsh-nu // {
+        lib = inputs.dsh-nu.lib // {
+          mkDshNuPackage =
+            {
+              pkgs,
+              dsh,
+              nushell ? pkgs.nushell,
+            }:
+            pkgs.callPackage (dshNuPatchedSrc + "/nix/dsh-nu.nix") {
+              inherit dsh nushell;
+              src = dshNuPatchedSrc;
+            };
         };
       };
     };

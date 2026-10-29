@@ -277,14 +277,13 @@ are hard to attribute; no measured problem to solve yet.
 **Current:** systemd-boot on akane, shoukei and the VM hosts (shoryu, shushou, youko); GRUB on
 `/dev/vda` on the libvirt guests kana and ruby; no bootloader on the MicroVM guests; on idols-ai and
 aquamarine, lanzaboote provides Secure Boot with a `/etc/secureboot` (lzpt) bundle. The lanzaboote
-flake input must track a rust-overlay follow (WA-003).
+flake input is maintained separately for Secure Boot.
 
 **Proposed:** `boot.loader.limine` — in nixpkgs, with `secureBoot`, `validateChecksums`,
 `panicOnChecksumMismatch`, `biosSupport`, `maxGenerations`, graphical menu.
 
 **Pros:** one bootloader for UEFI and BIOS (covers the qemu guests' GRUB case); Secure Boot without
-the lanzaboote flake input and its rust-overlay pin (WA-003 disappears); checksum validation of
-kernel and initrd; nicer menu.
+the lanzaboote flake input; checksum validation of kernel and initrd; nicer menu.
 
 **Cons:** different trust model — it signs **limine itself** and validates artifacts by checksum,
 rather than shipping a firmware-verified UKI, so `SECURITY.md` and the threat model must be updated;
@@ -532,7 +531,7 @@ header) should then be trimmed to **adopt** items only.
   `services/system/{userborn,nix-daemon,zram-generator}.nix`,
   `services/monitoring/prometheus/exporters.nix`.
 - NixOS 26.05 release notes; Nix manual, Experimental Features.
-- Repo context: `SECURITY.md` (trust zones and control limits), `WORKAROUNDS.md` (WA-001, WA-003,
-  WA-008, WA-009, WA-023), `modules/nixos/base/networking/mdns.nix`,
+- Repo context: `SECURITY.md` (trust zones and control limits), `WORKAROUNDS.md` (WA-001, WA-008,
+  WA-009, WA-023), `modules/nixos/base/networking/mdns.nix`,
   `hosts/12kingdoms-youko/homelab-services/caddy.nix`,
   `hosts/12kingdoms-youko/homelab-services/README.md`.

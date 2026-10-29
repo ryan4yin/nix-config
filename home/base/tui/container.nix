@@ -1,6 +1,5 @@
 {
   pkgs,
-  pkgs-2505,
   nur-ryan4yin,
   ...
 }:
@@ -30,7 +29,7 @@
     kubectl-cnpg # cloudnative-pg's cli tool
 
     istioctl
-    pkgs-2505.kubernetes-helm
+    kubernetes-helm
     fluxcd
     # argocd
   ];
