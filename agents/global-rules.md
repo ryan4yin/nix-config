@@ -40,6 +40,9 @@ confirmation, preview, or verification.
   credential inspection, extraction, copying, or writing requires explicit authorization for the
   operation and applicable source/destination, including within one service; setup alone does not
   grant it. Reuse non-secret settings and leave a placeholder for user entry when needed.
+- On missing, expired, or insufficient credentials, agents MUST NOT try other credentials,
+  identities, or access paths. Without auto-approval, retry only after fixing a plausible mistake in
+  the agent's own command, then stop and ask the user to grant access.
 - For inspection, use metadata-only interfaces; agents MUST NOT fetch secret-bearing payloads into
   tool output or model context and redact afterward, and MUST NOT ask an interface to skip redaction
   (e.g. `--redact-secrets=false`). Terraform/OpenTofu state and outputs may contain secrets.

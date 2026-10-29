@@ -257,6 +257,10 @@ to run.
   explicitly authorized. → Require explicit authorization for the operation and source/destination
   before extracting, copying, or writing the key, even within one service. Silent output and file
   permissions do not waive this requirement; ordinary client authentication remains allowed.
+- **Access blocker.** Without auto-approval, an authorized `gcloud compute ssh` fails with
+  `Reauthentication required`. → Retrying after fixing a plausible mistake in the agent's own
+  command is fine; do not hunt for other credentials, identities, or access paths, and stop to ask
+  the user to grant access.
 
 ### Impactful changes
 
