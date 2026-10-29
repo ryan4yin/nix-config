@@ -87,6 +87,7 @@ in
     lib.genAttrs
       (
         [ "prometheus-node-exporter" ]
+        ++ lib.optional config.services.prometheus.exporters.nvidia-gpu.enable "prometheus-nvidia-gpu-exporter"
         ++ lib.optionals config.modules.hardwareTools.enable [ "prometheus-smartctl-exporter" ]
       )
       (_: {
