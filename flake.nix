@@ -222,9 +222,6 @@
     # repository, so a release needs only `nix flake update dsh-nu`.
     dsh-nu = {
       url = "github:ryan4yin/dsh-nu";
-      # Track the flake's Nushell. dsh-nu may need a small compatibility patch
-      # when this moves ahead of its testedWith value; fix it downstream here
-      # instead of pinning an old nixpkgs for the whole plugin.
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

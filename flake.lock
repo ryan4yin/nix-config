@@ -174,11 +174,11 @@
         "nur-ryan4yin": "nur-ryan4yin"
       },
       "locked": {
-        "lastModified": 1792600852,
-        "narHash": "sha256-K95TJliFJrD3ssB9jMEqEQ3R7qJtK5wd6tK9oy5ZZ9E=",
+        "lastModified": 1793290511,
+        "narHash": "sha256-01drdiG67F1nil4UX4igbsbmLHqRn4P5MeZ7wZmobQI=",
         "owner": "ryan4yin",
         "repo": "dsh-nu",
-        "rev": "405e24541f8ea1c99bde545689e3d22819efe4ac",
+        "rev": "20b6aa2bf4b9af66866fc10de4e6125ef5326e0b",
         "type": "github"
       },
       "original": {
@@ -1009,11 +1009,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792342725,
-        "narHash": "sha256-kalmu6yOiD8HiXoo2ipvQ12L4UXe2kk68ObaMHeVslw=",
+        "lastModified": 1793285532,
+        "narHash": "sha256-srlNGg3/PBb3DfaC9ROlYl68VjxJfKPJoddFSU89oOQ=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "a71fc275ec7dbbbb8b3e9ece422a2df7f55269db",
+        "rev": "4687255272d66973ee4a8c1b025ca9f84371b9a6",
         "type": "github"
       },
       "original": {
@@ -1029,11 +1029,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792342725,
-        "narHash": "sha256-kalmu6yOiD8HiXoo2ipvQ12L4UXe2kk68ObaMHeVslw=",
+        "lastModified": 1793285532,
+        "narHash": "sha256-srlNGg3/PBb3DfaC9ROlYl68VjxJfKPJoddFSU89oOQ=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "a71fc275ec7dbbbb8b3e9ece422a2df7f55269db",
+        "rev": "4687255272d66973ee4a8c1b025ca9f84371b9a6",
         "type": "github"
       },
       "original": {

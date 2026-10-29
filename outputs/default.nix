@@ -19,30 +19,6 @@ let
         config.allowUnfree = true;
       };
 
-      # NUR packages for this system, so modules use `myNurPkgs.dsh` instead of
-      # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
-      #
-      # nur-packages pins a pnpm version through callPackage but does not pass
-      # nodejs = null; nixpkgs now emits a deprecation warning for that legacy
-      # argument. Patch the copied package expression until the NUR input fixes it.
-      nurPkgs = inputs.nur-ryan4yin.packages.${system};
-      dshPatchedSrc = nixpkgs.legacyPackages.${system}.runCommand "nur-dsh-patched-src" { } ''
-        cp -r ${inputs.nur-ryan4yin.outPath}/pkgs/dsh $out
-        chmod -R u+w $out
-        sed -i 's#pnpm/generic.nix") {#pnpm/generic.nix") {\n    nodejs = null;#' $out/default.nix
-      '';
-
-      # dsh-nu still records Nushell 0.115.1 as its tested release. We now follow
-      # the main nixpkgs, so update that manifest field to the Nushell we build
-      # against; its runtime behaviour only uses it for diagnostics. Remove this
-      # patch once dsh-nu retests against the newer Nushell upstream.
-      dshNuPatchedSrc = nixpkgs.legacyPackages.${system}.runCommand "dsh-nu-patched-src" { } ''
-        cp -r ${inputs.dsh-nu.outPath} $out
-        chmod -R u+w $out
-        sed -i 's/"nushell": "[0-9.]*"/"nushell": "${
-          nixpkgs.legacyPackages.${system}.nushell.version
-        }"/' $out/package.json
-      '';
     in
     inputs
     // {
@@ -80,28 +56,9 @@ let
           cudaCapabilities = [ "8.9" ];
         };
       };
-      myNurPkgs = nurPkgs // {
-        dsh = nixpkgs.legacyPackages.${system}.callPackage dshPatchedSrc {
-          mkUpdateScript = nixpkgs.legacyPackages.${system}.callPackage (
-            inputs.nur-ryan4yin.outPath + "/lib/mk-update-script.nix"
-          ) { };
-        };
-      };
-
-      dsh-nu = inputs.dsh-nu // {
-        lib = inputs.dsh-nu.lib // {
-          mkDshNuPackage =
-            {
-              pkgs,
-              dsh,
-              nushell ? pkgs.nushell,
-            }:
-            pkgs.callPackage (dshNuPatchedSrc + "/nix/dsh-nu.nix") {
-              inherit dsh nushell;
-              src = dshNuPatchedSrc;
-            };
-        };
-      };
+      # NUR packages for this system; modules use `myNurPkgs.dsh` instead of
+      # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
+      myNurPkgs = inputs.nur-ryan4yin.packages.${system};
     };
 
   # This is the args for all the haumea modules in this folder.
