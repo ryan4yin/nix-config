@@ -4,13 +4,11 @@
     ../../certs/ecc-ca.crt
   ];
 
-  # Distrust the roots that signed the compromised eMudhra intermediates
-  # (Mozilla advisory, 2026-10-20). Upstream nixpkgs blacklists them as of
-  # NixOS/nixpkgs#576390; drop this once every consumed nixpkgs revision has it (WA-040).
+  # CVE-2026-111943. NixOS adds this entry itself, but nix-darwin only passes
+  # this list through, so keep it explicit for both platforms. The emSign roots
+  # are gone from the NSS bundle upstream; listing those names now makes
+  # buildcatrust fail, so they are intentionally absent.
   security.pki.caCertificateBlacklist = [
     "Comodo AAA Services root"
-    "emSign ECC Root CA - G3"
-    "emSign Root CA - C1"
-    "emSign ECC Root CA - C3"
   ];
 }

@@ -27,10 +27,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
-    # Kept for pinning a package that regressed in newer nixpkgs. Currently only
-    # kubernetes-helm uses it (home/base/tui/container.nix); extend or drop this
-    # input together with that consumer.
-    nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
 
     # ryan4yin/nixpkgs fork for the `.agents/skills/nixpkgs-patched` workflow. It
     # currently carries no patches (see WORKAROUNDS.md), but `pkgs-patched` is
@@ -76,15 +72,7 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.1.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.rust-overlay.follows = "rust-overlay";
-    };
-
-    # lanzaboote's pinned rust-overlay still uses the deprecated
-    # `stdenv.isLinux`/`stdenv.isDarwin`; follow a newer revision.
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
+      url = "github:nix-community/lanzaboote/v1.2.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -152,7 +140,7 @@
     # terminal window manager / multiplexer; nixpkgs lags behind upstream,
     # so track the upstream flake.
     tuios = {
-      url = "github:Gaurav-Gosain/tuios/v0.10.1";
+      url = "github:Gaurav-Gosain/tuios/v0.11.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -201,7 +189,7 @@
       flake = false;
     };
     ponytail = {
-      url = "github:DietrichGebert/ponytail/v5.1.0";
+      url = "github:DietrichGebert/ponytail/v5.3.3";
       flake = false;
     };
     ########################  My own repositories  #########################################
@@ -237,9 +225,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri)
+    # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri).
+    # Track main while the upstream fix for pkgs.system has no release tag.
     pyclipsync = {
-      url = "github:ryan4yin/pyclipsync/v0.1.3";
+      url = "github:ryan4yin/pyclipsync";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
