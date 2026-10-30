@@ -1,5 +1,6 @@
 {
   lib,
+  mylib,
   myvars,
   pkgs,
   pkgs-npu,
@@ -86,23 +87,26 @@ in
       ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-npu.intel-npu-driver}/lib/libze_intel_npu.so";
     };
 
-    serviceConfig = {
+    # Reads its model, writes its cache, uses the NPU and listens on the LAN.
+    serviceConfig = mylib.systemdHardening.service // {
       ExecStart = "${pythonEnv}/bin/python ${./asr/server.py}";
       CacheDirectory = "whisper-asr";
       DynamicUser = true;
       Restart = "on-failure";
       RestartSec = 5;
 
-      # The service only reads its model, writes its cache and listens on the
-      # LAN; it needs no other part of the filesystem or any privilege.
-      NoNewPrivileges = true;
-      PrivateTmp = true;
-      ProtectHome = true;
-      ProtectSystem = "strict";
       RestrictAddressFamilies = [
         "AF_INET"
         "AF_UNIX"
       ];
+      # The NPU is /dev/accel/accel0; allow that device class only.
+      PrivateDevices = false;
+      DevicePolicy = "closed";
+      DeviceAllow = [ "char-accel rw" ];
+      # OpenVINO's oneDNN kernels and libffi closures generate code at runtime.
+      MemoryDenyWriteExecute = false;
+      # OpenVINO sizes its thread pools from /proc/cpuinfo and /proc/meminfo.
+      ProcSubset = "all";
     };
   };
 }

@@ -9,6 +9,8 @@
   genVmHostModule = import ./genVmHostModule.nix;
   genMicrovmGuestModule = import ./genMicrovmGuestModule.nix;
 
+  systemdHardening = import ./systemdHardening.nix { inherit lib; };
+
   # use path relative to the root of the project
   relativeToRoot = lib.path.append ../.;
   scanPaths =

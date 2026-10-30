@@ -27,6 +27,7 @@ modules/
 │   └── users.nix         # macOS user management
 └── nixos/                   # NixOS-specific modules
     ├── base/               # Base NixOS configuration
+    │   ├── auditd.nix     # Audit trail for root sessions and credentials
     │   ├── btop.nix       # System resource monitor
     │   ├── btrbk.nix      # Local btrfs snapshots
     │   ├── core.nix       # Core system settings

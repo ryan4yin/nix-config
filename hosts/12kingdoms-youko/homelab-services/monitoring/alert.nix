@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, mylib, ... }:
 {
   # https://docs.victoriametrics.com/victoriametrics/vmalert/
   services.vmalert.instances."homelab" = {
@@ -33,6 +33,9 @@
         ''explore?left={"datasource":"victoriametrics-homelab","queries":[{"expr":{{ .Expr|jsonEscape|queryEscape }},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'';
     };
   };
+
+  # nixpkgs only sets DynamicUser; vmalert talks to loopback and keeps no state.
+  systemd.services.vmalert-homelab.serviceConfig = mylib.systemdHardening.mkDefaults mylib.systemdHardening.service;
 
   services.prometheus.alertmanager = {
     enable = true;

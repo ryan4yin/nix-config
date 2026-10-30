@@ -24,8 +24,17 @@ in
   # If the directory/file already exists in the root filesystem you should
   # move those files/directories to /persistent first!
   preservation.preserveAt."/persistent" = {
+    # Mount in initrd: NixOS copies mode-carrying /etc entries (such as
+    # authorized_keys.d) during stage-2 activation, which runs before systemd
+    # starts. A mount created by preservation.target comes later and would hide
+    # those copies behind the previous `switch`, so key changes only applied on
+    # `switch`, never on `boot` + reboot. Preparing the mount in initrd puts
+    # /persistent/etc/ssh at /sysroot/etc/ssh before activation runs.
     directories = [
-      "/etc/ssh"
+      {
+        directory = "/etc/ssh";
+        inInitrd = true;
+      }
       "/etc/nix/inputs"
       "/etc/secureboot" # lanzaboote - secure boot (see ./secureboot.nix)
 

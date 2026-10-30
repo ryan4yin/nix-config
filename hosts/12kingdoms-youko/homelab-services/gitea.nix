@@ -1,5 +1,12 @@
 { pkgs, ... }:
 {
+  # Git over SSH reads Gitea's own ~/.ssh/authorized_keys (keys pinned to
+  # `gitea serv`), which modules/nixos/base/ssh.nix otherwise ignores.
+  services.openssh.extraConfig = ''
+    Match User gitea
+      AuthorizedKeysFile %h/.ssh/authorized_keys /etc/ssh/authorized_keys.d/%u
+  '';
+
   # https://github.com/NixOS/nixpkgs/blob/nixos-26.05/nixos/modules/services/misc/gitea.nix
   services.gitea = {
     enable = true;

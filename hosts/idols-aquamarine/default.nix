@@ -58,6 +58,7 @@ in
   # Local btrfs snapshots of @persistent (SSH host keys, /etc/secureboot, the
   # NixOS state). Same layout as the other physical hosts; no off-host target.
   modules.btrbk.enable = true;
+  modules.security.audit.enable = true;
 
   # smartd autodetects devices and logs to the journal; the smartctl exporter
   # (modules/nixos/base/monitoring.nix) is what feeds wear and media errors to
@@ -81,7 +82,12 @@ in
   environment.sessionVariables.ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-npu.intel-npu-driver}/lib/libze_intel_npu.so";
 
   # The daemons of the hosts that build here (modules/nixos/base/remote-builders.nix).
-  users.users.root.openssh.authorizedKeys.keys = myvars.remoteBuilderClientKeys;
+  # Their host keys have no passphrase, so they only get the daemon protocol, as
+  # nix.sshServe does. `--store daemon` hands builds to the system daemon instead
+  # of running them inside this audited login session (modules/nixos/base/auditd.nix).
+  users.users.root.openssh.authorizedKeys.keys = map (
+    key: ''restrict,command="nix-daemon --stdio --store daemon" ${key}''
+  ) myvars.remoteBuilderClientKeys;
 
   # systemd-journal - cap disk usage
   # https://www.freedesktop.org/software/systemd/man/latest/journald.conf.html

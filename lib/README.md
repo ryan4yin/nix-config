@@ -21,10 +21,14 @@ reduce code duplication and make it easier to add new machines.
 7. **`genMicrovmGuestModule.nix`** - NixOS microVM guest configuration generator
 8. **`genLibvirtDomainXml.nix`** - libvirt domain XML generator (imported directly by host configs)
 
+### Shared Presets
+
+9. **`systemdHardening.nix`** - systemd sandboxing preset for exposed services
+
 ### Entry Point
 
-9. **`default.nix`** - Main entry point that imports the generators and exports them as a single
-   attribute set, plus the `relativeToRoot` and `scanPaths` helpers
+10. **`default.nix`** - Main entry point that imports the generators and exports them as a single
+    attribute set, plus the `relativeToRoot` and `scanPaths` helpers
 
 ## Usage
 

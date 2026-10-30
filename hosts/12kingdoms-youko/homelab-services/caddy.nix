@@ -232,11 +232,22 @@ in
     };
   };
 
-  # caddy loads the lego-issued files at startup, so wait for the acme service;
-  # otherwise its config fails to load before the cert exists.
   systemd.services.caddy = {
+    # caddy loads the lego-issued files at startup, so wait for the acme
+    # service; otherwise its config fails to load before the cert exists.
     wants = [ "acme-writefor.fun.service" ];
     after = [ "acme-writefor.fun.service" ];
+
+    # Sandbox the LAN front door; it writes only its State/LogsDirectory.
+    serviceConfig = mylib.systemdHardening.mkDefaults mylib.systemdHardening.service // {
+      # Only 80/443. No CAP_NET_ADMIN: the module already raises the UDP buffer
+      # sysctls quic-go would force. "" resets the package unit's list.
+      AmbientCapabilities = [
+        ""
+        "CAP_NET_BIND_SERVICE"
+      ];
+      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+    };
   };
 
   # caddy is reached from the LAN/tailnet only; the shared firewall

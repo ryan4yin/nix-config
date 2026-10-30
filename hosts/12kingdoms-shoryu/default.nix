@@ -25,6 +25,7 @@ in
   ];
 
   modules.btrbk.enable = true;
+  modules.security.audit.enable = true;
 
   # MoreFine S500Plus: Radeon iGPU. The ROCm build of btop shows the GPU panel;
   # node_exporter's drm collector exposes its utilization/VRAM.
