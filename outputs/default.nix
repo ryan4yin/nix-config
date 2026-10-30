@@ -220,6 +220,12 @@ in
         pkgs = nixpkgs.legacyPackages.${system};
         inherit (inputs) agenix;
       };
+      # A persisted /etc/ssh must receive the activation copy at boot, which
+      # only happens when preservation prepares the mount in initrd.
+      security-preservation-etc = import ../tests/security-preservation-etc.nix {
+        pkgs = nixpkgs.legacyPackages.${system};
+        inherit (inputs) preservation;
+      };
     }
   );
 

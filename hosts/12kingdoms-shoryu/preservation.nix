@@ -25,7 +25,15 @@ in
   preservation.preserveAt."/persistent" = {
     directories = [
       "/etc/NetworkManager/system-connections"
-      "/etc/ssh"
+      # Mount in initrd: NixOS copies mode-carrying /etc entries (such as
+      # authorized_keys.d) during stage-2 activation, which runs before systemd
+      # starts. A mount created by preservation.target comes later and would
+      # hide those copies behind the previous `switch`, so key changes only
+      # applied on `switch`, never on `boot` + reboot.
+      {
+        directory = "/etc/ssh";
+        inInitrd = true;
+      }
       "/etc/nix/inputs"
       "/etc/secureboot" # lanzaboote - secure boot
       # my secrets
