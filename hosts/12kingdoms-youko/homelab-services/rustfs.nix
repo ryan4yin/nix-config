@@ -1,7 +1,11 @@
 {
   config,
+  mylib,
   ...
 }:
+let
+  inherit (mylib.systemdHardening) mkDefaults service;
+in
 {
   # The service module comes from the default nixpkgs (services.rustfs); it
   # creates the rustfs user/group, the data volume via tmpfiles, and a hardened
@@ -26,6 +30,18 @@
     environmentFile = config.age.secrets."rustfs.env".path;
   };
 
-  # The data volume lives on the encrypted HDD subvolume; wait for its mount.
-  systemd.services.rustfs.unitConfig.RequiresMountsFor = "/data/apps";
+  systemd.services.rustfs = {
+    # The data volume lives on the encrypted HDD subvolume; wait for its mount.
+    unitConfig.RequiresMountsFor = "/data/apps";
+
+    # Fill the sandboxing the nixpkgs unit leaves out.
+    serviceConfig = mkDefaults service // {
+      # ProtectSystem=strict: the data volume is the only writable path.
+      ReadWritePaths = [ config.services.rustfs.settings.RUSTFS_VOLUMES ];
+      # Its startup endpoint list enumerates the host's interface addresses.
+      RestrictAddressFamilies = service.RestrictAddressFamilies ++ [ "AF_NETLINK" ];
+      # Capacity and observability metrics read host-wide /proc files.
+      ProcSubset = "all";
+    };
+  };
 }

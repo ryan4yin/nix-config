@@ -58,6 +58,7 @@ in
   };
 
   modules.btrbk.enable = true;
+  modules.security.audit.enable = true;
 
   # HDD tuning/diagnostics for the two spinning disks behind the USB-SATA bridge.
   environment.systemPackages = [ pkgs.hdparm ];

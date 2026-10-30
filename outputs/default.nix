@@ -214,6 +214,12 @@ in
         pkgs = nixpkgs.legacyPackages.${system};
         networking = myvars.networking;
       };
+      # Load the audit rules in a VM: one rule that fails to load leaves
+      # auditing off, which evaluation cannot catch.
+      security-auditd = import ../tests/security-auditd.nix {
+        pkgs = nixpkgs.legacyPackages.${system};
+        inherit (inputs) agenix;
+      };
     }
   );
 

@@ -33,18 +33,18 @@ small, reversible controls and narrow exceptions; benchmark before adopting expe
 
 ## Architecture and trust boundaries
 
-| Boundary        | Current design                                                                                                                                          | Limitation                                                                                                                                                            |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Administration  | Key-based SSH; root key login retained for Colmena/MicroVM deployment                                                                                   | Deployment credentials are root-equivalent; password login being disabled does not restrict stolen keys                                                               |
-| Host network    | Shared nftables firewall trusts the home LAN, tailnet interface and local Podman bridge; IPv6 link-local is accepted                                    | These are broad trust zones, not service-level least privilege; router exposure and tailnet ACLs require separate verification                                        |
-| Monitoring      | node/smartctl exporters bind the host LAN IPv4 (9100/9633); firewall rules restrict exporter ports 9100, 9835 and 9633 to the monitoring host over IPv4 | nvidia_gpu_exporter (9835) still binds wildcard; the IPv6 denial for those three ports is in the shared firewall; current running hosts require separate verification |
-| VM hosts        | shoryu, shushou and youko run guests behind `br0`; ruby/kana are libvirt guests                                                                         | A bridge is not network isolation; host compromise affects its guests                                                                                                 |
-| k3s             | Three control-plane and three worker MicroVMs; Cilium, API VIP and NFS CSI                                                                              | Cluster-admin, privileged/host-mounted pods and writable NFS data are powerful trust boundaries                                                                       |
-| MicroVM storage | Host store shared read-only through virtiofs; guest `/etc`, `/var` and `/home` persisted in separate images                                             | Read-only store does not isolate the host-side virtiofs implementation or protect writable guest state                                                                |
-| Desktop apps    | Selected apps use nixpak/bubblewrap; Podman is rootless                                                                                                 | Rules and shared directories vary per app; user namespaces are needed for these sandboxes                                                                             |
-| Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                                                          | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                                                        |
-| Supply chain    | Locked flake inputs; explicit binary-cache trust keys on NixOS; normal user is not a Nix trusted-user                                                   | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                                                          |
-| Recovery        | NixOS generations, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                         | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned            |
+| Boundary        | Current design                                                                                                                                                                                                 | Limitation                                                                                                                                                            |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Administration  | Key-based SSH; root key login retained for Colmena/MicroVM deployment; only keys declared in Nix are honoured, and no password or keyboard-interactive login; remote-builder host keys only reach `nix-daemon` | Deployment credentials are root-equivalent file keys, usable by any same-user process through the desktop SSH agent; one stolen key reaches every host                |
+| Host network    | Shared nftables firewall trusts the home LAN, tailnet interface and local Podman bridge; IPv6 link-local is accepted                                                                                           | These are broad trust zones, not service-level least privilege; router exposure and tailnet ACLs require separate verification                                        |
+| Monitoring      | node/smartctl exporters bind the host LAN IPv4 (9100/9633); firewall rules restrict exporter ports 9100, 9835 and 9633 to the monitoring host over IPv4                                                        | nvidia_gpu_exporter (9835) still binds wildcard; the IPv6 denial for those three ports is in the shared firewall; current running hosts require separate verification |
+| VM hosts        | shoryu, shushou and youko run guests behind `br0`; ruby/kana are libvirt guests                                                                                                                                | A bridge is not network isolation; host compromise affects its guests                                                                                                 |
+| k3s             | Three control-plane and three worker MicroVMs; Cilium, API VIP and NFS CSI                                                                                                                                     | Cluster-admin, privileged/host-mounted pods and writable NFS data are powerful trust boundaries                                                                       |
+| MicroVM storage | Host store shared read-only through virtiofs; guest `/etc`, `/var` and `/home` persisted in separate images                                                                                                    | Read-only store does not isolate the host-side virtiofs implementation or protect writable guest state                                                                |
+| Desktop apps    | Selected apps use nixpak/bubblewrap; Podman is rootless                                                                                                                                                        | Rules and shared directories vary per app; user namespaces are needed for these sandboxes                                                                             |
+| Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                                                                                                                 | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                                                        |
+| Supply chain    | Locked flake inputs; explicit binary-cache trust keys on NixOS; normal user is not a Nix trusted-user                                                                                                          | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                                                          |
+| Recovery        | NixOS generations, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                                                                                | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned            |
 
 Sources: [host layout](hosts/README.md), [k3s deployment](hosts/k8s/README.md),
 [firewall](modules/nixos/base/networking/firewall.nix), [SSH](modules/nixos/base/ssh.nix),
@@ -104,10 +104,34 @@ an advisory and affected kernel versions before adding CVE claims; search snippe
 - AppArmor is enabled, but the only explicit policy, sudo's, is in complain mode. Complain mode logs
   rather than blocks. Existing FHS-oriented abstractions need Nix store path review; this is not
   broad enforced application confinement.
-- Systemd service sandboxing is per-service, not a global policy. Review capabilities, writable
-  paths, network access and syscall requirements before tightening an individual service.
+- Systemd service sandboxing is per-service, not a global policy. The exposed services nixpkgs
+  leaves weakly sandboxed (caddy, rustfs, vmalert, whisper-asr) use the preset in
+  [systemdHardening.nix](lib/systemdHardening.nix). Review capabilities, writable paths, network
+  access and syscall requirements before tightening an individual service.
 
 See [application hardening](hardening/README.md) for wrapper details.
+
+### Audit trail
+
+`modules.security.audit` ([auditd.nix](modules/nixos/base/auditd.nix)) runs auditd on youko, shoryu,
+shushou and aquamarine. It records, for login sessions only (SSH, and sudo or su from one): every
+root command (`root-session`), access to decrypted secrets and SSH host keys (`credential-access`),
+writes to SSH, account/PAM, Nix trust and audit configuration, module loads, and denials.
+
+- Services are not audited: a `never,task` rule gives tasks without a login uid no audit context, so
+  virtiofsd, hypervisors, NFS, PostgreSQL and Nix builds skip the per-syscall audit path. A
+  compromised service is therefore invisible until it opens a login session.
+- Logs stay on the host and root can erase them; shipping them off-host is a P1 TODO.
+- One watch on a missing path makes `auditctl -R` stop and leaves auditing off;
+  `nix build .#checks.x86_64-linux.security-auditd` loads the rules in a VM.
+
+Query as root; sshd is built without libaudit, so use PAM's `USER_START` records for logins:
+
+```sh
+ausearch -i -m USER_START --start today    # logins with address and session id
+ausearch -i -k root-session --start today  # root commands, with auid and ses
+ausearch -i --session <ses>                # everything one session did
+```
 
 ## Updating, deploying and recovering
 
@@ -355,6 +379,8 @@ separate verification.
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                                                           |
 | -------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| P1       | Move root/deploy SSH to hardware-backed keys                                     | `sk-ssh-ed25519` keys with touch for root, with SSH multiplexing to keep Colmena usable; an agent lifetime or confirmation; a tested break-glass path                                              |
+| P1       | Alert on SSH logins and ship auth/audit logs off-host                            | Off-host copy host root cannot rewrite; alert on an unknown key or source, a session-rate spike and `root-session`/`credential-access`; redact key material                                        |
 | P1       | Roll out and verify the implemented baseline/exporter rules                      | Runtime sysctl readback, allowed IPv4 scrape and denied IPv6/non-monitoring scrape tests; preserve Nix/Podman/Cilium/NFS functionality                                                             |
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                                                        |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                                                         |
