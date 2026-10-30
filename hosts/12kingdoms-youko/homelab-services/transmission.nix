@@ -57,6 +57,13 @@ let
   '';
 in
 {
+  # transmission 4.1.4 takes an fcntl lock on its config-dir lock file, but the
+  # AppArmor profile shipped by nixpkgs grants rw without k (lock), so the
+  # daemon exits with "Another process is already using". See WORKAROUNDS.md.
+  security.apparmor.includes."local/bin.transmission-daemon" = ''
+    /var/lib/transmission/.config/transmission-daemon/lock rwk,
+  '';
+
   # Join the shared fileshare group so transmission can read/write files
   # created by sftpgo, and vice versa (via setgid directories).
   users.users.${name}.extraGroups = [ "fileshare" ];
