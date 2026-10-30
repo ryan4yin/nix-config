@@ -59,6 +59,14 @@ mechanics in the project's instructions, and a rule belongs here only when it ap
 - Review the net growth and remove repetition. Brevity must preserve the boundary; verify both the
   prohibited action and the authorized action still behave as intended.
 
+Some rules restate familiar principles as checkable boundaries: Grice's maxims shape Communication
+and Output style, with the maxim of quality as the cite-or-mark-unverified rule under Repository
+work; Orwell's "cut every word you can" shows in the one-line comment rule; and Occam's razor
+becomes the minimal-diff rule. The rules deliberately do not cite these names, even as a summary. A
+name adds no boundary and imports the whole principle with each model's own reading: the maxim of
+relation can suppress reports the rules require (an exposed secret, config that appears unused), and
+Occam's razor can favor the smallest diff over the upstream fix. Amend the concrete rule instead.
+
 After changing the rules or a custom skill, size the evaluation to the change as the
 [evaluation guide](evals/global-rules.md#choosing-the-scope) describes, and record the results in
 the PR.
