@@ -4,7 +4,7 @@
   functionality.
 - **Policy and limits:** [SECURITY.md](../SECURITY.md).
 - **Cookie crypto:** Chromium-family browsers use the app-scoped Secret portal and write `v12`
-  cookies. No browser gets broad GNOME Keyring access. Existing `v11` cookies require re-login.
+  cookies. No browser gets broad GNOME Keyring access.
 
 ## Shared boundaries
 
@@ -67,7 +67,6 @@ Desktop integration:
 | ----------------------- | ----------------------------------------- |
 | Chromium-family secrets | Force `v12` via app-scoped Secret portal  |
 | Broad GNOME Keyring     | No                                        |
-| Old `v11` sessions      | Accept one-time re-login                  |
 | Firefox                 | NSS + Primary Password; no Chromium `v12` |
 
 **Why v12**
@@ -89,8 +88,6 @@ Desktop integration:
 
 **Cost and limits**
 
-- `v11` and `v12` cannot decrypt each other: old cookies and saved passwords may need to be
-  recreated.
 - Portal unavailable can fall back to weak `v10`; monitor
   `Local State.os_crypt.portal.prev_init_success`.
 - Profile is not fully encrypted: bookmarks, history, localStorage, IndexedDB and extension data are
@@ -113,7 +110,7 @@ Desktop integration:
 - **Chromium sandbox stays enabled:** user-namespace isolation remains active inside nixpak; tests
   assert the renderer runs with `Seccomp=2` / `NoNewPrivs=1`.
 - **Cookie encryption:** all Chromium-family browsers enable the app-scoped Secret portal and force
-  new values to `v12`; old `v11` values require re-login.
+  new values to `v12`.
 - **Camera:** Chromium/Chrome explicitly enable `WebRtcPipeWireCamera`; camera and screen-sharing
   streams use portal-provided FDs.
 - **Zoom/WeChat:** retain FHS runtime inside nixpak. The inner layer can only see outer-layer

@@ -86,7 +86,7 @@ Measured evidence:
   test.
 - Inventory: [hardening README](../README.md). Security limits: [SECURITY.md](../../SECURITY.md).
 
-## Cookie crypto and v11 migration
+## Cookie crypto
 
 - Chromium-family wrappers enable `SecretPortalKeyProviderUseForEncryption` and receive only
   `org.freedesktop.portal.Secret.RetrieveSecret`; they do **not** get
@@ -94,15 +94,12 @@ Measured evidence:
 - A disposable-profile probe under `/var/tmp` served an HTTP `Set-Cookie`, then inspected the
   profile DB: the cookie prefix was `v12` (`763132`) and
   `Local State.os_crypt.portal.prev_init_success` was true.
-- Existing `v11` cookies cannot be decrypted by the v12 provider; v11/v12 use different KDFs and
-  cipher modes. Expect a one-time re-login after switching profiles to v12.
 - If the portal is unavailable, Chromium can fall back to v10. That is weak; monitor portal startup
   Portal startup is a monitored degradation, not a fail-closed guarantee.
 - Firefox uses NSS (`key4.db`/`logins.json`) and `cookies.sqlite`, not Chrome OSCrypt. Set a Firefox
   Primary Password if saved-login at-rest protection matters.
 - Sources:
   [feature defaults](https://github.com/chromium/chromium/blob/156.0.8078.73/chrome/browser/browser_features.cc),
-  [v11 provider](https://github.com/chromium/chromium/blob/156.0.8078.73/components/os_crypt/async/browser/freedesktop_secret_key_provider.cc),
   [v12 provider](https://github.com/chromium/chromium/blob/156.0.8078.73/components/os_crypt/async/browser/secret_portal_key_provider.cc),
   [prefix decryption](https://github.com/chromium/chromium/blob/156.0.8078.73/components/os_crypt/async/common/encryptor.cc).
 

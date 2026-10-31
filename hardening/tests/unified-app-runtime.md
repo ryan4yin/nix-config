@@ -31,5 +31,5 @@ Chromium.
 
 Interactive validation remains necessary for camera capture, microphone input, video playback,
 desktop/window sharing, file chooser/save operations, IME, tray, notifications and media controls.
-The QQ headless startup is not evidence that those functions work. Browser encrypted-login migration
-is a separate gate; see `browser-runtime.md` for the Chromium-family validation and limitations.
+The QQ headless startup is not evidence that those functions work. Browser encrypted-login behavior
+is covered in `browser-runtime.md`.
