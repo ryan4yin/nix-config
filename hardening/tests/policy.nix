@@ -83,6 +83,17 @@ let
       && chrome.pasta.enable
       && chrome.pasta.mode == "isolate"
       && lib.elem "--no-map-gw" chrome.pasta.args;
+    appTmpIsolation =
+      let
+        tmpPath =
+          app:
+          lib.findFirst (
+            entry: builtins.isList entry && builtins.length entry == 2 && builtins.elem "/tmp" entry
+          ) null app.bubblewrap.bind.rw;
+        paths = map tmpPath apps;
+      in
+      lib.all (path: builtins.isList path && builtins.length path == 2) paths
+      && lib.length (lib.unique (map builtins.head paths)) == builtins.length apps;
     workBrowserMedia =
       chrome.portalGroups.camera
       && chrome.portalGroups.screenCast

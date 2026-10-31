@@ -22,8 +22,7 @@
   };
   bubblewrap = {
     sockets.x11 = true;
-    # Preserve X11's socket; the sandbox root still supplies private /tmp.
-    tmpfs = lib.mkForce [ "/dev/shm" ];
+    # Preserve X11's socket; desktop-base supplies the app-specific /tmp.
     # libdbus aborts without a machine ID; use an app-specific synthetic ID.
     bind.ro = [
       [
@@ -39,6 +38,10 @@
     bind.rw = lib.mkForce [
       (sloth.mkdir (sloth.concat' sloth.xdgDocumentsDir "/WeChat_Data"))
       (sloth.concat' sloth.runtimeDir "/doc")
+      [
+        (sloth.mkdir (sloth.concat' sloth.runtimeDir "/nixpak-${config.flatpak.appId}-tmp"))
+        "/tmp"
+      ]
     ];
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";

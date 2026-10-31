@@ -18,9 +18,7 @@
   bubblewrap = {
     # ZoomLauncher selects xcb; the X11 connection retains X11's display trust.
     sockets.x11 = true;
-    # Nixpak emits tmpfs after socket binds; a /tmp tmpfs would hide X11.
-    # The outer sandbox root already provides a private, ephemeral /tmp.
-    tmpfs = lib.mkForce [ "/dev/shm" ];
+    # desktop-base supplies the app-specific /tmp; X11 binds are nested into it.
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");

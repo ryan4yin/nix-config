@@ -79,6 +79,12 @@
         xdgStateHome
       ]
       (concat' runtimeDir "/doc")
+      # Chrome/Firefox/Telegram/etc. use /tmp for single-instance IPC. Share
+      # this directory across launches of the same app only; app IDs differ.
+      [
+        (mkdir (concat' runtimeDir "/nixpak-${config.flatpak.appId}-tmp"))
+        "/tmp"
+      ]
     ];
     bind.ro = [
       "/etc/localtime"
@@ -102,7 +108,6 @@
       "/dev/nvidia-uvm"
     ];
     tmpfs = [
-      "/tmp"
       "/dev/shm"
     ];
     env = {
