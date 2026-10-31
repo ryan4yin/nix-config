@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgs-master,
+  pkgs-patched,
   nixpak,
   ...
 }:
@@ -26,7 +27,7 @@ in
         brave-origin = wrapper super ./brave-origin.nix;
         microsoft-edge = wrapper super ./microsoft-edge.nix;
         zoom = wrapper super ./zoom.nix;
-        wechat = wrapper super ./wechat.nix;
+        wechat = wrapper pkgs-patched ./wechat.nix;
       };
     })
   ];

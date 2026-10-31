@@ -1,4 +1,4 @@
-# The existing FHS layer owns WeChat's HOME remapping and xwechat_files link.
+# WeChat data and its sandbox boundary are owned by nixpak.
 {
   config,
   lib,
@@ -34,20 +34,18 @@
         "/etc/machine-id"
       ]
     ];
-    # The inner FHS /home reset replaces base XDG mounts with this backing tree.
-    bind.rw = lib.mkForce [
-      (sloth.mkdir (sloth.concat' sloth.xdgDocumentsDir "/WeChat_Data"))
-      (sloth.concat' sloth.runtimeDir "/doc")
-      [
-        (sloth.mkdir (sloth.concat' sloth.runtimeDir "/nixpak-${config.flatpak.appId}-tmp"))
-        "/tmp"
-      ]
+    bind.rw = [
+      sloth.xdgDocumentsDir
+      sloth.xdgDownloadDir
     ];
     env = {
+      # WeChat keeps .xwechat and xwechat_files under HOME. User-selected
+      # files also go through the XDG file chooser portal where available.
+      HOME = lib.mkForce (sloth.concat' sloth.xdgDataHome "/wechat");
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
       XDG_DOCUMENTS_DIR = sloth.xdgDocumentsDir;
-      # The existing pre-FHS script uses mkdir/ln before /usr/bin exists.
+      XDG_DOWNLOAD_DIR = sloth.xdgDownloadDir;
       PATH = lib.makeBinPath [ pkgs.coreutils ];
     };
   };

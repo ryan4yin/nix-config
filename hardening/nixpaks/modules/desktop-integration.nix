@@ -27,14 +27,15 @@ in
         "org.freedesktop.DBus" = "talk";
         "org.kde.StatusNotifierWatcher" = "talk";
       }
-      # SNI name is <pid>-<Qt tray instance ID>; WeChat 4.1.13 uses <pid>-2.
+      # SNI name is <pid>-<Qt tray instance ID>. The PID is from the nixpak
+      # namespace and varies with the inner AppImage/FHS startup chain.
       // builtins.listToAttrs (
         lib.concatMap (
           id:
           map (
             instance: lib.nameValuePair "org.kde.StatusNotifierItem-${toString id}-${toString instance}" "own"
-          ) (lib.range 1 5)
-        ) (lib.range 2 5)
+          ) (lib.range 1 10)
+        ) (lib.range 2 30)
       );
     })
     (lib.mkIf cfg.mpris {
