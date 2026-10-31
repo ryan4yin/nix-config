@@ -83,6 +83,14 @@ let
       && chrome.pasta.enable
       && chrome.pasta.mode == "isolate"
       && lib.elem "--no-map-gw" chrome.pasta.args;
+    zoomCameraDevices =
+      let
+        zoom = load "zoom";
+      in
+      lib.all (dev: lib.elem dev zoom.bubblewrap.bind.dev) [
+        "/dev/video0"
+        "/dev/video1"
+      ];
     fhsTrayIntegration =
       lib.all
         (
@@ -184,7 +192,20 @@ let
     noBroadKeyring = lib.all (
       app: !lib.any (arg: arg == "--talk=org.freedesktop.secrets") app.dbus.args
     ) apps;
-    deniedDevicesAndSystemBus = lib.all (app: !lib.any forbiddenMount (mountStrings app)) apps;
+    deniedDevicesAndSystemBus =
+      let
+        zoomVideoDevices = [
+          "/dev/video0"
+          "/dev/video1"
+        ];
+        forbiddenMountFor =
+          app:
+          if app.flatpak.appId == "us.zoom.Zoom" then
+            path: forbiddenMount path && !lib.elem path zoomVideoDevices
+          else
+            forbiddenMount;
+      in
+      lib.all (app: !lib.any (forbiddenMountFor app) (mountStrings app)) apps;
     filteredEnvironmentAndMedia = lib.all (
       app:
       app.bubblewrap.clearEnv

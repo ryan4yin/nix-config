@@ -24,6 +24,11 @@
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
     };
+    bind.dev = [
+      # Zoom 7.2.1 still opens V4L2 device nodes directly for webcam capture.
+      "/dev/video0"
+      "/dev/video1"
+    ];
     bind.rw = [
       (sloth.mkdir (sloth.concat' sloth.homeDir "/.zoom"))
       (sloth.concat' sloth.xdgConfigHome "/zoomus.conf")

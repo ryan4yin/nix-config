@@ -332,11 +332,13 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - Nixpak supplements Chromium's renderer sandbox; `--no-sandbox` is not used. Zoom/WeChat retain
   their FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
 - Desktop access has limits: GPU drivers remain exposed, PulseAudio permits recording, read-only
-  sockets permit agent operations, and Zoom/WeChat's X11 connections have shared-display trust. No
-  raw camera or PipeWire access is added. Chromium-family browsers use only the app-scoped Secret
-  portal for v12 cookie encryption; no browser receives broad GNOME Keyring authority. Existing v11
-  cookies require a one-time re-login because v11/v12 keys are incompatible. Firefox uses its own
-  NSS storage and is not covered by that migration.
+  sockets permit agent operations, and Zoom/WeChat's X11 connections have shared-display trust.
+  Zoom's 7.2.1 client receives only `/dev/video0` and `/dev/video1` because it captures the webcam
+  directly via V4L2; no other app gets raw camera nodes and no raw PipeWire access is added.
+  Chromium-family browsers use only the app-scoped Secret portal for v12 cookie encryption; no
+  browser receives broad GNOME Keyring authority. Existing v11 cookies require a one-time re-login
+  because v11/v12 keys are incompatible. Firefox uses its own NSS storage and is not covered by that
+  migration.
 - **Rollout note (WA-045):** v12 is verified on a disposable profile, but if the portal is
   unavailable Chromium may fall back to weaker v10 storage. No basic-password-store flag is used;
   interactive login and portal health checks remain required.

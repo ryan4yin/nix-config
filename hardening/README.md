@@ -13,8 +13,8 @@
 - Allow file chooser, URI opening, notifications and input-method portals.
 - Allow exported document-portal files; existing exports may remain accessible without another
   prompt.
-- Deny whole host home, system D-Bus, SSH agent, USB/serial, raw cameras and the raw PipeWire
-  socket.
+- Deny whole host home, system D-Bus, SSH agent, USB/serial, raw cameras (except Zoom's two V4L2
+  nodes) and the raw PipeWire socket.
 - Only Firefox/Chromium share host loopback. All other apps use pasta isolate.
 - `/tmp` is private per app; Chromium-family browsers share an app-specific `/tmp` across launches
   so external URLs reuse the existing browser instance instead of reopening the same profile.
@@ -56,7 +56,8 @@ Desktop integration:
   GPU rendering remains available; software video decoding is not prohibited.
 - QQ/Telegram: native notifications, tray, MPRIS, accessibility and idle inhibition.
 - WeChat/Zoom: portal notifications plus StatusNotifier tray integration; no MPRIS/accessibility.
-- Zoom also gets idle inhibition.
+- Zoom also gets idle inhibition and the two host V4L2 camera nodes; its 7.2.1 client still captures
+  the webcam directly instead of using the Camera portal.
 
 ## Browser data and secrets
 
