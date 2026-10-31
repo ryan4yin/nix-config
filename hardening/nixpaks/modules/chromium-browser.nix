@@ -1,5 +1,5 @@
-# Shared Chromium-family wrapper. The upstream package still supplies Chromium's
-# own sandbox; nixpak adds filesystem, D-Bus and network boundaries.
+# Chromium-family wrapper: nixpak adds filesystem, D-Bus and network boundaries;
+# the upstream Chromium renderer sandbox remains enabled.
 {
   lib,
   mkNixPak,
@@ -24,10 +24,8 @@
   privateWindowFlag ? "--incognito",
 }:
 let
-  # Chromium keeps its unprivileged user-namespace sandbox inside nixpak;
-  # renderer Seccomp/NNP remains active.
-  # Chromium 156 leaves PipeWire camera capture disabled by default. Enable it
-  # for media-enabled browsers so camera access uses the portal's FD without raw video devices.
+  # Chromium 156 disables PipeWire camera capture by default; media apps need
+  # the portal FD path instead of raw video devices.
   # Keep the Wayland feature from nixpkgs: the last --enable-features wins.
   enabledFeatures = lib.concatStringsSep "," (
     [ "WaylandWindowDecorations" ]
@@ -57,8 +55,7 @@ let
           binPath = "bin/${command}";
         };
         flatpak = { inherit appId; };
-        # Firefox and Chromium share the host network for local development.
-        # Work Chrome and the other browsers keep pasta's isolated loopback.
+        # Firefox/Chromium need host loopback for local services; Chrome and the rest use pasta.
         pasta.enable = lib.mkForce (!hostLoopback);
         pasta.mode = "isolate";
         browserPermissions = {
@@ -75,8 +72,7 @@ let
       };
   };
   exe = "${wrapped.config.script}/bin/${command}";
-  # Only copy desktop assets: including the original package in buildEnv would
-  # expose alternate executable names that bypass the wrapper.
+  # Copy desktop assets only; the full package would expose unwrapped binaries.
   assets = runCommandLocal "${command}-desktop-assets" { } ''
     mkdir -p $out/share
     for directory in icons pixmaps; do

@@ -23,8 +23,7 @@
   };
   bubblewrap = {
     sockets.x11 = true;
-    # Preserve X11's socket; desktop-base supplies the app-specific /tmp.
-    # libdbus aborts without a machine ID; use an app-specific synthetic ID.
+    # libdbus aborts without /etc/machine-id; use a synthetic app-scoped value.
     bind.ro = [
       [
         (toString (

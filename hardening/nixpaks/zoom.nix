@@ -10,9 +10,8 @@
 }:
 let
   appId = "us.zoom.Zoom";
-  # Keep the upstream FHS wrapper, including its /opt mount and launcher. Its
-  # automatic root mounts only copy directories, so preserve nixpak's metadata
-  # file explicitly for portal identification from inside the nested sandbox.
+  # Preserve the upstream FHS wrapper and /opt mount; its root mounts omit the
+  # metadata file needed for portal identification inside the nested sandbox.
   package = zoom-us.override {
     xdgDesktopPortalSupport = true;
     buildFHSEnv =

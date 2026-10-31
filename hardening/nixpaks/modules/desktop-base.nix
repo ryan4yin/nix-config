@@ -1,5 +1,5 @@
-# Shared desktop runtime. Applications opt into portal and native desktop
-# services separately. No host GVfs, shared caches, raw camera or PipeWire socket.
+# Shared desktop runtime; portal and native services are opt-in. No host GVfs,
+# shared caches, raw camera or PipeWire socket.
 {
   config,
   lib,
@@ -119,7 +119,7 @@
       XDG_DATA_HOME = sloth.xdgDataHome;
       XDG_STATE_HOME = sloth.xdgStateHome;
       XDG_SESSION_TYPE = "wayland";
-      # Portal clients use this to select the Wayland screen-share path.
+      # Selects the Wayland path for portal clients.
       XDG_CURRENT_DESKTOP = sloth.envOr "XDG_CURRENT_DESKTOP" "niri";
       WAYLAND_DISPLAY = sloth.envOr "WAYLAND_DISPLAY" "wayland-0";
       NIXOS_OZONE_WL = "1";
@@ -131,7 +131,7 @@
         pkgs.shared-mime-info
       ];
       XCURSOR_PATH = "${pkgs.bibata-cursors}/share/icons:${pkgs.bibata-cursors}/share/pixmaps";
-      # Point fontconfig at the configuration mounted by nixpak fonts.enable.
+      # Fontconfig configuration mounted by nixpak fonts.enable.
       FONTCONFIG_FILE = "/etc/fonts/fonts.conf";
       NIXOS_XDG_OPEN_USE_PORTAL = "1";
     }

@@ -23,8 +23,7 @@ in
     })
     (lib.mkIf cfg.tray {
       dbus.policies = {
-        # Qt probes NameHasOwner/GetNameOwner before registering a
-        # StatusNotifierItem. The old custom policy granted this too.
+        # Qt probes NameHasOwner/GetNameOwner before registering its SNI.
         "org.freedesktop.DBus" = "talk";
         "org.kde.StatusNotifierWatcher" = "talk";
       }
