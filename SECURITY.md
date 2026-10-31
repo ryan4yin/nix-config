@@ -338,8 +338,7 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   Chromium-family browsers use only the app-scoped Secret portal for v12 cookie encryption; no
   browser receives broad GNOME Keyring authority. Firefox uses its own NSS storage.
 - **Rollout note (WA-045):** v12 is verified on a disposable profile, but if the portal is
-  unavailable Chromium may fall back to weaker v10 storage. Interactive login and portal health
-  checks remain required.
+  unavailable Chromium may fall back to weaker v10 storage; portal initialization is monitored.
 - Runtime evidence is partial: Brave/Edge headless export times out; interactive login, media, IME
   and file workflows require acceptance. See the
   [validation records](hardening/README.md#validation).

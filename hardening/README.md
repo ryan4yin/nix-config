@@ -1,7 +1,7 @@
 # Linux Hardening
 
-- **Status:** draft rollout; not activated. Permissions below describe configuration, not proven
-  functionality.
+- **Status:** deployed and interactively validated on `ai` (2026-10-31). The permissions below
+  describe the enabled policy; known behavioral limits follow.
 - **Policy and limits:** [SECURITY.md](../SECURITY.md).
 - **Cookie crypto:** Chromium-family browsers use the app-scoped Secret portal and write `v12`
   cookies. No browser gets broad GNOME Keyring access.
@@ -118,12 +118,10 @@ Desktop integration:
 - **WeChat data:** retain existing layout; reject unexpected links/directories. Use a synthetic
   app-specific machine ID; existing-account identity continuity is untested.
 
-## Limits and merge gates
+## Limits
 
 - **Brave/Edge:** headless page export still times out; full render/persistence/loopback checks are
   incomplete.
-- **Interactive checks:** login persistence, browserpass, file chooser, IME, GPU video, camera,
-  microphone and meeting screen sharing remain pending where not recorded below.
 - **X11:** Zoom/WeChat have shared-display trust; portal permissions cannot enforce portal-only
   capture.
 - **Audio/credentials:** PulseAudio grants recording authority; read-only GPG sockets still permit
@@ -138,9 +136,10 @@ Desktop integration:
 - Chrome/Chromium: renderer sandbox, environment, mounts, rendering and disposable-profile
   persistence passed. Chromium reaches host loopback; Chrome cannot.
 - Brave/Edge: renderer and permission checks passed; page rendering timed out.
-- Firefox: disposable headless screenshot passed. QQ: partial startup. Telegram: build only.
-- Zoom/WeChat: disposable windows and nested isolation passed; full media/login workflows remain
-  pending.
+- Deployed-profile interactive validation was performed on `ai`; the remaining automated gap is the
+  Brave/Edge headless export.
+- Firefox: disposable headless screenshot passed. QQ/Telegram/Zoom/WeChat: deployed interactive
+  startup and tray checks passed.
 - Reproduction and evidence: [browsers](tests/browser-runtime.md),
   [Firefox/QQ/Telegram](tests/unified-app-runtime.md), [Zoom](tests/zoom-runtime.md),
   [WeChat](tests/wechat-runtime.md).
