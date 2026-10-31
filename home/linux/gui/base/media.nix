@@ -26,7 +26,7 @@
     ]
     # Zoom: Settings > Share Screen > Advanced > Screen Capture Mode on Wayland > PipeWire Mode.
     # zoom-us ships only an x86_64 Linux client, so the aarch64 host skips it.
-    ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [ pkgs.zoom-us ];
+    ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [ pkgs.nixpaks.zoom ];
 
   programs.mpv = {
     enable = true;

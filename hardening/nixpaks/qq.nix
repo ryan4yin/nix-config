@@ -26,10 +26,25 @@ let
         flatpak.appId = appId;
 
         imports = [
-          ./modules/gui-base.nix
+          ./modules/desktop-base.nix
           ./modules/network.nix
-          ./modules/custom-policy.nix
         ];
+
+        portalGroups = {
+          fileChooser = true;
+          openUri = true;
+          notifications = true;
+          screenCast = true;
+          camera = true;
+          inhibit = true;
+          inputMethod = true;
+        };
+        desktopIntegration = {
+          notifications = true;
+          tray = true;
+          mpris = true;
+          accessibility = true;
+        };
 
         bubblewrap = {
           # To trace all the home files QQ accesses, you can use the following nushell command:

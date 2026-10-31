@@ -1,111 +1,79 @@
 # Linux Hardening
 
-> Work in progress.
+Deployed and interactively validated on `ai` (2026-10-31). Policy and limits:
+[SECURITY.md](../SECURITY.md).
 
-Application sandboxing (nixpak/bubblewrap) and Linux hardening knowledge for this repository. For
-the repository security policy, architecture and audit status, see [`SECURITY.md`](../SECURITY.md);
-for temporary exceptions and known gaps, see [`WORKAROUNDS.md`](../WORKAROUNDS.md).
+## Shared boundaries
 
-## Goal
+- Cleared environment; filtered session D-Bus; private `/dev/shm`; per-app `/tmp`. Chromium-family
+  browsers share an app-specific `/tmp` so external URLs reuse one browser instance.
+- Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
+- Portals for file chooser, URI opening, notifications, input methods and document exports.
+- No whole host home, system D-Bus, SSH agent, USB/serial, raw camera or raw PipeWire socket.
+- Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback.
 
-- **System Level**: Protect critical files from being accessed by untrusted applications.
-  1. Such as browser cookies, SSH keys, etc.
-- **Per-App Level**: Prevent untrusted applications(such as closed-source apps) from:
-  1. Accessing files they shouldn't.
-     - Such as a malicious application accessing your browser's cookies, SSH keys, etc.
-  1. Accessing the network when they don't need to.
-  1. Accessing hardware devices they don't need.
+## App permissions
 
-## Current Structure
+`Media` means audio playback, microphone, Camera and ScreenCast portals. Writable paths are listed
+explicitly; other files use the document portal. Every app also has private writable state.
 
-### 1. **System Level**
+| App          | Network       | Writable paths                                                                        | Grants                                                                                |
+| ------------ | ------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Media, browserpass, MPRIS, idle                                                       |
+| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                           |
+| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                           |
+| Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                            |
+| Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                            |
+| QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                |
+| Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators            |
+| Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm` |
+| WeChat       | Isolated      | `Documents/WeChat_Data`, its HOME mapping and `xwechat_files` link, private app state | Media, X11/xcb, FHS, SNI tray                                                         |
 
-- **AppArmor** (`apparmor/`): AppArmor profiles and configuration
-- **Kernel & process hardening** (`kernel-hardening.nix`): sysctl baseline and unused-module deny
-  list; rationale and verification live in [`SECURITY.md`](../SECURITY.md).
+All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
-### 2. **Per-App Level**
+## Browser secrets
 
-- **Nixpak** (`nixpaks/`): Bubblewrap-based sandboxing for applications
-  - Firefox configuration
-  - QQ (Chinese messaging app) configuration
-  - Telegram Desktop configuration
-  - Modular system with reusable components
-- **Bubblewrap** (`bwraps/`): Direct bubblewrap configurations
-  - WeChat sandboxing configuration
+- Chromium family: app-scoped Secret portal only. `SecretPortalKeyProviderUseForEncryption` writes
+  v12 cookies; no `org.freedesktop.secrets` or broad keyring access.
+- If the Secret portal is unavailable, Chromium can fall back to v10. Monitor
+  `Local State.os_crypt.portal.prev_init_success`.
+- Firefox uses NSS: `key4.db` and `logins.json` for logins, `cookies.sqlite` for cookies. It has no
+  Secret portal or keyring grant. A Primary Password protects saved logins, not cookies.
+- browserpass is separate: it exposes the password store and GPG-agent socket, not cookie
+  encryption.
+- Bookmarks, history, localStorage, IndexedDB and extension data remain readable by the browser.
+  nixpak isolates them from other apps, not from browser compromise.
 
-## Current Implementation Status
+## Limits
 
-| Component         | Status    | Notes                         |
-| ----------------- | --------- | ----------------------------- |
-| AppArmor Profiles | 🚧 WIP    | Basic structure in place      |
-| Nixpak Firefox    | ✅ Active | Firefox sandboxing via nixpak |
-| Nixpak QQ         | ✅ Active | QQ application sandboxing     |
-| Nixpak Telegram   | ✅ Active | Telegram Desktop sandboxing   |
-| Bubblewrap WeChat | ✅ Active | WeChat specific sandboxing    |
+- X11: Zoom and WeChat have shared-display trust; portal permissions cannot enforce portal-only
+  capture.
+- PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
+- pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
+- Brave/Edge renderer and permission checks pass, but headless page export still times out.
 
-## Directory Structure
+## Validation
 
-```
-hardening/
-├── README.md
-├── kernel-hardening.nix # sysctl baseline + unused-module deny list
-├── apparmor/           # AppArmor security profiles
-│   └── default.nix
-├── bwraps/            # Direct bubblewrap configurations
-│   ├── default.nix
-│   └── wechat.nix
-└── nixpaks/           # Nixpak application sandboxing
-    ├── default.nix
-    ├── firefox.nix
-    ├── qq.nix
-    ├── telegram-desktop.nix
-    └── modules/       # Reusable nixpak modules
-        ├── custom-policy.nix
-        ├── gui-base.nix
-        └── network.nix
-```
+- Passed: `just fmt`, `just test`, `ai-niri` build and `shoukei-niri` eval.
+- Deployed on `ai`; interactive startup and tray checks passed for Chrome, Firefox, QQ, Telegram,
+  Zoom and WeChat.
+- Chromium/Chrome: renderer sandbox, mounts, rendering and disposable-profile persistence passed.
+  Chromium reaches host loopback; Chrome cannot.
+- Firefox: disposable headless screenshot passed.
+- Brave/Edge: renderer and permission checks passed; headless page export timed out.
+- Evidence: [browsers](tests/browser-runtime.md),
+  [Firefox/QQ/Telegram](tests/unified-app-runtime.md), [Zoom](tests/zoom-runtime.md),
+  [WeChat](tests/wechat-runtime.md).
 
-## System Hardening
+## Code map
 
-- Apparmor: [roddhjav/apparmor.d](https://github.com/roddhjav/apparmor.d)
-  - https://gitlab.com/apparmor/apparmor/-/wikis/Documentation
-  - AppArmor.d is a set of over 1500 AppArmor profiles whose aim is to confine most Linux based
-    applications and processes.
-  - But its profiles assume an FHS filesystem, so most of them never match the Nix store paths a
-    NixOS system actually executes.
-  - Apparmor on NixOS Roadmap:
-    - https://discourse.nixos.org/t/apparmor-on-nixos-roadmap/57217
-    - https://github.com/LordGrimmauld/aa-alias-manager
-- SELinux: too complex, not recommended for personal use.
-
-## Application Sandboxing
-
-- [Bubblewrap](https://github.com/containers/bubblewrap):
-  [nixpak](https://github.com/nixpak/nixpak), more secure than firejail, but no batteries included.
-  - NixOS's FHSEnv is implemented using bubblewrap by default.
-- [Firejail](https://github.com/netblue30/firejail/tree/master/etc): A SUID security sandbox with
-  hundreds of security profiles for many common applications in the default installation.
-  - https://wiki.nixos.org/wiki/Firejail
-  - Firejail needs SUID to work, which is considered a security risk -
-    [Does firejail improve the security of my system?](https://github.com/netblue30/firejail/discussions/4601)
-- [Systemd/Hardening](https://wiki.nixos.org/wiki/Systemd/Hardening): Systemd also provides some
-  sandboxing features.
-
-## NOTE
-
-**Running untrusted code is never safe, kernel hardening & sandboxing cannot change this**; run
-untrusted code in a VM on an isolated network. The threat model lives in
-[`SECURITY.md`](../SECURITY.md).
-
-## References
-
-- [Harden your NixOS workstation - dataswamp](https://dataswamp.org/~solene/2022-01-13-nixos-hardened.html)
-- [Linux Insecurities - Madaidans](https://madaidans-insecurities.github.io/linux.html)
-- [Sandboxing all programs by default - NixOS Discourse](https://discourse.nixos.org/t/sandboxing-all-programs-by-default/7792)
-- [Paranoid NixOS Setup - xeiaso](https://xeiaso.net/blog/paranoid-nixos-2021-07-18/)
-- [nix-mineral](https://github.com/cynicsketch/nix-mineral): NixOS module for convenient system
-  hardening.
-- apparmor configs:
-  - https://github.com/zramctl/dotfiles/blob/4fe177f6984154960942bb47d5a375098ec6ed6a/modules/nixos/security/apparmor.nix#L4
-  - https://git.grimmauld.de/Grimmauld/grimm-nixos-laptop/src/branch/main/hardening
+- [nixpaks/](nixpaks/): wrappers and Home Manager package overlay.
+- [desktop-base.nix](nixpaks/modules/desktop-base.nix): shared runtime and XDG storage.
+- [portal-groups.nix](nixpaks/modules/portal-groups.nix),
+  [desktop-integration.nix](nixpaks/modules/desktop-integration.nix): portal and desktop service
+  grants.
+- [browser-permissions.nix](nixpaks/modules/browser-permissions.nix),
+  [chromium-browser.nix](nixpaks/modules/chromium-browser.nix): browser scopes and launcher.
+- [bwraps/wechat.nix](bwraps/wechat.nix): WeChat FHS and data setup.
+- [kernel-hardening.nix](kernel-hardening.nix), [apparmor/](apparmor/): kernel sysctl and AppArmor
+  profiles.

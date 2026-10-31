@@ -21,9 +21,6 @@ let
         sloth,
         ...
       }:
-      let
-        passwordStore = sloth.concat' sloth.homeDir "/.local/share/password-store";
-      in
       {
         app = {
           package = firefox;
@@ -32,14 +29,19 @@ let
         flatpak.appId = appId;
 
         imports = [
-          ./modules/gui-base.nix
+          ./modules/browser-permissions.nix
           ./modules/network.nix
-          ./modules/custom-policy.nix
         ];
+
+        browserPermissions = {
+          media = true;
+          personalFiles = true;
+          browserpass = true;
+        };
 
         # Firefox keeps the host network: local development servers and the
         # mihomo controller live on 127.0.0.1, and pasta's isolated loopback
-        # would hide them. The other sandboxed apps do not need host loopback.
+        # would hide them. Chromium uses the same personal-browser policy.
         pasta.enable = lib.mkForce false;
 
         bubblewrap = {
@@ -55,16 +57,6 @@ let
             # path over MPRIS. Without this bind it lands under the sandboxed
             # XDG_DATA_HOME and Noctalia (outside) cannot read it.
             (sloth.mkdir (sloth.concat' sloth.homeDir "/.local/share/firefox-mpris"))
-
-            # Files deleted from Firefox go to the real trash instead of a
-            # private one under the sandboxed XDG_DATA_HOME.
-            (sloth.mkdir (sloth.concat' sloth.homeDir "/.local/share/Trash"))
-
-            sloth.xdgDocumentsDir
-            sloth.xdgDownloadDir
-            sloth.xdgMusicDir
-            sloth.xdgVideosDir
-            sloth.xdgPicturesDir
           ];
           bind.ro = [
             "/sys/bus/pci"
@@ -72,25 +64,7 @@ let
               "${config.app.package}/lib/firefox"
               "/app/etc/firefox"
             ]
-
-            # ================ for browserpass extension ===============================
-            "/etc/gnupg"
-            (sloth.concat' sloth.homeDir "/.gnupg") # gpg's config
-            passwordStore # my secrets
-            (sloth.concat' sloth.runtimeDir "/gnupg") # for access gpg-agent socket
-
-            # Match the host's default-app associations and XDG user dirs.
-            (sloth.concat' sloth.homeDir "/.config/mimeapps.list")
-            (sloth.concat' sloth.homeDir "/.config/user-dirs.dirs")
-
-            # Shared NSS client-certificate store (imported outside Firefox).
-            (sloth.concat' sloth.homeDir "/.pki/nssdb")
-
-            # dconf settings. Not verified as needed; candidate for removal.
-            (sloth.concat' sloth.xdgConfigHome "/dconf")
           ];
-          # browserpass looks for the store here, not at pass's default path.
-          env.PASSWORD_STORE_DIR = passwordStore;
         };
       };
   };

@@ -323,13 +323,25 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - `ssh -G` reports forwarding for explicit `192.168.*` destinations, but not the sampled `shoryu`
   alias or GitHub destination. Do not treat forwarding as enabled for every LAN alias, or remove it
   without checking deployment/build workflows.
-- Nixpak apps retain outbound networking (through pasta, without the host's loopback),
-  GUI/audio/portal/GPU access, selected writable document directories, and a read-only view of the
-  whole `/nix/store`. Firefox additionally retains browserpass/GnuPG integration. These are
-  filesystem sandboxes, not blanket credential or management-network isolation.
-- WeChat retains networking and X11 through its FHS wrapper. Source arguments alone do not prove
-  complete runtime isolation. App launch, file chooser, IME, audio/video, GPU and disposable-agent
-  probes are still needed before narrowing mounts or sockets.
+- All nine desktop wrappers use shared nixpak policies: cleared environment, filtered session D-Bus
+  and selected mounts. The [permission inventory](hardening/README.md#app-permissions) lists each
+  app's file, network, credential and media grants.
+- Only Firefox/Chromium share host networking. Other apps isolate loopback with pasta but can still
+  reach the LAN/Internet. Browser media and browserpass are enabled only for
+  Firefox/Chromium/Chrome; browserpass exposes password-store/GPG data and agent operations.
+- Nixpak supplements Chromium's renderer sandbox, which remains enabled. Zoom/WeChat retain their
+  FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
+- Desktop access has limits: GPU drivers remain exposed, PulseAudio permits recording, read-only
+  sockets permit agent operations, and Zoom/WeChat's X11 connections have shared-display trust.
+  Zoom's 7.2.1 client receives only `/dev/video0` and `/dev/video1` because it captures the webcam
+  directly via V4L2; no other app gets raw camera nodes and no raw PipeWire access is added.
+  Chromium-family browsers use only the app-scoped Secret portal for v12 cookie encryption; no
+  browser receives broad GNOME Keyring authority. Firefox uses its own NSS storage.
+- **Rollout note (WA-045):** v12 is verified on a disposable profile, but if the portal is
+  unavailable Chromium may fall back to weaker v10 storage; portal initialization is monitored.
+- Runtime evidence is partial: Brave/Edge headless export times out; interactive login, media, IME
+  and file workflows require acceptance. See the
+  [validation records](hardening/README.md#validation).
 
 #### Agent-first diagnostics by host role
 

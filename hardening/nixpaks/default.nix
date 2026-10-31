@@ -21,6 +21,12 @@ in
         qq = wrapper pkgs-master ./qq.nix;
         telegram-desktop = wrapper super ./telegram-desktop.nix;
         firefox = wrapper super ./firefox.nix;
+        google-chrome = wrapper super ./google-chrome.nix;
+        chromium = wrapper super ./chromium.nix;
+        brave-origin = wrapper super ./brave-origin.nix;
+        microsoft-edge = wrapper super ./microsoft-edge.nix;
+        zoom = wrapper super ./zoom.nix;
+        wechat = wrapper super ./wechat.nix;
       };
     })
   ];
