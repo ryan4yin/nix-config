@@ -14,6 +14,9 @@
 }:
 let
   envSuffix = envKey: suffix: sloth.concat' (sloth.env envKey) suffix;
+  # nixpak cannot pass a variable only when it is set, so an unset one arrives
+  # empty; only list variables whose readers treat empty as unset.
+  passHostEnv = names: lib.genAttrs names (name: sloth.envOr name "");
   # cursor & icon's theme should be the same as the host's one.
   cursorTheme = pkgs.bibata-cursors;
   iconTheme = pkgs.papirus-icon-theme;
@@ -109,7 +112,23 @@ in
         "/tmp"
       ];
 
+      # Start from an empty environment so host secrets (tokens, credentials)
+      # stay outside; everything the apps need is listed here.
+      clearEnv = true;
       env = {
+        HOME = sloth.homeDir;
+        USER = sloth.env "USER";
+        XDG_RUNTIME_DIR = sloth.runtimeDir;
+        XDG_CACHE_HOME = sloth.xdgCacheHome;
+        XDG_CONFIG_HOME = sloth.xdgConfigHome;
+        XDG_DATA_HOME = sloth.xdgDataHome;
+        XDG_STATE_HOME = sloth.xdgStateHome;
+        # Same fallback as nixpak's Wayland socket bind, so they always agree.
+        WAYLAND_DISPLAY = sloth.envOr "WAYLAND_DISPLAY" "wayland-0";
+        XDG_SESSION_TYPE = "wayland";
+        # GTK reads an empty GTK_A11Y as an unknown backend; "0" is its unset value.
+        GTK_A11Y = sloth.envOr "GTK_A11Y" "0";
+
         XDG_DATA_DIRS = lib.mkForce (
           lib.makeSearchPath "share" [
             iconTheme
@@ -123,7 +142,32 @@ in
             "${cursorTheme}/share/pixmaps"
           ]
         );
-      };
+      }
+      // passHostEnv [
+        "LANG"
+        "LANGUAGE"
+        "LC_ALL"
+        "LC_ADDRESS"
+        "LC_COLLATE"
+        "LC_CTYPE"
+        "LC_IDENTIFICATION"
+        "LC_MEASUREMENT"
+        "LC_MESSAGES"
+        "LC_MONETARY"
+        "LC_NAME"
+        "LC_NUMERIC"
+        "LC_PAPER"
+        "LC_TELEPHONE"
+        "LC_TIME"
+
+        "NO_AT_BRIDGE"
+        "NIXOS_XDG_OPEN_USE_PORTAL"
+        "NIXOS_OZONE_WL" # QQ's wrapper adds its Wayland flags only when set
+        "XCURSOR_THEME"
+        "XCURSOR_SIZE"
+        "QT_QPA_PLATFORMTHEME"
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION"
+      ];
     };
   };
 }

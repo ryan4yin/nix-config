@@ -21,6 +21,9 @@ let
         sloth,
         ...
       }:
+      let
+        passwordStore = sloth.concat' sloth.homeDir "/.local/share/password-store";
+      in
       {
         app = {
           package = firefox;
@@ -68,7 +71,7 @@ let
             # ================ for browserpass extension ===============================
             "/etc/gnupg"
             (sloth.concat' sloth.homeDir "/.gnupg") # gpg's config
-            (sloth.concat' sloth.homeDir "/.local/share/password-store") # my secrets
+            passwordStore # my secrets
             (sloth.concat' sloth.runtimeDir "/gnupg") # for access gpg-agent socket
 
             # Match the host's default-app associations and XDG user dirs.
@@ -81,6 +84,8 @@ let
             # dconf settings. Not verified as needed; candidate for removal.
             (sloth.concat' sloth.xdgConfigHome "/dconf")
           ];
+          # browserpass looks for the store here, not at pass's default path.
+          env.PASSWORD_STORE_DIR = passwordStore;
         };
       };
   };
