@@ -119,6 +119,8 @@
       XDG_DATA_HOME = sloth.xdgDataHome;
       XDG_STATE_HOME = sloth.xdgStateHome;
       XDG_SESSION_TYPE = "wayland";
+      # Portal clients use this to select the Wayland screen-share path.
+      XDG_CURRENT_DESKTOP = sloth.envOr "XDG_CURRENT_DESKTOP" "niri";
       WAYLAND_DISPLAY = sloth.envOr "WAYLAND_DISPLAY" "wayland-0";
       NIXOS_OZONE_WL = "1";
       GTK_USE_PORTAL = "1";
