@@ -323,8 +323,9 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - `ssh -G` reports forwarding for explicit `192.168.*` destinations, but not the sampled `shoryu`
   alias or GitHub destination. Do not treat forwarding as enabled for every LAN alias, or remove it
   without checking deployment/build workflows.
-- Nixpak apps retain deliberate host networking, GUI/audio/portal/GPU access and selected writable
-  document directories. Firefox additionally retains browserpass/GnuPG integration. These are
+- Nixpak apps retain outbound networking (through pasta, without the host's loopback),
+  GUI/audio/portal/GPU access, selected writable document directories, and a read-only view of the
+  whole `/nix/store`. Firefox additionally retains browserpass/GnuPG integration. These are
   filesystem sandboxes, not blanket credential or management-network isolation.
 - WeChat retains networking and X11 through its FHS wrapper. Source arguments alone do not prove
   complete runtime isolation. App launch, file chooser, IME, audio/video, GPU and disposable-agent
