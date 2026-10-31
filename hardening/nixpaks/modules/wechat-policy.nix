@@ -12,6 +12,7 @@
     ./network.nix
   ];
   pasta.mode = "isolate";
+  desktopIntegration.tray = true;
   portalGroups = {
     fileChooser = true;
     openUri = true;

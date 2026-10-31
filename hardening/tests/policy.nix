@@ -83,6 +83,22 @@ let
       && chrome.pasta.enable
       && chrome.pasta.mode == "isolate"
       && lib.elem "--no-map-gw" chrome.pasta.args;
+    fhsTrayIntegration =
+      lib.all
+        (
+          app:
+          app.desktopIntegration.tray
+          && app.dbus.policies."org.freedesktop.DBus" == "talk"
+          && app.dbus.policies."org.kde.StatusNotifierWatcher" == "talk"
+          && app.dbus.policies."org.kde.StatusNotifierItem-2-1" == "own"
+          && app.dbus.policies."org.kde.StatusNotifierItem-2-2" == "own"
+        )
+        (
+          map load [
+            "wechat"
+            "zoom"
+          ]
+        );
     appTmpIsolation =
       let
         tmpPath =

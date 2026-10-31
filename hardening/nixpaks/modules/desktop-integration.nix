@@ -23,10 +23,19 @@ in
     })
     (lib.mkIf cfg.tray {
       dbus.policies = {
+        # Qt probes NameHasOwner/GetNameOwner before registering a
+        # StatusNotifierItem. The old custom policy granted this too.
+        "org.freedesktop.DBus" = "talk";
         "org.kde.StatusNotifierWatcher" = "talk";
       }
+      # SNI name is <pid>-<Qt tray instance ID>; WeChat 4.1.13 uses <pid>-2.
       // builtins.listToAttrs (
-        map (id: lib.nameValuePair "org.kde.StatusNotifierItem-${toString id}-1" "own") (lib.range 2 29)
+        lib.concatMap (
+          id:
+          map (
+            instance: lib.nameValuePair "org.kde.StatusNotifierItem-${toString id}-${toString instance}" "own"
+          ) (lib.range 1 5)
+        ) (lib.range 2 5)
       );
     })
     (lib.mkIf cfg.mpris {
