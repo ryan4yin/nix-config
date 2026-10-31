@@ -197,8 +197,8 @@ in
       # Desktop-wide mounts (Wayland/at-spi/gvfsd, the app cache, fontconfig and
       # Mesa caches, GTK config, /dev/shm) are provided by ./gui-base.nix, so
       # each path is bound exactly once. This is what keeps a read-only bind
-      # from shadowing a writable one (see the note on the PulseAudio runtime
-      # dir there). Only app-specific mounts belong in this file.
+      # from shadowing a writable one. Only app-specific mounts belong in this
+      # file.
       bind.rw = with sloth; [
         [
           (mkdir appDataDir)
