@@ -46,12 +46,13 @@ in
 
       # nixpak binds sockets read-only, which is sufficient: connect() only needs
       # the socket inode's write bit, and the kernel's read-only-filesystem check
-      # does not apply to sockets. PulseAudio is the exception (see bind.rw).
-      # Every app here is Wayland-only, so X11 stays disabled (the nixpak default,
-      # spelled out for intent) and PipeWire is shared for screensharing.
+      # does not apply to sockets. Every app here is Wayland-only, so X11 stays
+      # disabled (the nixpak default, spelled out for intent) and PipeWire is
+      # shared for screensharing.
       sockets = {
         wayland = true;
         pipewire = true;
+        pulse = true;
         x11 = false;
       };
 
@@ -66,13 +67,6 @@ in
         # gvfsd is a directory that holds FUSE mounts, not a socket, so it must
         # stay writable.
         (envSuffix "XDG_RUNTIME_DIR" "/gvfsd")
-
-        # libpulse prepares its runtime dir before connecting (mkdir + chmod 0700),
-        # so this directory must be writable. nixpak's built-in `sockets.pulse`
-        # binds it read-only instead, and libpulse then aborts with EROFS when the
-        # directory is not already 0700 (e.g. pipewire-pulse has not started yet).
-        # Keep this the only bind of $XDG_RUNTIME_DIR/pulse.
-        (envSuffix "XDG_RUNTIME_DIR" "/pulse")
       ];
       bind.ro = [
         # Sockets only need to be connectable, and connect() works on a read-only
