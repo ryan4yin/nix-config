@@ -47,8 +47,9 @@ nixpak is feasible with the explicit compatibility changes above.
 Use the same disposable-home command as [Zoom](zoom-runtime.md), with WeChat's output and
 executable, and additionally set `XDG_DOCUMENTS_DIR="$wechat_probe_dir/Documents"`. Prepare
 `Documents/WeChat_Data/home` and `Documents/WeChat_Data/xwechat_files` beneath that disposable home
-before launching. Do not scan a login QR code or sign in. Inspect the exact test PID through `/proc`
-while the timeout is active; verify that its window and processes disappear after timeout.
+before launching. The smoke test stops before QR login and uses no account. Inspect the exact test
+PID through `/proc` while the timeout is active; verify that its window and processes disappear
+after timeout.
 
 Pending manual checks: existing account persistence, QR/login, fcitx input, notifications/tray,
 portal file chooser and selected-file access, downloads, voice/video calls, camera/screencast portal

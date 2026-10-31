@@ -340,8 +340,8 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   because v11/v12 keys are incompatible. Firefox uses its own NSS storage and is not covered by that
   migration.
 - **Rollout note (WA-045):** v12 is verified on a disposable profile, but if the portal is
-  unavailable Chromium may fall back to weaker v10 storage. No basic-password-store flag is used;
-  interactive login and portal health checks remain required.
+  unavailable Chromium may fall back to weaker v10 storage. Interactive login and portal health
+  checks remain required.
 - Runtime evidence is partial: Brave/Edge headless export times out; interactive login, media, IME
   and file workflows require acceptance. See the
   [validation records](hardening/README.md#validation).

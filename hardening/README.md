@@ -84,7 +84,7 @@ Desktop integration:
 
 - Chrome, Chromium, Brave, Edge: `--enable-features=SecretPortalKeyProviderUseForEncryption`.
 - Allow only `org.freedesktop.portal.Secret.RetrieveSecret`.
-- Deny `org.freedesktop.secrets`; never use `--password-store=basic`.
+- Deny `org.freedesktop.secrets`; wrappers do not pass `--password-store=basic`.
 - Keep the app ID stable (`com.google.Chrome`, etc.); the portal secret is app-scoped.
 
 **Cost and limits**
@@ -102,7 +102,7 @@ Desktop integration:
 - Cookies: `cookies.sqlite`; not Chrome-style OS encryption.
 - Best practical setup: set a **Primary Password**, keep the profile `0700`, rely on LUKS + nixpak.
 - Primary Password protects saved logins, not cookies. No `v12` equivalent.
-- Do not grant Firefox keyring/Secret portal for normal cookie/password storage.
+- Firefox has no Secret portal or keyring grant; NSS is its cookie/password store.
 - browserpass/GPG is separate: it exposes the password store and GPG-agent socket, not cookie
   encryption.
 

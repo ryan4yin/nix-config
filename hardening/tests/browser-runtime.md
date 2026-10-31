@@ -97,7 +97,7 @@ Measured evidence:
 - Existing `v11` cookies cannot be decrypted by the v12 provider; v11/v12 use different KDFs and
   cipher modes. Expect a one-time re-login after switching profiles to v12.
 - If the portal is unavailable, Chromium can fall back to v10. That is weak; monitor portal startup
-  and do not treat this as fail-closed encryption.
+  Portal startup is a monitored degradation, not a fail-closed guarantee.
 - Firefox uses NSS (`key4.db`/`logins.json`) and `cookies.sqlite`, not Chrome OSCrypt. Set a Firefox
   Primary Password if saved-login at-rest protection matters.
 - Sources:
