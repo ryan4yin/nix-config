@@ -56,8 +56,8 @@ Desktop integration:
   GPU rendering remains available; software video decoding is not prohibited.
 - QQ/Telegram: native notifications, tray, MPRIS, accessibility and idle inhibition.
 - WeChat/Zoom: portal notifications plus StatusNotifier tray integration; no MPRIS/accessibility.
-- Zoom also gets idle inhibition and the two host V4L2 camera nodes; its 7.2.1 client still captures
-  the webcam directly instead of using the Camera portal.
+- Zoom also gets idle inhibition, read-only `/sys/class/drm`, and the two host V4L2 camera nodes;
+  its 7.2.1 client still captures the webcam directly instead of using the Camera portal.
 
 ## Browser data and secrets
 

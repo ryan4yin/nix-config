@@ -83,6 +83,7 @@ let
       && chrome.pasta.enable
       && chrome.pasta.mode == "isolate"
       && lib.elem "--no-map-gw" chrome.pasta.args;
+    zoomDrmSysfs = lib.elem "/sys/class/drm" (load "zoom").bubblewrap.bind.ro;
     zoomCameraDevices =
       let
         zoom = load "zoom";

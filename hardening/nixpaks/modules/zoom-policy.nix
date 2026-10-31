@@ -17,6 +17,9 @@
     inputMethod = true;
   };
   bubblewrap = {
+    # Screen sharing enumerates DRM connectors through sysfs. Missing this
+    # directory makes Zoom abort with std::filesystem_error.
+    bind.ro = [ "/sys/class/drm" ];
     # ZoomLauncher selects xcb; the X11 connection retains X11's display trust.
     sockets.x11 = true;
     # desktop-base supplies the app-specific /tmp; X11 binds are nested into it.
