@@ -43,6 +43,10 @@ in
       # Nixpak uses --ro-bind-try / --dev-bind-try: absent host paths are skipped,
       # so shared mappings work on Intel/NVIDIA hosts and Apple Silicon alike.
       network = lib.mkDefault false;
+      # setsid keeps the app off the launching terminal (TIOCSTI), and the
+      # sandbox goes down with the launcher instead of outliving it.
+      newSession = true;
+      dieWithParent = true;
 
       # nixpak binds sockets read-only, which is sufficient: connect() only needs
       # the socket inode's write bit, and the kernel's read-only-filesystem check
