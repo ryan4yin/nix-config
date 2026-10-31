@@ -28,9 +28,9 @@
     };
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
 
-    # ryan4yin/nixpkgs fork for the `.agents/skills/nixpkgs-patched` workflow. It
-    # currently carries no patches (see WORKAROUNDS.md), but `pkgs-patched` is
-    # wired in outputs/default.nix so a temporary carry needs no flake edit.
+    # ryan4yin/nixpkgs fork for the `.agents/skills/nixpkgs-patched` workflow.
+    # Carries NixOS/nixpkgs#560225 (WeChat native deb + Wayland support) until
+    # the PR merges; see WORKAROUNDS.md.
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";

@@ -27,7 +27,7 @@ explicitly; other files use the document portal. Every app also has private writ
 | QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                |
 | Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators            |
 | Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm` |
-| WeChat       | Isolated      | `Documents/WeChat_Data`, its HOME mapping and `xwechat_files` link, private app state | Media, X11/xcb, FHS, SNI tray                                                         |
+| WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                           |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
@@ -55,15 +55,16 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 ## Validation
 
 - Passed: `just fmt`, `just test`, `ai-niri` build and `shoukei-niri` eval.
-- Deployed on `ai`; interactive startup and tray checks passed for Chrome, Firefox, QQ, Telegram,
-  Zoom and WeChat.
+- Deployed on `ai`; interactive startup and tray checks passed for Chrome, Firefox, QQ, Telegram and
+  Zoom.
+- WeChat uses the native deb package from nixpkgs-patched, with nixpak as the only bwrap layer. The
+  build passes; interactive Wayland validation is pending.
 - Chromium/Chrome: renderer sandbox, mounts, rendering and disposable-profile persistence passed.
   Chromium reaches host loopback; Chrome cannot.
 - Firefox: disposable headless screenshot passed.
 - Brave/Edge: renderer and permission checks passed; headless page export timed out.
 - Evidence: [browsers](tests/browser-runtime.md),
-  [Firefox/QQ/Telegram](tests/unified-app-runtime.md), [Zoom](tests/zoom-runtime.md),
-  [WeChat](tests/wechat-runtime.md).
+  [Firefox/QQ/Telegram](tests/unified-app-runtime.md), [Zoom](tests/zoom-runtime.md).
 
 ## Code map
 
@@ -74,6 +75,6 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   grants.
 - [browser-permissions.nix](nixpaks/modules/browser-permissions.nix),
   [chromium-browser.nix](nixpaks/modules/chromium-browser.nix): browser scopes and launcher.
-- [bwraps/wechat.nix](bwraps/wechat.nix): WeChat FHS and data setup.
+- [nixpaks/wechat.nix](nixpaks/wechat.nix): WeChat package and data setup.
 - [kernel-hardening.nix](kernel-hardening.nix), [apparmor/](apparmor/): kernel sysctl and AppArmor
   profiles.

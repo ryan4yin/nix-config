@@ -23,7 +23,6 @@ let
         "hosts/12kingdoms-${name}"
         # nixos hardening
         "hardening/nixpaks"
-        "hardening/bwraps"
       ])
       ++ [
         {

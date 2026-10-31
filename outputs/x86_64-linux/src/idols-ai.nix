@@ -24,7 +24,6 @@ let
         "hosts/idols-${name}"
         # nixos hardening
         "hardening/nixpaks"
-        "hardening/bwraps"
       ])
       ++ [
         {
