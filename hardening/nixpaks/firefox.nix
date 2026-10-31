@@ -37,6 +37,11 @@ let
           ./modules/custom-policy.nix
         ];
 
+        # Firefox keeps the host network: local development servers and the
+        # mihomo controller live on 127.0.0.1, and pasta's isolated loopback
+        # would hide them. The other sandboxed apps do not need host loopback.
+        pasta.enable = lib.mkForce false;
+
         bubblewrap = {
           # To trace all the home files Firefox accesses, you can use the following nushell command:
           #   just trace-access firefox
