@@ -78,7 +78,6 @@ in
         # Sockets only need to be connectable, and connect() works on a read-only
         # bind (see the note on `sockets` above).
         (envSuffix "XDG_RUNTIME_DIR" "/at-spi/bus")
-        "/run/dbus"
 
         (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
         (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
