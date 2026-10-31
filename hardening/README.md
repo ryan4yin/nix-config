@@ -110,8 +110,8 @@ Desktop integration:
 
 - **One policy framework:** shared desktop runtime, opt-in portal/desktop services, shared browser
   permissions. No legacy branch.
-- **Chromium sandbox stays enabled:** user-namespace sandbox; never `--no-sandbox` or
-  `--disable-setuid-sandbox` (the latter triggers Chrome's unsupported-flag banner).
+- **Chromium sandbox stays enabled:** user-namespace isolation remains active inside nixpak; tests
+  assert the renderer runs with `Seccomp=2` / `NoNewPrivs=1`.
 - **Cookie encryption:** all Chromium-family browsers enable the app-scoped Secret portal and force
   new values to `v12`; old `v11` values require re-login.
 - **Camera:** Chromium/Chrome explicitly enable `WebRtcPipeWireCamera`; camera and screen-sharing

@@ -24,9 +24,8 @@
   privateWindowFlag ? "--incognito",
 }:
 let
-  # Chromium uses its unprivileged user-namespace sandbox inside nixpak.
-  # Do not pass --no-sandbox or --disable-setuid-sandbox: renderer Seccomp/NNP
-  # remains active without either flag, and the latter triggers an infobar.
+  # Chromium keeps its unprivileged user-namespace sandbox inside nixpak;
+  # renderer Seccomp/NNP remains active.
   # Chromium 156 leaves PipeWire camera capture disabled by default. Enable it
   # for media-enabled browsers so camera access uses the portal's FD without raw video devices.
   # Keep the Wayland feature from nixpkgs: the last --enable-features wins.

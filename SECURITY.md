@@ -329,8 +329,8 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - Only Firefox/Chromium share host networking. Other apps isolate loopback with pasta but can still
   reach the LAN/Internet. Browser media and browserpass are enabled only for
   Firefox/Chromium/Chrome; browserpass exposes password-store/GPG data and agent operations.
-- Nixpak supplements Chromium's renderer sandbox; `--no-sandbox` is not used. Zoom/WeChat retain
-  their FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
+- Nixpak supplements Chromium's renderer sandbox, which remains enabled. Zoom/WeChat retain their
+  FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
 - Desktop access has limits: GPU drivers remain exposed, PulseAudio permits recording, read-only
   sockets permit agent operations, and Zoom/WeChat's X11 connections have shared-display trust.
   Zoom's 7.2.1 client receives only `/dev/video0` and `/dev/video1` because it captures the webcam

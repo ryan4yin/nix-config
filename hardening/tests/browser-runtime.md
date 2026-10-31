@@ -58,9 +58,8 @@ with `/var/tmp` HOME, explicit Fontconfig configuration, CJK fonts, and narrow N
 
 Measured evidence:
 
-- All four build and have live renderers with `Seccomp=2`, `NoNewPrivs=1`; `--no-sandbox` is absent
-  and the renderer reports `Seccomp=2` / `NoNewPrivs=1`. Do not pass `--disable-setuid-sandbox`; it
-  is unnecessary here and triggers Chrome's unsupported-flag banner.
+- All four build and have live renderers with `Seccomp=2`, `NoNewPrivs=1`; no sandbox-disabling
+  flags are present.
 - Actual bwrap arguments pass user/PID namespace, effective network flag, clear environment, new
   session, parent-death, and private `/dev/shm` checks. No broad HOME/`/home`/`/dev`, SSH,
   system-bus, raw video, X11, GVfs, or direct PipeWire binds. Brave/Edge also have no browserpass
