@@ -13,9 +13,8 @@ let
       { sloth, ... }:
       {
         imports = [
-          ./modules/gui-base.nix
+          ./modules/desktop-base.nix
           ./modules/network.nix
-          ./modules/custom-policy.nix
         ];
         app.package = telegram-desktop;
         flatpak = {
@@ -28,6 +27,22 @@ let
             "org.ayatana.indicator.application" = "talk";
             "org.sigxcpu.Feedback" = "talk";
           };
+        };
+
+        portalGroups = {
+          fileChooser = true;
+          openUri = true;
+          notifications = true;
+          screenCast = true;
+          camera = true;
+          inhibit = true;
+          inputMethod = true;
+        };
+        desktopIntegration = {
+          notifications = true;
+          tray = true;
+          mpris = true;
+          accessibility = true;
         };
 
         bubblewrap = {
