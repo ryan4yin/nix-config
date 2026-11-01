@@ -2,9 +2,7 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
-  config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -26,26 +24,6 @@ in
   # Foreign-architecture emulation is not used on this host: x86/x86_64 programs
   # run through `./game` (FEX inside a muvm microVM), which owns the x86_64/i686
   # ELF handlers, and qemu-user cannot run them on 16K pages anyway.
-  nixpkgs.overlays = [
-    (final: previous: {
-      # https://github.com/NixOS/nixpkgs/issues/392673
-      # aarch64-unknown-linux-musl-ld: (.text+0x484): warning: too many GOT entries for -fpic, please recompile with -fPIC
-      nettle = previous.nettle.overrideAttrs (
-        lib.optionalAttrs final.stdenv.hostPlatform.isStatic {
-          CCPIC = "-fPIC";
-        }
-      );
-    })
-    # https://github.com/NixOS/nixpkgs/issues/366902
-    (final: prev: {
-      qemu-user = prev.qemu-user.overrideAttrs (
-        old:
-        lib.optionalAttrs final.stdenv.hostPlatform.isStatic {
-          configureFlags = old.configureFlags ++ [ "--disable-pie" ];
-        }
-      );
-    })
-  ];
 
   # supported file systems, so we can mount any removable disks with these filesystems.
   boot.supportedFilesystems = [
