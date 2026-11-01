@@ -38,6 +38,7 @@ units "youko" [
 // units "aquamarine" [ "whisper-asr" ]
 // {
   privilegedOneshot = {
+    rapl-permissions = privilegedUnit "aquamarine" "rapl-permissions";
     amdgpu-power-cap = privilegedUnit "aquamarine" "amdgpu-power-cap";
     hdd-no-spindown = privilegedUnit "youko" "hdd-no-spindown";
   };

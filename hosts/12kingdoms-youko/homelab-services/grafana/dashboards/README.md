@@ -8,6 +8,11 @@
    on the `smartctl_exporter` metrics.
 4. `gpu.json` — GPU utilization, VRAM, and temperature.
 5. `nut-exporter.json` — UPS status (battery, load, runtime) from the NUT exporter.
+6. `power.json` — Aquamarine's CPU package/core/uncore power from the node_exporter RAPL collector,
+   plus GPU power from hwmon. This is silicon power, not wall power.
+7. `power-overview.json` — **Homelab Power**: all physical hosts' known CPU + GPU power, with a
+   stacked-by-host area chart and a per-host line chart. The UPS load panel is whole-rack only; this
+   is still silicon power, not per-host wall power.
 
 ## Kubernetes
 

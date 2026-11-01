@@ -21,6 +21,10 @@
     # DRAM-less KINGBANK KP260 (WA-008 in WORKAROUNDS.md). This disk (Fanxiang
     # S790) has shown no APST problem; the cap stays as idle-power insurance.
     "nvme_core.default_ps_max_latency_us=100000"
+
+    # Keep PCIe ASPM disabled. The R9700 links have retraining/timeout issues,
+    # and this repo already uses the same knob for NVMe APST problems (WA-008).
+    "pcie_aspm=off"
   ];
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -65,6 +69,12 @@
   # and swap (including /swap/swapfile bind and swapDevices) are managed by disko (disko-fs.nix).
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  # CPU microcode and both the Intel iGPU and AMD GPU firmware.
+  hardware.enableRedistributableFirmware = true;
+  # Shared graphics stack for the i915 console/video path and the R9700s.
+  hardware.graphics.enable = true;
+
   powerManagement.cpuFreqGovernor = lib.mkDefault "performance"; # ondemand / powersave / performance
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

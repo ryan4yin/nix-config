@@ -36,25 +36,7 @@
     # metal a hung card stays hung until the next reboot. Nobody is here to
     # power-cycle an unattended inference host, so switch the recovery path on.
     "amdgpu.gpu_recovery=1"
-
-    # ASPM L0s/L1 on a link that carries PCIe traffic for a compute card buys
-    # little and is a known source of link retraining and timeouts; this repo
-    # already falls back to the same knob for NVMe APST problems (WA-008).
-    "pcie_aspm=off"
-
-    # Keep the CPU out of the deepest C-states. Inference waits on short PCIe and
-    # memory round-trips, and the exit latency from C6/C7 shows up as decode
-    # jitter. Costs idle power: drop this line if that matters more than tail
-    # latency.
-    "processor.max_cstate=2"
   ];
-
-  # amdgpu firmware.
-  hardware.enableRedistributableFirmware = true;
-
-  hardware.graphics = {
-    enable = true;
-  };
 
   # ROCm 10.1 is available: https://rocm.docs.amd.com/en/latest/.
   # nixpkgs still ships 7.2.x while the upgrade awaits split reviews, LLVM/OpenMP
@@ -125,5 +107,8 @@
   # `[ "systemd" "logind" ]` instead of replacing it: only name the collector
   # this host adds. Repeating the base entries passes `--collector.systemd`
   # twice, which node_exporter rejects, and the unit restart-loops.
+  #
+  # The CPU/RAPL collector lives in ./hardware-intel-cpu.nix; this file only adds
+  # the AMD GPU `drm` collector.
   services.prometheus.exporters.node.enabledCollectors = [ "drm" ];
 }

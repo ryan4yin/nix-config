@@ -5,7 +5,8 @@
   runtimePmDisabled = true;
   gpuRecoveryEnabled = true;
   aspmDisabled = true;
-  cStatesCapped = true;
+  deepCStatesAllowed = true;
+  cpuEppConfigured = true;
   nativeIpv6Preference = true;
   sourceCheckoutsPersistent = true;
   cachePersistent = true;
@@ -17,6 +18,8 @@
   igpuMediaStackInstalled = true;
   openvinoGpuWrapperInstalled = true;
   gpuMetricsExported = true;
+  raplMetricsExported = true;
+  raplPermissionsExposed = true;
   collectorFlagsUnique = true;
   inferenceUserCanRender = true;
   noHomeManager = true;

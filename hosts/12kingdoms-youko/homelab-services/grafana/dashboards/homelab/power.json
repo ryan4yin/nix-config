@@ -1,0 +1,606 @@
+{
+  "__inputs": [],
+  "__elements": {},
+  "__requires": [],
+  "annotations": {
+    "list": []
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Homelab Power overview",
+      "tooltip": "Stacked and per-host power across all physical hosts",
+      "type": "link",
+      "url": "/d/homelab-power-overview/homelab-power"
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "Current power",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Intel RAPL package power, derived from the energy counter rate.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "unit": "watt",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum(rate(node_rapl_package_joules_total{host=\"$host\",path=\"/sys/class/powercap/intel-rapl:0\"}[$__rate_interval]))",
+          "instant": true,
+          "range": false,
+          "legendFormat": "CPU package",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU package",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "Sum of both R9700 hwmon power sensors.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "unit": "watt",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 8,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum(node_hwmon_power_average_watt{host=\"$host\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{host=\"$host\",chip_name=\"amdgpu\"})",
+          "instant": true,
+          "range": false,
+          "legendFormat": "GPU total",
+          "refId": "A"
+        }
+      ],
+      "title": "GPU total",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "CPU package plus GPU hwmon power. Does not include PSU, VRM, RAM, fans or board losses.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "unit": "watt",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "(sum(rate(node_rapl_package_joules_total{host=\"$host\",path=\"/sys/class/powercap/intel-rapl:0\"}[$__rate_interval]))) + (sum(node_hwmon_power_average_watt{host=\"$host\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{host=\"$host\",chip_name=\"amdgpu\"}))",
+          "instant": true,
+          "range": false,
+          "legendFormat": "CPU + GPU silicon",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU + GPU silicon",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "id": 5,
+      "panels": [],
+      "title": "CPU RAPL domains",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "node_rapl_package_joules_total: base time series is a counter; the dashboard plots its rate in watts.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "showPoints": "never"
+          },
+          "min": 0,
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum(rate(node_rapl_package_joules_total{host=\"$host\",path=\"/sys/class/powercap/intel-rapl:0\"}[$__rate_interval]))",
+          "instant": false,
+          "range": true,
+          "legendFormat": "package",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU package power",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "The package total should approximately cover core + uncore plus other package domains.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "showPoints": "never"
+          },
+          "min": 0,
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum(rate(node_rapl_core_joules_total{host=\"$host\"}[$__rate_interval]))",
+          "instant": false,
+          "range": true,
+          "legendFormat": "core",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum(rate(node_rapl_uncore_joules_total{host=\"$host\"}[$__rate_interval]))",
+          "instant": false,
+          "range": true,
+          "legendFormat": "uncore",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum(rate(node_rapl_package_joules_total{host=\"$host\",path=\"/sys/class/powercap/intel-rapl:0\"}[$__rate_interval]))",
+          "instant": false,
+          "range": true,
+          "legendFormat": "package",
+          "refId": "C"
+        }
+      ],
+      "title": "CPU core / uncore power",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 8,
+      "panels": [],
+      "title": "GPU hwmon",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "node_hwmon_power_average_watt joined to chip_name=amdgpu.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 1,
+            "showPoints": "never"
+          },
+          "min": 0,
+          "unit": "watt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "sum by (chip) (node_hwmon_power_average_watt{host=\"$host\"} * on(chip) group_left(chip_name) node_hwmon_chip_names{host=\"$host\",chip_name=\"amdgpu\"})",
+          "instant": false,
+          "range": true,
+          "legendFormat": "{{chip}}",
+          "refId": "A"
+        }
+      ],
+      "title": "GPU power by card",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "id": 10,
+      "options": {
+        "content": "### Metrics\n\n- CPU package: `node_rapl_package_joules_total` (rate is watts).\n- CPU domains: `node_rapl_core_joules_total`, `node_rapl_uncore_joules_total`.\n- GPU: `node_hwmon_power_average_watt` joined with `node_hwmon_chip_names{chip_name=\"amdgpu\"}`.\n\nRAPL covers the CPU package; hwmon covers the two R9700s. Neither includes PSU, VRM, RAM, fans or board losses. For wall power, use the metered plug/UPS dashboard.",
+        "mode": "markdown"
+      },
+      "title": "Metric sources",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${DS_PROMETHEUS}"
+      },
+      "description": "CPU package energy consumed over the dashboard time range, converted from RAPL joules to kWh. CPU package only; not whole-machine wall energy.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "unit": "suffix:kWh",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 8,
+        "x": 0,
+        "y": 23
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriametrics-metrics-datasource",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "expr": "(sum(increase(node_rapl_package_joules_total{host=\"$host\",path=\"/sys/class/powercap/intel-rapl:0\"}[$__range]))) / 3.6e6",
+          "instant": true,
+          "range": false,
+          "legendFormat": "CPU package",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU package energy (kWh, selected range)",
+      "type": "stat"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": ["homelab", "power", "rapl"],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "datasource",
+        "multi": false,
+        "name": "DS_PROMETHEUS",
+        "options": [],
+        "query": "victoriametrics-metrics-datasource",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "aquamarine",
+          "value": "aquamarine"
+        },
+        "datasource": {
+          "type": "victoriametrics-metrics-datasource",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "definition": "label_values(node_rapl_package_joules_total, host)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Host",
+        "multi": false,
+        "name": "host",
+        "options": [],
+        "query": {
+          "query": "label_values(node_rapl_package_joules_total, host)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Host Power (detail)",
+  "uid": "homelab-power",
+  "version": 1,
+  "weekStart": "",
+  "description": "Detailed power breakdown for one selected RAPL-capable host: CPU package/core/uncore, GPU hwmon where available, and energy ranges. Use Homelab Power for the all-host view."
+}
