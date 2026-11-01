@@ -12,18 +12,18 @@ Nixpak wrappers are accepted in three layers:
 
 ## Current status
 
-| App                    | Policy/build | Runtime                                               |
-| ---------------------- | ------------ | ----------------------------------------------------- |
-| Firefox                | Pass         | Interactive pass                                      |
-| Chromium               | Pass         | Automated smoke + interactive pass                    |
-| Chrome                 | Pass         | Interactive pass                                      |
-| Brave Origin           | Pass         | Interactive pass; backup browser without media grants |
-| Edge                   | Pass         | Interactive pass; backup browser without media grants |
-| Zoom                   | Pass         | Interactive pass                                      |
-| QQ / Telegram          | Pass         | Interactive startup/tray pass                         |
-| WeChat (native nixpak) | Pass         | Interactive Wayland validation pending                |
-| Foliate                | Pass         | Interactive validation pending                        |
-| Krita                  | Pass         | Interactive validation pending                        |
+| App                    | Policy/build | Runtime                                                           |
+| ---------------------- | ------------ | ----------------------------------------------------------------- |
+| Firefox                | Pass         | Interactive pass; camera/remote sharing intentionally unavailable |
+| Chromium               | Pass         | Automated smoke + interactive pass                                |
+| Chrome                 | Pass         | Interactive pass                                                  |
+| Brave Origin           | Pass         | Interactive pass; backup browser without media grants             |
+| Edge                   | Pass         | Interactive pass; backup browser without media grants             |
+| Zoom                   | Pass         | Interactive pass                                                  |
+| QQ / Telegram          | Pass         | Interactive startup/tray pass                                     |
+| WeChat (native nixpak) | Pass         | Interactive Wayland validation pending                            |
+| Foliate                | Pass         | Interactive validation pending                                    |
+| Krita                  | Pass         | Interactive validation pending                                    |
 
 Intentional exceptions:
 
@@ -31,6 +31,9 @@ Intentional exceptions:
   exception. Chrome, Brave Origin and Edge use pasta-isolated loopback.
 - **Brave Origin and Edge are backup browsers.** They intentionally have no PulseAudio, Camera,
   ScreenCast or MPRIS grants.
+- **Firefox camera and remote screen sharing are intentionally disabled.** Firefox does not support
+  the XDG Camera/ScreenCast portal path used here, so enabling them would require granting raw video
+  devices or the direct PipeWire socket. We deliberately do not grant those privileges.
 
 ## Browser smoke test
 

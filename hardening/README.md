@@ -21,7 +21,7 @@ explicitly; other files use the document portal. Every app also has private writ
 
 | App          | Network       | Writable paths                                                                        | Grants                                                                                |
 | ------------ | ------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Media, browserpass, MPRIS, idle                                                       |
+| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle; camera/screen sharing intentionally unavailable      |
 | Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                           |
 | Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                           |
 | Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                            |
@@ -56,6 +56,10 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
 - Brave Origin and Edge intentionally have no PulseAudio, Camera, ScreenCast or MPRIS grants. They
   are backup browsers, not media browsers.
+- Firefox camera and remote screen sharing are intentionally disabled. Firefox does not support the
+  XDG Camera/ScreenCast portal path used here, so granting camera or screen-capture access would
+  require widening the sandbox with raw `/dev/video*` or direct PipeWire access. We choose not to
+  grant that privilege.
 
 ## Validation
 

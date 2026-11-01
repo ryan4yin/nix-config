@@ -338,7 +338,10 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   Zoom's 7.2.1 client receives only `/dev/video0` and `/dev/video1` because it captures the webcam
   directly via V4L2; no other app gets raw camera nodes and no raw PipeWire access is added.
   Chromium-family browsers use only the app-scoped Secret portal for v12 cookie encryption; no
-  browser receives broad GNOME Keyring authority. Firefox uses its own NSS storage.
+  browser receives broad GNOME Keyring authority. Firefox uses its own NSS storage. Firefox camera
+  and remote screen sharing are intentionally disabled: Firefox does not support the XDG
+  Camera/ScreenCast portal path used by this policy, and enabling those features would require
+  granting raw video-device or direct PipeWire access. We deliberately keep that privilege closed.
 - **Rollout note (WA-045):** v12 is verified on a disposable profile, but if the portal is
   unavailable Chromium may fall back to weaker v10 storage; portal initialization is monitored.
 - Policy/build passes for all nine wrappers. Interactive validation passed for Firefox, Chrome,
