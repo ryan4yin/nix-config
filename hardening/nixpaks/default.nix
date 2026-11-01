@@ -3,6 +3,7 @@
   pkgs-master,
   pkgs-patched,
   pkgs-stable,
+  pkgs-blender,
   nixpak,
   ...
 }:
@@ -32,6 +33,12 @@ in
         bambu-studio = wrapper pkgs-master ./bambu-studio.nix;
         orca-slicer = wrapper pkgs-master ./orca-slicer.nix;
         zoom = wrapper super ./zoom.nix;
+        remmina = wrapper super ./remmina.nix;
+        obs-studio = wrapper super ./obs-studio.nix;
+        blender = wrapper pkgs-blender ./blender.nix;
+        musescore = wrapper pkgs-stable ./musescore.nix;
+        mpv = wrapper super ./mpv.nix;
+        imv = wrapper super ./imv.nix;
         wechat = wrapper pkgs-patched ./wechat.nix;
       };
     })

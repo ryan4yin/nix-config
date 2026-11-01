@@ -26,6 +26,12 @@ Nixpak wrappers are accepted in three layers:
 | Krita                  | Pass         | Interactive validation pending                                    |
 | Bambu Studio           | Pass         | Interactive pass; device_page/filament UI unavailable in nixpkgs  |
 | OrcaSlicer             | Pass         | Interactive pass; blank WebKit home page fixed                    |
+| Remmina                | Pass         | Interactive validation pending                                    |
+| OBS Studio             | Pass         | Interactive pass; NVENC recording and local RTMP streaming work   |
+| Blender                | Pass         | Interactive validation pending                                    |
+| MuseScore              | Pass         | Interactive launch pass; ALSA routed to default PipeWire sink     |
+| mpv                    | Pass         | Interactive validation pending                                    |
+| imv                    | Pass         | Interactive validation pending                                    |
 
 Intentional exceptions:
 
@@ -45,6 +51,10 @@ Known packaging limitations:
   `BambuStudio.conf`; the upstream guide writes `"1"` while the web-view code only accepts `"true"`.
 - **Bambu Studio:** the startup splash can render black under XWayland. This is cosmetic; the main
   UI renders normally.
+- **MuseScore:** uses Qt's XCB backend, so it runs through XWayland. Its ALSA driver uses the host
+  `pcm.!default` configuration, which forwards to PipeWire; this requires the raw PipeWire socket.
+  Launch and audio routing pass, but audible playback and score/print/export workflows still need
+  user confirmation.
 
 ## Browser smoke test
 
@@ -84,6 +94,18 @@ Zoom keeps its upstream FHS runtime inside the outer nixpak boundary. The nested
 `/dev/video0`, `/dev/video1`, DRM sysfs and the declared app directories. X11 remains a
 shared-display trust boundary: ScreenCast portal permission does not prevent capture through the X11
 connection. Interactive login, audio, camera, screen sharing and file workflows passed.
+
+## OBS
+
+Interactive validation covered PipeWire screen capture, V4L2 camera capture, desktop/microphone
+audio, NVENC H.264 Hybrid MP4 recording and RTMP publishing. Streaming was tested against a
+temporary MediaMTX server on the host's LAN address; the OBS pasta namespace cannot reach host
+loopback. Bilibili or another external provider still needs a real account-specific stream key to
+validate provider authentication and CDN ingest.
+
+OBS records to the path configured under output settings. In Simple mode that is
+`SimpleOutput.FilePath`; Advanced mode uses `AdvOut.RecFilePath` and `AdvOut.FFFilePath`. These must
+point at a writable bind such as `~/Videos`, not the sandbox's transient home root.
 
 ## Commands
 
