@@ -32,6 +32,7 @@ in
 
     ./preservation.nix
     ./secureboot.nix
+    ./openrgb
 
     ./restic.nix
 
@@ -116,12 +117,6 @@ in
   # udev rules that grant the i2c group and locally logged-in users access, so `ddcutil`
   # works without sudo.
   hardware.i2c.enable = true;
-
-  # The board's ARGB controller is a USB HID device (MSI Mystic Light, 1462:7e01). This
-  # module installs openrgb with its udev rules and runs `openrgb --server`, so the GUI and
-  # the CLI reach the board without root. `motherboard` needs no value here: it follows
-  # hardware.cpu.intel.updateMicrocode, which hardware-configuration.nix already sets.
-  services.hardware.openrgb.enable = true;
 
   # Re-evaluate after the Insta360 Link firmware or the kernel's uvcvideo changes.
   powerManagement.resumeCommands = ''
