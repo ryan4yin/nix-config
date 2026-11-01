@@ -4,9 +4,9 @@
 # rules, the rules from `sources.yaml` and the rules imported from your
 # subscriptions, so this file is the tail that closes every config.
 #
-# GEOSITE categories come from meta-rules-dat, which the module keeps current
-# (`geo-auto-update`). `mihomo -t` validates the names: `taobao`, `alipay` and
-# `wechat` do not exist in it, hence the hand-written domains below.
+# GEOSITE categories come from meta-rules-dat on the gateway and nixpkgs'
+# v2ray-rules-dat on the desktops. `mihomo -t` validates the names: `taobao`,
+# `alipay` and `wechat` do not exist in it, hence the hand-written domains below.
 
 # Region node groups. Each entry becomes two groups offered inside PROXY:
 # "<name> 自动" (url-test, lazy: only health-checked once selected) and
