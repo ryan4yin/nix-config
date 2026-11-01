@@ -66,7 +66,7 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy
   pass; interactive Wayland validation is still pending.
 - Evidence and repeat commands: [runtime validation](tests/runtime-validation.md),
-  [policy test](tests/policy.nix).
+  [policy test](tests/policy.nix), which auto-loads every suite under [tests/policy](tests/policy/).
 
 ## Code map
 
