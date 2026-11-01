@@ -8,7 +8,8 @@
 }:
 let
   inherit (myvars.networking.hostsAddr.aquamarine) ipv4;
-  port = 18080;
+  inherit (myvars.ports) aquamarineAsr;
+  port = aquamarineAsr;
 
   # OpenVINO publishes static IRs for Whisper only, and the NPU compiler accepts
   # nothing less: any other ASR family keeps a dynamic time axis and aborts it

@@ -4,6 +4,7 @@
   userfullname = "Ryan Yin";
   useremail = "xiaoyin_c@qq.com";
   networking = import ./networking.nix { inherit lib; };
+  ports = import ./ports.nix;
   # Generated using: mkpasswd -m yescrypt --rounds=11
   # Password: long, strong random string (full charset)
   # Rotation policy: changed annually

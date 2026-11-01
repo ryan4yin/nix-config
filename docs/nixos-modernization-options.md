@@ -199,8 +199,7 @@ defaults become less transparent than a file you can read in the diff; your deli
 
 ## A7. attic self-hosted binary cache
 
-**Current:** substituters are the two Chinese mirrors plus numtide's cache; a cachix endpoint exists
-in the config but is unused.
+**Current:** substituters are the two Chinese mirrors plus numtide's cache.
 
 **Proposed:** `services.networking.atticd` on youko.
 
