@@ -17,6 +17,10 @@ let
   # with modules/nixos/base/restic-backup.nix, which writes the last successful
   # backup timestamp here.
   textfileDir = "/var/lib/node_exporter/textfile_collector";
+
+  lanExporters = lib.filterAttrs (_: cfg: cfg.enable) {
+    inherit (config.services.prometheus.exporters) node smartctl nvidia-gpu;
+  };
 in
 {
   # node_exporter on every host that has a static LAN IPv4 (see `lanAddr` above)
@@ -57,6 +61,7 @@ in
       # The collector does not create its directory, and a missing one logs an
       # error on every scrape.
       "--collector.textfile.directory=${textfileDir}"
+      "--web.systemd-socket"
     ];
   };
 
@@ -78,25 +83,21 @@ in
         listenAddress = lanAddr;
         port = 9633;
         maxInterval = "60s";
+        extraFlags = [ "--web.systemd-socket" ];
       };
 
-  # LAN-bound exporters race networkd's address assignment at boot; without
-  # ordering they trip the start limit (seen on ai). wait-online is best-effort
-  # (120s timeout), so also retry patiently.
-  systemd.services = lib.mkIf (lanAddr != null) (
-    lib.genAttrs
-      (
-        [ "prometheus-node-exporter" ]
-        ++ lib.optional config.services.prometheus.exporters.nvidia-gpu.enable "prometheus-nvidia-gpu-exporter"
-        ++ lib.optionals config.modules.hardwareTools.enable [ "prometheus-smartctl-exporter" ]
-      )
-      (_: {
-        after = [ "network-online.target" ];
-        wants = [ "network-online.target" ];
-        serviceConfig = {
-          RestartSec = "10s";
-          StartLimitIntervalSec = 0;
-        };
-      })
+  # Socket activation with FreeBind: the LAN address may not exist yet at boot.
+  systemd.sockets = lib.mkIf (lanAddr != null) (
+    lib.mapAttrs' (
+      name: cfg:
+      lib.nameValuePair "prometheus-${name}-exporter" {
+        wantedBy = [ "sockets.target" ];
+        listenStreams = [ "${cfg.listenAddress}:${toString cfg.port}" ];
+        socketConfig.FreeBind = true;
+      }
+    ) lanExporters
   );
+  services.prometheus.exporters.nvidia-gpu.extraFlags = lib.mkIf (lanAddr != null) [
+    "--web.systemd-socket"
+  ];
 }
