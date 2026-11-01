@@ -38,7 +38,6 @@ units "youko" [
 // units "aquamarine" [ "whisper-asr" ]
 // {
   privilegedOneshot = {
-    rapl-permissions = privilegedUnit "aquamarine" "rapl-permissions";
     hdd-no-spindown = privilegedUnit "youko" "hdd-no-spindown";
   };
 }

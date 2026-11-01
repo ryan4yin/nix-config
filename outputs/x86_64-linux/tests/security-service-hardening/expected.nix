@@ -34,9 +34,6 @@ in
   };
 
   privilegedOneshot = {
-    rapl-permissions = privilegedOneshot // {
-      CapabilityBoundingSet = [ "CAP_CHOWN" ];
-    };
     hdd-no-spindown = privilegedOneshot // {
       CapabilityBoundingSet = [ "CAP_SYS_RAWIO" ];
       DeviceAllow = [ "block-sd rw" ];
