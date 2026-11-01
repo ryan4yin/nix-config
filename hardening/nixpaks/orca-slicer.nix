@@ -19,6 +19,9 @@ let
         binPath = "bin/orca-slicer";
       };
       flatpak = { inherit appId; };
+      # WebKitGTK's DMA-BUF renderer produces a blank home page under
+      # XWayland on NVIDIA; force the software path like Bambu does.
+      bubblewrap.env.WEBKIT_DISABLE_DMABUF_RENDERER = "1";
     };
   };
   exe = lib.getExe wrapped.config.script;
