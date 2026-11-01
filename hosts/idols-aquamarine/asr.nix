@@ -66,17 +66,24 @@ in
 {
   # vinput on the desktop sends raw PCM here and gets text back; the endpoint is
   # the OpenAI transcription API, so any client of that shape works.
+  # FreeBind: the LAN address may not exist yet at boot.
+  systemd.sockets.whisper-asr = {
+    wantedBy = [ "sockets.target" ];
+    listenStreams = [ "${ipv4}:${toString port}" ];
+    socketConfig.FreeBind = true;
+  };
+
   systemd.services.whisper-asr = {
     description = "OpenAI-compatible Whisper transcription service (Intel NPU)";
+    # Start eagerly so the ~70 s NPU compile does not land on the first request.
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
+    requires = [ "whisper-asr.socket" ];
+    after = [ "whisper-asr.socket" ];
 
     environment = {
       WHISPER_MODEL_DIR = "${whisperModel}";
       WHISPER_MODEL_NAME = "whisper-large-v3-turbo";
       WHISPER_DEVICE = "NPU";
-      WHISPER_HOST = ipv4;
-      WHISPER_PORT = toString port;
       # Compiling the graph for the NPU takes ~70 s; cache it so restarts and
       # reboots reuse the compiled blob instead of paying that again.
       OV_CACHE_DIR = "/var/cache/whisper-asr";

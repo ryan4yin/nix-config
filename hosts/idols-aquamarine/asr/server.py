@@ -27,8 +27,6 @@ DEVICE = os.environ.get("WHISPER_DEVICE", "NPU")
 # Empty auto-detects the language per request; set it to pin one language.
 DEFAULT_LANGUAGE = os.environ.get("WHISPER_LANGUAGE") or ""
 CACHE_DIR = os.environ.get("OV_CACHE_DIR", "")
-LISTEN_HOST = os.environ.get("WHISPER_HOST", "127.0.0.1")
-LISTEN_PORT = int(os.environ.get("WHISPER_PORT", "18080"))
 SAMPLE_RATE = 16000
 MAX_AUDIO_SECONDS = int(os.environ.get("WHISPER_MAX_AUDIO_SECONDS") or "120")
 
@@ -197,4 +195,5 @@ async def transcriptions(
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=LISTEN_HOST, port=LISTEN_PORT, log_level="info")
+    # Listens on the socket systemd passes in (whisper-asr.socket).
+    uvicorn.run(app, fd=3, log_level="info")
