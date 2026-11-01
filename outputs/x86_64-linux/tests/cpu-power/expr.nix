@@ -41,7 +41,7 @@ in
     name:
     configs.${name}.config.modules.powerMonitoring.enable
     && builtins.elem "rapl" configs.${name}.config.services.prometheus.exporters.node.enabledCollectors
-    && configs.${name}.config.systemd.services ? rapl-permissions
+    && lib.hasInfix "chgrp rapl" configs.${name}.config.services.udev.extraRules
   );
   serverRaplReaderOnly = lib.all (
     name:
@@ -51,9 +51,9 @@ in
   desktopRaplDisabled =
     !configs.ai-niri.config.modules.powerMonitoring.enable
     && !(builtins.elem "rapl" configs.ai-niri.config.services.prometheus.exporters.node.enabledCollectors)
-    && !(configs.ai-niri.config.systemd.services ? rapl-permissions);
-  guestsHaveNoRapl = lib.all (name: !(configs.${name}.config.systemd.services ? rapl-permissions)) (
-    lib.subtractLists physicalHosts (builtins.attrNames configs)
-  );
+    && !(lib.hasInfix "chgrp rapl" configs.ai-niri.config.services.udev.extraRules);
+  guestsHaveNoRapl = lib.all (
+    name: !(lib.hasInfix "chgrp rapl" configs.${name}.config.services.udev.extraRules)
+  ) (lib.subtractLists physicalHosts (builtins.attrNames configs));
   desktopBatteryReporting = configs.ai-niri.config.services.upower.enable;
 }

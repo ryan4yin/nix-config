@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  mylib,
   pkgs,
   ...
 }:
@@ -30,29 +29,9 @@ in
           node-exporter.extraGroups = [ "rapl" ];
         };
 
-        systemd.services.rapl-permissions = lib.mkIf config.services.prometheus.exporters.node.enable {
-          description = "Allow node_exporter to read RAPL energy counters";
-          wantedBy = [ "multi-user.target" ];
-          unitConfig.ConditionPathExists = "/sys/class/powercap";
-          serviceConfig = mylib.systemdHardening.privilegedOneshot // {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            CapabilityBoundingSet = [ "CAP_CHOWN" ];
-          };
-          script = ''
-            shopt -s nullglob
-            for f in /sys/class/powercap/*/energy_uj; do
-              chgrp rapl "$f"
-              chmod 0440 "$f"
-            done
-          '';
-        };
-
-        systemd.services.prometheus-node-exporter =
-          lib.mkIf config.services.prometheus.exporters.node.enable
-            {
-              requires = [ "rapl-permissions.service" ];
-              after = [ "rapl-permissions.service" ];
-            };
+        # udev's GROUP/MODE only apply to device nodes, not sysfs attributes.
+        services.udev.extraRules = lib.mkIf config.services.prometheus.exporters.node.enable ''
+          ACTION=="add", SUBSYSTEM=="powercap", TEST=="energy_uj", RUN+="${pkgs.coreutils}/bin/chgrp rapl /sys%p/energy_uj", RUN+="${pkgs.coreutils}/bin/chmod 0440 /sys%p/energy_uj"
+        '';
       };
 }

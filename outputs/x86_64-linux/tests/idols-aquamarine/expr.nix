@@ -82,7 +82,7 @@ in
   ) cfg.environment.systemPackages;
   gpuMetricsExported = builtins.elem "drm" cfg.services.prometheus.exporters.node.enabledCollectors;
   raplMetricsExported = builtins.elem "rapl" cfg.services.prometheus.exporters.node.enabledCollectors;
-  raplPermissionsExposed = cfg.systemd.services ? rapl-permissions;
+  raplPermissionsExposed = lib.hasInfix "chgrp rapl" cfg.services.udev.extraRules;
   # node_exporter rejects a repeated flag, and this list merges with the base
   # module's entries, so a duplicate restart-loops the unit.
   collectorFlagsUnique =
