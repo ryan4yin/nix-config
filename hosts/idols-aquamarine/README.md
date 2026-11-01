@@ -289,3 +289,38 @@ just local               # on aquamarine itself
 The install only touches the target disk; the staging host keeps booting from its own. To undo, move
 the disk back, restore the `hosts/idols-ai/disko-fs-data.nix` module this change deleted, and
 re-enroll that machine's TPM2 slot — see `../idols-ai/README.md`.
+
+## Wake-on-LAN
+
+BIOS: `Advanced > Power Setting` must have `Wake By Lan` enabled, and EUP must not cut standby power
+to the NIC. NixOS arms the RTL8125 from `wake-on-lan.service` after udev creates the interface.
+
+After a boot, verify the link reports `Wake-on: g`:
+
+```bash
+ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
+```
+
+Wake it from another L2 host with the NIC's MAC address:
+
+```bash
+nix shell nixpkgs#wakeonlan -c wakeonlan <MAC>
+```
+
+Test from a powered-off state, not from a reboot.
+
+## Idle suspend
+
+`aquamarine-idle-suspend.timer` checks every minute and suspends into S3 after 30 minutes without an
+active session, sleep inhibitor, ASR connection, GPU work, or meaningful CPU load. It refuses to
+suspend unless `mem_sleep` selects `deep` and the wired NIC reports `Wake-on: g`, so a failed WoL
+setup cannot leave the host unreachable.
+
+The timer resets after resume, so a wake does not immediately go back to sleep. To keep the host
+awake during maintenance:
+
+```bash
+systemd-inhibit --what=sleep --mode=block --who=maintenance --why="manual work" sleep infinity
+```
+
+Cancel it with Ctrl-C when finished.

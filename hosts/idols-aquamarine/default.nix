@@ -36,6 +36,7 @@ in
 
     # services
     ./asr.nix
+    ./idle-suspend.nix
   ];
 
   # Bind the board's NCT6798D SuperIO, otherwise fan RPM and board temperatures
