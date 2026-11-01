@@ -33,6 +33,18 @@ in
 
   fileSystems."/data/fileshare/public".depends = [ "/data/fileshare" ];
 
+  # The nofail data mounts finish after local-fs.target. systemd-tmpfiles-setup
+  # only orders itself after local-fs.target, so without an explicit dependency
+  # it can run while /data is still the read-only fallback tmpfs and fail to
+  # create the Transmission, Immich, RustFS and restic directories at boot.
+  systemd.services.systemd-tmpfiles-setup.unitConfig.RequiresMountsFor = [
+    "/data/apps"
+    "/data/fileshare"
+    "/data/fileshare/public"
+    "/data/backups"
+    "/data/apps-snapshots"
+  ];
+
   # By adding this crypttab entry, the disk will be unlocked by systemd-cryptsetup@xxx.service at boot time.
   # This systemd service is running after agenix, so that the keyfile is already available.
   environment.etc = {
