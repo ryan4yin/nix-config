@@ -100,9 +100,8 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
 - `just niri` and `just local` activate the machine you are on through `sudo` and block on a
   password prompt; `just darwin-rollback` switches the macOS generation on the machine you are on,
   and a bare `sudo systemctl restart <unit>` activates a running service the same way.
-  `just mihomo-geo` (mihomo's state directory) and `just shoukei-home-wifi` (a persistent
-  NetworkManager profile) change the local machine through `sudo` too. The user runs these, not an
-  agent.
+  `just shoukei-home-wifi` (a persistent NetworkManager profile) changes the local machine through
+  `sudo` too. The user runs these, not an agent.
 - `just shoryu`, `just shushou`, `just youko`, `just aquamarine`, `just ruby`, `just kana`,
   `just lab`, `just k3s-test`, and `just col <tag>` activate systems through Colmena. Use the
   narrower recipe that matches the intended host scope.
@@ -140,9 +139,9 @@ repository, and cross-link them — no need to be told.
   change.
 - `~/codes/nix-secrets` — the private agenix store behind `secrets/` and the `mysecrets` input:
   ciphertext and recipient rules for the secrets declared here.
-- `wallpapers`, `nur-ryan4yin`, `nu_scripts`, `mattpocock-skills`, `i-have-adhd` —
-  flake inputs from the user's own repositories; bump with `just upp <input>` after their source
-  changes, do not edit them from here.
+- `wallpapers`, `nur-ryan4yin`, `nu_scripts`, `mattpocock-skills`, `i-have-adhd` — flake inputs from
+  the user's own repositories; bump with `just upp <input>` after their source changes, do not edit
+  them from here.
 
 ## Further Context
 

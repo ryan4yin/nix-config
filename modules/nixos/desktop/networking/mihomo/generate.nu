@@ -549,8 +549,6 @@ def main [
       "fake-ip-filter": (($priv_filters | append $policy_filters) | uniq)
     }
     "geodata-mode": false
-    "geo-auto-update": true
-    "geo-update-interval": 24
     "geox-url": {
       geoip: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
       geosite: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"

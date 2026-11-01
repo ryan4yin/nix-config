@@ -36,6 +36,9 @@ def main [
     | insert external-ui "ui"
     | insert external-ui-url $UI_URL
     | update secret "GATEWAY-SECRET-PLACEHOLDER"
+    # desktops take geodata from nixpkgs; the gateway updates its own
+    | insert geo-auto-update true
+    | insert geo-update-interval 24
     # The gateway uses nftables TProxy for LAN traffic; its desktop-style TUN
     # auto-route would capture the gateway's own DIRECT IPv6 dials again.
     | upsert tun.enable false

@@ -69,6 +69,14 @@ in
     # and fail with "Failed to set up credentials: No such file or directory".
     systemd.services.mihomo.unitConfig.RequiresMountsFor = builtins.dirOf configFile;
 
+    # Geodata from nixpkgs: a cold start must not fetch it (its DNS is not up yet).
+    systemd.tmpfiles.settings.mihomo-geodata = {
+      "/var/lib/private/mihomo/GeoSite.dat"."L+".argument =
+        "${pkgs.v2ray-rules-dat}/share/v2ray/geosite.dat";
+      "/var/lib/private/mihomo/geoip.metadb"."L+".argument = pkgs.dbip-country-lite.mmdb;
+      "/var/lib/private/mihomo/ASN.mmdb"."L+".argument = pkgs.dbip-asn-lite.mmdb;
+    };
+
     services.resolved.enable = lib.mkIf cfg.resolvedIntegration true;
     networking.networkmanager =
       lib.mkIf (cfg.resolvedIntegration && config.networking.networkmanager.enable)
