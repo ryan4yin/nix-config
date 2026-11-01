@@ -130,12 +130,16 @@ let
           (app.browserPermissions.personalFiles or false) == (spec.personalFiles or false);
         "${name}/secretPortal" = secretPortalCheck app (spec.secretPortal or false);
       };
+      extraChecks = lib.mapAttrs' (checkName: value: {
+        name = "${name}/${checkName}";
+        inherit value;
+      }) (spec.extraChecks or { });
+      duplicates = lib.attrNames (lib.intersectAttrs checks extraChecks);
     in
-    checks
-    // lib.mapAttrs' (checkName: value: {
-      name = "${name}/${checkName}";
-      inherit value;
-    }) (spec.extraChecks or { });
+    if duplicates != [ ] then
+      throw "duplicate nixpak policy checks for ${name}: ${lib.concatStringsSep ", " duplicates}"
+    else
+      checks // extraChecks;
 
   globalChecks =
     let
