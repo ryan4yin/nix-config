@@ -23,13 +23,13 @@ in
     ];
   };
 
-  # Pre-create the backing directory and subvolume mountpoints on the root
-  # filesystem.  activation runs before sysinit.target (before all mount
-  # units), and writes to /data-ro (not the ro-mounted /data), so this is
-  # safe to re-run on nixos-rebuild switch.
-  system.activationScripts.data-ro-backing.text = ''
-    mkdir -p /data-ro/fileshare /data-ro/apps /data-ro/backups /data-ro/apps-snapshots
-  '';
+  # Root is tmpfs: create the backing dir and subvolume mountpoints before switch-root.
+  boot.initrd.systemd.tmpfiles.settings.data-ro = {
+    "/sysroot/data-ro/apps".d = { };
+    "/sysroot/data-ro/apps-snapshots".d = { };
+    "/sysroot/data-ro/backups".d = { };
+    "/sysroot/data-ro/fileshare".d = { };
+  };
 
   fileSystems."/data/fileshare/public".depends = [ "/data/fileshare" ];
 
