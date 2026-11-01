@@ -1,5 +1,7 @@
-# OBS capture policy: screen/camera access stays on the XDG portals, audio goes
+# OBS capture policy: screen capture stays on the XDG portal, audio goes
 # through PulseAudio/PipeWire-Pulse, and network access is pasta-isolated.
+# OBS's V4L2 source opens camera device nodes directly instead of using the
+# Camera portal, so grant the same raw video devices as Zoom.
 {
   sloth,
   ...
@@ -37,6 +39,10 @@
     ];
     # OBS enumerates DRM connectors when building its encoder list.
     bind.ro = [ "/sys/class/drm" ];
+    bind.dev = [
+      "/dev/video0"
+      "/dev/video1"
+    ];
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");

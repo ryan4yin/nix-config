@@ -1,4 +1,5 @@
 {
+  lib,
   load,
   mkAppPolicy,
   ...
@@ -11,6 +12,10 @@ mkAppPolicy "obs-studio" {
   media = true;
   pulse = true;
   x11 = true;
+  allowedVideoDevices = [
+    "/dev/video0"
+    "/dev/video1"
+  ];
   notifications = true;
   tray = true;
   extraChecks = {
@@ -19,5 +24,9 @@ mkAppPolicy "obs-studio" {
     camera = app.portalGroups.camera;
     inhibit = app.portalGroups.inhibit;
     accessibility = app.desktopIntegration.accessibility;
+    videoDevices = lib.all (dev: lib.elem dev app.bubblewrap.bind.dev) [
+      "/dev/video0"
+      "/dev/video1"
+    ];
   };
 }

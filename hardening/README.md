@@ -19,27 +19,27 @@ Deployed and interactively validated on the Linux desktop host (2026-10-31). Pol
 `Media` means audio playback, microphone, Camera and ScreenCast portals. Writable paths are listed
 explicitly; other files use the document portal. Every app also has private writable state.
 
-| App          | Network       | Writable paths                                                                        | Grants                                                                                       |
-| ------------ | ------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle; camera/screen sharing intentionally unavailable             |
-| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                                  |
-| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                                  |
-| Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                                   |
-| Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                                   |
-| QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                       |
-| Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators                   |
-| Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm`        |
-| WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                                  |
-| Foliate      | None          | Documents/Downloads/Pictures read-only, app-scoped state                              | File chooser, OpenURI, notifications, IME, accessibility                                     |
-| Krita        | None          | Documents/Downloads/Pictures writable, app-scoped state                               | File chooser, OpenURI, print, inhibit, notifications, IME, accessibility                     |
-| Bambu Studio | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, PulseAudio, cloud/LAN network, file chooser, notifications, IME, accessibility |
-| OrcaSlicer   | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, cloud/LAN network, file chooser, notifications, IME, accessibility             |
-| Remmina      | Isolated      | `~/.config/remmina`, `~/.local/share/remmina`, `~/.remmina`, Downloads                | PulseAudio, SSH agent, file chooser, OpenURI, notifications, IME, accessibility              |
-| OBS Studio   | Isolated      | `~/.config/obs-studio`, Videos/Pictures/Downloads                                     | ScreenCast, Camera, PulseAudio, tray, notifications, IME, accessibility                      |
-| Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                  |
-| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | PulseAudio, ALSA sequencer, print, notifications, IME, accessibility                         |
-| mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                 |
-| imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                        |
+| App          | Network       | Writable paths                                                                        | Grants                                                                                         |
+| ------------ | ------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle; camera/screen sharing intentionally unavailable               |
+| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                                    |
+| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                                    |
+| Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                                     |
+| Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                                     |
+| QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                         |
+| Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators                     |
+| Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm`          |
+| WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                                    |
+| Foliate      | None          | Documents/Downloads/Pictures read-only, app-scoped state                              | File chooser, OpenURI, notifications, IME, accessibility                                       |
+| Krita        | None          | Documents/Downloads/Pictures writable, app-scoped state                               | File chooser, OpenURI, print, inhibit, notifications, IME, accessibility                       |
+| Bambu Studio | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, PulseAudio, cloud/LAN network, file chooser, notifications, IME, accessibility   |
+| OrcaSlicer   | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, cloud/LAN network, file chooser, notifications, IME, accessibility               |
+| Remmina      | Isolated      | `~/.config/remmina`, `~/.local/share/remmina`, `~/.remmina`, Downloads                | PulseAudio, SSH agent, file chooser, OpenURI, notifications, IME, accessibility                |
+| OBS Studio   | Isolated      | `~/.config/obs-studio`, Videos/Pictures/Downloads                                     | ScreenCast, V4L2 camera (`/dev/video0-1`), PulseAudio, tray, notifications, IME, accessibility |
+| Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                    |
+| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | PulseAudio, ALSA sequencer, print, notifications, IME, accessibility                           |
+| mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                   |
+| imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                          |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
