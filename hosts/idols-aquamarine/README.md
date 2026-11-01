@@ -293,7 +293,7 @@ re-enroll that machine's TPM2 slot — see `../idols-ai/README.md`.
 ## Wake-on-LAN
 
 BIOS: `Advanced > Power Setting` must have `Wake By Lan` enabled, and EUP must not cut standby power
-to the NIC. NixOS arms the RTL8125 from `wake-on-lan.service` after udev creates the interface.
+to the NIC. NixOS arms the RTL8125 through `systemd.network.links` using `OriginalName=en*`.
 
 After a boot, verify the link reports `Wake-on: g`:
 
@@ -308,7 +308,7 @@ just wake-homelab
 ```
 
 The command currently wakes only aquamarine; add a host to `scripts/wake-homelab.py` after its WoL
-service and BIOS setting are in place. Test from a powered-off state, not from a reboot.
+link config and BIOS setting are in place. Test from a powered-off state, not from a reboot.
 
 ## Idle suspend
 

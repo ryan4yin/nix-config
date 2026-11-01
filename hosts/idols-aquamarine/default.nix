@@ -115,6 +115,13 @@ in
 
   # Predictable names follow the PCIe topology, so match the `en*` prefix instead of
   # a name; one wired port, so one link.
+  # `Name=` is not a valid [Match] key in systemd.link; systemd 262 ignores
+  # the whole file with "Unknown key 'Name'". Match the kernel name instead.
+  systemd.network.links."40-wake-on-lan" = {
+    matchConfig.OriginalName = "en*";
+    linkConfig.WakeOnLan = "magic";
+  };
+
   systemd.network.networks."10-lan" = {
     matchConfig.Name = [ "en*" ];
     networkConfig = {
