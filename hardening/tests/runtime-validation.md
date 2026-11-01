@@ -27,7 +27,7 @@ Nixpak wrappers are accepted in three layers:
 | Bambu Studio           | Pass         | Interactive pass; device_page/filament UI unavailable in nixpkgs  |
 | OrcaSlicer             | Pass         | Interactive pass; blank WebKit home page fixed                    |
 | Remmina                | Pass         | Interactive validation pending                                    |
-| OBS Studio             | Pass         | Interactive pass; NVENC local recording works, streaming untested |
+| OBS Studio             | Pass         | Interactive pass; NVENC recording and local RTMP streaming work   |
 | Blender                | Pass         | Interactive validation pending                                    |
 | MuseScore              | Pass         | Interactive validation pending                                    |
 | mpv                    | Pass         | Interactive validation pending                                    |
@@ -90,6 +90,18 @@ Zoom keeps its upstream FHS runtime inside the outer nixpak boundary. The nested
 `/dev/video0`, `/dev/video1`, DRM sysfs and the declared app directories. X11 remains a
 shared-display trust boundary: ScreenCast portal permission does not prevent capture through the X11
 connection. Interactive login, audio, camera, screen sharing and file workflows passed.
+
+## OBS
+
+Interactive validation covered PipeWire screen capture, V4L2 camera capture, desktop/microphone
+audio, NVENC H.264 Hybrid MP4 recording and RTMP publishing. Streaming was tested against a
+temporary MediaMTX server on the host's LAN address; the OBS pasta namespace cannot reach host
+loopback. Bilibili or another external provider still needs a real account-specific stream key to
+validate provider authentication and CDN ingest.
+
+OBS records to the path configured under output settings. In Simple mode that is
+`SimpleOutput.FilePath`; Advanced mode uses `AdvOut.RecFilePath` and `AdvOut.FFFilePath`. These must
+point at a writable bind such as `~/Videos`, not the sandbox's transient home root.
 
 ## Commands
 

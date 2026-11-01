@@ -86,8 +86,8 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   Zoom, Bambu Studio and OrcaSlicer. Chromium's host-loopback/personal-file exception and the
   Brave/Edge no-media policy are intentional.
 - OBS Studio passed interactive validation for PipeWire screen capture, V4L2 camera capture,
-  desktop/microphone audio and local NVENC H.264 MP4 recording. Streaming and browser sources remain
-  unvalidated.
+  desktop/microphone audio, local NVENC H.264 MP4 recording and local RTMP streaming. External
+  provider authentication and browser sources remain unvalidated.
 - Wrappers for Remmina, Blender, MuseScore, mpv and imv build and pass the policy suite; interactive
   validation is still pending.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
