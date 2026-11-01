@@ -224,12 +224,5 @@
       url = "github:ryan4yin/dsh-nu";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Wayland <-> X11 clipboard sync daemon for xwayland-satellite (niri).
-    # Track main while the upstream fix for pkgs.system has no release tag.
-    pyclipsync = {
-      url = "github:ryan4yin/pyclipsync";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }
