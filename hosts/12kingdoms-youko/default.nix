@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   mylib,
   myvars,
@@ -13,6 +14,10 @@ let
   # disko config does (the /dev/sdX names are not stable).
   hddPublic = "/dev/disk/by-id/ata-WDC_WD40EJRX-89T1XY0_WD-WCC7K0XDCZE6";
   hddEncrypted = "/dev/disk/by-id/ata-WDC_WD40EZRZ-22GXCB0_WD-WCC7K7VV9613";
+  hddSerials = lib.concatMapStringsSep "|" (lib.removePrefix "/dev/disk/by-id/ata-") [
+    hddPublic
+    hddEncrypted
+  ];
 
   coreModule = mylib.genVmHostModule {
     inherit pkgs hostName;
@@ -105,47 +110,12 @@ in
   ];
 
   # Keep the bridge powered: a suspended device is what most often triggers a
-  # reset on resume.
+  # reset on resume. Spindown is another trigger, so turn off APM/standby on the
+  # HDDs each time they appear (a bridge reset re-adds them).
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="152d", ATTR{idProduct}=="0567", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEM=="block", ENV{DEVTYPE}=="disk", ENV{ID_SERIAL}=="${hddSerials}", RUN+="${pkgs.hdparm}/bin/hdparm -B 255 -S 0 $devnode"
   '';
-
-  # A spindown/spinup is a common trigger for the bridge resetting, so disable
-  # APM/standby on the HDDs. sdb in particular has ~1M load cycles (WD
-  # Intellipark), so stopping the idle head-parking also saves its mechanism.
-  # Read the settings back into the journal, and re-assert them hourly: the
-  # bridge or the disk's own firmware can drop them.
-  systemd.services.hdd-no-spindown = {
-    description = "Disable APM/standby on the USB HDDs";
-    after = [ "local-fs.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = mylib.systemdHardening.privilegedOneshot // {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      CapabilityBoundingSet = [ "CAP_SYS_RAWIO" ];
-      PrivateDevices = false;
-      DeviceAllow = [ "block-sd rw" ];
-    };
-    script = ''
-      for d in ${hddPublic} ${hddEncrypted}; do
-        echo "== $d =="
-        # -B 255: APM off; -S 0: no standby timer; -J 0: WD idle3 (Intellipark) off
-        ${pkgs.hdparm}/bin/hdparm -B 255 -S 0 -J 0 "$d" || true
-        ${pkgs.hdparm}/bin/hdparm -B "$d" || true
-        ${pkgs.hdparm}/bin/hdparm -J "$d" || true
-        ${pkgs.hdparm}/bin/hdparm -C "$d" || true
-      done
-    '';
-  };
-
-  systemd.timers.hdd-no-spindown = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "10min";
-      OnUnitActiveSec = "1h";
-      Persistent = true;
-    };
-  };
 
   # Watch the disks with SMART. UDMA_CRC_Error_Count growth is the early warning
   # for the bridge/link problem.
