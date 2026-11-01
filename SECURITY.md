@@ -268,9 +268,9 @@ export, credential, DNS record or firmware configuration was changed during the 
   desktops. Same-user agents are not isolated from these credentials by Unix file permissions. Mode
   `0000` also does not stop privileged root. Other host/runtime ownership checks and recipient
   membership were not completed; no private recipient repository or secret value was inspected.
-- Darwin's activation now re-applies each secret's declared ownership explicitly instead of a
-  blanket `chown` over `/etc/agenix/*`, so the root-only `rclone.conf` stays root-owned. Runtime
-  ownership (`ls -l /etc/agenix`) on each Darwin host still needs a check after the next activation.
+- Darwin's `/etc/agenix` entries are agenix `path` symlinks, so agenix applies each secret's
+  declared owner and mode and the root-only `rclone.conf` stays root-owned. Runtime ownership
+  (`ls -lL /etc/agenix`) on each Darwin host still needs a check after the next activation.
 - PostgreSQL's loopback TCP listener still trusts every role except `postgres` without a password,
   so any local process can log in as `immich` or `playground`. No service configured here uses that
   path: Immich and the exporter connect over the Unix socket with peer authentication. `postgres`
