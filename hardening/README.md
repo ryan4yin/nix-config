@@ -108,7 +108,7 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   and user workflows still need confirmation.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
-- WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy
+- WeChat uses the native nixpkgs-master package with nixpak as the only bwrap layer. Build/policy
   pass; interactive Wayland validation is still pending.
 - Evidence and repeat commands: [runtime validation](tests/runtime-validation.md),
   [policy test](tests/policy.nix), which auto-loads every suite under [tests/policy](tests/policy/).

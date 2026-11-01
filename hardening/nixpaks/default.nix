@@ -1,7 +1,6 @@
 {
   pkgs,
   pkgs-master,
-  pkgs-patched,
   pkgs-stable,
   pkgs-blender,
   nixpak,
@@ -39,7 +38,7 @@ in
         musescore = wrapper pkgs-stable ./musescore.nix;
         mpv = wrapper super ./mpv.nix;
         imv = wrapper super ./imv.nix;
-        wechat = wrapper pkgs-patched ./wechat.nix;
+        wechat = wrapper pkgs-master ./wechat.nix;
       };
     })
   ];
