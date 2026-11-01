@@ -4,7 +4,6 @@
   iommuPassthrough = true;
   runtimePmDisabled = true;
   gpuRecoveryEnabled = true;
-  aspmDisabled = true;
   deepCStatesAllowed = true;
   cpuEppConfigured = true;
   nativeIpv6Preference = true;

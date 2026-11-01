@@ -122,11 +122,9 @@ default `0xfff7bfff`; `0xfff7ffff` works). **verified**
 
 `amdgpu.ppfeaturemask=0xffffffff` does not address the ATPX/SMU path; it comes from a community
 tuning repository and no primary source ties it to it. **community-reported**
-([r9700-setup](https://github.com/stew675/r9700-setup/blob/HEAD/README.md)). The host's own
-`pcie_aspm=off` is unrelated to this path too — it is set for PCIe link retraining, with its reason
-in [hardware-configuration.nix](./hardware-configuration.nix). CPU C-state depth is no longer
-capped; the old `processor.max_cstate=2` trade-off was removed for idle power, so re-check inference
-tail latency after that change.
+([r9700-setup](https://github.com/stew675/r9700-setup/blob/HEAD/README.md)). CPU C-state depth is no
+longer capped; the old `processor.max_cstate=2` trade-off was removed for idle power, so re-check
+inference tail latency after that change.
 
 ## Kernel parameters and module options
 

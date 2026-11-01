@@ -63,8 +63,7 @@ run on `youko`, not on this host, so opening a dashboard does not wake `aquamari
   still need to be enabled in BIOS before this knob can save more power.
 - Safe BIOS-side changes: enable C1E, Intel Speed Shift and CPU/package C-states (limit `Auto` or
   `C10`), and enable iGPU Render Standby/RC6. Disable unused Wi-Fi/Bluetooth, onboard audio, SATA,
-  serial ports and RGB lighting. Do not change the storage mode, and do not enable PCIe ASPM while
-  the NVMe/GPU stability workarounds are in place.
+  serial ports and RGB lighting. Do not change the storage mode.
 
 The iGPU carries display and video work: the kernel binds `i915`, and
 [hardware-intel-igpu.nix](./hardware-intel-igpu.nix) installs `intel-media-driver` (VA-API),
