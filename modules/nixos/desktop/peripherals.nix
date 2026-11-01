@@ -65,9 +65,10 @@
           capslock = "overload(control, esc)";
           esc = "capslock";
 
-          # keyd rewrites right-hand modifiers as their left counterparts, so
-          # pin them to their own keycodes. Vinput's MenuKey is right Ctrl and
-          # Rime's right Shift switches CN/EN.
+          # keyd binds both sides of a modifier to one layer by design (keyd(1):
+          # `control = layer(control)`), so right-hand modifiers come out as
+          # their left counterparts; pin them to their own keycodes. Vinput's
+          # MenuKey is right Ctrl and Rime's right Shift switches CN/EN.
           rightcontrol = "rightcontrol";
           rightshift = "rightshift";
           rightmeta = "rightmeta";
