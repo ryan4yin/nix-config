@@ -8,7 +8,8 @@ Common variables and configuration used across my NixOS and nix-darwin configura
 vars/
 ├── README.md
 ├── default.nix         # Main variables entry point
-└── networking.nix      # Network configuration and host definitions
+├── networking.nix      # Network configuration and host definitions
+└── ports.nix           # Loopback HTTP backend port registry
 ```
 
 ## Components
