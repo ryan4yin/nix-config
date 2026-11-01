@@ -41,8 +41,8 @@
   # nixpkgs still ships 7.2.x while the upgrade awaits split reviews, LLVM/OpenMP
   # fixes and compatibility work: https://github.com/NixOS/nixpkgs/pull/573885.
   # Inference containers carry their own ROCm userspace.
-  # The ROCm OpenCL ICD, which is also what HIP consumers resolve for compute.
-  hardware.amdgpu.opencl.enable = true;
+  # Not hardware.amdgpu.opencl.enable: its clr adds an OpenCL 2.2 libOpenCL.so.1 that shadows ocl-icd.
+  hardware.graphics.extraPackages = [ pkgs.rocmPackages.clr.icd ];
 
   # /dev/kfd is world-writable under nixpkgs' default udev rule, but
   # /dev/dri/renderD* is `render` 0660 and this headless host has no logged-in

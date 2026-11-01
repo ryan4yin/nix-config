@@ -249,8 +249,9 @@ equivalent-generation consumer cards are "known to work", and never mentions
    rule, which would leave the driver registered as a PX client. Revisit if a BIOS update defines
    the `_OFF`/`_ON` methods — or now that two cards may keep ATPX out of the picture (above).
 2. `iommu=pt` stays; `iommu=off` for P2P is a community claim with no AMD statement.
-3. `hardware.amdgpu.opencl.enable = true` is the shape the host uses — the module adds both `clr`
-   and `clr.icd` — instead of a hand-written `hardware.graphics.extraPackages`.
+3. Only `rocmPackages.clr.icd` goes into `hardware.graphics.extraPackages`: the `clr` that
+   `hardware.amdgpu.opencl.enable` also adds puts its OpenCL 2.2 `libOpenCL.so.1` in
+   `/run/opengl-driver/lib`, ahead of the `ocl-icd` that OpenVINO's GPU plugin links.
 4. `rocmPackages.rocm-smi` is not wrapped for libdrm. It reads a healthy card completely; the
    `Fail to open libdrm_amdgpu.so` message only appeared while the card was wedged (see "ROCm
    userland in nixpkgs"). Expect `Card Series: N/A` until upstream names the R9700.
