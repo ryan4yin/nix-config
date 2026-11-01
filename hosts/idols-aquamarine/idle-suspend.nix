@@ -16,10 +16,12 @@ in
         withMan = false;
       }).overridePythonAttrs
         (old: {
-          nativeCheckInputs = (old.nativeCheckInputs or [ ]) ++ [
-            pkgs.python3Packages.sphinx
-            pkgs.python3Packages.docutils
-          ];
+          nativeCheckInputs =
+            (old.nativeCheckInputs or [ ])
+            ++ (with pkgs.python3Packages; [
+              sphinx
+              docutils
+            ]);
         });
     settings = {
       interval = 60;
