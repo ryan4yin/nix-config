@@ -118,12 +118,8 @@ in
   # works without sudo.
   hardware.i2c.enable = true;
 
-  # Re-evaluate after the Insta360 Link firmware or the kernel's uvcvideo changes.
-  powerManagement.resumeCommands = ''
-    # Insta360 Link may stay enumerated with a stalled UVC endpoint after S3 resume.
-    ${pkgs.coreutils}/bin/sleep 1
-    ${pkgs.usbutils}/bin/usbreset 2e1a:4c01 || true
-  '';
+  # Insta360 Link: reset instead of resume, or its UVC endpoint stalls after S3 (WA-010).
+  boot.kernelParams = [ "usbcore.quirks=2e1a:4c01:b" ];
 
   networking = {
     inherit hostName;
