@@ -37,5 +37,8 @@
   remoteBuilderClientKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINHZtzeaQyXwuRMLzoOAuTu8P9bu5yc5MBwo5LI3iWBV root@ai"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILDkbOwOeuAem8BKbyTDliRiTfHVAFdiVpAKh1bhs2s0 root@shoukei"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGSSw4Oa8CaAeYXq2+O/SHHICaoUTFTGYjW5R9MzZ9Nj root@shoryu"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4Po3tzTPVKEE5fAk4RQfhTvA4h+AurnkEiM7RYdND9 root@shushou"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEs8b3CmxM+utXZVKvJBssXBupBXvvzjHP40HcY7PSyZ root@youko"
   ];
 }
