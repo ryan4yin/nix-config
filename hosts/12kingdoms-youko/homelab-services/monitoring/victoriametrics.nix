@@ -29,22 +29,6 @@ let
   ];
 in
 {
-  # Since victoriametrics use DynamicUser, the user & group do not exists before the service starts.
-  # this group is used as a supplementary Unix group for the service to access our data dir under /var/lib
-  users.groups.victoriametrics-data = { };
-
-  # Workaround for victoriametrics to store data in another place
-  # https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html#Type
-  systemd.tmpfiles.rules = [
-    "d /var/lib/victoriametrics 0770 root victoriametrics-data - -"
-  ];
-
-  # Symlinks do not work with DynamicUser, so we should use bind mount here.
-  # https://github.com/systemd/systemd/issues/25097#issuecomment-1929074961
-  systemd.services.victoriametrics.serviceConfig = {
-    SupplementaryGroups = [ "victoriametrics-data" ];
-  };
-
   # https://victoriametrics.io/docs/victoriametrics/latest/configuration/configuration/
   services.victoriametrics = {
     enable = true;
@@ -60,8 +44,6 @@ in
       # Keep it >= the senders' scrapeInterval (vmagent 20s, in-cluster 30s).
       "-dedup.minScrapeInterval=30s"
     ];
-    # Directory below /var/lib to store victoriametrics metrics data.
-    stateDir = "victoriametrics";
 
     # specifies a set of targets and parameters describing how to scrape metrics from them.
     # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
