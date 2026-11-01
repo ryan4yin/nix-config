@@ -40,11 +40,15 @@ in
         class = "ActiveConnection";
         ports = toString myvars.ports.aquamarineAsr;
       };
-      # 63081: llama-swap/Strata; 63083/63084: MagPie; 65002: direct Strata.
-      # These services hold an established connection while a request is active.
+      # llama-swap/Strata: 63081 is the proxy, 65002 the direct backend.
       Inference = {
         class = "ActiveConnection";
-        ports = "63081,63083,63084,65002";
+        ports = "63081,65002";
+      };
+      # MagPie API and web UI: 63083 and 63084.
+      MagPie = {
+        class = "ActiveConnection";
+        ports = "63083,63084";
       };
     };
   };
