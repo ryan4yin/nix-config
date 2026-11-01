@@ -30,7 +30,7 @@ let
     cp -r ${pkgs.metacubexd} $out
     chmod -R u+w $out
     substituteInPlace $out/index.html $out/200.html $out/404.html \
-      --replace '<title>MetaCubeXD</title>' '<title>MetaCubeXD · ${host}</title>'
+      --replace-fail '<title>MetaCubeXD</title>' '<title>MetaCubeXD · ${host}</title>'
     cat >> $out/config.js <<'EOF'
 
     ;(function () {
@@ -91,7 +91,8 @@ in
       # Attach the catch-all to the TUN, leaving DHCP and more-specific VPN DNS
       # routes untouched. Removing the TUN also removes its resolved settings.
       # '+' allows the privileged D-Bus call outside mihomo's service sandbox.
-      ExecStartPost = "+${pkgs.coreutils}/bin/timeout 30 ${
+      # '-': a timed-out hook must not take the proxy down with it.
+      ExecStartPost = "-+${pkgs.coreutils}/bin/timeout 30 ${
         lib.getExe (
           pkgs.writeShellApplication {
             name = "mihomo-resolved";
