@@ -12,7 +12,7 @@
       pavucontrol
       playerctl
       pulsemixer
-      imv # simple image viewer
+      pkgs.nixpaks.imv # simple image viewer
 
       # music
       go-musicfox # TUI NetEase Cloud Music client; plays through mpv (configured below)
@@ -30,8 +30,8 @@
 
   programs.mpv = {
     enable = true;
+    package = pkgs.nixpaks.mpv;
     defaultProfiles = [ "gpu-hq" ];
-    scripts = [ pkgs.mpvScripts.mpris ];
   };
 
   services = {

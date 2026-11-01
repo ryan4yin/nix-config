@@ -34,6 +34,12 @@ explicitly; other files use the document portal. Every app also has private writ
 | Krita        | None          | Documents/Downloads/Pictures writable, app-scoped state                               | File chooser, OpenURI, print, inhibit, notifications, IME, accessibility                     |
 | Bambu Studio | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, PulseAudio, cloud/LAN network, file chooser, notifications, IME, accessibility |
 | OrcaSlicer   | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, cloud/LAN network, file chooser, notifications, IME, accessibility             |
+| Remmina      | Isolated      | `~/.config/remmina`, `~/.local/share/remmina`, `~/.remmina`, Downloads                | PulseAudio, SSH agent, file chooser, OpenURI, notifications, IME, accessibility              |
+| OBS Studio   | Isolated      | `~/.config/obs-studio`, Videos/Pictures/Downloads                                     | ScreenCast, Camera, PulseAudio, tray, notifications, IME, accessibility                      |
+| Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                  |
+| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | PulseAudio, ALSA sequencer, print, notifications, IME, accessibility                         |
+| mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                 |
+| imv          | None          | `~/.config/imv`; Documents/Downloads/Pictures read-only                               | File chooser, OpenURI                                                                        |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
@@ -65,6 +71,10 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - Bambu Studio's nixpkgs build omits the `device_page` frontend bundle, so filament management is
   unavailable. Its MakerWorld sidebar entry also requires the upstream `firstguide.finish = "true"`
   workaround; the startup splash may render black under XWayland.
+- Remmina's SSH Tunnel support receives a read-only SSH agent socket and SSH client config. A
+  compromised Remmina can use the agent to sign or decrypt while the agent is running.
+- OBS, Blender, MuseScore and mpv use pasta-isolated networking. Host loopback services are not
+  reachable unless the app is changed to a host-loopback exception.
 
 ## Validation
 
@@ -72,6 +82,8 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - Interactive validation passed for Firefox, Chrome, Chromium, Brave Origin, Edge, QQ, Telegram,
   Zoom, Bambu Studio and OrcaSlicer. Chromium's host-loopback/personal-file exception and the
   Brave/Edge no-media policy are intentional.
+- Wrappers for Remmina, OBS Studio, Blender, MuseScore, mpv and imv build and pass the policy suite;
+  interactive validation is still pending.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy

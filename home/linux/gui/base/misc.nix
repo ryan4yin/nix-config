@@ -9,9 +9,9 @@
     # do not support .pdf
     nixpaks.foliate
 
-    # remote desktop(rdp connect)
-    remmina
-    freerdp # required by remmina
+    # remote desktop (RDP/VNC/SPICE)
+    nixpaks.remmina
+    freerdp # CLI fallback and Remmina runtime dependency
 
     # my custom hardened packages
     nixpaks.qq
