@@ -301,13 +301,14 @@ After a boot, verify the link reports `Wake-on: g`:
 ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
 ```
 
-Wake it from another L2 host with the NIC's MAC address:
+Wake every homelab host with Wake-on-LAN armed from another L2 host:
 
 ```bash
-nix shell nixpkgs#wakeonlan -c wakeonlan <MAC>
+just wake-homelab
 ```
 
-Test from a powered-off state, not from a reboot.
+The command currently wakes only aquamarine; add a host to `scripts/wake-homelab.py` after its WoL
+service and BIOS setting are in place. Test from a powered-off state, not from a reboot.
 
 ## Idle suspend
 

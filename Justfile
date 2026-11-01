@@ -246,6 +246,12 @@ youko mode="switch":
 aquamarine mode="switch":
   colmena apply {{mode}} --build-on-target --on '@aquamarine' --verbose --show-trace
 
+# Wake every homelab host that has Wake-on-LAN armed.
+[linux]
+[group('homelab')]
+wake-homelab:
+  python3 {{absolute_path("scripts/wake-homelab.py")}}
+
 ############################################################################
 #
 # Commands for other Virtual Machines
