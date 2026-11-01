@@ -19,6 +19,9 @@ let
         binPath = "bin/bambu-studio";
       };
       flatpak = { inherit appId; };
+      # The Agora SDK used by the printer camera preview aborts when
+      # PulseAudio initialization fails.
+      slicer.enablePulse = true;
       # Work around wxWidgets HiDPI text clipping under fractional scaling.
       # https://github.com/bambulab/BambuStudio/issues/4959
       bubblewrap.env.GDK_DPI_SCALE = "0.8";

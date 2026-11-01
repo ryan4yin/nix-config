@@ -9,6 +9,7 @@ in
 mkAppPolicy "bambu-studio" {
   network = "pasta";
   media = false;
+  pulse = true;
   x11 = true;
   notifications = true;
   extraChecks = {
