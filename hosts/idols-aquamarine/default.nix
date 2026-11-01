@@ -108,7 +108,7 @@ in
 
   # A `boot.kernel.sysctl` that disabled IPv6 was removed on 2026-10-14: networkd
   # re-enables it on the wired link for the `DHCP = "ipv6"`/`IPv6AcceptRA` settings
-  # below, so it never applied and the AAAA attempt already fails at once (WA-034).
+  # below, so it never applied. The gateway now hands out fake-IP AAAA records too.
 
   networking.useNetworkd = true;
   systemd.network.enable = true;
