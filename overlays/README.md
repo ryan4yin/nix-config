@@ -12,9 +12,7 @@ overlays/
 ├── README.md
 ├── default.nix            # Entrypoint for all overlays
 ├── computer-use-linux.nix # computer-use-linux from ryan4yin/nur-packages
-├── cua-driver.nix         # cua-driver from ryan4yin/nur-packages
-└── smartctl-exporter/     # smartctl_exporter pinned to the #329 fix
-    └── default.nix
+└── cua-driver.nix         # cua-driver from ryan4yin/nur-packages
 ```
 
 ## Components
@@ -28,6 +26,3 @@ The entrypoint imports every overlay file in this directory and applies it to th
 - `computer-use-linux.nix`: exposes `computer-use-linux` from the `nur-ryan4yin` flake input.
 - `cua-driver.nix`: exposes `cua-driver` from the `nur-ryan4yin` flake input (used by the
   computer-use VMs).
-- `smartctl-exporter/`: pins `prometheus-smartctl-exporter` to the upstream commit carrying PR
-  [#329](https://github.com/prometheus-community/smartctl_exporter/pull/329) until nixpkgs provides
-  a version containing the fix; see `overlays/smartctl-exporter/default.nix`.
