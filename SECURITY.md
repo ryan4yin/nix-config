@@ -326,9 +326,11 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - All nine desktop wrappers use shared nixpak policies: cleared environment, filtered session D-Bus
   and selected mounts. The [permission inventory](hardening/README.md#app-permissions) lists each
   app's file, network, credential and media grants.
-- Only Firefox/Chromium share host networking. Other apps isolate loopback with pasta but can still
-  reach the LAN/Internet. Browser media and browserpass are enabled only for
-  Firefox/Chromium/Chrome; browserpass exposes password-store/GPG data and agent operations.
+- Only Firefox/Chromium share host networking. Chromium is an intentional local-development
+  exception; all other apps isolate loopback with pasta but can still reach the LAN/Internet.
+  Browser media and browserpass are enabled only for Firefox/Chromium/Chrome. Brave Origin and Edge
+  are backup browsers with no media grants. browserpass exposes password-store/GPG data and agent
+  operations.
 - Nixpak supplements Chromium's renderer sandbox, which remains enabled. Zoom/WeChat retain their
   FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
 - Desktop access has limits: GPU drivers remain exposed, PulseAudio permits recording, read-only
@@ -339,9 +341,11 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   browser receives broad GNOME Keyring authority. Firefox uses its own NSS storage.
 - **Rollout note (WA-045):** v12 is verified on a disposable profile, but if the portal is
   unavailable Chromium may fall back to weaker v10 storage; portal initialization is monitored.
-- Runtime evidence is partial: Brave/Edge headless export times out; interactive login, media, IME
-  and file workflows require acceptance. See the
-  [validation records](hardening/README.md#validation).
+- Policy/build passes for all nine wrappers. Interactive validation passed for Firefox, Chrome,
+  Chromium, Brave Origin, Edge, QQ, Telegram and Zoom; the Chromium smoke test also validates
+  renderer sandboxing, environment clearing, bind scope and profile persistence. WeChat's
+  interactive Wayland check remains pending. See the
+  [runtime validation](hardening/tests/runtime-validation.md).
 
 #### Agent-first diagnostics by host role
 

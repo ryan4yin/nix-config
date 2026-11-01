@@ -1,6 +1,6 @@
 # Linux Hardening
 
-Deployed and interactively validated on `ai` (2026-10-31). Policy and limits:
+Deployed and interactively validated on the Linux desktop host (2026-10-31). Policy and limits:
 [SECURITY.md](../SECURITY.md).
 
 ## Shared boundaries
@@ -10,7 +10,9 @@ Deployed and interactively validated on `ai` (2026-10-31). Policy and limits:
 - Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
 - Portals for file chooser, URI opening, notifications, input methods and document exports.
 - No whole host home, system D-Bus, SSH agent, USB/serial, raw camera or raw PipeWire socket.
-- Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback.
+- Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback. Chromium is
+  an intentional development exception. Brave Origin and Edge are backup browsers and receive no
+  media grants.
 
 ## App permissions
 
@@ -50,21 +52,21 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   capture.
 - PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
-- Brave/Edge renderer and permission checks pass, but headless page export still times out.
+- Brave Origin and Edge intentionally have no PulseAudio, Camera, ScreenCast or MPRIS grants. They
+  are backup browsers, not media browsers.
 
 ## Validation
 
-- Passed: `just fmt`, `just test`, `ai-niri` build and `shoukei-niri` eval.
-- Deployed on `ai`; interactive startup and tray checks passed for Chrome, Firefox, QQ, Telegram and
-  Zoom.
-- WeChat uses the native deb package from nixpkgs-patched, with nixpak as the only bwrap layer. The
-  build passes; interactive Wayland validation is pending.
-- Chromium/Chrome: renderer sandbox, mounts, rendering and disposable-profile persistence passed.
-  Chromium reaches host loopback; Chrome cannot.
-- Firefox: disposable headless screenshot passed.
-- Brave/Edge: renderer and permission checks passed; headless page export timed out.
-- Evidence: [browsers](tests/browser-runtime.md),
-  [Firefox/QQ/Telegram](tests/unified-app-runtime.md), [Zoom](tests/zoom-runtime.md).
+- Passed: `just fmt`, `just test`, `ai-niri` build, `shoukei-niri` eval and all wrapper builds.
+- Interactive validation passed for Firefox, Chrome, Chromium, Brave Origin, Edge, QQ, Telegram and
+  Zoom. Chromium's host-loopback/personal-file exception and the Brave/Edge no-media policy are
+  intentional.
+- Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
+  persistence and loopback policy.
+- WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy
+  pass; interactive Wayland validation is still pending.
+- Evidence and repeat commands: [runtime validation](tests/runtime-validation.md),
+  [policy test](tests/policy.nix).
 
 ## Code map
 

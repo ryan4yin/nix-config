@@ -2,7 +2,8 @@
 """Runtime smoke test: verify a built nixpak Chromium without existing profiles.
 
 Usage: python3 hardening/tests/verify-chromium.py /nix/store/.../bin/chromium
-Requires Linux procfs and an active user D-Bus session. Uses only stdlib.
+Requires Linux procfs and an active user D-Bus session. Pasta-wrapped browsers also
+need /dev/net/tun. Uses a disposable HOME under /var/tmp and only the standard library.
 """
 
 import argparse
