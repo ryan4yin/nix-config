@@ -82,7 +82,7 @@ in
         xvfb # headless X server
       ]
       ++ [
-        # MCP server / CLI that drives the desktop (see overlays/computer-use-linux.nix).
+        # MCP server / CLI that drives the desktop (see overlays/nur-ryan4yin.nix).
         pkgs.computer-use-linux
       ]
       ++ lib.optional cfg.vnc pkgs.x11vnc

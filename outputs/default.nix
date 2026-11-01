@@ -73,16 +73,6 @@ let
           cudaCapabilities = [ "8.9" ];
         };
       };
-      # NUR packages for this system; modules use `myNurPkgs.dsh` instead of
-      # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
-      # Instantiate them with the same Nixpkgs policy as the host so npm
-      # fetchers inside NUR packages also use the mirror.
-      myNurPkgs = import "${inputs.nur-ryan4yin}" {
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-          config = nixpkgsConfig;
-        };
-      };
     };
 
   # This is the args for all the haumea modules in this folder.
