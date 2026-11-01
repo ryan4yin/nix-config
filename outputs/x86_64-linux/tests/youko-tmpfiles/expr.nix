@@ -1,11 +1,14 @@
 {
-  lib,
   outputs,
   ...
 }:
 let
-  unit = outputs.nixosConfigurations.youko.config.systemd.services.systemd-tmpfiles-setup;
+  services = outputs.nixosConfigurations.youko.config.systemd.services;
+  unit = services.data-tmpfiles;
 in
 {
-  requiresMountsFor = builtins.sort builtins.lessThan unit.unitConfig.RequiresMountsFor;
+  wantsMountsFor = builtins.sort builtins.lessThan unit.unitConfig.WantsMountsFor;
+  execStart = unit.serviceConfig.ExecStart;
+  setupWaitsForData =
+    (services.systemd-tmpfiles-setup or { }).unitConfig.RequiresMountsFor or [ ] != [ ];
 }
