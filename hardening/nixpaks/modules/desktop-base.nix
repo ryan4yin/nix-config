@@ -17,20 +17,6 @@
     provider = "nixos";
     bundlePackage = pkgs.mesa.drivers;
   };
-  fonts = {
-    enable = true;
-    # Preserve nixpak's default coverage and add Chinese/Japanese/Korean glyphs.
-    fonts = with pkgs; [
-      cantarell-fonts
-      dejavu_fonts
-      liberation_ttf
-      gyre-fonts
-      source-sans
-      source-code-pro
-      noto-fonts-color-emoji
-      noto-fonts-cjk-sans
-    ];
-  };
   locale.enable = true;
   dbus = {
     policies = {
@@ -87,6 +73,15 @@
       ]
     ];
     bind.ro = [
+      # Reuse the host's NixOS fontconfig instead of maintaining a second font
+      # set in every sandbox. Nixpak's own font module generates an isolated
+      # /etc/fonts with no host defaultFonts, so GUI apps otherwise resolve CJK
+      # glyphs differently from the host. The font files and caches referenced
+      # by this config live in /nix/store, which Nixpak already mounts.
+      [
+        "/etc/static/fonts"
+        "/etc/fonts"
+      ]
       "/etc/localtime"
       "/etc/zoneinfo"
       (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
@@ -131,7 +126,7 @@
         pkgs.shared-mime-info
       ];
       XCURSOR_PATH = "${pkgs.bibata-cursors}/share/icons:${pkgs.bibata-cursors}/share/pixmaps";
-      # Fontconfig configuration mounted by nixpak fonts.enable.
+      # Host NixOS fontconfig, bind-mounted above.
       FONTCONFIG_FILE = "/etc/fonts/fonts.conf";
       NIXOS_XDG_OPEN_USE_PORTAL = "1";
     }
