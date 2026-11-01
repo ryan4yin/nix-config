@@ -4,6 +4,7 @@
   # the latest released version until stable catches up.
   # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/tools/package-management/nix/default.nix
   nix.package = pkgs.nixVersions.latest;
+  warnings = lib.optional (lib.versionAtLeast pkgs.nixVersions.stable.version "2.35") "nixVersions.stable is 2.35+: drop the nixVersions.latest override (WA-023)";
 
   # https://lix.systems/add-to-config/
   # nix.package = pkgs.lix;
