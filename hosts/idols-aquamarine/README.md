@@ -289,3 +289,40 @@ just local               # on aquamarine itself
 The install only touches the target disk; the staging host keeps booting from its own. To undo, move
 the disk back, restore the `hosts/idols-ai/disko-fs-data.nix` module this change deleted, and
 re-enroll that machine's TPM2 slot — see `../idols-ai/README.md`.
+
+## Wake-on-LAN
+
+BIOS: `Advanced > Power Setting` must have `Wake By Lan` enabled, and EUP must not cut standby power
+to the NIC. NixOS arms the RTL8125 through `systemd.network.links` using `OriginalName=en*`.
+
+After a boot, verify the link reports `Wake-on: g`:
+
+```bash
+ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
+```
+
+Wake every homelab host with Wake-on-LAN armed from another L2 host:
+
+```bash
+just wake-homelab
+```
+
+The command currently wakes only aquamarine; add a host to `scripts/wake-homelab.py` after its WoL
+link config and BIOS setting are in place. Test from a powered-off state, not from a reboot.
+
+## Idle suspend
+
+`autosuspend` checks every minute and suspends into S3 after 60 minutes without an active user
+session, meaningful CPU load, or an established connection to one of the request-serving ports:
+`18080` (ASR), `63081` (llama-swap/Strata), `63083`/`63084` (MagPie), and `65002` (direct Strata).
+It calls `systemctl suspend`, so systemd sleep inhibitors are also honored. WoL is armed by the
+`systemd.network.links` configuration above; no separate WoL service is needed.
+
+The daemon resets its idle timer after resume, so a wake does not immediately go back to sleep. To
+keep the host awake during maintenance:
+
+```bash
+systemd-inhibit --what=sleep --mode=block --who=maintenance --why="manual work" sleep infinity
+```
+
+Cancel it with Ctrl-C when finished.
