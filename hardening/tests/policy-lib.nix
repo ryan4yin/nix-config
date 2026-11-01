@@ -74,10 +74,9 @@ let
   mediaCheck =
     app: expected:
     if expected then
-      app.bubblewrap.sockets.pulse && app.portalGroups.camera && app.portalGroups.screenCast
+      app.portalGroups.camera && app.portalGroups.screenCast
     else
-      !app.bubblewrap.sockets.pulse
-      && !app.bubblewrap.sockets.pipewire
+      !app.bubblewrap.sockets.pipewire
       && !app.portalGroups.camera
       && !app.portalGroups.screenCast
       && !(hasDbusFragment app "org.freedesktop.portal.Camera")
@@ -125,6 +124,7 @@ let
         "${name}/network" = networkCheck app spec.network;
         "${name}/x11" = app.bubblewrap.sockets.x11 == (spec.x11 or false);
         "${name}/media" = mediaCheck app (spec.media or false);
+        "${name}/pulse" = app.bubblewrap.sockets.pulse == (spec.pulse or (spec.media or false));
         "${name}/mpris" = app.desktopIntegration.mpris == (spec.mpris or false);
         "${name}/notifications" = app.desktopIntegration.notifications == (spec.notifications or true);
         "${name}/tray" = trayCheck app (spec.tray or false);

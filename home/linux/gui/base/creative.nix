@@ -1,29 +1,16 @@
 {
   pkgs,
   pkgs-stable,
-  pkgs-master,
   pkgs-blender,
   ...
 }:
-let
-  bambu-studio = pkgs.symlinkJoin {
-    name = "bambu-studio-${pkgs-master.bambu-studio.version}";
-    paths = [ pkgs-master.bambu-studio ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      # Work around wxWidgets HiDPI text clipping under fractional scaling.
-      # https://github.com/bambulab/BambuStudio/issues/4959
-      wrapProgram $out/bin/bambu-studio --set GDK_DPI_SCALE 0.8
-    '';
-  };
-in
 {
   home.packages = with pkgs-stable; [
     # creative
     pkgs.nixpaks.krita # digital painting
     musescore # music notation
-    pkgs-master.orca-slicer # 3d printer slicer app
-    bambu-studio # bambu 3d printer slicer app
+    pkgs.nixpaks.orca-slicer # 3d printer slicer app
+    pkgs.nixpaks.bambu-studio # bambu 3d printer slicer app
     pkgs-blender.blender # 3d modeling
   ];
 
