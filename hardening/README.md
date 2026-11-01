@@ -39,7 +39,7 @@ explicitly; other files use the document portal. Every app also has private writ
 | Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                  |
 | MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | PulseAudio, ALSA sequencer, print, notifications, IME, accessibility                         |
 | mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                 |
-| imv          | None          | `~/.config/imv`; Documents/Downloads/Pictures read-only                               | File chooser, OpenURI                                                                        |
+| imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                        |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 

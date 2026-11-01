@@ -1,4 +1,5 @@
-# Minimal local image viewer: no network, audio, camera or notifications.
+# Minimal local image viewer. The whole home is read-only so images can be
+# opened from any user directory; network, audio and devices stay unavailable.
 {
   sloth,
   ...
@@ -11,11 +12,6 @@
   };
   bubblewrap = {
     sockets.pulse = false;
-    bind.ro = [
-      sloth.xdgDocumentsDir
-      sloth.xdgDownloadDir
-      sloth.xdgPicturesDir
-    ];
-    bind.rw = [ (sloth.mkdir (sloth.concat' sloth.homeDir "/.config/imv")) ];
+    bind.ro = [ sloth.homeDir ];
   };
 }

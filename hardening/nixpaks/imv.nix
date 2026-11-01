@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   imv,
   mkNixPak,
   buildEnv,
@@ -19,6 +20,14 @@ let
     };
   };
   exe = lib.getExe wrapped.config.script;
+  # Match the upstream imv-dir helper: one file opens its containing directory;
+  # multiple arguments are passed through to imv unchanged.
+  imvDir = pkgs.writeShellScript "imv-dir" ''
+    if [ "$#" -ne 1 ]; then
+      exec ${exe} "$@"
+    fi
+    exec ${exe} -n "$1" "$(${pkgs.coreutils}/bin/dirname "$1")"
+  '';
   desktopItem =
     name: desktopName: exec:
     makeDesktopItem {
@@ -57,6 +66,6 @@ buildEnv {
   paths = [
     wrapped.config.script
     (desktopItem "imv" "imv" "${exe} %F")
-    (desktopItem "imv-dir" "imv-dir" "${exe} %F")
+    (desktopItem "imv-dir" "imv-dir" "${imvDir} %F")
   ];
 }
