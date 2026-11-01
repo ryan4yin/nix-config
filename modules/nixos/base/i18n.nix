@@ -1,6 +1,7 @@
+{ lib, ... }:
 {
-  # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
+  # Set your time zone. A default: the computer-use VMs match their proxy region.
+  time.timeZone = lib.mkDefault "Asia/Shanghai";
 
   # English is the default. Chinese overrides only the categories where the
   # en_US default is factually wrong for China (metric, A4, CNY); everything

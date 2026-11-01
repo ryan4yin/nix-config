@@ -24,7 +24,7 @@ in
   modules.remote-builders.enable = true;
 
   # disable sunshine for security
-  services.sunshine.enable = lib.mkForce false;
+  services.sunshine.enable = false;
 
   # Laptop joins untrusted networks and is never scraped (see youko's
   # `offlineHosts`); don't expose :9100, and don't keep the smartctl exporter

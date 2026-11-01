@@ -40,7 +40,7 @@ in
     hardware.graphics.enable = true;
 
     # Match the proxy's exit region.
-    time.timeZone = lib.mkForce timeZone;
+    time.timeZone = timeZone;
 
     # Browsers keep their profile/preferences in dconf.
     programs.dconf.enable = true;

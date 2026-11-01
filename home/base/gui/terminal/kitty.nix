@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   ...
 }:
@@ -16,7 +17,7 @@
     enable = true;
     font = {
       name = "Maple Mono NF CN";
-      size = 13; # macOS overrides this in home/darwin/terminal.nix
+      size = lib.mkDefault 13; # macOS overrides this in home/darwin/terminal.nix
     };
 
     settings = {
