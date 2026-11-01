@@ -28,5 +28,6 @@ mkAppPolicy "obs-studio" {
       "/dev/video0"
       "/dev/video1"
     ];
+    video4linuxSysfs = lib.elem "/sys/class/video4linux" app.bubblewrap.bind.ro;
   };
 }

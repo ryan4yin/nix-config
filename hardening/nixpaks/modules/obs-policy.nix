@@ -37,8 +37,13 @@
       sloth.xdgPicturesDir
       sloth.xdgDownloadDir
     ];
-    # OBS enumerates DRM connectors when building its encoder list.
-    bind.ro = [ "/sys/class/drm" ];
+    # OBS enumerates DRM connectors when building its encoder list, and its
+    # V4L2 source discovers cameras by reading /sys/class/video4linux before
+    # opening the corresponding /dev/video* nodes.
+    bind.ro = [
+      "/sys/class/drm"
+      "/sys/class/video4linux"
+    ];
     bind.dev = [
       "/dev/video0"
       "/dev/video1"
