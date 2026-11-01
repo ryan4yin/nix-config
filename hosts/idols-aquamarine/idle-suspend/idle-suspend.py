@@ -11,7 +11,8 @@ import time
 from pathlib import Path
 
 STATE = Path("/run/aquamarine-idle-suspend")
-IDLE_SECONDS = int(os.environ.get("AQUAMARINE_IDLE_SECONDS", "1800"))
+IDLE_MINUTES = int(os.environ.get("AQUAMARINE_IDLE_MINUTES", "60"))
+IDLE_SECONDS = IDLE_MINUTES * 60
 ASR_PORT = os.environ.get("AQUAMARINE_ASR_PORT", "18080")
 GPU_BUSY_LIMIT = 5
 LOAD_LIMIT = 0.75

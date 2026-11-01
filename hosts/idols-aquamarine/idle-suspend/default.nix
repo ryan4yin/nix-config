@@ -5,7 +5,7 @@
   ...
 }:
 let
-  idleSeconds = 30 * 60;
+  idleMinutes = 60;
 in
 {
   # BIOS: `Wake By Lan` must be enabled; EUP must not cut the NIC's standby
@@ -63,7 +63,7 @@ in
     ];
     environment = {
       AQUAMARINE_ASR_PORT = toString myvars.ports.aquamarineAsr;
-      AQUAMARINE_IDLE_SECONDS = toString idleSeconds;
+      AQUAMARINE_IDLE_MINUTES = toString idleMinutes;
     };
     serviceConfig = {
       Type = "oneshot";

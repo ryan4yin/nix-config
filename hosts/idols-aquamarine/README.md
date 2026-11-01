@@ -312,7 +312,7 @@ service and BIOS setting are in place. Test from a powered-off state, not from a
 
 ## Idle suspend
 
-`aquamarine-idle-suspend.timer` checks every minute and suspends into S3 after 30 minutes without an
+`aquamarine-idle-suspend.timer` checks every minute and suspends into S3 after 60 minutes without an
 active session, sleep inhibitor, ASR connection, GPU work, or meaningful CPU load. It refuses to
 suspend unless `mem_sleep` selects `deep` and the wired NIC reports `Wake-on: g`, so a failed WoL
 setup cannot leave the host unreachable.
