@@ -39,22 +39,6 @@ in
   # The VMs attach to our existing bridge (br0), so allow it explicitly.
   virtualisation.libvirtd.allowedBridges = [ "br0" ];
 
-  # We don't want libvirt's NAT network (virbr0): every VM uses br0.
-  systemd.services.libvirt-disable-default-net = {
-    description = "Disable libvirt's default NAT network";
-    after = [ "libvirtd.service" ];
-    requires = [ "libvirtd.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      ${pkgs.libvirt}/bin/virsh net-destroy default || true
-      ${pkgs.libvirt}/bin/virsh net-autostart --disable default || true
-    '';
-  };
-
   # Define (and autostart) the declarative domains on every activation.
   systemd.services.libvirt-define-domains = {
     description = "Define the declarative libvirt domains";
