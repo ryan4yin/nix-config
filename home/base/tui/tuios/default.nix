@@ -1,19 +1,15 @@
 {
   config,
   pkgs,
-  tuios,
   ...
 }:
 let
-  # nixpkgs lags behind upstream; use the flake input.
-  tuiosPkg = tuios.packages.${pkgs.stdenv.hostPlatform.system}.tuios;
-
   # tuios watches config.toml and its settings page writes it back, so link the
   # checked-in file out-of-store instead of into the store.
   configDir = "${config.home.homeDirectory}/nix-config/home/base/tui/tuios";
 in
 {
-  home.packages = [ tuiosPkg ];
+  home.packages = [ pkgs.tuios ];
 
   xdg.configFile."tuios/config.toml".source =
     config.lib.file.mkOutOfStoreSymlink "${configDir}/config.toml";
