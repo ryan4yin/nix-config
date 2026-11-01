@@ -10,7 +10,9 @@
     # packages = [ ... ];
 
     fontconfig = {
-      # User defined default fonts
+      # User defined default fonts. Nixpak GUI wrappers bind this generated
+      # host configuration into their sandboxes, so host and sandboxed apps
+      # share one font stack; do not duplicate these families there.
       # https://catcat.cc/post/2021-03-07/
       defaultFonts = {
         serif = [

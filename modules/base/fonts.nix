@@ -12,6 +12,9 @@ in
     fonts.enable = lib.mkEnableOption "Rich Fonts - Add NerdFonts Icons, emojis & CJK Fonts";
   };
 
+  # This is the single font package list for the host and its Nixpak sandboxes:
+  # Nixpak GUI wrappers bind the generated host fontconfig rather than
+  # installing their own fonts.
   config.fonts.packages =
     with pkgs;
     lib.mkIf cfg.fonts.enable [

@@ -44,6 +44,8 @@ let
     || path == "/run/dbus"
     || path == "/run/dbus/system_bus_socket";
 
+  hasHostFontconfig = app: lib.elem [ "/etc/static/fonts" "/etc/fonts" ] app.bubblewrap.bind.ro;
+
   hasPrivateTmp =
     app:
     let
@@ -117,6 +119,8 @@ let
         "${name}/noBroadKeyring" =
           !lib.any (argument: argument == "--talk=org.freedesktop.secrets") app.dbus.args;
         "${name}/noForbiddenMounts" = !lib.any forbiddenMountFor (mountStrings app);
+        "${name}/hostFontconfig" = hasHostFontconfig app;
+        "${name}/noSandboxFonts" = !app.fonts.enable;
         "${name}/privateTmp" = hasPrivateTmp app;
         "${name}/network" = networkCheck app spec.network;
         "${name}/x11" = app.bubblewrap.sockets.x11 == (spec.x11 or false);
