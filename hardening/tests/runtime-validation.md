@@ -22,6 +22,8 @@ Nixpak wrappers are accepted in three layers:
 | Zoom                   | Pass         | Interactive pass                                      |
 | QQ / Telegram          | Pass         | Interactive startup/tray pass                         |
 | WeChat (native nixpak) | Pass         | Interactive Wayland validation pending                |
+| Foliate                | Pass         | Interactive validation pending                        |
+| Krita                  | Pass         | Interactive validation pending                        |
 
 Intentional exceptions:
 

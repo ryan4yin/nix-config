@@ -7,7 +7,7 @@
     # GUI apps
     # e-book viewer(.epub/.mobi/...)
     # do not support .pdf
-    foliate
+    nixpaks.foliate
 
     # remote desktop(rdp connect)
     remmina

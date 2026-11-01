@@ -20,7 +20,7 @@ in
 {
   home.packages = with pkgs-stable; [
     # creative
-    krita # digital painting
+    pkgs.nixpaks.krita # digital painting
     musescore # music notation
     pkgs-master.orca-slicer # 3d printer slicer app
     bambu-studio # bambu 3d printer slicer app
