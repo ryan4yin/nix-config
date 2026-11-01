@@ -13,27 +13,23 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.kernelParams = [
-    # === NVMe power management (relaxed 2026-10) ===
-    #
-    # These began as a hard workaround for NVMe freezes on the KINGBANK KP260
-    # (a DRAM-less QLC drive, prone to slow APST wakeups): APST fully disabled,
-    # the command timeout pushed to the maximum, and PCIe ASPM turned off.
-    # Kernel logs from 2026-09-19..10-03 (8 boots) show no NVMe
-    # timeout/reset/AER, so it is relaxed to reclaim idle power and let the
-    # kernel recover a stuck command instead of hanging on it:
-    #
-    #   - APST allowed again, capped at a wide 100 ms latency (was: disabled).
-    #   - io_timeout back to the kernel default 30 s (was: ~49 days, which let
-    #     a stuck command wait forever instead of resetting the controller).
-    #   - pcie_aspm removed: PCIe link power saving is unrelated to the drive's
-    #     own APST.
-    #
-    # If freezes return under heavy read/write, restore the old workaround:
-    #   nvme_core.default_ps_max_latency_us=0 nvme_core.io_timeout=4294967295 pcie_aspm=off
-    # See https://community.frame.work/t/nvme-timeout-woes/54999
-    "nvme_core.default_ps_max_latency_us=100000"
-  ];
+  # === NVMe power management (relaxed 2026-10) ===
+  #
+  # The KINGBANK KP260 (a DRAM-less QLC drive, prone to slow APST wakeups) once
+  # froze, so APST was fully disabled, the command timeout pushed to the maximum,
+  # and PCIe ASPM turned off. Kernel logs from 2026-09-19..10-03 (8 boots) show
+  # no NVMe timeout/reset/AER, so all three are back at the kernel defaults:
+  # APST capped at 100 ms latency (nvme_core.default_ps_max_latency_us), a 30 s
+  # io_timeout that resets a stuck controller, and ASPM, which is unrelated to
+  # the drive's own APST.
+  #
+  # If freezes return under heavy read/write, restore the old workaround:
+  #   boot.kernelParams = [
+  #     "nvme_core.default_ps_max_latency_us=0"
+  #     "nvme_core.io_timeout=4294967295"
+  #     "pcie_aspm=off"
+  #   ];
+  # See https://community.frame.work/t/nvme-timeout-woes/54999
 
   # Use the EFI boot loader.
   boot.loader.efi.canTouchEfiVariables = true;
