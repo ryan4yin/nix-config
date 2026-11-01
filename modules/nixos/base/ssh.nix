@@ -17,7 +17,6 @@
       # nixpkgs defaults it to true, and PAM then still accepts the Unix password
       KbdInteractiveAuthentication = false;
     };
-    openFirewall = true;
     # Only keys declared in Nix log in; a hand- or intruder-added key is ignored
     authorizedKeysInHomedir = false;
   };
