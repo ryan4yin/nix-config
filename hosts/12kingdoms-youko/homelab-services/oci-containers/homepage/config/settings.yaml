@@ -12,13 +12,6 @@ startUrl: https://home.writefor.fun/
 
 language: zh
 
-# Define shared API provider options and secrets here,
-# You can then pass provider instead of apiKey in your widget configuration.
-providers:
-  # read api keys from environment variables
-  openweathermap: { { HOMEPAGE_VAR_WEATHERAPI_APIKEY } }
-  weatherapi: { { HOMEPAGE_VAR_WEATHERAPI_APIKEY } }
-
 background:
   image: https://file.writefor.fun/wallpapers/rolling-girls.png
   blur: sm # 模糊 - sm, "", md, xl... see https://tailwindcss.com/docs/backdrop-blur
