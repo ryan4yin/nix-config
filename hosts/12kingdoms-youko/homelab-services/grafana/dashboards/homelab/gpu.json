@@ -178,7 +178,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "node_hwmon_power_watt / node_hwmon_temp_celsius for the amdgpu chip",
+      "description": "node_hwmon_power_average_watt / node_hwmon_temp_celsius for the amdgpu chip",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -242,7 +242,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "node_hwmon_power_watt{host=\"$host\", chip=~\"$chip\"}",
+          "expr": "node_hwmon_power_average_watt{host=\"$host\", chip=~\"$chip\"}",
           "legendFormat": "power",
           "refId": "A"
         },

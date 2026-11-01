@@ -49,6 +49,12 @@
 
     # https://github.com/NixOS/nixpkgs/tree/master/pkgs/servers/monitoring/grafana/plugins
     declarativePlugins = with pkgs.grafanaPlugins; [
+      # Grafana 13 moved the built-in Prometheus/Loki datasources out of the
+      # server package; provision them explicitly so existing datasources and
+      # dashboards keep working.
+      prometheus
+      loki
+
       # https://github.com/VictoriaMetrics/victoriametrics-datasource
       # supports victoria-metrics's MetricsQL, template, tracing, prettify, etc.
       victoriametrics-metrics-datasource
