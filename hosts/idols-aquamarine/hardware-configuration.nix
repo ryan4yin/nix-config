@@ -17,13 +17,7 @@
   ];
 
   boot.kernelParams = [
-    # Carried over from `ai`, where it caps NVMe APST wake latency for the
-    # DRAM-less KINGBANK KP260 (WA-008 in WORKAROUNDS.md). This disk (Fanxiang
-    # S790) has shown no APST problem; the cap stays as idle-power insurance.
-    "nvme_core.default_ps_max_latency_us=100000"
-
-    # Keep PCIe ASPM disabled. The R9700 links have retraining/timeout issues,
-    # and this repo already uses the same knob for NVMe APST problems (WA-008).
+    # Keep PCIe ASPM disabled. The R9700 links have retraining/timeout issues.
     "pcie_aspm=off"
   ];
 
