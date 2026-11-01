@@ -1,6 +1,5 @@
 {
   mylib,
-  pkgs,
   config,
   myvars,
   wallpapers,
@@ -253,10 +252,5 @@ in
   # caddy is reached from the LAN/tailnet only; the shared firewall
   # (modules/nixos/base/networking/firewall.nix) already trusts those.
 
-  # Serve the wallpapers from the file server. `mkdir -p` here covers the
-  # whole fileserver tree; caddy's dataDir itself is created by the module.
-  system.activationScripts.installCaddyWallpapers = ''
-    mkdir -p /var/lib/caddy/fileserver/wallpapers
-    ${pkgs.rsync}/bin/rsync -avz --chmod=D2755,F644 ${wallpapers}/ /var/lib/caddy/fileserver/wallpapers/
-  '';
+  systemd.tmpfiles.rules = [ "L+ /var/lib/caddy/fileserver/wallpapers - - - - ${wallpapers}" ];
 }
