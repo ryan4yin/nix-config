@@ -16,11 +16,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.kernelParams = [
-    # Keep PCIe ASPM disabled. The R9700 links have retraining/timeout issues.
-    "pcie_aspm=off"
-  ];
-
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
 

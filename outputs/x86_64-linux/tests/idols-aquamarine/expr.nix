@@ -22,7 +22,6 @@ in
 
   # An unattended host recovers a hung card itself instead of waiting for a reboot.
   gpuRecoveryEnabled = builtins.elem "amdgpu.gpu_recovery=1" cfg.boot.kernelParams;
-  aspmDisabled = builtins.elem "pcie_aspm=off" cfg.boot.kernelParams;
   deepCStatesAllowed = !(builtins.elem "processor.max_cstate=2" cfg.boot.kernelParams);
   cpuEppConfigured =
     lib.attrByPath [
