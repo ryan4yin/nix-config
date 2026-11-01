@@ -119,9 +119,12 @@ in
     description = "Disable APM/standby on the USB HDDs";
     after = [ "local-fs.target" ];
     wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
+    serviceConfig = mylib.systemdHardening.privilegedOneshot // {
       Type = "oneshot";
       RemainAfterExit = true;
+      CapabilityBoundingSet = [ "CAP_SYS_RAWIO" ];
+      PrivateDevices = false;
+      DeviceAllow = [ "block-sd rw" ];
     };
     script = ''
       for d in ${hddPublic} ${hddEncrypted}; do

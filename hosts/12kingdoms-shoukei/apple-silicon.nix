@@ -1,5 +1,6 @@
 {
   lib,
+  mylib,
   pkgs,
   nixos-apple-silicon,
   my-asahi-firmware,
@@ -76,7 +77,7 @@
     wantedBy = [ "multi-user.target" ];
     after = [ "systemd-modules-load.service" ];
     path = [ pkgs.coreutils ];
-    serviceConfig = {
+    serviceConfig = mylib.systemdHardening.privilegedOneshot // {
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = pkgs.writeShellScript "apple-charge-limit" ''

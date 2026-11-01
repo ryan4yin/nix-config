@@ -42,6 +42,37 @@ rec {
     ];
   };
 
+  # For short-lived root oneshots that perform one narrowly scoped privileged
+  # operation. Callers add only the capabilities and device access they need.
+  # ProtectKernelTunables is deliberately unset because it makes /sys read-only.
+  privilegedOneshot = {
+    AmbientCapabilities = "";
+    CapabilityBoundingSet = "";
+    LockPersonality = true;
+    MemoryDenyWriteExecute = true;
+    NoNewPrivileges = true;
+    PrivateDevices = true;
+    PrivateMounts = true;
+    PrivateNetwork = true;
+    PrivateTmp = true;
+    ProcSubset = "pid";
+    ProtectClock = true;
+    ProtectControlGroups = true;
+    ProtectHome = true;
+    ProtectHostname = true;
+    ProtectKernelLogs = true;
+    ProtectKernelModules = true;
+    ProtectProc = "invisible";
+    ProtectSystem = "strict";
+    RemoveIPC = true;
+    RestrictAddressFamilies = [ "AF_UNIX" ];
+    RestrictNamespaces = true;
+    RestrictRealtime = true;
+    RestrictSUIDSGID = true;
+    SystemCallArchitectures = "native";
+    UMask = "0077";
+  };
+
   # Apply a preset at mkOptionDefault priority, so nixpkgs module values win.
   mkDefaults = lib.mapAttrs (_: lib.mkOptionDefault);
 }
