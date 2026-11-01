@@ -13,19 +13,17 @@ let
   appId = "com.obsproject.Studio";
   package = wrapOBS.override { inherit obs-studio; } {
     plugins = with obs-studio-plugins; [
+      # Wayland screen-capture fallback, per-application audio, and game capture.
       wlrobs
-      obs-gstreamer
+      obs-pipewire-audio-capture
+      obs-vkcapture
+      # Widely used scene, overlay and streaming plugins.
       input-overlay
       obs-multi-rtmp
-      obs-source-clone
       obs-shaderfilter
-      obs-vintage-filter
-      obs-command-source
       obs-move-transition
       obs-backgroundremoval
       advanced-scene-switcher
-      obs-pipewire-audio-capture
-      obs-vaapi
     ];
   };
   wrapped = mkNixPak {
