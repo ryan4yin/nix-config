@@ -3,6 +3,15 @@
 Deployed and interactively validated on the Linux desktop host (2026-10-31). Policy and limits:
 [SECURITY.md](../SECURITY.md).
 
+## Why these apps are sandboxed
+
+The packaging scope is driven by blast radius and input exposure, not by treating the applications
+as malicious. These apps parse complex local or remote content, load third-party plugins (OBS), or
+hold powerful network/session privileges (Remmina); a parser, plugin or session compromise would
+otherwise inherit the user's home, session D-Bus, devices and network. Each wrapper grants only the
+ports, devices, sockets, writable directories and desktop portals needed by that app's documented
+workflow.
+
 ## Shared boundaries
 
 - Cleared environment; filtered session D-Bus; private `/dev/shm`; per-app `/tmp`. Chromium-family
