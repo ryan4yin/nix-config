@@ -17,6 +17,10 @@ let
       "Notification.AddNotification"
       "Notification.RemoveNotification"
     ];
+    webkit = [
+      "NetworkMonitor.GetStatus"
+      "ProxyResolver.Lookup"
+    ];
     screenCast = [
       "ScreenCast.CreateSession"
       "ScreenCast.SelectSources"

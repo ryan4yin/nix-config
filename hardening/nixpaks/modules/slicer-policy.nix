@@ -41,6 +41,7 @@ in
       openUri = true;
       notifications = true;
       inputMethod = true;
+      webkit = true;
     };
     desktopIntegration = {
       notifications = true;

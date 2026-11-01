@@ -17,6 +17,7 @@ mkAppPolicy "bambu-studio" {
     fileChooser = app.portalGroups.fileChooser;
     openUri = app.portalGroups.openUri;
     inputMethod = app.portalGroups.inputMethod;
+    webkit = app.portalGroups.webkit;
     accessibility = app.desktopIntegration.accessibility;
   };
 }
