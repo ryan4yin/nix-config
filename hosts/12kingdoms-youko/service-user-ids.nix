@@ -31,7 +31,6 @@
   users.groups = {
     jellyfin.gid = 974;
     wireshark.gid = 975;
-    victoriametrics-data.gid = 976;
     uinput.gid = 977;
     sftpgo.gid = 981;
     ryan.gid = 982;
