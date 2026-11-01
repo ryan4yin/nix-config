@@ -75,6 +75,9 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   compromised Remmina can use the agent to sign or decrypt while the agent is running.
 - OBS, Blender, MuseScore and mpv use pasta-isolated networking. Host loopback services are not
   reachable unless the app is changed to a host-loopback exception.
+- OBS on Linux defaults its recording path to `$HOME`. The sandbox intentionally binds only the
+  declared home subdirectories, so recording output must target `Videos`, `Pictures` or `Downloads`;
+  a file written to the home root exists only in the sandbox's transient mount namespace.
 
 ## Validation
 
@@ -82,8 +85,11 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - Interactive validation passed for Firefox, Chrome, Chromium, Brave Origin, Edge, QQ, Telegram,
   Zoom, Bambu Studio and OrcaSlicer. Chromium's host-loopback/personal-file exception and the
   Brave/Edge no-media policy are intentional.
-- Wrappers for Remmina, OBS Studio, Blender, MuseScore, mpv and imv build and pass the policy suite;
-  interactive validation is still pending.
+- OBS Studio passed interactive validation for PipeWire screen capture, V4L2 camera capture,
+  desktop/microphone audio and local NVENC H.264 MP4 recording. Streaming and browser sources remain
+  unvalidated.
+- Wrappers for Remmina, Blender, MuseScore, mpv and imv build and pass the policy suite; interactive
+  validation is still pending.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy

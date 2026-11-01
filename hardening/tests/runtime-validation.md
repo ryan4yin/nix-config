@@ -27,7 +27,7 @@ Nixpak wrappers are accepted in three layers:
 | Bambu Studio           | Pass         | Interactive pass; device_page/filament UI unavailable in nixpkgs  |
 | OrcaSlicer             | Pass         | Interactive pass; blank WebKit home page fixed                    |
 | Remmina                | Pass         | Interactive validation pending                                    |
-| OBS Studio             | Pass         | Interactive validation pending                                    |
+| OBS Studio             | Pass         | Interactive pass; NVENC local recording works, streaming untested |
 | Blender                | Pass         | Interactive validation pending                                    |
 | MuseScore              | Pass         | Interactive validation pending                                    |
 | mpv                    | Pass         | Interactive validation pending                                    |
