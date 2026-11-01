@@ -17,6 +17,9 @@ let
         binPath = "bin/krita";
       };
       flatpak = { inherit appId; };
+      # Qt defaults to xcb when DISPLAY is present in the parent environment;
+      # niri has no X server, so select Wayland explicitly.
+      bubblewrap.env.QT_QPA_PLATFORM = "wayland";
       # Printing and sleep inhibition are explicit Krita capabilities.
       portalGroups = {
         print = true;
