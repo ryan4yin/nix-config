@@ -30,6 +30,8 @@ explicitly; other files use the document portal. Every app also has private writ
 | Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators            |
 | Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm` |
 | WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                           |
+| Foliate      | None          | app-scoped state                                                                      | File chooser, OpenURI, notifications, IME, accessibility                              |
+| Krita        | None          | app-scoped state                                                                      | File chooser, OpenURI, print, inhibit, notifications, IME, accessibility              |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 

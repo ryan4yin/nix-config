@@ -2,6 +2,7 @@
   pkgs,
   pkgs-master,
   pkgs-patched,
+  pkgs-stable,
   nixpak,
   ...
 }:
@@ -26,6 +27,8 @@ in
         chromium = wrapper super ./chromium.nix;
         brave-origin = wrapper super ./brave-origin.nix;
         microsoft-edge = wrapper super ./microsoft-edge.nix;
+        foliate = wrapper super ./foliate.nix;
+        krita = wrapper pkgs-stable ./krita.nix;
         zoom = wrapper super ./zoom.nix;
         wechat = wrapper pkgs-patched ./wechat.nix;
       };
