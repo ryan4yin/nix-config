@@ -1,19 +1,15 @@
 # The Intel iGPU on aquamarine
 
 The Arrow Lake-S iGPU (i915) does this host's video work and can run OpenVINO models; the R9700s
-stay on inference. [hardware-intel-igpu.nix](./hardware-intel-igpu.nix) installs the stack and the
-`openvino-gpu` wrapper. Measured 2026-10-18, OpenVINO 2026.4.0 / openvino-genai 2026.4.0.0.
+stay on inference. [hardware-intel-igpu.nix](./hardware-intel-igpu.nix) installs the stack. Measured
+2026-10-18, OpenVINO 2026.4.0 / openvino-genai 2026.4.0.0.
 
 ## Devices
 
-`openvino-gpu` puts the OpenCL 3.0 loader (`ocl-icd`) ahead of ROCm's clr and pins the Intel ICD;
-without it the GPU plugin fails to load and GPU is missing from the device list (WA-038). Use it for
-every OpenVINO run:
-
 ```bash
-openvino-gpu python -c 'import openvino as ov; c = ov.Core(); print(c.available_devices)'
+python -c 'import openvino as ov; c = ov.Core(); print(c.available_devices)'
 # ['CPU', 'GPU', 'NPU']
-openvino-gpu python -c 'import openvino as ov; print(ov.Core().get_property("GPU", "FULL_DEVICE_NAME"))'
+python -c 'import openvino as ov; print(ov.Core().get_property("GPU", "FULL_DEVICE_NAME"))'
 # Intel(R) Graphics (iGPU)
 ```
 
@@ -31,7 +27,7 @@ Models with static or bounded-dynamic shapes compile on `GPU`; unbounded dynamic
 `dynamic shape without upper bound`. Inspect a model before choosing the device:
 
 ```bash
-openvino-gpu python - /path/to/model.xml <<'PY'
+python - /path/to/model.xml <<'PY'
 import sys
 import openvino as ov
 
@@ -62,7 +58,7 @@ for f in "$MODEL"/*.bin "$MODEL"/*.xml; do
   esac
 done
 
-openvino-gpu "$ENVPY" - <<PY
+"$ENVPY" - <<PY
 import openvino as ov
 
 # 128 mel bins for large-v3/turbo, 3000 frames = 30 s window, batch bound 0..1.
@@ -75,7 +71,7 @@ PY
 Transcribe (mono 16 kHz 16-bit WAV):
 
 ```bash
-openvino-gpu "$ENVPY" - "$OUT" /tmp/jfk.wav en <<'PY'
+"$ENVPY" - "$OUT" /tmp/jfk.wav en <<'PY'
 import sys
 import wave
 

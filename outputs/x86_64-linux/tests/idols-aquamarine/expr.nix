@@ -76,10 +76,12 @@ in
       "vpl-gpu-rt"
       "intel-compute-runtime"
     ];
-  # OpenVINO's GPU plugin needs ocl-icd ahead of ROCm's clr loader (WA-038).
-  openvinoGpuWrapperInstalled = builtins.any (
-    package: (package.name or "") == "openvino-gpu"
-  ) cfg.environment.systemPackages;
+  rocmOpenclIcdOnly =
+    let
+      graphics = cfg.hardware.graphics.extraPackages;
+    in
+    builtins.elem eval.pkgs.rocmPackages.clr.icd graphics
+    && !builtins.elem eval.pkgs.rocmPackages.clr graphics;
   gpuMetricsExported = builtins.elem "drm" cfg.services.prometheus.exporters.node.enabledCollectors;
   raplMetricsExported = builtins.elem "rapl" cfg.services.prometheus.exporters.node.enabledCollectors;
   raplPermissionsExposed = lib.hasInfix "chgrp rapl" cfg.services.udev.extraRules;

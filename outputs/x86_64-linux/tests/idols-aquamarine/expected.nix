@@ -15,7 +15,7 @@
   btopShowsRadeon = true;
   btopReadsIgpu = true;
   igpuMediaStackInstalled = true;
-  openvinoGpuWrapperInstalled = true;
+  rocmOpenclIcdOnly = true;
   gpuMetricsExported = true;
   raplMetricsExported = true;
   raplPermissionsExposed = true;
