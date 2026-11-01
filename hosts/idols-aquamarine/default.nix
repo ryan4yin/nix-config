@@ -27,6 +27,7 @@ in
 
     # hardware
     ./hardware-configuration.nix
+    ./hardware-intel-cpu.nix
     ./hardware-amd-gpu.nix
     ./hardware-intel-igpu.nix
 
