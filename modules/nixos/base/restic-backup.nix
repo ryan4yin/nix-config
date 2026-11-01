@@ -200,7 +200,11 @@ in
     }
 
     // lib.optionalAttrs (cfg.snapshotSource != null) {
+      # Left behind if a backup was cut off by a power loss.
       backupPrepareCommand = ''
+        if [ -e ${snapshotPath} ]; then
+          ${pkgs.btrfs-progs}/bin/btrfs subvolume delete ${snapshotPath}
+        fi
         ${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r ${cfg.snapshotSource} ${snapshotPath}
       '';
       backupCleanupCommand = ''
