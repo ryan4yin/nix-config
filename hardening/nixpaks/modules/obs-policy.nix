@@ -51,6 +51,10 @@
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
+      # OBS's NVENC plugin dlopen()s libnvidia-encode.so.1 by soname after
+      # startup. Nixpak exposes the host driver under /run/opengl-driver but
+      # clears the host environment, so add it to the loader search path.
+      LD_LIBRARY_PATH = "/run/opengl-driver/lib";
     };
   };
 }

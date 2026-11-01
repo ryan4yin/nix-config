@@ -29,5 +29,6 @@ mkAppPolicy "obs-studio" {
       "/dev/video1"
     ];
     video4linuxSysfs = lib.elem "/sys/class/video4linux" app.bubblewrap.bind.ro;
+    nvencLibraryPath = app.bubblewrap.env.LD_LIBRARY_PATH == "/run/opengl-driver/lib";
   };
 }
