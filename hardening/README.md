@@ -62,13 +62,16 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   XDG Camera/ScreenCast portal path used here, so granting camera or screen-capture access would
   require widening the sandbox with raw `/dev/video*` or direct PipeWire access. We choose not to
   grant that privilege.
+- Bambu Studio's nixpkgs build omits the `device_page` frontend bundle, so filament management is
+  unavailable. Its MakerWorld sidebar entry also requires the upstream `firstguide.finish = "true"`
+  workaround; the startup splash may render black under XWayland.
 
 ## Validation
 
 - Passed: `just fmt`, `just test`, `ai-niri` build, `shoukei-niri` eval and all wrapper builds.
-- Interactive validation passed for Firefox, Chrome, Chromium, Brave Origin, Edge, QQ, Telegram and
-  Zoom. Chromium's host-loopback/personal-file exception and the Brave/Edge no-media policy are
-  intentional.
+- Interactive validation passed for Firefox, Chrome, Chromium, Brave Origin, Edge, QQ, Telegram,
+  Zoom, Bambu Studio and OrcaSlicer. Chromium's host-loopback/personal-file exception and the
+  Brave/Edge no-media policy are intentional.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy

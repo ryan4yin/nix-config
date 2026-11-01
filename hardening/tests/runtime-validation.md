@@ -24,8 +24,8 @@ Nixpak wrappers are accepted in three layers:
 | WeChat (native nixpak) | Pass         | Interactive Wayland validation pending                            |
 | Foliate                | Pass         | Interactive validation pending                                    |
 | Krita                  | Pass         | Interactive validation pending                                    |
-| Bambu Studio           | Pass         | Interactive validation pending                                    |
-| OrcaSlicer             | Pass         | Interactive validation pending                                    |
+| Bambu Studio           | Pass         | Interactive pass; device_page/filament UI unavailable in nixpkgs  |
+| OrcaSlicer             | Pass         | Interactive pass; blank WebKit home page fixed                    |
 
 Intentional exceptions:
 
@@ -36,6 +36,15 @@ Intentional exceptions:
 - **Firefox camera and remote screen sharing are intentionally disabled.** Firefox does not support
   the XDG Camera/ScreenCast portal path used here, so enabling them would require granting raw video
   devices or the direct PipeWire socket. We deliberately do not grant those privileges.
+
+Known packaging limitations:
+
+- **Bambu Studio:** the nixpkgs build removes the `device_page` frontend build, so
+  `share/BambuStudio/web/device_page/dist` is missing and filament management cannot load.
+- **Bambu Studio:** the MakerWorld sidebar entry requires `firstguide.finish = "true"` in
+  `BambuStudio.conf`; the upstream guide writes `"1"` while the web-view code only accepts `"true"`.
+- **Bambu Studio:** the startup splash can render black under XWayland. This is cosmetic; the main
+  UI renders normally.
 
 ## Browser smoke test
 
