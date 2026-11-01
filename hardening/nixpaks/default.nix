@@ -29,6 +29,8 @@ in
         microsoft-edge = wrapper super ./microsoft-edge.nix;
         foliate = wrapper super ./foliate.nix;
         krita = wrapper pkgs-stable ./krita.nix;
+        bambu-studio = wrapper pkgs-master ./bambu-studio.nix;
+        orca-slicer = wrapper pkgs-master ./orca-slicer.nix;
         zoom = wrapper super ./zoom.nix;
         wechat = wrapper pkgs-patched ./wechat.nix;
       };

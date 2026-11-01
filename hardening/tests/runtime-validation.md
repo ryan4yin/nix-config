@@ -24,6 +24,8 @@ Nixpak wrappers are accepted in three layers:
 | WeChat (native nixpak) | Pass         | Interactive Wayland validation pending                            |
 | Foliate                | Pass         | Interactive validation pending                                    |
 | Krita                  | Pass         | Interactive validation pending                                    |
+| Bambu Studio           | Pass         | Interactive validation pending                                    |
+| OrcaSlicer             | Pass         | Interactive validation pending                                    |
 
 Intentional exceptions:
 
