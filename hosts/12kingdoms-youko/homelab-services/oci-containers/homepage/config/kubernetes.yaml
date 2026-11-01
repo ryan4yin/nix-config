@@ -1,6 +1,0 @@
-# https://gethomepage.dev/latest/configs/kubernetes/
-
-# uses the default kubeconfig to access the cluster
-# read kubbecofig from $KUBECONFIG or $HOME/.kube/config
-# mode: default
-mode: disabled

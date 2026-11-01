@@ -32,7 +32,7 @@ retired `aquamarine` VM — the name now belongs to the inference server, not th
 1. caddy: Reverse proxy / TLS front end and the `file.writefor.fun` file server (`caddy.nix`).
 1. victoriametrics + vmalert + alertmanager + grafana: Monitor the metrics of my homelab
    (`monitoring/`).
-1. homepage + uptime-kuma: Service dashboard and uptime checks (`oci-containers/`).
+1. homepage (`homepage/`) + uptime-kuma (`oci-containers/`): Service dashboard and uptime checks.
 
 All the services assume a reverse proxy in front: they listen on localhost, and a caddy service
 listens on the local network interface and proxies requests to them. The exception is transmission,
