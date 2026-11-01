@@ -135,13 +135,6 @@
     # AI coding agents
     llm-agents.url = "github:numtide/llm-agents.nix";
 
-    # terminal window manager / multiplexer; nixpkgs lags behind upstream,
-    # so track the upstream flake.
-    tuios = {
-      url = "github:Gaurav-Gosain/tuios/v0.11.1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # -------------- Gaming ---------------------
 
     nix-gaming = {
