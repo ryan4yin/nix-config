@@ -22,6 +22,15 @@ in
   # `work` for the ~/work tree, `personal` for everything else (a host with no
   # ~/work gets `personal` everywhere).
   programs.nushell.extraConfig = ''
+    # TUIOS keeps TERM=xterm-256color for terminfo compatibility, even though
+    # this host's only terminal emulators (kitty and Ghostty) both speak the
+    # Kitty graphics protocol and TUIOS forwards it. Force the guest TERM to
+    # xterm-kitty so graphics-aware apps do not disable themselves; its
+    # terminfo entry comes with kitty.
+    if ("TUIOS_ENV" in $env) {
+      $env.TERM = "xterm-kitty"
+    }
+
     if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) {
       # Exit 3 means the daemon is stopped; stdout still lists saved sessions.
       let listing = (^tuios ls --json | complete)
