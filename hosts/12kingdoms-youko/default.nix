@@ -57,6 +57,10 @@ in
     ];
   };
 
+  # Use the shared Aquamarine builder for heavy derivations; local builds
+  # remain available as a fallback.
+  modules.remote-builders.enable = true;
+
   modules.btrbk.enable = true;
   modules.security.audit.enable = true;
 

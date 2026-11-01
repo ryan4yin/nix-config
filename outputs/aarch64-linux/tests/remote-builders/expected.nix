@@ -1,0 +1,4 @@
+{
+  distributedBuilds = true;
+  aquamarineConfigured = true;
+}
