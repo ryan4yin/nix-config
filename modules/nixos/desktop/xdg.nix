@@ -62,6 +62,12 @@
       pkgs-stable.xdg-desktop-portal-wlr
     ];
   };
+  assertions = [
+    {
+      assertion = pkgs.xdg-desktop-portal-wlr.version == "0.8.4";
+      message = "nixpkgs moved xdg-desktop-portal-wlr past 0.8.4: retest Zoom with it and drop the 0.8.2 pin (WA-046)";
+    }
+  ];
 
   # The xdg-autostart-generator starts every autostart app (including nixpak
   # sandboxes like firefox/telegram) right at graphical-session.target, while
