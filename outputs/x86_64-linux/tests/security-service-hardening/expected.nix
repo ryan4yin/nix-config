@@ -37,7 +37,6 @@ in
     rapl-permissions = privilegedOneshot // {
       CapabilityBoundingSet = [ "CAP_CHOWN" ];
     };
-    amdgpu-power-cap = privilegedOneshot;
     hdd-no-spindown = privilegedOneshot // {
       CapabilityBoundingSet = [ "CAP_SYS_RAWIO" ];
       DeviceAllow = [ "block-sd rw" ];

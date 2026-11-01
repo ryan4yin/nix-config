@@ -255,10 +255,9 @@ equivalent-generation consumer cards are "known to work", and never mentions
    `Fail to open libdrm_amdgpu.so` message only appeared while the card was wedged (see "ROCm
    userland in nixpkgs"). Expect `Card Series: N/A` until upstream names the R9700.
 5. `hardware.amdgpu.overdrive` stays off unless undervolting is wanted; if it is turned on, set
-   `ppfeaturemask = "0xfff7ffff"` (nixpkgs#564601). A oneshot unit in `hardware-amd-gpu.nix` caps
-   both cards at 250 W through hwmon `power1_cap` to keep their fans quiet, and exits non-zero when
-   a card does not take the value; the cap needs no overdrive. `amdgpu.gpu_recovery=1` is set,
-   because the driver default is auto/off except SRIOV.
+   `ppfeaturemask = "0xfff7ffff"` (nixpkgs#564601). A udev rule in `hardware-amd-gpu.nix` caps both
+   cards at 250 W through hwmon `power1_cap` to keep their fans quiet; the cap needs no overdrive.
+   `amdgpu.gpu_recovery=1` is set, because the driver default is auto/off except SRIOV.
 6. **Open:** set `HIP_VISIBLE_DEVICES` (and `ROCR_VISIBLE_DEVICES` where honoured) so the iGPU is
    never selected; for llama.cpp prefer `--split-mode layer` or an RPC/pipeline split over tensor
    parallelism, and build with `-DGGML_HIP=ON -DGPU_TARGETS=gfx1201`, no `HSA_OVERRIDE_GFX_VERSION`.

@@ -1,6 +1,5 @@
 {
   pkgs,
-  mylib,
   myvars,
   ...
 }:
@@ -61,40 +60,9 @@
   # default. amdgpu exposes the cap in microwatts and accepts anything inside [power1_cap_min,
   # power1_cap_max] — 210-300 W on these cards. The set path (amdgpu_dpm_set_power_limit) has no
   # overdrive gate, so the ppfeaturemask default stands.
-  systemd.services.amdgpu-power-cap = {
-    description = "Cap the power limit of every amdgpu card at 250 W";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "systemd-modules-load.service" ];
-    path = [ pkgs.coreutils ];
-    serviceConfig = mylib.systemdHardening.privilegedOneshot // {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "amdgpu-power-cap" ''
-        cap=250000000 # microwatts
-        want=2 # both R9700s; this host has no other amdgpu device
-        # The cards probe asynchronously, so retry briefly instead of racing the driver.
-        for _ in $(seq 1 60); do
-          capped=0
-          for hwmon in /sys/class/hwmon/hwmon*; do
-            [ "$(cat "$hwmon/name" 2>/dev/null)" = amdgpu ] || continue
-            # The subshell keeps a rejected write from printing one shell error per retry; the
-            # summary below is the line an operator needs.
-            if (echo "$cap" > "$hwmon/power1_cap") 2>/dev/null &&
-              [ "$(cat "$hwmon/power1_cap" 2>/dev/null)" = "$cap" ]; then
-              capped=$((capped + 1))
-            fi
-          done
-          if [ "$capped" -ge "$want" ]; then
-            echo "capped $capped amdgpu cards at 250 W"
-            exit 0
-          fi
-          sleep 1
-        done
-        echo "amdgpu power cap: only $capped of $want cards took the cap" >&2
-        exit 1
-      '';
-    };
-  };
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="hwmon", ATTR{name}=="amdgpu", ATTR{power1_cap}="250000000"
+  '';
 
   # GPU panel in btop, and utilization/VRAM in node_exporter for the shared
   # VictoriaMetrics scrape — the same shape as the Radeon iGPU hosts.
