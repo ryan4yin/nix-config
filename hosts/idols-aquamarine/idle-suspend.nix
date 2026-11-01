@@ -7,18 +7,19 @@ let
   idleMinutes = 60;
 in
 {
-  # Request-scoped services hold an established TCP connection while they work.
-  # This covers ASR, llama-swap/Strata, and MagPie without inspecting GPU state.
   services.autosuspend = {
     enable = true;
-    # nixpkgs 11.3.0's test collection misses docutils; the package itself is fine.
+    # nixpkgs' pytest hook misses docutils for test_ext_autosuspend.py.
     package =
       (pkgs.autosuspend.override {
         withDocs = false;
         withMan = false;
       }).overridePythonAttrs
-        (_: {
-          doCheck = false;
+        (old: {
+          nativeCheckInputs = (old.nativeCheckInputs or [ ]) ++ [
+            pkgs.python3Packages.sphinx
+            pkgs.python3Packages.docutils
+          ];
         });
     settings = {
       interval = 60;
@@ -32,10 +33,13 @@ in
       Load = {
         threshold = 1.0;
       };
+      # ASR listens on 18080.
       Asr = {
         class = "ActiveConnection";
         ports = toString myvars.ports.aquamarineAsr;
       };
+      # 63081: llama-swap/Strata; 63083/63084: MagPie; 65002: direct Strata.
+      # These services hold an established connection while a request is active.
       Inference = {
         class = "ActiveConnection";
         ports = "63081,63083,63084,65002";
