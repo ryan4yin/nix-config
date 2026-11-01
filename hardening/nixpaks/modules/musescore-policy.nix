@@ -2,7 +2,6 @@
 # ALSA via the host PipeWire plugin, MIDI uses the ALSA sequencer, and the UI
 # runs through XWayland.
 {
-  lib,
   sloth,
   ...
 }:
@@ -30,8 +29,8 @@
       x11 = true;
       # MuseScore speaks ALSA; the host ALSA configuration forwards its
       # default PCM to PipeWire, so expose the PipeWire socket for audio.
-      pulse = lib.mkForce false;
-      pipewire = lib.mkForce true;
+      pulse = false;
+      pipewire = true;
     };
     bind.rw = [
       (sloth.mkdir (sloth.concat' sloth.homeDir "/.config/MuseScore"))

@@ -32,7 +32,7 @@ in
       accessibility = true;
     };
     bubblewrap = {
-      sockets.pulse = lib.mkForce false;
+      sockets.pulse = false;
       bind.ro = lib.mkIf (!cfg.writableUserDirs) userDirs;
       bind.rw = lib.mkIf cfg.writableUserDirs userDirs;
     };

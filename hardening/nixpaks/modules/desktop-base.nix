@@ -45,7 +45,7 @@
       wayland = true;
       x11 = lib.mkDefault false;
       pulse = lib.mkDefault true;
-      pipewire = false;
+      pipewire = lib.mkDefault false;
     };
     bind.rw = with sloth; [
       [

@@ -1,5 +1,4 @@
 {
-  lib,
   mylib,
   ...
 }:
@@ -7,7 +6,6 @@
   imports = mylib.scanPaths ./.;
 
   virtualisation = {
-    docker.enable = lib.mkForce false;
     podman = {
       enable = true;
       # Create a `docker` alias for podman, to use it as a drop-in replacement

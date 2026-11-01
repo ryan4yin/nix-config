@@ -1,5 +1,4 @@
 {
-  lib,
   mylib,
   pkgs,
   nixos-apple-silicon,
@@ -16,7 +15,7 @@
   # screen would bypass it entirely). Keep tuigreet from modules/nixos/desktop.nix.
 
   # 16G machine: more compressed swap than the 50% default
-  zramSwap.memoryPercent = lib.mkForce 75;
+  zramSwap.memoryPercent = 75;
 
   nix.settings = {
     extra-substituters = [

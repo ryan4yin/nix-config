@@ -56,7 +56,7 @@ let
         };
         flatpak = { inherit appId; };
         # Firefox/Chromium need host loopback for local services; Chrome and the rest use pasta.
-        pasta.enable = lib.mkForce (!hostLoopback);
+        pasta.enable = !hostLoopback;
         pasta.mode = "isolate";
         browserPermissions = {
           inherit

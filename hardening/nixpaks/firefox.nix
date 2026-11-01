@@ -42,7 +42,7 @@ let
         # Firefox keeps the host network: local development servers and the
         # mihomo controller live on 127.0.0.1, and pasta's isolated loopback
         # would hide them. Chromium uses the same personal-browser policy.
-        pasta.enable = lib.mkForce false;
+        pasta.enable = false;
 
         bubblewrap = {
           # To trace all the home files Firefox accesses, you can use the following nushell command:

@@ -20,7 +20,7 @@ in
     bubblewrap = {
       sockets = {
         x11 = true;
-        pulse = lib.mkForce cfg.enablePulse;
+        pulse = cfg.enablePulse;
       };
       env = {
         DISPLAY = sloth.envOr "DISPLAY" "";

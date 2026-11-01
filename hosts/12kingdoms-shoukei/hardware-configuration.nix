@@ -48,8 +48,7 @@ in
   ];
 
   # supported file systems, so we can mount any removable disks with these filesystems.
-  # mkForce replaces the whole list, so entries added by any other module are lost here.
-  boot.supportedFilesystems = lib.mkForce [
+  boot.supportedFilesystems = [
     "ext4"
     "btrfs"
     "xfs"

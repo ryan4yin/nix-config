@@ -18,10 +18,10 @@
 
   config = {
     # disable backups in the VM
-    modules.btrbk.enable = lib.mkForce false;
+    modules.btrbk.enable = false;
 
     # VM guest: no physical hardware to inspect.
-    modules.hardwareTools.enable = lib.mkForce false;
+    modules.hardwareTools.enable = false;
 
     boot.growPartition = true;
     boot.kernelParams = [ "console=ttyS0" ];
@@ -30,7 +30,7 @@
     services.qemuGuest.enable = true; # qemu-guest-agent
     services.openssh.enable = true;
     # we configure the host via nixos itself, so we don't need the cloud-init
-    services.cloud-init.enable = lib.mkForce false;
+    services.cloud-init.enable = false;
     # Default so the NixOS test framework can override it: test-instrumentation
     # disables this getty to keep ttyS0 free for its backdoor console.
     systemd.services."serial-getty@ttyS0".enable = lib.mkDefault true;

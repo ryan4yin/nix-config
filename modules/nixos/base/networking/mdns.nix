@@ -33,10 +33,11 @@ in
         publish-addresses = true;
         publish-domain = true;
       };
-      # The nixpkgs sunshine module still sets these legacy options. Force them
-      # to null so settings.publish above is the only source of truth.
-      publish.enable = lib.mkForce null;
-      publish.userServices = lib.mkForce null;
+      # The nixpkgs sunshine module still sets these legacy options (with
+      # mkDefault). Reset them to null so settings.publish above is the only
+      # source of truth.
+      publish.enable = null;
+      publish.userServices = null;
     };
 
     # avahi and systemd-resolved both run an mDNS responder, which makes mDNS
