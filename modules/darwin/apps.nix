@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -20,8 +19,7 @@
 #
 ##########################################################################
 let
-  # Homebrew Mirror
-  # NOTE: is only useful when you run `brew install` manually! (not via nix-darwin)
+  # Homebrew Mirror, for both `brew bundle` during activation and manual `brew install`.
   homebrew_mirror_env = {
     # tuna mirror
     # HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
@@ -49,11 +47,6 @@ let
     # HTTP_PROXY = "http://127.0.0.1:7890";
     # HTTPS_PROXY = "http://127.0.0.1:7890";
   };
-
-  homebrew_env_script = lib.attrsets.foldlAttrs (
-    acc: name: value:
-    acc + "\nexport ${name}=${value}"
-  ) "" (homebrew_mirror_env // local_proxy_env);
 in
 {
   # Install packages from nix's official package repository.
@@ -78,12 +71,6 @@ in
   # Set variables for you to manually install homebrew packages.
   // homebrew_mirror_env;
 
-  # Set environment variables for nix-darwin before run `brew bundle`.
-  system.activationScripts.homebrew.text = lib.mkBefore ''
-    echo >&2 '${homebrew_env_script}'
-    ${homebrew_env_script}
-  '';
-
   # Create /etc/zshrc that loads the nix-darwin environment.
   # this is required if you want to use darwin's default shell - zsh
   programs.zsh.enable = true;
@@ -102,6 +89,9 @@ in
       upgrade = false; # Upgrade outdated casks, formulae, and App Store apps
       # 'zap': uninstalls all formulae(and related files) not listed in the generated Brewfile
       cleanup = "zap";
+      # nix-darwin runs `brew bundle` through sudo, which drops the activation
+      # script's environment, so pass the mirror/proxy settings explicitly.
+      extraEnv = homebrew_mirror_env // local_proxy_env;
     };
 
     # Applications to install from Mac App Store using mas.
