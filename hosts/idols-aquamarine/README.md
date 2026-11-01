@@ -312,13 +312,14 @@ link config and BIOS setting are in place. Test from a powered-off state, not fr
 
 ## Idle suspend
 
-`aquamarine-idle-suspend.timer` checks every minute and suspends into S3 after 60 minutes without an
-active session, sleep inhibitor, ASR connection, GPU work, or meaningful CPU load. It refuses to
-suspend unless `mem_sleep` selects `deep` and the wired NIC reports `Wake-on: g`, so a failed WoL
-setup cannot leave the host unreachable.
+`autosuspend` checks every minute and suspends into S3 after 60 minutes without an active user
+session, meaningful CPU load, or an established connection to one of the request-serving ports:
+`18080` (ASR), `63081` (llama-swap/Strata), `63083`/`63084` (MagPie), and `65002` (direct Strata).
+It calls `systemctl suspend`, so systemd sleep inhibitors are also honored. WoL is armed by the
+`systemd.network.links` configuration above; no separate WoL service is needed.
 
-The timer resets after resume, so a wake does not immediately go back to sleep. To keep the host
-awake during maintenance:
+The daemon resets its idle timer after resume, so a wake does not immediately go back to sleep. To
+keep the host awake during maintenance:
 
 ```bash
 systemd-inhibit --what=sleep --mode=block --who=maintenance --why="manual work" sleep infinity

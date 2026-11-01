@@ -7,37 +7,39 @@ let
   idleMinutes = 60;
 in
 {
-  # Suspend only after a long idle period. WoL is an interlock: if the NIC is
-  # not armed, suspending would make the host unreachable from the LAN.
-  systemd.services.aquamarine-idle-suspend = {
-    description = "Suspend aquamarine after a long idle period";
-    path = [
-      pkgs.ethtool
-      pkgs.iproute2
-      pkgs.systemd
-    ];
-    environment = {
-      AQUAMARINE_ASR_PORT = toString myvars.ports.aquamarineAsr;
-      AQUAMARINE_IDLE_MINUTES = toString idleMinutes;
+  # Request-scoped services hold an established TCP connection while they work.
+  # This covers ASR, llama-swap/Strata, and MagPie without inspecting GPU state.
+  services.autosuspend = {
+    enable = true;
+    # nixpkgs 11.3.0's test collection misses docutils; the package itself is fine.
+    package =
+      (pkgs.autosuspend.override {
+        withDocs = false;
+        withMan = false;
+      }).overridePythonAttrs
+        (_: {
+          doCheck = false;
+        });
+    settings = {
+      interval = 60;
+      idle_time = idleMinutes * 60;
+      suspend_cmd = "${pkgs.systemd}/bin/systemctl suspend";
     };
-    serviceConfig = {
-      Type = "oneshot";
-      TimeoutStartSec = "5min";
-      PrivateTmp = true;
-      ExecStart = "${pkgs.python3}/bin/python3 ${./idle-suspend.py}";
+    checks = {
+      Sessions = {
+        class = "LogindSessionsIdle";
+      };
+      Load = {
+        threshold = 1.0;
+      };
+      Asr = {
+        class = "ActiveConnection";
+        ports = toString myvars.ports.aquamarineAsr;
+      };
+      Inference = {
+        class = "ActiveConnection";
+        ports = "63081,63083,63084,65002";
+      };
     };
   };
-
-  systemd.timers.aquamarine-idle-suspend = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "5min";
-      OnUnitActiveSec = "1min";
-    };
-  };
-
-  # A wake should not immediately go back to sleep.
-  powerManagement.resumeCommands = ''
-    ${pkgs.coreutils}/bin/date +%s > /run/aquamarine-idle-suspend
-  '';
 }
