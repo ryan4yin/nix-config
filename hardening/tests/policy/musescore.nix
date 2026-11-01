@@ -9,7 +9,8 @@ in
 mkAppPolicy "musescore" {
   network = "pasta";
   media = false;
-  pulse = true;
+  pulse = false;
+  allowPipewire = true;
   x11 = true;
   notifications = true;
   extraChecks = {
@@ -19,7 +20,10 @@ mkAppPolicy "musescore" {
     accessibility = app.desktopIntegration.accessibility;
     qtXcb = app.bubblewrap.env.QT_QPA_PLATFORM == "xcb";
     alsaSequencer = builtins.elem "/dev/snd/seq" app.bubblewrap.bind.dev;
-    alsaPulse = app.bubblewrap.env.ALSA_CONFIG_PATH != "";
+    hostAlsaConfig =
+      builtins.elem "/etc/alsa" app.bubblewrap.bind.ro
+      && builtins.elem "/etc/static/alsa" app.bubblewrap.bind.ro;
+    pipewireAudio = app.bubblewrap.sockets.pipewire;
     forceAlsa = app.bubblewrap.env.MUSESCORE_FORCE_ALSA == "1";
   };
 }

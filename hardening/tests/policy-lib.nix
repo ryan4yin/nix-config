@@ -72,11 +72,11 @@ let
       throw "unknown network mode for ${app.flatpak.appId}: ${mode}";
 
   mediaCheck =
-    app: expected:
+    app: expected: allowPipewire:
     if expected then
       app.portalGroups.camera && app.portalGroups.screenCast
     else
-      !app.bubblewrap.sockets.pipewire
+      (!app.bubblewrap.sockets.pipewire || allowPipewire)
       && !app.portalGroups.camera
       && !app.portalGroups.screenCast
       && !(hasDbusFragment app "org.freedesktop.portal.Camera")
@@ -113,7 +113,7 @@ let
       checks = {
         "${name}/clearEnv" = app.bubblewrap.clearEnv;
         "${name}/dbus" = app.dbus.enable;
-        "${name}/noRawPipewire" = !app.bubblewrap.sockets.pipewire;
+        "${name}/noRawPipewire" = !app.bubblewrap.sockets.pipewire || (spec.allowPipewire or false);
         "${name}/noForbiddenDbus" = !lib.any forbiddenDbus app.dbus.args;
         "${name}/noBroadKeyring" =
           !lib.any (argument: argument == "--talk=org.freedesktop.secrets") app.dbus.args;
@@ -123,7 +123,7 @@ let
         "${name}/privateTmp" = hasPrivateTmp app;
         "${name}/network" = networkCheck app spec.network;
         "${name}/x11" = app.bubblewrap.sockets.x11 == (spec.x11 or false);
-        "${name}/media" = mediaCheck app (spec.media or false);
+        "${name}/media" = mediaCheck app (spec.media or false) (spec.allowPipewire or false);
         "${name}/pulse" = app.bubblewrap.sockets.pulse == (spec.pulse or (spec.media or false));
         "${name}/mpris" = app.desktopIntegration.mpris == (spec.mpris or false);
         "${name}/notifications" = app.desktopIntegration.notifications == (spec.notifications or true);

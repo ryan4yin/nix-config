@@ -29,7 +29,7 @@ Nixpak wrappers are accepted in three layers:
 | Remmina                | Pass         | Interactive validation pending                                    |
 | OBS Studio             | Pass         | Interactive pass; NVENC recording and local RTMP streaming work   |
 | Blender                | Pass         | Interactive validation pending                                    |
-| MuseScore              | Pass         | Interactive validation pending                                    |
+| MuseScore              | Pass         | Interactive launch pass; ALSA routed to default PipeWire sink     |
 | mpv                    | Pass         | Interactive validation pending                                    |
 | imv                    | Pass         | Interactive validation pending                                    |
 
@@ -51,6 +51,10 @@ Known packaging limitations:
   `BambuStudio.conf`; the upstream guide writes `"1"` while the web-view code only accepts `"true"`.
 - **Bambu Studio:** the startup splash can render black under XWayland. This is cosmetic; the main
   UI renders normally.
+- **MuseScore:** uses Qt's XCB backend, so it runs through XWayland. Its ALSA driver uses the host
+  `pcm.!default` configuration, which forwards to PipeWire; this requires the raw PipeWire socket.
+  Launch and audio routing pass, but audible playback and score/print/export workflows still need
+  user confirmation.
 
 ## Browser smoke test
 

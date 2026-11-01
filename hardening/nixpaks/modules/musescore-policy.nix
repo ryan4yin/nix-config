@@ -1,29 +1,11 @@
-# MuseScore policy: scores and exports use common user directories, audio goes
-# through PulseAudio/PipeWire-Pulse, and MIDI uses only the ALSA sequencer node.
+# MuseScore policy: scores and exports use common user directories. Audio uses
+# ALSA via the host PipeWire plugin, MIDI uses the ALSA sequencer, and the UI
+# runs through XWayland.
 {
-  pkgs,
+  lib,
   sloth,
   ...
 }:
-let
-  # MuseScore has PipeWire and ALSA audio backends, but not a native
-  # PulseAudio one. Route ALSA's default PCM through the confined PulseAudio
-  # socket instead of exposing raw PipeWire or /dev/snd PCM devices.
-  alsaConfig = pkgs.writeText "musescore-alsa.conf" ''
-    pcm_type.pulse {
-      libs.native = "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_pcm_pulse.so";
-    }
-    ctl_type.pulse {
-      libs.native = "${pkgs.alsa-plugins}/lib/alsa-lib/libasound_module_ctl_pulse.so";
-    }
-    pcm.!default {
-      type pulse
-    }
-    ctl.!default {
-      type pulse
-    }
-  '';
-in
 {
   imports = [
     ./desktop-base.nix
@@ -46,7 +28,10 @@ in
       # MuseScore 4's nixpkgs launcher selects Qt's XCB backend. Niri provides
       # that through XWayland, so expose the X11 socket and credentials.
       x11 = true;
-      pulse = true;
+      # MuseScore speaks ALSA; the host ALSA configuration forwards its
+      # default PCM to PipeWire, so expose the PipeWire socket for audio.
+      pulse = lib.mkForce false;
+      pipewire = lib.mkForce true;
     };
     bind.rw = [
       (sloth.mkdir (sloth.concat' sloth.homeDir "/.config/MuseScore"))
@@ -56,12 +41,17 @@ in
       sloth.xdgMusicDir
       sloth.xdgPicturesDir
     ];
+    # Use the host's ALSA configuration, which routes the default PCM
+    # through PipeWire. Only the sequencer node is needed for MIDI.
+    bind.ro = [
+      "/etc/alsa"
+      "/etc/static/alsa"
+    ];
     bind.dev = [ "/dev/snd/seq" ];
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
       QT_QPA_PLATFORM = "xcb";
-      ALSA_CONFIG_PATH = "${alsaConfig}";
       MUSESCORE_FORCE_ALSA = "1";
     };
   };

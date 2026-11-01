@@ -18,7 +18,8 @@ workflow.
   browsers share an app-specific `/tmp` so external URLs reuse one browser instance.
 - Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
 - Portals for file chooser, URI opening, notifications, input methods and document exports.
-- No whole host home, system D-Bus, SSH agent, USB/serial, raw camera or raw PipeWire socket.
+- No whole host home, system D-Bus, SSH agent, USB/serial or raw camera. Raw PipeWire is granted
+  only to MuseScore for its ALSA-via-PipeWire audio path; see [Limits](#limits).
 - Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback. Chromium is
   an intentional development exception. Brave Origin and Edge are backup browsers and receive no
   media grants.
@@ -46,7 +47,7 @@ explicitly; other files use the document portal. Every app also has private writ
 | Remmina      | Isolated      | `~/.config/remmina`, `~/.local/share/remmina`, `~/.remmina`, Downloads                | PulseAudio, SSH agent, file chooser, OpenURI, notifications, IME, accessibility                |
 | OBS Studio   | Isolated      | `~/.config/obs-studio`, Videos/Pictures/Downloads                                     | ScreenCast, V4L2 camera (`/dev/video0-1`), PulseAudio, tray, notifications, IME, accessibility |
 | Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                    |
-| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | PulseAudio, ALSA sequencer, X11/XWayland, print, notifications, IME, accessibility             |
+| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | ALSA via PipeWire, ALSA sequencer, X11/XWayland, print, notifications, IME, accessibility      |
 | mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                   |
 | imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                          |
 
@@ -84,6 +85,11 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   compromised Remmina can use the agent to sign or decrypt while the agent is running.
 - OBS, Blender, MuseScore and mpv use pasta-isolated networking. Host loopback services are not
   reachable unless the app is changed to a host-loopback exception.
+- MuseScore receives the raw PipeWire socket so its ALSA driver can use the host `pcm.!default`
+  PipeWire plugin. PipeWire is a general media graph, so this is broader than a single audio stream:
+  a compromised MuseScore could enumerate other user-visible PipeWire media nodes. The alternative,
+  direct `/dev/snd`, confines the media graph but bypasses PipeWire device selection, per-app volume
+  and mixing.
 - OBS on Linux defaults its recording path to `$HOME`. The sandbox intentionally binds only the
   declared home subdirectories, so recording output must target `Videos`, `Pictures` or `Downloads`;
   a file written to the home root exists only in the sandbox's transient mount namespace.
@@ -97,8 +103,9 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - OBS Studio passed interactive validation for PipeWire screen capture, V4L2 camera capture,
   desktop/microphone audio, local NVENC H.264 MP4 recording and local RTMP streaming. External
   provider authentication and browser sources remain unvalidated.
-- Wrappers for Remmina, Blender, MuseScore, mpv and imv build and pass the policy suite; interactive
-  validation is still pending.
+- Remmina, Blender, mpv and imv build and pass the policy suite; interactive validation is still
+  pending. MuseScore passed launch, XWayland and ALSA-to-PipeWire routing checks; audible playback
+  and user workflows still need confirmation.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - WeChat uses the native nixpkgs-patched package with nixpak as the only bwrap layer. Build/policy
