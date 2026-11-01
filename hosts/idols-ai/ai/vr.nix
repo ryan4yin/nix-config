@@ -30,6 +30,42 @@
     steam.importOXRRuntimes = true;
   };
 
+  # Make the headset's speaker and microphone the defaults while it is connected.
+  services.pipewire.wireplumber = {
+    extraScripts."wivrn-default.lua" = ''
+      local wanted = { ["audio.sink"] = "wivrn.sink", ["audio.source"] = "wivrn.source" }
+
+      SimpleEventHook {
+        name = "custom/wivrn-default",
+        after = { "default-nodes/find-best-default-node" },
+        before = { "default-nodes/apply-default-node" },
+        interests = {
+          EventInterest { Constraint { "event.type", "=", "select-default-node" } },
+        },
+        execute = function (event)
+          local name = wanted [event:get_properties () ["default-node.type"]]
+          local nodes = event:get_data ("available-nodes")
+          for _, props in ipairs (nodes and nodes:parse () or {}) do
+            if props ["node.name"] == name then
+              event:set_data ("selected-node", name)
+              return
+            end
+          end
+        end
+      }:register ()
+    '';
+    extraConfig.wivrn-default = {
+      "wireplumber.components" = [
+        {
+          name = "wivrn-default.lua";
+          type = "script/lua";
+          provides = "custom.wivrn-default";
+        }
+      ];
+      "wireplumber.profiles".main."custom.wivrn-default" = "required";
+    };
+  };
+
   # Wait for the control interface used by wivrnctl before reporting success.
   systemd.user.services.wivrn.serviceConfig = {
     Type = "dbus";

@@ -42,11 +42,7 @@ configurations blindly.
    just vr-status
    ```
 
-   `just vr` returns immediately and leaves `wivrn-audio.service` waiting up to ten minutes for the
-   headset. When it connects, that unit makes WiVRn's speaker and microphone the defaults and moves
-   any stream that is already playing. `just vr-audio` does the same switch in the foreground when
-   the headset is already connected, and `just vr-stop` cancels the wait and restores the saved
-   devices. Starting the service does not enable it for future logins.
+   `just vr-stop` stops it again. Starting the service does not enable it for future logins.
 
 4. Allow a new headset to pair for two minutes:
 
@@ -59,8 +55,9 @@ configurations blindly.
    command again.
 
 5. Audio follows the headset: WiVRn's `wivrn.sink` and `wivrn.source` exist only while a headset is
-   connected, so the switch happens then, not at `just vr` time. Check the current defaults with
-   `pactl get-default-sink` and `pactl get-default-source`.
+   connected, and a WirePlumber hook in [`ai/vr.nix`](./ai/vr.nix) makes them the defaults for
+   exactly that time; playing streams follow. Your own default devices stay saved and return when
+   the headset disconnects. Check with `pactl get-default-sink` and `pactl get-default-source`.
 
 Manage paired headsets with `wivrnctl list-paired`, `wivrnctl rename`, or `wivrnctl unpair`. Consult
 `wivrnctl --help` and the subcommand's `--help` for arguments.
