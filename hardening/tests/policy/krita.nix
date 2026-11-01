@@ -19,5 +19,6 @@ mkAppPolicy "krita" {
     inhibit = app.portalGroups.inhibit;
     accessibility = app.desktopIntegration.accessibility;
     qtWayland = app.bubblewrap.env.QT_QPA_PLATFORM == "wayland";
+    writableUserDirs = app.fileViewer.writableUserDirs == true;
   };
 }

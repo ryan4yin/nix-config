@@ -16,5 +16,6 @@ mkAppPolicy "foliate" {
     openUri = app.portalGroups.openUri;
     inputMethod = app.portalGroups.inputMethod;
     accessibility = app.desktopIntegration.accessibility;
+    writableUserDirs = app.fileViewer.writableUserDirs == false;
   };
 }

@@ -20,6 +20,8 @@ let
       # Qt defaults to xcb when DISPLAY is present in the parent environment;
       # niri has no X server, so select Wayland explicitly.
       bubblewrap.env.QT_QPA_PLATFORM = "wayland";
+      # Krita saves edits in place, so the common user directories are writable.
+      fileViewer.writableUserDirs = true;
       # Printing and sleep inhibition are explicit Krita capabilities.
       portalGroups = {
         print = true;
