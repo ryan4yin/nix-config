@@ -17,16 +17,13 @@ nix-darwin.lib.darwinSystem {
   modules =
     darwin-modules
     ++ [
-      (
-        { lib, ... }:
-        {
-          nixpkgs.pkgs = import nixpkgs-darwin {
-            inherit system; # refer the `system` parameter form outer scope recursively
-            # To use chrome, we need to allow the installation of non-free software
-            config.allowUnfree = true;
-          };
-        }
-      )
+      {
+        nixpkgs.pkgs = import nixpkgs-darwin {
+          inherit system; # refer the `system` parameter form outer scope recursively
+          # `nixpkgs.config` is ignored once `nixpkgs.pkgs` is set.
+          config = specialArgs.nixpkgsConfig;
+        };
+      }
     ]
     ++ (lib.optionals ((lib.lists.length home-modules) > 0) [
       home-manager.darwinModules.home-manager

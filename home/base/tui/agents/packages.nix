@@ -1,7 +1,6 @@
 {
   pkgs,
   llm-agents,
-  myNurPkgs,
   dsh-nu,
   ...
 }:
@@ -11,7 +10,7 @@ let
   # supplies the dsh installation it plugs into.
   dshNu = dsh-nu.lib.mkDshNuPackage {
     inherit pkgs;
-    dsh = myNurPkgs.dsh;
+    inherit (pkgs) dsh;
   };
 in
 {
@@ -23,7 +22,7 @@ in
     # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
     # (node-addon-require-builtin probe), this one shims it. The Nushell-only
     # plugin rides in through the package's withPlugins wrapper.
-    (myNurPkgs.dsh.withPlugins [ dshNu ])
+    (pkgs.dsh.withPlugins [ dshNu ])
 
     # Docs lookup CLI behind the find-docs skill (agents/skills/find-docs). The skill's flags are
     # written against this package, not against upstream's npx instructions.

@@ -45,7 +45,7 @@ tree the agent reads, so it stays.
 - the generated `computer-use-init` script (exec'd by i3) publishes `DISPLAY`/`XDG_SESSION_TYPE` to
   the systemd user manager, clears any stale `WAYLAND_DISPLAY`, and enables the AT-SPI bridge via a
   gsettings key.
-- Drivers live in `overlays/cua-driver.nix` and `overlays/computer-use-linux.nix`.
+- Drivers come from the nur-ryan4yin overlay (`overlays/nur-ryan4yin.nix`).
 - Host wiring: `home/hosts/linux/idols-ruby.nix`, `home/hosts/linux/idols-kana.nix`,
   `hosts/idols-ruby/computer-use.nix`.
 
