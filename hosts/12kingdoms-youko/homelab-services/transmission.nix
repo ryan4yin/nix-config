@@ -210,14 +210,8 @@ in
   systemd.services.transmission-netns = {
     description = "Network namespace for transmission";
     wantedBy = [ "multi-user.target" ];
-    after = [ "systemd-networkd.service" ];
-    preStart = ''
-      for _ in $(seq 1 30); do
-        ${ip} link show br0 >/dev/null 2>&1 && break
-        sleep 1
-      done
-      ${ip} link show br0 >/dev/null 2>&1 || { echo "br0 is not ready" >&2; exit 1; }
-    '';
+    bindsTo = [ "sys-subsystem-net-devices-br0.device" ];
+    after = [ "sys-subsystem-net-devices-br0.device" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
