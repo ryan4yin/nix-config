@@ -4,6 +4,7 @@
   # npm - set min-release-age(in days) for supply-chain security
   home.file.".npmrc".text = ''
     prefix=${config.home.homeDirectory}/.npm
+    registry=https://registry.npmmirror.com
     min-release-age=2
   '';
 

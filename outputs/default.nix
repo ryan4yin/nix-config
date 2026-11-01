@@ -9,6 +9,22 @@ let
   mylib = import ../lib { inherit lib; };
   myvars = import ../vars { inherit lib; };
 
+  # Keep npm fetches on the domestic mirror, including inside Nix builds.
+  # `rewriteURL` covers plain fetchurl calls; `npmRegistryOverrides` covers
+  # fetchNpmDeps (package-lock tarballs and registry packuments).
+  nixpkgsConfig = {
+    allowUnfree = true;
+    npmRegistryOverrides = {
+      "registry.npmjs.org" = "https://registry.npmmirror.com";
+    };
+    rewriteURL =
+      url:
+      if lib.hasPrefix "https://registry.npmjs.org/" url then
+        "https://registry.npmmirror.com/${lib.removePrefix "https://registry.npmjs.org/" url}"
+      else
+        url;
+  };
+
   # Add my custom lib, vars, nixpkgs instance, and all the inputs to specialArgs,
   # so that I can use them in all my nixos/home-manager/darwin modules.
   genSpecialArgs =
@@ -29,6 +45,7 @@ let
         inputs
         mylib
         myvars
+        nixpkgsConfig
         pkgs-stable
         ;
 
@@ -58,7 +75,14 @@ let
       };
       # NUR packages for this system; modules use `myNurPkgs.dsh` instead of
       # repeating `nur-ryan4yin.packages.${pkgs.stdenv.hostPlatform.system}`.
-      myNurPkgs = inputs.nur-ryan4yin.packages.${system};
+      # Instantiate them with the same Nixpkgs policy as the host so npm
+      # fetchers inside NUR packages also use the mirror.
+      myNurPkgs = import "${inputs.nur-ryan4yin}" {
+        pkgs = import inputs.nixpkgs {
+          inherit system;
+          config = nixpkgsConfig;
+        };
+      };
     };
 
   # This is the args for all the haumea modules in this folder.
@@ -106,7 +130,11 @@ let
     meta = {
       nixpkgs = import nixpkgs { system = "x86_64-linux"; };
       nodeNixpkgs = builtins.mapAttrs (
-        name: _: import nixpkgs { inherit (nixosConfigurations.${name}.pkgs.stdenv.hostPlatform) system; }
+        name: _:
+        import nixpkgs {
+          inherit (nixosConfigurations.${name}.pkgs.stdenv.hostPlatform) system;
+          config = nixpkgsConfig;
+        }
       ) colmenaDeployments;
       nodeSpecialArgs = builtins.mapAttrs (
         name: _: nixosConfigurations.${name}._module.specialArgs
