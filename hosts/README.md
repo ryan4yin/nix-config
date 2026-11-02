@@ -2,6 +2,9 @@
 
 This directory contains all host-specific configurations for my NixOS and macOS systems.
 
+Manual firmware settings are recorded in [`docs/bios.md`](../docs/bios.md), and the shared
+Wake-on-LAN workflow is in [`docs/wake-on-lan.md`](../docs/wake-on-lan.md).
+
 ## Current Host Inventory
 
 ### Physical Machines

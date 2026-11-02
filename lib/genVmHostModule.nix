@@ -80,6 +80,14 @@ in
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
+  # Arm the physical NIC for Wake-on-LAN after every boot. systemd.link matches
+  # the kernel-assigned name; `Name=` is not a valid [Match] key. The firmware
+  # side is recorded in ../docs/bios.md.
+  systemd.network.links."40-wake-on-lan" = {
+    matchConfig.OriginalName = iface;
+    linkConfig.WakeOnLan = "magic";
+  };
+
   # Linux bridge for the VMs: the microVM taps and the libvirt domains attach to
   # br0, and the host keeps its own address on it (the physical NIC is just a
   # bridge port).
