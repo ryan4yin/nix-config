@@ -246,8 +246,8 @@ youko mode="switch":
 aquamarine mode="switch":
   colmena apply {{mode}} --build-on-target --on '@aquamarine' --verbose --show-trace
 
-# Wake homelab hosts with Wake-on-LAN. Defaults to all; accepts host names, with
-# `aqua` as an alias for aquamarine. Usage: just wake [host ...]
+# Wake homelab hosts and wait until they answer. Defaults to all; accepts host
+# names, with `aqua` as an alias for aquamarine. Usage: just wake [host ...]
 [linux]
 [group('homelab')]
 wake *hosts:

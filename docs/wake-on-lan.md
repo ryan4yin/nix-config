@@ -37,5 +37,26 @@ just wake youko
 just wake aqua shoryu
 ```
 
+The command retries the magic packet every few seconds and exits when every selected host answers
+ICMP **and** accepts an SSH connection. The SSH check prevents a host that is still shutting down or
+partway through boot from being mistaken for online. It prints a progress line every five seconds
+while waiting. Run `just wake --help` for all options:
+
+```text
+--timeout SECONDS           Stop waiting after SECONDS; 0 waits forever (default: 180)
+--retry-interval SECONDS    Time between magic-packet bursts (default: 5)
+--probe-interval SECONDS    Time between reachability checks (default: 1)
+--progress-interval SECONDS How often to print progress (default: 5)
+--packets N                 Magic packets per broadcast address and burst (default: 3)
+```
+
+Examples:
+
+```sh
+just wake aqua --timeout 0
+just wake youko --timeout 60
+just wake --retry-interval 2 --progress-interval 2
+```
+
 Add a host to the MAC list only after its firmware setting and NixOS link config are in place. Test
 wake-up from a powered-off state, not from a reboot.
