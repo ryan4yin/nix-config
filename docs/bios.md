@@ -1,7 +1,8 @@
 # BIOS Settings
 
 Manual firmware settings are not managed by Nix. Record values that affect power use, remote wake,
-and boot behavior here so they survive BIOS updates and hardware swaps.
+and boot behavior here so they survive BIOS updates and hardware swaps. The related Wake-on-LAN
+workflow and verification commands are in [Wake-on-LAN](./wake-on-lan.md).
 
 Enter firmware setup with `Del` unless a host section says otherwise.
 
@@ -32,16 +33,8 @@ The firmware path differs by model:
 | `shushou` | MinisForum UM560 | `Advanced > Resume on LAN` = `Enabled` |
 | `youko`   | Beelink GTR5     | `Advanced > Network Stack` = `Enabled` |
 
-The firmware side only exposes the wake path. NixOS arms the physical NIC through the shared
-[`lib/genVmHostModule.nix`](./lib/genVmHostModule.nix) `systemd.network.links` entry. Verify after a
-boot with:
-
-```sh
-ethtool eno1 | grep -E 'Supports Wake-on|Wake-on'
-```
-
-The link must report `Wake-on: g`. The shared `just wake` command and its host selection are
-documented in [`hosts/README.md`](./hosts/README.md#wake-on-lan).
+The firmware side only exposes the wake path. NixOS arming and verification are documented in
+[Wake-on-LAN](./wake-on-lan.md#nixos-configuration).
 
 ## `aquamarine`
 
@@ -61,5 +54,5 @@ Wake-on-LAN is also required for the idle-suspend path:
 
 - `Advanced > Power Setting > Wake By Lan` = `Enabled`.
 - EUP must not cut standby power to the NIC.
-- NixOS arms the RTL8125BG through `systemd.network.links`; the host-specific verification is in
-  [`hosts/idols-aquamarine/README.md`](./hosts/idols-aquamarine/README.md#wake-on-lan).
+- NixOS arms the RTL8125BG through `systemd.network.links`; see
+  [Wake-on-LAN](./wake-on-lan.md#verify).

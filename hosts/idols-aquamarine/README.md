@@ -6,7 +6,8 @@ that name was decommissioned; this is a different, physical machine that reuses 
 
 ## Hardware
 
-Manual BIOS and power-saving settings are recorded in [`BIOS.md`](../../BIOS.md).
+Manual BIOS and power-saving settings are recorded in
+[`docs/bios.md`](../../docs/bios.md#aquamarine).
 
 | Part   | Model                                                 | Notes                                                   |
 | ------ | ----------------------------------------------------- | ------------------------------------------------------- |
@@ -290,25 +291,14 @@ The install only touches the target disk; the staging host keeps booting from it
 the disk back, restore the `hosts/idols-ai/disko-fs-data.nix` module this change deleted, and
 re-enroll that machine's TPM2 slot — see `../idols-ai/README.md`.
 
-## Wake-on-LAN
-
-BIOS prerequisites are in [`BIOS.md`](../../BIOS.md#aquamarine), and the shared wake command is in
-[`hosts/README.md`](../README.md#wake-on-lan). NixOS arms the RTL8125BG through
-`systemd.network.links` using `OriginalName=en*`.
-
-After a boot, verify the link reports `Wake-on: g`:
-
-```bash
-ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
-```
-
 ## Idle suspend
 
 `autosuspend` checks every minute and suspends into S3 after 60 minutes without an active user
 session, meaningful CPU load, or an established connection to one of the request-serving ports:
 `18080` (ASR), `63081` (llama-swap/Strata), `63083`/`63084` (MagPie), and `65002` (direct Strata).
-It calls `systemctl suspend`, so systemd sleep inhibitors are also honored. WoL is armed by the
-`systemd.network.links` configuration above; no separate WoL service is needed.
+It calls `systemctl suspend`, so systemd sleep inhibitors are also honored. Wake-on-LAN is armed by
+the host's `systemd.network.links` configuration; see
+[`docs/wake-on-lan.md`](../../docs/wake-on-lan.md). No separate WoL service is needed.
 
 The daemon resets its idle timer after resume, so a wake does not immediately go back to sleep. To
 keep the host awake during maintenance:

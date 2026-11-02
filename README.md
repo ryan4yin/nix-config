@@ -31,8 +31,8 @@ This repository is home to the Nix code that builds all of my systems:
    cluster and the self-hosted services.
 
 See [./hosts](./hosts) for the host inventory, [./outputs](./outputs) for how the flake outputs are
-composed, [./BACKUP.md](./BACKUP.md) for the backup design, and [./AGENTS.md](./AGENTS.md) for the
-repository conventions.
+composed, [./docs](./docs) for the BIOS and Wake-on-LAN runbooks, [./BACKUP.md](./BACKUP.md) for the
+backup design, and [./AGENTS.md](./AGENTS.md) for the repository conventions.
 
 ## Why NixOS & Flakes?
 
