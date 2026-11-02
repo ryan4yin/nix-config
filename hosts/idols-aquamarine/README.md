@@ -292,26 +292,15 @@ re-enroll that machine's TPM2 slot — see `../idols-ai/README.md`.
 
 ## Wake-on-LAN
 
-BIOS: `Advanced > Power Setting` must have `Wake By Lan` enabled, and EUP must not cut standby power
-to the NIC. NixOS arms the RTL8125 through `systemd.network.links` using `OriginalName=en*`.
+BIOS prerequisites are in [`BIOS.md`](../../BIOS.md#aquamarine), and the shared wake command is in
+[`hosts/README.md`](../README.md#wake-on-lan). NixOS arms the RTL8125BG through
+`systemd.network.links` using `OriginalName=en*`.
 
 After a boot, verify the link reports `Wake-on: g`:
 
 ```bash
 ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
 ```
-
-Wake every homelab host with Wake-on-LAN armed from another L2 host:
-
-```bash
-just wake                 # all WoL-capable hosts
-just wake aqua            # only aquamarine
-just wake shoryu youko    # selected hosts
-```
-
-The command defaults to waking `aquamarine` and the three `12kingdoms` mini PCs. `aqua` is an alias
-for `aquamarine`. Add a host to `scripts/wake-homelab.py` only after its WoL link config and BIOS
-setting are in place. Test from a powered-off state, not from a reboot.
 
 ## Idle suspend
 

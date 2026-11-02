@@ -133,6 +133,32 @@ qemu-kvm path; there are none right now.
   / `br0` changes, nixpkgs updates, or any broad rebuild.
 - If a host loses VM networking, check `br0` and the VM taps, or reboot the host.
 
+## Wake-on-LAN
+
+Firmware settings and the NixOS-side NIC arming are recorded in [`BIOS.md`](../BIOS.md). After a
+boot, confirm the physical NIC reports `Wake-on: g`:
+
+```sh
+ethtool eno1 | grep -E 'Supports Wake-on|Wake-on'
+```
+
+Wake every Wake-on-LAN-capable homelab host from another L2 host:
+
+```sh
+just wake
+```
+
+Pass one or more host names to wake only those machines; `aqua` is an alias for `aquamarine`:
+
+```sh
+just wake youko
+just wake aqua shoryu
+```
+
+The MAC list lives in [`scripts/wake-homelab.py`](../scripts/wake-homelab.py). Add a host there only
+after its firmware setting and NixOS link config are in place. Test wake-up from a powered-off
+state, not from a reboot.
+
 ## Common Build Commands
 
 Use the Just recipes for host configuration checks and builds:

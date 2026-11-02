@@ -40,20 +40,8 @@ boot with:
 ethtool eno1 | grep -E 'Supports Wake-on|Wake-on'
 ```
 
-The link must report `Wake-on: g`. Wake all four homelab machines from another L2 host with:
-
-```sh
-just wake
-```
-
-Pass one or more host names to wake only those machines; `aqua` is an alias for `aquamarine`:
-
-```sh
-just wake youko
-just wake aqua shoryu
-```
-
-Test wake-up from a powered-off state, not from a reboot.
+The link must report `Wake-on: g`. The shared `just wake` command and its host selection are
+documented in [`hosts/README.md`](./hosts/README.md#wake-on-lan).
 
 ## `aquamarine`
 
@@ -73,11 +61,5 @@ Wake-on-LAN is also required for the idle-suspend path:
 
 - `Advanced > Power Setting > Wake By Lan` = `Enabled`.
 - EUP must not cut standby power to the NIC.
-- NixOS arms the RTL8125BG through `systemd.network.links`; see
+- NixOS arms the RTL8125BG through `systemd.network.links`; the host-specific verification is in
   [`hosts/idols-aquamarine/README.md`](./hosts/idols-aquamarine/README.md#wake-on-lan).
-
-Verify after boot:
-
-```sh
-ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
-```
