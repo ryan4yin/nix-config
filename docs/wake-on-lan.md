@@ -10,8 +10,7 @@ The three mini PCs share [`lib/genVmHostModule.nix`](../lib/genVmHostModule.nix)
 every boot. `aquamarine` has the equivalent entry for its `en*` NIC in
 [`hosts/idols-aquamarine/default.nix`](../hosts/idols-aquamarine/default.nix).
 
-The MAC addresses used by the wake command live in
-[`scripts/wake-homelab.py`](../scripts/wake-homelab.py).
+The MAC addresses used by the wake command live in [`scripts/wake.py`](../scripts/wake.py).
 
 ## Verify
 

@@ -251,7 +251,7 @@ aquamarine mode="switch":
 [linux]
 [group('homelab')]
 wake *hosts:
-  python3 {{absolute_path("scripts/wake-homelab.py")}} {{hosts}}
+  python3 {{absolute_path("scripts/wake.py")}} {{hosts}}
 
 ############################################################################
 #
