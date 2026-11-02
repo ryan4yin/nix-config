@@ -304,12 +304,14 @@ ethtool enp133s0 | grep -E 'Supports Wake-on|Wake-on'
 Wake every homelab host with Wake-on-LAN armed from another L2 host:
 
 ```bash
-just wake-homelab
+just wake                 # all WoL-capable hosts
+just wake aqua            # only aquamarine
+just wake shoryu youko    # selected hosts
 ```
 
-The command wakes `aquamarine` and the three `12kingdoms` mini PCs. Add a host to
-`scripts/wake-homelab.py` only after its WoL link config and BIOS setting are in place. Test from a
-powered-off state, not from a reboot.
+The command defaults to waking `aquamarine` and the three `12kingdoms` mini PCs. `aqua` is an alias
+for `aquamarine`. Add a host to `scripts/wake-homelab.py` only after its WoL link config and BIOS
+setting are in place. Test from a powered-off state, not from a reboot.
 
 ## Idle suspend
 

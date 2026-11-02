@@ -19,7 +19,8 @@ Hosts: `shoryu` (MoreFine S500+), `shushou` (MinisForum UM560), `youko` (Beelink
   - `AC Power Loss` = `Always On`
   - `SATA Controller` = `Disabled`
 - Disable unused onboard devices where the firmware exposes them (for example `HDD` and WLAN
-  options); none are in use on these hosts.
+  options); none are in use on these hosts. `youko`'s two 4TB HDDs are behind a USB JMicron JMS567
+  enclosure, so disabling the motherboard SATA controller does not affect them.
 
 ### Wake-on-LAN
 
@@ -42,7 +43,14 @@ ethtool eno1 | grep -E 'Supports Wake-on|Wake-on'
 The link must report `Wake-on: g`. Wake all four homelab machines from another L2 host with:
 
 ```sh
-just wake-homelab
+just wake
+```
+
+Pass one or more host names to wake only those machines; `aqua` is an alias for `aquamarine`:
+
+```sh
+just wake youko
+just wake aqua shoryu
 ```
 
 Test wake-up from a powered-off state, not from a reboot.

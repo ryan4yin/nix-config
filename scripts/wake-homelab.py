@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Wake every homelab host whose NixOS config arms Wake-on-LAN."""
+"""Wake selected homelab hosts, defaulting to every WoL-capable host."""
 
 from __future__ import annotations
 
+import argparse
 import socket
 import sys
 
@@ -13,6 +14,9 @@ HOSTS = {
     "shoryu": "70:70:fc:01:1b:56",
     "shushou": "58:47:ca:70:0d:72",
     "youko": "70:70:fc:01:00:44",
+}
+ALIASES = {
+    "aqua": "aquamarine",
 }
 BROADCASTS = ("192.168.5.255", "255.255.255.255")
 PORT = 9
@@ -26,12 +30,46 @@ def magic_packet(mac: str) -> bytes:
     return b"\xff" * 6 + octets * 16
 
 
-def main() -> int:
+def select_hosts(names: list[str]) -> list[str]:
+    if not names:
+        return list(HOSTS)
+
+    selected = []
+    for name in names:
+        host = ALIASES.get(name, name)
+        if host not in HOSTS:
+            known = ", ".join(sorted(HOSTS))
+            aliases = ", ".join(f"{alias} -> {host}" for alias, host in ALIASES.items())
+            raise ValueError(f"unknown host {name!r}; known hosts: {known}; aliases: {aliases}")
+        if host not in selected:
+            selected.append(host)
+    return selected
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="just wake",
+        description="Wake selected homelab hosts, or every host when none are given.",
+    )
+    parser.add_argument(
+        "hosts",
+        nargs="*",
+        metavar="HOST",
+        help="hosts to wake (default: all); use 'aqua' as an alias for aquamarine",
+    )
+    args = parser.parse_args(argv)
+
+    try:
+        hosts = select_hosts(args.hosts)
+    except ValueError as exc:
+        parser.error(str(exc))
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     failed = False
 
-    for host, mac in HOSTS.items():
+    for host in hosts:
+        mac = HOSTS[host]
         packet = magic_packet(mac)
         print(f"waking {host} ({mac})")
         for _ in range(PACKETS):
