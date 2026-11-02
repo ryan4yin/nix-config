@@ -13,11 +13,11 @@ How this fleet is backed up, where the data lives, and how to restore it.
 
 ## Layers
 
-1. **btrbk — local snapshots** ([`modules/nixos/base/btrbk.nix`](./modules/nixos/base/btrbk.nix)).
+1. **btrbk — local snapshots** ([`modules/nixos/base/btrbk.nix`](../modules/nixos/base/btrbk.nix)).
    Same-filesystem btrfs snapshots of `@persistent`, run on Tue/Sat 03:45:20, kept for 7 days
    (minimum 2). Cheap rollback for mistakes; it does **not** survive disk loss.
 2. **restic — encrypted copies on youko**
-   ([`modules/nixos/base/restic-backup.nix`](./modules/nixos/base/restic-backup.nix)). Encryption
+   ([`modules/nixos/base/restic-backup.nix`](../modules/nixos/base/restic-backup.nix)). Encryption
    happens on the client, so the server only ever stores ciphertext. youko runs `restic-rest-server`
    with `--private-repos`, authenticated by htpasswd, published behind caddy as
    `restic.writefor.fun`. Deliberately not append-only: a desktop holds both the plaintext and the
@@ -152,12 +152,12 @@ Restoring a btrbk snapshot (offline; stop writers first):
 
 ## Components
 
-| Path                                                                             | Role                                                 |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| [`modules/nixos/base/restic-backup.nix`](./modules/nixos/base/restic-backup.nix) | client module: repository, paths, excludes, schedule |
-| [`modules/nixos/base/btrbk.nix`](./modules/nixos/base/btrbk.nix)                 | local btrfs snapshots                                |
-| `hosts/12kingdoms-youko/default.nix`                                             | the REST server and youko's own backup               |
-| `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`            | hourly read-only snapshots of the REST store         |
-| `hosts/12kingdoms-youko/homelab-services/caddy.nix`                              | the `restic.writefor.fun` vhost                      |
-| `secrets/nixos.nix`                                                              | which secret is defined on which host                |
-| `hosts/idols-ai/restic.nix`, `hosts/12kingdoms-youko/default.nix`                | per-host backup configuration                        |
+| Path                                                                              | Role                                                 |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| [`modules/nixos/base/restic-backup.nix`](../modules/nixos/base/restic-backup.nix) | client module: repository, paths, excludes, schedule |
+| [`modules/nixos/base/btrbk.nix`](../modules/nixos/base/btrbk.nix)                 | local btrfs snapshots                                |
+| `hosts/12kingdoms-youko/default.nix`                                              | the REST server and youko's own backup               |
+| `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`             | hourly read-only snapshots of the REST store         |
+| `hosts/12kingdoms-youko/homelab-services/caddy.nix`                               | the `restic.writefor.fun` vhost                      |
+| `secrets/nixos.nix`                                                               | which secret is defined on which host                |
+| `hosts/idols-ai/restic.nix`, `hosts/12kingdoms-youko/default.nix`                 | per-host backup configuration                        |

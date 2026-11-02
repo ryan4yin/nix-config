@@ -72,7 +72,7 @@ Problems:
       agenix secrets.
   - [ ] Maybe it's better to test every service separately, not the whole host?
 
-Full-host tests are tracked as WA-013 in [WORKAROUNDS.md](../WORKAROUNDS.md).
+Full-host tests are tracked as WA-013 in [WORKAROUNDS.md](../docs/WORKAROUNDS.md).
 `outputs/x86_64-linux/nixos-tests/idols-ruby.nix` is exported as
 `packages.x86_64-linux.ruby-nixos-tests`, but it is not a `checks` entry, so CI never builds it and
 nothing else runs it. What runs today is the eval set above with `just test`, plus one NixOS-driver
@@ -122,5 +122,5 @@ All the outputs of this flake are defined here.
 
 The tree lists the per-host sources and tests. The flake also exposes a `checks` output: every
 system has `eval-tests` and `pre-commit-check`, and `x86_64-linux` adds `security-exporters`, which
-imports the top-level `tests/security-exporters.nix`. See [`../SECURITY.md`](../SECURITY.md) for
-when to run it.
+imports the top-level `tests/security-exporters.nix`. See
+[`../docs/SECURITY.md`](../docs/SECURITY.md) for when to run it.

@@ -3,7 +3,7 @@ name: nixpkgs-patched
 description:
   Use when temporarily carrying an unmerged nixpkgs pull request or commit in the personal
   ryan4yin/nixpkgs fork, updating the nixos-unstable-patched branch, or consuming that branch from
-  this nix-config flake, including a WORKAROUNDS.md row whose removal condition is carrying the
+  this nix-config flake, including a docs/WORKAROUNDS.md row whose removal condition is carrying the
   patch.
 ---
 

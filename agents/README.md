@@ -120,8 +120,8 @@ recorded in [#428](https://github.com/ryan4yin/nix-config/pull/428).
 - **Adapt `wayfinder` in the fork** so its map and tickets default to local Markdown and research
   stays local, instead of GitHub issues and pushed `research/` branches.
 - **Adapt `domain-modeling` in the fork** to record decisions in the repository's existing documents
-  (here `AGENTS.md`, `WORKAROUNDS.md`, `SECURITY.md`, READMEs) and create `GLOSSARY.md` or ADRs only
-  where none exist.
+  (here `AGENTS.md`, `docs/WORKAROUNDS.md`, `docs/SECURITY.md`, READMEs) and create `GLOSSARY.md` or
+  ADRs only where none exist.
 - **Borrow small gstack ideas into the rules**: completion statuses (done, done with concerns,
   blocked, needs context); never call a failure pre-existing without running the same check on the
   base branch; a subagent with no one to ask takes the recommended option but never a destructive or

@@ -39,7 +39,7 @@ fallback, and a root-readable Cloudflare token in agenix.
 **Pros:** certificates become automatic and every tailnet device trusts them (today a phone without
 `ecc-ca` gets a certificate error); removes the Cloudflare token and the DNS-01 propagation
 workaround from those services; access control moves from "IP trust zone" to tailnet identity/ACL,
-which is exactly the limitation `SECURITY.md` records; `--tcp=<port>` can also expose raw TCP.
+which is exactly the limitation `docs/SECURITY.md` records; `--tcp=<port>` can also expose raw TCP.
 
 **Cons:** Serve routes by mount path on one name, or (via the nixpkgs module) as Tailscale Services
 with `tcp:<port>` endpoints only — there is no Host/SNI vhost equivalent, so path-sensitive apps
@@ -285,10 +285,10 @@ flake input is maintained separately for Secure Boot.
 the lanzaboote flake input; checksum validation of kernel and initrd; nicer menu.
 
 **Cons:** different trust model — it signs **limine itself** and validates artifacts by checksum,
-rather than shipping a firmware-verified UKI, so `SECURITY.md` and the threat model must be updated;
-key enrollment is a manual firmware dance (Setup Mode + `sbctl enroll-keys`) and is the one change
-in this repository that can leave a machine unbootable; the existing lzpt bundle may or may not be
-reusable; less NixOS mileage than systemd-boot.
+rather than shipping a firmware-verified UKI, so `docs/SECURITY.md` and the threat model must be
+updated; key enrollment is a manual firmware dance (Setup Mode + `sbctl enroll-keys`) and is the one
+change in this repository that can leave a machine unbootable; the existing lzpt bundle may or may
+not be reusable; less NixOS mileage than systemd-boot.
 
 **Reversibility:** low on the physical desktop (firmware + ESP state), high on a VM.
 
@@ -466,7 +466,7 @@ prevent boot or login. **Recommendation for the group: evaluate in a disposable 
 | D4  | `system.nixos-init.enable`                             | `activationScripts`                                                                                              | bashless init                                                           | makes `activationScripts` a silent no-op — youko's `data-ro-backing`, `installCaddyWallpapers` and `installHomepageDashboardConfig` would stop running without an error      | lab only                     |
 | D5  | `security.pam.services.<name>.rules`                   | per-service booleans                                                                                             | freeform PAM config                                                     | upstream marks it subject to breaking changes; a mistake locks you out                                                                                                       | lab only                     |
 | D6  | `security.shadow.enable = false` + greetd              | shadow suite provides login/su                                                                                   | fewer setuid programs                                                   | assertion couples the two; changes VT login semantics                                                                                                                        | lab only                     |
-| D7  | `security.apparmor.policies`                           | `policies.sudo` already in use (`hardening/apparmor/default.nix`); the old `profiles` option is removed upstream | policy set is now data                                                  | writing profiles is real work and breakage-prone; `SECURITY.md` explicitly warns against untested profiles                                                                   | lab only                     |
+| D7  | `security.apparmor.policies`                           | `policies.sudo` already in use (`hardening/apparmor/default.nix`); the old `profiles` option is removed upstream | policy set is now data                                                  | writing profiles is real work and breakage-prone; `docs/SECURITY.md` explicitly warns against untested profiles                                                              | lab only                     |
 
 ---
 
@@ -520,7 +520,7 @@ header) should then be trimmed to **adopt** items only.
   `services/system/{userborn,nix-daemon,zram-generator}.nix`,
   `services/monitoring/prometheus/exporters.nix`.
 - NixOS 26.05 release notes; Nix manual, Experimental Features.
-- Repo context: `SECURITY.md` (trust zones and control limits), `WORKAROUNDS.md` (WA-001, WA-008,
-  WA-009, WA-023), `modules/nixos/base/networking/mdns.nix`,
+- Repo context: `docs/SECURITY.md` (trust zones and control limits), `docs/WORKAROUNDS.md` (WA-001,
+  WA-008, WA-009, WA-023), `modules/nixos/base/networking/mdns.nix`,
   `hosts/12kingdoms-youko/homelab-services/caddy.nix`,
   `hosts/12kingdoms-youko/homelab-services/README.md`.

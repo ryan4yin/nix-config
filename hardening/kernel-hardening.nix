@@ -2,7 +2,7 @@
 {
   # Keep this baseline independent of a particular kernel CVE. User namespaces
   # remain available for Nix builds, rootless containers and application sandboxes.
-  # See SECURITY.md for compatibility constraints and post-deployment checks.
+  # See docs/SECURITY.md for compatibility constraints and post-deployment checks.
   boot.kernel.sysctl = {
     "kernel.dmesg_restrict" = lib.mkDefault 1;
     # NixOS already sets mkDefault 1; use a stronger default, still overridable

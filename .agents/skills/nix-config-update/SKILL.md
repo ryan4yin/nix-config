@@ -36,8 +36,8 @@ deploying the result to any host.
 - `just test` is green _before_ the update, so you have a baseline to compare against. It and every
   eval fetch the private `mysecrets` input over SSH; without that access they hang instead of
   failing.
-- Check [WORKAROUNDS.md](../../../WORKAROUNDS.md) for the inputs and recipes you are about to use;
-  an active row that names one of them replaces its command here.
+- Check [WORKAROUNDS.md](../../../docs/WORKAROUNDS.md) for the inputs and recipes you are about to
+  use; an active row that names one of them replaces its command here.
 - Enough disk for the new closures: `df -h /nix/store`. Broad nixpkgs bumps pull a lot.
 - Know what will move and choose the narrowest recipe that does the job.
 

@@ -81,13 +81,14 @@ for disclosure of AI-assisted contributions:
 ## Security
 
 Security architecture, control limitations, rollout checks, and prioritized work are documented in
-[SECURITY.md](./SECURITY.md). Keep it consistent with changes to security boundaries or defaults.
+[SECURITY.md](./docs/SECURITY.md). Keep it consistent with changes to security boundaries or
+defaults.
 
 ## Workarounds
 
 Temporary workarounds, version pins, carried patches, and known gaps are recorded in
-[WORKAROUNDS.md](./WORKAROUNDS.md), each with a removal condition. Add a row in the same change that
-introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
+[WORKAROUNDS.md](./docs/WORKAROUNDS.md), each with a removal condition. Add a row in the same change
+that introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
 
 ## Command Hazards
 
@@ -107,8 +108,8 @@ introduces one, and re-evaluate entries when their `Revisit` trigger comes up.
   narrower recipe that matches the intended host scope.
 - `just microvm-deploy <guest> <physical-host>` installs one MicroVM guest's runner on the physical
   host and restarts its unit there. A later host activation re-points the guest at the runner baked
-  into the host's system; see WA-026 in [WORKAROUNDS.md](./WORKAROUNDS.md) before deploying. Deploy
-  guests serially and check the guest Node and host services after each activation.
+  into the host's system; see WA-026 in [WORKAROUNDS.md](./docs/WORKAROUNDS.md) before deploying.
+  Deploy guests serially and check the guest Node and host services after each activation.
 - VM hosts (`shoryu`, `shushou`, `youko`) carry the `br0` bridge for their guests. Use the
   `boot`-based host deployment procedure for network stack or broad nixpkgs changes; see
   [hosts/README.md](./hosts/README.md#deploying-vm-hosts).
@@ -145,11 +146,12 @@ repository, and cross-link them — no need to be told.
 
 ## Further Context
 
+- [Documentation index](./docs/README.md)
 - [Repository overview](./README.md)
-- [Workarounds & known gaps](./WORKAROUNDS.md)
+- [Workarounds & known gaps](./docs/WORKAROUNDS.md)
 - [Outputs and tests](./outputs/README.md)
 - [Hosts](./hosts/README.md), [system modules](./modules/README.md), and
   [Home Manager](./home/README.md)
-- [Secrets](./secrets/README.md), [backups](./BACKUP.md), and
+- [Secrets](./secrets/README.md), [backups](./docs/BACKUP.md), and
   [hardened app wrappers](./hardening/README.md)
 - [Installing NixOS from the ISO](./nixos-installer/README.md)

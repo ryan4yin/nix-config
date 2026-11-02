@@ -4,7 +4,7 @@ vinput records raw PCM (S16_LE, mono, 16 kHz), wraps it in a WAV container and
 POSTs it to /v1/audio/transcriptions; this service is that endpoint. Whisper is
 the only ASR family OpenVINO publishes fully static IRs for, and a static graph
 is what the NPU compiler accepts -- every other family keeps a dynamic time axis
-and aborts the compiler, see WORKAROUNDS.md WA-037.
+and aborts the compiler, see docs/WORKAROUNDS.md WA-037.
 """
 
 import io

@@ -13,7 +13,7 @@ let
 
   # OpenVINO publishes static IRs for Whisper only, and the NPU compiler accepts
   # nothing less: any other ASR family keeps a dynamic time axis and aborts it
-  # (WORKAROUNDS.md WA-037). Pinned by content because the NPU caches the
+  # (docs/WORKAROUNDS.md WA-037). Pinned by content because the NPU caches the
   # compiled graph; a version bump should be deliberate.
   modelFiles = {
     "added_tokens.json" = "sha256-PFH2bEwh+eEmlwB48RrnenjHSu6N9gbunauobkZxCOA=";

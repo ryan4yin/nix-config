@@ -2,7 +2,7 @@
 #
 # FEX cannot run on the 16K pages this machine boots with, so
 # nix-x86-on-aarch64 runs FEX inside a 4K-page muvm microVM and owns the
-# x86_64/i686 ELF handlers. Pinned to our fork; see WORKAROUNDS.md WA-021.
+# x86_64/i686 ELF handlers. Pinned to our fork; see docs/WORKAROUNDS.md WA-021.
 { nix-x86-on-aarch64, ... }:
 {
   imports = [ nix-x86-on-aarch64.nixosModules.default ];

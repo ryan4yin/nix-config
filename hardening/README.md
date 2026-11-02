@@ -1,7 +1,7 @@
 # Linux Hardening
 
 Deployed and interactively validated on the Linux desktop host (2026-10-31). Policy and limits:
-[SECURITY.md](../SECURITY.md).
+[SECURITY.md](../docs/SECURITY.md).
 
 ## Why these apps are sandboxed
 

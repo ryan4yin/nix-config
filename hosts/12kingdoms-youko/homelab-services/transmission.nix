@@ -59,7 +59,7 @@ in
 {
   # transmission 4.1.4 takes an fcntl lock on its config-dir lock file, but the
   # AppArmor profile shipped by nixpkgs grants rw without k (lock), so the
-  # daemon exits with "Another process is already using". See WORKAROUNDS.md.
+  # daemon exits with "Another process is already using". See docs/WORKAROUNDS.md.
   security.apparmor.includes."local/bin.transmission-daemon" = ''
     /var/lib/transmission/.config/transmission-daemon/lock rwk,
   '';

@@ -212,7 +212,7 @@ col tag mode="switch":
 
 # Deploy one microVM guest: copy its runner to the physical host, then restart the
 # guest unit there. microvm.nix's sshSwitch step is not used: it switches the guest over
-# SSH and dies on the read-only virtiofs /nix/store (WA-026 in WORKAROUNDS.md).
+# SSH and dies on the read-only virtiofs /nix/store (WA-026 in docs/WORKAROUNDS.md).
 # The host is the physical machine running the guest.
 [linux]
 [group('homelab')]

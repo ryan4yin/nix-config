@@ -30,9 +30,10 @@ This repository is home to the Nix code that builds all of my systems:
 3. **NixOS servers** — three physical mini PCs running the VMs (libvirt and microVMs), the K3s test
    cluster and the self-hosted services.
 
-See [./hosts](./hosts) for the host inventory, [./outputs](./outputs) for how the flake outputs are
-composed, [./docs](./docs) for the BIOS and Wake-on-LAN runbooks, [./BACKUP.md](./BACKUP.md) for the
-backup design, and [./AGENTS.md](./AGENTS.md) for the repository conventions.
+See [./docs](./docs/README.md) for the documentation index, [./hosts](./hosts) for the host
+inventory, [./outputs](./outputs) for how the flake outputs are composed,
+[BACKUP.md](./docs/BACKUP.md) for the backup design, and [./AGENTS.md](./AGENTS.md) for the
+repository conventions.
 
 ## Why NixOS & Flakes?
 
@@ -98,9 +99,9 @@ See [./secrets](./secrets) for details.
 
 ## Security & Hardening
 
-See [./SECURITY.md](./SECURITY.md) for the threat model, security architecture, controls and audit
-status, [./hardening/README.md](./hardening/README.md) for application sandboxing and Linux
-hardening, and [./WORKAROUNDS.md](./WORKAROUNDS.md) for temporary exceptions and known gaps.
+See [SECURITY.md](./docs/SECURITY.md) for the threat model, security architecture, controls and
+audit status, [./hardening/README.md](./hardening/README.md) for application sandboxing and Linux
+hardening, and [WORKAROUNDS.md](./docs/WORKAROUNDS.md) for temporary exceptions and known gaps.
 
 ## How to Deploy this Flake?
 

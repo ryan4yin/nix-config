@@ -145,7 +145,7 @@
     # x86/x86_64 emulation on 16K-page ARM64 (Apple Silicon). FEX cannot run
     # natively with 16K pages, so this wraps FEX in a 4K-page muvm microVM and
     # exposes an `x86pkgs` set plus Steam/Wine launchers. Used by shoukei; see
-    # hosts/12kingdoms-shoukei and WORKAROUNDS.md (WA-021).
+    # hosts/12kingdoms-shoukei and docs/WORKAROUNDS.md (WA-021).
     #
     # Pinned to our fork of rowanG077/nix-x86-on-aarch64 at the reviewed commit
     # 5d69793a. To update, fetch upstream into the fork, review the new commits,

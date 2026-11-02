@@ -10,7 +10,7 @@ let
   inherit (config.services) openssh;
 
   # Audit trail for login sessions, so that a stolen deployment key leaves a
-  # record of what each session did; see SECURITY.md ("Audit trail").
+  # record of what each session did; see docs/SECURITY.md ("Audit trail").
   # `auditctl -R` aborts at the first watch whose path is missing, leaving
   # auditing off, so every watched path must exist when the rules load.
 

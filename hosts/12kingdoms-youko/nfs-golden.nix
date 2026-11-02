@@ -39,5 +39,5 @@ in
   # NFSv4 only needs 2049/tcp (no rpcbind/mountd/statd). The export is limited
   # to the hosts above, not the whole LAN. `no_root_squash` stays until the
   # existing root-owned PVC subdirectories are migrated for `root_squash`; see
-  # SECURITY.md.
+  # docs/SECURITY.md.
 }

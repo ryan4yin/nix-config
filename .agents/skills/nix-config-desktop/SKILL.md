@@ -49,7 +49,7 @@ Store (needs the user to run `just niri`):
 - Noctalia per-host override: `home/hosts/linux/<dir>/noctalia.toml` (`host-<host>.toml`)
 - fcitx5 profile and addons: `home/linux/gui/base/fcitx5/`
 - vinput (voice input): `home/linux/gui/base/vinput/` (tag-pinned: the `fcitx5-vinput` row in
-  WORKAROUNDS.md §Pins)
+  docs/WORKAROUNDS.md §Pins)
 - Interface a net-speed widget reads: `home/hosts/linux/<dir>/noctalia.toml`
   (`[widget.net_rx]`/`[widget.net_tx]` `interface`)
 - `$HOME` state that must survive: `hosts/<dir>/preservation.nix` (tmpfs root; `12kingdoms-shoukei`

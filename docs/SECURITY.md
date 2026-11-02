@@ -4,8 +4,8 @@ This is a personal infrastructure repository, not a supported security product. 
 describes the intended architecture, controls present in source, their limitations, and remaining
 work. A configured control is not evidence that it is active on a running machine.
 
-Related documents: [application hardening](hardening/README.md) for sandbox wrappers and Linux
-hardening notes, and [WORKAROUNDS.md](WORKAROUNDS.md) for temporary exceptions and known gaps.
+Related documents: [application hardening](../hardening/README.md) for sandbox wrappers and Linux
+hardening notes, and [WORKAROUNDS.md](./WORKAROUNDS.md) for temporary exceptions and known gaps.
 
 ## Reporting problems
 
@@ -46,12 +46,12 @@ small, reversible controls and narrow exceptions; benchmark before adopting expe
 | Supply chain    | Locked flake inputs; explicit binary-cache trust keys on NixOS; normal user is not a Nix trusted-user                                                                                                                                                     | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                                                                                                                                                                                                                               |
 | Recovery        | NixOS generations, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                                                                                                                           | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned                                                                                                                                                                                 |
 
-Sources: [host layout](hosts/README.md), [k3s deployment](hosts/k8s/README.md),
-[firewall](modules/nixos/base/networking/firewall.nix), [SSH](modules/nixos/base/ssh.nix),
-[Nix trust](modules/base/nix.nix), [secrets](secrets/README.md), and [backup](BACKUP.md). Cluster
-resources are maintained in the separate k8s-gitops repository.
+Sources: [host layout](../hosts/README.md), [k3s deployment](../hosts/k8s/README.md),
+[firewall](../modules/nixos/base/networking/firewall.nix), [SSH](../modules/nixos/base/ssh.nix),
+[Nix trust](../modules/base/nix.nix), [secrets](../secrets/README.md), and [backup](./BACKUP.md).
+Cluster resources are maintained in the separate k8s-gitops repository.
 
-The Macs set `nix.enable = false` ([nix-core.nix](modules/darwin/nix-core.nix)), so nix-darwin
+The Macs set `nix.enable = false` ([nix-core.nix](../modules/darwin/nix-core.nix)), so nix-darwin
 writes no `/etc/nix/nix.conf`: the substituters, trusted keys and access-token include declared here
 do not reach them. Their Nix settings come from the Determinate installation, which this repository
 does not manage; those settings were not verified on the Macs.
@@ -59,7 +59,7 @@ does not manage; those settings were not verified on the Macs.
 ## Kernel and process baseline
 
 The following explicit, overridable baseline is implemented in
-[kernel-hardening.nix](hardening/kernel-hardening.nix), which holds the values; the table below
+[kernel-hardening.nix](../hardening/kernel-hardening.nix), which holds the values; the table below
 summarizes them. It has Linux eval coverage and explicit ARM/RISC-V server imports. Source
 implementation is not runtime verification. Some values are already kernel/systemd/NixOS defaults;
 Darwin does not receive Linux sysctls.
@@ -97,8 +97,8 @@ an advisory and affected kernel versions before adding CVE claims; search snippe
 
 ### Boot integrity and mandatory access control
 
-- ai configures Lanzaboote in [secureboot.nix](hosts/idols-ai/secureboot.nix). Confirm firmware key
-  enrollment and actual Secure Boot state with `sbctl status`; do not assume all hosts have it.
+- ai configures Lanzaboote in [secureboot.nix](../hosts/idols-ai/secureboot.nix). Confirm firmware
+  key enrollment and actual Secure Boot state with `sbctl status`; do not assume all hosts have it.
 - Secure Boot, signed boot images, kernel lockdown and module signature enforcement are distinct
   controls. Test custom kernels and NVIDIA/out-of-tree modules before extending enforcement.
 - AppArmor is enabled, but the only explicit policy, sudo's, is in complain mode. Complain mode logs
@@ -106,17 +106,18 @@ an advisory and affected kernel versions before adding CVE claims; search snippe
   broad enforced application confinement.
 - Systemd service sandboxing is per-service, not a global policy. The exposed services nixpkgs
   leaves weakly sandboxed (caddy, rustfs, vmalert, whisper-asr) use the preset in
-  [systemdHardening.nix](lib/systemdHardening.nix). Review capabilities, writable paths, network
+  [systemdHardening.nix](../lib/systemdHardening.nix). Review capabilities, writable paths, network
   access and syscall requirements before tightening an individual service.
 
-See [application hardening](hardening/README.md) for wrapper details.
+See [application hardening](../hardening/README.md) for wrapper details.
 
 ### Audit trail
 
-`modules.security.audit` ([auditd.nix](modules/nixos/base/auditd.nix)) runs auditd on youko, shoryu,
-shushou and aquamarine. It records, for login sessions only (SSH, and sudo or su from one): every
-root command (`root-session`), access to decrypted secrets and SSH host keys (`credential-access`),
-writes to SSH, account/PAM, Nix trust and audit configuration, module loads, and denials.
+`modules.security.audit` ([auditd.nix](../modules/nixos/base/auditd.nix)) runs auditd on youko,
+shoryu, shushou and aquamarine. It records, for login sessions only (SSH, and sudo or su from one):
+every root command (`root-session`), access to decrypted secrets and SSH host keys
+(`credential-access`), writes to SSH, account/PAM, Nix trust and audit configuration, module loads,
+and denials.
 
 - Services are not audited: a `never,task` rule gives tasks without a login uid no audit context, so
   virtiofsd, hypervisors, NFS, PostgreSQL and Nix builds skip the per-syscall audit path. A
@@ -228,7 +229,7 @@ checks remain necessary after deployment.
   reaching the export, but a root user on an allowed client still has server-root write access.
   `root_squash` is deferred: the existing PVC subdirectories are root-owned (observed
   `drwxr-xr-x root root` and `drwxrwsr-x root 107`), so enabling it needs a one-time ownership
-  migration and a maintenance window. See WORKAROUNDS.md.
+  migration and a maintenance window. See docs/WORKAROUNDS.md.
 - **Remote consoles:** the libvirt VNC consoles listen on `127.0.0.1` only, and the k3s firewall
   drops 5900-5903 from pod sources. Reach a console through an SSH tunnel.
 - **Pod-to-host firewall:** two independent layers deny pod access to the credential-bearing host
@@ -324,7 +325,7 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   alias or GitHub destination. Do not treat forwarding as enabled for every LAN alias, or remove it
   without checking deployment/build workflows.
 - All nine desktop wrappers use shared nixpak policies: cleared environment, filtered session D-Bus
-  and selected mounts. The [permission inventory](hardening/README.md#app-permissions) lists each
+  and selected mounts. The [permission inventory](../hardening/README.md#app-permissions) lists each
   app's file, network, credential and media grants.
 - Only Firefox/Chromium share host networking. Chromium is an intentional local-development
   exception; all other apps isolate loopback with pasta but can still reach the LAN/Internet.
@@ -348,7 +349,7 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   Chromium, Brave Origin, Edge, QQ, Telegram and Zoom; the Chromium smoke test also validates
   renderer sandboxing, environment clearing, bind scope and profile persistence. WeChat's
   interactive Wayland check remains pending. See the
-  [runtime validation](hardening/tests/runtime-validation.md).
+  [runtime validation](../hardening/tests/runtime-validation.md).
 
 #### Agent-first diagnostics by host role
 
@@ -414,7 +415,7 @@ separate verification.
 | P2       | Validate narrower sandbox/agent boundaries where needed                          | Source and selected SSH/journal metadata audited; use disposable data/socket probes and preserve core-desktop diagnosis, browserpass and Homelab root workflows                                    |
 | P3       | Improve security-event alerts and configuration drift checks                     | Actionable redacted alerts and periodic runtime control readback                                                                                                                                   |
 
-Record temporary exceptions in [WORKAROUNDS.md](WORKAROUNDS.md) with a removal condition. Revisit
+Record temporary exceptions in [WORKAROUNDS.md](./WORKAROUNDS.md) with a removal condition. Revisit
 this architecture after a new exposed service, network/storage change, host addition or significant
 kernel/nixpkgs update. No control here guarantees containment after host root compromise.
 

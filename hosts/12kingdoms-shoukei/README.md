@@ -20,11 +20,11 @@ inside a 4 KiB `muvm` microVM and registers both ELF handlers:
 - `steam` and `x86-arm-wine` for games and Windows programs.
 
 The microVM is capped at 6 GiB (`memoryMiB`) on this 16 GiB machine, and needs `/dev/kvm` plus a
-running systemd user session. See [WORKAROUNDS.md](../../WORKAROUNDS.md) WA-021.
+running systemd user session. See [WORKAROUNDS.md](../../docs/WORKAROUNDS.md) WA-021.
 
 Because the host no longer registers qemu-user binfmt, `podman run --platform=linux/amd64`, x86
 chroots, and local builds of uncached x86 derivations need a remote x86_64 builder (see
-[WORKAROUNDS.md](../../WORKAROUNDS.md) WA-022).
+[WORKAROUNDS.md](../../docs/WORKAROUNDS.md) WA-022).
 
 Related:
 

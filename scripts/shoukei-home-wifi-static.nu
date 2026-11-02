@@ -11,7 +11,7 @@
 #
 #   just shoukei-home-wifi
 #
-# See hosts/12kingdoms-shoukei/README.md and WORKAROUNDS.md WA-024/025.
+# See hosts/12kingdoms-shoukei/README.md and docs/WORKAROUNDS.md WA-024/025.
 
 # ---------------------------------------------------------------------------
 # Configuration

@@ -38,7 +38,7 @@ modules/
     │   ├── networking/    # Network configuration
     │   ├── nix.nix        # Nix settings
     │   ├── packages.nix   # System packages
-    │   ├── restic-backup.nix # Encrypted off-host backups (see ../BACKUP.md)
+    │   ├── restic-backup.nix # Encrypted off-host backups (see ../docs/BACKUP.md)
     │   ├── ssh.nix        # SSH daemon configuration
     │   ├── trash.nix      # Trash retention cleanup
     │   ├── user-group.nix # User and group management

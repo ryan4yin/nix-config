@@ -91,7 +91,7 @@
       # Disabled: the `playground` role has no password and remote logins
       # require scram-sha-256, so this datasource could never authenticate.
       # Re-enable once a `playground` DB password is provisioned (the PostgreSQL
-      # per-role password follow-up in SECURITY.md).
+      # per-role password follow-up in docs/SECURITY.md).
       /*
         {
           # https://grafana.com/docs/grafana/latest/datasources/postgres/configure/

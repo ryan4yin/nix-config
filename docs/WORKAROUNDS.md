@@ -86,7 +86,7 @@ An unfinished feature or gap.
 
 - Security architecture, threat model and audit status: [SECURITY.md](./SECURITY.md).
 - Unmerged **nixpkgs** PRs are carried via the `nixpkgs-patched` input and the
-  [`.agents/skills/nixpkgs-patched`](./.agents/skills/nixpkgs-patched/SKILL.md) workflow (currently
+  [`.agents/skills/nixpkgs-patched`](../.agents/skills/nixpkgs-patched/SKILL.md) workflow (currently
   none).
 - Routine version pins (colmena, agenix, disko, lanzaboote, haumea, home-manager, `nixpkgs-stable`,
   `nixpkgs-darwin`, …) are the versions in use, not workarounds, so they are not listed here.
