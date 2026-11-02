@@ -17,4 +17,16 @@ in
   systemd.services.openrgb.preStart = ''
     ${pkgs.coreutils}/bin/install -Dm0644 ${offProfile} /var/lib/OpenRGB/profiles/off.json
   '';
+
+  # The controller drops its LED state on resume without re-enumerating, so no
+  # udev event fires; reapply the profile through the running server instead.
+  systemd.services.openrgb-resume = {
+    description = "Reapply the OpenRGB profile after resume";
+    after = [ "suspend.target" ];
+    wantedBy = [ "suspend.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.openrgb}/bin/openrgb --profile ${offProfile}";
+    };
+  };
 }
