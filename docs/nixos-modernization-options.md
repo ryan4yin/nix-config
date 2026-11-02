@@ -445,16 +445,6 @@ test (`checks.x86_64-linux.security-exporters`) on GitHub-hosted `ubuntu-latest`
 runners. **Pros:** parallel eval/build, no new CI infra. **Cons:** one more tool in the Justfile; CI
 already gates merges. **Recommendation:** **adopt**. **Decision:** _pending_
 
-## C4. Cleanups (no decision needed)
-
-WA-001 (smartctl pin) should be dropped once nixpkgs carries the upstream fix; the "nixfmt with
-width 100" sentence in `AGENTS.md` should be checked against the formatter `just fmt` actually
-resolves to. Checked 2026-10-21: the locked nixpkgs still ships smartctl_exporter 0.14.0, which
-lacks the #329 fix (`overlays/smartctl-exporter/`), so WA-001 stays; `just fmt` runs the dev shell's
-nixfmt 1.5.0, whose default width is 100, and `pre-commit-check` sets width 100
-(`outputs/default.nix`), so the `AGENTS.md` sentence is correct. **Recommendation:** **adopt**.
-**Decision:** _pending_
-
 ## C5. jj
 
 Personal workflow change only; no repository impact. **Recommendation:** out of scope. **Decision:**
@@ -499,27 +489,27 @@ prevent boot or login. **Recommendation for the group: evaluate in a disposable 
 Fill this in as cards are decided; the plan documents (on the `modernization-plans-wip` tag, see the
 header) should then be trimmed to **adopt** items only.
 
-| Card  | Candidate                   | Decision | Date | Note |
-| ----- | --------------------------- | -------- | ---- | ---- |
-| A1    | Tailscale Serve (partial)   |          |      |      |
-| A2    | systemd-resolved            |          |      |      |
-| A3    | systemd-networkd            |          |      |      |
-| A4    | journald upload/remote      |          |      |      |
-| A5    | zram-generator              |          |      |      |
-| A6    | nixos-facter                |          |      |      |
-| A7    | attic                       |          |      |      |
-| A8    | nix-servd + daemon features |          |      |      |
-| A9    | sched_ext                   |          |      |      |
-| B1    | limine + Secure Boot        |          |      |      |
-| B2    | boot.uki                    |          |      |      |
-| B3    | systemd-repart images       |          |      |      |
-| B4    | initrd repart               |          |      |      |
-| B5    | sysupdate                   |          |      |      |
-| B6    | measured boot / FIDO2       |          |      |      |
-| B7    | systemd-vmspawn             |          |      |      |
-| C1–C5 | tooling + cleanups          |          |      |      |
-| D1–D7 | lab-only group              |          |      |      |
-| E     | rejected set                |          |      |      |
+| Card      | Candidate                   | Decision | Date | Note |
+| --------- | --------------------------- | -------- | ---- | ---- |
+| A1        | Tailscale Serve (partial)   |          |      |      |
+| A2        | systemd-resolved            |          |      |      |
+| A3        | systemd-networkd            |          |      |      |
+| A4        | journald upload/remote      |          |      |      |
+| A5        | zram-generator              |          |      |      |
+| A6        | nixos-facter                |          |      |      |
+| A7        | attic                       |          |      |      |
+| A8        | nix-servd + daemon features |          |      |      |
+| A9        | sched_ext                   |          |      |      |
+| B1        | limine + Secure Boot        |          |      |      |
+| B2        | boot.uki                    |          |      |      |
+| B3        | systemd-repart images       |          |      |      |
+| B4        | initrd repart               |          |      |      |
+| B5        | sysupdate                   |          |      |      |
+| B6        | measured boot / FIDO2       |          |      |      |
+| B7        | systemd-vmspawn             |          |      |      |
+| C1–C3, C5 | tooling + cleanups          |          |      |      |
+| D1–D7     | lab-only group              |          |      |      |
+| E         | rejected set                |          |      |      |
 
 ## References
 
