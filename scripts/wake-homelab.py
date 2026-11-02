@@ -10,6 +10,9 @@ import sys
 # Add a host here only after its WoL service and BIOS setting are in place.
 HOSTS = {
     "aquamarine": "8c:32:23:36:81:84",
+    "shoryu": "70:70:fc:01:1b:56",
+    "shushou": "58:47:ca:70:0d:72",
+    "youko": "70:70:fc:01:00:44",
 }
 BROADCASTS = ("192.168.5.255", "255.255.255.255")
 PORT = 9

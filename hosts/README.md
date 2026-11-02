@@ -2,6 +2,8 @@
 
 This directory contains all host-specific configurations for my NixOS and macOS systems.
 
+Manual firmware settings are recorded in [`BIOS.md`](../BIOS.md).
+
 ## Current Host Inventory
 
 ### Physical Machines

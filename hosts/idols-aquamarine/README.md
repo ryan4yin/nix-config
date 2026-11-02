@@ -6,6 +6,8 @@ that name was decommissioned; this is a different, physical machine that reuses 
 
 ## Hardware
 
+Manual BIOS and power-saving settings are recorded in [`BIOS.md`](../../BIOS.md).
+
 | Part   | Model                                                 | Notes                                                   |
 | ------ | ----------------------------------------------------- | ------------------------------------------------------- |
 | Board  | Colorful CVN Z890 ARK FROZEN V20 (BIOS 1013)          | moved from `ai` on 2026-10-13, so its EFI vars come too |
@@ -305,8 +307,9 @@ Wake every homelab host with Wake-on-LAN armed from another L2 host:
 just wake-homelab
 ```
 
-The command currently wakes only aquamarine; add a host to `scripts/wake-homelab.py` after its WoL
-link config and BIOS setting are in place. Test from a powered-off state, not from a reboot.
+The command wakes `aquamarine` and the three `12kingdoms` mini PCs. Add a host to
+`scripts/wake-homelab.py` only after its WoL link config and BIOS setting are in place. Test from a
+powered-off state, not from a reboot.
 
 ## Idle suspend
 
