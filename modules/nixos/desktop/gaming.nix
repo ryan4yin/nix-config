@@ -1,6 +1,5 @@
 {
   pkgs,
-  nix-gaming,
   config,
   lib,
   ...
@@ -10,11 +9,6 @@ let
   cfg = config.modules.desktop.gaming;
 in
 {
-  imports = [
-    nix-gaming.nixosModules.pipewireLowLatency
-    nix-gaming.nixosModules.platformOptimizations
-  ];
-
   options.modules.desktop = {
     gaming = {
       enable = mkEnableOption "desktop gaming support";
@@ -75,9 +69,52 @@ in
       capSysNice = true;
     };
 
-    # see https://github.com/fufexan/nix-gaming/#pipewire-low-latency
-    services.pipewire.lowLatency.enable = true;
-    programs.steam.platformOptimizations.enable = true;
+    # The sysctls SteamOS ships in steamos-customizations-jupiter (file names
+    # below), as carried by nix-gaming's platformOptimizations module.
+    boot.kernel.sysctl = {
+      # 20-shed.conf
+      "kernel.sched_cfs_bandwidth_slice_us" = 3000;
+      # 20-net-timeout.conf: lets a game that was killed and restarted quickly
+      # rebind its TCP ports.
+      "net.ipv4.tcp_fin_timeout" = 5;
+      # 30-splitlock.conf: no deliberate slowdown when a game hits a split lock.
+      "kernel.split_lock_mitigate" = 0;
+      # 30-vm.conf: MAX_INT - MAPCOUNT_ELF_CORE_MARGIN, see include/linux/mm.h.
+      "vm.max_map_count" = 2147483642;
+    };
+
+    # Low-latency PipeWire: a 64/48000 minimum quantum plus realtime scheduling,
+    # as in nix-gaming's pipewireLowLatency module.
+    services.pipewire.extraConfig = {
+      pipewire."99-lowlatency" = {
+        "context.properties"."default.clock.min-quantum" = 64;
+        "context.modules" = [
+          {
+            name = "libpipewire-module-rt";
+            flags = [
+              "ifexists"
+              "nofail"
+            ];
+            args = {
+              "nice.level" = -15;
+              "rt.prio" = 88;
+              "rt.time.soft" = 200000;
+              "rt.time.hard" = 200000;
+            };
+          }
+        ];
+      };
+      pipewire-pulse."99-lowlatency"."pulse.properties" = {
+        "server.address" = [ "unix:native" ];
+        "pulse.min.req" = "64/48000";
+        "pulse.min.quantum" = "64/48000";
+        "pulse.min.frag" = "64/48000";
+      };
+      client."99-lowlatency"."stream.properties" = {
+        "node.latency" = "64/48000";
+        "resample.quality" = 1;
+      };
+    };
 
     # Optimise Linux system performance on demand
     # https://github.com/FeralInteractive/GameMode

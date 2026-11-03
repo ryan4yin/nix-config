@@ -137,11 +137,6 @@
 
     # -------------- Gaming ---------------------
 
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # x86/x86_64 emulation on 16K-page ARM64 (Apple Silicon). FEX cannot run
     # natively with 16K pages, so this wraps FEX in a 4K-page muvm microVM and
     # exposes an `x86pkgs` set plus Steam/Wine launchers. Used by shoukei; see
