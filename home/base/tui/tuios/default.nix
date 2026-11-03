@@ -14,7 +14,8 @@ in
   xdg.configFile."tuios/config.toml".source =
     config.lib.file.mkOutOfStoreSymlink "${configDir}/config.toml";
 
-  # auto-start tuios in interactive shells, except when already inside tuios.
+  # auto-start tuios in local interactive shells, except when already inside
+  # tuios or connected over SSH.
   # `work` for the ~/work tree, `personal` for everything else (a host with no
   # ~/work gets `personal` everywhere).
   programs.nushell.extraConfig = ''
@@ -27,7 +28,7 @@ in
       $env.TERM = "xterm-kitty"
     }
 
-    if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) {
+    if $nu.is-interactive and (not ("TUIOS_SESSION" in $env)) and (not ("SSH_CONNECTION" in $env)) {
       # Exit 3 means the daemon is stopped; stdout still lists saved sessions.
       let listing = (^tuios ls --json | complete)
       if $listing.exit_code not-in [0 3] {

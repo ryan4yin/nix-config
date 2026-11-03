@@ -1,4 +1,8 @@
-{ lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 {
   catppuccin.zed.enable = true;
 
@@ -39,11 +43,10 @@
 
       # Terminal
       terminal.shell.with_arguments = {
-        program = "bash";
+        program = lib.getExe config.programs.nushell.package;
         args = [
-          "--login"
-          "-c"
-          "nu --login --interactive"
+          "--config-home"
+          config.programs.nushell.configDir
         ];
       };
 

@@ -189,15 +189,6 @@ const NU_PLUGIN_DIRS = [
 
 # As with NU_LIB_DIRS, an $env.NU_PLUGIN_DIRS is searched after the constant version
 
-# The `path add` function from the Standard Library also provides
-# a convenience method for prepending to the path:
-use std/util "path add"
-path add "~/.local/bin"
-# Tools installed outside Nix (go install / cargo install / npm -g).
-path add "~/go/bin"
-path add "~/.cargo/bin"
-path add "~/.npm/bin"
-
 # You can remove duplicate directories from the path using:
 $env.PATH = ($env.PATH | uniq)
 

@@ -2,6 +2,7 @@
 {
   imports = [
     ../base
+    ../nushell-login.nix
     ../../base
   ];
 
