@@ -21,7 +21,7 @@
   raplPermissionsExposed = true;
   collectorFlagsUnique = true;
   inferenceUserCanRender = true;
-  noHomeManager = true;
+  homeManagerStatePersistent = true;
   pythonInstalled = true;
   staticAddressMatchesWiredInterface = true;
   rootIsTmpfs = true;

@@ -92,8 +92,18 @@ in
     == builtins.length (lib.unique cfg.services.prometheus.exporters.node.enabledCollectors);
   inferenceUserCanRender = builtins.elem "render" cfg.users.users.${myvars.username}.extraGroups;
 
-  # Headless: no desktop session, no Home Manager.
-  noHomeManager = !cfg ? home-manager.users;
+  # Home Manager's own state has to survive the tmpfs root; the agent profile
+  # itself is covered by ../agent-profile.
+  homeManagerStatePersistent =
+    let
+      dirs = cfg.preservation.preserveAt."/persistent".users.${myvars.username}.directories;
+    in
+    builtins.all (path: builtins.any (d: d.directory == "/home/${myvars.username}/${path}") dirs) [
+      ".local/state/home-manager"
+      ".local/state/nix/profiles"
+      ".codex"
+      ".config/opencode"
+    ];
   pythonInstalled = builtins.any (
     package: lib.hasPrefix "python3-" (package.name or "")
   ) cfg.environment.systemPackages;

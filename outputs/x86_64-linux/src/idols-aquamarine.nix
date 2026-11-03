@@ -22,8 +22,8 @@ let
   modules = {
     nixos-modules =
       (map mylib.relativeToRoot [
-        # common
-        "modules/nixos/server/server.nix"
+        # profile: agent (hosts/README.md#host-profiles)
+        "modules/nixos/agent.nix"
         # host specific
         "hosts/idols-${name}"
       ])
@@ -32,6 +32,10 @@ let
         # until its new host key is a recipient in nix-secrets. Enabling one is
         # the last step in hosts/idols-aquamarine/README.md.
       ];
+    home-modules = map mylib.relativeToRoot [
+      # host specific
+      "home/hosts/linux/idols-${name}.nix"
+    ];
   };
 
   systemArgs = modules // args;

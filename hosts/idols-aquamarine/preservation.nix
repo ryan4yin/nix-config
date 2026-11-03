@@ -85,6 +85,84 @@ in
 
         ".config/systemd/user"
         ".config/containers/systemd"
+
+        # ======================================
+        # Home Manager TUI role (home/linux/tui.nix); the same paths `ai` keeps
+        # ======================================
+        ".local/state/home-manager"
+        ".local/state/nix/profiles"
+        ".local/share/nix"
+        ".config/nushell" # history
+
+        # ai agents
+        ".agents" # skills for all agents
+        ".config/agents"
+        ".codex"
+        ".dsh" # DeepSeek Harness
+        ".pi"
+        ".config/opencode"
+        ".local/share/opencode"
+        ".local/state/opencode"
+        # ctx7 docs lookup login
+        {
+          directory = ".config/context7";
+          mode = "0700";
+        }
+
+        # editors
+        ".local/share/nvim"
+        ".local/state/nvim"
+        ".local/share/jupyter"
+
+        # tuios session state, project-tape trust store and layout templates
+        {
+          directory = ".local/state/tuios";
+          mode = "0700";
+        }
+        {
+          directory = ".local/share/tuios";
+          mode = "0700";
+        }
+        ".config/tuios"
+
+        # cloud native
+        {
+          directory = ".aws";
+          mode = "0700";
+        }
+        {
+          directory = ".aliyun";
+          mode = "0700";
+        }
+        {
+          directory = ".config/gcloud";
+          mode = "0700";
+        }
+        {
+          directory = ".config/gh";
+          mode = "0700";
+        }
+        {
+          directory = ".kube";
+          mode = "0700";
+        }
+        ".terraform.d/plugin-cache"
+
+        # language package managers
+        ".npm"
+        "go"
+        ".cargo"
+        ".local/bin"
+        ".local/share/uv"
+
+        {
+          directory = ".gnupg";
+          mode = "0700";
+        }
+        {
+          directory = ".ssh";
+          mode = "0700";
+        }
       ];
     };
   };
@@ -119,6 +197,21 @@ in
       mode = lib.mkForce "0750";
     };
     "/home/${username}/.local/share".d = {
+      user = username;
+      group = lib.mkForce username;
+      mode = lib.mkForce "0750";
+    };
+    "/home/${username}/.local/state".d = {
+      user = username;
+      group = lib.mkForce username;
+      mode = lib.mkForce "0750";
+    };
+    "/home/${username}/.local/state/nix".d = {
+      user = username;
+      group = lib.mkForce username;
+      mode = lib.mkForce "0750";
+    };
+    "/home/${username}/.terraform.d".d = {
       user = username;
       group = lib.mkForce username;
       mode = lib.mkForce "0750";

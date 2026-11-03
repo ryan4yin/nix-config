@@ -67,14 +67,9 @@ in
   # VictoriaMetrics.
   services.smartd.enable = true;
 
-  # The inference engine ships as an OCI image and is meant to run rootless, so
-  # `podman` is what this host uses to build and start it from the `~/src` checkout
-  # that ./preservation.nix keeps.
-  virtualisation.podman.enable = true;
-
-  # Keep the user systemd manager running after logout and start it at boot,
-  # so enabled user services can run without an active login session.
-  users.users."${myvars.username}".linger = true;
+  # The inference engine ships as an OCI image and runs under the agent
+  # profile's rootless Podman (modules/nixos/agent.nix), built from the `~/src`
+  # checkout that ./preservation.nix keeps.
 
   # Speech recognition runs on the NPU, see ./asr.nix. The driver and the
   # compiler it loads come from NixOS/nixpkgs#570230, which is unmerged, so they
