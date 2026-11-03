@@ -18,6 +18,7 @@ lib.genAttrs hosts (name: {
   vnc = true;
   clipboardSync = true;
   cuaDriver = true;
+  cuaTelemetryDisabled = true;
   brave = true;
   chromium = true;
 })

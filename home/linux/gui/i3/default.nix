@@ -54,11 +54,6 @@ let
       DBUS_SESSION_BUS_ADDRESS="unix:path=''${XDG_RUNTIME_DIR}/bus" \
       ${pkgs.glib.bin}/bin/gsettings set org.gnome.desktop.interface toolkit-accessibility true \
       >/dev/null 2>&1 || true
-
-    ${lib.optionalString cfg.cuaDriver ''
-      # cua-driver sends content-free telemetry by default; turn it off.
-      ${pkgs.cua-driver}/bin/cua-driver telemetry disable >/dev/null 2>&1 || true
-    ''}
   '';
 in
 {
@@ -201,6 +196,9 @@ in
           "DISPLAY=${display}"
           "XDG_SESSION_TYPE=x11"
         ];
+        # cua-driver sends content-free telemetry by default. Do this before
+        # the daemon starts so activation does not depend on the i3 session.
+        ExecStartPre = "${pkgs.cua-driver}/bin/cua-driver telemetry disable";
         ExecStart = "${pkgs.cua-driver}/bin/cua-driver serve";
         Restart = "always";
         RestartSec = 2;
