@@ -29,6 +29,9 @@ lib.genAttrs hosts (
       "autocutsel-clipboard"
     ];
     cuaDriver = home.modules.desktop.computerUse.cuaDriver;
+    cuaTelemetryDisabled = lib.hasInfix "telemetry disable" (
+      home.systemd.user.services.cua-driver.Service.ExecStartPre
+    );
     brave = home.programs.brave-origin.enable;
     chromium = home.programs.chromium.enable;
   }
