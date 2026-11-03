@@ -1,7 +1,6 @@
 {
   imports = [
-    ../../linux/core.nix
-    ../../linux/gui/i3
+    ../../linux/tui.nix
   ];
 
   # Headless X11/i3 session for computer use.

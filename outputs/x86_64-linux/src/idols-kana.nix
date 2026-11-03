@@ -24,10 +24,9 @@ let
       (map mylib.relativeToRoot [
         # common
         "secrets/nixos.nix"
-        "modules/nixos/server/server.nix"
+        # profile: agent (hosts/README.md#host-profiles)
+        "modules/nixos/agent.nix"
         "modules/nixos/server/qemu-guest-hardware-configuration.nix"
-        # headless computer-use environment (sway + desktop automation)
-        "modules/nixos/desktop/computer-use.nix"
         # host specific
         "hosts/idols-${name}"
       ])

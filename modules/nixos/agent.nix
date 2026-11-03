@@ -1,12 +1,29 @@
 {
   pkgs,
-  llm-agents,
+  myvars,
   ...
 }:
-let
-  agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
-in
+#############################################################
+#
+#  The `agent` profile (hosts/README.md#host-profiles): a headless
+#  host whose user tools come from the Home Manager TUI role
+#  (home/linux/tui.nix). This module only carries what needs root.
+#
+#############################################################
 {
+  imports = [
+    ./server/server.nix
+    # off by default; a host turns it on with modules.desktop.computerUse.enable
+    ./desktop/computer-use.nix
+  ];
+
+  # Rootless Podman for agents and the images they build.
+  virtualisation.podman.enable = true;
+
+  # Keep the user systemd manager running after logout and start it at boot,
+  # so agent and computer-use user services run without a login session.
+  users.users."${myvars.username}".linger = true;
+
   # https://github.com/Mic92/nix-ld
   #
   # nix-ld will install itself at `/lib64/ld-linux-x86-64.so.2` so that
@@ -32,60 +49,4 @@ in
       stdenv.cc.cc
     ];
   };
-
-  environment.systemPackages =
-    with pkgs;
-    [
-      nodejs_24
-      pnpm
-
-      #-- python
-      uv # python project package manager
-      (python313.withPackages (
-        ps: with ps; [
-          pandas
-          requests
-          pyquery
-          pyyaml
-          numpy
-
-          # model downloaders
-          huggingface-hub
-        ]
-      ))
-
-      rustc
-      cargo # rust package manager
-      go
-
-      # cryptography
-      age
-      sops
-      rclone
-      gnupg
-
-      # cloud-native
-      kubectl
-      istioctl
-      kubernetes-helm
-      fluxcd
-      terraform
-
-      # db related
-      pgcli
-      mongosh
-      sqlite
-
-      yt-dlp # youtube/bilibili/soundcloud/... video/music downloader
-    ]
-    # AI Agent Tools
-    ++ [
-      # Agents
-      agentPackages.codex
-      agentPackages.opencode2
-      agentPackages.pi
-      # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
-      # (node-addon-require-builtin probe), this one shims it.
-      pkgs.dsh
-    ];
 }
