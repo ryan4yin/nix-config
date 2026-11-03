@@ -103,6 +103,13 @@ in
         ".config/opencode"
         ".local/share/opencode"
         ".local/state/opencode"
+        # Raft Computer state: server enrollment keys, agent state, traces,
+        # app storage and the installer's runtime cache. The installer itself
+        # is ~/.local/bin/raft-computer, covered by the .local/bin entry below.
+        {
+          directory = ".raft";
+          mode = "0700";
+        }
         # ctx7 docs lookup login
         {
           directory = ".config/context7";
@@ -138,6 +145,9 @@ in
           directory = ".config/gcloud";
           mode = "0700";
         }
+        # GitHub CLI config, including the plaintext OAuth token in
+        # hosts.yml (0600) by explicit choice for this non-primary account.
+        # Only aqua is authorized; kana/ruby remain logged out.
         {
           directory = ".config/gh";
           mode = "0700";
