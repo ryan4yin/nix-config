@@ -38,6 +38,7 @@ in
         ForwardAgent = false;
         AddKeysToAgent = "yes";
         Compression = true;
+        SendEnv = [ "TUIOS_SESSION" ];
         ServerAliveInterval = 0;
         ServerAliveCountMax = 3;
         HashKnownHosts = false;
