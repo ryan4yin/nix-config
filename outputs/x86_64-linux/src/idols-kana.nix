@@ -45,8 +45,4 @@ in
 
   colmena.${name} = mylib.colmenaSystem (systemArgs // { inherit tags ssh-user; });
 
-  # nixos tests
-  packages."${name}-nixos-tests" = import ../nixos-tests/idols-agent.nix (
-    systemArgs // { hostName = name; }
-  );
 }

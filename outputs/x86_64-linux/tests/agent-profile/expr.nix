@@ -37,8 +37,5 @@ lib.genAttrs hosts (
 
     # host switch
     computerUse = system.modules.desktop.computerUse.enable;
-
-    # Full-host NixOS test export.
-    nixosTest = outputs.packages ? "${name}-nixos-tests";
   }
 )

@@ -14,14 +14,11 @@ in
 {
   aquamarine = common // {
     computerUse = false;
-    nixosTest = false;
   };
   ruby = common // {
     computerUse = true;
-    nixosTest = true;
   };
   kana = common // {
     computerUse = true;
-    nixosTest = true;
   };
 }
