@@ -30,11 +30,11 @@ directory.
 
 The `agent` hosts differ only in:
 
-|              | `aquamarine`                               | `ruby`              | `kana`        |
-| ------------ | ------------------------------------------ | ------------------- | ------------- |
-| Computer use | off                                        | on, with cua-driver | on            |
-| Hardware     | physical; 2x R9700, NPU speech recognition | libvirt guest       | libvirt guest |
-| Root         | tmpfs; `preservation.nix` keeps home state | disk                | disk          |
+|              | `aquamarine`                               | `ruby`              | `kana`              |
+| ------------ | ------------------------------------------ | ------------------- | ------------------- |
+| Computer use | off                                        | on, with cua-driver | on, with cua-driver |
+| Hardware     | physical; 2x R9700, NPU speech recognition | libvirt guest       | libvirt guest       |
+| Root         | tmpfs; `preservation.nix` keeps home state | disk                | disk                |
 
 `outputs/x86_64-linux/tests/agent-profile` checks the `agent` rows.
 

@@ -6,6 +6,7 @@
   nixos-modules,
   home-modules ? [ ],
   myvars,
+  hostName,
   ...
 }:
 let
@@ -15,7 +16,7 @@ let
   };
 in
 pkgs.testers.runNixOSTest {
-  name = "NixOS Tests for Idols Ruby";
+  name = "NixOS Tests for Idols ${hostName}";
 
   node = {
     inherit pkgs;
@@ -24,14 +25,14 @@ pkgs.testers.runNixOSTest {
   };
 
   nodes = {
-    ruby.imports = nixos-modules;
+    ${hostName}.imports = nixos-modules;
   };
 
-  # Note that machine1 and machine2 are now available as
-  # Python objects and also as hostnames in the virtual network
+  # The node is available both as a Python object and as a hostname in the
+  # virtual network.
   testScript = ''
-    ruby.wait_for_unit("network-online.target")
+    ${hostName}.wait_for_unit("network-online.target")
 
-    ruby.succeed("curl https://baidu.com")
+    ${hostName}.succeed("curl https://baidu.com")
   '';
 }

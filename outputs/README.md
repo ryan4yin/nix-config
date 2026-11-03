@@ -73,10 +73,10 @@ Problems:
   - [ ] Maybe it's better to test every service separately, not the whole host?
 
 Full-host tests are tracked as WA-013 in [WORKAROUNDS.md](../docs/WORKAROUNDS.md).
-`outputs/x86_64-linux/nixos-tests/idols-ruby.nix` is exported as
-`packages.x86_64-linux.ruby-nixos-tests`, but it is not a `checks` entry, so CI never builds it and
-nothing else runs it. What runs today is the eval set above with `just test`, plus one NixOS-driver
-check of the shared firewall — `checks.x86_64-linux.security-exporters`, built in CI.
+`outputs/x86_64-linux/nixos-tests/idols-agent.nix` is exported as
+`packages.x86_64-linux.{ruby,kana}-nixos-tests`, but it is not a `checks` entry, so CI never builds
+it and nothing else runs it. What runs today is the eval set above with `just test`, plus one
+NixOS-driver check of the shared firewall — `checks.x86_64-linux.security-exporters`, built in CI.
 
 ## Overview
 
