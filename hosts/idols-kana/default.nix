@@ -1,6 +1,7 @@
 {
   myvars,
   mylib,
+  pkgs,
   ...
 }:
 #############################################################
@@ -18,6 +19,9 @@ in
 {
   # Headless computer-use environment (Xvfb + i3 + desktop automation + browser).
   modules.desktop.computerUse.enable = true;
+
+  users.users.${myvars.username}.shell = pkgs.nushell;
+  environment.shells = [ pkgs.nushell ];
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [

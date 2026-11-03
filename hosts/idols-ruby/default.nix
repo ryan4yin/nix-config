@@ -1,6 +1,7 @@
 {
   myvars,
   mylib,
+  pkgs,
   ...
 }:
 #############################################################
@@ -18,6 +19,9 @@ in
 {
   # Headless computer-use environment (Xvfb + i3 + desktop automation + browser).
   modules.desktop.computerUse.enable = true;
+
+  users.users.${myvars.username}.shell = pkgs.nushell;
+  environment.shells = [ pkgs.nushell ];
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = [
