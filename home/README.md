@@ -15,7 +15,7 @@ home/
 │   │   └── ...
 │   └── ...
 ├── hosts/             # Host-specific home manager entry modules
-│   ├── linux/         # Linux host home modules (idols-ai, 12kingdoms-shoukei, idols-kana, idols-ruby)
+│   ├── linux/         # Linux host home modules (idols-ai, 12kingdoms-shoukei, idols-aquamarine, idols-kana, idols-ruby)
 │   └── darwin/        # macOS host home modules (fern, frieren)
 └── darwin/            # macOS-specific home manager configurations
     ├── proxy/         # Proxy configurations

@@ -5,6 +5,53 @@ This directory contains all host-specific configurations for my NixOS and macOS 
 Manual firmware settings are recorded in [`docs/bios.md`](../docs/bios.md), and the shared
 Wake-on-LAN workflow is in [`docs/wake-on-lan.md`](../docs/wake-on-lan.md).
 
+## Host Profiles
+
+Every host is exactly one profile. The profile fixes the system module that
+`outputs/<system>/src/<host>.nix` imports and the Home Manager role that
+`home/hosts/<platform>/<host>.nix` imports. A host directory only adds hardware, networking,
+persisted paths and feature switches on top.
+
+| Profile   | System module (in outputs)        | Home role (in home/hosts) | Hosts                                       |
+| --------- | --------------------------------- | ------------------------- | ------------------------------------------- |
+| `desktop` | `modules/nixos/desktop.nix`       | `home/linux/gui.nix`      | `ai`, `shoukei`                             |
+| `agent`   | `modules/nixos/agent.nix`         | `home/linux/tui.nix`      | `aquamarine`, `ruby`, `kana`                |
+| `server`  | `modules/nixos/server/server.nix` | none                      | `shoryu`, `shushou`, `youko`, k3s, `akane`¹ |
+| `darwin`  | `modules/darwin`                  | `home/darwin`             | `fern`, `frieren`                           |
+
+¹ `akane` (aarch64) uses `server-aarch64.nix`; the k3s nodes import `server.nix` from their host
+directory.
+
+- **desktop**: Niri session and GUI apps on top of the full TUI stack.
+- **agent**: headless, with the full TUI stack from Home Manager (shell, editors, dev toolchains,
+  cloud CLIs, AI agents with their rules and skills), and nix-ld, rootless Podman and linger from
+  the system. Computer use (Xvfb + i3, VNC) is part of the profile but off by default.
+- **server**: system services only, no Home Manager.
+
+The `agent` hosts differ only in:
+
+|              | `aquamarine`                               | `ruby`              | `kana`        |
+| ------------ | ------------------------------------------ | ------------------- | ------------- |
+| Computer use | off                                        | on, with cua-driver | on            |
+| Hardware     | physical; 2x R9700, NPU speech recognition | libvirt guest       | libvirt guest |
+| Root         | tmpfs; `preservation.nix` keeps home state | disk                | disk          |
+
+`outputs/x86_64-linux/tests/agent-profile` checks the `agent` rows.
+
+### Where a new piece of configuration goes
+
+1. A tool you run from a shell goes to the Home Manager role (`home/base/core`, `home/base/tui`),
+   never to a host's `environment.systemPackages`.
+2. Anything that needs root or a system service (nix-ld, Podman, drivers, systemd units) goes to the
+   profile's system module, or to a `modules/nixos` module the profile imports.
+3. Hardware, networking, the hostname, persisted paths and feature switches go to the host
+   directory.
+
+A host does not import files from another host's directory; shared code moves under `modules/` or
+`home/` instead. Existing exceptions, between machines on identical hardware: `shushou` and `youko`
+reuse `12kingdoms-shoryu`'s hardware and preservation files, and `shoukei` reuses `idols-ai`'s
+preservation file.
+
 ## Current Host Inventory
 
 ### Physical Machines

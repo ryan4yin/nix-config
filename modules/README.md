@@ -43,6 +43,7 @@ modules/
     │   ├── trash.nix      # Trash retention cleanup
     │   ├── user-group.nix # User and group management
     │   └── zram.nix       # ZRAM swap configuration
+    ├── agent.nix           # `agent` profile: headless host with the TUI home role
     ├── desktop.nix         # Desktop environment configuration
     ├── desktop/            # Desktop-specific modules
     │   ├── canokey.nix    # CanoKey hardware token
