@@ -23,6 +23,7 @@ lib.genAttrs hosts (
   {
     # home role: home/linux/tui.nix
     agentsFromHome = hasPackage "codex" home.home.packages;
+    qwenInstalled = hasPackage "qwen-code" home.home.packages;
     devToolsFromHome = hasPackage "kubectl" home.home.packages;
     # ~/.secrets is synced to the desktops only; sourcing it would break nushell.
     nushellSecrets = home.modules.shell.secrets.enable;

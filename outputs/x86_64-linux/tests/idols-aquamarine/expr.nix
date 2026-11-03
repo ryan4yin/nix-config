@@ -102,6 +102,7 @@ in
       ".local/state/home-manager"
       ".local/state/nix/profiles"
       ".codex"
+      ".qwen"
       ".config/opencode"
     ];
   pythonInstalled = builtins.any (

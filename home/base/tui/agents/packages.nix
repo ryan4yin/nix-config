@@ -12,12 +12,21 @@ let
     inherit pkgs;
     inherit (pkgs) dsh;
   };
+  # llm-agents.nix still exposes OpenCode V2 as `opencode2` so it can coexist
+  # with the v1 package. Re-expose its binary under the normal command name.
+  opencode = pkgs.linkFarm "opencode" [
+    {
+      name = "bin/opencode";
+      path = "${agentPackages.opencode2}/bin/opencode2";
+    }
+  ];
 in
 {
   home.packages = [
     # Agents
     agentPackages.codex
-    agentPackages.opencode2
+    opencode
+    agentPackages.qwen-code
     agentPackages.pi
     # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
     # (node-addon-require-builtin probe), this one shims it. The Nushell-only
