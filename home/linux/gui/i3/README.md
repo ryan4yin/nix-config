@@ -46,8 +46,9 @@ tree the agent reads, so it stays.
   the systemd user manager, clears any stale `WAYLAND_DISPLAY`, and enables the AT-SPI bridge via a
   gsettings key.
 - Drivers come from the nur-ryan4yin overlay (`overlays/nur-ryan4yin.nix`).
-- Host wiring: `home/hosts/linux/idols-ruby.nix`, `home/hosts/linux/idols-kana.nix`,
-  `hosts/idols-ruby/computer-use.nix`.
+- Wiring: the `agent` profile imports both sides, off by default
+  ([Host Profiles](../../../../hosts/README.md#host-profiles));
+  `hosts/idols-{ruby,kana}/default.nix` and `home/hosts/linux/idols-{ruby,kana}.nix` turn them on.
 
 ## The i3 config
 

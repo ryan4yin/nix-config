@@ -1,0 +1,5 @@
+{
+  imports = [
+    ../../linux/tui.nix
+  ];
+}

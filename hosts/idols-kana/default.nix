@@ -16,11 +16,8 @@ let
   ipv4WithMask = "${ipv4}/24";
 in
 {
-  imports = [
-    ../idols-ruby/packages.nix
-    ../idols-ruby/computer-use.nix
-    ../idols-ruby/oci-containers
-  ];
+  # Headless computer-use environment (Xvfb + i3 + desktop automation + browser).
+  modules.desktop.computerUse.enable = true;
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [

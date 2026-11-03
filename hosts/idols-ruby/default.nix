@@ -16,11 +16,8 @@ let
   ipv4WithMask = "${ipv4}/24";
 in
 {
-  imports = [
-    ./packages.nix
-    ./computer-use.nix
-    ./oci-containers
-  ];
+  # Headless computer-use environment (Xvfb + i3 + desktop automation + browser).
+  modules.desktop.computerUse.enable = true;
 
   # Enable binfmt emulation of aarch64-linux, this is required for cross compilation.
   boot.binfmt.emulatedSystems = [
