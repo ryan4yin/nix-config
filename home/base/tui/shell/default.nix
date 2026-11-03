@@ -1,17 +1,26 @@
 {
   config,
+  lib,
   nu_scripts,
   ...
 }:
 {
-  programs.nushell = {
+  options.modules.shell.secrets.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "Source ~/.secrets/nushell-secrets.nu, which only the desktops sync.";
+  };
+
+  config.programs.nushell = {
     # the file must exist, otherwise nushell will complain about it!
     #
     # currently, nushell does not support conditional sourcing of files
     # https://github.com/nushell/nushell/issues/8214
     extraConfig = ''
-      # decrypted secret: AI agents must not read it
-      source ${config.home.homeDirectory}/.secrets/nushell-secrets.nu
+      ${lib.optionalString config.modules.shell.secrets.enable ''
+        # decrypted secret: AI agents must not read it
+        source ${config.home.homeDirectory}/.secrets/nushell-secrets.nu
+      ''}
 
       # Directories in this constant are searched by the
       # `use` and `source` commands.
