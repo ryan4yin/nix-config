@@ -1,16 +1,19 @@
-{ ... }:
+{ config, ... }:
 {
-  # Kept only for the `~/.profile` it generates: that file sources `hm-session-vars.sh`,
-  # and the terminals launch `bash --login -c 'nu ...'`, so it is how `home.sessionVariables`
-  # reach nushell. Bash itself needs no env/alias setup here — nushell owns those, and a bash
-  # spawned from within nushell inherits the environment.
+  # Bash remains the login shell.
   programs.bash.enable = true;
 
   programs.nushell = {
     enable = true;
-    # Adopt the 26.11 default: source Home Manager's session environment from
-    # env.nu instead of relying only on the bash-login wrapper.
     loadSessionVariables = true;
     configFile.source = ./config.nu;
   };
+
+  # Tools installed outside Nix.
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.local/bin"
+    "${config.home.homeDirectory}/go/bin"
+    "${config.home.homeDirectory}/.cargo/bin"
+    "${config.home.homeDirectory}/.npm/bin"
+  ];
 }

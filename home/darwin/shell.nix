@@ -1,22 +1,14 @@
-{ config, lib, ... }:
-let
-  envExtra = ''
-    export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
-  '';
-in
+{ config, ... }:
 {
-  # Homebrew's default install location:
-  #   /opt/homebrew for Apple Silicon
-  #   /usr/local for macOS Intel
-  # The prefix /opt/homebrew was chosen to allow installations
-  # in /opt/homebrew for Apple Silicon and /usr/local for Rosetta 2 to coexist and use bottles.
-  programs.bash = {
-    enable = true;
-    bashrcExtra = lib.mkAfter envExtra;
-  };
+  # Homebrew install locations for Apple Silicon and Intel.
+  home.sessionPath = [
+    "/opt/homebrew/bin"
+    "/usr/local/bin"
+  ];
+
+  programs.bash.enable = true;
   programs.zsh = {
     enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
-    inherit envExtra;
   };
 }

@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -36,11 +37,7 @@
       # Start fullscreen on macOS; window managers control this on Linux.
       fullscreen = pkgs.stdenv.hostPlatform.isDarwin;
 
-      #  To resolve issues:
-      #    1. https://github.com/ryan4yin/nix-config/issues/26
-      #    2. https://github.com/ryan4yin/nix-config/issues/8
-      #  Spawn a nushell in login mode via `bash`
-      command = "${pkgs.bash}/bin/bash --login -c 'nu --login --interactive'";
+      command = "${lib.getExe config.programs.nushell.package} --config-home ${config.programs.nushell.configDir}";
     };
   };
 }
