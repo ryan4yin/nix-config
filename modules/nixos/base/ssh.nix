@@ -16,8 +16,6 @@
       PasswordAuthentication = false; # disable password login
       # nixpkgs defaults it to true, and PAM then still accepts the Unix password
       KbdInteractiveAuthentication = false;
-      # Allow tuios to mark an SSH session as already running inside tuios.
-      AcceptEnv = [ "TUIOS_SESSION" ];
     };
     # Only keys declared in Nix log in; a hand- or intruder-added key is ignored
     authorizedKeysInHomedir = false;
