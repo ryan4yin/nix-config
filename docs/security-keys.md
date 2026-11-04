@@ -35,16 +35,17 @@ Every default below is public (from the [CanoKey user guide](https://docs.canoke
 so change them **before using the key for anything**, including applications you do not use: with a
 default PIN or management key, anyone holding the key can use or rewrite that application.
 
-| Secret                                      | Default                                  | Change with                                                        | Daily use |
-| ------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------ | --------- |
-| CanoKey Admin PIN                           | `123456`                                 | phone app                                                          | no        |
-| FIDO2 PIN                                   | none (unset)                             | phone app                                                          | yes       |
-| OpenPGP PIN / Admin PIN / Reset Code        | `123456` / `12345678` / unset            | `gpg --card-edit` → `admin` → `passwd` (options 1, 3, 4)           | PIN only  |
-| PIV PIN / PUK / management key (PIV unused) | `123456` / `12345678` / `0102…0708` (×3) | `yubico-piv-tool -a change-pin`, `-a change-puk`, `-a set-mgm-key` | no        |
+| Secret                                      | Default                                  | Change with                                                                        | Daily use |
+| ------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------- | --------- |
+| CanoKey Admin PIN                           | `123456`                                 | phone app                                                                          | no        |
+| FIDO2 PIN                                   | none (unset)                             | phone app                                                                          | yes       |
+| OpenPGP PIN / Admin PIN / Reset Code        | `123456` / `12345678` / unset            | `gpg --card-edit` → `admin` → `passwd` (options 1, 3, 4)                           | PIN only  |
+| PIV PIN / PUK / management key (PIV unused) | `123456` / `12345678` / `0102…0708` (×3) | `yubico-piv-tool -r canokey -a change-pin`, then `-a change-puk`, `-a set-mgm-key` | no        |
 
 Store the secrets not used daily (Admin PINs, Reset Code, PUK, management key) on the phone or
 offline, never in `pass`: `pass` itself is decrypted by this key. Each PIN locks after 3 wrong
-attempts on released firmware.
+attempts on released firmware. `yubico-piv-tool` is not installed; run it with
+`nix shell nixpkgs#yubico-piv-tool`.
 
 ### 1.2 Firmware and settings (phone app)
 
