@@ -219,11 +219,12 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 | ------------------------ | -------- | ----------------- | ------- | ------------ | ------- | -------------------------------- |
 | CanoKey Canary (primary) | 3.0.3    | works on idols-ai | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
 
-shoukei's first boot with the FIDO2 slot asked for the PIN, then fell back to the passphrase: USB
-only came up after switch-root, because its dwc3/PHY depend on the Thunderbolt (ACIO) nodes whose
-driver, `thunderbolt_apple`, was missing from the initrd. It is now included; unlocking with the key
-is not yet verified. Also not verified: the CanoKey Admin PIN retry count, and how touch is
-performed when resetting over NFC.
+shoukei's first boots with the FIDO2 slot asked for the PIN, then fell back to the passphrase: USB
+only came up after switch-root, because on linux-asahi 7.2 its dwc3/PHY depend on the Thunderbolt
+(ACIO) nodes, whose `thunderbolt_apple` and `reset_apple_cio` drivers were missing from the initrd.
+nixos-apple-silicon added both upstream (`275e570ea8`), and the input now includes it; unlocking
+with the key is not yet verified. Also not verified: the CanoKey Admin PIN retry count, and how
+touch is performed when resetting over NFC.
 
 ## References
 

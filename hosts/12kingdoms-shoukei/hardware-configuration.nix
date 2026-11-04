@@ -39,11 +39,6 @@ in
   # clear /tmp on boot to get a stateless /tmp directory.
   boot.tmp.cleanOnBoot = true;
   boot.initrd = {
-    # The USB-C ports' dwc3/PHY depend on the Thunderbolt (ACIO) nodes, so
-    # without this driver USB only comes up after switch-root and the CanoKey
-    # is invisible to the LUKS unlock. udev loads it by its OF alias.
-    availableKernelModules = [ "thunderbolt_apple" ];
-
     # unlocked luks devices via a keyfile or prompt a passphrase.
     luks.devices."crypted-nixos" = {
       device = "/dev/disk/by-uuid/1c37820e-2501-46e4-bec4-27c28691a5b4";
