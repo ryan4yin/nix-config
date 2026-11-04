@@ -219,8 +219,10 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 | ------------------------ | -------- | ----------------- | ------- | ------------ | ------- | -------------------------------- |
 | CanoKey Canary (primary) | 3.0.3    | works on idols-ai | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
 
-Not yet verified on hardware: whether shoukei's initrd sees the key on its USB-C ports (the Asahi
-USB-C and `usbhid` modules are included), the CanoKey Admin PIN retry count, and how touch is
+shoukei's first boot with the FIDO2 slot asked for the PIN, then fell back to the passphrase: USB
+only came up after switch-root, because its dwc3/PHY depend on the Thunderbolt (ACIO) nodes whose
+driver, `thunderbolt_apple`, was missing from the initrd. It is now included; unlocking with the key
+is not yet verified. Also not verified: the CanoKey Admin PIN retry count, and how touch is
 performed when resetting over NFC.
 
 ## References
