@@ -13,5 +13,6 @@
   desktopFile = "google-chrome";
   browserpass = true;
   media = true;
+  fido2 = true;
   secretPortal = true;
 }

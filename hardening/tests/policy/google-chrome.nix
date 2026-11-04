@@ -7,4 +7,5 @@ mkAppPolicy "google-chrome" {
   personalFiles = false;
   browserpass = true;
   secretPortal = true;
+  fido2 = true;
 }

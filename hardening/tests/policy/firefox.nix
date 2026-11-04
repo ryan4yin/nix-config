@@ -17,6 +17,7 @@ mkAppPolicy "firefox" {
   personalFiles = true;
   browserpass = true;
   secretPortal = false;
+  fido2 = true;
   extraChecks = {
     capabilitiesMatchChromium =
       firefox.browserPermissions.media == chromium.browserPermissions.media

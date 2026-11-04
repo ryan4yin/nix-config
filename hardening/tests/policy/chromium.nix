@@ -7,4 +7,5 @@ mkAppPolicy "chromium" {
   personalFiles = true;
   browserpass = true;
   secretPortal = true;
+  fido2 = true;
 }

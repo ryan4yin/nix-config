@@ -87,6 +87,20 @@ v10 storage; monitor `Local State.os_crypt.portal.prev_init_success`. Firefox us
 instead. Browserpass separately exposes the password store and GPG-agent socket to
 Firefox/Chromium/Chrome only.
 
+## FIDO2 passthrough
+
+Passed after a reboot on `ai` (CanoKey Canary, PR #515 head): with the key present at boot, the host
+linked only its FIDO interface into `/dev/fido-hidraw`, and WebAuthn works in Firefox and Chrome.
+Chromium, plugging the key in after browser launch, and the in-sandbox keyboard-interface check are
+still pending. Full checklist:
+
+1. On the host, `ls -l /dev/fido-hidraw/` lists only the FIDO interface (`ID_FIDO_TOKEN=1`); it
+   follows plug and unplug.
+2. Firefox/Chromium: start without the key, plug it in, then register and sign in on
+   <https://webauthn.io>. Unplug and replug without restarting, then sign in again.
+3. Chrome: the same flow with the key present at launch; record whether a later plug is detected.
+4. In each sandbox, the CanoKey keyboard interface's `/dev/hidrawN` fails to open with `ENOENT`.
+
 ## Zoom
 
 Zoom keeps its upstream FHS runtime inside the outer nixpak boundary. The nested sandbox propagates
