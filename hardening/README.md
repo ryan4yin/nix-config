@@ -127,8 +127,8 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   and user workflows still need confirmation.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
-- FIDO2 browser passthrough is enabled for Firefox/Chromium/Chrome only. Policy/build checks pass;
-  interactive WebAuthn registration, assertion and hotplug with the CanoKey still need validation.
+- FIDO2 browser passthrough is enabled for Firefox/Chromium/Chrome only. WebAuthn with the CanoKey
+  passed in Firefox and Chrome; Chromium and plugging the key in after launch still need validation.
 - WeChat uses the native nixpkgs-master package with nixpak as the only bwrap layer. Build/policy
   pass; interactive Wayland validation is still pending.
 - Evidence and repeat commands: [runtime validation](tests/runtime-validation.md),

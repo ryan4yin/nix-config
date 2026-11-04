@@ -89,7 +89,10 @@ Firefox/Chromium/Chrome only.
 
 ## FIDO2 passthrough
 
-Pending on hardware. For Firefox, Chromium and Chrome, with a CanoKey:
+Passed after a reboot on `ai` (CanoKey Canary, PR #515 head): with the key present at boot, the host
+linked only its FIDO interface into `/dev/fido-hidraw`, and WebAuthn works in Firefox and Chrome.
+Chromium, plugging the key in after browser launch, and the in-sandbox keyboard-interface check are
+still pending. Full checklist:
 
 1. On the host, `ls -l /dev/fido-hidraw/` lists only the FIDO interface (`ID_FIDO_TOKEN=1`); it
    follows plug and unplug.

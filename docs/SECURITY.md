@@ -355,9 +355,9 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - Policy/build passes for all nine wrappers. Interactive validation passed for Firefox, Chrome,
   Chromium, Brave Origin, Edge, QQ, Telegram and Zoom; the Chromium smoke test also validates
   renderer sandboxing, environment clearing, bind scope and profile persistence. WeChat's
-  interactive Wayland check remains pending. FIDO2 browser passthrough for Firefox/Chromium/Chrome
-  passes policy/build; interactive WebAuthn registration, assertion and hotplug with the CanoKey
-  still need validation. See the [runtime validation](../hardening/tests/runtime-validation.md).
+  interactive Wayland check remains pending. FIDO2 browser passthrough passed WebAuthn with the
+  CanoKey in Firefox and Chrome; Chromium and plugging the key in after launch still need
+  validation. See the [runtime validation](../hardening/tests/runtime-validation.md).
 
 #### Agent-first diagnostics by host role
 
