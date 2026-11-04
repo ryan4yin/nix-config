@@ -113,23 +113,25 @@ Every host shares the origin `pam://ryan4yin`, so one registration covers idols-
 
 ### SSH
 
-One homelab key lives on the key as a resident credential:
+One SSH key, used for GitHub and every host, lives on the key as a resident credential:
 
 ```bash
-ssh-keygen -t ed25519-sk -O resident -O application=ssh:homelab -C ryan@canokey
+ssh-keygen -t ed25519-sk -O resident -O application=ssh:ryan4yin -C ryan@canokey
 ```
 
-On each desktop, export its key handle to ssh's default identity:
+This writes `~/.ssh/id_ed25519_sk` on the machine that runs it. On each other desktop, export the
+key handle to ssh's default identity:
 
 ```bash
 cd ~/.ssh && ssh-keygen -K \
-  && mv id_ed25519_sk_rk_homelab id_ed25519_sk && mv id_ed25519_sk_rk_homelab.pub id_ed25519_sk.pub
+  && mv id_ed25519_sk_rk_ryan4yin id_ed25519_sk && mv id_ed25519_sk_rk_ryan4yin.pub id_ed25519_sk.pub
 ```
 
-Add the public key to `mainSshAuthorizedKeys` in [vars/default.nix](../vars/default.nix) and to
-GitHub. GitHub tries `id_ed25519_sk` before the per-host key; other hosts try it as a default
-identity. Keys already loaded in `ssh-agent` are offered first, so the per-host keys can still win
-until they are retired.
+Leave the file passphrase empty when asked: the file is only a handle, useless without the key, and
+the key's touch protects every use. Add the public key to `mainSshAuthorizedKeys` in
+[vars/default.nix](../vars/default.nix) and to GitHub. GitHub tries `id_ed25519_sk` before the
+per-host key; other hosts try it as a default identity. Keys already loaded in `ssh-agent` are
+offered first, so the per-host keys can still win until they are retired.
 
 ### shoukei LUKS
 

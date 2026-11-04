@@ -26,10 +26,10 @@ in
 {
   home.file.".ssh/romantic.pub".source = "${mysecrets}/public/romantic.pub";
 
-  # One homelab SSH key lives on the CanoKey as a resident FIDO2 credential,
-  # exported on each desktop to ~/.ssh/id_ed25519_sk (ssh's default identity);
-  # every use needs a touch. The per-host keys stay authorized as the backup.
-  # Setup: docs/security-keys.md.
+  # One SSH key for GitHub and every host lives on the CanoKey as a resident
+  # FIDO2 credential, exported on each desktop to ~/.ssh/id_ed25519_sk (ssh's
+  # default identity); every use needs a touch. The per-host keys stay
+  # authorized as the backup. Setup: docs/security-keys.md.
   programs.ssh = {
     enable = true;
 
