@@ -130,6 +130,7 @@ let
         "${name}/tray" = trayCheck app (spec.tray or false);
         "${name}/browserpass" =
           (app.browserPermissions.browserpass or false) == (spec.browserpass or false);
+        "${name}/fido2" = (app.browserPermissions.fido2 or false) == (spec.fido2 or false);
         "${name}/personalFiles" =
           (app.browserPermissions.personalFiles or false) == (spec.personalFiles or false);
         "${name}/secretPortal" = secretPortalCheck app (spec.secretPortal or false);

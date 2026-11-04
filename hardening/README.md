@@ -18,8 +18,11 @@ workflow.
   browsers share an app-specific `/tmp` so external URLs reuse one browser instance.
 - Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
 - Portals for file chooser, URI opening, notifications, input methods and document exports.
-- No whole host home, system D-Bus, SSH agent, USB/serial or raw camera. Raw PipeWire is granted
-  only to MuseScore for its ALSA-via-PipeWire audio path; see [Limits](#limits).
+- No whole host home, system D-Bus, SSH agent, raw USB/serial or raw camera. For
+  Firefox/Chromium/Chrome, the only device passthrough is the FIDO HID interface of a connected
+  security key: at launch the wrapper binds just the FIDO-tagged hidraw node plus read-only `/sys`
+  and `/run/udev` while that key is present. Other HID interfaces, CCID and raw USB stay hidden. Raw
+  PipeWire is granted only to MuseScore for its ALSA-via-PipeWire audio path; see [Limits](#limits).
 - Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback. Chromium is
   an intentional development exception. Brave Origin and Edge are backup browsers and receive no
   media grants.
@@ -31,9 +34,9 @@ explicitly; other files use the document portal. Every app also has private writ
 
 | App          | Network       | Writable paths                                                                        | Grants                                                                                         |
 | ------------ | ------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle; camera/screen sharing intentionally unavailable               |
-| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                                    |
-| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, v12 Secret                                                    |
+| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle, FIDO2 key; camera/screen sharing intentionally unavailable    |
+| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                         |
+| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                         |
 | Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                                     |
 | Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                                     |
 | QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                         |
@@ -73,7 +76,12 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
 - Brave Origin and Edge intentionally have no PulseAudio, Camera, ScreenCast or MPRIS grants. They
-  are backup browsers, not media browsers.
+  are backup browsers, not media browsers. They also receive no FIDO2 passthrough.
+- FIDO2 passthrough is limited to the hidraw interface whose report descriptor declares the FIDO
+  usage page. On the CanoKey that is the FIDO interface only: its KBD and CCID interfaces, other HID
+  devices and raw USB stay outside the sandbox. A compromised browser can use the key for
+  WebAuthn/CTAP and, with a page-granted WebHID permission, raw CTAP; the key's PIN and touch policy
+  remain the authentication boundary.
 - Firefox camera and remote screen sharing are intentionally disabled. Firefox does not support the
   XDG Camera/ScreenCast portal path used here, so granting camera or screen-capture access would
   require widening the sandbox with raw `/dev/video*` or direct PipeWire access. We choose not to
@@ -108,6 +116,8 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   and user workflows still need confirmation.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
+- FIDO2 browser passthrough is enabled for Firefox/Chromium/Chrome only. Policy/build checks pass;
+  interactive WebAuthn registration and assertion with the CanoKey still need validation.
 - WeChat uses the native nixpkgs-master package with nixpak as the only bwrap layer. Build/policy
   pass; interactive Wayland validation is still pending.
 - Evidence and repeat commands: [runtime validation](tests/runtime-validation.md),
@@ -121,7 +131,9 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   [desktop-integration.nix](nixpaks/modules/desktop-integration.nix): portal and desktop service
   grants.
 - [browser-permissions.nix](nixpaks/modules/browser-permissions.nix),
-  [chromium-browser.nix](nixpaks/modules/chromium-browser.nix): browser scopes and launcher.
+  [fido-bwrap.nix](nixpaks/modules/fido-bwrap.nix),
+  [chromium-browser.nix](nixpaks/modules/chromium-browser.nix): browser scopes, FIDO2 passthrough
+  wrapper and launcher.
 - [nixpaks/wechat.nix](nixpaks/wechat.nix): WeChat package and data setup.
 - [kernel-hardening.nix](kernel-hardening.nix), [apparmor/](apparmor/): kernel sysctl and AppArmor
   profiles.

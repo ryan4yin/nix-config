@@ -37,6 +37,7 @@ let
           media = true;
           personalFiles = true;
           browserpass = true;
+          fido2 = true;
         };
 
         # Firefox keeps the host network: local development servers and the

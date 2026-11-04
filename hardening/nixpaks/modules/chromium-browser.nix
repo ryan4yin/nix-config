@@ -21,6 +21,7 @@
   secretPortal ? false,
   hostLoopback ? false,
   personalFiles ? false,
+  fido2 ? false,
   privateWindowFlag ? "--incognito",
 }:
 let
@@ -64,6 +65,7 @@ let
             personalFiles
             media
             secretPortal
+            fido2
             ;
         };
         bubblewrap.bind.rw = [

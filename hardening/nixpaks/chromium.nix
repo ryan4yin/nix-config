@@ -13,6 +13,7 @@
   desktopFile = "chromium-browser";
   browserpass = true;
   media = true;
+  fido2 = true;
   hostLoopback = true;
   personalFiles = true;
   secretPortal = true;

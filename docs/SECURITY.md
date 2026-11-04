@@ -332,6 +332,11 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
   Browser media and browserpass are enabled only for Firefox/Chromium/Chrome. Brave Origin and Edge
   are backup browsers with no media grants. browserpass exposes password-store/GPG data and agent
   operations.
+- Firefox/Chromium/Chrome receive FIDO2 security-key passthrough for WebAuthn/passkeys. At launch
+  the browser wrapper binds only the FIDO-tagged hidraw node plus read-only `/sys` and `/run/udev`
+  while a token is present. The CanoKey KBD and CCID interfaces, other HID devices and raw USB stay
+  outside the sandbox; Brave Origin and Edge receive no FIDO2 passthrough. A compromised browser can
+  use the key's FIDO interface; the key's PIN and touch policy remain the authentication boundary.
 - Nixpak supplements Chromium's renderer sandbox, which remains enabled. Zoom/WeChat retain their
   FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
 - Desktop access has limits: GPU drivers remain exposed, PulseAudio permits recording, read-only
@@ -348,8 +353,9 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - Policy/build passes for all nine wrappers. Interactive validation passed for Firefox, Chrome,
   Chromium, Brave Origin, Edge, QQ, Telegram and Zoom; the Chromium smoke test also validates
   renderer sandboxing, environment clearing, bind scope and profile persistence. WeChat's
-  interactive Wayland check remains pending. See the
-  [runtime validation](../hardening/tests/runtime-validation.md).
+  interactive Wayland check remains pending. FIDO2 browser passthrough for Firefox/Chromium/Chrome
+  passes policy/build; interactive WebAuthn registration and assertion with the CanoKey still need
+  validation. See the [runtime validation](../hardening/tests/runtime-validation.md).
 
 #### Agent-first diagnostics by host role
 

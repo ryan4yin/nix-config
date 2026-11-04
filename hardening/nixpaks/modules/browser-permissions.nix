@@ -1,14 +1,17 @@
 # Shared browser capabilities. Network topology and application profiles are
-# selected by the app; personal files, browserpass, Secret portal and media are explicit opt-ins.
+# selected by the app; personal files, browserpass, Secret portal, media and
+# FIDO2 security-key access are explicit opt-ins.
 {
   config,
   lib,
+  pkgs,
   sloth,
   ...
 }:
 let
   cfg = config.browserPermissions;
   passwordStore = sloth.concat' sloth.homeDir "/.local/share/password-store";
+  fidoBwrap = import ./fido-bwrap.nix { inherit pkgs; };
 in
 {
   imports = [ ./desktop-base.nix ];
@@ -17,6 +20,7 @@ in
     personalFiles = lib.mkEnableOption "personal Documents, media directories and Trash";
     browserpass = lib.mkEnableOption "browserpass access to the password store and GPG agent";
     secretPortal = lib.mkEnableOption "the app-scoped Secret portal for v12 cookie encryption";
+    fido2 = lib.mkEnableOption "FIDO2 security-key (CanoKey/YubiKey) WebAuthn and passkey access";
   };
   config = {
     portalGroups = {
@@ -36,6 +40,7 @@ in
       accessibility = true;
     };
     bubblewrap = {
+      package = lib.mkIf cfg.fido2 fidoBwrap;
       sockets.pulse = cfg.media;
       bind.rw = [
         sloth.xdgDownloadDir
