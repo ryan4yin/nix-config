@@ -215,9 +215,9 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 
 ## Enrollment status
 
-| Key                      | Firmware | sudo              | SSH     | shoukei LUKS | OpenPGP | Browsers                         |
-| ------------------------ | -------- | ----------------- | ------- | ------------ | ------- | -------------------------------- |
-| CanoKey Canary (primary) | 3.0.3    | works on idols-ai | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
+| Key                      | Firmware | sudo              | SSH                                                        | shoukei LUKS                  | OpenPGP  | Browsers                         |
+| ------------------------ | -------- | ----------------- | ---------------------------------------------------------- | ----------------------------- | -------- | -------------------------------- |
+| CanoKey Canary (primary) | 3.0.3    | works on idols-ai | key created; public key not yet in `mainSshAuthorizedKeys` | enrolled; unlock not verified | deferred | WebAuthn works in Firefox/Chrome |
 
 shoukei's first boots with the FIDO2 slot asked for the PIN, then fell back to the passphrase: USB
 only came up after switch-root, because on linux-asahi 7.2 its dwc3/PHY depend on the Thunderbolt
