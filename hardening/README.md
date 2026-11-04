@@ -17,6 +17,7 @@ workflow.
 - Cleared environment; filtered session D-Bus; private `/dev/shm`; per-app `/tmp`. Chromium-family
   browsers share an app-specific `/tmp` so external URLs reuse one browser instance.
 - Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
+- Host timezone: `TZ` and `TZDIR` are passed through from the session environment.
 - Portals for file chooser, URI opening, notifications, input methods and document exports.
 - No whole host home, system D-Bus, SSH agent, raw USB/serial or raw camera. The only device
   passthrough is a security key's FIDO interface for Firefox/Chromium/Chrome; see [Limits](#limits).

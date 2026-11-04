@@ -151,6 +151,11 @@
       "NO_AT_BRIDGE"
       "QT_QPA_PLATFORMTHEME"
       "QT_WAYLAND_DISABLE_WINDOWDECORATION"
+      # ICU takes the zone name from the /etc/localtime symlink target path, but
+      # the sandbox binds it as a plain file, leaving only the ambiguous "CST"
+      # abbreviation; pass the name from the session.
+      "TZ"
+      "TZDIR"
     ] (name: sloth.envOr name "");
   };
 }

@@ -144,6 +144,12 @@ let
         "${name}/personalFiles" =
           (app.browserPermissions.personalFiles or false) == (spec.personalFiles or false);
         "${name}/secretPortal" = secretPortalCheck app (spec.secretPortal or false);
+        # nixpak resolves "env" entries from the launcher environment.
+        "${name}/timeZonePassthrough" =
+          app.bubblewrap.env ? TZ
+          && app.bubblewrap.env.TZ.type == "env"
+          && app.bubblewrap.env ? TZDIR
+          && app.bubblewrap.env.TZDIR.type == "env";
       };
       extraChecks = lib.mapAttrs' (checkName: value: {
         name = "${name}/${checkName}";
