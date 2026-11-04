@@ -89,9 +89,10 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   app. See [canokey.nix](../modules/nixos/desktop/canokey.nix) for the policy and its limits.
 - FIDO2 hotplug relies on udev events, which only reach the host network namespace. Firefox and
   Chromium therefore detect keys plugged in after launch; pasta-isolated Chrome needs the key
-  present before launch. After the first deploy, replug the key (or run
-  `sudo udevadm trigger --action=add -s hidraw`) so the host rules link it, then fully restart the
-  browsers: a browser started while `/dev/fido-hidraw` was missing has no bind for it.
+  present before launch. `/dev/fido-hidraw` is created at boot. When first deploying with `switch`
+  instead of a reboot, run `sudo systemd-tmpfiles --create --prefix=/dev/fido-hidraw`, then replug
+  the key (or `sudo udevadm trigger --action=add -s hidraw`) and fully restart the browsers: a
+  browser started while the directory was missing has no bind for it.
 - Firefox camera and remote screen sharing are intentionally disabled. Firefox does not support the
   XDG Camera/ScreenCast portal path used here, so granting camera or screen-capture access would
   require widening the sandbox with raw `/dev/video*` or direct PipeWire access. We choose not to
