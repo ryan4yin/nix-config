@@ -11,7 +11,7 @@ in
 
   modules.desktop.vinput.enable = true;
 
-  # CanoKey key first (see home/base/tui/ssh.nix), this host's key as backup.
+  # CanoKey key first (docs/security-keys.md), this host's key as backup.
   programs.ssh.settings."github.com".IdentityFile = [
     "${config.home.homeDirectory}/.ssh/id_ed25519_sk"
     "${config.home.homeDirectory}/.ssh/${hostName}"

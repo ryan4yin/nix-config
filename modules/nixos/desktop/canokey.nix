@@ -15,6 +15,7 @@ in
     enable = lib.mkEnableOption "CanoKey hardware security key support";
   };
 
+  # Setup, backup keys and recovery: docs/security-keys.md
   # CanoKey docs: https://docs.canokeys.org/userguide/
   #
   # Principle: management and use happen on different devices. Linux PCs only
@@ -32,11 +33,10 @@ in
     # systemd tags FIDO/CCID devices uaccess (60-fido-id.rules); pcscd covers OpenPGP.
     services.pcscd.enable = true;
 
-    # sudo accepts a CanoKey touch instead of the password; without the key it
-    # asks for the password as before. Login keeps the password, which also
-    # unlocks GNOME Keyring. Register the key once with
-    #   pamu2fcfg -n -o pam://ryan4yin -i pam://ryan4yin
-    # and add the output to myvars.canokeyU2fKeys; sudo is unchanged until then.
+    # sudo accepts a key touch instead of the password; without the key it asks
+    # for the password as before. Login keeps the password, which also unlocks
+    # GNOME Keyring. sudo is unchanged until myvars.canokeyU2fKeys has an entry
+    # (registration: docs/security-keys.md).
     security.pam.u2f.settings = {
       authfile = pkgs.writeText "u2f-keys" ''
         ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}

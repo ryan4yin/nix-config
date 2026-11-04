@@ -55,8 +55,7 @@ in
       bypassWorkqueues = true;
       # Unlock with the CanoKey (FIDO2 PIN + touch); the passphrase slot stays.
       # Without the key, the passphrase prompt appears after token-timeout.
-      # Enroll once with:
-      #   sudo systemd-cryptenroll --fido2-device=auto /dev/disk/by-uuid/1c37820e-2501-46e4-bec4-27c28691a5b4
+      # Enroll before deploying: docs/security-keys.md.
       crypttabExtraOpts = [
         "fido2-device=auto"
         "token-timeout=10s"

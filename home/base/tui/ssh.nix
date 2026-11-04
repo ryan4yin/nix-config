@@ -26,15 +26,10 @@ in
 {
   home.file.".ssh/romantic.pub".source = "${mysecrets}/public/romantic.pub";
 
-  # One homelab SSH key lives on the CanoKey as a resident FIDO2 credential;
-  # every use needs a touch. Create it once (FIDO2 PIN required):
-  #   ssh-keygen -t ed25519-sk -O resident -O application=ssh:homelab -C ryan@canokey
-  # then on each desktop export its key handle to ~/.ssh/id_ed25519_sk, the
-  # default identity that ssh tries for every host:
-  #   cd ~/.ssh && ssh-keygen -K && mv id_ed25519_sk_rk_homelab id_ed25519_sk \
-  #     && mv id_ed25519_sk_rk_homelab.pub id_ed25519_sk.pub
-  # The public key goes into myvars.mainSshAuthorizedKeys; the per-host keys
-  # stay authorized as the backup when the CanoKey is absent.
+  # One homelab SSH key lives on the CanoKey as a resident FIDO2 credential,
+  # exported on each desktop to ~/.ssh/id_ed25519_sk (ssh's default identity);
+  # every use needs a touch. The per-host keys stay authorized as the backup.
+  # Setup: docs/security-keys.md.
   programs.ssh = {
     enable = true;
 

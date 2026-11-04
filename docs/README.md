@@ -17,6 +17,7 @@ those entry points.
 
 - [Security](SECURITY.md) — threat model, trust boundaries, implemented controls and audits.
 - [Backups](BACKUP.md) — backup layers, password model, retention and restore procedure.
+- [Hardware security keys](security-keys.md) — CanoKey/YubiKey setup, backup keys and recovery.
 - [Workarounds and known gaps](WORKAROUNDS.md) — pins, temporary workarounds and removal conditions.
 - [BIOS settings](bios.md) — firmware settings for the physical hosts.
 - [Wake-on-LAN](wake-on-lan.md) — firmware prerequisites, NixOS setup and wake commands.
