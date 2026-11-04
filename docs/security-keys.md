@@ -41,26 +41,35 @@ Defaults, from the [CanoKey user guide](https://docs.canokeys.org/userguide/):
 Touch policies are enforced **only over USB, not NFC**, so disable the NFC path of anything that
 relies on touch.
 
-1. Check the firmware version. 3.1.0+ has per-interface switches and the WebAuthn options below; U2F
-   (sudo) needs 3.0.2+.
+1. Check the firmware version in the app. U2F (sudo) does not work on 3.0.0; 3.0.2 and later are
+   fine. The newest public release is canokey-core
+   [3.0.3](https://github.com/canokeys/canokey-core/tags).
 2. Change the **Admin PIN** to a long random value. Store it on the phone or offline, not in the
    PC's `pass`.
-3. Settings:
+3. Settings on released firmware (the user guide lists LED, NDEF and WebUSB login page):
 
-   | Setting                         | Choice                                        | Why                                                         |
-   | ------------------------------- | --------------------------------------------- | ----------------------------------------------------------- |
-   | LED                             | on                                            | an unexpected blink means something requested a touch       |
-   | WebUSB login page               | off                                           | the console is not used on PCs                              |
-   | NDEF                            | off or read-only                              | default is writable plaintext; anyone nearby can rewrite it |
-   | OpenPGP / PIV over NFC          | off (keep OpenPGP only if the phone needs it) | touch is not enforced over NFC                              |
-   | Keyboard output (Password/HOTP) | off unless used                               | a stray touch would type into the focused window            |
-   | WebAuthn over NFC               | on                                            | phone passkeys; PIN-protected                               |
-   | WebAuthn `alwaysUv`             | off                                           | on breaks U2F, which sudo uses                              |
-   | WebAuthn minimum PIN length     | 6–8                                           | the PIN locks after a few failures                          |
-   | Long-press reset (3.1.0+)       | off, unless the app documents it as PIN-gated | keeps reset a phone-side management action                  |
-   | PIV                             | off, or change PIN, PUK and management key    | defaults are public                                         |
+   | Setting           | Choice                                      | Why                                                                       |
+   | ----------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
+   | LED               | on                                          | an unexpected blink means something requested a touch                     |
+   | WebUSB login page | off                                         | the console is not used on PCs                                            |
+   | NDEF              | off, or read-only if the app offers it      | default is enabled; anyone nearby can read it, and rewrite it if writable |
+   | PIV               | change PIN, PUK and management key, if used | defaults are public                                                       |
 
-4. Set the **FIDO2 PIN** in the app, or when a browser first asks for it.
+   OpenPGP and PIV stay reachable over NFC and touch is not enforced there, but each NFC tap is a
+   new card session, so their PINs are still required.
+
+4. The user guide also documents options for **firmware 3.1.0**, which has no public release yet
+   (only the docs mention it; canokey-core's `dev` branch is unversioned). If the app shows them:
+
+   | Option                                      | Choice                                        | Why                                        |
+   | ------------------------------------------- | --------------------------------------------- | ------------------------------------------ |
+   | OpenPGP / PIV over NFC                      | off, unless the phone needs OpenPGP           | touch is not enforced over NFC             |
+   | Password/HOTP keyboard output, PIV switches | off unless used                               | smaller attack surface                     |
+   | WebAuthn `alwaysUv`                         | off                                           | on breaks U2F, which sudo uses             |
+   | WebAuthn minimum PIN length                 | 6–8                                           | the PIN locks after a few failures         |
+   | Long-press reset                            | off, unless the app documents it as PIN-gated | keeps reset a phone-side management action |
+
+5. Set the **FIDO2 PIN** in the app, or when a browser first asks for it.
 
 ## 2. Enroll a key
 
@@ -169,9 +178,9 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 | ------------------------ | ------- | ------- | ------------ | ------- | -------------------------------- |
 | CanoKey Canary (primary) | pending | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
 
-Not yet verified on hardware: whether shoukei's initrd sees the key on its USB-C ports (the Asahi
-USB-C and `usbhid` modules are included), the CanoKey Admin PIN retry count, and how touch is
-performed when resetting over NFC.
+Not yet verified on hardware: the key's firmware version, whether shoukei's initrd sees the key on
+its USB-C ports (the Asahi USB-C and `usbhid` modules are included), the CanoKey Admin PIN retry
+count, and how touch is performed when resetting over NFC.
 
 ## References
 
