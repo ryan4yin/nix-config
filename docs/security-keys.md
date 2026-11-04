@@ -192,9 +192,9 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 
 ## Enrollment status
 
-| Key                      | Firmware | sudo       | SSH     | shoukei LUKS | OpenPGP | Browsers                         |
-| ------------------------ | -------- | ---------- | ------- | ------------ | ------- | -------------------------------- |
-| CanoKey Canary (primary) | 3.0.3    | registered | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
+| Key                      | Firmware | sudo              | SSH     | shoukei LUKS | OpenPGP | Browsers                         |
+| ------------------------ | -------- | ----------------- | ------- | ------------ | ------- | -------------------------------- |
+| CanoKey Canary (primary) | 3.0.3    | works on idols-ai | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
 
 Not yet verified on hardware: whether shoukei's initrd sees the key on its USB-C ports (the Asahi
 USB-C and `usbhid` modules are included), the CanoKey Admin PIN retry count, and how touch is
