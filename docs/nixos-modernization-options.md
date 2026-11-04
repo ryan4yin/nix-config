@@ -235,7 +235,7 @@ no-trusted-user policy; `local-overlay-store` can cut store duplication for remo
 
 **Cons:** experimental features in a repo whose value is reproducibility; `nix-servd` is young;
 misconfiguration shows up as flaky builds rather than a clean failure; benefit is unclear while the
-current three-arch remote build setup works.
+current remote build setup works.
 
 **Reversibility:** medium (builds can be re-pointed, but half-migrated builders are confusing).
 

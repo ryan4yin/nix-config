@@ -8,21 +8,17 @@ let
   cfg = config.modules.remote-builders;
 
   # Aquamarine - the headless AI inference server (hosts/idols-aquamarine/).
-  # 24C/96G and boot.binfmt emulation for aarch64-linux and riscv64-linux, so it
-  # serves all three platforms this flake targets. `aquamarine` is also its SSH
-  # alias in /etc/ssh/ssh_config, and its host key is pinned in
+  # Native x86_64 only: an aarch64 build is faster on the client that needs it
+  # than under qemu-user here (hosts/idols-aquamarine/README.md), and this flake
+  # has no riscv64 output. `aquamarine` is also its SSH alias in
+  # /etc/ssh/ssh_config, and its host key is pinned in
   # /etc/ssh/ssh_known_hosts (vars/networking.nix).
   buildMachines = [
     {
       hostName = "aquamarine";
-      systems = [
-        "x86_64-linux" # native
-        "aarch64-linux" # qemu-user via binfmt
-        "riscv64-linux" # qemu-user via binfmt
-      ];
-      # `kvm` is omitted even though aquamarine virtualizes well: a foreign
-      # derivation requiring it would otherwise be scheduled there and fail under
-      # emulation instead of falling back to local execution.
+      systems = [ "x86_64-linux" ];
+      # `kvm` stays unadvertised: kvm-only derivations (VM tests) should run on
+      # the client instead of competing with the inference server.
       supportedFeatures = [
         "benchmark"
         "big-parallel"

@@ -269,8 +269,9 @@ group is what requires the recipient step above.
 
 ## Remote builds
 
-Aquamarine is the fleet's remote Nix builder: 24C/96G, plus `boot.binfmt.emulatedSystems` for
-`aarch64-linux` and `riscv64-linux`, so one machine serves all three platforms. Clients opt in with
+Aquamarine is the fleet's remote Nix builder: 24C/96G, serving native `x86_64-linux` only. It runs
+no `boot.binfmt.emulatedSystems`: emulated builds are ~10x slower per core, shoukei builds aarch64
+natively, and this flake has no riscv64 output. Clients opt in with
 `modules.remote-builders.enable`, defined in `modules/nixos/base/remote-builders.nix`.
 
 The builder's login user is `root`, which the daemon trusts by default, so this host needs no
