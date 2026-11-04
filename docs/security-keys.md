@@ -49,9 +49,14 @@ a default PIN or management key, anyone holding the key can use or rewrite that 
 | PIV         | management key    | `0102030405060708` × 3 | writing PIV keys and certificates                          | never           |
 | OATH        | none: no password | —                      | anyone holding the key can read its TOTP/HOTP codes        | —               |
 
-Use distinct values. The FIDO2 PIN is typed into browsers, the least trusted place, so it should not
-also unlock pass. Keep the setup and recovery secrets (both Admin PINs, Reset Code, PUK, management
-key) on the phone or offline, never in `pass`: `pass` itself is decrypted by this key.
+PIV is unused, so set its PIN, PUK and management key to random values and keep none of them: PIV is
+then locked rather than open with public defaults. To use PIV later, reset just the PIV application
+in the phone app (needs only the CanoKey Admin PIN), which restores the defaults.
+
+Use distinct values for the rest. The FIDO2 PIN is typed into browsers, the least trusted place, so
+it should not also unlock pass. Keep the setup and recovery secrets (both Admin PINs, Reset Code,
+PUK, management key) on the phone or offline, never in `pass`: `pass` itself is decrypted by this
+key.
 
 ### 1.2 Firmware and settings (phone app)
 
