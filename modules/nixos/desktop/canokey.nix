@@ -2,10 +2,13 @@
   pkgs,
   config,
   lib,
+  myvars,
   ...
 }:
 let
   cfg = config.modules.desktop.canokey;
+  # Shared by all hosts, so one registration works on idols-ai and shoukei.
+  u2fOrigin = "pam://ryan4yin";
 in
 {
   options.modules.desktop.canokey = {
@@ -29,9 +32,25 @@ in
     # systemd tags FIDO/CCID devices uaccess (60-fido-id.rules); pcscd covers OpenPGP.
     services.pcscd.enable = true;
 
+    # sudo accepts a CanoKey touch instead of the password; without the key it
+    # asks for the password as before. Login keeps the password, which also
+    # unlocks GNOME Keyring. Register the key once with
+    #   pamu2fcfg -n -o pam://ryan4yin -i pam://ryan4yin
+    # and add the output to myvars.canokeyU2fKeys; sudo is unchanged until then.
+    security.pam.u2f.settings = {
+      authfile = pkgs.writeText "u2f-keys" ''
+        ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}
+      '';
+      origin = u2fOrigin;
+      appid = u2fOrigin;
+      cue = true;
+    };
+    security.pam.services.sudo.u2f.enable = myvars.canokeyU2fKeys != [ ];
+
     environment.systemPackages = with pkgs; [
       ccid
       pcsc-tools
+      pam_u2f # pamu2fcfg
     ];
   };
 }

@@ -29,6 +29,9 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJwoI5MAogEa726jwwHL5EgM1X/i2A5d2pgV7i7t8fzB ryan@shoukei"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDc1PNTXzzvd93E+e9LXvnEzqgUI5gMTEF/IitvzgmL+ ryan@frieren"
   ];
+  # CanoKey U2F registrations for sudo (modules/nixos/desktop/canokey.nix).
+  # Key handles and public keys only, so they are safe to commit.
+  canokeyU2fKeys = [ ];
   secondaryAuthorizedKeys = [
     # the backup ssh keys for disaster recovery
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzYT0Fpcp681eHY5FJV2G8Mve53iX3hMOLGbVvfL+TF ryan@romantic"

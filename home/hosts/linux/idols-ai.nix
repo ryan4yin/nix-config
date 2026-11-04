@@ -12,7 +12,11 @@ in
 
   modules.desktop.vinput.enable = true;
 
-  programs.ssh.settings."github.com".IdentityFile = "${config.home.homeDirectory}/.ssh/idols-ai";
+  # CanoKey key first (see home/base/tui/ssh.nix), this host's key as backup.
+  programs.ssh.settings."github.com".IdentityFile = [
+    "${config.home.homeDirectory}/.ssh/id_ed25519_sk"
+    "${config.home.homeDirectory}/.ssh/idols-ai"
+  ];
 
   modules.desktop.gaming.enable = true;
   modules.desktop.niri.enable = true;

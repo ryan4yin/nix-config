@@ -53,6 +53,14 @@ in
       # Enabling this should improve performance on SSDs;
       # https://wiki.archlinux.org/index.php/Dm-crypt/Specialties#Disable_workqueue_for_increased_solid_state_drive_(SSD)_performance
       bypassWorkqueues = true;
+      # Unlock with the CanoKey (FIDO2 PIN + touch); the passphrase slot stays.
+      # Without the key, the passphrase prompt appears after token-timeout.
+      # Enroll once with:
+      #   sudo systemd-cryptenroll --fido2-device=auto /dev/disk/by-uuid/1c37820e-2501-46e4-bec4-27c28691a5b4
+      crypttabExtraOpts = [
+        "fido2-device=auto"
+        "token-timeout=10s"
+      ];
     };
   };
 
