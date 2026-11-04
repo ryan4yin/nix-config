@@ -7,8 +7,6 @@
 }:
 let
   cfg = config.modules.desktop.canokey;
-  # Shared by all hosts, so one registration works on idols-ai and shoukei.
-  u2fOrigin = "pam://ryan4yin";
 in
 {
   options.modules.desktop.canokey = {
@@ -30,8 +28,8 @@ in
       authfile = pkgs.writeText "u2f-keys" ''
         ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}
       '';
-      origin = u2fOrigin;
-      appid = u2fOrigin;
+      # Shared by all hosts, so one registration works on idols-ai and shoukei.
+      origin = "pam://ryan4yin";
       cue = true;
     };
     security.pam.services.sudo.u2f.enable = myvars.canokeyU2fKeys != [ ];
