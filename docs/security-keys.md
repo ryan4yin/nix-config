@@ -38,25 +38,25 @@ firmware), and blocking one does not affect the others. The defaults are public 
 (CanoKey Console) **before using the key for anything**, including applications you do not use: with
 a default PIN or management key, anyone holding the key can use or rewrite that application.
 
-| Application | Secret            | Default                | Protects                                                   | Typed           |
-| ----------- | ----------------- | ---------------------- | ---------------------------------------------------------- | --------------- |
-| Device      | CanoKey Admin PIN | `123456`               | settings, per-application and factory reset                | phone only      |
-| WebAuthn    | FIDO2 PIN         | unset                  | passkeys, LUKS unlock, SSH key creation and export         | daily, browsers |
-| OpenPGP     | PIN               | `123456`               | decrypt (pass), sign, authenticate                         | daily, pinentry |
-| OpenPGP     | Admin PIN         | `12345678`             | key import (`keytocard`), touch policy, unblocking the PIN | setup only      |
-| OpenPGP     | Reset Code        | unset                  | unblocking the PIN without the Admin PIN                   | recovery only   |
-| PIV         | PIN / PUK         | `123456` / `12345678`  | PIV keys / unblocking the PIV PIN (PIV is unused here)     | never           |
-| PIV         | management key    | `0102030405060708` × 3 | writing PIV keys and certificates                          | never           |
-| OATH        | none: no password | —                      | anyone holding the key can read its TOTP/HOTP codes        | —               |
+| Application | Secret            | Default                | Protects                                                   | Set it to                                                             | Typed           |
+| ----------- | ----------------- | ---------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------- | --------------- |
+| Device      | CanoKey Admin PIN | `123456`               | settings, per-application and factory reset                | random, 12+ characters (6–64); save offline                           | phone only      |
+| WebAuthn    | FIDO2 PIN         | unset                  | passkeys, LUKS unlock, SSH key creation and export         | memorable, 8+ characters (4–63); memorize                             | daily, browsers |
+| OpenPGP     | PIN               | `123456`               | decrypt (pass), sign, authenticate                         | memorable, 8+ characters (6–64), not the FIDO2 PIN; memorize          | daily, pinentry |
+| OpenPGP     | Admin PIN         | `12345678`             | key import (`keytocard`), touch policy, unblocking the PIN | random, 12+ characters (8–64); save offline                           | setup only      |
+| OpenPGP     | Reset Code        | unset                  | unblocking the PIN without the Admin PIN                   | leave unset (the Admin PIN also unblocks), or random and save offline | recovery only   |
+| PIV         | PIN / PUK         | `123456` / `12345678`  | PIV keys / unblocking the PIV PIN                          | 8 random digits each (maximum 8); do not save                         | never           |
+| PIV         | management key    | `0102030405060708` × 3 | writing PIV keys and certificates                          | the app's random management key button; do not save                   | never           |
+| OATH        | none: no password | —                      | anyone holding the key can read its TOTP/HOTP codes        | —                                                                     | —               |
 
-PIV is unused, so set its PIN, PUK and management key to random values and keep none of them: PIV is
-then locked rather than open with public defaults. To use PIV later, reset just the PIV application
-in the phone app (needs only the CanoKey Admin PIN), which restores the defaults.
+Every PIN locks after 3 wrong attempts, so length matters less than not reusing a value. Generate
+the random values with the phone's password manager; "save offline" means that password manager or
+paper, never `pass`: `pass` itself is decrypted by this key. The FIDO2 PIN is typed into browsers,
+the least trusted place, so it must not also unlock pass.
 
-Use distinct values for the rest. The FIDO2 PIN is typed into browsers, the least trusted place, so
-it should not also unlock pass. Keep the setup and recovery secrets (both Admin PINs, Reset Code,
-PUK, management key) on the phone or offline, never in `pass`: `pass` itself is decrypted by this
-key.
+PIV is unused, so its secrets are random and discarded: PIV is then locked rather than open with
+public defaults. To use PIV later, reset just the PIV application in the phone app (needs only the
+CanoKey Admin PIN), which restores the defaults.
 
 ### 1.2 Firmware and settings (phone app)
 
