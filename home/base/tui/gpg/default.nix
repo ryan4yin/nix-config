@@ -78,5 +78,8 @@
       # Specify how many times the passphrases mangling for symmetric encryption is repeated
       s2k-count = "65011712";
     };
+    # Reach the CanoKey through pcscd instead of scdaemon's own CCID driver,
+    # which would grab the USB interface exclusively (CanoKey OpenPGP FAQ).
+    scdaemonSettings.disable-ccid = true;
   };
 }

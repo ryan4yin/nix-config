@@ -32,8 +32,8 @@ Currently I use both age & GnuPG:
 1. Age for secrets encryption(ssh key & other secret files), it's simple and easy to use.
 2. GnuPG for password-store and email encryption.
 
-> At present, the safe and efficient use of GPG is probably combined with hardware keys such as
-> yubikey. but I don't have one, so I won't talk about it here.
+> Moving the subkeys onto a hardware key (CanoKey/YubiKey) is covered in
+> [hardware security keys](../../../../docs/security-keys.md#pass-openpgp).
 
 ## Practical Cryptography for Developers
 
