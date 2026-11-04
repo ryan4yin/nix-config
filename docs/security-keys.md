@@ -98,7 +98,8 @@ deploy via `switch` without reboot, see the FIDO2 notes in the
 ### sudo
 
 ```bash
-pamu2fcfg -n -o pam://ryan4yin -i pam://ryan4yin   # touch the key
+# pamu2fcfg is installed once canokey.nix is deployed; before that:
+nix shell nixpkgs#pam_u2f -c pamu2fcfg -n -o pam://ryan4yin -i pam://ryan4yin   # touch the key
 ```
 
 Add the printed `KeyHandle,PublicKey,es256,+presence` string to `canokeyU2fKeys` in
