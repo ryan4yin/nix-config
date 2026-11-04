@@ -127,11 +127,26 @@ cd ~/.ssh && ssh-keygen -K \
   && mv id_ed25519_sk_rk_ryan4yin id_ed25519_sk && mv id_ed25519_sk_rk_ryan4yin.pub id_ed25519_sk.pub
 ```
 
-Leave the file passphrase empty when asked: the file is only a handle, useless without the key, and
-the key's touch protects every use. Add the public key to `mainSshAuthorizedKeys` in
-[vars/default.nix](../vars/default.nix) and to GitHub. GitHub tries `id_ed25519_sk` before the
-per-host key; other hosts try it as a default identity. Keys already loaded in `ssh-agent` are
-offered first, so the per-host keys can still win until they are retired.
+How it works, and what the prompts mean:
+
+- The private key never leaves the CanoKey. `~/.ssh/id_ed25519_sk` holds only the credential ID,
+  application and public key. Every authentication sends the server's challenge to the key, which
+  signs it after a touch; with the key unplugged, ssh skips this identity and tries the next one.
+- **FIDO2 PIN:** asked only when creating the credential and when exporting it with `-K`, not for
+  each login. Adding `-O verify-required` at creation would require the PIN for every login too.
+- **Touch:** required for every new connection, including each `git push`/`fetch`. Existing sessions
+  and reused connections need none: LAN hosts multiplex for 30 minutes (`ControlMaster` in
+  [ssh.nix](../home/base/tui/ssh.nix)). A deploy that opens one connection per host needs one touch
+  per host.
+- **File passphrase:** leave it empty. It would only matter if someone had both the file and the key
+  while `ssh-agent` had not loaded it yet, and both desktops' disks are LUKS-encrypted. Setting one
+  costs one prompt per login, not per connection: `AddKeysToAgent yes` keeps the unlocked handle in
+  the agent, which still asks the key for each signature.
+
+Add the public key to `mainSshAuthorizedKeys` in [vars/default.nix](../vars/default.nix) and to
+GitHub. GitHub tries `id_ed25519_sk` before the per-host key; other hosts try it as a default
+identity. Keys already loaded in `ssh-agent` are offered first, so the per-host keys can still win
+until they are retired.
 
 ### shoukei LUKS
 
