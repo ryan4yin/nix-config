@@ -11,8 +11,9 @@ GnuPG `scdaemon` setting; servers never use a key.
 Management and use happen on different devices.
 
 - **PCs only use the key:** WebAuthn/passkeys, sudo, SSH, LUKS unlock and OpenPGP (pass).
-- **Management happens only in the phone app** (CanoKey app on iOS/Android): Admin PIN, application
-  and factory reset, device settings. The CanoKey Admin PIN is never typed on a PC.
+- **Management happens only in the phone app** (CanoKey Console on iOS/Android): every PIN change,
+  touch policies, application and factory reset, device settings. The CanoKey Admin PIN is never
+  typed on a PC; the OpenPGP Admin PIN is typed once, for `keytocard`.
 - Sandboxed browsers see only the FIDO HID interface, never raw USB or CCID, so the WebUSB console
   is unreachable from them ([hardening](../hardening/README.md)). Unsandboxed software is trusted;
   if it is malicious, the PC is compromised regardless.
@@ -31,21 +32,26 @@ Login (greetd) stays password-based: the password also unlocks GNOME Keyring.
 
 ### 1.1 Replace every default secret first
 
-Every default below is public (from the [CanoKey user guide](https://docs.canokeys.org/userguide/)),
-so change them **before using the key for anything**, including applications you do not use: with a
-default PIN or management key, anyone holding the key can use or rewrite that application.
+Each application has its own secrets: separate values, separate retry counters (3 on released
+firmware), and blocking one does not affect the others. The defaults are public (from the
+[CanoKey user guide](https://docs.canokeys.org/userguide/)), so change all of them in the phone app
+(CanoKey Console) **before using the key for anything**, including applications you do not use: with
+a default PIN or management key, anyone holding the key can use or rewrite that application.
 
-| Secret                                      | Default                                  | Change with                                                                        | Daily use |
-| ------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------- | --------- |
-| CanoKey Admin PIN                           | `123456`                                 | phone app                                                                          | no        |
-| FIDO2 PIN                                   | none (unset)                             | phone app                                                                          | yes       |
-| OpenPGP PIN / Admin PIN / Reset Code        | `123456` / `12345678` / unset            | `gpg --card-edit` → `admin` → `passwd` (options 1, 3, 4)                           | PIN only  |
-| PIV PIN / PUK / management key (PIV unused) | `123456` / `12345678` / `0102…0708` (×3) | `yubico-piv-tool -r canokey -a change-pin`, then `-a change-puk`, `-a set-mgm-key` | no        |
+| Application | Secret            | Default                | Protects                                                   | Typed           |
+| ----------- | ----------------- | ---------------------- | ---------------------------------------------------------- | --------------- |
+| Device      | CanoKey Admin PIN | `123456`               | settings, per-application and factory reset                | phone only      |
+| WebAuthn    | FIDO2 PIN         | unset                  | passkeys, LUKS unlock, SSH key creation and export         | daily, browsers |
+| OpenPGP     | PIN               | `123456`               | decrypt (pass), sign, authenticate                         | daily, pinentry |
+| OpenPGP     | Admin PIN         | `12345678`             | key import (`keytocard`), touch policy, unblocking the PIN | setup only      |
+| OpenPGP     | Reset Code        | unset                  | unblocking the PIN without the Admin PIN                   | recovery only   |
+| PIV         | PIN / PUK         | `123456` / `12345678`  | PIV keys / unblocking the PIV PIN (PIV is unused here)     | never           |
+| PIV         | management key    | `0102030405060708` × 3 | writing PIV keys and certificates                          | never           |
+| OATH        | none: no password | —                      | anyone holding the key can read its TOTP/HOTP codes        | —               |
 
-Store the secrets not used daily (Admin PINs, Reset Code, PUK, management key) on the phone or
-offline, never in `pass`: `pass` itself is decrypted by this key. Each PIN locks after 3 wrong
-attempts on released firmware. `yubico-piv-tool` is not installed; run it with
-`nix shell nixpkgs#yubico-piv-tool`.
+Use distinct values. The FIDO2 PIN is typed into browsers, the least trusted place, so it should not
+also unlock pass. Keep the setup and recovery secrets (both Admin PINs, Reset Code, PUK, management
+key) on the phone or offline, never in `pass`: `pass` itself is decrypted by this key.
 
 ### 1.2 Firmware and settings (phone app)
 
@@ -138,14 +144,16 @@ offline.
    with a stub.
 2. Move the subkeys: `gpg --edit-key 0xCC88591C033F1924`, then `key 1` → `keytocard` (encryption),
    and likewise for the signing and authentication subkeys; `save`.
-3. Require touch: `gpg --card-edit` → `admin` → `uif 1 on`, `uif 2 on`, `uif 3 on`. Decrypt touch
-   matters most: browserpass gives browsers the GPG agent socket, and without touch a compromised
-   browser could decrypt the whole store silently after the first PIN.
+3. Require touch for SIG, DEC and AUT in the phone app's OpenPGP page (or on the PC:
+   `gpg --card-edit` → `admin` → `uif 1 on`, `uif 2 on`, `uif 3 on`). Decrypt touch matters most:
+   browserpass gives browsers the GPG agent socket, and without touch a compromised browser could
+   decrypt the whole store silently after the first PIN.
 4. On other machines that still hold on-disk copies, delete them
    (`gpg --delete-secret-keys '<subkey-fingerprint>!'`) and run `gpg --card-status` so gpg records
    stubs for the card.
 
-The OpenPGP Admin PIN is card administration for this one-time setup, not CanoKey management.
+`keytocard` is the only step that types the OpenPGP Admin PIN on a PC; change it again in the phone
+app afterwards.
 
 ## 3. Add a backup key
 
