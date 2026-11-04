@@ -174,13 +174,13 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 
 ## Enrollment status
 
-| Key                      | sudo    | SSH     | shoukei LUKS | OpenPGP | Browsers                         |
-| ------------------------ | ------- | ------- | ------------ | ------- | -------------------------------- |
-| CanoKey Canary (primary) | pending | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
+| Key                      | Firmware | sudo    | SSH     | shoukei LUKS | OpenPGP | Browsers                         |
+| ------------------------ | -------- | ------- | ------- | ------------ | ------- | -------------------------------- |
+| CanoKey Canary (primary) | 3.0.3    | pending | pending | pending      | pending | WebAuthn works in Firefox/Chrome |
 
-Not yet verified on hardware: the key's firmware version, whether shoukei's initrd sees the key on
-its USB-C ports (the Asahi USB-C and `usbhid` modules are included), the CanoKey Admin PIN retry
-count, and how touch is performed when resetting over NFC.
+Not yet verified on hardware: whether shoukei's initrd sees the key on its USB-C ports (the Asahi
+USB-C and `usbhid` modules are included), the CanoKey Admin PIN retry count, and how touch is
+performed when resetting over NFC.
 
 ## References
 
