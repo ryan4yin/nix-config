@@ -42,7 +42,9 @@ let
     || lib.hasPrefix "/dev/video" path
     || lib.hasPrefix "/dev/bus/usb" path
     || path == "/run/dbus"
-    || path == "/run/dbus/system_bus_socket";
+    || path == "/run/dbus/system_bus_socket"
+    || path == "/sys"
+    || path == "/run/udev";
 
   hasHostFontconfig = app: lib.elem [ "/etc/static/fonts" "/etc/fonts" ] app.bubblewrap.bind.ro;
 
@@ -95,6 +97,14 @@ let
       !(app.browserPermissions.secretPortal or false)
       && !(hasDbusFragment app "org.freedesktop.portal.Secret");
 
+  # FIDO2 needs both the udev-maintained node directory and the bwrap wrapper
+  # that links /dev/hidrawN into it; neither may leak to other apps.
+  fido2Check =
+    app: expected:
+    (app.browserPermissions.fido2 or false) == expected
+    && lib.elem "/dev/fido-hidraw" app.bubblewrap.bind.dev == expected
+    && (lib.getName app.bubblewrap.package == "bwrap") == expected;
+
   trayCheck =
     app: expected:
     if expected then
@@ -130,7 +140,7 @@ let
         "${name}/tray" = trayCheck app (spec.tray or false);
         "${name}/browserpass" =
           (app.browserPermissions.browserpass or false) == (spec.browserpass or false);
-        "${name}/fido2" = (app.browserPermissions.fido2 or false) == (spec.fido2 or false);
+        "${name}/fido2" = fido2Check app (spec.fido2 or false);
         "${name}/personalFiles" =
           (app.browserPermissions.personalFiles or false) == (spec.personalFiles or false);
         "${name}/secretPortal" = secretPortalCheck app (spec.secretPortal or false);

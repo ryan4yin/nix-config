@@ -19,10 +19,11 @@ workflow.
 - Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
 - Portals for file chooser, URI opening, notifications, input methods and document exports.
 - No whole host home, system D-Bus, SSH agent, raw USB/serial or raw camera. For
-  Firefox/Chromium/Chrome, the only device passthrough is the FIDO HID interface of a connected
-  security key: at launch the wrapper binds just the FIDO-tagged hidraw node plus read-only `/sys`
-  and `/run/udev` while that key is present. Other HID interfaces, CCID and raw USB stay hidden. Raw
-  PipeWire is granted only to MuseScore for its ALSA-via-PipeWire audio path; see [Limits](#limits).
+  Firefox/Chromium/Chrome, the only device passthrough is the FIDO HID interface of a security key:
+  host udev rules hard-link FIDO-tagged hidraw nodes into `/dev/fido-hidraw`, which the sandbox
+  binds together with read-only `/sys/class/hidraw` and the udev database, so keys can be plugged in
+  after launch. Other HID interfaces, CCID and raw USB stay hidden. Raw PipeWire is granted only to
+  MuseScore for its ALSA-via-PipeWire audio path; see [Limits](#limits).
 - Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback. Chromium is
   an intentional development exception. Brave Origin and Edge are backup browsers and receive no
   media grants.
@@ -79,9 +80,14 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   are backup browsers, not media browsers. They also receive no FIDO2 passthrough.
 - FIDO2 passthrough is limited to the hidraw interface whose report descriptor declares the FIDO
   usage page. On the CanoKey that is the FIDO interface only: its KBD and CCID interfaces, other HID
-  devices and raw USB stay outside the sandbox. A compromised browser can use the key for
-  WebAuthn/CTAP and, with a page-granted WebHID permission, raw CTAP; the key's PIN and touch policy
-  remain the authentication boundary.
+  devices and raw USB stay outside the sandbox. A compromised browser process can send raw CTAP to
+  the key; the key's PIN and touch policy remain the authentication boundary. The read-only udev
+  database exposes properties of all host devices, much of which is already readable via the sysfs
+  device binds.
+- FIDO2 hotplug relies on udev events, which only reach the host network namespace. Firefox and
+  Chromium therefore detect keys plugged in after launch; pasta-isolated Chrome needs the key
+  present before launch. After the first deploy, replug the key once (or run
+  `udevadm trigger -s hidraw`) so the host rules link it.
 - Firefox camera and remote screen sharing are intentionally disabled. Firefox does not support the
   XDG Camera/ScreenCast portal path used here, so granting camera or screen-capture access would
   require widening the sandbox with raw `/dev/video*` or direct PipeWire access. We choose not to
@@ -117,7 +123,7 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - FIDO2 browser passthrough is enabled for Firefox/Chromium/Chrome only. Policy/build checks pass;
-  interactive WebAuthn registration and assertion with the CanoKey still need validation.
+  interactive WebAuthn registration, assertion and hotplug with the CanoKey still need validation.
 - WeChat uses the native nixpkgs-master package with nixpak as the only bwrap layer. Build/policy
   pass; interactive Wayland validation is still pending.
 - Evidence and repeat commands: [runtime validation](tests/runtime-validation.md),

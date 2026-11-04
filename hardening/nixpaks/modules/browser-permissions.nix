@@ -11,7 +11,9 @@
 let
   cfg = config.browserPermissions;
   passwordStore = sloth.concat' sloth.homeDir "/.local/share/password-store";
-  fidoBwrap = import ./fido-bwrap.nix { inherit pkgs; };
+  # Maintained by the host udev rules in ../default.nix.
+  fidoDir = "/dev/fido-hidraw";
+  fidoBwrap = import ./fido-bwrap.nix { inherit pkgs fidoDir; };
 in
 {
   imports = [ ./desktop-base.nix ];
@@ -62,7 +64,17 @@ in
         (sloth.concat' sloth.homeDir "/.gnupg")
         passwordStore
         (sloth.concat' sloth.runtimeDir "/gnupg")
+      ]
+      # libudev enumeration and hotplug: hidraw class links (device directories
+      # come from desktop-base/GPU sysfs binds), the udev database without which
+      # devnode-backed devices count as uninitialized, and the control socket
+      # whose presence enables the udev monitor. Root owns the socket.
+      ++ lib.optionals cfg.fido2 [
+        "/sys/class/hidraw"
+        "/run/udev/data"
+        "/run/udev/control"
       ];
+      bind.dev = lib.optional cfg.fido2 fidoDir;
       env = lib.optionalAttrs cfg.browserpass { PASSWORD_STORE_DIR = passwordStore; };
     };
   };
