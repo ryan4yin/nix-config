@@ -99,7 +99,9 @@ deploy via `switch` without reboot, see the FIDO2 notes in the
 
 ```bash
 # pamu2fcfg is installed once canokey.nix is deployed; before that:
-nix shell nixpkgs#pam_u2f -c pamu2fcfg -n -o pam://ryan4yin -i pam://ryan4yin   # touch the key
+# Long options: some nix versions expand short flags such as -i after --command.
+nix shell nixpkgs#pam_u2f --command \
+  pamu2fcfg --nouser --origin=pam://ryan4yin --appid=pam://ryan4yin   # touch the key
 ```
 
 Add the printed `KeyHandle,PublicKey,es256,+presence` string to `canokeyU2fKeys` in
@@ -171,7 +173,7 @@ it is. On a YubiKey, manage settings with Yubico Authenticator or `ykman`; OpenP
 | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Device       | Section 1 again                                                                                                                                                                                                                                                  |
 | Browsers     | Register it on every site as an additional security key                                                                                                                                                                                                          |
-| sudo         | `pamu2fcfg -n -o pam://ryan4yin -i pam://ryan4yin` with only the backup plugged in; append to `canokeyU2fKeys`                                                                                                                                                   |
+| sudo         | `pamu2fcfg --nouser --origin=pam://ryan4yin --appid=pam://ryan4yin` with only the backup plugged in; append to `canokeyU2fKeys`                                                                                                                                  |
 | SSH          | Create a resident key on it with the same command; add its public key to `mainSshAuthorizedKeys` and GitHub. Use it with `ssh-add -K` (loads resident keys into the agent) instead of exporting a file                                                           |
 | shoukei LUKS | Run the same `systemd-cryptenroll --fido2-device=auto` with only the backup plugged in; it takes the next slot                                                                                                                                                   |
 | OpenPGP      | Import the subkeys from the backup into a fresh, temporary `GNUPGHOME`, `keytocard` them onto the backup key, then delete that `GNUPGHOME`. The stubs remember the card serial; after swapping cards run `gpg-connect-agent "scd serialno" "learn --force" /bye` |
