@@ -18,12 +18,10 @@ workflow.
   browsers share an app-specific `/tmp` so external URLs reuse one browser instance.
 - Read-only `/nix/store`; GPU and display; fonts and themes; LAN and Internet.
 - Portals for file chooser, URI opening, notifications, input methods and document exports.
-- No whole host home, system D-Bus, SSH agent, raw USB/serial or raw camera. For
-  Firefox/Chromium/Chrome, the only device passthrough is the FIDO HID interface of a security key:
-  host udev rules hard-link FIDO-tagged hidraw nodes into `/dev/fido-hidraw`, which the sandbox
-  binds together with read-only `/sys/class/hidraw` and the udev database, so keys can be plugged in
-  after launch. Other HID interfaces, CCID and raw USB stay hidden. Raw PipeWire is granted only to
-  MuseScore for its ALSA-via-PipeWire audio path; see [Limits](#limits).
+- No whole host home, system D-Bus, SSH agent, raw USB/serial or raw camera. The only device
+  passthrough is a security key's FIDO interface for Firefox/Chromium/Chrome; see [Limits](#limits).
+  Raw PipeWire is granted only to MuseScore for its ALSA-via-PipeWire audio path; see
+  [Limits](#limits).
 - Host loopback only for Firefox/Chromium; all other apps use pasta-isolated loopback. Chromium is
   an intentional development exception. Brave Origin and Edge are backup browsers and receive no
   media grants.
@@ -77,16 +75,15 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
 - Brave Origin and Edge intentionally have no PulseAudio, Camera, ScreenCast or MPRIS grants. They
-  are backup browsers, not media browsers. They also receive no FIDO2 passthrough.
-- FIDO2 passthrough is limited to the hidraw interface whose report descriptor declares the FIDO
-  usage page. On the CanoKey that is the FIDO interface only: its KBD and CCID interfaces, other HID
-  devices and raw USB stay outside the sandbox. A compromised browser process can send raw CTAP to
-  the key; the key's PIN and touch policy remain the authentication boundary. The read-only udev
+  are backup browsers, not media browsers.
+- FIDO2 passthrough: host udev rules hard-link only hidraw nodes whose report descriptor declares
+  the FIDO usage page into `/dev/fido-hidraw`; the sandbox binds that directory plus read-only
+  `/sys/class/hidraw` and the udev database. The CanoKey's KBD and CCID interfaces, other HID
+  devices and raw USB stay outside, so the WebUSB console is unreachable by design
+  ([key policy](../docs/security-keys.md)). A compromised browser process can send raw CTAP to the
+  key; the key's PIN and touch policy remain the authentication boundary. The read-only udev
   database exposes properties of all host devices, much of which is already readable via the sysfs
   device binds.
-- CanoKey management (CanoKey Console over WebUSB) is intentionally unavailable: Firefox has no
-  WebUSB and the sandbox exposes no raw USB. PCs only use the key; management happens in the phone
-  app. See [canokey.nix](../modules/nixos/desktop/canokey.nix) for the policy and its limits.
 - FIDO2 hotplug relies on udev events, which only reach the host network namespace. Firefox and
   Chromium therefore detect keys plugged in after launch; pasta-isolated Chrome needs the key
   present before launch. `/dev/fido-hidraw` is created at boot. When first deploying with `switch`

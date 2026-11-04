@@ -19,8 +19,7 @@ in
   # FIDO2 hotplug for sandboxed browsers (see modules/fido-bwrap.nix). The
   # directory is created at boot, before udevd starts, so the browser bind
   # succeeds even with no key present. NixOS applies /dev tmpfiles entries only
-  # at boot; after a switch without reboot, run
-  # `sudo systemd-tmpfiles --create --prefix=/dev/fido-hidraw` once.
+  # at boot; for a first deploy via switch, see hardening/README.md (Limits).
   # Hard links share the device inode, so logind's uaccess ACLs stay
   # authoritative, and removal on unplug leaves no stale node for a reused
   # hidraw minor. 60-fido-id.rules sets ID_FIDO_TOKEN from the report
