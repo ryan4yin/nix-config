@@ -27,38 +27,41 @@ Management and use happen on different devices.
 
 Login (greetd) stays password-based: the password also unlocks GNOME Keyring.
 
-## 1. Device settings (phone app)
+## 1. Device setup
 
-Defaults, from the [CanoKey user guide](https://docs.canokeys.org/userguide/):
+### 1.1 Replace every default secret first
 
-| Secret                  | Default                                            | Used for                                        |
-| ----------------------- | -------------------------------------------------- | ----------------------------------------------- |
-| CanoKey Admin PIN       | `123456`                                           | application reset and device settings           |
-| FIDO2 PIN               | none                                               | passkeys, credential management, LUKS, SSH keys |
-| OpenPGP PIN / Admin PIN | `123456` / `12345678`; Reset Code empty            | decrypt/sign / card administration              |
-| PIV PIN / PUK           | `123456` / `12345678`; management key is published | PIV (unused here)                               |
+Every default below is public (from the [CanoKey user guide](https://docs.canokeys.org/userguide/)),
+so change them **before using the key for anything**, including applications you do not use: with a
+default PIN or management key, anyone holding the key can use or rewrite that application.
 
-Touch policies are enforced **only over USB, not NFC**, so disable the NFC path of anything that
-relies on touch.
+| Secret                                      | Default                                  | Change with                                                        | Daily use |
+| ------------------------------------------- | ---------------------------------------- | ------------------------------------------------------------------ | --------- |
+| CanoKey Admin PIN                           | `123456`                                 | phone app                                                          | no        |
+| FIDO2 PIN                                   | none (unset)                             | phone app                                                          | yes       |
+| OpenPGP PIN / Admin PIN / Reset Code        | `123456` / `12345678` / unset            | `gpg --card-edit` → `admin` → `passwd` (options 1, 3, 4)           | PIN only  |
+| PIV PIN / PUK / management key (PIV unused) | `123456` / `12345678` / `0102…0708` (×3) | `yubico-piv-tool -a change-pin`, `-a change-puk`, `-a set-mgm-key` | no        |
 
-1. Check the firmware version in the app. U2F (sudo) does not work on 3.0.0; 3.0.2 and later are
-   fine. The newest public release is canokey-core
-   [3.0.3](https://github.com/canokeys/canokey-core/tags).
-2. Change the **Admin PIN** to a long random value. Store it on the phone or offline, not in the
-   PC's `pass`.
-3. Settings on released firmware (the user guide lists LED, NDEF and WebUSB login page):
+Store the secrets not used daily (Admin PINs, Reset Code, PUK, management key) on the phone or
+offline, never in `pass`: `pass` itself is decrypted by this key. Each PIN locks after 3 wrong
+attempts on released firmware.
 
-   | Setting           | Choice                                      | Why                                                                       |
-   | ----------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
-   | LED               | on                                          | an unexpected blink means something requested a touch                     |
-   | WebUSB login page | off                                         | the console is not used on PCs                                            |
-   | NDEF              | off, or read-only if the app offers it      | default is enabled; anyone nearby can read it, and rewrite it if writable |
-   | PIV               | change PIN, PUK and management key, if used | defaults are public                                                       |
+### 1.2 Firmware and settings (phone app)
 
-   OpenPGP and PIV stay reachable over NFC and touch is not enforced there, but each NFC tap is a
-   new card session, so their PINs are still required.
+Touch policies are enforced **only over USB, not NFC**. OpenPGP and PIV stay reachable over NFC on
+released firmware, but each NFC tap is a new card session, so their PINs are still required.
 
-4. The user guide also documents options for **firmware 3.1.0**, which has no public release yet
+1. Check the firmware version. U2F (sudo) does not work on 3.0.0; 3.0.2 and later are fine. The
+   newest public release is canokey-core [3.0.3](https://github.com/canokeys/canokey-core/tags).
+2. Settings on released firmware (the user guide lists LED, NDEF and WebUSB login page):
+
+   | Setting           | Choice                                 | Why                                                                       |
+   | ----------------- | -------------------------------------- | ------------------------------------------------------------------------- |
+   | LED               | on                                     | an unexpected blink means something requested a touch                     |
+   | WebUSB login page | off                                    | the console is not used on PCs                                            |
+   | NDEF              | off, or read-only if the app offers it | default is enabled; anyone nearby can read it, and rewrite it if writable |
+
+3. The user guide also documents options for **firmware 3.1.0**, which has no public release yet
    (only the docs mention it; canokey-core's `dev` branch is unversioned). If the app shows them:
 
    | Option                                      | Choice                                        | Why                                        |
@@ -69,11 +72,10 @@ relies on touch.
    | WebAuthn minimum PIN length                 | 6–8                                           | the PIN locks after a few failures         |
    | Long-press reset                            | off, unless the app documents it as PIN-gated | keeps reset a phone-side management action |
 
-5. Set the **FIDO2 PIN** in the app, or when a browser first asks for it.
-
 ## 2. Enroll a key
 
-Do these in order; each step can be rolled back on its own. Only the OpenPGP step is irreversible.
+Only after section 1.1. Do these in order; each step can be rolled back on its own. Only the OpenPGP
+step is irreversible.
 
 ### Browsers (WebAuthn / passkeys)
 
@@ -133,13 +135,12 @@ offline.
 
 1. Verify the **off-card backup** of all three subkeys first: `keytocard` replaces the on-disk copy
    with a stub.
-2. Change the OpenPGP PINs and set a Reset Code: `gpg --card-edit` → `admin` → `passwd`.
-3. Move the subkeys: `gpg --edit-key 0xCC88591C033F1924`, then `key 1` → `keytocard` (encryption),
+2. Move the subkeys: `gpg --edit-key 0xCC88591C033F1924`, then `key 1` → `keytocard` (encryption),
    and likewise for the signing and authentication subkeys; `save`.
-4. Require touch: `gpg --card-edit` → `admin` → `uif 1 on`, `uif 2 on`, `uif 3 on`. Decrypt touch
+3. Require touch: `gpg --card-edit` → `admin` → `uif 1 on`, `uif 2 on`, `uif 3 on`. Decrypt touch
    matters most: browserpass gives browsers the GPG agent socket, and without touch a compromised
    browser could decrypt the whole store silently after the first PIN.
-5. On other machines that still hold on-disk copies, delete them
+4. On other machines that still hold on-disk copies, delete them
    (`gpg --delete-secret-keys '<subkey-fingerprint>!'`) and run `gpg --card-status` so gpg records
    stubs for the card.
 
