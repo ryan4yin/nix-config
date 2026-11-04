@@ -84,6 +84,9 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   the key; the key's PIN and touch policy remain the authentication boundary. The read-only udev
   database exposes properties of all host devices, much of which is already readable via the sysfs
   device binds.
+- CanoKey management (CanoKey Console over WebUSB) is intentionally unavailable: Firefox has no
+  WebUSB and the sandbox exposes no raw USB. PCs only use the key; management happens in the phone
+  app. See [canokey.nix](../modules/nixos/desktop/canokey.nix) for the policy and its limits.
 - FIDO2 hotplug relies on udev events, which only reach the host network namespace. Firefox and
   Chromium therefore detect keys plugged in after launch; pasta-isolated Chrome needs the key
   present before launch. After the first deploy, replug the key once (or run
