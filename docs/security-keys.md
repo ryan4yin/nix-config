@@ -138,10 +138,11 @@ How it works, and what the prompts mean:
   and reused connections need none: LAN hosts multiplex for 30 minutes (`ControlMaster` in
   [ssh.nix](../home/base/tui/ssh.nix)). A deploy that opens one connection per host needs one touch
   per host.
-- **File passphrase:** leave it empty. It would only matter if someone had both the file and the key
-  while `ssh-agent` had not loaded it yet, and both desktops' disks are LUKS-encrypted. Setting one
-  costs one prompt per login, not per connection: `AddKeysToAgent yes` keeps the unlocked handle in
-  the agent, which still asks the key for each signature.
+- **File passphrase:** leave it empty. Reading the file already takes your user session, and
+  software running as you is trusted (see [Principle](#principle)); it could also capture the
+  passphrase the next time you type it. A passphrase would cost one prompt per login, not per
+  connection: `AddKeysToAgent yes` keeps the unlocked handle in the agent, which still asks the key
+  for each signature.
 
 Add the public key to `mainSshAuthorizedKeys` in [vars/default.nix](../vars/default.nix) and to
 GitHub. GitHub tries `id_ed25519_sk` before the per-host key; other hosts try it as a default
