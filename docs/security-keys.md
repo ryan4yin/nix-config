@@ -154,9 +154,14 @@ until they are retired.
 Enroll before deploying the crypttab change:
 
 ```bash
-sudo systemd-cryptenroll --fido2-device=auto /dev/disk/by-uuid/1c37820e-2501-46e4-bec4-27c28691a5b4
+systemd-cryptenroll --fido2-device=list   # as the user: shows the key's hidraw node
+sudo systemd-cryptenroll --fido2-device=/dev/hidrawN /dev/disk/by-uuid/1c37820e-2501-46e4-bec4-27c28691a5b4
 sudo systemd-cryptenroll /dev/disk/by-uuid/1c37820e-2501-46e4-bec4-27c28691a5b4   # list slots
 ```
+
+Name the hidraw node instead of `--fido2-device=auto`: libfido2 is built with PC/SC support, so root
+also finds the key's FIDO applet through pcscd (`pcsc://slot0`) and `auto` stops with "More than one
+FIDO device found". Unlocking at boot is unaffected: pcscd does not run in the initrd.
 
 The default enrollment requires the FIDO2 PIN and a touch; keep it that way, since the key often
 travels with the laptop. The passphrase slot stays. Reboot to verify.
