@@ -45,6 +45,10 @@
       "https://nix-cache.writefor.fun/cache.numtide.com"
       # Direct fallback if the LAN proxy is unavailable.
       "https://cache.numtide.com"
+
+      # My own NUR cache, built by the ryan4yin/nur-packages CI. NUR's npm
+      # dep hashes assume no registry mirror, so take them from the cache.
+      "https://ryan4yin.cachix.org"
     ];
 
     # WARNING: every key here trusts *everything* that key signs. Add one only
@@ -52,6 +56,8 @@
     # a third party the ability to ship you arbitrary store paths.
     trusted-public-keys = [
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      # ryan4yin.cachix.org, see substituters above.
+      "ryan4yin.cachix.org-1:Gbk27ZU5AYpGS9i3ssoLlwdvMIh0NxG0w8it/cv9kbU="
     ];
     builders-use-substitutes = true;
   };
