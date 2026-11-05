@@ -222,10 +222,10 @@ in
         ".config/Joplin" # joplin-desktop
 
         ".local/share/jupyter"
-        # Deliberately not persisted: ~/.ipython contains history.sqlite, and
-        # interactive sessions may contain credentials or other sensitive
-        # values. Home Manager recreates the profile config and startup helpers
-        # from the Nix store on every activation.
+        # Deliberately not persisted: IPython keeps its history database in
+        # memory (HistoryManager.hist_file = ":memory:") and the profile config
+        # and startup helpers are recreated from the Nix store on every
+        # activation, so this directory holds no state worth preserving.
 
         # ======================================
         # Cloud Native

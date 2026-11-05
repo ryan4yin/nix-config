@@ -2,7 +2,9 @@
 
 [`default.nix`](./default.nix) manages `~/.ipython/profile_default` with two pieces:
 
-- `ipython_config.py` disables SQLite history because interactive sessions may contain secrets.
+- `ipython_config.py` keeps SQLite history in memory (`HistoryManager.hist_file = ":memory:"`), so
+  arrow keys and `%history` recall the current session while nothing is written to disk, because
+  interactive sessions may contain secrets.
 - `startup/10-data-helpers.py` loads JSON, YAML, TOML, and CSV helpers at every IPython start. It
   also pre-imports a small set of common standard-library names such as `Path`, `Counter`, and
   `datetime`.
