@@ -805,11 +805,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793708441,
-        "narHash": "sha256-esnQlfudGZeaGSulzx9uI5QKhdCvFlEkapYidfyZcNs=",
+        "lastModified": 1793843001,
+        "narHash": "sha256-bNafslI7gVkq4lV5JYzzWsue5huz83vDhCahCJpQlR4=",
         "owner": "ryan4yin",
         "repo": "nur-packages",
-        "rev": "d82be0b8e35d4a8b0da245f9161cb420fe969853",
+        "rev": "7322204f7394643aed79f5a9b973bd7cfbfa3f90",
         "type": "github"
       },
       "original": {
