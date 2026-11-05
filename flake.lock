@@ -145,27 +145,6 @@
         "type": "github"
       }
     },
-    "dsh-nu": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nur-ryan4yin": "nur-ryan4yin"
-      },
-      "locked": {
-        "lastModified": 1793290908,
-        "narHash": "sha256-EXQpNeSoiLhk3NsfETZxuWbMwZT/01l/uP5maVziiCI=",
-        "owner": "ryan4yin",
-        "repo": "dsh-nu",
-        "rev": "b3a7c6eb7383aea56fe1ebbfbf06e5592952713a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryan4yin",
-        "repo": "dsh-nu",
-        "type": "github"
-      }
-    },
     "fcitx5-vinput": {
       "inputs": {
         "nixpkgs": [
@@ -780,27 +759,6 @@
     "nur-ryan4yin": {
       "inputs": {
         "nixpkgs": [
-          "dsh-nu",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1793285532,
-        "narHash": "sha256-srlNGg3/PBb3DfaC9ROlYl68VjxJfKPJoddFSU89oOQ=",
-        "owner": "ryan4yin",
-        "repo": "nur-packages",
-        "rev": "4687255272d66973ee4a8c1b025ca9f84371b9a6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryan4yin",
-        "repo": "nur-packages",
-        "type": "github"
-      }
-    },
-    "nur-ryan4yin_2": {
-      "inputs": {
-        "nixpkgs": [
           "nixpkgs"
         ]
       },
@@ -899,7 +857,6 @@
         "catppuccin": "catppuccin",
         "colmena": "colmena",
         "disko": "disko",
-        "dsh-nu": "dsh-nu",
         "fcitx5-vinput": "fcitx5-vinput",
         "haumea": "haumea",
         "home-manager": "home-manager",
@@ -923,7 +880,7 @@
         "nixpkgs-patched": "nixpkgs-patched",
         "nixpkgs-stable": "nixpkgs-stable",
         "nu_scripts": "nu_scripts",
-        "nur-ryan4yin": "nur-ryan4yin_2",
+        "nur-ryan4yin": "nur-ryan4yin",
         "ponytail": "ponytail",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",

@@ -1,17 +1,10 @@
 {
   pkgs,
   llm-agents,
-  dsh-nu,
   ...
 }:
 let
   agentPackages = llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
-  # dsh-nu's flake builds the plugin from its own checkout; this repository
-  # supplies the dsh installation it plugs into.
-  dshNu = dsh-nu.lib.mkDshNuPackage {
-    inherit pkgs;
-    inherit (pkgs) dsh;
-  };
   # llm-agents.nix still exposes OpenCode V2 as `opencode2` so it can coexist
   # with the v1 package. Re-expose its binary under the normal command name.
   opencode = pkgs.linkFarm "opencode" [
@@ -29,9 +22,8 @@ in
     agentPackages.qwen-code
     agentPackages.pi
     # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
-    # (node-addon-require-builtin probe), this one shims it. The Nushell-only
-    # plugin rides in through the package's withPlugins wrapper.
-    (pkgs.dsh.withPlugins [ dshNu ])
+    # (node-addon-require-builtin probe), this one shims it.
+    pkgs.dsh
 
     # Docs lookup CLI behind the find-docs skill (agents/skills/find-docs). The skill's flags are
     # written against this package, not against upstream's npx instructions.

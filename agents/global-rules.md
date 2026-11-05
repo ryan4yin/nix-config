@@ -119,9 +119,9 @@ For an impactful change, follow these steps in order, scaled to its risk:
   Agents MUST NOT delete config the task did not ask about; when config merely appears unused,
   report it instead. Ask before a breaking change.
 - Minimality is not a reason to encode a local workaround for an upstream defect. Fix the owning
-  upstream project first and consume the fixed revision; if a local stopgap is genuinely unavoidable,
-  stop and ask the user before adding it. "Minimal" means the smallest change that follows existing
-  best practice, not the smallest diff at any cost.
+  upstream project first and consume the fixed revision; if a local stopgap is genuinely
+  unavoidable, stop and ask the user before adding it. "Minimal" means the smallest change that
+  follows existing best practice, not the smallest diff at any cost.
 - Documentation should describe current behavior for readers without the conversation history; give
   each fact one home per audience and link instead of repeating. Comments explain contracts or
   non-obvious constraints, not obvious code, and preserve safety, license, and workaround
@@ -182,7 +182,7 @@ For an impactful change, follow these steps in order, scaled to its risk:
 - Prefer native tool options to reduce output at the source, and the native read, grep, glob, write,
   and edit tools over their shell equivalents. A single shell dispatch is for genuinely shell work
   (git, ssh, nix, remote commands).
-- Use the shell the runtime provides; dsh-nu fails closed rather than substituting another shell.
+- Use the shell the runtime provides; never hand work to another shell (`bash -c`, `sh -c`, `pwsh`).
   For genuinely shell work use the available runtime, `python -c '<code>'` for complex local
   processing, or a script written with the write tool. A remote command usually runs under a POSIX
   shell: keep it to one invocation or a copied script.

@@ -15,9 +15,7 @@ Markdown with no Nix dependency; this module only wires it into place.
   [agents/skills/README.md](../../../../agents/skills/README.md).
 - `packages.nix`: agent CLIs (`codex`, `opencode`, `qwen-code`, `pi`) from the `llm-agents` flake
   input, dsh from `nur-ryan4yin`, `pkgs.ctx7` for the `find-docs` skill, and `pkgs.mcp-grafana` for
-  the Grafana MCP server. dsh's Nushell-only shell is selected when the package is built, via
-  `dsh.withPlugins` with the plugin from the `dsh-nu` flake input, so it is a derivation choice
-  rather than runtime state; profile patches live in `~/.dsh/profiles/<name>/cordis.patch.yml`. See
+  the Grafana MCP server. Profile patches live in `~/.dsh/profiles/<name>/cordis.patch.yml`. See
   [dsh.md](./dsh.md) for the layer order and the settings that bite.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
 

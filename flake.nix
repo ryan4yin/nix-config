@@ -203,12 +203,5 @@
       url = "github:ryan4yin/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # The Nushell-only shell bundle. Its flake builds the plugin from the
-    # repository, so a release needs only `nix flake update dsh-nu`.
-    dsh-nu = {
-      url = "github:ryan4yin/dsh-nu";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 }
