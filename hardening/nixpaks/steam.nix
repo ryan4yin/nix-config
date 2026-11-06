@@ -8,6 +8,10 @@
   steam,
   gamescope,
   mangohud,
+  # Steam's UI and its pressure-vessel container use the fonts inside this FHS,
+  # not the host fontconfig, so CJK text renders as tofu without them.
+  wqy_zenhei,
+  noto-fonts-cjk-sans,
   buildEnv,
   runCommandLocal,
   mkNixPak,
@@ -19,6 +23,8 @@ let
     extraPkgs = _: [
       gamescope
       mangohud
+      wqy_zenhei
+      noto-fonts-cjk-sans
     ];
   };
   wrapped = mkNixPak {

@@ -9,6 +9,10 @@
   mangohud,
   winetricks,
   protontricks,
+  # Wine draws its dialogs with these; the FHS fontconfig only scans
+  # /usr/share/fonts (see modules/gaming-policy.nix).
+  wqy_zenhei,
+  noto-fonts-cjk-sans,
   bbe,
   gamescope,
   dwproton-bin,
@@ -28,6 +32,8 @@ let
       mangohud
       winetricks
       protontricks
+      wqy_zenhei
+      noto-fonts-cjk-sans
       bbe
       gamescope
     ];

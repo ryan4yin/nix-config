@@ -10,6 +10,22 @@
   sloth,
   ...
 }:
+let
+  # The FHS layers Steam, Heroic and umu build have their own /etc/fonts, whose
+  # config lists neither the host fonts nor their own /usr/share/fonts, so the
+  # CJK fonts in those layers were never scanned (Steam rendered tofu). Point
+  # fontconfig at the layer's own font directory instead.
+  fontsConf = pkgs.writeText "gaming-fonts.conf" ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+    <fontconfig>
+      <include ignore_missing="yes">/etc/fonts/conf.d</include>
+      <dir>/usr/share/fonts</dir>
+      <dir prefix="xdg">fonts</dir>
+      <cachedir prefix="xdg">fontconfig</cachedir>
+    </fontconfig>
+  '';
+in
 {
   imports = [
     ./desktop-base.nix
@@ -66,6 +82,7 @@
       # Proton builds that Steam offers per game and protontricks resolves, as
       # programs.steam.extraCompatPackages would set. Store paths: a game can
       # read them but not modify them. DW-Proton is WA-019.
+      FONTCONFIG_FILE = lib.mkForce "${fontsConf}";
       STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.makeSearchPathOutput "steamcompattool" "" [
         pkgs.dwproton-bin
         pkgs.proton-ge-bin

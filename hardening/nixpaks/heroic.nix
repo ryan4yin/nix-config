@@ -7,6 +7,9 @@
   lib,
   heroic,
   gamescope,
+  # Heroic is Electron inside this FHS, so its CJK text needs these too.
+  wqy_zenhei,
+  noto-fonts-cjk-sans,
   buildEnv,
   runCommandLocal,
   mkNixPak,
@@ -15,7 +18,11 @@
 let
   appId = "com.heroicgameslauncher.hgl";
   package = heroic.override {
-    extraPkgs = _: [ gamescope ];
+    extraPkgs = _: [
+      gamescope
+      wqy_zenhei
+      noto-fonts-cjk-sans
+    ];
   };
   wrapped = mkNixPak {
     config = {
