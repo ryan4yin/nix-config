@@ -18,6 +18,24 @@ let
   mountStrings =
     app: builtins.filter builtins.isString (lib.flatten (with app.bubblewrap.bind; rw ++ ro ++ dev));
 
+  # Render a sloth value as the launcher would, with $VAR for environment
+  # lookups, so suites can assert on paths built from $HOME and friends.
+  renderSloth =
+    value:
+    if builtins.isString value then
+      value
+    else if value.type == "env" then
+      "$" + value.key
+    else if value.type == "concat" then
+      renderSloth value.a + renderSloth value.b
+    else if value.type == "mkdir" then
+      renderSloth value.dir
+    else
+      throw "cannot render sloth value of type ${value.type}";
+
+  # A bind entry is a path, or a [ source destination ] pair.
+  renderBind = entry: if builtins.isList entry then map renderSloth entry else renderSloth entry;
+
   forbiddenDbus =
     argument:
     lib.any (name: lib.hasInfix name argument) [
@@ -41,6 +59,7 @@ let
     path == "/dev"
     || lib.hasPrefix "/dev/video" path
     || lib.hasPrefix "/dev/bus/usb" path
+    || path == "/dev/uinput"
     || path == "/run/dbus"
     || path == "/run/dbus/system_bus_socket"
     || path == "/sys"
@@ -184,6 +203,7 @@ in
     appNames
     load
     mountStrings
+    renderBind
     withoutSecretPortal
     mkAppPolicy
     globalChecks

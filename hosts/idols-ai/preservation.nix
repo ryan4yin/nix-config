@@ -299,7 +299,9 @@ in
         # Games / Media
         # ======================================
 
-        "Games"
+        # Home of the game sandboxes (hardening/nixpaks/modules/gaming-policy.nix);
+        # installed games are in ~/Gaming/Games.
+        "Gaming"
         # .desktop entries created by games/installers (including the umu
         # launchers the nix-config-umu-game skill generates). Home Manager
         # rewrites its mimeapps.list symlink into the bind mount at activation,

@@ -23,24 +23,18 @@ in
     #  Steam - add this as a launch option: `mangohud %command%` / `gamemoderun %command%`
     # ==========================================================================
 
-    # The nix-config-umu-game skill and the launchers it generates rely on
-    # umu-launcher, mangohud, winetricks and bbe from this list.
-
     home.packages =
       (with pkgs; [
         # https://github.com/flightlessmango/MangoHud
         # a simple overlay program for monitoring FPS, temperature, CPU and GPU load, and more.
         mangohud
 
-        # Script to install various redistributable runtime libraries in Wine.
-        winetricks
         # https://github.com/Open-Wine-Components/umu-launcher
-        # a unified launcher for Windows games on Linux
-        umu-launcher
-
-        # Sed-like editor for binary files
-        # required by some games to fix problems
-        bbe
+        # a unified launcher for Windows games on Linux, sandboxed with
+        # ~/Gaming as its home and only writable host directory. umu-run, winetricks,
+        # bbe and mangohud live inside it; the nix-config-umu-game skill and
+        # the launchers it generates run through `umu-sandbox`.
+        nixpaks.umu
       ])
       ++ (with pkgs; [
         # Heroic Games Launcher - primarily for Epic Games & GOG

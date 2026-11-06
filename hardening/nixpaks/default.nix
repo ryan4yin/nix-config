@@ -24,10 +24,20 @@ in
   # authoritative, and removal on unplug leaves no stale node for a reused
   # hidraw minor. 60-fido-id.rules sets ID_FIDO_TOKEN from the report
   # descriptor, so the CanoKey's keyboard interface is never linked.
-  systemd.tmpfiles.rules = [ "d /dev/fido-hidraw 0755 root root -" ];
+  #
+  # Game sandboxes (see modules/gaming-policy.nix) get joysticks the same way:
+  # their evdev nodes are linked into /dev/gamepad-input, which the sandbox
+  # mounts as /dev/input. A device that also claims to be a keyboard is left
+  # out, so key events never reach a game.
+  systemd.tmpfiles.rules = [
+    "d /dev/fido-hidraw 0755 root root -"
+    "d /dev/gamepad-input 0755 root root -"
+  ];
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="hidraw", ENV{ID_FIDO_TOKEN}=="1", RUN+="${pkgs.coreutils}/bin/ln -f /dev/%k /dev/fido-hidraw/%k"
     ACTION=="remove", SUBSYSTEM=="hidraw", RUN+="${pkgs.coreutils}/bin/rm -f /dev/fido-hidraw/%k"
+    ACTION=="add", SUBSYSTEM=="input", KERNEL=="event*|js*", ENV{ID_INPUT_JOYSTICK}=="1", ENV{ID_INPUT_KEYBOARD}!="1", RUN+="${pkgs.coreutils}/bin/ln -f $devnode /dev/gamepad-input/%k"
+    ACTION=="remove", SUBSYSTEM=="input", KERNEL=="event*|js*", RUN+="${pkgs.coreutils}/bin/rm -f /dev/gamepad-input/%k"
   '';
 
   # Add nixpaked Apps into nixpkgs, and reference them in home-manager or other nixos modules
@@ -53,6 +63,7 @@ in
         mpv = wrapper super ./mpv.nix;
         imv = wrapper super ./imv.nix;
         wechat = wrapper pkgs-master ./wechat.nix;
+        umu = wrapper super ./umu.nix;
       };
     })
   ];
