@@ -858,11 +858,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793503810,
-        "narHash": "sha256-qh3Wjb1gV9FO01vUTGMNcWRwwQ9iUH0tkzVjObEn5J4=",
+        "lastModified": 1793961402,
+        "narHash": "sha256-YjJfYeZ6wCDJltA64EsVfiLnq4W8/ZsXb3g6TcHhHW0=",
         "owner": "ryan4yin",
         "repo": "pyclipsync",
-        "rev": "080fbb7a21f4afe298d4eaa400645388ec000231",
+        "rev": "091a5f9db2ab7648a737ed4b77f5d0df7555f7f3",
         "type": "github"
       },
       "original": {
