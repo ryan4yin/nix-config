@@ -84,6 +84,36 @@ released firmware, but each NFC tap is a new card session, so their PINs are sti
    | WebAuthn minimum PIN length                 | 6–8                                           | the PIN locks after a few failures         |
    | Long-press reset                            | off, unless the app documents it as PIN-gated | keeps reset a phone-side management action |
 
+### 1.3 Touch feedback
+
+The LED is easy to miss, so touch requests also raise a desktop notification: a transient toast (and
+a notification sound, this sender only) that closes itself once the touch is done.
+`programs.yubikey-touch-detector` ([canokey.nix](../modules/nixos/desktop/canokey.nix)) reads the
+FIDO interface's hidraw reports for touch-waiting signals, and proxies `gpg-agent` for
+smartcard-backed OpenPGP operations; the sound comes from Noctalia's notification filter
+([config.toml](../home/linux/gui/base/noctalia/config/config.toml)).
+
+| Flow                                   | Notified | Why                                                   |
+| -------------------------------------- | -------- | ----------------------------------------------------- |
+| sudo (pam-u2f)                         | yes      | CTAPHID keepalive / U2F `0x6985` from the FIDO hidraw |
+| ssh/scp/rsync/git over ssh (FIDO2 key) | yes      | same                                                  |
+| WebAuthn in browsers                   | yes      | same; browsers read the same hidraw interface         |
+| pass / GPG decrypt and sign            | yes      | gpg-agent proxy; heuristic, see below                 |
+| PIV / OATH                             | no       | the detector has no source for those applets          |
+| shoukei LUKS unlock                    | no       | initrd, before any desktop user service               |
+| PIN prompts                            | no       | a PIN is not a touch; pinentry shows that prompt      |
+
+A `switch` only enables the service for the next login: a running session does not start newly
+deployed user services, so after the first deploy start it once with
+`systemctl --user start yubikey-touch-detector`.
+
+Check it: `systemctl --user status yubikey-touch-detector`, then run something that asks for a touch
+(`sudo true`, or `ssh` to a host) and watch for the toast. Logs:
+`journalctl --user -u yubikey-touch-detector -f`. The GPG detector only starts once
+`private-keys-v1.d` holds on-card stubs, and it treats an operation pending for 400 ms outside
+pinentry as a touch request. It proxies only the standard `gpg-agent` and `$SSH_AUTH_SOCK` sockets,
+so clients that use `S.gpg-agent.extra` or `S.gpg-agent.browser` get no notification.
+
 ## 2. Enroll a key
 
 Only after section 1.1. Do these in order; each step can be rolled back on its own. Only the OpenPGP
@@ -215,9 +245,9 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 
 ## Enrollment status
 
-| Key                      | Firmware | sudo              | SSH                                                        | shoukei LUKS                  | OpenPGP  | Browsers                         |
-| ------------------------ | -------- | ----------------- | ---------------------------------------------------------- | ----------------------------- | -------- | -------------------------------- |
-| CanoKey Canary (primary) | 3.0.3    | works on idols-ai | key created; public key not yet in `mainSshAuthorizedKeys` | enrolled; unlock not verified | deferred | WebAuthn works in Firefox/Chrome |
+| Key                      | Firmware | sudo              | SSH                                                        | shoukei LUKS                  | OpenPGP     | Browsers                         |
+| ------------------------ | -------- | ----------------- | ---------------------------------------------------------- | ----------------------------- | ----------- | -------------------------------- |
+| CanoKey Canary (primary) | 3.0.3    | works on idols-ai | key created; public key not yet in `mainSshAuthorizedKeys` | enrolled; unlock not verified | on the card | WebAuthn works in Firefox/Chrome |
 
 shoukei's first boots with the FIDO2 slot asked for the PIN, then fell back to the passphrase: USB
 only came up after switch-root, because on linux-asahi 7.2 its dwc3/PHY depend on the Thunderbolt

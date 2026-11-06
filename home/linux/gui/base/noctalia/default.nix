@@ -25,6 +25,9 @@
   # app2unit is still used to launch desktop entries as systemd user units.
   home.packages = [
     pkgs.app2unit # Launch Desktop Entries (or arbitrary commands) as Systemd user units
+    # `message-new-instant` and the other shell sound events; the sound setting in
+    # config.toml only plays the security-key notification.
+    pkgs.sound-theme-freedesktop
   ]
   ++ (lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
     pkgs.gpu-screen-recorder # recoding screen
