@@ -13,6 +13,7 @@ mkAppPolicy "umu" {
   media = false;
   pulse = true;
   x11 = true;
+  tray = true;
   notifications = false;
   extraChecks = gamingChecks "umu" // {
     # DW-Proton comes from the store, which a game can read but not modify.

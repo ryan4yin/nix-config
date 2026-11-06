@@ -8,6 +8,7 @@ mkAppPolicy "heroic" {
   media = false;
   pulse = true;
   x11 = true;
+  tray = true;
   notifications = false;
   extraChecks = gamingChecks "heroic";
 }

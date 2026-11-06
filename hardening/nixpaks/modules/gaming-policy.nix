@@ -35,6 +35,10 @@ in
   # per-app XDG directories would silently discard on exit.
   xdgStorage.enable = false;
   pasta.mode = "isolate";
+  # Steam and Heroic register a StatusNotifierItem for their tray icon; without
+  # these grants the desktop shell has nothing to show for it (the same reason
+  # WeChat's tray icon needed them).
+  desktopIntegration.tray = true;
   portalGroups = {
     openUri = true;
     inhibit = true;

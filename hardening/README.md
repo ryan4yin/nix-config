@@ -91,6 +91,8 @@ games cannot read host data, not that they are isolated from each other:
 - Replacing `programs.steam` costs its extras: no host `steam-run` or protontricks, and no `extest`
   (needs `/dev/uinput`). Remote Play and LAN discovery need inbound connections that pasta isolation
   does not forward; online play, the store and downloads are unaffected.
+- The launchers keep a StatusNotifier tray icon (`desktopIntegration.tray`), so closing Steam or
+  Heroic to the tray still works and the desktop shell has an icon to show. Notifications stay off.
 - Controllers: host udev rules hard-link joystick evdev nodes (not ones that also claim to be a
   keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input's
   gyro/touchpad remapping, SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let

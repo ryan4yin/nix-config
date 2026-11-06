@@ -8,6 +8,7 @@ mkAppPolicy "steam" {
   media = false;
   pulse = true;
   x11 = true;
+  tray = true;
   notifications = false;
   extraChecks = gamingChecks "steam";
 }
