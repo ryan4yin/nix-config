@@ -4,9 +4,12 @@
 # from modules/gaming-policy.nix. Remote Play and LAN transfers need inbound
 # connections that pasta isolation does not forward.
 {
+  lib,
   steam,
   gamescope,
   mangohud,
+  buildEnv,
+  runCommandLocal,
   mkNixPak,
   ...
 }:
@@ -28,5 +31,22 @@ let
       flatpak = { inherit appId; };
     };
   };
+  exe = lib.getExe wrapped.config.script;
+  # The desktop entry and icons ship in the wrapped package; the nixpak script
+  # has no share/ of its own, so point the entry at the script instead of the
+  # unsandboxed binary.
+  assets = runCommandLocal "steam-desktop-assets" { } ''
+    mkdir -p $out/share/applications
+    substitute ${package}/share/applications/steam.desktop \
+      $out/share/applications/steam.desktop \
+      --replace-fail "Exec=steam" "Exec=${exe}"
+    cp -r ${package}/share/icons $out/share/icons
+  '';
 in
-wrapped.config.script
+buildEnv {
+  inherit (wrapped.config.script) name meta passthru;
+  paths = [
+    wrapped.config.script
+    assets
+  ];
+}
