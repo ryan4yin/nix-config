@@ -5,9 +5,29 @@
 # visible. All launchers share that data, so they are one trust domain: keep
 # their grants identical here rather than per launcher.
 {
+  lib,
+  pkgs,
   sloth,
   ...
 }:
+let
+  # The FHS layers Steam, Heroic and umu build have their own /etc/fonts, whose
+  # config lists only DejaVu and the XDG font directory, so the CJK fonts those
+  # layers ship in /usr/share/fonts were never scanned (Steam rendered tofu).
+  # Include both that directory and the host conf.d snippet that lists the host
+  # font directories: Steam's CEF only reads the FHS fonts by family name,
+  # while Wine and Heroic's Electron use the host families too.
+  fontsConf = pkgs.writeText "gaming-fonts.conf" ''
+    <?xml version="1.0"?>
+    <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+    <fontconfig>
+      <include ignore_missing="yes">/etc/fonts/conf.d</include>
+      <dir>/usr/share/fonts</dir>
+      <dir prefix="xdg">fonts</dir>
+      <cachedir prefix="xdg">fontconfig</cachedir>
+    </fontconfig>
+  '';
+in
 {
   imports = [
     ./desktop-base.nix
@@ -17,6 +37,10 @@
   # per-app XDG directories would silently discard on exit.
   xdgStorage.enable = false;
   pasta.mode = "isolate";
+  # Steam and Heroic register a StatusNotifierItem for their tray icon; without
+  # these grants the desktop shell has nothing to show for it (the same reason
+  # WeChat's tray icon needed them).
+  desktopIntegration.tray = true;
   portalGroups = {
     openUri = true;
     inhibit = true;
@@ -61,6 +85,16 @@
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
+      # See fontsConf: the FHS layers' own /etc/fonts never scans their
+      # /usr/share/fonts, and desktop-base's value points there.
+      FONTCONFIG_FILE = "${fontsConf}";
+      # Proton builds that Steam offers per game and protontricks resolves, as
+      # programs.steam.extraCompatPackages would set. Store paths: a game can
+      # read them but not modify them. DW-Proton is WA-019.
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.makeSearchPathOutput "steamcompattool" "" [
+        pkgs.dwproton-bin
+        pkgs.proton-ge-bin
+      ];
     };
   };
 }

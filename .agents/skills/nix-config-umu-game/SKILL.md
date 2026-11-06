@@ -18,8 +18,8 @@ specific installed release; then select it with `PROTONPATH` and pin that path i
 
 Games run only inside the umu nixpak sandbox (`hardening/nixpaks/umu.nix`, policy in
 `hardening/nixpaks/modules/gaming-policy.nix`). It mounts `~/Gaming` over `$HOME`; no other host
-file is visible or writable. `umu-run`, `winetricks`, `bbe`, `mangohud` and `gamescope` exist only
-inside it, and `umu-sandbox <command>` runs a command there.
+file is visible or writable. `umu-run`, `winetricks` and `bbe` exist only inside it (`mangohud` and
+`gamescope` are on the host too), and `umu-sandbox <command>` runs a command there.
 
 **Two views of one path:** `~/Gaming/<path>` on the host is `~/<path>` in the sandbox, so a game
 lives at `~/Gaming/Games/<name>` on the host and at `~/Games/<name>` inside. The host has no
@@ -32,8 +32,9 @@ Everything under `~/Gaming` is writable by the games, so **the host never execut
 - launch with `umu-sandbox ~/Games/<name>/run` and use `umu-sandbox ~/Games/<name>/exec ...`; the
   generated desktop entry does the former. Running `run` or `exec` directly refuses to start.
 - the installer and `prelaunch` also run through `umu-sandbox`;
-- `umu-install.nu` refuses to write through a symlink in the game directory, and uninstalling uses
-  the repo's `umu-uninstall.nu`, not a script in `~/Gaming`.
+- `umu-install.nu` refuses to write through a symlink in the game directory and writes its files
+  there through `umu-sandbox`, so a symlink swapped in later still cannot reach outside `~/Gaming`;
+  uninstalling uses the repo's `umu-uninstall.nu`, not a script in `~/Gaming`.
 
 ## Bundled files
 
@@ -84,11 +85,12 @@ sandbox paths. At launch, the generated `run` script checks the current `$PROTON
    and installed Steam tools under `~/Gaming/.local/share/Steam/compatibilitytools.d/` (the
    sandbox's `~/.local/share/Steam/compatibilitytools.d/`); select the matching installed path with
    `PROTONPATH`. Prefix the installer command with `PROTONPATH="<selected-tool-directory>"` and set
-   the same value in the game's `conf` to pin it across launches; otherwise the runtime Nix
-   `UMU_PROTONPATH` may take precedence. If the required release is absent from Nix and Steam, stop
-   and ask the user before downloading it from elsewhere. Do not substitute a different release or
-   use ProtonPlus/Lutris to fetch one: a host-side downloader writes outside `~/Gaming`, where the
-   sandbox cannot see it, and a store path cannot be modified by a game.
+   its sandbox path (a store path as is; under `~/Gaming`, drop the `Gaming/`) in the game's `conf`
+   to pin it across launches; otherwise the runtime Nix `UMU_PROTONPATH` may take precedence. If the
+   required release is absent from Nix and Steam, stop and ask the user before downloading it from
+   elsewhere. Do not substitute a different release or use ProtonPlus/Lutris to fetch one: a
+   host-side downloader writes outside `~/Gaming`, where the sandbox cannot see it, and a store path
+   cannot be modified by a game.
 2. **Slug.** Pick a lowercase `<name>` (e.g. `wuthering-waves`).
 3. **GAMEID.** The umu database maps a title to a `GAMEID` whose protonfixes add CJK fonts, drop the
    `SteamOS`/`SteamDeck` vars, and keep Wine's `Documents` inside the prefix. **Without it some
@@ -202,17 +204,30 @@ From the repo root:
 
 `nu .agents/skills/nix-config-umu-game/scripts/umu-uninstall.nu <name>`
 
-It removes the desktop entry and then asks before deleting `~/Gaming/Games/<name>` (prefix + game
-files). To keep the game and only drop the menu entry, delete the `.desktop` file by hand.
+It removes the desktop entry, but only one whose `Exec` is the generated
+`umu-sandbox ~/Games/<name>/run`, and then asks before deleting `~/Gaming/Games/<name>` (prefix +
+game files). To keep the game and only drop the menu entry, delete the `.desktop` file by hand.
 
 ## Games installed before the sandbox
 
-Move `~/Games` to `~/Gaming/Games` and the old `~/.local/share/umu` to `~/Gaming/.local/share/umu`
-(on the same filesystem, so both are renames; umu can also download its runtime again). Paths inside
-the game directories stay valid, because the sandbox sees them at the old `~/Games/<name>`. The old
-desktop entries execute `run` on the host, and an old `uninstall` script is host-executed too, so
-rewrite the launchers without re-running the installer, passing the `LAUNCHER` and `GAMEID` from the
-old `run`:
+After deploying the sandbox and with every game closed, move `~/Games` to `~/Gaming/Games` and the
+old `~/.local/share/umu` to `~/Gaming/.local/share/umu` (umu can also download its runtime again).
+On a normal host that is a plain `mv`. On an impermanence host each preserved directory is its own
+bind mount, and after the deploy the old ones are no longer mounted, so move them under the
+persistent root instead, where both are renames:
+
+```bash
+mkdir -p /persistent/home/<user>/Gaming/.local/share
+mv /persistent/home/<user>/Games /persistent/home/<user>/Gaming/Games
+mv /persistent/home/<user>/.local/share/umu /persistent/home/<user>/Gaming/.local/share/umu
+```
+
+`/persistent` is the host's `preservation.preserveAt` root. If a target already exists, `mv` would
+nest the source inside it: move the game directories one by one instead, and drop the old umu
+runtime. Paths inside the game directories stay valid, because the sandbox sees them at the old
+`~/Games/<name>`. The old desktop entries execute `run` on the host, and an old `uninstall` script
+is host-executed too, so rewrite the launchers without re-running the installer, passing the
+`LAUNCHER` and `GAMEID` from the old `run`:
 
 `nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> - <launcher> <gameid>`
 
@@ -265,8 +280,9 @@ variables (`__NV_PRIME_RENDER_OFFLOAD=1`, ...) in `conf` instead. Shader caches 
   cannot see it. Inside `conf` and `prelaunch`, write sandbox paths (`~/Games/<name>`).
 - Waiting for the game download before calling the install done: the launcher's own download is out
   of scope here.
-- On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, and Steam is a
-  module rather than a package: `modules/nixos/desktop/gaming.nix`.
+- On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, which
+  `modules/nixos/desktop/gaming.nix` sets. Steam is a sandboxed package like umu:
+  `hardening/nixpaks/steam.nix`.
 
 ## Regression tests
 
@@ -276,9 +292,11 @@ From the repo root:
 python3 .agents/skills/nix-config-umu-game/scripts/tests/test_install.py
 ```
 
-Requires `python3`, `nu`, `bash`, and `shellcheck`. Uses temporary homes and stub `umu-run` and
-`umu-sandbox`; no game downloads, Wine windows, or changes to existing games. It checks template
+Requires `python3`, `nu`, `bash`, and `shellcheck`; the symlink-swap test also needs `unshare` and
+unprivileged user namespaces, and is skipped without them. Uses temporary homes and stub `umu-run`
+and `umu-sandbox`; no game downloads, Wine windows, or changes to existing games. It checks template
 permissions, rendered shell syntax and lint, installer arguments and failures, configuration
 precedence, prelaunch, logging, launch wrappers, literal paths, runtime Proton overrides, tool
-routing, uninstall confirmation, the sandbox guard, host-to-sandbox path translation, and refusal to
-write through planted symlinks.
+routing, uninstall confirmation and foreign desktop entries, the sandbox guard, host-to-sandbox path
+translation, refusal to write through planted symlinks, and that a symlink swapped in after that
+check cannot redirect a write outside `~/Gaming`.

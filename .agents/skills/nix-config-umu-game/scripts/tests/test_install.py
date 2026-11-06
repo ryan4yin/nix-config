@@ -247,11 +247,13 @@ exec "$@"
         self.assertEqual(values[3:], [str(self.sandbox_game / "prefix" / self.launcher)])
 
     def test_generation_and_setup_arguments(self):
+        (self.home / "setup.exe").write_bytes(b"MZ\x00installer")
         self.install()
         self.assertEqual(
             self.log.read_text().splitlines()[3:],
             [str(self.sandbox_game / "setup.exe"), "/S"],
         )
+        self.assertEqual((self.game / "setup.exe").read_bytes(), b"MZ\x00installer")
         self.assertFalse((self.game / "uninstall").exists())
         for name in ("run", "exec"):
             path = self.game / name
@@ -372,6 +374,17 @@ exec "$@"
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertFalse(self.game.exists())
 
+    def test_uninstall_keeps_desktop_entries_it_did_not_write(self):
+        apps = self.home / ".local/share/applications"
+        apps.mkdir(parents=True)
+        foreign = apps / "firefox.desktop"
+        foreign.write_text("[Desktop Entry]\nExec=firefox %u\n")
+
+        result = self.uninstall("firefox")
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(foreign.read_text(), "[Desktop Entry]\nExec=firefox %u\n")
+
     def test_run_refuses_to_start_outside_the_sandbox(self):
         self.install()
         self.log.unlink()
@@ -385,7 +398,7 @@ exec "$@"
                     check=False,
                 )
                 self.assertNotEqual(result.returncode, 0)
-                self.assertIn("umu-sandbox", result.stderr)
+                self.assertIn(f"umu-sandbox {self.sandbox_game / name}", result.stderr)
                 self.assertFalse(self.log.exists())
 
     def test_installer_and_prelaunch_run_in_the_sandbox(self):
@@ -394,10 +407,8 @@ exec "$@"
         prelaunch.write_text('#!/usr/bin/env bash\n[ "$UMU_SANDBOX" = 1 ]\n')
         prelaunch.chmod(0o755)
         self.install()
-        # Both start in the home, which exists on the host and in the sandbox.
-        self.assertEqual(
-            self.sandbox_log.read_text().splitlines(), [str(self.home), str(self.home)]
-        )
+        # Every call starts in the home, which exists on the host and in the sandbox.
+        self.assertEqual(set(self.sandbox_log.read_text().splitlines()), {str(self.home)})
 
     def test_rewrite_launchers_without_installer(self):
         result = self.invoke_install("test-game", setup="-")
@@ -425,6 +436,40 @@ exec "$@"
                 self.assertIn("symlink", result.stderr)
                 self.assertEqual(target.read_text(), "host file\n")
                 link.unlink()
+
+    def test_writes_into_gaming_stay_there_when_swapped_for_a_symlink(self):
+        # This stub mounts ~/Gaming over $HOME like the real sandbox, after a
+        # launcher still running from the installer swaps run for a symlink to
+        # a host file -- past the installer's own symlink check.
+        probe = subprocess.run(
+            ["unshare", "-rm", "mount", "--bind", str(self.home), str(self.home)],
+            capture_output=True,
+            check=False,
+        )
+        if probe.returncode != 0:
+            self.skipTest("needs unshare and unprivileged user namespaces")
+        sandbox = self.bin_dir / "umu-sandbox"
+        sandbox.write_text("""#!/usr/bin/env bash
+ln -sfn "$PLANT_TARGET" "$PLANT_LINK"
+export UMU_SANDBOX=1
+exec unshare --user --map-root-user --mount \\
+  bash -c 'mount --bind "$HOME/Gaming" "$HOME" && exec "$@"' bash "$@"
+""")
+        target = self.home / "bashrc"
+        target.write_text("host file\n")
+
+        result = self.invoke_install(
+            "test-game",
+            setup="-",
+            PLANT_LINK=str(self.game / "run"),
+            PLANT_TARGET=str(target),
+        )
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(target.read_text(), "host file\n")
+        self.assertFalse(os.access(target, os.X_OK))
+        # In the sandbox the link leads to ~/Gaming/bashrc instead.
+        self.assertIn("nix-config-umu-game", (self.home / "Gaming/bashrc").read_text())
 
     def test_installer_in_the_sandbox_home_is_used_in_place(self):
         setup = self.home / "Gaming/Downloads/setup.exe"

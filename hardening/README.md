@@ -32,28 +32,30 @@ workflow.
 `Media` means audio playback, microphone, Camera and ScreenCast portals. Writable paths are listed
 explicitly; other files use the document portal. Every app also has private writable state.
 
-| App          | Network       | Writable paths                                                                        | Grants                                                                                         |
-| ------------ | ------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle, FIDO2 key; camera/screen sharing intentionally unavailable    |
-| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                         |
-| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                         |
-| Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                                     |
-| Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                                     |
-| QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                         |
-| Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators                     |
-| Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm`          |
-| WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                                    |
-| Foliate      | None          | Documents/Downloads/Pictures read-only, app-scoped state                              | File chooser, OpenURI, notifications, IME, accessibility                                       |
-| Krita        | None          | Documents/Downloads/Pictures writable, app-scoped state                               | File chooser, OpenURI, print, inhibit, notifications, IME, accessibility                       |
-| Bambu Studio | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, PulseAudio, cloud/LAN network, file chooser, notifications, IME, accessibility   |
-| OrcaSlicer   | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, cloud/LAN network, file chooser, notifications, IME, accessibility               |
-| Remmina      | Isolated      | `~/.config/remmina`, `~/.local/share/remmina`, `~/.remmina`, Downloads                | PulseAudio, SSH agent, file chooser, OpenURI, notifications, IME, accessibility                |
-| OBS Studio   | Isolated      | `~/.config/obs-studio`, Videos/Pictures/Downloads                                     | ScreenCast, V4L2 camera (`/dev/video0-1`), PulseAudio, tray, notifications, IME, accessibility |
-| Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                    |
-| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | ALSA via PipeWire, ALSA sequencer, X11/XWayland, print, notifications, IME, accessibility      |
-| mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                   |
-| imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                          |
-| umu          | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
+| App          | Network       | Writable paths                                                                        | Grants                                                                                               |
+| ------------ | ------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Firefox      | Host loopback | `~/.mozilla`, personal files, Trash, Firefox artwork                                  | Audio, browserpass, MPRIS, idle, FIDO2 key; camera/screen sharing intentionally unavailable          |
+| Chromium     | Host loopback | `~/.config/chromium`, personal files                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                               |
+| Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                               |
+| Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                                           |
+| Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                                           |
+| QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                               |
+| Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators                           |
+| Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm`                |
+| WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                                          |
+| Foliate      | None          | Documents/Downloads/Pictures read-only, app-scoped state                              | File chooser, OpenURI, notifications, IME, accessibility                                             |
+| Krita        | None          | Documents/Downloads/Pictures writable, app-scoped state                               | File chooser, OpenURI, print, inhibit, notifications, IME, accessibility                             |
+| Bambu Studio | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, PulseAudio, cloud/LAN network, file chooser, notifications, IME, accessibility         |
+| OrcaSlicer   | Isolated      | Documents/Downloads/Pictures writable, app-scoped state                               | X11/XWayland, cloud/LAN network, file chooser, notifications, IME, accessibility                     |
+| Remmina      | Isolated      | `~/.config/remmina`, `~/.local/share/remmina`, `~/.remmina`, Downloads                | PulseAudio, SSH agent, file chooser, OpenURI, notifications, IME, accessibility                      |
+| OBS Studio   | Isolated      | `~/.config/obs-studio`, Videos/Pictures/Downloads                                     | ScreenCast, V4L2 camera (`/dev/video0-1`), PulseAudio, tray, notifications, IME, accessibility       |
+| Blender      | Isolated      | `~/.config/blender`, Documents/Downloads/Pictures/Videos                              | X11/XWayland, PulseAudio, notifications, IME, accessibility                                          |
+| MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | ALSA via PipeWire, ALSA sequencer, X11/XWayland, print, notifications, IME, accessibility            |
+| mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                         |
+| imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                                |
+| umu          | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, SNI tray, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME |
+| Steam        | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, SNI tray, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME |
+| Heroic       | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, SNI tray, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
@@ -72,9 +74,8 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 
 ## Game launchers
 
-Game launchers (umu now; Heroic and Steam to follow) share
-[gaming-policy.nix](nixpaks/modules/gaming-policy.nix). The goal is that games cannot read host
-data, not that they are isolated from each other:
+Steam, Heroic and umu share [gaming-policy.nix](nixpaks/modules/gaming-policy.nix). The goal is that
+games cannot read host data, not that they are isolated from each other:
 
 - `~/Gaming` is mounted over `$HOME`; nothing else in the host home is visible. Installed games are
   in `~/Gaming/Games`, the sandbox's `~/Games`, which is where launchers install by default. The
@@ -82,24 +83,39 @@ data, not that they are isolated from each other:
 - All launchers share that data, so they form one trust domain: a compromised game can change
   another launcher's configuration. Their grants therefore stay identical.
 - `~/Gaming` is game-writable, so the host never executes a file from it. Generated umu launchers
-  run through `umu-sandbox`; see the `nix-config-umu-game` skill.
+  run through `umu-sandbox` (see the `nix-config-umu-game` skill), Steam and Heroic launch their
+  games from inside their own sandboxes, and protontricks runs only inside the sandbox:
+  `umu-sandbox protontricks <appid> winecfg`, or
+  `umu-sandbox protontricks -c 'wine regedit' <appid>`. A host protontricks would run Wine on those
+  prefixes as the host user.
+- Replacing `programs.steam` costs its extras: no host `steam-run` or protontricks, and no `extest`
+  (needs `/dev/uinput`). Remote Play and LAN discovery need inbound connections that pasta isolation
+  does not forward; online play, the store and downloads are unaffected.
+- The launchers keep a StatusNotifier tray icon (`desktopIntegration.tray`), so closing Steam or
+  Heroic to the tray still works and the desktop shell has an icon to show. Notifications stay off.
 - Controllers: host udev rules hard-link joystick evdev nodes (not ones that also claim to be a
-  keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input,
-  SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let a game inject input into
-  the host session. Like the FIDO2 directory, `/dev/gamepad-input` is created at boot.
+  keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input's
+  gyro/touchpad remapping, SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let
+  a game inject input into the host session, and it is not namespaced. A real controller therefore
+  works through evdev, but Steam Input cannot create virtual gamepads. Like the FIDO2 directory,
+  `/dev/gamepad-input` is created at boot; after a first deploy with `switch`, run
+  `sudo systemd-tmpfiles --create --prefix=/dev/gamepad-input` and
+  `sudo udevadm trigger --action=add -s input` before starting a launcher.
 - The sandbox gets Flatpak's `--device=all` sysfs set without `/sys/block`, the udev database and
   `/etc/passwd`, `/etc/group` and `/etc/machine-id`, which pressure-vessel and Wine need.
 - Proton's pressure-vessel container is a third bwrap layer (nixpak, buildFHSEnv, pressure-vessel).
   This relies on unprivileged user namespaces and on the inner FHS root having no `/.flatpak-info`;
   with it, pressure-vessel would switch to a Flatpak sub-sandbox it cannot get.
-- Portals see processes in the FHS layer as host apps, so no file chooser is granted (it would
-  return host paths), and GameMode is unavailable: `gamemoded` cannot reach PIDs in the sandbox's
-  namespace.
+- Portals see processes in the FHS layer as host apps, so no file chooser or document portal mount
+  is granted (they would return host paths and every exported document), and GameMode is
+  unavailable: `gamemoded` cannot reach PIDs in the sandbox's namespace. Desktop entries that Heroic
+  or Steam create for a game land in the sandbox's `~/.local/share/applications` (`~/Gaming/...`),
+  so the host application menu does not show them.
 
 ## Limits
 
-- X11: Zoom and WeChat have shared-display trust; portal permissions cannot enforce portal-only
-  capture.
+- X11: Zoom, WeChat and the game launchers have shared-display trust; portal permissions cannot
+  enforce portal-only capture.
 - PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
 - Brave Origin and Edge intentionally have no PulseAudio, Camera, ScreenCast or MPRIS grants. They
@@ -166,8 +182,9 @@ data, not that they are isolated from each other:
 - [nixpaks/](nixpaks/): wrappers and Home Manager package overlay.
 - [desktop-base.nix](nixpaks/modules/desktop-base.nix),
   [xdg-storage.nix](nixpaks/modules/xdg-storage.nix): shared runtime and per-app XDG storage.
-- [gaming-policy.nix](nixpaks/modules/gaming-policy.nix), [nixpaks/umu.nix](nixpaks/umu.nix): game
-  launcher sandbox and the umu wrapper.
+- [gaming-policy.nix](nixpaks/modules/gaming-policy.nix), [nixpaks/umu.nix](nixpaks/umu.nix),
+  [nixpaks/steam.nix](nixpaks/steam.nix), [nixpaks/heroic.nix](nixpaks/heroic.nix): game launcher
+  sandbox and the three launcher wrappers.
 - [portal-groups.nix](nixpaks/modules/portal-groups.nix),
   [desktop-integration.nix](nixpaks/modules/desktop-integration.nix): portal and desktop service
   grants.

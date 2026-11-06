@@ -2,11 +2,17 @@
 # nix-config-umu-game skill writes to ~/Gaming/Games/<name> are game-writable,
 # so the host never executes them: `umu-sandbox ~/Games/<name>/run` (a sandbox
 # path) runs the whole script, conf and prelaunch included, inside the sandbox.
+# `umu-sandbox protontricks <appid> ...` fixes a Steam game's prefix the same way.
 {
   steam,
   umu-launcher-unwrapped,
   mangohud,
   winetricks,
+  protontricks,
+  # Wine draws its dialogs with these; the FHS fontconfig only scans
+  # /usr/share/fonts (see modules/gaming-policy.nix).
+  wqy_zenhei,
+  noto-fonts-cjk-sans,
   bbe,
   gamescope,
   dwproton-bin,
@@ -25,6 +31,9 @@ let
       umu-launcher-unwrapped
       mangohud
       winetricks
+      protontricks
+      wqy_zenhei
+      noto-fonts-cjk-sans
       bbe
       gamescope
     ];

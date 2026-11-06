@@ -133,6 +133,50 @@ let
     else
       !app.desktopIntegration.tray;
 
+  # Checks shared by every game launcher suite (modules/gaming-policy.nix):
+  # ~/Gaming is the sandbox home and the only host home path, joysticks are
+  # the only input devices, compat tools come from the store, and the launcher
+  # grants no file chooser or document portal.
+  gamingChecks =
+    name:
+    let
+      app = load name;
+      rw = map renderBind app.bubblewrap.bind.rw;
+      source = entry: if builtins.isList entry then builtins.head entry else entry;
+      sources = binds: map (entry: source (renderBind entry)) binds;
+    in
+    {
+      sharedHome = lib.elem [ "$HOME/Gaming" "$HOME" ] rw;
+      noXdgStorage = !app.xdgStorage.enable;
+      writableScope = lib.all (
+        path: path == "$HOME/Gaming" || path == "$XDG_RUNTIME_DIR/nixpak-${app.flatpak.appId}-tmp"
+      ) (sources app.bubblewrap.bind.rw);
+      noHostHomeReads =
+        !lib.any (
+          path:
+          lib.any (prefix: lib.hasPrefix prefix path) [
+            "$HOME"
+            "$XDG_CACHE_HOME"
+            "$XDG_CONFIG_HOME"
+            "$XDG_DATA_HOME"
+            "$XDG_STATE_HOME"
+          ]
+        ) (sources app.bubblewrap.bind.ro);
+      gamepadsOnly =
+        lib.elem [
+          "/dev/gamepad-input"
+          "/dev/input"
+        ] app.bubblewrap.bind.dev
+        && !lib.elem "/dev/input" (sources app.bubblewrap.bind.dev)
+        && !lib.any (path: lib.hasPrefix "/dev/hidraw" path) (lib.flatten app.bubblewrap.bind.dev);
+      driver32 = lib.elem "/run/opengl-driver-32" app.bubblewrap.bind.ro;
+      compatToolsInStore = lib.all (lib.hasPrefix builtins.storeDir) (
+        lib.splitString ":" app.bubblewrap.env.STEAM_EXTRA_COMPAT_TOOLS_PATHS
+      );
+      openUri = app.portalGroups.openUri;
+      noFileChooser = !app.portalGroups.fileChooser;
+    };
+
   mkAppPolicy =
     name: spec:
     let
@@ -204,6 +248,7 @@ in
     load
     mountStrings
     renderBind
+    gamingChecks
     withoutSecretPortal
     mkAppPolicy
     globalChecks

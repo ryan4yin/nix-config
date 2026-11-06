@@ -19,7 +19,8 @@
 # Games only run in the umu sandbox (hardening/nixpaks/umu.nix), which mounts
 # ~/Gaming over $HOME. The installer, prelaunch, run and exec all execute inside
 # it via `umu-sandbox`, so the paths written into run, exec and the desktop
-# entry are sandbox paths; this script, on the host, only writes files.
+# entry are sandbox paths. Even the files this script writes under ~/Gaming are
+# written through `umu-sandbox`; only the host desktop entry is written here.
 # umu-uninstall.nu removes a game.
 #
 # ~/Gaming/Games/global.conf, if present, is sourced by every run script before
@@ -92,18 +93,31 @@ def render-template [name: string, values: record] {
   }
 }
 
+# Write a file under ~/Gaming from inside the sandbox: a running game can swap
+# it for a symlink after reject-symlink, and in there that symlink can only
+# lead back into ~/Gaming. The content is the input, or the host file --from,
+# which is streamed instead of read into memory.
+def save-in-sandbox [path: string, --from: string, --executable] {
+  let data = $in
+  let source = (if $from != null { $from | path expand })
+  let script = (if $executable { 'cat > "$1" && chmod +x "$1"' } else { 'cat > "$1"' })
+  let target = (sandbox-path $path)
+  cd $nu.home-dir
+  if $source != null { open --raw $source } else { $data } | ^umu-sandbox sh -c $script sh $target
+}
+
 def write-run [dir: string, launcher: string] {
   let values = {
     WINEPREFIX: (shell-quote $env.WINEPREFIX)
     PROTONPATH: (shell-quote $env.PROTONPATH)
     GAMEID: (shell-quote $env.GAMEID)
     LAUNCHER: (shell-quote $launcher)
+    GAME_DIR: (shell-quote (sandbox-path $dir))
   }
   for file in [run exec] {
     let target = ($dir | path join $file)
     reject-symlink $target $file
-    render-template $"($file).sh.tpl" $values | save --force $target
-    ^chmod +x $target
+    render-template $"($file).sh.tpl" $values | save-in-sandbox --executable $target
   }
 }
 
@@ -117,14 +131,15 @@ def write-integration [name: string, dir: string] {
   })
   mkdir $apps
   reject-symlink $copy "desktop entry copy"
-  $desktop | save --force $copy
+  $desktop | save-in-sandbox $copy
+  # Not game-writable, so the host writes it directly.
   $desktop | save --force $entry
 }
 
 # Run a command in the umu sandbox with the game's environment. Start from the
 # host home: inside, that path is the sandbox home, so the working directory
 # exists on both sides.
-def in-sandbox [...command: string] {
+def --wrapped in-sandbox [...command: string] {
   cd $nu.home-dir
   (^umu-sandbox env
     $"WINEPREFIX=($env.WINEPREFIX)"
@@ -177,7 +192,7 @@ def main [...args: string] {
     } else {
       let target = ($dir | path join ($setup | path basename))
       reject-symlink $target "installer copy"
-      cp $setup $target
+      save-in-sandbox $target --from $setup
       sandbox-path $target
     })
 
@@ -204,7 +219,7 @@ def main [...args: string] {
   # a game could rewrite it. umu-uninstall.nu replaces it.
   let uninstall = ($dir | path join "uninstall")
   if ((try { $uninstall | path type } catch { "missing" }) != "missing") {
-    rm --force $uninstall
+    in-sandbox rm -f (sandbox-path $uninstall)
   }
   print $"done. launch with: umu-sandbox (sandbox-path ($dir | path join run))"
 }

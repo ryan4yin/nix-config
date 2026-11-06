@@ -6,7 +6,7 @@ set -euo pipefail
 # `umu-sandbox <this file>`, as the desktop entry does. This check only catches
 # mistakes; the sandbox is the boundary.
 if [ "${UMU_SANDBOX:-}" != 1 ]; then
-  echo "run this inside the umu sandbox: umu-sandbox $0" >&2
+  echo "run this inside the umu sandbox: umu-sandbox" @GAME_DIR@"/exec <exe-or-tool>" >&2
   exit 1
 fi
 export WINEPREFIX=@WINEPREFIX@

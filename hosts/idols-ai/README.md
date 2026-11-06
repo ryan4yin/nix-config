@@ -24,10 +24,11 @@ Related:
 The disk layout is fully declarative — see [disko-fs.nix](./disko-fs.nix) for the root disk. Run
 `df -Th` / `lsblk` on the host if an up-to-date snapshot of the current mounts is needed.
 
-Steam libraries live under the persisted home directory, so they survive the tmpfs root:
-`~/Games/SteamLibrary` is the library that used to sit on the `/data` disk. Steam finds a moved
-library when it is added once through _Settings → Storage → Add Drive_, or by starting Steam with
-the `libraryfolders.vdf` already listing it.
+Steam libraries live under the persisted `~/Gaming`, the game sandbox's home, so they survive the
+tmpfs root: `~/Gaming/Games/SteamLibrary` (`~/Games/SteamLibrary` inside the sandbox) is the library
+that used to sit on the `/data` disk. Steam finds a moved library when it is added once through
+_Settings → Storage → Add Drive_, or by starting Steam with the `libraryfolders.vdf` already listing
+it.
 
 ## 4090 water block
 

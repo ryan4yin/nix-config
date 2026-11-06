@@ -23,35 +23,17 @@ in
     #   Begineer Guide: <https://www.reddit.com/r/linux_gaming/wiki/faq/>
     # ==========================================================================
 
-    # Games installed by Steam works fine on NixOS, no other configuration needed.
-    # https://github.com/NixOS/nixpkgs/blob/master/doc/packages/steam.section.md
-    programs.steam = {
-      # Some location that should be persistent:
-      #   ~/.local/share/Steam - The default Steam install location
-      #   ~/.local/share/Steam/steamapps/common - The default Game install location
-      #   ~/.steam/root        - A symlink to ~/.local/share/Steam
-      #   ~/.steam             - Some Symlinks & user info
-      enable = true;
-      package = pkgs.steam;
-      # https://github.com/Winetricks/winetricks
-      # Whether to enable protontricks, a simple wrapper for running Winetricks commands for Proton-enabled games.
-      protontricks.enable = true;
-      # Whether to enable Load the extest library into Steam, to translate X11 input events to uinput events (e.g. for using Steam Input on Wayland) .
-      extest.enable = true;
-      fontPackages = [
-        pkgs.wqy_zenhei # Need by steam for Chinese
-      ];
-      # DW-Proton (Dawn Winery's Proton fork) carries the anti-cheat and game
-      # patches that mainline Proton/GE-Proton lack, so it is what runs the anime
-      # gacha games (Wuthering Waves, Honkai: Star Rail, Arknights: Endfield, ...);
-      # GE-Proton is the general fallback. Both appear as compatibility tools in
-      # each game's Properties -> Compatibility.
-      # https://dawn.wine/dawn-winery/dwproton
-      extraCompatPackages = [
-        pkgs.dwproton-bin
-        pkgs.proton-ge-bin
-      ];
-    };
+    # Steam runs in a nixpak sandbox (hardening/nixpaks/steam.nix) that the
+    # home manager installs, so `programs.steam` is off: its `package` option
+    # calls `.override` on whatever it is given, which a sandbox script cannot
+    # answer, and it would install a second, unsandboxed steam plus `steam-run`.
+    # What is kept from it: 32-bit graphics, which the game sandboxes mount as
+    # /run/opengl-driver-32, and the controller/VR udev rules. Dropped with it:
+    # `extest` (needs /dev/uinput, which no sandbox gets) and the host
+    # protontricks (it would run Wine on game-writable prefixes; the umu
+    # sandbox carries one instead).
+    hardware.graphics.enable32Bit = true;
+    hardware.steam-hardware.enable = true;
 
     # Expose DW-Proton to umu-run: umu ignores Steam's
     # STEAM_EXTRA_COMPAT_TOOLS_PATHS, and a store path baked into a generated

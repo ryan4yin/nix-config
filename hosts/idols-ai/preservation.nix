@@ -299,21 +299,19 @@ in
         # Games / Media
         # ======================================
 
-        # Home of the game sandboxes (hardening/nixpaks/modules/gaming-policy.nix);
-        # installed games are in ~/Gaming/Games.
+        # Home of the game sandboxes (hardening/nixpaks/modules/gaming-policy.nix).
+        # Steam, Heroic, umu and the games they launch all see it as $HOME, so
+        # their libraries, prefixes, saves and Proton builds live inside it:
+        # ~/Gaming/.local/share/Steam, ~/Gaming/.config/heroic,
+        # ~/Gaming/.local/share/umu, ~/Gaming/Games/... .
         "Gaming"
-        # .desktop entries created by games/installers (including the umu
-        # launchers the nix-config-umu-game skill generates). Home Manager
-        # rewrites its mimeapps.list symlink into the bind mount at activation,
-        # so that survives too.
+        # .desktop entries created on the host for sandboxed launchers. Home
+        # Manager rewrites its mimeapps.list symlink into the bind mount at
+        # activation, so that survives too.
         ".local/share/applications"
-        ".steam"
         ".config/MangoHud"
         ".config/blender"
 
-        ".local/share/umu"
-
-        ".local/share/Steam"
         # WiVRn atomically replaces its settings and pairing files, so preserve
         # the directory rather than individual files.
         {
@@ -324,12 +322,6 @@ in
           directory = ".android"; # ADB host keys for Quest USB authorization
           mode = "0700";
         }
-        ".local/state/Heroic"
-        ".config/heroic"
-
-        ".local/share/GOG.com"
-        ".local/share/StardewValley"
-        ".local/share/feral-interactive"
 
         # ======================================
         # Meeting / Remote Desktop / Recording

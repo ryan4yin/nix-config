@@ -33,6 +33,8 @@ Nixpak wrappers are accepted in three layers:
 | mpv                    | Pass         | Interactive validation pending                                    |
 | imv                    | Pass         | Interactive validation pending                                    |
 | umu                    | Pass         | Wuthering Waves and Star Rail from their desktop entries          |
+| Steam                  | Pending      | Interactive validation pending; checklist below                   |
+| Heroic                 | Pending      | Interactive validation pending; checklist below                   |
 
 Intentional exceptions:
 
@@ -59,8 +61,8 @@ Known packaging limitations:
 
 ## Game launcher checklist
 
-For umu now, and Heroic and Steam when they move into the sandbox. Run each with the game installed
-through the `nix-config-umu-game` skill and launched from its desktop entry:
+For umu, Steam and Heroic. Run umu with a game installed through the `nix-config-umu-game` skill and
+launched from its desktop entry, and Steam and Heroic with a game launched from the launcher:
 
 1. The launcher window opens and the nested pressure-vessel container starts (`ENABLE_LOG=1`, then
    check `last-run.log` for bwrap or `/.flatpak-info` errors).
@@ -72,6 +74,14 @@ through the `nix-config-umu-game` skill and launched from its desktop entry:
 5. Inside `umu-sandbox bash`: `ls -A ~` shows the contents of the host's `~/Gaming` and nothing else
    from the host home.
 6. Running `~/Gaming/Games/<name>/run` from a host shell refuses to start.
+7. Steam lists DW-Proton and GE-Proton under a game's Compatibility tab, and
+   `umu-sandbox protontricks <appid> winecfg` opens winecfg for a game in each Steam library,
+   including one on DW-Proton.
+
+Steam and Heroic: both wrappers build and their sandboxes mount only `~/Gaming`; neither has been
+launched through its desktop entry yet. Steam is expected to lose Remote Play, LAN transfers and
+Steam Input virtual gamepads (see `hardening/README.md`), and Heroic's game shortcuts stay inside
+the sandbox.
 
 umu on dwproton-11.0-15: Wuthering Waves and Star Rail both launch from their desktop entries, and a
 controller works. Wuthering Waves' `PROTON_LOG` shows pressure-vessel starting inside the sandbox,
