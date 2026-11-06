@@ -63,6 +63,34 @@ media = false
 # corner so transient popups no longer sit under the top bar.
 [notification]
 position = "bottom_right"
+# Only the security key's touch prompt is audible: its notification matches the
+# first filter, every other notification (e.g. per-track media notices) gets the
+# catch-all silent filter. First matching enabled filter wins.
+filter_order = [ "security-key", "silent" ]
+
+[notification.filter.security-key]
+enabled = true
+match = "yubikey-touch-detector"
+play_sound = true
+# The pending operation blocks until the key is touched, so also surface it
+# while Do Not Disturb is on.
+bypass_dnd = true
+
+[notification.filter.silent]
+enabled = true
+match_content = ".*"
+play_sound = false
+
+# Shell sounds stay off except the notification sound allowed by the filter
+# above, so volume, charger and screenshot actions stay quiet. This plays the
+# freedesktop sound theme's `message-new-instant` event.
+[audio]
+enable_sounds = true
+enable_volume_sounds = false
+enable_notification_sounds = true
+enable_power_sounds = false
+enable_screenshot_sounds = false
+sound_theme = "freedesktop"
 
 [theme]
 source = "builtin"

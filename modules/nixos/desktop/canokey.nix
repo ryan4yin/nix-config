@@ -34,6 +34,17 @@ in
     };
     security.pam.services.sudo.u2f.enable = myvars.canokeyU2fKeys != [ ];
 
+    # A blink is easy to miss, so touch requests also raise a desktop
+    # notification. The package's service starts with graphical-session.target
+    # and sends through libnotify by default; Noctalia plays a sound for this
+    # sender only (home/linux/gui/base/noctalia/config/config.toml). Coverage
+    # and limits: docs/security-keys.md.
+    programs.yubikey-touch-detector.enable = true;
+    systemd.user.services.yubikey-touch-detector.environment = {
+      YUBIKEY_TOUCH_DETECTOR_NOTIFY_TITLE = "Security key: touch needed";
+      YUBIKEY_TOUCH_DETECTOR_NOTIFY_BODY = "Touch the security key to continue";
+    };
+
     environment.systemPackages = with pkgs; [
       ccid
       pcsc-tools
