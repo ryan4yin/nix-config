@@ -69,9 +69,9 @@ through the `nix-config-umu-game` skill and launched from its desktop entry:
 3. Audio plays; a USB or Bluetooth controller connected before launch works, and a keyboard does not
    appear under `/dev/input` inside the sandbox.
 4. The launcher downloads at the usual speed through pasta, and online play connects.
-5. Inside `umu-sandbox bash`: `ls ~` shows only `~/Games/home`, `~/Games/home` is empty, and host
-   files outside `~/Games` are absent.
-6. Running `~/Games/<name>/run` from a host shell refuses to start.
+5. Inside `umu-sandbox bash`: `ls -A ~` shows the contents of the host's `~/Gaming` and nothing else
+   from the host home.
+6. Running `~/Gaming/Games/<name>/run` from a host shell refuses to start.
 
 ## Browser smoke test
 

@@ -17,24 +17,19 @@ mkAppPolicy "umu" {
   x11 = true;
   notifications = false;
   extraChecks = {
-    # ~/Games/home is the sandbox home, mounted before ~/Games itself.
-    sharedHome =
-      lib.take 2 rw == [
-        [
-          "$HOME/Games/home"
-          "$HOME"
-        ]
-        "$HOME/Games"
-      ];
-    homeLoopHidden = lib.elem "$HOME/Games/home" (map renderBind app.bubblewrap.tmpfs);
+    # ~/Gaming is the sandbox home and the only writable host path besides
+    # per-app runtime state.
+    sharedHome = lib.elem [
+      "$HOME/Gaming"
+      "$HOME"
+    ] rw;
     noXdgStorage = !app.xdgStorage.enable;
-    # The only writable host paths are ~/Games and per-app runtime state.
     writableScope = lib.all (
       entry:
       let
         path = source entry;
       in
-      path == "$HOME/Games" || lib.hasPrefix "$HOME/Games/" path || lib.hasPrefix "$XDG_RUNTIME_DIR/" path
+      path == "$HOME/Gaming" || lib.hasPrefix "$XDG_RUNTIME_DIR/" path
     ) rw;
     gamepadsOnly =
       lib.elem [

@@ -59,9 +59,21 @@ exec "$@"
         )
         for key in ("XDG_DATA_HOME", "BASH_ENV", "ENV", "UMU_PROTONPATH", "UMU_SANDBOX"):
             self.env.pop(key, None)
-        self.game = home / "Games/test-game"
+        self.use_home(home)
         self.launcher = "drive_c/Program Files/Test/launcher.exe"
         self.gameid = "umu-test"
+
+    def use_home(self, home):
+        self.home = home
+        self.env["HOME"] = str(home)
+        # The host side: umu-install.nu writes here.
+        self.games = home / "Gaming/Games"
+        self.game = self.games / "test-game"
+        # The sandbox mounts ~/Gaming over $HOME. The stub umu-sandbox cannot
+        # remap paths, so a symlink makes the sandbox paths written into the
+        # launchers resolve on the host.
+        self.sandbox_game = home / "Games/test-game"
+        (home / "Games").symlink_to(self.games, target_is_directory=True)
 
     def invoke_install(self, name, setup="setup.exe", **extra):
         if setup == "setup.exe":
@@ -99,7 +111,7 @@ exec "$@"
 
     def call(self, name, *args, input=None):
         result = subprocess.run(
-            [str(self.bin_dir / "umu-sandbox"), str(self.game / name), *args],
+            [str(self.bin_dir / "umu-sandbox"), str(self.sandbox_game / name), *args],
             env=self.env,
             input=input,
             capture_output=True,
@@ -110,7 +122,7 @@ exec "$@"
         return self.log.read_text().splitlines()
 
     def test_name_must_be_one_slug_component_before_any_install_work(self):
-        games = self.home / "Games"
+        games = self.home / "Gaming"
         outside = self.home / "escaped"
         invalid_names = [str(outside), "../escaped", "nested/game", ".."]
 
@@ -123,21 +135,25 @@ exec "$@"
                 self.assertFalse(games.exists())
                 self.assertFalse(outside.exists())
 
-    def test_install_rejects_symlinked_games_root(self):
-        outside = self.home / "outside-games"
-        outside.mkdir()
-        (self.home / "Games").symlink_to(outside, target_is_directory=True)
+    def test_install_rejects_symlinked_roots(self):
+        for root in (self.home / "Gaming", self.games):
+            with self.subTest(root=root.name):
+                root.parent.mkdir(parents=True, exist_ok=True)
+                outside = self.home / f"outside-{root.name}"
+                outside.mkdir()
+                root.symlink_to(outside, target_is_directory=True)
 
-        result = self.invoke_install("test-game")
+                result = self.invoke_install("test-game")
 
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("symlink", result.stderr)
-        self.assertFalse(self.log.exists())
-        self.assertEqual(list(outside.iterdir()), [])
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("symlink", result.stderr)
+                self.assertFalse(self.log.exists())
+                self.assertEqual(list(outside.iterdir()), [])
+                root.unlink()
 
     def test_uninstall_refuses_games_root_replaced_by_symlink(self):
         self.install()
-        games = self.home / "Games"
+        games = self.games
         relocated = self.home / "relocated-games"
         games.rename(relocated)
         games.symlink_to(relocated, target_is_directory=True)
@@ -148,8 +164,8 @@ exec "$@"
         self.assertTrue((relocated / "test-game/run").exists())
 
     def test_install_rejects_symlinked_game_directory(self):
-        games = self.home / "Games"
-        games.mkdir()
+        games = self.games
+        games.mkdir(parents=True)
         outside = self.home / "outside"
         outside.mkdir()
         (games / "test-game").symlink_to(outside, target_is_directory=True)
@@ -162,7 +178,7 @@ exec "$@"
         self.assertEqual(list(outside.iterdir()), [])
 
     def test_install_rejects_symlinked_prefix(self):
-        game = self.home / "Games/test-game"
+        game = self.game
         game.mkdir(parents=True)
         outside = self.home / "outside"
         outside.mkdir()
@@ -176,7 +192,7 @@ exec "$@"
         self.assertEqual(list(outside.iterdir()), [])
 
     def test_install_rejects_dangling_symlink_prefix(self):
-        game = self.home / "Games/test-game"
+        game = self.game
         game.mkdir(parents=True)
         outside = self.home / "missing-prefix-target"
         (game / "prefix").symlink_to(outside, target_is_directory=True)
@@ -218,7 +234,7 @@ exec "$@"
         hud_call = self.mangohud_log.read_text().splitlines()
         self.assertEqual(hud_call[0], "fps=1,frametime=1,position=top-left")
         self.assertEqual(
-            hud_call[1:], ["umu-run", str(self.game / "prefix" / self.launcher)]
+            hud_call[1:], ["umu-run", str(self.sandbox_game / "prefix" / self.launcher)]
         )
 
     def test_run_can_disable_mangohud_per_game(self):
@@ -228,12 +244,13 @@ exec "$@"
         values = self.call("run")
 
         self.assertFalse(self.mangohud_log.exists())
-        self.assertEqual(values[3:], [str(self.game / "prefix" / self.launcher)])
+        self.assertEqual(values[3:], [str(self.sandbox_game / "prefix" / self.launcher)])
 
     def test_generation_and_setup_arguments(self):
         self.install()
         self.assertEqual(
-            self.log.read_text().splitlines()[3:], [str(self.game / "setup.exe"), "/S"]
+            self.log.read_text().splitlines()[3:],
+            [str(self.sandbox_game / "setup.exe"), "/S"],
         )
         self.assertFalse((self.game / "uninstall").exists())
         for name in ("run", "exec"):
@@ -244,7 +261,7 @@ exec "$@"
         desktop = self.home / ".local/share/applications/test-game.desktop"
         self.assertIn("Name=Test Game", desktop.read_text())
         self.assertIn(
-            "Exec=umu-sandbox " + str(self.game / "run"), desktop.read_text()
+            "Exec=umu-sandbox " + str(self.sandbox_game / "run"), desktop.read_text()
         )
         self.assertEqual(
             desktop.read_bytes(), (self.game / "test-game.desktop").read_bytes()
@@ -265,7 +282,8 @@ exec "$@"
         values = self.call("run", "--game-arg")
         self.assertEqual(values[2], "local")
         self.assertEqual(
-            values[3:], [str(self.game / "prefix" / self.launcher), "--game-arg"]
+            values[3:],
+            [str(self.sandbox_game / "prefix" / self.launcher), "--game-arg"],
         )
         self.assertTrue((self.game / "patched").exists())
         self.assertTrue((self.game / "last-run.log").exists())
@@ -274,19 +292,18 @@ exec "$@"
         self.launcher = "drive_c/quote'\"$HOME/launcher.exe"
         self.install()
         values = self.call("run")
-        self.assertEqual(values[3:], [str(self.game / "prefix" / self.launcher)])
+        self.assertEqual(values[3:], [str(self.sandbox_game / "prefix" / self.launcher)])
 
     def test_values_containing_placeholder_text_are_not_rerendered(self):
-        self.home = self.home.parent / "@GAMEID@"
-        self.home.mkdir()
-        self.env["HOME"] = str(self.home)
-        self.game = self.home / "Games/test-game"
+        home = self.home.parent / "@GAMEID@"
+        home.mkdir()
+        self.use_home(home)
         self.launcher = "drive_c/@PROTONPATH@/launcher.exe"
         self.gameid = "$(printf injected)"
         self.install()
         values = self.call("run")
-        self.assertEqual(values[0], str(self.game / "prefix"))
-        self.assertEqual(values[3], str(self.game / "prefix" / self.launcher))
+        self.assertEqual(values[0], str(self.sandbox_game / "prefix"))
+        self.assertEqual(values[3], str(self.sandbox_game / "prefix" / self.launcher))
 
     def test_game_conf_pins_installed_proton_over_system_default(self):
         self.install()
@@ -377,8 +394,9 @@ exec "$@"
         prelaunch.write_text('#!/usr/bin/env bash\n[ "$UMU_SANDBOX" = 1 ]\n')
         prelaunch.chmod(0o755)
         self.install()
+        # Both start in the home, which exists on the host and in the sandbox.
         self.assertEqual(
-            self.sandbox_log.read_text().splitlines(), [str(self.game), str(self.game)]
+            self.sandbox_log.read_text().splitlines(), [str(self.home), str(self.home)]
         )
 
     def test_rewrite_launchers_without_installer(self):
@@ -392,17 +410,6 @@ exec "$@"
         (self.game / "uninstall").write_text("#!/bin/sh\n")
         self.install()
         self.assertFalse((self.game / "uninstall").exists())
-
-    def test_home_is_reserved_for_the_sandbox(self):
-        for script in ("umu-install.nu", "umu-uninstall.nu"):
-            with self.subTest(script=script):
-                if script == "umu-install.nu":
-                    result = self.invoke_install("home")
-                else:
-                    result = self.uninstall("home")
-                self.assertNotEqual(result.returncode, 0)
-                self.assertIn("sandbox home", result.stderr)
-        self.assertFalse(self.log.exists())
 
     def test_install_refuses_to_write_through_planted_symlinks(self):
         target = self.home / "bashrc"
@@ -419,28 +426,26 @@ exec "$@"
                 self.assertEqual(target.read_text(), "host file\n")
                 link.unlink()
 
-    def test_installer_inside_games_is_used_in_place(self):
-        setup = self.home / "Games/downloads/setup.exe"
+    def test_installer_in_the_sandbox_home_is_used_in_place(self):
+        setup = self.home / "Gaming/Downloads/setup.exe"
         setup.parent.mkdir(parents=True)
         setup.touch()
         self.install_from(setup)
-        self.assertEqual(self.log.read_text().splitlines()[3], str(setup))
+        self.assertEqual(
+            self.log.read_text().splitlines()[3], str(self.home / "Downloads/setup.exe")
+        )
         self.assertFalse((self.game / "setup.exe").exists())
 
-    def test_sandbox_home_paths_are_translated(self):
-        proton = self.home / "Games/home/.local/share/Steam/compatibilitytools.d/dwproton"
+    def test_steam_proton_fallback_is_translated(self):
+        proton = self.home / "Gaming/.local/share/Steam/compatibilitytools.d/dwproton"
         (proton / "files/bin").mkdir(parents=True)
         (proton / "proton").touch()
-        setup = self.home / "Games/home/Downloads/setup.exe"
-        setup.parent.mkdir(parents=True)
-        setup.touch()
         self.env.pop("PROTONPATH")
-        self.install_from(setup)
-        values = self.log.read_text().splitlines()
+        self.install()
         self.assertEqual(
-            values[1], str(self.home / ".local/share/Steam/compatibilitytools.d/dwproton")
+            self.log.read_text().splitlines()[1],
+            str(self.home / ".local/share/Steam/compatibilitytools.d/dwproton"),
         )
-        self.assertEqual(values[3], str(self.home / "Downloads/setup.exe"))
 
     def test_proton_outside_the_sandbox_is_rejected(self):
         self.env["NIX_STORE_DIR"] = str(self.home / "store")

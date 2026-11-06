@@ -53,7 +53,7 @@ explicitly; other files use the document portal. Every app also has private writ
 | MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | ALSA via PipeWire, ALSA sequencer, X11/XWayland, print, notifications, IME, accessibility      |
 | mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                   |
 | imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                          |
-| umu          | Isolated      | `~/Games` only; `~/Games/home` is the sandbox `$HOME`                                 | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
+| umu          | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
@@ -76,14 +76,13 @@ Game launchers (umu now; Heroic and Steam to follow) share
 [gaming-policy.nix](nixpaks/modules/gaming-policy.nix). The goal is that games cannot read host
 data, not that they are isolated from each other:
 
-- `~/Games/home` is mounted over `$HOME` and the real `~/Games` at its own path, so the shared home
-  and every game directory keep the paths launchers and Wine prefixes record. A tmpfs hides
-  `~/Games/home` inside itself. Nothing else in the host home is visible, and the per-app XDG
-  directories are off because games write saves straight into `$HOME`.
+- `~/Gaming` is mounted over `$HOME`; nothing else in the host home is visible. Installed games are
+  in `~/Gaming/Games`, the sandbox's `~/Games`, which is where launchers install by default. The
+  per-app XDG directories are off because games write saves straight into `$HOME`.
 - All launchers share that data, so they form one trust domain: a compromised game can change
   another launcher's configuration. Their grants therefore stay identical.
-- `~/Games` is game-writable, so the host never executes a file from it. Generated umu launchers run
-  through `umu-sandbox`; see the `nix-config-umu-game` skill.
+- `~/Gaming` is game-writable, so the host never executes a file from it. Generated umu launchers
+  run through `umu-sandbox`; see the `nix-config-umu-game` skill.
 - Controllers: host udev rules hard-link joystick evdev nodes (not ones that also claim to be a
   keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input,
   SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let a game inject input into

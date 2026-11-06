@@ -1,7 +1,7 @@
 # umu-launcher sandbox for Windows games outside Steam. The launchers that the
-# nix-config-umu-game skill writes to ~/Games/<name> are game-writable, so the
-# host never executes them: `umu-sandbox ~/Games/<name>/run` runs the whole
-# script, conf and prelaunch included, inside the sandbox.
+# nix-config-umu-game skill writes to ~/Gaming/Games/<name> are game-writable,
+# so the host never executes them: `umu-sandbox ~/Games/<name>/run` (a sandbox
+# path) runs the whole script, conf and prelaunch included, inside the sandbox.
 {
   steam,
   umu-launcher-unwrapped,

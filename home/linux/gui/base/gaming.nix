@@ -31,7 +31,7 @@ in
 
         # https://github.com/Open-Wine-Components/umu-launcher
         # a unified launcher for Windows games on Linux, sandboxed with
-        # ~/Games as its only writable host directory. umu-run, winetricks,
+        # ~/Gaming as its home and only writable host directory. umu-run, winetricks,
         # bbe and mangohud live inside it; the nix-config-umu-game skill and
         # the launchers it generates run through `umu-sandbox`.
         nixpaks.umu

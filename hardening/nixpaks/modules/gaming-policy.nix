@@ -1,17 +1,13 @@
-# Shared policy for game launchers. Every launcher sees the same home:
-# ~/Games/home is mounted over $HOME and the real ~/Games at its own path, so
-# game data, Proton builds and the umu runtime live in one directory and stay
-# where launchers and games expect them. Nothing else in the host home is
+# Shared policy for game launchers. Every launcher sees the same home: ~/Gaming
+# is mounted over $HOME, so game installs (~/Gaming/Games, the sandbox's
+# ~/Games where launchers put them by default), Proton builds, the umu runtime
+# and saves all live in that one directory. Nothing else in the host home is
 # visible. All launchers share that data, so they are one trust domain: keep
 # their grants identical here rather than per launcher.
 {
-  lib,
   sloth,
   ...
 }:
-let
-  gamesDir = sloth.concat' sloth.homeDir "/Games";
-in
 {
   imports = [
     ./desktop-base.nix
@@ -27,16 +23,12 @@ in
     inputMethod = true;
   };
   bubblewrap = {
-    # The home must be mounted before ~/Games and anything else below $HOME.
-    bind.rw = lib.mkBefore [
+    bind.rw = [
       [
-        (sloth.mkdir (sloth.concat' gamesDir "/home"))
+        (sloth.mkdir (sloth.concat' sloth.homeDir "/Gaming"))
         sloth.homeDir
       ]
-      gamesDir
     ];
-    # Inside the sandbox ~/Games/home is the home itself; hide the loop.
-    tmpfs = [ (sloth.concat' gamesDir "/home") ];
     # Wine and the Steam client talk X11 (XWayland).
     sockets.x11 = true;
     bind.ro = [
