@@ -65,7 +65,15 @@ in
       }
       // lanHost;
     }
-    // lib.genAttrs (builtins.attrNames myvars.networking.hostsAddr) (_: lanHost);
+    # Aliases forward the agent like their addresses do; servers ask it for sudo
+    # (modules/nixos/server/ssh-agent-sudo.nix).
+    // lib.genAttrs (builtins.attrNames myvars.networking.hostsAddr) (
+      _:
+      {
+        ForwardAgent = true;
+      }
+      // lanHost
+    );
   };
 
   # Keep ~/.ssh/config a real, user-owned file rather than a /nix/store symlink.

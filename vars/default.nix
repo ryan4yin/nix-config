@@ -1,5 +1,15 @@
 { lib }:
+let
+  # CanoKey resident SSH keys: they log in like the main keys, and they are the
+  # only keys pam_rssh accepts for sudo on servers through the forwarded agent
+  # (modules/nixos/server/ssh-agent-sudo.nix).
+  canokeySshKeys = [
+    # CanoKey Canary (backup)
+    "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIKgfNy/wJgTw6auO4RmRHR9kh1Mt5TYNkomMDFLJ4Kw6AAAADHNzaDpyeWFuNHlpbg== ryan@canokey-moe"
+  ];
+in
 {
+  inherit canokeySshKeys;
   username = "ryan";
   userfullname = "Ryan Yin";
   useremail = "xiaoyin_c@qq.com";
@@ -28,11 +38,12 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIKlN+Q/GxvwxDX/OAjJHaNFEznEN4Tw4E4TwqQu/eD6 ryan@idols-ai"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJwoI5MAogEa726jwwHL5EgM1X/i2A5d2pgV7i7t8fzB ryan@shoukei"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDc1PNTXzzvd93E+e9LXvnEzqgUI5gMTEF/IitvzgmL+ ryan@frieren"
-  ];
+  ]
+  ++ canokeySshKeys;
   # CanoKey U2F registrations for sudo (modules/nixos/desktop/canokey.nix).
   # Key handles and public keys only, so they are safe to commit.
   canokeyU2fKeys = [
-    # CanoKey Canary (primary)
+    # CanoKey Canary (backup)
     "DwXDxVU+NDTUZs/d2EjpsPAh4mrg7dqdg/mAozkw/mUAAdEYDZIbm8kTBUGA49wXW0ZvSpF9VNYh2w84Xz9nAIAW////+Q==,6hqEjWBJ+ueBKBJaNijNkUsmlgEHMgv0KdpprqdJjHKoU/FKpeqo12SWlvdgiIVWvqTaGfe4fNu/ckcGY5mlsA==,es256,+presence"
   ];
   secondaryAuthorizedKeys = [
