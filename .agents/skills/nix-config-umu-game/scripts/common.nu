@@ -38,9 +38,10 @@ export def check-name [name: string] {
 }
 
 # The path as the sandbox sees it, or null if the sandbox cannot see it:
-# ~/Gaming becomes $HOME, and the Nix store is read-only.
+# ~/Gaming becomes $HOME, and the Nix store is read-only. Symlinks stay
+# unresolved: under ~/Gaming the games choose their targets.
 export def sandbox-path [path: string] {
-  let full = ($path | path expand)
+  let full = ($path | path expand --no-symlink)
   let store = ($env.NIX_STORE_DIR? | default "/nix/store")
   let gaming = (gaming-dir)
   if $full == $gaming or ($full | str starts-with $"($gaming)/") {

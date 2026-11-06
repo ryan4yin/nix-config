@@ -5,7 +5,7 @@ set -euo pipefail
 # `umu-sandbox <this file>`, as the desktop entry does. This check only catches
 # mistakes; the sandbox is the boundary.
 if [ "${UMU_SANDBOX:-}" != 1 ]; then
-  echo "run this inside the umu sandbox: umu-sandbox $0" >&2
+  echo "run this inside the umu sandbox: umu-sandbox" @GAME_DIR@"/run" >&2
   exit 1
 fi
 HERE="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
