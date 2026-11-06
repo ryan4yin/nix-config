@@ -33,6 +33,8 @@ Nixpak wrappers are accepted in three layers:
 | mpv                    | Pass         | Interactive validation pending                                    |
 | imv                    | Pass         | Interactive validation pending                                    |
 | umu                    | Pass         | Wuthering Waves and Star Rail from their desktop entries          |
+| Steam                  | Pending      | Interactive validation pending; checklist below                   |
+| Heroic                 | Pending      | Interactive validation pending; checklist below                   |
 
 Intentional exceptions:
 
@@ -72,6 +74,11 @@ through the `nix-config-umu-game` skill and launched from its desktop entry:
 5. Inside `umu-sandbox bash`: `ls -A ~` shows the contents of the host's `~/Gaming` and nothing else
    from the host home.
 6. Running `~/Gaming/Games/<name>/run` from a host shell refuses to start.
+
+Steam and Heroic: both wrappers build and their sandboxes mount only `~/Gaming`; neither has been
+launched through its desktop entry yet. Steam is expected to lose Remote Play, LAN transfers and
+Steam Input virtual gamepads (see `hardening/README.md`), and Heroic's game shortcuts stay inside
+the sandbox.
 
 umu on dwproton-11.0-15: Wuthering Waves and Star Rail both launch from their desktop entries, and a
 controller works. Wuthering Waves' `PROTON_LOG` shows pressure-vessel starting inside the sandbox,

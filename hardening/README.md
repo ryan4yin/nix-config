@@ -54,6 +54,8 @@ explicitly; other files use the document portal. Every app also has private writ
 | mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                   |
 | imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                          |
 | umu          | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
+| Steam        | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
+| Heroic       | Isolated      | `~/Gaming` only, mounted as the sandbox `$HOME`                                       | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
@@ -72,9 +74,8 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 
 ## Game launchers
 
-Game launchers (umu now; Heroic and Steam to follow) share
-[gaming-policy.nix](nixpaks/modules/gaming-policy.nix). The goal is that games cannot read host
-data, not that they are isolated from each other:
+Steam, Heroic and umu share [gaming-policy.nix](nixpaks/modules/gaming-policy.nix). The goal is that
+games cannot read host data, not that they are isolated from each other:
 
 - `~/Gaming` is mounted over `$HOME`; nothing else in the host home is visible. Installed games are
   in `~/Gaming/Games`, the sandbox's `~/Games`, which is where launchers install by default. The
@@ -82,11 +83,20 @@ data, not that they are isolated from each other:
 - All launchers share that data, so they form one trust domain: a compromised game can change
   another launcher's configuration. Their grants therefore stay identical.
 - `~/Gaming` is game-writable, so the host never executes a file from it. Generated umu launchers
-  run through `umu-sandbox`; see the `nix-config-umu-game` skill.
+  run through `umu-sandbox` (see the `nix-config-umu-game` skill), Steam and Heroic launch their
+  games from inside their own sandboxes, and a Steam prefix is fixed through
+  [scripts/steam-fix.nu](../scripts/steam-fix.nu) rather than protontricks, which would run Wine on
+  those prefixes as the host user.
+- Replacing `programs.steam` costs its extras: no `steam-run`, no `extest` (needs `/dev/uinput`), no
+  protontricks, and no Remote Play / LAN transfer firewall ports. Remote Play and LAN discovery need
+  inbound connections that pasta isolation does not forward; online play, the store and downloads
+  are unaffected.
 - Controllers: host udev rules hard-link joystick evdev nodes (not ones that also claim to be a
-  keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input,
-  SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let a game inject input into
-  the host session. Like the FIDO2 directory, `/dev/gamepad-input` is created at boot.
+  keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input's
+  gyro/touchpad remapping, SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let
+  a game inject input into the host session, and it is not namespaced. A real controller therefore
+  works through evdev, but Steam Input cannot create virtual gamepads. Like the FIDO2 directory,
+  `/dev/gamepad-input` is created at boot.
 - The sandbox gets Flatpak's `--device=all` sysfs set without `/sys/block`, the udev database and
   `/etc/passwd`, `/etc/group` and `/etc/machine-id`, which pressure-vessel and Wine need.
 - Proton's pressure-vessel container is a third bwrap layer (nixpak, buildFHSEnv, pressure-vessel).
@@ -94,7 +104,8 @@ data, not that they are isolated from each other:
   with it, pressure-vessel would switch to a Flatpak sub-sandbox it cannot get.
 - Portals see processes in the FHS layer as host apps, so no file chooser is granted (it would
   return host paths), and GameMode is unavailable: `gamemoded` cannot reach PIDs in the sandbox's
-  namespace.
+  namespace. Desktop entries that Heroic or Steam create for a game land in the sandbox's
+  `~/.local/share/applications` (`~/Gaming/...`), so the host application menu does not show them.
 
 ## Limits
 
@@ -166,8 +177,9 @@ data, not that they are isolated from each other:
 - [nixpaks/](nixpaks/): wrappers and Home Manager package overlay.
 - [desktop-base.nix](nixpaks/modules/desktop-base.nix),
   [xdg-storage.nix](nixpaks/modules/xdg-storage.nix): shared runtime and per-app XDG storage.
-- [gaming-policy.nix](nixpaks/modules/gaming-policy.nix), [nixpaks/umu.nix](nixpaks/umu.nix): game
-  launcher sandbox and the umu wrapper.
+- [gaming-policy.nix](nixpaks/modules/gaming-policy.nix), [nixpaks/umu.nix](nixpaks/umu.nix),
+  [nixpaks/steam.nix](nixpaks/steam.nix), [nixpaks/heroic.nix](nixpaks/heroic.nix): game launcher
+  sandbox and the three launcher wrappers.
 - [portal-groups.nix](nixpaks/modules/portal-groups.nix),
   [desktop-integration.nix](nixpaks/modules/desktop-integration.nix): portal and desktop service
   grants.

@@ -133,6 +133,38 @@ let
     else
       !app.desktopIntegration.tray;
 
+  # Checks shared by every game launcher suite (modules/gaming-policy.nix):
+  # ~/Gaming is the sandbox home and the only writable host path, joysticks are
+  # the only input devices, and the launcher grants no file chooser.
+  gamingChecks =
+    name:
+    let
+      app = load name;
+      rw = map renderBind app.bubblewrap.bind.rw;
+      source = entry: if builtins.isList entry then builtins.head entry else entry;
+    in
+    {
+      sharedHome = lib.elem [ "$HOME/Gaming" "$HOME" ] rw;
+      noXdgStorage = !app.xdgStorage.enable;
+      writableScope = lib.all (
+        entry:
+        let
+          path = source entry;
+        in
+        path == "$HOME/Gaming" || lib.hasPrefix "$XDG_RUNTIME_DIR/" path
+      ) rw;
+      gamepadsOnly =
+        lib.elem [
+          "/dev/gamepad-input"
+          "/dev/input"
+        ] app.bubblewrap.bind.dev
+        && !lib.elem "/dev/input" app.bubblewrap.bind.dev
+        && !lib.any (path: lib.hasPrefix "/dev/hidraw" path) (lib.flatten app.bubblewrap.bind.dev);
+      driver32 = lib.elem "/run/opengl-driver-32" app.bubblewrap.bind.ro;
+      openUri = app.portalGroups.openUri;
+      noFileChooser = !app.portalGroups.fileChooser;
+    };
+
   mkAppPolicy =
     name: spec:
     let
@@ -204,6 +236,7 @@ in
     load
     mountStrings
     renderBind
+    gamingChecks
     withoutSecretPortal
     mkAppPolicy
     globalChecks

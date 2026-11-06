@@ -64,6 +64,8 @@ in
         imv = wrapper super ./imv.nix;
         wechat = wrapper pkgs-master ./wechat.nix;
         umu = wrapper super ./umu.nix;
+        steam = wrapper super ./steam.nix;
+        heroic = wrapper super ./heroic.nix;
       };
     })
   ];
