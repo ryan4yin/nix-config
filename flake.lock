@@ -851,6 +851,26 @@
         "type": "github"
       }
     },
+    "pyclipsync": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793503810,
+        "narHash": "sha256-qh3Wjb1gV9FO01vUTGMNcWRwwQ9iUH0tkzVjObEn5J4=",
+        "owner": "ryan4yin",
+        "repo": "pyclipsync",
+        "rev": "080fbb7a21f4afe298d4eaa400645388ec000231",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryan4yin",
+        "repo": "pyclipsync",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -884,6 +904,7 @@
         "ponytail": "ponytail",
         "pre-commit-hooks": "pre-commit-hooks",
         "preservation": "preservation",
+        "pyclipsync": "pyclipsync",
         "wallpapers": "wallpapers"
       }
     },

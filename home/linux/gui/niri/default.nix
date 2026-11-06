@@ -2,12 +2,18 @@
   pkgs,
   config,
   lib,
+  pyclipsync,
   ...
 }@args:
 let
   cfg = config.modules.desktop.niri;
 in
 {
+  imports = [
+    # provides `services.pyclipsync.enable`
+    pyclipsync.homeModules.default
+  ];
+
   options.modules.desktop.niri = {
     enable = lib.mkEnableOption "niri compositor";
   };
@@ -50,6 +56,10 @@ in
             TimeoutStopSec = 10;
           };
         };
+
+        # QQ draws a Wayland window but copies through the X11 CLIPBOARD, which
+        # xwayland-satellite bridges only while an X11 window has focus.
+        services.pyclipsync.enable = true;
 
         # NOTE: this executable is used by greetd to start a wayland session when system boot up
         # with such a vendor-no-locking script, we can switch to another wayland compositor without modifying greetd's config in NixOS module
