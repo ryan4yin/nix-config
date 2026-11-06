@@ -13,25 +13,35 @@
     // {
       default = true;
     };
-  config.bubblewrap.bind.rw = lib.mkIf config.xdgStorage.enable (
+  config.bubblewrap.bind = lib.mkIf config.xdgStorage.enable (
     with sloth;
-    [
-      [
-        (mkdir appCacheDir)
-        xdgCacheHome
-      ]
-      [
-        (mkdir appConfigDir)
-        xdgConfigHome
-      ]
-      [
-        (mkdir appDataDir)
-        xdgDataHome
-      ]
-      [
-        (mkdir (concat' appDir "/state"))
-        xdgStateHome
-      ]
-    ]
+    {
+      rw = [
+        [
+          (mkdir appCacheDir)
+          xdgCacheHome
+        ]
+        [
+          (mkdir appConfigDir)
+          xdgConfigHome
+        ]
+        [
+          (mkdir appDataDir)
+          xdgDataHome
+        ]
+        [
+          (mkdir (concat' appDir "/state"))
+          xdgStateHome
+        ]
+      ];
+      # The host's GTK and KDE theme settings, over the private config
+      # directory (nixpak mounts read-only binds after read-write ones).
+      ro = [
+        (concat' xdgConfigHome "/gtk-2.0")
+        (concat' xdgConfigHome "/gtk-3.0")
+        (concat' xdgConfigHome "/gtk-4.0")
+        (concat' xdgConfigHome "/kdeglobals")
+      ];
+    }
   );
 }

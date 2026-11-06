@@ -96,21 +96,24 @@ games cannot read host data, not that they are isolated from each other:
   gyro/touchpad remapping, SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let
   a game inject input into the host session, and it is not namespaced. A real controller therefore
   works through evdev, but Steam Input cannot create virtual gamepads. Like the FIDO2 directory,
-  `/dev/gamepad-input` is created at boot.
+  `/dev/gamepad-input` is created at boot; after a first deploy with `switch`, run
+  `sudo systemd-tmpfiles --create --prefix=/dev/gamepad-input` and
+  `sudo udevadm trigger --action=add -s input` before starting a launcher.
 - The sandbox gets Flatpak's `--device=all` sysfs set without `/sys/block`, the udev database and
   `/etc/passwd`, `/etc/group` and `/etc/machine-id`, which pressure-vessel and Wine need.
 - Proton's pressure-vessel container is a third bwrap layer (nixpak, buildFHSEnv, pressure-vessel).
   This relies on unprivileged user namespaces and on the inner FHS root having no `/.flatpak-info`;
   with it, pressure-vessel would switch to a Flatpak sub-sandbox it cannot get.
-- Portals see processes in the FHS layer as host apps, so no file chooser is granted (it would
-  return host paths), and GameMode is unavailable: `gamemoded` cannot reach PIDs in the sandbox's
-  namespace. Desktop entries that Heroic or Steam create for a game land in the sandbox's
-  `~/.local/share/applications` (`~/Gaming/...`), so the host application menu does not show them.
+- Portals see processes in the FHS layer as host apps, so no file chooser or document portal mount
+  is granted (they would return host paths and every exported document), and GameMode is
+  unavailable: `gamemoded` cannot reach PIDs in the sandbox's namespace. Desktop entries that Heroic
+  or Steam create for a game land in the sandbox's `~/.local/share/applications` (`~/Gaming/...`),
+  so the host application menu does not show them.
 
 ## Limits
 
-- X11: Zoom and WeChat have shared-display trust; portal permissions cannot enforce portal-only
-  capture.
+- X11: Zoom, WeChat and the game launchers have shared-display trust; portal permissions cannot
+  enforce portal-only capture.
 - PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.
 - Brave Origin and Edge intentionally have no PulseAudio, Camera, ScreenCast or MPRIS grants. They

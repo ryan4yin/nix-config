@@ -48,15 +48,19 @@
       pulse = lib.mkDefault true;
       pipewire = lib.mkDefault false;
     };
-    bind.rw = with sloth; [
-      (concat' runtimeDir "/doc")
-      # Chrome/Firefox/Telegram/etc. use /tmp for single-instance IPC. Share
-      # this directory across launches of the same app only; app IDs differ.
+    bind.rw =
+      with sloth;
       [
-        (mkdir (concat' runtimeDir "/nixpak-${config.flatpak.appId}-tmp"))
-        "/tmp"
+        # Chrome/Firefox/Telegram/etc. use /tmp for single-instance IPC. Share
+        # this directory across launches of the same app only; app IDs differ.
+        [
+          (mkdir (concat' runtimeDir "/nixpak-${config.flatpak.appId}-tmp"))
+          "/tmp"
+        ]
       ]
-    ];
+      # File chooser results arrive through the document portal; an app
+      # without a chooser gets no view of the exported documents.
+      ++ lib.optional config.portalGroups.fileChooser (concat' runtimeDir "/doc");
     bind.ro = [
       # Reuse the host's NixOS fontconfig instead of maintaining a second font
       # set in every sandbox. Nixpak's own font module generates an isolated
@@ -69,10 +73,6 @@
       ]
       "/etc/localtime"
       "/etc/zoneinfo"
-      (sloth.concat' sloth.xdgConfigHome "/gtk-2.0")
-      (sloth.concat' sloth.xdgConfigHome "/gtk-3.0")
-      (sloth.concat' sloth.xdgConfigHome "/gtk-4.0")
-      (sloth.concat' sloth.xdgConfigHome "/kdeglobals")
       "/sys/devices/platform"
     ]
     ++ lib.optionals config.gpu.enable [
