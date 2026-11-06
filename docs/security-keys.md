@@ -147,8 +147,7 @@ Every host shares the origin `pam://ryan4yin`, so one registration covers idols-
 
 Servers and agent hosts (`modules/nixos/server/ssh-agent-sudo.nix`) run pam_rssh: sudo there sends a
 challenge back through the forwarded agent, and the CanoKey signs it after a touch. Nothing to
-enroll beyond the SSH key below; its public key goes to `canokeySshKeys` in
-[vars/default.nix](../vars/default.nix). Only those keys count, so a file key in the agent cannot
+enroll beyond the SSH key below. Only the `canokeySshKeys` count, so a file key in the agent cannot
 satisfy sudo. Agent forwarding is on for `192.168.*` and the `hostsAddr` aliases
 ([ssh.nix](../home/base/tui/ssh.nix)); without a forwarded agent, or with the key unplugged, sudo
 asks for the password.
@@ -161,7 +160,7 @@ needs a touch, so an unexpected blink is the signal to refuse it.
 One SSH key, used for GitHub and every host, lives on the key as a resident credential:
 
 ```bash
-ssh-keygen -t ed25519-sk -O resident -O application=ssh:ryan4yin -C ryan@canokey
+ssh-keygen -t ed25519-sk -O resident -O application=ssh:ryan4yin -C ryan@canokey-<name>
 ```
 
 This writes `~/.ssh/id_ed25519_sk` on the machine that runs it. On each other desktop, export the
@@ -189,10 +188,10 @@ How it works, and what the prompts mean:
   connection: `AddKeysToAgent yes` keeps the unlocked handle in the agent, which still asks the key
   for each signature.
 
-Add the public key to `mainSshAuthorizedKeys` in [vars/default.nix](../vars/default.nix) and to
-GitHub. GitHub tries `id_ed25519_sk` before the per-host key; other hosts try it as a default
-identity. Keys already loaded in `ssh-agent` are offered first, so the per-host keys can still win
-until they are retired.
+Add the public key to `canokeySshKeys` in [vars/default.nix](../vars/default.nix), which is part of
+`mainSshAuthorizedKeys`, and to GitHub. GitHub tries `id_ed25519_sk` before the per-host key; other
+hosts try it as a default identity. Keys already loaded in `ssh-agent` are offered first, so the
+per-host keys can still win until they are retired.
 
 ### shoukei LUKS
 
@@ -242,7 +241,7 @@ it is. On a YubiKey, manage settings with Yubico Authenticator or `ykman`; OpenP
 | Device       | Section 1 again                                                                                                                                                                                                                                                  |
 | Browsers     | Register it on every site as an additional security key                                                                                                                                                                                                          |
 | sudo         | `pamu2fcfg --nouser --origin=pam://ryan4yin` with only the backup plugged in; append to `canokeyU2fKeys`                                                                                                                                                         |
-| SSH          | Create a resident key on it with the same command; add its public key to `mainSshAuthorizedKeys`, `canokeySshKeys` and GitHub. Use it with `ssh-add -K` (loads resident keys into the agent) instead of exporting a file                                         |
+| SSH          | Create a resident key on it with the same command; add its public key to `canokeySshKeys` and GitHub. Use it with `ssh-add -K` (loads resident keys into the agent) instead of exporting a file                                                                  |
 | shoukei LUKS | Run the same `systemd-cryptenroll --fido2-device=auto` with only the backup plugged in; it takes the next slot                                                                                                                                                   |
 | OpenPGP      | Import the subkeys from the backup into a fresh, temporary `GNUPGHOME`, `keytocard` them onto the backup key, then delete that `GNUPGHOME`. The stubs remember the card serial; after swapping cards run `gpg-connect-agent "scd serialno" "learn --force" /bye` |
 
@@ -260,9 +259,9 @@ After any reset, rerun sections 1 and 2 for the affected applications.
 
 ## Enrollment status
 
-| Key                      | Firmware | sudo              | SSH                                                        | shoukei LUKS                  | OpenPGP     | Browsers                         |
-| ------------------------ | -------- | ----------------- | ---------------------------------------------------------- | ----------------------------- | ----------- | -------------------------------- |
-| CanoKey Canary (primary) | 3.0.3    | works on idols-ai | key created; public key not yet in `mainSshAuthorizedKeys` | enrolled; unlock not verified | on the card | WebAuthn works in Firefox/Chrome |
+| Key                                    | Firmware | sudo              | SSH                                                     | shoukei LUKS                  | OpenPGP     | Browsers                         |
+| -------------------------------------- | -------- | ----------------- | ------------------------------------------------------- | ----------------------------- | ----------- | -------------------------------- |
+| CanoKey Canary (backup, `canokey-moe`) | 3.0.3    | works on idols-ai | public key in `canokeySshKeys`; host login not verified | enrolled; unlock not verified | on the card | WebAuthn works in Firefox/Chrome |
 
 shoukei's first boots with the FIDO2 slot asked for the PIN, then fell back to the passphrase: USB
 only came up after switch-root, because on linux-asahi 7.2 its dwc3/PHY depend on the Thunderbolt
