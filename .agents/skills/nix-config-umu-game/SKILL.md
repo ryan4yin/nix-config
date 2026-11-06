@@ -79,14 +79,16 @@ sandbox paths. At launch, the generated `run` script checks the current `$PROTON
    (`protondb.com/app/<id>`), Steam Community / r/linux_gaming threads, and GitHub issues for the
    launcher and Proton. Record whether reports require a Proton family and exact release. If no
    exact release is required, use the Nix-provided DW-Proton default. If one is required, inspect
-   `$UMU_PROTONPATH` and installed Steam tools under
-   `~/Gaming/.local/share/Steam/compatibilitytools.d/` (the sandbox's
-   `~/.local/share/Steam/compatibilitytools.d/`); select the matching installed path with
+   `$UMU_PROTONPATH`, the Nix GE-Proton
+   (`nix build --no-link --print-out-paths .#nixosConfigurations.<host>.pkgs.proton-ge-bin.steamcompattool`)
+   and installed Steam tools under `~/Gaming/.local/share/Steam/compatibilitytools.d/` (the
+   sandbox's `~/.local/share/Steam/compatibilitytools.d/`); select the matching installed path with
    `PROTONPATH`. Prefix the installer command with `PROTONPATH="<selected-tool-directory>"` and set
    the same value in the game's `conf` to pin it across launches; otherwise the runtime Nix
    `UMU_PROTONPATH` may take precedence. If the required release is absent from Nix and Steam, stop
    and ask the user before downloading it from elsewhere. Do not substitute a different release or
-   use ProtonPlus/Lutris to fetch one.
+   use ProtonPlus/Lutris to fetch one: a host-side downloader writes outside `~/Gaming`, where the
+   sandbox cannot see it, and a store path cannot be modified by a game.
 2. **Slug.** Pick a lowercase `<name>` (e.g. `wuthering-waves`).
 3. **GAMEID.** The umu database maps a title to a `GAMEID` whose protonfixes add CJK fonts, drop the
    `SteamOS`/`SteamDeck` vars, and keep Wine's `Documents` inside the prefix. **Without it some
@@ -243,6 +245,9 @@ variables (`__NV_PRIME_RENDER_OFFLOAD=1`, ...) in `conf` instead. Shader caches 
 
 ## Common mistakes
 
+- Launching again while the first launch after a Proton update or a moved umu runtime shows no
+  window: it is preparing steamrt4 and upgrading the prefix, which can take a minute, and a second
+  launch blocks on the same locks. Wait, or `pkill -f '/Games/<name>/prefix'` and launch once.
 - Committing a game name, URL, or patch to this repo instead of `~/Gaming/Games/<name>/`.
 - Patching once instead of in `prelaunch` -- the next launcher self-update undoes it.
 - Dropping the `GAMEID` -- the in-game CJK fonts and the save location go wrong.

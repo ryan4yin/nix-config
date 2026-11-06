@@ -32,7 +32,7 @@ Nixpak wrappers are accepted in three layers:
 | MuseScore              | Pass         | Interactive launch pass; ALSA routed to default PipeWire sink     |
 | mpv                    | Pass         | Interactive validation pending                                    |
 | imv                    | Pass         | Interactive validation pending                                    |
-| umu                    | Pending      | Interactive validation pending; checklist below                   |
+| umu                    | Pass         | Wuthering Waves and Star Rail from their desktop entries          |
 
 Intentional exceptions:
 
@@ -72,6 +72,14 @@ through the `nix-config-umu-game` skill and launched from its desktop entry:
 5. Inside `umu-sandbox bash`: `ls -A ~` shows the contents of the host's `~/Gaming` and nothing else
    from the host home.
 6. Running `~/Gaming/Games/<name>/run` from a host shell refuses to start.
+
+umu on dwproton-11.0-15: Wuthering Waves and Star Rail both launch from their desktop entries, and a
+controller works. Wuthering Waves' `PROTON_LOG` shows pressure-vessel starting inside the sandbox,
+DXVK and vkd3d-proton on the RTX 4090, NVAPI, fsync and pasta networking, with nothing denied by the
+sandbox. Still to check: audio, a 32-bit game, the keyboard exclusion and item 5. Wuthering Waves'
+ACE anti-cheat driver crashes `winedevice.exe` on an unimplemented `ntoskrnl.exe` function, a Wine
+gap; the game runs regardless. The first launch after a Proton update or a moved umu runtime can
+show no window for a minute while steamrt4 is prepared and the prefix upgraded.
 
 ## Browser smoke test
 

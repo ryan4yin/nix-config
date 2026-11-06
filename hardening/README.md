@@ -147,9 +147,11 @@ data, not that they are isolated from each other:
 - OBS Studio passed interactive validation for PipeWire screen capture, V4L2 camera capture,
   desktop/microphone audio, local NVENC H.264 MP4 recording and local RTMP streaming. External
   provider authentication and browser sources remain unvalidated.
-- Remmina, Blender, mpv, imv and umu build and pass the policy suite; interactive validation is
-  still pending. MuseScore passed launch, XWayland and ALSA-to-PipeWire routing checks; audible
-  playback and user workflows still need confirmation.
+- Remmina, Blender, mpv and imv build and pass the policy suite; interactive validation is still
+  pending. umu runs Wuthering Waves and Star Rail from their desktop entries on the RTX 4090, with a
+  working controller; audio and the in-sandbox isolation check are pending. MuseScore passed launch,
+  XWayland and ALSA-to-PipeWire routing checks; audible playback and user workflows still need
+  confirmation.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - FIDO2 browser passthrough is enabled for Firefox/Chromium/Chrome only. WebAuthn with the CanoKey
