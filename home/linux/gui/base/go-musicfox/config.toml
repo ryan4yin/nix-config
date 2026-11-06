@@ -119,7 +119,8 @@ overshoot = 0
 # 桌面通知相关设置
 [main.notification]
 # 是否启用桌面通知
-enable = true
+# 关掉切歌弹窗；TUI 内的 toast 由 inApp 单独控制，不受这一项影响。
+enable = false
 # (Windows/Linux) 默认通知图标
 icon = "logo.png"
 # (Windows/Linux) 是否使用歌曲的专辑封面作为通知图标（如为否则使用默认通知图标）
