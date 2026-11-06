@@ -1,6 +1,7 @@
 # mpv policy: media directories are read-only, playback state and user config
 # remain writable, and MPRIS is the only desktop service it owns.
 {
+  lib,
   sloth,
   ...
 }:
@@ -17,10 +18,12 @@
   desktopIntegration.mpris = true;
   bubblewrap = {
     sockets.pulse = true;
-    bind.rw = [
+    bind.rw = lib.mkAfter [
       (sloth.mkdir (sloth.concat' sloth.homeDir "/.config/mpv"))
       (sloth.mkdir (sloth.concat' sloth.homeDir "/.cache/mpv"))
       (sloth.mkdir (sloth.concat' sloth.homeDir "/.local/state/mpv"))
+      # musicfox dials the hardcoded host /tmp/mpvsocket, so /tmp must be the host's (last bind wins).
+      "/tmp"
     ];
     bind.ro = [
       sloth.xdgDocumentsDir
