@@ -25,7 +25,7 @@
       in
       {
         "application/json" = browser;
-        "application/pdf" = browser;
+        "application/pdf" = [ "org.mozilla.firefox.desktop" ];
 
         "text/html" = browser;
         "text/xml" = browser;
@@ -67,6 +67,12 @@
 
         "inode/directory" = [ "yazi.desktop" ];
       };
+
+    # The portal app chooser used by sandboxed apps (e.g. Telegram) lists only these
+    # and the types a desktop entry declares, never the defaults above.
+    associations.added = {
+      "application/pdf" = [ "org.mozilla.firefox.desktop" ];
+    };
 
     associations.removed = {
       # ......
