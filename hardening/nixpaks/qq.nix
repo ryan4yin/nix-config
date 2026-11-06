@@ -47,6 +47,13 @@ let
         };
 
         bubblewrap = {
+          # QQ renders through Wayland but still uses the X11 clipboard; like WeChat,
+          # keep an X11 fallback so copying does not lose its X connection.
+          sockets.x11 = true;
+          env = {
+            DISPLAY = sloth.envOr "DISPLAY" "";
+            XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
+          };
           # To trace all the home files QQ accesses, you can use the following nushell command:
           #   just trace-access qq
           # See the Justfile in the root of this repository for more information.

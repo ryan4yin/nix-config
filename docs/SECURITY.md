@@ -339,7 +339,7 @@ isolation. Source review and socket metadataâ€”not reads of private credentialsâ
 - Nixpak supplements Chromium's renderer sandbox, which remains enabled. Zoom/WeChat retain their
   FHS runtimes inside the outer boundary; inner mounts cannot recover hidden host resources.
 - Desktop access has limits: GPU drivers remain exposed, PulseAudio permits recording, read-only
-  sockets permit agent operations, and Zoom/WeChat's X11 connections have shared-display trust.
+  sockets permit agent operations, and Zoom/WeChat/QQ's X11 connections have shared-display trust.
   Zoom's 7.2.1 client receives only `/dev/video0` and `/dev/video1` because it captures the webcam
   directly via V4L2; no other app gets raw camera nodes and no raw PipeWire access is added.
   Chromium-family browsers use only the app-scoped Secret portal for v12 cookie encryption; no

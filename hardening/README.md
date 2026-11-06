@@ -39,7 +39,7 @@ explicitly; other files use the document portal. Every app also has private writ
 | Chrome       | Isolated      | `~/.config/google-chrome`, Downloads                                                  | Media, browserpass, MPRIS, idle, FIDO2 key, v12 Secret                                               |
 | Brave Origin | Isolated      | `~/.config/BraveSoftware/Brave-Origin`, Downloads                                     | v12 Secret                                                                                           |
 | Edge         | Isolated      | `~/.config/microsoft-edge`, Downloads                                                 | v12 Secret                                                                                           |
-| QQ           | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility                                               |
+| QQ           | Isolated      | Personal files, private app state                                                     | Media, X11 fallback, notifications, tray, MPRIS, idle, accessibility                                 |
 | Telegram     | Isolated      | Personal files, private app state                                                     | Media, notifications, tray, MPRIS, idle, accessibility, Ayatana indicators                           |
 | Zoom         | Isolated      | `~/.zoom`, `zoomus.conf`, `zoom.conf`, Downloads, `Documents/Zoom`, private app state | Media, X11/XWayland, FHS, SNI tray, idle, `/dev/video0-1`, read-only `/sys/class/drm`                |
 | WeChat       | Isolated      | Documents, Downloads, app-scoped `wechat` data, private app state                     | Media, Wayland, X11 fallback, SNI tray, file chooser portal                                          |
@@ -114,7 +114,7 @@ games cannot read host data, not that they are isolated from each other:
 
 ## Limits
 
-- X11: Zoom, WeChat and the game launchers have shared-display trust; portal permissions cannot
+- X11: Zoom, WeChat, QQ and the game launchers have shared-display trust; portal permissions cannot
   enforce portal-only capture.
 - PulseAudio grants recording authority. Read-only GPG sockets still permit signing and decryption.
 - pasta isolates loopback, not LAN access. Chromecast discovery is unverified.

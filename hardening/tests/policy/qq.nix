@@ -4,5 +4,6 @@ mkAppPolicy "qq" {
   media = true;
   mpris = true;
   notifications = true;
+  x11 = true;
   tray = true;
 }
