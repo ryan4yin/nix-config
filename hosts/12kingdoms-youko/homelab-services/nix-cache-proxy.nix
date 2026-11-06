@@ -25,8 +25,8 @@ let
     add_header X-Cache-Status $upstream_cache_status always;
   '';
 
-  cacheLocation = upstream: {
-    proxyPass = "https://${upstream}/";
+  cacheLocation = upstream: subPath: {
+    proxyPass = "https://${upstream}${subPath}/";
     extraConfig = ''
       proxy_set_header Host ${upstream};
       ${cacheConfig}
@@ -56,8 +56,12 @@ in
       ];
 
       locations = {
-        "/cache.nixos.org/" = cacheLocation "cache.nixos.org";
-        "/cache.numtide.com/" = cacheLocation "cache.numtide.com";
+        "/cache.nixos.org/" = cacheLocation "cache.nixos.org" "";
+        "/cache.numtide.com/" = cacheLocation "cache.numtide.com" "";
+        "/ryan4yin.cachix.org/" = cacheLocation "ryan4yin.cachix.org" "";
+        # The mirror keeps the upstream path under /nix-channels/store.
+        "/mirrors.ustc.edu.cn/nix-channels/store/" =
+          cacheLocation "mirrors.ustc.edu.cn" "/nix-channels/store";
       };
     };
   };

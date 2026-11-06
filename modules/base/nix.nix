@@ -28,26 +28,23 @@
     # The official https://cache.nixos.org is always trusted and is appended
     # automatically, so it does not need to be listed here.
     substituters = [
-      # Domestic mirrors are fast from the LAN; query them directly first.
-      # status: https://mirrors.ustc.edu.cn/status/
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      # status: https://mirror.sjtu.edu.cn/
-      # "https://mirror.sjtu.edu.cn/nix-channels/store"
-      # others
-      # "https://mirrors.sustech.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-
-      # Pull-through cache for upstreams that are slow from the LAN. Nix
-      # appends the official cache.nixos.org last, so list its proxy here.
+      # The LAN cache on youko first: one machine warms it over the WAN, then
+      # every other machine fetches the same paths over gigabit. A miss only
+      # costs one extra hop, since the cache fetches the path itself.
+      "https://nix-cache.writefor.fun/mirrors.ustc.edu.cn/nix-channels/store"
       "https://nix-cache.writefor.fun/cache.nixos.org"
       # numtide's cache (niks3), which serves the prebuilt packages of the
       # numtide/llm-agents.nix flake input used for the AI agent CLIs.
       "https://nix-cache.writefor.fun/cache.numtide.com"
-      # Direct fallback if the LAN proxy is unavailable.
-      "https://cache.numtide.com"
-
       # My own NUR cache, built by the ryan4yin/nur-packages CI. NUR's npm
       # dep hashes assume no registry mirror, so take them from the cache.
+      "https://nix-cache.writefor.fun/ryan4yin.cachix.org"
+
+      # Direct fallbacks for when youko is down; every proxied cache above also
+      # exists in the clear, so losing the LAN cache costs speed, not builds.
+      "https://mirrors.ustc.edu.cn/nix-channels/store"
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      "https://cache.numtide.com"
       "https://ryan4yin.cachix.org"
     ];
 
