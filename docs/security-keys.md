@@ -4,7 +4,7 @@ How the CanoKey (or a YubiKey) is set up and used on the desktops: initial setup
 key, and recovery. Commands here are the single source; the Nix files only point to this page.
 
 Scope: **idols-ai** and **shoukei** (`modules.desktop.canokey.enable`). frieren only shares the
-GnuPG `scdaemon` setting; servers never use a key.
+GnuPG `scdaemon` setting. Servers never see a key; they only ask the forwarded agent for sudo.
 
 ## Principle
 
@@ -18,13 +18,14 @@ Management and use happen on different devices.
   is unreachable from them ([hardening](../hardening/README.md)). Unsandboxed software is trusted;
   if it is malicious, the PC is compromised regardless.
 
-| Use          | Config                                                                                                             | Daily use                                | Fallback without the key                  |
-| ------------ | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- | ----------------------------------------- |
-| Browsers     | [nixpak FIDO2 passthrough](../hardening/nixpaks/default.nix)                                                       | FIDO2 PIN and/or touch, as the site asks | site recovery codes, other registered key |
-| sudo         | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys` | touch                                    | password                                  |
-| SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`            | touch per connection                     | per-host file keys                        |
-| shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`           | FIDO2 PIN + touch                        | passphrase (prompted after 10 s)          |
-| pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                            | OpenPGP PIN once per plug-in, then touch | off-card subkey backup                    |
+| Use          | Config                                                                                                                 | Daily use                                | Fallback without the key                  |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------- |
+| Browsers     | [nixpak FIDO2 passthrough](../hardening/nixpaks/default.nix)                                                           | FIDO2 PIN and/or touch, as the site asks | site recovery codes, other registered key |
+| sudo         | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys`     | touch                                    | password                                  |
+| sudo via SSH | [ssh-agent-sudo.nix](../modules/nixos/server/ssh-agent-sudo.nix), keys in [vars](../vars/default.nix) `canokeySshKeys` | touch                                    | password                                  |
+| SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`                | touch per connection                     | per-host file keys                        |
+| shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | FIDO2 PIN + touch                        | passphrase (prompted after 10 s)          |
+| pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | OpenPGP PIN once per plug-in, then touch | off-card subkey backup                    |
 
 Login (greetd) stays password-based: the password also unlocks GNOME Keyring.
 
@@ -97,6 +98,7 @@ smartcard-backed OpenPGP operations; the sound comes from Noctalia's notificatio
 | -------------------------------------- | -------- | ----------------------------------------------------- |
 | sudo (pam-u2f)                         | yes      | CTAPHID keepalive / U2F `0x6985` from the FIDO hidraw |
 | ssh/scp/rsync/git over ssh (FIDO2 key) | yes      | same                                                  |
+| sudo on a server (pam_rssh)            | yes      | same; the forwarded agent signs on the local key      |
 | WebAuthn in browsers                   | yes      | same; browsers read the same hidraw interface         |
 | pass / GPG decrypt and sign            | yes      | gpg-agent proxy; heuristic, see below                 |
 | PIV / OATH                             | no       | the detector has no source for those applets          |
@@ -140,6 +142,19 @@ then shows "Please touch the device"; without the key it asks for the password. 
 empty, sudo is unchanged.
 
 Every host shares the origin `pam://ryan4yin`, so one registration covers idols-ai and shoukei.
+
+### sudo via SSH
+
+Servers and agent hosts (`modules/nixos/server/ssh-agent-sudo.nix`) run pam_rssh: sudo there sends a
+challenge back through the forwarded agent, and the CanoKey signs it after a touch. Nothing to
+enroll beyond the SSH key below; its public key goes to `canokeySshKeys` in
+[vars/default.nix](../vars/default.nix). Only those keys count, so a file key in the agent cannot
+satisfy sudo. Agent forwarding is on for `192.168.*` and the `hostsAddr` aliases
+([ssh.nix](../home/base/tui/ssh.nix)); without a forwarded agent, or with the key unplugged, sudo
+asks for the password.
+
+While a session is open, root on that server can also use the forwarded agent. Each signature still
+needs a touch, so an unexpected blink is the signal to refuse it.
 
 ### SSH
 
@@ -227,19 +242,19 @@ it is. On a YubiKey, manage settings with Yubico Authenticator or `ykman`; OpenP
 | Device       | Section 1 again                                                                                                                                                                                                                                                  |
 | Browsers     | Register it on every site as an additional security key                                                                                                                                                                                                          |
 | sudo         | `pamu2fcfg --nouser --origin=pam://ryan4yin` with only the backup plugged in; append to `canokeyU2fKeys`                                                                                                                                                         |
-| SSH          | Create a resident key on it with the same command; add its public key to `mainSshAuthorizedKeys` and GitHub. Use it with `ssh-add -K` (loads resident keys into the agent) instead of exporting a file                                                           |
+| SSH          | Create a resident key on it with the same command; add its public key to `mainSshAuthorizedKeys`, `canokeySshKeys` and GitHub. Use it with `ssh-add -K` (loads resident keys into the agent) instead of exporting a file                                         |
 | shoukei LUKS | Run the same `systemd-cryptenroll --fido2-device=auto` with only the backup plugged in; it takes the next slot                                                                                                                                                   |
 | OpenPGP      | Import the subkeys from the backup into a fresh, temporary `GNUPGHOME`, `keytocard` them onto the backup key, then delete that `GNUPGHOME`. The stubs remember the card serial; after swapping cards run `gpg-connect-agent "scd serialno" "learn --force" /bye` |
 
 ## 4. Lost key or reset
 
-| Situation                            | Action                                                                                                              | Lost                                                                          |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Key lost                             | Remove its `canokeyU2fKeys` entry and SSH public key; `systemd-cryptenroll --wipe-slot=<n>`; remove it on each site | nothing, if a backup key or the passwords remain                              |
-| FIDO2 PIN forgotten or locked        | Phone app: reset the WebAuthn application (needs the Admin PIN)                                                     | all passkeys, the SSH resident key, LUKS and sudo enrollments; redo section 2 |
-| OpenPGP PIN locked                   | `gpg --card-edit` → `admin` → `passwd`, unblock with the OpenPGP Admin PIN or Reset Code                            | nothing                                                                       |
-| All OpenPGP PINs and Reset Code lost | Phone app: reset the OpenPGP application                                                                            | on-card subkeys; re-import from the backup                                    |
-| Admin PIN forgotten                  | Exhaust the Admin PIN, then in the app tap Reset and touch the key while the LED blinks, repeating until it stops   | all user data; serial and attestation keys stay                               |
+| Situation                            | Action                                                                                                               | Lost                                                                          |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| Key lost                             | Remove its `canokeyU2fKeys` entry and SSH public keys; `systemd-cryptenroll --wipe-slot=<n>`; remove it on each site | nothing, if a backup key or the passwords remain                              |
+| FIDO2 PIN forgotten or locked        | Phone app: reset the WebAuthn application (needs the Admin PIN)                                                      | all passkeys, the SSH resident key, LUKS and sudo enrollments; redo section 2 |
+| OpenPGP PIN locked                   | `gpg --card-edit` → `admin` → `passwd`, unblock with the OpenPGP Admin PIN or Reset Code                             | nothing                                                                       |
+| All OpenPGP PINs and Reset Code lost | Phone app: reset the OpenPGP application                                                                             | on-card subkeys; re-import from the backup                                    |
+| Admin PIN forgotten                  | Exhaust the Admin PIN, then in the app tap Reset and touch the key while the LED blinks, repeating until it stops    | all user data; serial and attestation keys stay                               |
 
 After any reset, rerun sections 1 and 2 for the affected applications.
 

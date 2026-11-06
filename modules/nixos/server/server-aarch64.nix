@@ -15,6 +15,7 @@
     ../base/packages.nix
     ../base/ssh.nix
     ../base/user-group.nix
+    ./ssh-agent-sudo.nix
 
     # This server imports base files individually instead of the whole
     # modules/nixos/base group, so pull the shared firewall in explicitly.

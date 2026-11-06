@@ -3,6 +3,7 @@
   imports = [
     ../base
     ../nushell-login.nix
+    ./ssh-agent-sudo.nix
     ../../base
   ];
 

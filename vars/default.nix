@@ -35,6 +35,12 @@
     # CanoKey Canary (primary)
     "DwXDxVU+NDTUZs/d2EjpsPAh4mrg7dqdg/mAozkw/mUAAdEYDZIbm8kTBUGA49wXW0ZvSpF9VNYh2w84Xz9nAIAW////+Q==,6hqEjWBJ+ueBKBJaNijNkUsmlgEHMgv0KdpprqdJjHKoU/FKpeqo12SWlvdgiIVWvqTaGfe4fNu/ckcGY5mlsA==,es256,+presence"
   ];
+  # CanoKey resident SSH keys: the only keys pam_rssh accepts for sudo on
+  # servers through the forwarded agent (modules/nixos/server/ssh-agent-sudo.nix).
+  canokeySshKeys = [
+    # CanoKey Canary (primary)
+    "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIKgfNy/wJgTw6auO4RmRHR9kh1Mt5TYNkomMDFLJ4Kw6AAAADHNzaDpyeWFuNHlpbg== ryan@canokey"
+  ];
   secondaryAuthorizedKeys = [
     # the backup ssh keys for disaster recovery
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzYT0Fpcp681eHY5FJV2G8Mve53iX3hMOLGbVvfL+TF ryan@romantic"
