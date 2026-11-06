@@ -53,6 +53,7 @@ explicitly; other files use the document portal. Every app also has private writ
 | MuseScore    | Isolated      | `~/.config/MuseScore`, `~/.local/share/MuseScore`, Documents/Downloads/Music/Pictures | ALSA via PipeWire, ALSA sequencer, X11/XWayland, print, notifications, IME, accessibility      |
 | mpv          | Isolated      | `~/.config/mpv`, `~/.cache/mpv`, `~/.local/state/mpv`; media dirs read-only           | MPRIS, file chooser, OpenURI                                                                   |
 | imv          | None          | `$HOME` read-only                                                                     | File chooser, OpenURI                                                                          |
+| umu          | Isolated      | `~/Games` only; `~/Games/home` is the sandbox `$HOME`                                 | X11/XWayland, PulseAudio, 32-bit GPU drivers, joystick evdev, sysfs, OpenURI, inhibit, IME     |
 
 All browsers get read-only NSS certificates, printing, native notifications and accessibility.
 
@@ -68,6 +69,33 @@ All browsers get read-only NSS certificates, printing, native notifications and 
   encryption.
 - Bookmarks, history, localStorage, IndexedDB and extension data remain readable by the browser.
   nixpak isolates them from other apps, not from browser compromise.
+
+## Game launchers
+
+Game launchers (umu now; Heroic and Steam to follow) share
+[gaming-policy.nix](nixpaks/modules/gaming-policy.nix). The goal is that games cannot read host
+data, not that they are isolated from each other:
+
+- `~/Games/home` is mounted over `$HOME` and the real `~/Games` at its own path, so the shared home
+  and every game directory keep the paths launchers and Wine prefixes record. A tmpfs hides
+  `~/Games/home` inside itself. Nothing else in the host home is visible, and the per-app XDG
+  directories are off because games write saves straight into `$HOME`.
+- All launchers share that data, so they form one trust domain: a compromised game can change
+  another launcher's configuration. Their grants therefore stay identical.
+- `~/Games` is game-writable, so the host never executes a file from it. Generated umu launchers run
+  through `umu-sandbox`; see the `nix-config-umu-game` skill.
+- Controllers: host udev rules hard-link joystick evdev nodes (not ones that also claim to be a
+  keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input,
+  SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let a game inject input into
+  the host session. Like the FIDO2 directory, `/dev/gamepad-input` is created at boot.
+- The sandbox gets Flatpak's `--device=all` sysfs set without `/sys/block`, the udev database and
+  `/etc/passwd`, `/etc/group` and `/etc/machine-id`, which pressure-vessel and Wine need.
+- Proton's pressure-vessel container is a third bwrap layer (nixpak, buildFHSEnv, pressure-vessel).
+  This relies on unprivileged user namespaces and on the inner FHS root having no `/.flatpak-info`;
+  with it, pressure-vessel would switch to a Flatpak sub-sandbox it cannot get.
+- Portals see processes in the FHS layer as host apps, so no file chooser is granted (it would
+  return host paths), and GameMode is unavailable: `gamemoded` cannot reach PIDs in the sandbox's
+  namespace.
 
 ## Limits
 
@@ -120,9 +148,9 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 - OBS Studio passed interactive validation for PipeWire screen capture, V4L2 camera capture,
   desktop/microphone audio, local NVENC H.264 MP4 recording and local RTMP streaming. External
   provider authentication and browser sources remain unvalidated.
-- Remmina, Blender, mpv and imv build and pass the policy suite; interactive validation is still
-  pending. MuseScore passed launch, XWayland and ALSA-to-PipeWire routing checks; audible playback
-  and user workflows still need confirmation.
+- Remmina, Blender, mpv, imv and umu build and pass the policy suite; interactive validation is
+  still pending. MuseScore passed launch, XWayland and ALSA-to-PipeWire routing checks; audible
+  playback and user workflows still need confirmation.
 - Chromium smoke test passed: renderer sandbox, environment clearing, bind scope, disposable-profile
   persistence and loopback policy.
 - FIDO2 browser passthrough is enabled for Firefox/Chromium/Chrome only. WebAuthn with the CanoKey
@@ -135,7 +163,10 @@ All browsers get read-only NSS certificates, printing, native notifications and 
 ## Code map
 
 - [nixpaks/](nixpaks/): wrappers and Home Manager package overlay.
-- [desktop-base.nix](nixpaks/modules/desktop-base.nix): shared runtime and XDG storage.
+- [desktop-base.nix](nixpaks/modules/desktop-base.nix),
+  [xdg-storage.nix](nixpaks/modules/xdg-storage.nix): shared runtime and per-app XDG storage.
+- [gaming-policy.nix](nixpaks/modules/gaming-policy.nix), [nixpaks/umu.nix](nixpaks/umu.nix): game
+  launcher sandbox and the umu wrapper.
 - [portal-groups.nix](nixpaks/modules/portal-groups.nix),
   [desktop-integration.nix](nixpaks/modules/desktop-integration.nix): portal and desktop service
   grants.

@@ -14,32 +14,56 @@ runs the installer, and writes launchers. Use the Nix DW-Proton default unless r
 specific installed release; then select it with `PROTONPATH` and pin that path in the game's `conf`.
 **Every per-game detail lives under `~/Games/`**, never in this repo.
 
+## The sandbox
+
+Games run only inside the umu nixpak sandbox (`hardening/nixpaks/umu.nix`, policy in
+`hardening/nixpaks/modules/gaming-policy.nix`). It mounts `~/Games/home` over `$HOME` and `~/Games`
+at its own path; no other host file is visible or writable. `umu-run`, `winetricks`, `bbe`,
+`mangohud` and `gamescope` exist only inside it, and `umu-sandbox <command>` runs a command there.
+
+Everything under `~/Games` is writable by the games, so **the host never executes a file from it**:
+
+- launch with `umu-sandbox ~/Games/<name>/run` and use `umu-sandbox ~/Games/<name>/exec ...`; the
+  generated desktop entry does the former. Running `run` or `exec` directly refuses to start.
+- the installer and `prelaunch` also run through `umu-sandbox`;
+- `umu-install.nu` refuses to write through a symlink in the game directory, and uninstalling uses
+  the repo's `umu-uninstall.nu`, not a script in `~/Games`.
+
+Paths cross the boundary as the sandbox sees them: `~/Games/home/<path>` on the host is
+`$HOME/<path>` inside. Host environment variables do not reach the sandbox; put them in `conf`.
+
 ## Bundled files
 
 - `scripts/umu-install.nu`: installer and template renderer
+- `scripts/umu-uninstall.nu`: removes a game's desktop entry and, after confirmation, its directory
+- `scripts/common.nu`: name, symlink and sandbox-path helpers shared by both
 - `scripts/templates/*.tpl`: non-executable templates; placeholders use `@NAME@`
 - `scripts/tests/test_install.py`: offline regression tests
 
 ## Layout
 
+- `~/Games/home`: the sandbox's `$HOME`, shared with the other game launchers (umu runtime, Steam
+  compatibility tools, saves written to `$HOME`); `home` is not a valid game name
 - `~/Games/global.conf`: optional, sourced by every game before its own `conf`
 - `~/Games/<name>/prefix`: the Wine prefix (`WINEPREFIX`)
 - `~/Games/<name>/conf`: optional per-game overrides (`ENABLE_MANGOHUD=0`, ...)
 - `~/Games/<name>/prelaunch`: optional executable, run before every launch
 - `~/Games/<name>/run`: generated launcher
-- `~/Games/<name>/exec`: generated helper: `exec <exe-or-tool> [args...]`
+- `~/Games/<name>/exec`: generated helper: `umu-sandbox ~/Games/<name>/exec <exe-or-tool> [args...]`
 - `~/Games/<name>/<name>.desktop`: generated desktop entry
-- `~/Games/<name>/uninstall`: generated: drop the desktop entry and (with `y`) the dir
 
 Run, from the repo root:
 
 `nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> <setup.exe> <launcher> [gameid] [setup-args...]`
 
-`<launcher>` is relative to the prefix and `GAMEID` defaults to `umu-default`. At install,
-`PROTONPATH` resolves from `$PROTONPATH`, `$UMU_PROTONPATH` (the Nix-provided DW-Proton), then
-Steam's per-user `compatibilitytools.d`. At launch, the generated `run` script checks the current
-`$PROTONPATH` and `$UMU_PROTONPATH` before its saved default. A game's `conf` is sourced after those
-defaults, so set `PROTONPATH` there to pin a particular installed version across launches.
+`<launcher>` is relative to the prefix and `GAMEID` defaults to `umu-default`. A `<setup.exe>`
+outside `~/Games` is copied into `~/Games/<name>/` first; `-` skips the installer and only rewrites
+`run`, `exec` and the desktop entry. At install, `PROTONPATH` resolves from `$PROTONPATH`,
+`$UMU_PROTONPATH` (the Nix-provided DW-Proton), then Steam's per-user `compatibilitytools.d` in the
+sandbox home; it must be a store path or under `~/Games`. At launch, the generated `run` script
+checks the current `$PROTONPATH` and `$UMU_PROTONPATH` before its saved default. A game's `conf` is
+sourced after those defaults, so set `PROTONPATH` there to pin a particular installed version across
+launches.
 
 ## Procedure
 
@@ -50,13 +74,14 @@ defaults, so set `PROTONPATH` there to pin a particular installed version across
    (`protondb.com/app/<id>`), Steam Community / r/linux_gaming threads, and GitHub issues for the
    launcher and Proton. Record whether reports require a Proton family and exact release. If no
    exact release is required, use the Nix-provided DW-Proton default. If one is required, inspect
-   `$UMU_PROTONPATH` and installed Steam tools under `~/.local/share/Steam/compatibilitytools.d/` or
-   `~/.steam/root/compatibilitytools.d/`; select the matching installed path with `PROTONPATH`.
-   Prefix the installer command with `PROTONPATH="<selected-tool-directory>"` and set the same value
-   in the game's `conf` to pin it across launches; otherwise the runtime Nix `UMU_PROTONPATH` may
-   take precedence. If the required release is absent from Nix and Steam, stop and ask the user
-   before downloading it from elsewhere. Do not substitute a different release or use
-   ProtonPlus/Lutris to fetch one.
+   `$UMU_PROTONPATH` and installed Steam tools under
+   `~/Games/home/.local/share/Steam/compatibilitytools.d/` (the sandbox's
+   `$HOME/.local/share/Steam/compatibilitytools.d/`); select the matching installed path with
+   `PROTONPATH`. Prefix the installer command with `PROTONPATH="<selected-tool-directory>"` and set
+   the same value in the game's `conf` to pin it across launches; otherwise the runtime Nix
+   `UMU_PROTONPATH` may take precedence. If the required release is absent from Nix and Steam, stop
+   and ask the user before downloading it from elsewhere. Do not substitute a different release or
+   use ProtonPlus/Lutris to fetch one.
 2. **Slug.** Pick a lowercase `<name>` (e.g. `wuthering-waves`).
 3. **GAMEID.** The umu database maps a title to a `GAMEID` whose protonfixes add CJK fonts, drop the
    `SteamOS`/`SteamDeck` vars, and keep Wine's `Documents` inside the prefix. **Without it some
@@ -77,16 +102,17 @@ defaults, so set `PROTONPATH` there to pin a particular installed version across
    reruns.
 7. **Per-game fix.** Port step 1 findings into `~/Games/<name>/prelaunch` (bash, `chmod +x`):
    `winetricks` verbs via `~/Games/<name>/exec winetricks <verbs>`, file patches or registry tweaks
-   via `~/Games/<name>/exec`. Never commit the fix to this repo.
+   via `~/Games/<name>/exec`. `prelaunch` already runs in the sandbox, so it calls `exec` directly;
+   from a host shell, prefix it with `umu-sandbox`. Never commit the fix to this repo.
 8. **Re-run every launch, not once.** A launcher that self-updates overwrites files it patches, so
    those patches belong in `prelaunch`.
-9. **Verify.** `~/Games/<name>/run` must open a visible launcher window. MangoHud is enabled by
-   default with FPS and frame time at the top-left; set `ENABLE_MANGOHUD=0` in `conf` to disable it,
-   or override `MANGOHUD_CONFIG`. Re-running `prelaunch` must be idempotent. The launcher may then
-   download the game body itself (tens of GB) -- that is the launcher's job, not this skill's, so
-   the install is **done** once the window is usable. A crawl usually means the proxy: the launcher
-   probes the CDN itself and mihomo routes that probe through a distant node, so the download starts
-   from a far mirror; routing is in the
+9. **Verify.** `umu-sandbox ~/Games/<name>/run` must open a visible launcher window. MangoHud is
+   enabled by default with FPS and frame time at the top-left; set `ENABLE_MANGOHUD=0` in `conf` to
+   disable it, or override `MANGOHUD_CONFIG`. Re-running `prelaunch` must be idempotent. The
+   launcher may then download the game body itself (tens of GB) -- that is the launcher's job, not
+   this skill's, so the install is **done** once the window is usable. A crawl usually means the
+   proxy: the launcher probes the CDN itself and mihomo routes that probe through a distant node, so
+   the download starts from a far mirror; routing is in the
    [mihomo README](../../../modules/nixos/desktop/networking/mihomo/README.md). `ENABLE_LOG=1`
    captures `last-run.log` when something misbehaves.
 
@@ -98,7 +124,8 @@ A WebView2/.NET (WPF) launcher that shows an empty or fully transparent window i
 1. `find ~/Games/<name>/prefix/drive_c -iname 'launcher_main.dll'` (usually under a `X.Y.Z.W`
    version dir).
 2. Rename that WPF property in place, keeping the byte length so PE offsets stay valid:
-   `bbe -e 's/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/' <dll>`.
+   `bbe -e 's/\x12AllowsTransparency/\x09IsEnabled\x1bA\x00\x03AAAAA/' <dll>`. `bbe` exists only in
+   the sandbox: prefix it with `umu-sandbox` from a host shell.
 3. Put it in `~/Games/<name>/prelaunch` so it is re-applied on every launch, because a launcher
    self-update restores the original DLL. Restart the launcher after patching.
 
@@ -156,15 +183,31 @@ installers honour it; try `/quiet` or `--silent` too, then fall back to the GUI.
 ## Desktop entry and persistence
 
 The script also writes `~/.local/share/applications/<name>.desktop` (and a copy at
-`~/Games/<name>/<name>.desktop`), so the game shows up in the desktop launcher. Under an
-impermanence setup both `~/Games` and `~/.local/share/applications` must be in the host's
+`~/Games/<name>/<name>.desktop`), so the game shows up in the desktop launcher. The host copy is
+written by the installer on the host; the sandbox cannot see or change it. Under an impermanence
+setup both `~/Games` and `~/.local/share/applications` must be in the host's
 `preservation.preserveAt` list, in `hosts/<dir>/preservation.nix`.
 
 ## Uninstall
 
-Run `~/Games/<name>/uninstall`: it removes the desktop entry and then asks before deleting
-`~/Games/<name>` (prefix + game files). To keep the game and only drop the menu entry, delete the
-`.desktop` file by hand.
+From the repo root:
+
+`nu .agents/skills/nix-config-umu-game/scripts/umu-uninstall.nu <name>`
+
+It removes the desktop entry and then asks before deleting `~/Games/<name>` (prefix + game files).
+To keep the game and only drop the menu entry, delete the `.desktop` file by hand.
+
+## Games installed before the sandbox
+
+Their `run` calls `umu-run` on the host, which no longer exists, and their desktop entry executes it
+directly; an old `uninstall` script is host-executed too. Rewrite the launchers without re-running
+the installer, passing the `LAUNCHER` and `GAMEID` from the old `run`:
+
+`nu .agents/skills/nix-config-umu-game/scripts/umu-install.nu <name> - <launcher> <gameid>`
+
+This also deletes the old `uninstall`. The umu runtime the sandbox uses is
+`~/Games/home/.local/share/umu`; move the old `~/.local/share/umu` there (on the same filesystem, so
+it is a rename) or let umu download it again.
 
 ## Optimize the launch
 
@@ -172,18 +215,22 @@ Run `~/Games/<name>/uninstall`: it removes the desktop entry and then asks befor
 Defaults are `ENABLE_MANGOHUD=1`, `MANGOHUD_CONFIG="fps=1,frametime=1,position=top-left"`,
 `ENABLE_GAMEMODE=0`, `ENABLE_GAMESCOPE=0`, `GAMESCOPE_ARGS="-f"`, and `ENABLE_LOG=0`. Set
 `ENABLE_MANGOHUD=0` to hide the overlay, `ENABLE_GAMESCOPE=1` +
-`GAMESCOPE_ARGS="-f -w 3840 -h 2160"` for the handheld / multi-monitor case, `ENABLE_GAMEMODE=1` for
-GameMode, and `ENABLE_LOG=1` to capture the run. A dGPU wrapper still goes outside:
-`nvidia-offload ~/Games/<name>/run`. Shader caches are kept in `~/Games/<name>/shader-cache`.
+`GAMESCOPE_ARGS="-f -w 3840 -h 2160"` for the handheld / multi-monitor case, and `ENABLE_LOG=1` to
+capture the run. Gamescope runs inside the sandbox without `CAP_SYS_NICE`, so it cannot raise its
+own priority. `ENABLE_GAMEMODE=1` has no effect: `gamemoderun` is not in the sandbox, whose PID
+namespace and D-Bus filter keep `gamemoded` from managing the game. A host wrapper such as
+`nvidia-offload` does not work either, because the sandbox clears the environment; export its
+variables (`__NV_PRIME_RENDER_OFFLOAD=1`, ...) in `conf` instead. Shader caches are kept in
+`~/Games/<name>/shader-cache`.
 
 ## Escape hatches
 
-- `~/Games/<name>/exec <exe-or-tool> [args...]` runs anything in the prefix with the right env: an
-  absolute path to a game exe or repair tool, or a bare Wine tool (`winecfg`, `explorer`, `regedit`,
-  `uninstaller`), which it runs as `umu-run <Proton's wine> <tool>`. Both forms are handed to
-  `umu-run`, so they execute inside umu's Steam runtime container -- that is what makes them work on
-  a non-FHS distro like NixOS, where Proton's wine cannot start on its own.
-- `~/Games/<name>/run <game args>` passes extra args to the launcher.
+- `umu-sandbox ~/Games/<name>/exec <exe-or-tool> [args...]` runs anything in the prefix with the
+  right env: an absolute path to a game exe or repair tool, or a bare Wine tool (`winecfg`,
+  `explorer`, `regedit`, `uninstaller`), which it runs as `umu-run <Proton's wine> <tool>`. Both
+  forms are handed to `umu-run`, so they execute inside umu's Steam runtime container -- that is
+  what makes them work on a non-FHS distro like NixOS, where Proton's wine cannot start on its own.
+- `umu-sandbox ~/Games/<name>/run <game args>` passes extra args to the launcher.
 - Kill a stuck prefix with `pkill -f '/Games/<name>/prefix'`, or
   `rm -f ~/Games/<name>/prefix/pfx.lock`.
 
@@ -198,7 +245,13 @@ GameMode, and `ENABLE_LOG=1` to capture the run. A dGPU wrapper still goes outsi
 - Running a Wine tool without umu. `umu-run winecfg` does not work -- umu only special-cases
   `winetricks` -- and `$PROTONPATH/files/bin/wine winecfg` fails on any non-FHS distro (on NixOS the
   32-bit loader it needs lives only inside the Steam runtime container). Use
-  `~/Games/<name>/exec winecfg`; `exec` goes through `umu-run`, which provides that container.
+  `umu-sandbox ~/Games/<name>/exec winecfg`; `exec` goes through `umu-run`, which provides that
+  container.
+- Running `~/Games/<name>/run`, `exec` or `prelaunch` from a host shell, or adding a host-side
+  helper that executes a file under `~/Games`: games can rewrite those files. Go through
+  `umu-sandbox`.
+- Pointing `PROTONPATH`, a launcher or an installer at a host path outside `~/Games`: the sandbox
+  cannot see it.
 - Waiting for the game download before calling the install done: the launcher's own download is out
   of scope here.
 - On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, and Steam is a
@@ -212,8 +265,9 @@ From the repo root:
 python3 .agents/skills/nix-config-umu-game/scripts/tests/test_install.py
 ```
 
-Requires `python3`, `nu`, `bash`, and `shellcheck`. Uses temporary homes and a stub `umu-run`; no
-game downloads, Wine windows, or changes to existing games. It checks template permissions, rendered
-shell syntax and lint, installer arguments and failures, configuration precedence, prelaunch,
-logging, launch wrappers, literal paths, runtime Proton overrides, tool routing, and uninstall
-confirmation.
+Requires `python3`, `nu`, `bash`, and `shellcheck`. Uses temporary homes and stub `umu-run` and
+`umu-sandbox`; no game downloads, Wine windows, or changes to existing games. It checks template
+permissions, rendered shell syntax and lint, installer arguments and failures, configuration
+precedence, prelaunch, logging, launch wrappers, literal paths, runtime Proton overrides, tool
+routing, uninstall confirmation, the sandbox guard, sandbox path translation, and refusal to write
+through planted symlinks.

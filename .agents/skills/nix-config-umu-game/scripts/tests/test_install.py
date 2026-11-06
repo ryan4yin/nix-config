@@ -20,7 +20,7 @@ class InstallerTests(unittest.TestCase):
         bin_dir = root / "bin"
         bin_dir.mkdir()
         self.bin_dir = bin_dir
-        self.proton = root / "proton"
+        self.proton = root / "store/proton"
         (self.proton / "files/bin").mkdir(parents=True)
         (self.proton / "proton").touch()
         self.log = root / "call"
@@ -31,6 +31,14 @@ printf "%s\n" "$WINEPREFIX" "$PROTONPATH" "$GAMEID" "$@" > "$CALL_LOG"
 exit "${STUB_EXIT:-0}"
 """)
         stub.chmod(0o755)
+        self.sandbox_log = root / "sandbox-call"
+        sandbox = bin_dir / "umu-sandbox"
+        sandbox.write_text("""#!/usr/bin/env bash
+pwd >> "$SANDBOX_LOG"
+export UMU_SANDBOX=1
+exec "$@"
+""")
+        sandbox.chmod(0o755)
         self.mangohud_log = root / "mangohud-call"
         hud = bin_dir / "mangohud"
         hud.write_text("""#!/usr/bin/env bash
@@ -43,22 +51,27 @@ exec "$@"
             HOME=str(home),
             PROTONPATH=str(self.proton),
             CALL_LOG=str(self.log),
+            SANDBOX_LOG=str(self.sandbox_log),
+            # Stands in for /nix/store, which the sandbox can always read.
+            NIX_STORE_DIR=str(root / "store"),
             MANGOHUD_LOG=str(self.mangohud_log),
             PATH=str(bin_dir) + os.pathsep + os.environ["PATH"],
         )
-        for key in ("XDG_DATA_HOME", "BASH_ENV", "ENV"):
+        for key in ("XDG_DATA_HOME", "BASH_ENV", "ENV", "UMU_PROTONPATH", "UMU_SANDBOX"):
             self.env.pop(key, None)
         self.game = home / "Games/test-game"
         self.launcher = "drive_c/Program Files/Test/launcher.exe"
         self.gameid = "umu-test"
 
-    def invoke_install(self, name, **extra):
+    def invoke_install(self, name, setup="setup.exe", **extra):
+        if setup == "setup.exe":
+            (self.home / setup).touch()
         return subprocess.run(
             [
                 "nu",
                 str(SCRIPTS / "umu-install.nu"),
                 name,
-                "setup.exe",
+                setup,
                 self.launcher,
                 self.gameid,
                 "/S",
@@ -74,9 +87,19 @@ exec "$@"
         result = self.invoke_install("test-game", **extra)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def uninstall(self, name="test-game", input="n\n"):
+        return subprocess.run(
+            ["nu", str(SCRIPTS / "umu-uninstall.nu"), name],
+            env=self.env,
+            input=input,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
     def call(self, name, *args, input=None):
         result = subprocess.run(
-            [str(self.game / name), *args],
+            [str(self.bin_dir / "umu-sandbox"), str(self.game / name), *args],
             env=self.env,
             input=input,
             capture_output=True,
@@ -119,14 +142,7 @@ exec "$@"
         games.rename(relocated)
         games.symlink_to(relocated, target_is_directory=True)
 
-        result = subprocess.run(
-            [str(self.game / "uninstall")],
-            env=self.env,
-            input="y\n",
-            text=True,
-            capture_output=True,
-            check=False,
-        )
+        result = self.uninstall(input="y\n")
 
         self.assertNotEqual(result.returncode, 0)
         self.assertTrue((relocated / "test-game/run").exists())
@@ -178,14 +194,7 @@ exec "$@"
         self.game.rename(outside)
         self.game.symlink_to(outside, target_is_directory=True)
 
-        result = subprocess.run(
-            [str(self.game / "uninstall")],
-            env=self.env,
-            input="y\n",
-            text=True,
-            capture_output=True,
-            check=False,
-        )
+        result = self.uninstall(input="y\n")
 
         self.assertNotEqual(result.returncode, 0)
         self.assertTrue(outside.exists())
@@ -195,7 +204,6 @@ exec "$@"
         for name in (
             "run.sh.tpl",
             "exec.sh.tpl",
-            "uninstall.sh.tpl",
             "launcher.desktop.tpl",
         ):
             path = SCRIPTS / "templates" / name
@@ -224,15 +232,20 @@ exec "$@"
 
     def test_generation_and_setup_arguments(self):
         self.install()
-        self.assertEqual(self.log.read_text().splitlines()[3:], ["setup.exe", "/S"])
-        for name in ("run", "exec", "uninstall"):
+        self.assertEqual(
+            self.log.read_text().splitlines()[3:], [str(self.game / "setup.exe"), "/S"]
+        )
+        self.assertFalse((self.game / "uninstall").exists())
+        for name in ("run", "exec"):
             path = self.game / name
             self.assertTrue(os.access(path, os.X_OK))
             subprocess.run(["bash", "-n", str(path)], check=True)
             subprocess.run(["shellcheck", str(path)], check=True)
         desktop = self.home / ".local/share/applications/test-game.desktop"
         self.assertIn("Name=Test Game", desktop.read_text())
-        self.assertIn("Exec=" + str(self.game / "run"), desktop.read_text())
+        self.assertIn(
+            "Exec=umu-sandbox " + str(self.game / "run"), desktop.read_text()
+        )
         self.assertEqual(
             desktop.read_bytes(), (self.game / "test-game.desktop").read_bytes()
         )
@@ -334,19 +347,111 @@ exec "$@"
     def test_uninstall_confirmation(self):
         self.install()
         desktop = self.home / ".local/share/applications/test-game.desktop"
-        self.call("uninstall", input="n\n")
+        result = self.uninstall(input="n\n")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertTrue(self.game.exists())
         self.assertFalse(desktop.exists())
-        subprocess.run(
-            [str(self.game / "uninstall")],
-            env=self.env,
-            input="y\n",
-            text=True,
-            check=True,
-            capture_output=True,
-        )
+        result = self.uninstall(input="y\n")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertFalse(self.game.exists())
 
+    def test_run_refuses_to_start_outside_the_sandbox(self):
+        self.install()
+        self.log.unlink()
+        for name in ("run", "exec"):
+            with self.subTest(name=name):
+                result = subprocess.run(
+                    [str(self.game / name), "winecfg"],
+                    env=self.env,
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("umu-sandbox", result.stderr)
+                self.assertFalse(self.log.exists())
+
+    def test_installer_and_prelaunch_run_in_the_sandbox(self):
+        self.game.mkdir(parents=True)
+        prelaunch = self.game / "prelaunch"
+        prelaunch.write_text('#!/usr/bin/env bash\n[ "$UMU_SANDBOX" = 1 ]\n')
+        prelaunch.chmod(0o755)
+        self.install()
+        self.assertEqual(
+            self.sandbox_log.read_text().splitlines(), [str(self.game), str(self.game)]
+        )
+
+    def test_rewrite_launchers_without_installer(self):
+        result = self.invoke_install("test-game", setup="-")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertFalse(self.log.exists())
+        self.assertTrue((self.game / "run").exists())
+
+    def test_old_uninstall_script_is_removed(self):
+        self.game.mkdir(parents=True)
+        (self.game / "uninstall").write_text("#!/bin/sh\n")
+        self.install()
+        self.assertFalse((self.game / "uninstall").exists())
+
+    def test_home_is_reserved_for_the_sandbox(self):
+        for script in ("umu-install.nu", "umu-uninstall.nu"):
+            with self.subTest(script=script):
+                if script == "umu-install.nu":
+                    result = self.invoke_install("home")
+                else:
+                    result = self.uninstall("home")
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("sandbox home", result.stderr)
+        self.assertFalse(self.log.exists())
+
+    def test_install_refuses_to_write_through_planted_symlinks(self):
+        target = self.home / "bashrc"
+        target.write_text("host file\n")
+        for name in ("run", "exec", "test-game.desktop", "setup.exe"):
+            with self.subTest(name=name):
+                self.game.mkdir(parents=True, exist_ok=True)
+                link = self.game / name
+                link.unlink(missing_ok=True)
+                link.symlink_to(target)
+                result = self.invoke_install("test-game")
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("symlink", result.stderr)
+                self.assertEqual(target.read_text(), "host file\n")
+                link.unlink()
+
+    def test_installer_inside_games_is_used_in_place(self):
+        setup = self.home / "Games/downloads/setup.exe"
+        setup.parent.mkdir(parents=True)
+        setup.touch()
+        self.install_from(setup)
+        self.assertEqual(self.log.read_text().splitlines()[3], str(setup))
+        self.assertFalse((self.game / "setup.exe").exists())
+
+    def test_sandbox_home_paths_are_translated(self):
+        proton = self.home / "Games/home/.local/share/Steam/compatibilitytools.d/dwproton"
+        (proton / "files/bin").mkdir(parents=True)
+        (proton / "proton").touch()
+        setup = self.home / "Games/home/Downloads/setup.exe"
+        setup.parent.mkdir(parents=True)
+        setup.touch()
+        self.env.pop("PROTONPATH")
+        self.install_from(setup)
+        values = self.log.read_text().splitlines()
+        self.assertEqual(
+            values[1], str(self.home / ".local/share/Steam/compatibilitytools.d/dwproton")
+        )
+        self.assertEqual(values[3], str(self.home / "Downloads/setup.exe"))
+
+    def test_proton_outside_the_sandbox_is_rejected(self):
+        self.env["NIX_STORE_DIR"] = str(self.home / "store")
+        result = self.invoke_install("test-game")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("cannot see PROTONPATH", result.stderr)
+        self.assertFalse(self.log.exists())
+
+    def install_from(self, setup):
+        result = self.invoke_install("test-game", setup=str(setup))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 if __name__ == "__main__":
     unittest.main()

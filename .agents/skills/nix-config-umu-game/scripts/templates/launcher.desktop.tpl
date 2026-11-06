@@ -2,7 +2,7 @@
 Type=Application
 Name=@DISPLAY_NAME@
 Comment=Windows game launcher installed via umu
-Exec=@RUN@
+Exec=umu-sandbox @RUN@
 Path=@DIR@
 Terminal=false
 Categories=Game;

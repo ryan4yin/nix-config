@@ -11,6 +11,7 @@
   imports = [
     ./portal-groups.nix
     ./desktop-integration.nix
+    ./xdg-storage.nix
   ];
   gpu = {
     enable = lib.mkDefault true;
@@ -48,22 +49,6 @@
       pipewire = lib.mkDefault false;
     };
     bind.rw = with sloth; [
-      [
-        (mkdir appCacheDir)
-        xdgCacheHome
-      ]
-      [
-        (mkdir appConfigDir)
-        xdgConfigHome
-      ]
-      [
-        (mkdir appDataDir)
-        xdgDataHome
-      ]
-      [
-        (mkdir (concat' appDir "/state"))
-        xdgStateHome
-      ]
       (concat' runtimeDir "/doc")
       # Chrome/Firefox/Telegram/etc. use /tmp for single-instance IPC. Share
       # this directory across launches of the same app only; app IDs differ.

@@ -32,6 +32,7 @@ Nixpak wrappers are accepted in three layers:
 | MuseScore              | Pass         | Interactive launch pass; ALSA routed to default PipeWire sink     |
 | mpv                    | Pass         | Interactive validation pending                                    |
 | imv                    | Pass         | Interactive validation pending                                    |
+| umu                    | Pending      | Interactive validation pending; checklist below                   |
 
 Intentional exceptions:
 
@@ -55,6 +56,22 @@ Known packaging limitations:
   `pcm.!default` configuration, which forwards to PipeWire; this requires the raw PipeWire socket.
   Launch and audio routing pass, but audible playback and score/print/export workflows still need
   user confirmation.
+
+## Game launcher checklist
+
+For umu now, and Heroic and Steam when they move into the sandbox. Run each with the game installed
+through the `nix-config-umu-game` skill and launched from its desktop entry:
+
+1. The launcher window opens and the nested pressure-vessel container starts (`ENABLE_LOG=1`, then
+   check `last-run.log` for bwrap or `/.flatpak-info` errors).
+2. Frame rate matches an unsandboxed run of the same scene with the MangoHud overlay; the game uses
+   the NVIDIA GPU, and a 32-bit game renders.
+3. Audio plays; a USB or Bluetooth controller connected before launch works, and a keyboard does not
+   appear under `/dev/input` inside the sandbox.
+4. The launcher downloads at the usual speed through pasta, and online play connects.
+5. Inside `umu-sandbox bash`: `ls ~` shows only `~/Games/home`, `~/Games/home` is empty, and host
+   files outside `~/Games` are absent.
+6. Running `~/Games/<name>/run` from a host shell refuses to start.
 
 ## Browser smoke test
 
