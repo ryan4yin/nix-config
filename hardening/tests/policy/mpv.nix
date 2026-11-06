@@ -1,6 +1,7 @@
 {
   load,
   mkAppPolicy,
+  renderBind,
   ...
 }:
 let
@@ -16,5 +17,7 @@ mkAppPolicy "mpv" {
   extraChecks = {
     fileChooser = app.portalGroups.fileChooser;
     openUri = app.portalGroups.openUri;
+    # The flatpak shim hides ~/.cache, so the musicfox cache must be bound back.
+    musicfoxCache = builtins.elem "$HOME/.cache/go-musicfox" (map renderBind app.bubblewrap.bind.ro);
   };
 }

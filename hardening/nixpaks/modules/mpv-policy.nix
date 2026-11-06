@@ -32,6 +32,10 @@
       sloth.xdgPicturesDir
       sloth.xdgVideosDir
       (sloth.concat' sloth.homeDir "/.config/yt-dlp")
+      # go-musicfox hands cached songs to mpv as file:// paths. Nixpak's flatpak
+      # shim mounts the app's ~/.var/app cache over ~/.cache, so without this
+      # bind every replay fails to load while the first (streamed) play works.
+      (sloth.concat' sloth.homeDir "/.cache/go-musicfox")
     ];
   };
 }
