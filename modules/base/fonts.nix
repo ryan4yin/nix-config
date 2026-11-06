@@ -44,11 +44,6 @@ in
       source-sans # 无衬线字体，不含汉字。字族名叫 Source Sans 3，以及带字重的变体（VF）
       source-serif # 衬线字体，不含汉字。字族名叫 Source Serif 4，以及带字重的变体（VF）
 
-      # 文泉驿正黑（WenQuanYi Zen Hei）：一些按字体名直接请求中文的程序
-      # （Steam 的 CEF 界面、部分 Wine 程序）找不到请求的字族时会显示豆腐块，
-      # 装一份覆盖常见的「文泉驿」「WenQuanYi」请求。
-      wqy_zenhei
-
       # 霞鹜文楷 屏幕阅读版
       # https://github.com/lxgw/LxgwWenKai-Screen
       lxgw-wenkai-screen

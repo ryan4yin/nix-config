@@ -111,8 +111,9 @@
         pkgs.shared-mime-info
       ];
       XCURSOR_PATH = "${pkgs.bibata-cursors}/share/icons:${pkgs.bibata-cursors}/share/pixmaps";
-      # Host NixOS fontconfig, bind-mounted above.
-      FONTCONFIG_FILE = "/etc/fonts/fonts.conf";
+      # Host NixOS fontconfig, bind-mounted above. A policy whose app builds
+      # its own FHS layer overrides this (see modules/gaming-policy.nix).
+      FONTCONFIG_FILE = lib.mkDefault "/etc/fonts/fonts.conf";
       NIXOS_XDG_OPEN_USE_PORTAL = "1";
     }
     // lib.genAttrs [
