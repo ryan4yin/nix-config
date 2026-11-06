@@ -20,7 +20,8 @@ in
     # Other Optimizations
     # Usage:
     #  UMU game launchers use MangoHud by default; set ENABLE_MANGOHUD=0 in their conf to disable.
-    #  Steam - add this as a launch option: `mangohud %command%` / `gamemoderun %command%`
+    #  Steam - add this as a launch option: `mangohud %command%`. GameMode does not reach
+    #  sandboxed games (see hardening/README.md), so `gamemoderun` is not available there.
     # ==========================================================================
 
     home.packages = with pkgs; [

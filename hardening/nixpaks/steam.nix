@@ -1,14 +1,12 @@
 # Steam sandbox. Steam starts its own pressure-vessel container inside this
 # one, as umu does, so games stay inside ~/Gaming: the library, the compatdata
-# prefixes and every Proton build live there. Remote Play and LAN transfers
-# need inbound connections that pasta isolation does not forward.
+# prefixes and every Proton build live there. DW-Proton and GE-Proton come
+# from modules/gaming-policy.nix. Remote Play and LAN transfers need inbound
+# connections that pasta isolation does not forward.
 {
-  lib,
   steam,
   gamescope,
   mangohud,
-  dwproton-bin,
-  proton-ge-bin,
   mkNixPak,
   ...
 }:
@@ -19,14 +17,6 @@ let
       gamescope
       mangohud
     ];
-    # Each game's Properties -> Compatibility offers these. Both are store
-    # paths, which the sandbox can read and a game cannot modify.
-    extraEnv = {
-      STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.makeSearchPathOutput "steamcompattool" "" [
-        dwproton-bin
-        proton-ge-bin
-      ];
-    };
   };
   wrapped = mkNixPak {
     config = {

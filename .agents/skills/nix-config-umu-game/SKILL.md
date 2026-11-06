@@ -265,8 +265,9 @@ variables (`__NV_PRIME_RENDER_OFFLOAD=1`, ...) in `conf` instead. Shader caches 
   cannot see it. Inside `conf` and `prelaunch`, write sandbox paths (`~/Games/<name>`).
 - Waiting for the game download before calling the install done: the launcher's own download is out
   of scope here.
-- On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, and Steam is a
-  module rather than a package: `modules/nixos/desktop/gaming.nix`.
+- On NixOS a game needing 32-bit or Vulkan needs `hardware.graphics.enable32Bit`, which
+  `modules/nixos/desktop/gaming.nix` sets. Steam is a sandboxed package like umu:
+  `hardening/nixpaks/steam.nix`.
 
 ## Regression tests
 

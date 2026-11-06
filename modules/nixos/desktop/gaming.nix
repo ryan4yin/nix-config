@@ -27,11 +27,12 @@ in
     # home manager installs, so `programs.steam` is off: its `package` option
     # calls `.override` on whatever it is given, which a sandbox script cannot
     # answer, and it would install a second, unsandboxed steam plus `steam-run`.
-    # What is kept from it: the controller/VR udev rules below. Dropped with it:
-    # Remote Play and LAN transfer firewall ports (pasta isolation stops them
-    # anyway), `extest` (needs /dev/uinput, which no sandbox gets) and
-    # protontricks (a host tool, so it would run Wine on game-writable
-    # prefixes; use the sandbox instead).
+    # What is kept from it: 32-bit graphics, which the game sandboxes mount as
+    # /run/opengl-driver-32, and the controller/VR udev rules. Dropped with it:
+    # `extest` (needs /dev/uinput, which no sandbox gets) and the host
+    # protontricks (it would run Wine on game-writable prefixes; the umu
+    # sandbox carries one instead).
+    hardware.graphics.enable32Bit = true;
     hardware.steam-hardware.enable = true;
 
     # Expose DW-Proton to umu-run: umu ignores Steam's

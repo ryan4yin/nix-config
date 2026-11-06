@@ -84,13 +84,13 @@ games cannot read host data, not that they are isolated from each other:
   another launcher's configuration. Their grants therefore stay identical.
 - `~/Gaming` is game-writable, so the host never executes a file from it. Generated umu launchers
   run through `umu-sandbox` (see the `nix-config-umu-game` skill), Steam and Heroic launch their
-  games from inside their own sandboxes, and a Steam prefix is fixed through
-  [scripts/steam-fix.nu](../scripts/steam-fix.nu) rather than protontricks, which would run Wine on
-  those prefixes as the host user.
-- Replacing `programs.steam` costs its extras: no `steam-run`, no `extest` (needs `/dev/uinput`), no
-  protontricks, and no Remote Play / LAN transfer firewall ports. Remote Play and LAN discovery need
-  inbound connections that pasta isolation does not forward; online play, the store and downloads
-  are unaffected.
+  games from inside their own sandboxes, and protontricks runs only inside the sandbox:
+  `umu-sandbox protontricks <appid> winecfg`, or
+  `umu-sandbox protontricks -c 'wine regedit' <appid>`. A host protontricks would run Wine on those
+  prefixes as the host user.
+- Replacing `programs.steam` costs its extras: no host `steam-run` or protontricks, and no `extest`
+  (needs `/dev/uinput`). Remote Play and LAN discovery need inbound connections that pasta isolation
+  does not forward; online play, the store and downloads are unaffected.
 - Controllers: host udev rules hard-link joystick evdev nodes (not ones that also claim to be a
   keyboard) into `/dev/gamepad-input`, mounted as the sandbox `/dev/input`. hidraw (Steam Input's
   gyro/touchpad remapping, SDL's HIDAPI drivers) and `/dev/uinput` are not granted; uinput would let

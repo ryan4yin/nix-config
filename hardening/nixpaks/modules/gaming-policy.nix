@@ -5,6 +5,8 @@
 # visible. All launchers share that data, so they are one trust domain: keep
 # their grants identical here rather than per launcher.
 {
+  lib,
+  pkgs,
   sloth,
   ...
 }:
@@ -61,6 +63,13 @@
     env = {
       DISPLAY = sloth.envOr "DISPLAY" "";
       XAUTHORITY = sloth.envOr "XAUTHORITY" (sloth.concat' sloth.homeDir "/.Xauthority");
+      # Proton builds that Steam offers per game and protontricks resolves, as
+      # programs.steam.extraCompatPackages would set. Store paths: a game can
+      # read them but not modify them. DW-Proton is WA-019.
+      STEAM_EXTRA_COMPAT_TOOLS_PATHS = lib.makeSearchPathOutput "steamcompattool" "" [
+        pkgs.dwproton-bin
+        pkgs.proton-ge-bin
+      ];
     };
   };
 }

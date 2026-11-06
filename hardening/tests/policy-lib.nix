@@ -161,6 +161,9 @@ let
         && !lib.elem "/dev/input" app.bubblewrap.bind.dev
         && !lib.any (path: lib.hasPrefix "/dev/hidraw" path) (lib.flatten app.bubblewrap.bind.dev);
       driver32 = lib.elem "/run/opengl-driver-32" app.bubblewrap.bind.ro;
+      compatToolsInStore = lib.all (lib.hasPrefix builtins.storeDir) (
+        lib.splitString ":" app.bubblewrap.env.STEAM_EXTRA_COMPAT_TOOLS_PATHS
+      );
       openUri = app.portalGroups.openUri;
       noFileChooser = !app.portalGroups.fileChooser;
     };

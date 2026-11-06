@@ -2,11 +2,13 @@
 # nix-config-umu-game skill writes to ~/Gaming/Games/<name> are game-writable,
 # so the host never executes them: `umu-sandbox ~/Games/<name>/run` (a sandbox
 # path) runs the whole script, conf and prelaunch included, inside the sandbox.
+# `umu-sandbox protontricks <appid> ...` fixes a Steam game's prefix the same way.
 {
   steam,
   umu-launcher-unwrapped,
   mangohud,
   winetricks,
+  protontricks,
   bbe,
   gamescope,
   dwproton-bin,
@@ -25,6 +27,7 @@ let
       umu-launcher-unwrapped
       mangohud
       winetricks
+      protontricks
       bbe
       gamescope
     ];
