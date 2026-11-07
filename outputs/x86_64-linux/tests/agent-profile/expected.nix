@@ -5,6 +5,8 @@ let
     qwenInstalled = true;
     devToolsFromHome = true;
     nushellSecrets = false;
+    githubSshRewrite = false;
+    ghCredentialHelper = true;
     nixLd = true;
     rootlessPodman = true;
     docker = false;

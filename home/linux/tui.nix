@@ -13,4 +13,8 @@
 
   # ~/.secrets is synced to the desktops only.
   modules.shell.secrets.enable = false;
+
+  # Agent hosts use their own GitHub account, logged in with `gh`, over HTTPS.
+  modules.git.githubSsh.enable = false;
+  programs.gh.enable = true;
 }

@@ -27,6 +27,11 @@ lib.genAttrs hosts (
     devToolsFromHome = hasPackage "kubectl" home.home.packages;
     # ~/.secrets is synced to the desktops only; sourcing it would break nushell.
     nushellSecrets = home.modules.shell.secrets.enable;
+    # GitHub goes through the host's own `gh` login over HTTPS, not the owner's SSH key.
+    githubSshRewrite = home.programs.git.settings ? url;
+    ghCredentialHelper = lib.any (lib.hasSuffix "/bin/gh auth git-credential") (
+      home.programs.git.settings.credential."https://github.com".helper or [ ]
+    );
 
     # system module: modules/nixos/agent.nix
     nixLd = system.programs.nix-ld.enable;

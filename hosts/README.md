@@ -25,7 +25,8 @@ directory.
 - **desktop**: Niri session and GUI apps on top of the full TUI stack.
 - **agent**: headless, with the full TUI stack from Home Manager (shell, editors, dev toolchains,
   cloud CLIs, AI agents with their rules and skills), and nix-ld, rootless Podman and linger from
-  the system. Computer use (Xvfb + i3, VNC) is part of the profile but off by default.
+  the system. Computer use (Xvfb + i3, VNC) is part of the profile but off by default. Git reaches
+  GitHub over HTTPS with the host's own `gh` login, not the owner's SSH key.
 - **server**: system services only, no Home Manager.
 
 The `agent` hosts differ only in:
