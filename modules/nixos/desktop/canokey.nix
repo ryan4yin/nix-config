@@ -7,10 +7,19 @@
 }:
 let
   cfg = config.modules.desktop.canokey;
+  hasKeys = myvars.canokeyU2fKeys != [ ];
 in
 {
   options.modules.desktop.canokey = {
     enable = lib.mkEnableOption "CanoKey hardware security key support";
+  };
+
+  # The global u2f switch below would make every PAM service accept a touch by
+  # default; reset that default so only the services listed in config do.
+  options.security.pam.services = lib.mkOption {
+    type = lib.types.attrsOf (
+      lib.types.submodule { config.u2f.enable = lib.mkIf cfg.enable (lib.mkDefault false); }
+    );
   };
 
   # Usage policy, setup, backup keys and recovery: docs/security-keys.md.
@@ -20,12 +29,12 @@ in
     # systemd tags FIDO/CCID devices uaccess (60-fido-id.rules); pcscd covers OpenPGP.
     services.pcscd.enable = true;
 
-    # sudo, polkit and other PAM services accept a key touch instead of the
-    # password; without the key they ask for the password as before. Nothing
-    # changes until myvars.canokeyU2fKeys has an entry (registration:
-    # docs/security-keys.md). The global switch, unlike per-service ones, also
-    # lets polkit's sandboxed agent helper reach /dev/hidraw*.
-    security.pam.u2f.enable = myvars.canokeyU2fKeys != [ ];
+    # sudo and polkit accept a key touch instead of the password; without the
+    # key they ask for the password as before. Nothing changes until
+    # myvars.canokeyU2fKeys has an entry (registration: docs/security-keys.md).
+    # Only the global switch lets polkit's sandboxed agent helper reach
+    # /dev/hidraw*; the option override above keeps other services off.
+    security.pam.u2f.enable = hasKeys;
     security.pam.u2f.settings = {
       authfile = pkgs.writeText "u2f-keys" ''
         ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}
@@ -34,45 +43,10 @@ in
       origin = "pam://ryan4yin";
       cue = true;
     };
-    # Services that keep the password only. Some have no PAM file or program
-    # on these hosts yet; listing them stops a later enable from opening on a
-    # bare touch.
-    security.pam.services =
-      lib.genAttrs
-        (
-          # The password unlocks the keyring through pam_oo7. greetd and
-          # Noctalia's lock screen authenticate through `login`.
-          [
-            "login"
-            "greetd"
-          ]
-          # Screen lockers: the key usually stays plugged in, so a touch alone
-          # would unlock for whoever sits at the desk.
-          ++ [
-            "swaylock"
-            "i3lock"
-            "i3lock-color"
-            "xlock"
-            "xscreensaver"
-            "vlock"
-          ]
-          # Account changes confirm the current password; passwd also hands it
-          # to pam_oo7 to re-key the keyring.
-          ++ [
-            "passwd"
-            "chsh"
-            "chfn"
-          ]
-          # su authenticates root, which has no registered key.
-          ++ [ "su" ]
-          # Unused while ssh.nix disables keyboard-interactive auth. If enabled,
-          # a remote login would blink the key at this desk, and a touch meant
-          # for sudo would let the remote user in.
-          ++ [ "sshd" ]
-        )
-        (_: {
-          u2f.enable = false;
-        });
+    security.pam.services = {
+      sudo.u2f.enable = hasKeys;
+      polkit-1.u2f.enable = hasKeys;
+    };
 
     # A blink is easy to miss, so touch requests also raise a desktop
     # notification. The package's service starts with graphical-session.target

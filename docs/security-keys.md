@@ -27,9 +27,8 @@ Management and use happen on different devices.
 | shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | FIDO2 PIN + touch                        | passphrase (prompted after 10 s)          |
 | pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | OpenPGP PIN once per plug-in, then touch | off-card subkey backup                    |
 
-Login (greetd), the lock screen, su and password changes stay password-based: the login password
-also unlocks the oo7 keyring. [canokey.nix](../modules/nixos/desktop/canokey.nix) lists the excluded
-PAM services.
+Only sudo and polkit accept a touch. Login (greetd), the lock screen and every other PAM service
+stay password-based: the login password also unlocks the oo7 keyring.
 
 ## 1. Device setup
 
