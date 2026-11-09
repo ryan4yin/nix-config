@@ -284,7 +284,12 @@ the portal from whichever daemon owns `org.freedesktop.secrets`, which gnome-key
    proves oo7-portal and the migrated keys on a conventional backend.
 2. Replace oo7-daemon with `gopass secret-service` and move the items into gopass.
 
-**Pros:** hardware-gated reads for gh and Chrome from upstream components, without a custom broker.
+**Pros:**
+
+- Step 1 stands on its own: oo7 replaces gnome-keyring's C daemon and portal with a memory-safe
+  (Rust) implementation under active development.
+- Step 2 gives hardware-gated reads for gh and Chrome from upstream components, without a custom
+  broker.
 
 **Cons:** step 2 is as new as step 1: gopass's `secret-service` first shipped in 1.17.4
 (2026-10-10), and its `SearchItems` skips items it cannot decrypt, so a missing card or refused
