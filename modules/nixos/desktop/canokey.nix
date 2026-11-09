@@ -14,14 +14,6 @@ in
     enable = lib.mkEnableOption "CanoKey hardware security key support";
   };
 
-  # The global u2f switch below would make every PAM service accept a touch by
-  # default; reset that default so only the services listed in config do.
-  options.security.pam.services = lib.mkOption {
-    type = lib.types.attrsOf (
-      lib.types.submodule { config.u2f.enable = lib.mkIf cfg.enable (lib.mkDefault false); }
-    );
-  };
-
   # Usage policy, setup, backup keys and recovery: docs/security-keys.md.
   # PCs only use the key and the phone app manages it, so the vendor's WebUSB
   # udev rule (MODE 0666 on the raw USB node) is deliberately not installed.
@@ -32,9 +24,6 @@ in
     # sudo and polkit accept a key touch instead of the password; without the
     # key they ask for the password as before. Nothing changes until
     # myvars.canokeyU2fKeys has an entry (registration: docs/security-keys.md).
-    # Only the global switch lets polkit's sandboxed agent helper reach
-    # /dev/hidraw*; the option override above keeps other services off.
-    security.pam.u2f.enable = hasKeys;
     security.pam.u2f.settings = {
       authfile = pkgs.writeText "u2f-keys" ''
         ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}
@@ -46,6 +35,17 @@ in
     security.pam.services = {
       sudo.u2f.enable = hasKeys;
       polkit-1.u2f.enable = hasKeys;
+    };
+    # WA-050: nixpkgs opens polkit's agent-helper sandbox for pam_u2f only
+    # when the global security.pam.u2f.enable is set; copied from its
+    # nixos/modules/security/polkit.nix for the per-service enable above.
+    systemd.services."polkit-agent-helper@".serviceConfig = lib.mkIf hasKeys {
+      PrivateDevices = false;
+      DeviceAllow = [
+        "/dev/urandom r"
+        "char-hidraw rw"
+      ];
+      ProtectHome = "read-only";
     };
 
     # A blink is easy to miss, so touch requests also raise a desktop
