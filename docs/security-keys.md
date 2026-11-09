@@ -21,13 +21,14 @@ Management and use happen on different devices.
 | Use          | Config                                                                                                                 | Daily use                                | Fallback without the key                  |
 | ------------ | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------- |
 | Browsers     | [nixpak FIDO2 passthrough](../hardening/nixpaks/default.nix)                                                           | FIDO2 PIN and/or touch, as the site asks | site recovery codes, other registered key |
-| sudo         | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys`     | touch                                    | password                                  |
+| sudo, polkit | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys`     | touch                                    | password                                  |
 | sudo via SSH | [ssh-agent-sudo.nix](../modules/nixos/server/ssh-agent-sudo.nix), keys in [vars](../vars/default.nix) `canokeySshKeys` | touch                                    | password                                  |
 | SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`                | touch per connection                     | per-host file keys                        |
 | shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | FIDO2 PIN + touch                        | passphrase (prompted after 10 s)          |
 | pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | OpenPGP PIN once per plug-in, then touch | off-card subkey backup                    |
 
-Login (greetd) stays password-based: the password also unlocks GNOME Keyring.
+Only sudo and polkit accept a touch. Login (greetd), the lock screen and every other PAM service
+stay password-based: the login password also unlocks GNOME Keyring.
 
 ## 1. Device setup
 

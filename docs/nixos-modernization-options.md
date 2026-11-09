@@ -267,6 +267,32 @@ are hard to attribute; no measured problem to solve yet.
 
 **Decision:** _pending_
 
+## A10. oo7, then gopass, behind the Secret portal
+
+**Current:** gnome-keyring serves the Secret Service and the Secret portal Chromium uses for its v12
+cookie key; its portal can only serve its own daemon.
+
+**Proposed:** `services.oo7.enable`, whose oo7-portal serves any Secret Service daemon; then replace
+oo7-daemon with `gopass secret-service`, so gh's token and Chrome's cookie key need the CanoKey.
+
+**Pros:** oo7 is a memory-safe, actively developed replacement on its own; with gopass,
+hardware-gated secrets from upstream components only.
+
+**Cons:** migration deletes the gnome-keyring files. On 2026-11-09, oo7 0.6.0 hid gh's token (fixed
+in 0.7.0) and gave Chrome a new key, losing its v12 cookies (fixed after 0.7.0 by
+[oo7#631](https://github.com/linux-credentials/oo7/pull/631), unreleased). gopass 1.17.4 skips
+undecryptable items, so a refused touch would mint a new Chrome key the same way.
+
+**Reversibility:** low; needs a backup of `~/.local/share/keyrings` under `/persistent`.
+
+**Trigger to adopt:** nixpkgs ships oo7 newer than 0.7.0 with the portal app-ID fix
+([oo7#631](https://github.com/linux-credentials/oo7/pull/631); 0.7.0 fixes only gh). For gopass: a
+release after 1.17.4 whose `SearchItems` stops skipping undecryptable items (no upstream issue yet).
+
+**Recommendation:** **watch**.
+
+**Decision:** **watch** (2026-11-09)
+
 ---
 
 # B. Boot, images, VMs
@@ -489,27 +515,28 @@ prevent boot or login. **Recommendation for the group: evaluate in a disposable 
 Fill this in as cards are decided; the plan documents (on the `modernization-plans-wip` tag, see the
 header) should then be trimmed to **adopt** items only.
 
-| Card      | Candidate                   | Decision | Date | Note |
-| --------- | --------------------------- | -------- | ---- | ---- |
-| A1        | Tailscale Serve (partial)   |          |      |      |
-| A2        | systemd-resolved            |          |      |      |
-| A3        | systemd-networkd            |          |      |      |
-| A4        | journald upload/remote      |          |      |      |
-| A5        | zram-generator              |          |      |      |
-| A6        | nixos-facter                |          |      |      |
-| A7        | attic                       |          |      |      |
-| A8        | nix-servd + daemon features |          |      |      |
-| A9        | sched_ext                   |          |      |      |
-| B1        | limine + Secure Boot        |          |      |      |
-| B2        | boot.uki                    |          |      |      |
-| B3        | systemd-repart images       |          |      |      |
-| B4        | initrd repart               |          |      |      |
-| B5        | sysupdate                   |          |      |      |
-| B6        | measured boot / FIDO2       |          |      |      |
-| B7        | systemd-vmspawn             |          |      |      |
-| C1–C3, C5 | tooling + cleanups          |          |      |      |
-| D1–D7     | lab-only group              |          |      |      |
-| E         | rejected set                |          |      |      |
+| Card      | Candidate                   | Decision | Date       | Note                                                               |
+| --------- | --------------------------- | -------- | ---------- | ------------------------------------------------------------------ |
+| A1        | Tailscale Serve (partial)   |          |            |                                                                    |
+| A2        | systemd-resolved            |          |            |                                                                    |
+| A3        | systemd-networkd            |          |            |                                                                    |
+| A4        | journald upload/remote      |          |            |                                                                    |
+| A5        | zram-generator              |          |            |                                                                    |
+| A6        | nixos-facter                |          |            |                                                                    |
+| A7        | attic                       |          |            |                                                                    |
+| A8        | nix-servd + daemon features |          |            |                                                                    |
+| A9        | sched_ext                   |          |            |                                                                    |
+| A10       | oo7, then gopass            | watch    | 2026-11-09 | oo7 > 0.7.0 with oo7#631; gopass > 1.17.4 with a `SearchItems` fix |
+| B1        | limine + Secure Boot        |          |            |                                                                    |
+| B2        | boot.uki                    |          |            |                                                                    |
+| B3        | systemd-repart images       |          |            |                                                                    |
+| B4        | initrd repart               |          |            |                                                                    |
+| B5        | sysupdate                   |          |            |                                                                    |
+| B6        | measured boot / FIDO2       |          |            |                                                                    |
+| B7        | systemd-vmspawn             |          |            |                                                                    |
+| C1–C3, C5 | tooling + cleanups          |          |            |                                                                    |
+| D1–D7     | lab-only group              |          |            |                                                                    |
+| E         | rejected set                |          |            |                                                                    |
 
 ## References
 

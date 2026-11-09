@@ -7,6 +7,7 @@
 }:
 let
   cfg = config.modules.desktop.canokey;
+  hasKeys = myvars.canokeyU2fKeys != [ ];
 in
 {
   options.modules.desktop.canokey = {
@@ -20,10 +21,9 @@ in
     # systemd tags FIDO/CCID devices uaccess (60-fido-id.rules); pcscd covers OpenPGP.
     services.pcscd.enable = true;
 
-    # sudo accepts a key touch instead of the password; without the key it asks
-    # for the password as before. Login keeps the password, which also unlocks
-    # GNOME Keyring. sudo is unchanged until myvars.canokeyU2fKeys has an entry
-    # (registration: docs/security-keys.md).
+    # sudo and polkit accept a key touch instead of the password; without the
+    # key they ask for the password as before. Nothing changes until
+    # myvars.canokeyU2fKeys has an entry (registration: docs/security-keys.md).
     security.pam.u2f.settings = {
       authfile = pkgs.writeText "u2f-keys" ''
         ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}
@@ -32,7 +32,21 @@ in
       origin = "pam://ryan4yin";
       cue = true;
     };
-    security.pam.services.sudo.u2f.enable = myvars.canokeyU2fKeys != [ ];
+    security.pam.services = {
+      sudo.u2f.enable = hasKeys;
+      polkit-1.u2f.enable = hasKeys;
+    };
+    # WA-050: nixpkgs opens polkit's agent-helper sandbox for pam_u2f only
+    # when the global security.pam.u2f.enable is set; copied from its
+    # nixos/modules/security/polkit.nix for the per-service enable above.
+    systemd.services."polkit-agent-helper@".serviceConfig = lib.mkIf hasKeys {
+      PrivateDevices = false;
+      DeviceAllow = [
+        "/dev/urandom r"
+        "char-hidraw rw"
+      ];
+      ProtectHome = "read-only";
+    };
 
     # A blink is easy to miss, so touch requests also raise a desktop
     # notification. The package's service starts with graphical-session.target
