@@ -20,10 +20,12 @@ in
     # systemd tags FIDO/CCID devices uaccess (60-fido-id.rules); pcscd covers OpenPGP.
     services.pcscd.enable = true;
 
-    # sudo accepts a key touch instead of the password; without the key it asks
-    # for the password as before. Login keeps the password, which also unlocks
-    # the oo7 keyring. sudo is unchanged until myvars.canokeyU2fKeys has an entry
-    # (registration: docs/security-keys.md).
+    # sudo, polkit and other PAM services accept a key touch instead of the
+    # password; without the key they ask for the password as before. Nothing
+    # changes until myvars.canokeyU2fKeys has an entry (registration:
+    # docs/security-keys.md). The global switch, unlike per-service ones, also
+    # lets polkit's sandboxed agent helper reach /dev/hidraw*.
+    security.pam.u2f.enable = myvars.canokeyU2fKeys != [ ];
     security.pam.u2f.settings = {
       authfile = pkgs.writeText "u2f-keys" ''
         ${myvars.username}:${lib.concatMapStringsSep ":" (lib.removePrefix ":") myvars.canokeyU2fKeys}
@@ -32,7 +34,30 @@ in
       origin = "pam://ryan4yin";
       cue = true;
     };
-    security.pam.services.sudo.u2f.enable = myvars.canokeyU2fKeys != [ ];
+    # These keep the password only. login (also used by greetd and Noctalia's
+    # lock screen) passes it to pam_oo7 to unlock the keyring; screen lockers
+    # must not open on a bare touch; passwd/chsh/chfn verify the password they
+    # change; su authenticates root, which has no key; sshd is remote.
+    security.pam.services =
+      lib.genAttrs
+        [
+          "login"
+          "greetd"
+          "swaylock"
+          "i3lock"
+          "i3lock-color"
+          "xlock"
+          "xscreensaver"
+          "vlock"
+          "passwd"
+          "chsh"
+          "chfn"
+          "su"
+          "sshd"
+        ]
+        (_: {
+          u2f.enable = false;
+        });
 
     # A blink is easy to miss, so touch requests also raise a desktop
     # notification. The package's service starts with graphical-session.target
