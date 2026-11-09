@@ -44,12 +44,7 @@
           "gnome"
         ];
       };
-      niri = {
-        "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-        # programs.niri hardcodes gnome-keyring; oo7 serves secrets here
-        # (security.nix).
-        "org.freedesktop.impl.portal.Secret" = lib.mkForce "oo7-portal";
-      };
+      niri."org.freedesktop.impl.portal.ScreenCast" = "wlr";
     };
 
     # Sets environment variable NIXOS_XDG_OPEN_USE_PORTAL to 1

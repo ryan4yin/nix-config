@@ -28,7 +28,7 @@ Management and use happen on different devices.
 | pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | OpenPGP PIN once per plug-in, then touch | off-card subkey backup                    |
 
 Only sudo and polkit accept a touch. Login (greetd), the lock screen and every other PAM service
-stay password-based: the login password also unlocks the oo7 keyring.
+stay password-based: the login password also unlocks GNOME Keyring.
 
 ## 1. Device setup
 
