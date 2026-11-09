@@ -267,6 +267,43 @@ are hard to attribute; no measured problem to solve yet.
 
 **Decision:** _pending_
 
+## A10. oo7 instead of gnome-keyring
+
+**Current:** gnome-keyring (enabled by `programs.niri`) serves the Secret Service (gh, libsecret
+apps) and the Secret portal that nixpak'd Chromium browsers use for their v12 cookie key;
+pam_gnome_keyring unlocks it at login.
+
+**Proposed:** `services.oo7.enable` (oo7-daemon, oo7-portal, pam_oo7), with
+`services.gnome.gnome-keyring.enable = false` and niri's Secret portal forced to `oo7-portal`.
+
+**Pros:** a memory-safe implementation of both the Secret Service and the Secret portal, under
+active development.
+
+**Cons — tried on ai on 2026-11-09 with nixpkgs' oo7 0.6.0, then rolled back:**
+
+- The first password unlock converts `~/.local/share/keyrings/*.keyring` to `keyrings/v1/` and
+  deletes the originals. A backup must go under `/persistent`: the root is tmpfs.
+- On that first boot, a locked, empty `Login` placeholder created before login kept the D-Bus path,
+  so the migrated items were invisible until the next restart.
+- gh lost its token: go-keyring finds no `/collection/login` (oo7 capitalizes it), falls back to
+  `/aliases/default`, and 0.6.0's `Unlock` ignores alias paths. Fixed in 0.7.0 (`eaca687`,
+  `4671c6a`).
+- Chrome got a different key than its migrated `com.google.Chrome` item and deleted the v12 cookies
+  of the profile it opened (a btrbk snapshot had them). This matches upstream `27aa206` (#631,
+  portal app-ID lookup after migration), which no release contained on 2026-11-09; not reproduced.
+- `oo7-portal.service` fails to load ("Two services allocated for the same bus name") because the
+  package also ships a `dbus-org.…` alias unit; D-Bus activation still starts the portal.
+
+**Reversibility:** low: returning to gnome-keyring needs the pre-migration backup.
+
+**Trigger to adopt:** nixpkgs ships an oo7 release containing `27aa206` (around 2027-02). Before the
+real migration: back up the keyrings under `/persistent`, keep Chrome closed through the first
+login, then check `gh auth token` and Chrome's `os_crypt.portal.prev_init_success` in `Local State`.
+
+**Recommendation:** **watch**.
+
+**Decision:** **watch** (2026-11-09)
+
 ---
 
 # B. Boot, images, VMs
@@ -489,27 +526,28 @@ prevent boot or login. **Recommendation for the group: evaluate in a disposable 
 Fill this in as cards are decided; the plan documents (on the `modernization-plans-wip` tag, see the
 header) should then be trimmed to **adopt** items only.
 
-| Card      | Candidate                   | Decision | Date | Note |
-| --------- | --------------------------- | -------- | ---- | ---- |
-| A1        | Tailscale Serve (partial)   |          |      |      |
-| A2        | systemd-resolved            |          |      |      |
-| A3        | systemd-networkd            |          |      |      |
-| A4        | journald upload/remote      |          |      |      |
-| A5        | zram-generator              |          |      |      |
-| A6        | nixos-facter                |          |      |      |
-| A7        | attic                       |          |      |      |
-| A8        | nix-servd + daemon features |          |      |      |
-| A9        | sched_ext                   |          |      |      |
-| B1        | limine + Secure Boot        |          |      |      |
-| B2        | boot.uki                    |          |      |      |
-| B3        | systemd-repart images       |          |      |      |
-| B4        | initrd repart               |          |      |      |
-| B5        | sysupdate                   |          |      |      |
-| B6        | measured boot / FIDO2       |          |      |      |
-| B7        | systemd-vmspawn             |          |      |      |
-| C1–C3, C5 | tooling + cleanups          |          |      |      |
-| D1–D7     | lab-only group              |          |      |      |
-| E         | rejected set                |          |      |      |
+| Card      | Candidate                   | Decision | Date       | Note                                        |
+| --------- | --------------------------- | -------- | ---------- | ------------------------------------------- |
+| A1        | Tailscale Serve (partial)   |          |            |                                             |
+| A2        | systemd-resolved            |          |            |                                             |
+| A3        | systemd-networkd            |          |            |                                             |
+| A4        | journald upload/remote      |          |            |                                             |
+| A5        | zram-generator              |          |            |                                             |
+| A6        | nixos-facter                |          |            |                                             |
+| A7        | attic                       |          |            |                                             |
+| A8        | nix-servd + daemon features |          |            |                                             |
+| A9        | sched_ext                   |          |            |                                             |
+| A10       | oo7                         | watch    | 2026-11-09 | retry when nixpkgs ships oo7 with `27aa206` |
+| B1        | limine + Secure Boot        |          |            |                                             |
+| B2        | boot.uki                    |          |            |                                             |
+| B3        | systemd-repart images       |          |            |                                             |
+| B4        | initrd repart               |          |            |                                             |
+| B5        | sysupdate                   |          |            |                                             |
+| B6        | measured boot / FIDO2       |          |            |                                             |
+| B7        | systemd-vmspawn             |          |            |                                             |
+| C1–C3, C5 | tooling + cleanups          |          |            |                                             |
+| D1–D7     | lab-only group              |          |            |                                             |
+| E         | rejected set                |          |            |                                             |
 
 ## References
 
