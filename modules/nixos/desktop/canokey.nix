@@ -34,27 +34,42 @@ in
       origin = "pam://ryan4yin";
       cue = true;
     };
-    # These keep the password only. login (also used by greetd and Noctalia's
-    # lock screen) passes it to pam_oo7 to unlock the keyring; screen lockers
-    # must not open on a bare touch; passwd/chsh/chfn verify the password they
-    # change; su authenticates root, which has no key; sshd is remote.
+    # Services that keep the password only. Some have no PAM file or program
+    # on these hosts yet; listing them stops a later enable from opening on a
+    # bare touch.
     security.pam.services =
       lib.genAttrs
-        [
-          "login"
-          "greetd"
-          "swaylock"
-          "i3lock"
-          "i3lock-color"
-          "xlock"
-          "xscreensaver"
-          "vlock"
-          "passwd"
-          "chsh"
-          "chfn"
-          "su"
-          "sshd"
-        ]
+        (
+          # The password unlocks the keyring through pam_oo7. greetd and
+          # Noctalia's lock screen authenticate through `login`.
+          [
+            "login"
+            "greetd"
+          ]
+          # Screen lockers: the key usually stays plugged in, so a touch alone
+          # would unlock for whoever sits at the desk.
+          ++ [
+            "swaylock"
+            "i3lock"
+            "i3lock-color"
+            "xlock"
+            "xscreensaver"
+            "vlock"
+          ]
+          # Account changes confirm the current password; passwd also hands it
+          # to pam_oo7 to re-key the keyring.
+          ++ [
+            "passwd"
+            "chsh"
+            "chfn"
+          ]
+          # su authenticates root, which has no registered key.
+          ++ [ "su" ]
+          # Unused while ssh.nix disables keyboard-interactive auth. If enabled,
+          # a remote login would blink the key at this desk, and a touch meant
+          # for sudo would let the remote user in.
+          ++ [ "sshd" ]
+        )
         (_: {
           u2f.enable = false;
         });
