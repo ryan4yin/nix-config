@@ -290,7 +290,7 @@ in
           mode = "0700";
         }
         {
-          # gnmome keyrings
+          # Secret Service keyrings (oo7 keeps them in v1/)
           directory = ".local/share/keyrings";
           mode = "0700";
         }

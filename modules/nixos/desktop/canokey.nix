@@ -22,7 +22,7 @@ in
 
     # sudo accepts a key touch instead of the password; without the key it asks
     # for the password as before. Login keeps the password, which also unlocks
-    # GNOME Keyring. sudo is unchanged until myvars.canokeyU2fKeys has an entry
+    # the oo7 keyring. sudo is unchanged until myvars.canokeyU2fKeys has an entry
     # (registration: docs/security-keys.md).
     security.pam.u2f.settings = {
       authfile = pkgs.writeText "u2f-keys" ''

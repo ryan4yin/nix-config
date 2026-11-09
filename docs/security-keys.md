@@ -27,7 +27,7 @@ Management and use happen on different devices.
 | shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | FIDO2 PIN + touch                        | passphrase (prompted after 10 s)          |
 | pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | OpenPGP PIN once per plug-in, then touch | off-card subkey backup                    |
 
-Login (greetd) stays password-based: the password also unlocks GNOME Keyring.
+Login (greetd) stays password-based: the password also unlocks the oo7 keyring.
 
 ## 1. Device setup
 
