@@ -28,8 +28,8 @@ in
 
   # Each CanoKey holds a resident FIDO2 SSH key for GitHub and every host, its
   # handle exported on each desktop to ~/.ssh/canokey-<name>; every use needs a
-  # touch, and ssh skips the handle of an unplugged key. The per-host keys stay
-  # authorized as the backup. Setup: docs/security-keys.md.
+  # touch, and ssh skips the handle of an unplugged key. Setup:
+  # docs/security-keys.md.
   programs.ssh = {
     enable = true;
 

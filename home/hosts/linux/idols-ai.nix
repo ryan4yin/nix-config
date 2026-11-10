@@ -12,13 +12,6 @@ in
 
   modules.desktop.vinput.enable = true;
 
-  # CanoKey keys first (docs/security-keys.md), this host's key as backup.
-  programs.ssh.settings."github.com".IdentityFile = [
-    "${config.home.homeDirectory}/.ssh/canokey-tea"
-    "${config.home.homeDirectory}/.ssh/canokey-moe"
-    "${config.home.homeDirectory}/.ssh/idols-ai"
-  ];
-
   modules.desktop.gaming.enable = true;
   modules.desktop.niri.enable = true;
 

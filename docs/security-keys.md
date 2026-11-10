@@ -18,14 +18,14 @@ Management and use happen on different devices.
   is unreachable from them ([hardening](../hardening/README.md)). Unsandboxed software is trusted;
   if it is malicious, the PC is compromised regardless.
 
-| Use          | Config                                                                                                                 | Fallback without the key                  |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| Browsers     | [nixpak FIDO2 passthrough](../hardening/nixpaks/default.nix)                                                           | site recovery codes, other registered key |
-| sudo, polkit | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys`     | password                                  |
-| sudo via SSH | [ssh-agent-sudo.nix](../modules/nixos/server/ssh-agent-sudo.nix), keys in [vars](../vars/default.nix) `canokeySshKeys` | password                                  |
-| SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`                | per-host file keys                        |
-| shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | passphrase (prompted after 10 s)          |
-| pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | off-card subkey backup                    |
+| Use          | Config                                                                                                                 | Fallback without the key                                         |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Browsers     | [nixpak FIDO2 passthrough](../hardening/nixpaks/default.nix)                                                           | site recovery codes, other registered key                        |
+| sudo, polkit | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys`     | password                                                         |
+| sudo via SSH | [ssh-agent-sudo.nix](../modules/nixos/server/ssh-agent-sudo.nix), keys in [vars](../vars/default.nix) `canokeySshKeys` | password                                                         |
+| SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`                | the other CanoKey; root also accepts the `romantic` recovery key |
+| shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | passphrase (prompted after 10 s)                                 |
+| pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | off-card subkey backup                                           |
 
 Only sudo and polkit accept a touch. Login (greetd), the lock screen and every other PAM service
 stay password-based: the login password also unlocks GNOME Keyring.
@@ -113,24 +113,18 @@ CanoKey Admin PIN), which restores the defaults.
 Touch policies are enforced **only over USB, not NFC**. OpenPGP and PIV stay reachable over NFC on
 released firmware, but each NFC tap is a new card session, so their PINs are still required.
 
-1. Firmware must be 3.0.2 or later.
-2. Settings on released firmware (the user guide lists LED, NDEF and WebUSB login page):
+Firmware must be 3.0.2 or later. Settings marked 3.1.0+ appear only on that firmware:
 
-   | Setting           | Choice    | Why                                                                       |
-   | ----------------- | --------- | ------------------------------------------------------------------------- |
-   | LED               | on        | an unexpected blink means something requested a touch                     |
-   | WebUSB login page | off       | the console is not used on PCs                                            |
-   | NDEF              | read-only | default is enabled; anyone nearby can read it, and rewrite it if writable |
-
-3. Options for **firmware 3.1.0 and later**, if the app shows them:
-
-   | Option                                      | Choice                                        | Why                                        |
-   | ------------------------------------------- | --------------------------------------------- | ------------------------------------------ |
-   | OpenPGP / PIV over NFC                      | off, unless the phone needs OpenPGP           | touch is not enforced over NFC             |
-   | Password/HOTP keyboard output, PIV switches | off unless used                               | smaller attack surface                     |
-   | WebAuthn `alwaysUv`                         | off                                           | on breaks U2F, which sudo uses             |
-   | WebAuthn minimum PIN length                 | 6–8                                           | the PIN locks after a few failures         |
-   | Long-press reset                            | off, unless the app documents it as PIN-gated | keeps reset a phone-side management action |
+| Setting                                              | Choice                                        | Why                                                                       |
+| ---------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| LED                                                  | on                                            | an unexpected blink means something requested a touch                     |
+| WebUSB login page                                    | off                                           | the console is not used on PCs                                            |
+| NDEF                                                 | read-only                                     | default is enabled; anyone nearby can read it, and rewrite it if writable |
+| OpenPGP / PIV over NFC (3.1.0+)                      | off, unless the phone needs OpenPGP           | touch is not enforced over NFC                                            |
+| Password/HOTP keyboard output, PIV switches (3.1.0+) | off unless used                               | smaller attack surface                                                    |
+| WebAuthn `alwaysUv` (3.1.0+)                         | off                                           | on breaks U2F, which sudo uses                                            |
+| WebAuthn minimum PIN length (3.1.0+)                 | 6–8                                           | the PIN locks after a few failures                                        |
+| Long-press reset (3.1.0+)                            | off, unless the app documents it as PIN-gated | keeps reset a phone-side management action                                |
 
 ### 1.3 Touch feedback
 
@@ -221,8 +215,8 @@ cd ~/.ssh && ssh-keygen -K \
 ```
 
 [ssh.nix](../home/base/tui/ssh.nix) lists `~/.ssh/canokey-tea`, then `~/.ssh/canokey-moe`, as the
-identities for every host; the desktops' `github.com` blocks add the per-host key after them.
-Whichever key is plugged in answers; ssh skips the handle of an absent key.
+identities for every host and GitHub. Whichever key is plugged in answers; ssh skips the handle of
+an absent key.
 
 What the CanoKey stores, and so what the phone app lists, is fixed by OpenSSH
 ([sk-usbhid.c](https://github.com/openssh/openssh-portable/blob/master/sk-usbhid.c)):
@@ -251,8 +245,8 @@ How it works, and what the prompts mean:
   for each signature.
 
 Add the public key to `canokeySshKeys` in [vars/default.nix](../vars/default.nix), which is part of
-`mainSshAuthorizedKeys`, and to GitHub. Keys already loaded in `ssh-agent` are offered first, so the
-per-host keys can still win until they are retired.
+`mainSshAuthorizedKeys`, and to GitHub. These are the only user keys: without a CanoKey, only root
+logins with the `romantic` recovery key (`secondaryAuthorizedKeys`) remain.
 
 ### shoukei LUKS
 
