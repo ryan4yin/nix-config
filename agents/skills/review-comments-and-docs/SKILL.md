@@ -11,6 +11,10 @@ description:
 Write for the reader of the artifact: someone who has the file, not your conversation. Decide what
 the text says before deciding how it reads.
 
+The sections below decide what existing text keeps. New text starts from nothing under the global
+rules' writing rule: a one-line reason or contract, or no comment at all; what this skill preserves
+is never a reason to add.
+
 ## 1. Decide whether to change anything
 
 - **Edit only to fix a defect you can name, together with the evidence that contradicts the text**:
