@@ -87,6 +87,16 @@ policy is opt-in: `rules_from:` (a decoded snapshot) or `file:` carry groups, ru
 rule-providers over. The generator drops and reports malformed rules, misplaced `MATCH` and orphaned
 targets instead of writing a config the core rejects.
 
+## Google Play routing
+
+`policy.yaml` routes `services.googleapis.cn` through `PROXY` on desktops and the gateway. This
+addresses Google Play downloads stalling when direct API access selects a mainland CDN that is then
+accessed through an overseas proxy.
+
+References: [Google Play CDN report](https://blog.l3zc.com/2025/03/chinese-cdn-used-by-playstore/)
+and
+[Google Play domain classifications](https://github.com/v2fly/domain-list-community/blob/master/data/google-play).
+
 ## Gotchas
 
 - `ipv6`, `dns.ipv6`, `fake-ip-range6`: the fake v6 pool is a lookup key, so the family the client

@@ -85,6 +85,9 @@ rules:
   - GEOSITE,private,DIRECT
   - GEOSITE,category-ads-all,REJECT
 
+  # Proxy the Play CN API to avoid mainland CDN selection for proxied downloads.
+  - DOMAIN,services.googleapis.cn,PROXY
+
   # Steam picks its download caches from the IP it sees on the login (CM) connection:
   # a proxied login downloads from Tokyo/SG/HK/LA. `cm.steampowered.com` must precede
   # the `steampowered.com` catch, and both the Valve IP ranges below, which also serve
