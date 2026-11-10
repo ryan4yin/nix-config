@@ -32,6 +32,8 @@ in
   # docs/security-keys.md.
   programs.ssh = {
     enable = true;
+    # macOS's ssh has no FIDO provider ("Cannot download keys without provider").
+    package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin pkgs.openssh;
 
     enableDefaultConfig = false;
     # Keep this one definition: Nix merges a `settings."<pattern>"` attribute
