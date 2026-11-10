@@ -1,12 +1,9 @@
 {
   pkgs,
   config,
-  nixpkgsConfig,
   ...
 }:
 {
-  nixpkgs.config = nixpkgsConfig;
-
   nix.settings = {
     # enable flakes globally
     experimental-features = [

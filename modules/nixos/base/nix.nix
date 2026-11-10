@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  nixpkgsConfig,
+  ...
+}:
 {
   # Nix 2.35 is newer than nixpkgs' nixVersions.stable (still 2.34), so opt into
   # the latest released version until stable catches up.
@@ -9,8 +14,9 @@
   # https://lix.systems/add-to-config/
   # nix.package = pkgs.lix;
 
-  # to install chrome, you need to enable unfree packages
-  nixpkgs.config.allowUnfree = lib.mkDefault true;
+  # NixOS only: darwin's nixpkgs.pkgs instance already carries it (lib/macosSystem.nix),
+  # and nixpkgs rejects nixpkgs.config next to nixpkgs.pkgs.
+  nixpkgs.config = nixpkgsConfig;
 
   # do garbage collection weekly to keep disk usage low
   nix.gc = {
