@@ -26,9 +26,9 @@ in
 {
   home.file.".ssh/romantic.pub".source = "${mysecrets}/public/romantic.pub";
 
-  # One SSH key for GitHub and every host lives on the CanoKey as a resident
-  # FIDO2 credential, exported on each desktop to ~/.ssh/id_ed25519_sk (ssh's
-  # default identity); every use needs a touch. The per-host keys stay
+  # Each CanoKey holds a resident FIDO2 SSH key for GitHub and every host, its
+  # handle exported on each desktop to ~/.ssh/canokey-<name>; every use needs a
+  # touch, and ssh skips the handle of an unplugged key. The per-host keys stay
   # authorized as the backup. Setup: docs/security-keys.md.
   programs.ssh = {
     enable = true;
@@ -39,6 +39,11 @@ in
     # so the generated LAN patterns are merged inside it with `//` instead.
     settings = {
       "*" = {
+        # Main key first, then the backup.
+        IdentityFile = map (name: "${config.home.homeDirectory}/.ssh/${name}") [
+          "canokey-tea"
+          "canokey-moe"
+        ];
         ForwardAgent = false;
         AddKeysToAgent = "yes";
         Compression = true;
