@@ -59,13 +59,12 @@ mechanics in the project's instructions, and a rule belongs here only when it ap
 - Review the net growth and remove repetition. Brevity must preserve the boundary; verify both the
   prohibited action and the authorized action still behave as intended.
 
-Some rules restate familiar principles as checkable boundaries: Grice's maxims shape Communication
-and Output style, with the maxim of quality as the cite-or-mark-unverified rule under Repository
-work; Orwell's "cut every word you can" shows in the one-line comment rule; and Occam's razor
-becomes the minimal-diff rule. The rules deliberately do not cite these names, even as a summary. A
-name adds no boundary and imports the whole principle with each model's own reading: the maxim of
-relation can suppress reports the rules require (an exposed secret, config that appears unused), and
-Occam's razor can favor the smallest diff over the upstream fix. Amend the concrete rule instead.
+The writing and design rules name Grice's maxims and Occam's razor and state the boundary beside
+each name. The name recruits what the model already knows about the principle; the boundary fixes
+the readings that would mislead: the maxim of relation never suppresses a report the rules require,
+and Occam's razor never prefers the smallest diff to the upstream fix. The rules first omitted the
+names, and agents applied the unnamed boundaries so rarely that users named the principles in chat
+instead; the [failure log](evals/failure-log.md) records how often.
 
 After changing the rules or a custom skill, size the evaluation to the change as the
 [evaluation guide](evals/global-rules.md#choosing-the-scope) describes, and record the results in
@@ -108,6 +107,9 @@ and boundaries for readiness waits, process inspection, and shell command sequen
 cost more than the compression saved; revision-specific sizes, results, and coverage limits are
 recorded in [#428](https://github.com/ryan4yin/nix-config/pull/428).
 
+- **Enforce the most-ignored rules in the harness.** A dsh plugin that rejects a fixed `sleep` over
+  5 seconds, `git -c user.*`, reads under `/run/agenix/`, and copies of credential directories; the
+  [failure log](evals/failure-log.md) shows prose rules alone did not stop them.
 - **Fold `mattpocock/skills` `pr` into `git-delivery`**: before/after evidence, one-way or two-way
   door, and blast radius for PR bodies.
 - **Write a `testing-strategy` skill**: E2E of real workflows first, unit tests for logic and edge
