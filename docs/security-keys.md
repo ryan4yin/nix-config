@@ -25,7 +25,7 @@ Management and use happen on different devices.
 | sudo via SSH | [ssh-agent-sudo.nix](../modules/nixos/server/ssh-agent-sudo.nix), keys in [vars](../vars/default.nix) `canokeySshKeys` | password                                                         |
 | SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`                | the other CanoKey; root also accepts the `romantic` recovery key |
 | shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | passphrase (prompted after 10 s)                                 |
-| pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | off-card subkey backup                                           |
+| pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | the age-encrypted key backup                                     |
 
 Only sudo and polkit accept a touch. Login (greetd), the lock screen and every other PAM service
 stay password-based: the login password also unlocks GNOME Keyring.
@@ -269,35 +269,73 @@ each key again.
 
 ### pass (OpenPGP)
 
-The password store is encrypted to the `[E]` subkey `0xEF824EB73CFD6CC7`; the primary key is
-offline. The off-card backup of the three subkeys is the agenix secret
-`/etc/agenix/ryan4yin-gpg-subkeys.priv.age` on the desktops: root-only, and still age-encrypted with
-a passphrase. Write the subkeys onto each key from a throwaway `GNUPGHOME`, so the daily keyring
-only ever holds stubs. With only that key plugged in:
+The password store is encrypted to the `[E]` subkey named by `PASSWORD_STORE_KEY` in
+[password-store](../home/base/tui/password-store/default.nix). The key is a `[C]` primary that never
+leaves its backup, with `[S]` and `[E]` subkeys that both CanoKeys hold. The secret key exists only
+on the cards and in age-encrypted backups, which also carry the revocation certificate. The key has
+its own GPG passphrase too: it stays protected in the tmpfs keyrings whenever a backup is opened,
+and age's scrypt covers gpg's weaker S2K against offline guessing.
+[gpg_canokey.py](../scripts/gpg_canokey.py) does each step in throwaway keyrings on tmpfs.
 
-```bash
-export GNUPGHOME=$(mktemp -d)
-echo disable-ccid > "$GNUPGHOME/scdaemon.conf"   # reach the key through pcscd, as the daily config does
-sudo cat /etc/agenix/ryan4yin-gpg-subkeys.priv.age | age --decrypt | gpg --import
-gpg --card-status                                # shows this key's serial
-gpg --edit-key 0xCC88591C033F1924
-```
+A new key replaces the old one outright: the old key decrypts the store once, during the switch, and
+is then retired.
 
-1. In `gpg --edit-key`, for each subkey: `key N` (the `[S]`, `[E]` or `[A]` one), `keytocard`, pick
-   the slot of the same usage, `key N` again to deselect; then `save`. This asks for the subkey
-   passphrase and the OpenPGP Admin PIN.
-2. Require touch: `gpg --card-edit` → `admin` → `uif 1 on`, `uif 2 on`, `uif 3 on` (or the phone
-   app). Decrypt touch matters most: browserpass gives browsers the GPG agent socket, and without
-   touch a compromised browser could decrypt the whole store silently after the first PIN.
-3. Drop the throwaway keyring: `gpgconf --kill all && rm -rf "$GNUPGHOME" && unset GNUPGHOME`.
-4. In the daily keyring, point the stubs at the plugged-in key:
-   `gpg-connect-agent "scd serialno" "learn --force" /bye`. Check with `pass show <entry>` (PIN,
-   then touch). On a machine that still holds on-disk subkeys, delete them first
-   (`gpg --delete-secret-keys '<subkey-fingerprint>!'`).
+**Prepare.** Nothing changes for pass yet.
 
-For the next key, start again from `export GNUPGHOME=…`: `save` turned the throwaway copies into
-stubs. `keytocard` is the only step that types the OpenPGP Admin PIN on a PC; change it again in the
-phone app afterwards.
+1. Turn on signature and decryption touch on every CanoKey in the phone app; `card` refuses a key
+   without them. Decryption touch matters most: browserpass gives browsers the GPG agent socket, and
+   without touch a compromised browser could decrypt the whole store silently after the first PIN.
+2. Create the key, with two backup drives mounted:
+
+   ```bash
+   python3 scripts/gpg_canokey.py generate --uid '<name> (pass) <address>' \
+     --dest /run/media/$USER/<drive-1> --dest /run/media/$USER/<drive-2> \
+     --public-key ~/codes/nix-secrets/public/<name>.pub
+   ```
+
+   Each command lists its prompts before the first one and announces each prompt as it comes; age
+   asks again after a mistyped passphrase. Here gpg asks for the new GPG passphrase in three
+   dialogs, one per key, twice each, and once more to export the key; then age asks for the backup
+   passphrase twice, and once more to prove that the backup restores. A key without a GPG passphrase
+   is refused. Make both passphrases long and random and save them offline like the Admin PIN, never
+   in pass. Keep the drives offline and apart.
+
+3. Load each CanoKey, with only that key plugged in:
+   `python3 scripts/gpg_canokey.py card --backup <drive>/gpg-<fingerprint>.tar.age`. It prints the
+   `gpg --edit-key` commands to type, then signs and decrypts once through the card. `keytocard` is
+   the only step that types the OpenPGP Admin PIN on a PC; change it again in the phone app
+   afterwards.
+4. Prepare, but do not deploy, the configuration change: add the public key to
+   `programs.gpg.publicKeys` in [gpg](../home/base/tui/gpg/default.nix), set `PASSWORD_STORE_KEY` to
+   the `[E]` fingerprint and `PASSWORD_STORE_SIGNING_KEY` to the primary fingerprint (pass checks
+   signatures only against full 40-digit fingerprints).
+
+**Switch**, in one sitting:
+
+1. `python3 scripts/gpg_canokey.py pass --backup <drive>/gpg-<fingerprint>.tar.age`. It decrypts
+   every entry with the old key from `/etc/agenix/ryan4yin-gpg-subkeys.priv.age` before changing
+   anything, re-encrypts with `pass init`, then checks that every entry opens with the new key alone
+   and kept its content.
+2. Deploy the configuration change to every host that uses pass. Until a host is deployed it cannot
+   read the store, and `pass insert` there still encrypts to the old key.
+3. On each host, with a CanoKey plugged in, point the daily keyring's stubs at it:
+   `gpg-connect-agent "scd serialno" "learn --force" /bye`, then check `pass show <entry>` (PIN,
+   then touch). Push the store after that.
+
+Until the old key is retired, rolling back is `git -C <store> reset --hard <commit>` with the commit
+`pass` printed, then reverting the configuration change.
+
+**Retire the old key** once every CanoKey passes `pass show` on every host:
+
+1. Delete its stubs from the daily keyring, `gpg --delete-secret-keys '<subkey-fingerprint>!'` for
+   each old subkey, then remove its public key from `programs.gpg.publicKeys`.
+2. Stop deploying its subkeys: remove `ryan4yin-gpg-subkeys.priv.age` from
+   [nixos.nix](../secrets/nixos.nix) and [darwin.nix](../secrets/darwin.nix), then delete its
+   ciphertext and public key from nix-secrets. Older revisions in the store's git history stay
+   encrypted to the old key and become unreadable.
+
+To revoke the current key: `age --decrypt <backup> | tar -xOf - revocation.asc | gpg --import`, then
+publish the public key.
 
 ## 3. Add a backup key
 
@@ -312,7 +350,7 @@ it is. On a YubiKey, manage settings with Yubico Authenticator or `ykman`; OpenP
 | sudo         | `pamu2fcfg --nouser --origin=pam://ryan4yin` with only the backup plugged in; append to `canokeyU2fKeys`                                                                   |
 | SSH          | Create a resident key on it with the same command and its own `<name>`; add its public key to `canokeySshKeys` and GitHub, and its handle file to the `IdentityFile` lists |
 | shoukei LUKS | Run the same `systemd-cryptenroll --fido2-device=/dev/hidrawN` with only the backup plugged in; it takes the next slot                                                     |
-| OpenPGP      | The same throwaway-`GNUPGHOME` procedure. The stubs remember the card serial; after swapping cards run `gpg-connect-agent "scd serialno" "learn --force" /bye`             |
+| OpenPGP      | `gpg_canokey.py card` with only the backup plugged in. Stubs remember the card serial; after swapping cards run `gpg-connect-agent "scd serialno" "learn --force" /bye`    |
 
 ## 4. Lost key or reset
 
@@ -321,7 +359,7 @@ it is. On a YubiKey, manage settings with Yubico Authenticator or `ykman`; OpenP
 | Key lost                             | Remove its `canokeyU2fKeys` entry and SSH public keys; `systemd-cryptenroll --wipe-slot=<n>`; remove it on each site | nothing, if a backup key or the passwords remain                              |
 | FIDO2 PIN forgotten or locked        | Phone app: reset the WebAuthn application (needs the Admin PIN)                                                      | all passkeys, the SSH resident key, LUKS and sudo enrollments; redo section 2 |
 | OpenPGP PIN locked                   | `gpg --card-edit` → `admin` → `passwd`, unblock with the OpenPGP Admin PIN or Reset Code                             | nothing                                                                       |
-| All OpenPGP PINs and Reset Code lost | Phone app: reset the OpenPGP application                                                                             | on-card subkeys; re-import from the backup                                    |
+| All OpenPGP PINs and Reset Code lost | Phone app: reset the OpenPGP application                                                                             | on-card subkeys; run `gpg_canokey.py card` again                              |
 | Admin PIN forgotten                  | Exhaust the Admin PIN, then in the app tap Reset and touch the key while the LED blinks, repeating until it stops    | all user data; serial and attestation keys stay                               |
 
 After any reset, rerun sections 1 and 2 for the affected applications.

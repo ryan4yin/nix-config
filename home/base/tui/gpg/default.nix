@@ -24,6 +24,10 @@
         source = "${mysecrets}/public/ryan4yin-gpg-keys-2014-01-27.pub";
         trust = 5;
       } # ultimate trust, my own keys.
+      {
+        source = "${mysecrets}/public/ryan4yin-gpg-keys-2026-11-11.pub";
+        trust = 5;
+      }
     ];
 
     # This configuration is based on the tutorial below, it allows for a robust setup

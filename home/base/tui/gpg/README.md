@@ -29,11 +29,24 @@ tool that is simple enough, functional enough, and widely adopted.
 
 Currently I use both age & GnuPG:
 
-1. Age for secrets encryption(ssh key & other secret files), it's simple and easy to use.
-2. GnuPG for password-store and email encryption.
+1. Age for secrets encryption, it's simple and easy to use.
+2. GnuPG for password-store, because pass, browserpass and Android Password Store all speak OpenPGP.
 
-> Moving the subkeys onto a hardware key (CanoKey/YubiKey) is covered in
-> [hardware security keys](../../../../docs/security-keys.md#pass-openpgp).
+SSH no longer goes through GnuPG: each CanoKey holds a FIDO2 SSH key instead (no `[A]` subkey).
+
+## My key
+
+- An ed25519 `[C]` primary that never leaves its backup, an ed25519 `[S]` and a cv25519 `[E]` subkey
+  on both CanoKeys. No secret key lives in any computer's keyring: `~/.gnupg` holds only the public
+  key (from Home Manager) and stubs that point at the cards.
+- The full key and its revocation certificate exist only in an age-encrypted backup on offline
+  drives. The key also has its own GPG passphrase: it stays protected in a keyring whenever the
+  backup is opened, and age's scrypt covers gpg's weak S2K (see section 0) against offline guessing.
+- [`scripts/gpg_canokey.py`](../../../../scripts/gpg_canokey.py) generates the key, switches the
+  password store to it and loads the cards, all in throwaway keyrings on tmpfs. The procedure is in
+  [hardware security keys](../../../../docs/security-keys.md#pass-openpgp).
+
+The sections below explain the GnuPG concepts behind that setup.
 
 ## Practical Cryptography for Developers
 
@@ -101,76 +114,18 @@ primary keypair and then zero or more additional subordinate keypairs. The prima
 keypairs are bundled to facilitate key management and the bundle can often be considered simply as
 one keypair, or a keyring/keychain(which contains multiple sub key-pairs).
 
-Let's generate a keypair interactively:
-
-> Now in 2024, GnuPG 2.4.1 defaults to ECC algorithm (9) and Curve 25519 for ECC, which is modern
-> and safe, I would recommend to use these defaults directly.
+The script creates the key non-interactively, in a keyring on tmpfs:
 
 ```bash
-gpg --full-gen-key
+gpg --quick-generate-key '<name> (pass) <address>' ed25519 cert never   # [C] primary
+gpg --quick-add-key <primary-fingerprint> ed25519 sign never            # [S]
+gpg --quick-add-key <primary-fingerprint> cv25519 encr never            # [E]
+gpg --passwd <primary-fingerprint>                                      # its GPG passphrase
 ```
 
-This command will ask you for some algorithm related settings(ECC & Curve 25519), your personal
-info, and a strong passphrase to protect your PGP key. e.g.
-
-```bash
-› gpg --full-gen-key
-gpg (GnuPG) 2.4.1; Copyright (C) 2023 g10 Code GmbH
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-gpg: directory '/Users/ryan/.gnupg' created
-Please select what kind of key you want:
-   (1) RSA and RSA
-   (2) DSA and Elgamal
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (9) ECC (sign and encrypt) *default*
-  (10) ECC (sign only)
-  (14) Existing key from card
-Your selection? 9
-Please select which elliptic curve you want:
-   (1) Curve 25519 *default*
-   (4) NIST P-384
-   (6) Brainpool P-256
-Your selection? 1
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 10y
-Key expires at 一  1/ 4 13:50:31 2044 CST
-Is this correct? (y/N) y
-
-GnuPG needs to construct a user ID to identify your key.
-
-Real name:
-Email address:
-Comment:
-You selected this USER-ID:
-    "Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>"
-
-Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
-We need to generate a lot of random bytes. It is a good idea to perform
-some other action (type on the keyboard, move the mouse, utilize the
-disks) during the prime generation; this gives the random number
-generator a better chance to gain enough entropy.
-We need to generate a lot of random bytes. It is a good idea to perform
-some other action (type on the keyboard, move the mouse, utilize the
-disks) during the prime generation; this gives the random number
-generator a better chance to gain enough entropy.
-gpg: /Users/ryan/.gnupg/trustdb.gpg: trustdb created
-gpg: directory '/Users/ryan/.gnupg/openpgp-revocs.d' created
-gpg: revocation certificate stored as '/Users/ryan/.gnupg/openpgp-revocs.d/C8D84EBC5F82494F432ACEF042E49B284C30A0DA.rev'
-public and secret key created and signed.
-
-pub   ed25519 2024-01-09 [SC] [expires: 2034-01-04]
-      C8D84EBC5F82494F432ACEF042E49B284C30A0DA
-uid                      Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
-sub   cv25519 2024-01-09 [E] [expires: 2034-01-04]
-```
+The primary key only certifies: it signs its own subkeys and revocations, so it can stay offline
+while the subkeys do the daily work. The key does not expire; the revocation certificate in every
+backup is the way to retire it.
 
 ### 2. Configuration Files
 
@@ -204,9 +159,10 @@ The functions of most files are quite clear at a glance, but the `trustdb.gpg` i
 difficult to understand. Here are the details: <https://www.gnupg.org/gph/en/manual/x334.html>
 
 Home Manager will manage all the things in `~/.gnupg/` EXCEPT `~/.gnupg/openpgp-revocs.d/` and
-`~/.gnupg/private-keys-v1.d/`, which is expected.
+`~/.gnupg/private-keys-v1.d/`, which is expected. With the subkeys on a CanoKey,
+`private-keys-v1.d/` holds only stubs that name the card.
 
-### 3. Sub Key Generation & Best Practice
+### 3. Usage Flags & Best Practice
 
 In PGP, every keys has a **usage flag** to indicate its usage:
 
@@ -217,316 +173,55 @@ In PGP, every keys has a **usage flag** to indicate its usage:
 - `A` means this key can be used to **Authenticate** data with various non-GnuPG programs. The key
   can be used as e.g. an **SSH key**.
 
-The **best practice** is:
+The **best practice**, and what this setup does:
 
-1. Generate a primary key with strong cryptography arguments(such as ECC + Curve 25519).
-2. Then generate 3 sub keys with `E`, `S` and `A` usage flag respectively.
-3. **The Primary Key is extremely important**, Backup the primary key to somewhere absolutely
-   safe(such as two encryptd USB drivers, keep them in different places), and then **delete it from
-   your computer immediately**.
-4. The sub key is also important, but you can generate a new one and replace it easily. You can
-   backup it to somewhere else, and import it to another machine to use your keypair.
-5. Backup your Primary key's revocation certificate to somewhere safe, it's the last way to rescure
-   your safety if your primary key is compromised!
-6. It's a big problem if your revocation certificate is compromised, but not the biggest one.
-   because it's only used to revoke your keypair, your data is still safe. But you should generate a
-   new keypair and revoke the old one immediately.
-7. It will be a big problem if your primary key is compromised, and you don't have a revocation
-   certificate to revoke it. But since OpenPGP do not have a good way to distribute revocation
-   certificate, even you have a revocation certificate, it's still hard to distribute it to
-   others...
-
-To keep your keypair safe, you should backup your keypair according to the following steps.
-
-Now let's add the sub keys to the keypair we generated above:
-
-> `E` sub key is already generated by default, so we only need to generate `S` and `A` sub keys.
-
-> GnuPG will ask you to input your passphrase to unlock your primary key.
-
-```bash
-› gpg --expert --edit-key ryan4yin@linux.com
-gpg (GnuPG) 2.4.1; Copyright (C) 2023 g10 Code GmbH
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Secret key is available.
-
-sec  ed25519/42E49B284C30A0DA
-     created: 2024-01-09  expires: 2034-01-04  usage: SC
-     trust: ultimate      validity: ultimate
-ssb  cv25519/6CB4A81FFB3C99B6
-     created: 2024-01-09  expires: 2034-01-04  usage: E
-[ultimate] (1). Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
-
-gpg> addkey
-Please select what kind of key you want:
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (5) Elgamal (encrypt only)
-   (6) RSA (encrypt only)
-   (7) DSA (set your own capabilities)
-   (8) RSA (set your own capabilities)
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (12) ECC (encrypt only)
-  (13) Existing key
-  (14) Existing key from card
-Your selection? 10
-Please select which elliptic curve you want:
-   (1) Curve 25519 *default*
-   (2) Curve 448
-   (3) NIST P-256
-   (4) NIST P-384
-   (5) NIST P-521
-   (6) Brainpool P-256
-   (7) Brainpool P-384
-   (8) Brainpool P-512
-   (9) secp256k1
-Your selection? 1
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 10y
-Key expires at Mon Jan  4 17:47:24 2044 CST
-Is this correct? (y/N) y
-Really create? (y/N) y
-We need to generate a lot of random bytes. It is a good idea to perform
-some other action (type on the keyboard, move the mouse, utilize the
-disks) during the prime generation; this gives the random number
-generator a better chance to gain enough entropy.
-
-sec  ed25519/42E49B284C30A0DA
-     created: 2024-01-09  expires: 2034-01-04  usage: SC
-     trust: ultimate      validity: ultimate
-ssb  cv25519/6CB4A81FFB3C99B6
-     created: 2024-01-09  expires: 2034-01-04  usage: E
-ssb  ed25519/A42813E03A10F504
-     created: 2024-01-09  expires: 2034-01-04  usage: S
-[ultimate] (1). Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
-
-gpg> addkey
-Please select what kind of key you want:
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (5) Elgamal (encrypt only)
-   (6) RSA (encrypt only)
-   (7) DSA (set your own capabilities)
-   (8) RSA (set your own capabilities)
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (12) ECC (encrypt only)
-  (13) Existing key
-  (14) Existing key from card
-Your selection? 11
-
-Possible actions for this ECC key: Sign Authenticate
-Current allowed actions: Sign
-
-   (S) Toggle the sign capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-
-Your selection? S
-
-Possible actions for this ECC key: Sign Authenticate
-Current allowed actions:
-
-   (S) Toggle the sign capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-
-Your selection? A
-
-Possible actions for this ECC key: Sign Authenticate
-Current allowed actions: Authenticate
-
-   (S) Toggle the sign capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-
-Your selection? Q
-Please select which elliptic curve you want:
-   (1) Curve 25519 *default*
-   (2) Curve 448
-   (3) NIST P-256
-   (4) NIST P-384
-   (5) NIST P-521
-   (6) Brainpool P-256
-   (7) Brainpool P-384
-   (8) Brainpool P-512
-   (9) secp256k1
-Your selection? 1
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 10y
-Key expires at Mon Jan  4 17:48:27 2044 CST
-Is this correct? (y/N) y
-Really create? (y/N) y
-We need to generate a lot of random bytes. It is a good idea to perform
-some other action (type on the keyboard, move the mouse, utilize the
-disks) during the prime generation; this gives the random number
-generator a better chance to gain enough entropy.
-
-sec  ed25519/42E49B284C30A0DA
-     created: 2024-01-09  expires: 2034-01-04  usage: SC
-     trust: ultimate      validity: ultimate
-ssb  cv25519/6CB4A81FFB3C99B6
-     created: 2024-01-09  expires: 2034-01-04  usage: E
-ssb  ed25519/A42813E03A10F504
-     created: 2024-01-09  expires: 2034-01-04  usage: S
-ssb  ed25519/5469C4FACC81B60F
-     created: 2024-01-09  expires: 2034-01-04  usage: A
-[ultimate] (1). Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
-
-gpg> save
-```
-
-Check the secret keys and public keys we generated:
-
-```bash
-› gpg --list-secret-keys --with-subkey-fingerprint
-[keyboxd]
----------
-sec   ed25519 2024-01-09 [SC] [expires: 2034-01-04]
-      C8D84EBC5F82494F432ACEF042E49B284C30A0DA
-uid           [ultimate] Ryan Yin (For pass For Work ssh only) <ryan4yin@linux.com>
-ssb   cv25519 2024-01-09 [E] [expires: 2034-01-04]
-      1146D48B93C2177C92D186026CB4A81FFB3C99B6
-ssb   ed25519 2024-01-09 [S] [expires: 2034-01-04]
-      DF64002A822948B17783BBB1A42813E03A10F504
-ssb   ed25519 2024-01-09 [A] [expires: 2034-01-04]
-      65E2C6C1C3559362ABB7047C5469C4FACC81B60F
-
-› gpg --list-public-keys
-...
-```
+1. One primary key with only the `C` flag, and one subkey per job: `S` and `E` here. Without a GPG
+   SSH key there is no `A` subkey.
+2. **The primary key is extremely important**: keep it only in offline backups, never in a daily
+   keyring. Here it lives in age-encrypted backups on two drives kept in different places.
+3. Keep the subkeys on hardware keys, one copy per key, so losing one CanoKey loses nothing. A
+   subkey can be replaced with a new one signed by the primary.
+4. Back up the revocation certificate together with the primary key, and never delete it: it is the
+   last way out if the primary key is compromised.
+5. A leaked revocation certificate can only revoke the key; your data stays safe, but generate a new
+   key anyway.
+6. A compromised primary key without a revocation certificate is the worst case, and even with one,
+   OpenPGP has no good way to distribute it (see section 7).
 
 ### 4. Backup & Restore
 
-Export Public Keys(Both Primary Key & Sub Keys):
+`generate` writes `gpg-<fingerprint>.tar.age` to every backup drive: a tar holding `secret.asc` (the
+primary key and both subkeys, still protected by the GPG passphrase) and `revocation.asc`, encrypted
+with an age passphrase. It then restores the copy it wrote into a fresh keyring, checks that the key
+has a passphrase, and imports the revocation certificate to prove that it revokes the key.
+
+The age layer is there because GnuPG's own export protection is weak. Exporting a secret key and
+inspecting it shows:
 
 ```bash
-gpg --armor --export ryan4yin@linux.com > ryan4yin-gpg-keys.pub
-# check what we have exported, we should see 4 public keys
-nix run nixpkgs#pgpdump ryan4yin-gpg-keys.pub
-```
-
-Export Primary Key(The exported key is still encrypted by your passphrase):
-
-> the `!` at the end of the key ID is to force GnuPG to export only the specified key, not the
-> subkeys.
-
-> GnuPG will ask you to input your passphrase to unlock your keypair, because GnuPG need to convert
-> the secret key's format from its internal protection format to the one specified by the OpenPGP
-> protocol.
-
-```bash
-# replace the key ID with your own sec key's ID
-gpg --armor --export-secret-keys C8D84EBC5F82494F432ACEF042E49B284C30A0DA! > ryan4yin-primary-key.priv
-
-# Check the exported primary key's detail info,
-nix run nixpkgs#pgpdump ryan4yin-primary-key.priv
+› gpg --armor --export-secret-keys <primary-fingerprint>! | nix run nixpkgs#pgpdump
 ...
-Old: Secret Key Packet(tag 5)(134 bytes)
-        Ver 4 - new
-        Public key creation time - Sat Jan 27 14:13:13 CST 2024
-        Pub alg - EdDSA Edwards-curve Digital Signature Algorithm(pub 22)
-        Elliptic Curve - Ed25519 (0x2B 06 01 04 01 DA 47 0F 01)
-        EdDSA Q(263 bits) - ...
         Sym alg - AES with 128-bit key(sym 7)
         Iterated and salted string-to-key(s2k 3):
                 Hash alg - SHA1(hash 2)
-                Salt - 8c 78 58 c0 87 83 8c 2c
                 Count - 65011712(coded count 255)
-        IV - xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx
-        Encrypted EdDSA x
-        Encrypted SHA1 hash
 ...
 ```
 
-As [Predictable, Passphrase-Derived PGP Keys][Predictable, Passphrase-Derived PGP Keys] says, we'll
-find that gpg ignored the `--s2k-count` option we specified when generating the keypair, and the
-`--s2k` related options we specified in `~/.gnupg/gpg.conf`, the exported primary key is protectd by
-`SHA1` and `AES128`, which is not secure enough!
+As [Predictable, Passphrase-Derived PGP Keys][Predictable, Passphrase-Derived PGP Keys] says, gpg
+ignores the `--s2k-*` options from `~/.gnupg/gpg.conf` here: the exported key is protected by `SHA1`
+and `AES128`. age derives its key with `scrypt`, so the backup takes age's strength while the GPG
+passphrase still protects the key once age has decrypted it.
 
-So to increase the security of the exported primary key, we need to encrypt it again with a stronger
-algorithm, I choose `age` here(which use `scrypt` to encrypt the file key with a provided
-passphrase):
+Restore the secret key into a keyring on tmpfs, never into `~/.gnupg`:
 
 ```bash
-# for simplicity, use the same passphrase as your gpg keypair here
-age --passphrase -o ryan4yin-primary-key.priv.age ryan4yin-primary-key.priv
-rm ryan4yin-primary-key.priv
+age --decrypt <backup> | tar -xOf - secret.asc | gpg --import
 ```
 
-Export Sub Keys one by one(The exported keys is still encrypted by your passphrase):
-
-```bash
-gpg --armor --export-secret-subkeys > ryan4yin-gpg-subkeys.priv
-
-# Check the exported primary key's detail info,
-nix run nixpkgs#pgpdump ryan4yin-gpg-subkeys.priv
-
-# encrypt it again with age(scrypt)
-age --passphrase  -o ryan4yin-gpg-subkeys.priv.age ryan4yin-gpg-subkeys.priv
-rm ryan4yin-gpg-subkeys.priv
-```
-
-Your can import the exported Private Key via `gpg --import <keyfile>` to restore it, but you need to
-decrypt it via age first.
-
-As for Public Keys, please import your publicKeys via Home Manager's `programs.gpg.publicKeys`
-option, DO NOT import it manually(via `gpg --import <keyfile>`).
-
-To ensure security, delete the master key and revoke the certificate immediately after the backup is
-completed:
-
-```bash
-# delete the primary key and all its sub keys
-gpg --delete-secret-keys ryan4yin@linux.com
-
-# delete the revocation certificate
-rm ~/.gnupg/openpgp-revocs.d/C8D84EBC5F82494F432ACEF042E49B284C30A0DA.rev
-
-# import our subkeys back
-age --decrypt -o ryan4yin-gpg-subkeys.priv ryan4yin-gpg-subkeys.priv.age
-gpg --import ryan4yin-gpg-subkeys.priv
-```
-
-Now check the secret keys and public keys again:
-
-> A `#` at the end of the key ID means that the key is not available, because we have deleted it.
-
-```bash
-› gpg --list-secret-keys --keyid-format=long
-/home/ryan/.gnupg/pubring.kbx
------------------------------
-sec#  ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2034-01-04]
-      Key fingerprint = E267 943C 33AD C5AF 3D76  4D96 D1C5 FFA3 118A 41FC
-uid                 [ unknown] Ryan Yin (Personal) <ryan4yin@linux.com>
-ssb   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2034-01-04]
-ssb   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2034-01-04]
-ssb   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2034-01-04]
-
-
-› gpg --list-public-keys --keyid-format=long
-/home/ryan/.gnupg/pubring.kbx
------------------------------
-pub   ed25519/D1C5FFA3118A41FC 2024-01-09 [SC] [expires: 2034-01-04]
-      Key fingerprint = E267 943C 33AD C5AF 3D76  4D96 D1C5 FFA3 118A 41FC
-uid                 [ unknown] Ryan Yin (Personal) <ryan4yin@linux.com>
-sub   cv25519/62526A4A0CF43E33 2024-01-09 [E] [expires: 2034-01-04]
-sub   ed25519/433A66D63805BD1A 2024-01-09 [S] [expires: 2034-01-04]
-sub   ed25519/441E3D8FBD313BF2 2024-01-09 [A] [expires: 2034-01-04]
-```
+`gpg_canokey.py card` does this to load a new CanoKey. Public keys come from Home Manager's
+`programs.gpg.publicKeys`; do not import them by hand (`mutableKeys = false` makes the keyring
+read-only anyway).
 
 ### 5. Signing & Verification
 
@@ -597,8 +292,8 @@ But in OpenPGP:
       person(such as Linus), which is very insecure.
   - **key server** is not recommend to use.
 - GnuPG will generate revocation certificate when generating
-  keypair(`~/.gnupg/private-keys-v1.d/<Key-ID.rev>`), anyone can import this certificate to revoke
-  the keypair. But OpenPGP standard **DO NOT provide a way to distribute this certificate to
+  keypair(`~/.gnupg/openpgp-revocs.d/<fingerprint>.rev`), anyone can import this certificate to
+  revoke the keypair. But OpenPGP standard **DO NOT provide a way to distribute this certificate to
   others**.
   - Not to mention some key status query protocol like OCSP in Web PKI.
   - Users has to publish their revocation certificate to their blog, github profile or somewhere
