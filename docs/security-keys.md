@@ -272,7 +272,9 @@ each key again.
 The password store is encrypted to the `[E]` subkey named by `PASSWORD_STORE_KEY` in
 [password-store](../home/base/tui/password-store/default.nix). The key is a `[C]` primary that never
 leaves its backup, with `[S]` and `[E]` subkeys that both CanoKeys hold. The secret key exists only
-on the cards and in age-encrypted backups, which also carry the revocation certificate.
+on the cards and in age-encrypted backups, which also carry the revocation certificate. The key has
+its own GPG passphrase too: it stays protected in the tmpfs keyrings whenever a backup is opened,
+and age's scrypt covers gpg's weaker S2K against offline guessing.
 [gpg_canokey.py](../scripts/gpg_canokey.py) does each step in throwaway keyrings on tmpfs.
 
 A new key replaces the old one outright: the old key decrypts the store once, during the switch, and
@@ -291,9 +293,10 @@ is then retired.
      --public-key ~/codes/nix-secrets/public/<name>.pub
    ```
 
-   It asks for the backup passphrase twice, then once more to prove that the backup restores. Make
-   the passphrase random and save it offline like the Admin PIN, never in pass. Keep the drives
-   offline and apart.
+   pinentry asks for the GPG passphrase; then age asks for the backup passphrase twice, and once
+   more to prove that the backup restores. A key without a GPG passphrase is refused. Make both
+   passphrases long and random and save them offline like the Admin PIN, never in pass. Keep the
+   drives offline and apart.
 
 3. Load each CanoKey, with only that key plugged in:
    `python3 scripts/gpg_canokey.py card --backup <drive>/gpg-<fingerprint>.tar.age`. It prints the

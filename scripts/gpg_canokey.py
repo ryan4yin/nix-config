@@ -198,12 +198,27 @@ def unpack(blob: bytes) -> tuple[bytes, bytes]:
     return secret, revocation
 
 
+def unprotected(ring: Keyring) -> list[str]:
+    """Keygrips of secret keys stored without a passphrase."""
+    listing = ring.text("--list-secret-keys", "--with-colons", "--with-keygrip")
+    grips = [line.split(":")[9] for line in listing.splitlines() if line.startswith("grp:")]
+    info = run(["gpg-connect-agent", *(f"KEYINFO {grip}" for grip in grips), "/bye"], env=ring.env)
+    # S KEYINFO <keygrip> <type> <serial> <idstr> <cached> <protection: P, C or -> ...
+    return [
+        fields[2]
+        for fields in (line.split() for line in info.decode().splitlines())
+        if fields[:2] == ["S", "KEYINFO"] and fields[7] != "P"
+    ]
+
+
 def check_backup(blob: bytes, key: Key) -> None:
-    """The archive restores `key`, and its revocation certificate revokes it."""
+    """The archive restores `key` with a passphrase, and its revocation certificate revokes it."""
     secret, revocation = unpack(blob)
     with scratch_keyring() as ring:
         if import_secret(ring, secret) != key:
             raise Abort("the backup holds a different key")
+        if unprotected(ring):
+            raise Abort("the backup's secret key has no GPG passphrase")
         ring.gpg("--batch", "--import", data=revocation)
         listing = ring.text("--list-keys", "--with-colons", key.primary).splitlines()
         validity = next(line.split(":")[1] for line in listing if line.startswith("pub:"))
@@ -239,7 +254,11 @@ def cmd_generate(args: argparse.Namespace) -> None:
         ring.gpg(*batch, "--quick-add-key", primary, "ed25519", "sign", "never")
         ring.gpg(*batch, "--quick-add-key", primary, "cv25519", "encr", "never")
         key = read_key(ring)
-        secret = ring.gpg(*batch, "--armor", "--export-secret-keys", key.primary)
+        # It keeps the key protected on tmpfs whenever the age backup is opened; age's scrypt
+        # outside covers gpg's weaker S2K against offline guessing.
+        say("set the key's GPG passphrase in the pinentry dialog")
+        ring.gpg("--batch", "--passwd", key.primary)
+        secret = ring.gpg("--batch", "--armor", "--export-secret-keys", key.primary)
         public = ring.gpg("--armor", "--export", key.primary)
         stored = (ring.home / "openpgp-revocs.d" / f"{key.primary}.rev").read_bytes()
     # gpg puts a colon before the armor header so the certificate cannot be imported by accident.
@@ -342,7 +361,7 @@ def cmd_pass(args: argparse.Namespace) -> None:
         say("importing the old key: sudo, then the old backup's passphrase")
         work.gpg("--batch", "--import", data=read_old_backup(Path(args.old_backup)))
 
-        say(f"decrypting all {len(entries)} entries before changing any")
+        say(f"decrypting all {len(entries)} entries before changing any: the old GPG passphrase")
         digests, unreadable = {}, []
         for entry in entries:
             try:
@@ -352,7 +371,7 @@ def cmd_pass(args: argparse.Namespace) -> None:
         if unreadable:
             raise Abort("nothing changed; these entries do not open:\n" + "\n".join(unreadable))
 
-        say(f"re-encrypting with `pass init {key.encrypt}`")
+        say(f"re-encrypting with `pass init {key.encrypt}`: the new GPG passphrase, to sign")
         env = work.env | {
             "PASSWORD_STORE_DIR": str(store),
             "PASSWORD_STORE_KEY": key.encrypt,
@@ -360,7 +379,7 @@ def cmd_pass(args: argparse.Namespace) -> None:
         }
         run(["pass", "init", key.encrypt], env=env)
 
-        say("checking every entry with a keyring that holds only the new key")
+        say("checking every entry with a keyring that holds only the new key: its GPG passphrase")
         problems = check_store(store, new, key, digests)
     if problems:
         shown = "\n".join(problems[:10])
@@ -416,7 +435,10 @@ def cmd_card(args: argparse.Namespace) -> None:
 
         number = {part.fingerprint: index for index, part in enumerate(secret_keys(ring)[0])}
         sign, encrypt = number[key.sign], number[key.encrypt]
-        say("in gpg, type these; keytocard asks for the OpenPGP Admin PIN, and confirms a replace")
+        say(
+            "in gpg, type these; keytocard asks for the GPG passphrase and the OpenPGP Admin PIN, "
+            "and confirms a replace"
+        )
         for command, effect in (
             (f"key {sign}", "select the [S] subkey"),
             ("keytocard", "choose 1, Signature key"),

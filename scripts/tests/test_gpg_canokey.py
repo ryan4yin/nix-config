@@ -2,26 +2,40 @@
 
 from __future__ import annotations
 
+import contextlib
 import os
 import shutil
 import tempfile
 import unittest
+from collections.abc import Iterator
 from pathlib import Path
 from unittest import mock
 
 from scripts import gpg_canokey
 from scripts.gpg_canokey import (
+    Keyring,
     import_secret,
     main,
     run,
-    scratch_keyring,
     secret_keys,
     store_entries,
     unpack,
 )
 
-TOOLS = ("gpg", "age", "age-keygen", "pass", "git")
-NO_PASSPHRASE = ("--batch", "--pinentry-mode", "loopback", "--passphrase", "")
+TOOLS = ("gpg", "gpg-connect-agent", "age", "age-keygen", "pass", "git")
+PASSPHRASE = "test passphrase"
+OLD_KEY = ("--batch", "--pinentry-mode", "loopback", "--passphrase", PASSPHRASE)
+# Answers every pinentry request with PASSPHRASE, in place of the desktop's dialog.
+FAKE_PINENTRY = f"""#!/bin/sh
+echo OK
+while read -r command rest; do
+  case $command in
+    GETPIN) echo "D {PASSPHRASE}"; echo OK ;;
+    BYE) echo OK; exit 0 ;;
+    *) echo OK ;;
+  esac
+done
+"""
 
 
 @unittest.skipUnless(all(map(shutil.which, TOOLS)), f"needs {', '.join(TOOLS)}")
@@ -54,6 +68,22 @@ class SwitchTest(unittest.TestCase):
         patcher.start()
         self.addCleanup(patcher.stop)
 
+        pinentry = self.root / "pinentry"
+        pinentry.write_text(FAKE_PINENTRY)
+        pinentry.chmod(0o700)
+        real_keyring = gpg_canokey.scratch_keyring
+
+        @contextlib.contextmanager
+        def scratch_keyring() -> Iterator[Keyring]:
+            with real_keyring() as ring:
+                (ring.home / "gpg-agent.conf").write_text(f"pinentry-program {pinentry}\n")
+                yield ring
+
+        self.scratch_keyring = scratch_keyring
+        patcher = mock.patch.object(gpg_canokey, "scratch_keyring", scratch_keyring)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
         self.store = self.root / "store"
         self.old_backup = self.root / "old-subkeys.age"
 
@@ -70,9 +100,9 @@ class SwitchTest(unittest.TestCase):
 
     def make_store(self, plaintexts: dict[str, bytes]) -> None:
         """A store encrypted to an old key whose subkeys are backed up like the retired one."""
-        with scratch_keyring() as old:
+        with self.scratch_keyring() as old:
             old.gpg(
-                *NO_PASSPHRASE,
+                *OLD_KEY,
                 "--quick-generate-key",
                 "Old <old@example.org>",
                 "ed25519",
@@ -80,7 +110,7 @@ class SwitchTest(unittest.TestCase):
                 "never",
             )
             primary = secret_keys(old)[0][0].fingerprint
-            old.gpg(*NO_PASSPHRASE, "--quick-add-key", primary, "cv25519", "encr", "never")
+            old.gpg(*OLD_KEY, "--quick-add-key", primary, "cv25519", "encr", "never")
             for name, plaintext in plaintexts.items():
                 entry = self.store / f"{name}.gpg"
                 entry.parent.mkdir(parents=True, exist_ok=True)
@@ -95,7 +125,7 @@ class SwitchTest(unittest.TestCase):
                         data=plaintext,
                     )
                 )
-            subkeys = old.gpg(*NO_PASSPHRASE, "--armor", "--export-secret-subkeys", primary)
+            subkeys = old.gpg(*OLD_KEY, "--armor", "--export-secret-subkeys", primary)
         self.old_backup.write_bytes(self.age_encrypt(subkeys))
         (self.store / ".gpg-id").write_text(primary + "\n")
         run(["git", "-C", str(self.store), "init", "--quiet"])
@@ -112,7 +142,7 @@ class SwitchTest(unittest.TestCase):
         self.make_store(plaintexts)
 
         self.assertEqual(self.switch(backup), 0)
-        with scratch_keyring() as only_new:
+        with self.scratch_keyring() as only_new:
             secret, _ = unpack(self.age_decrypt(backup.read_bytes()))
             import_secret(only_new, secret)
             for name, plaintext in plaintexts.items():
