@@ -293,10 +293,12 @@ is then retired.
      --public-key ~/codes/nix-secrets/public/<name>.pub
    ```
 
-   pinentry asks for the GPG passphrase; then age asks for the backup passphrase twice, and once
-   more to prove that the backup restores. A key without a GPG passphrase is refused. Make both
-   passphrases long and random and save them offline like the Admin PIN, never in pass. Keep the
-   drives offline and apart.
+   Each command lists its prompts before the first one and announces each prompt as it comes; age
+   asks again after a mistyped passphrase. Here gpg asks for the new GPG passphrase in three
+   dialogs, one per key, twice each, and once more to export the key; then age asks for the backup
+   passphrase twice, and once more to prove that the backup restores. A key without a GPG passphrase
+   is refused. Make both passphrases long and random and save them offline like the Admin PIN, never
+   in pass. Keep the drives offline and apart.
 
 3. Load each CanoKey, with only that key plugged in:
    `python3 scripts/gpg_canokey.py card --backup <drive>/gpg-<fingerprint>.tar.age`. It prints the

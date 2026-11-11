@@ -30,6 +30,7 @@ from pathlib import Path
 
 GPG = "gpg"
 AGE = "age"
+AGE_ATTEMPTS = 3
 
 SECRET_MEMBER = "secret.asc"
 REVOCATION_MEMBER = "revocation.asc"
@@ -44,6 +45,23 @@ class Abort(Exception):
 
 def say(message: str) -> None:
     print(f"==> {message}", flush=True)
+
+
+class Prompts:
+    """Lists a command's prompts up front, then announces each one and what follows it."""
+
+    def __init__(self, *steps: str) -> None:
+        self.steps = steps
+        self.done = 0
+        say(f"this asks for {len(steps)} things, in this order:")
+        for number, step in enumerate(steps, 1):
+            print(f"    {number}. {step}", flush=True)
+
+    def next(self) -> None:
+        self.done += 1
+        then = self.steps[self.done] if self.done < len(self.steps) else "nothing more"
+        say(f"[{self.done}/{len(self.steps)}] now: {self.steps[self.done - 1]}")
+        print(f"    after that: {then}", flush=True)
 
 
 def run(
@@ -69,13 +87,25 @@ def run(
     return result.stdout
 
 
+def age_prompting(*args: str, data: bytes) -> bytes:
+    """Run age, asking again when a passphrase is mistyped, so a typo does not abort the command."""
+    for attempt in range(1, AGE_ATTEMPTS + 1):
+        try:
+            return run([AGE, *args], data=data, interactive=True)
+        except Abort:
+            if attempt == AGE_ATTEMPTS:
+                raise
+            say(f"age failed (see above); try again, attempt {attempt + 1} of {AGE_ATTEMPTS}")
+    raise AssertionError("unreachable")
+
+
 def age_encrypt(data: bytes) -> bytes:
     """Encrypt with a passphrase that age asks for on the terminal."""
-    return run([AGE, "--passphrase"], data=data, interactive=True)
+    return age_prompting("--passphrase", data=data)
 
 
 def age_decrypt(data: bytes) -> bytes:
-    return run([AGE, "--decrypt"], data=data, interactive=True)
+    return age_prompting("--decrypt", data=data)
 
 
 # --------------------------------------------------------------------------- #
@@ -227,7 +257,7 @@ def check_backup(blob: bytes, key: Key) -> None:
 
 
 def restore(ring: Keyring, backup: Path) -> Key:
-    say(f"restoring the key from {backup}: type the backup passphrase")
+    say(f"restoring the key from {backup}")
     secret, _ = unpack(age_decrypt(backup.read_bytes()))
     return import_secret(ring, secret)
 
@@ -246,6 +276,13 @@ def cmd_generate(args: argparse.Namespace) -> None:
     if public_key.exists():
         raise Abort(f"{public_key} already exists")
 
+    prompts = Prompts(
+        "a new GPG passphrase, in 3 pinentry dialogs (the [C], [S] and [E] keys); "
+        "type the same one twice in each",
+        "the GPG passphrase once more, in pinentry, to export the key",
+        "the backup's age passphrase (the L0 passphrase), twice in this terminal",
+        "the age passphrase once more, to check that the backup restores",
+    )
     batch = ("--batch", "--pinentry-mode", "loopback", "--passphrase", "")
     with scratch_keyring() as ring:
         say("generating an ed25519 [C] key with ed25519 [S] and cv25519 [E] subkeys")
@@ -256,15 +293,16 @@ def cmd_generate(args: argparse.Namespace) -> None:
         key = read_key(ring)
         # It keeps the key protected on tmpfs whenever the age backup is opened; age's scrypt
         # outside covers gpg's weaker S2K against offline guessing.
-        say("set the key's GPG passphrase in the pinentry dialog")
+        prompts.next()
         ring.gpg("--batch", "--passwd", key.primary)
+        prompts.next()
         secret = ring.gpg("--batch", "--armor", "--export-secret-keys", key.primary)
         public = ring.gpg("--armor", "--export", key.primary)
         stored = (ring.home / "openpgp-revocs.d" / f"{key.primary}.rev").read_bytes()
     # gpg puts a colon before the armor header so the certificate cannot be imported by accident.
     revocation = stored.replace(b":-----BEGIN", b"-----BEGIN", 1)
 
-    say("encrypting the backup: choose its passphrase")
+    prompts.next()
     sealed = age_encrypt(pack(secret, revocation))
     copies = [dest / f"gpg-{key.primary}.tar.age" for dest in dests]
     for copy in copies:
@@ -272,7 +310,7 @@ def cmd_generate(args: argparse.Namespace) -> None:
     os.sync()
     if any(copy.read_bytes() != sealed for copy in copies):
         raise Abort("a backup copy reads back different bytes")
-    say("checking that the backup restores: type its passphrase again")
+    prompts.next()
     check_backup(age_decrypt(copies[0].read_bytes()), key)
     public_key.write_bytes(public)
 
@@ -355,13 +393,24 @@ def cmd_pass(args: argparse.Namespace) -> None:
     head = git(store, "rev-parse", "HEAD")
     entries = store_entries(store)
 
+    prompts = Prompts(
+        "the new key backup's age passphrase",
+        "the new key's GPG passphrase, in pinentry, to copy it into a work keyring",
+        "sudo if the old backup is root-only, then the old backup's age passphrase",
+        "the old key's GPG passphrase, in pinentry, once to decrypt every entry",
+        "the new key's GPG passphrase, in pinentry, for pass init to sign .gpg-id",
+        "the new key's GPG passphrase, in pinentry, once to check every entry",
+    )
     with scratch_keyring() as new, scratch_keyring() as work:
+        prompts.next()
         key = restore(new, Path(args.backup).expanduser())
+        prompts.next()
         import_secret(work, new.gpg("--batch", "--armor", "--export-secret-keys", key.primary))
-        say("importing the old key: sudo, then the old backup's passphrase")
+        prompts.next()
         work.gpg("--batch", "--import", data=read_old_backup(Path(args.old_backup)))
 
-        say(f"decrypting all {len(entries)} entries before changing any: the old GPG passphrase")
+        prompts.next()
+        say(f"decrypting all {len(entries)} entries before changing any")
         digests, unreadable = {}, []
         for entry in entries:
             try:
@@ -371,7 +420,8 @@ def cmd_pass(args: argparse.Namespace) -> None:
         if unreadable:
             raise Abort("nothing changed; these entries do not open:\n" + "\n".join(unreadable))
 
-        say(f"re-encrypting with `pass init {key.encrypt}`: the new GPG passphrase, to sign")
+        prompts.next()
+        say(f"re-encrypting with `pass init {key.encrypt}`")
         env = work.env | {
             "PASSWORD_STORE_DIR": str(store),
             "PASSWORD_STORE_KEY": key.encrypt,
@@ -379,7 +429,8 @@ def cmd_pass(args: argparse.Namespace) -> None:
         }
         run(["pass", "init", key.encrypt], env=env)
 
-        say("checking every entry with a keyring that holds only the new key: its GPG passphrase")
+        prompts.next()
+        say("checking every entry with a keyring that holds only the new key")
         problems = check_store(store, new, key, digests)
     if problems:
         shown = "\n".join(problems[:10])
@@ -431,14 +482,20 @@ def cmd_card(args: argparse.Namespace) -> None:
                 "turn on touch for signing and decryption first: in the phone app, or "
                 "`gpg --card-edit` → admin → `uif 1 on`, `uif 2 on`"
             )
+        prompts = Prompts(
+            "the backup's age passphrase",
+            "in gpg, at each of the two keytocard: the GPG passphrase in pinentry, then the "
+            "OpenPGP Admin PIN, and yes to replace a key already on the card",
+            "the OpenPGP PIN, and a touch when the key blinks, to decrypt a probe",
+            "the OpenPGP PIN if asked again, and a touch, to sign a probe",
+        )
+        prompts.next()
         key = restore(ring, Path(args.backup).expanduser())
 
         number = {part.fingerprint: index for index, part in enumerate(secret_keys(ring)[0])}
         sign, encrypt = number[key.sign], number[key.encrypt]
-        say(
-            "in gpg, type these; keytocard asks for the GPG passphrase and the OpenPGP Admin PIN, "
-            "and confirms a replace"
-        )
+        prompts.next()
+        say("in gpg, type these:")
         for command, effect in (
             (f"key {sign}", "select the [S] subkey"),
             ("keytocard", "choose 1, Signature key"),
@@ -455,17 +512,18 @@ def cmd_card(args: argparse.Namespace) -> None:
         moved = card.serial and all(card.serial in tokens[fpr] for fpr in (key.sign, key.encrypt))
         if card.slots != {SIG_SLOT: key.sign, DEC_SLOT: key.encrypt} or not moved:
             raise Abort("the [S] and [E] subkeys are not on this card, or gpg did not `save`")
-        say("checking the card: type the OpenPGP PIN, and touch the key at each blink")
-        check_card(ring, key)
+        check_card(ring, key, prompts)
     say(f"card {card.serial} signs and decrypts with the new key")
 
 
-def check_card(ring: Keyring, key: Key) -> None:
+def check_card(ring: Keyring, key: Key, prompts: Prompts) -> None:
     """Sign and decrypt once through the card; the keyring holds only stubs after keytocard."""
     probe = b"gpg-canokey probe\n"
     sealed = ring.gpg("--batch", "--encrypt", "--recipient", key.encrypt, data=probe)
+    prompts.next()
     if ring.gpg("--batch", "--decrypt", data=sealed) != probe:
         raise Abort("the card decrypted the probe to different bytes")
+    prompts.next()
     signature = ring.home / "probe.sig"
     signature.write_bytes(
         ring.gpg("--batch", "--local-user", key.primary, "--detach-sign", data=probe)
