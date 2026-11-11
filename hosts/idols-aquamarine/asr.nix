@@ -3,7 +3,7 @@
   mylib,
   myvars,
   pkgs,
-  pkgs-npu,
+  pkgs-small,
   ...
 }:
 let
@@ -52,9 +52,9 @@ let
   '';
 
   # openvino-genai 2026.4.0.0 fails to compile against the OpenVINO headers in
-  # nixos-unstable (no matching constructor in continuous_batching); the branch's
-  # nixpkgs builds it, and the service has to match the NPU stack anyway.
-  pythonEnv = pkgs-npu.python3.withPackages (ps: [
+  # nixos-unstable (no matching constructor in continuous_batching); the
+  # service takes it from the same nixpkgs as the NPU stack.
+  pythonEnv = pkgs-small.python3.withPackages (ps: [
     ps.fastapi
     ps.numpy
     ps.openvino-genai
@@ -92,7 +92,7 @@ in
       PYTHONUNBUFFERED = "1";
       # The stock driver cannot find the NPU compiler; the patched one loads it
       # from its own store path.
-      ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-npu.intel-npu-driver}/lib/libze_intel_npu.so";
+      ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-small.intel-npu-driver}/lib/libze_intel_npu.so";
     };
 
     # Reads its model, writes its cache, uses the NPU and listens on the LAN.

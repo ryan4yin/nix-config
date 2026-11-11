@@ -2,7 +2,7 @@
   disko,
   myvars,
   lib,
-  pkgs-npu,
+  pkgs-small,
   ...
 }:
 #############################################################
@@ -72,11 +72,12 @@ in
   # checkout that ./preservation.nix keeps.
 
   # Speech recognition runs on the NPU, see ./asr.nix. The driver and the
-  # compiler it loads come from NixOS/nixpkgs#570230, which is unmerged, so they
-  # are taken from that branch as `pkgs-npu`; the stock driver cannot find the
-  # compiler, the patched one loads it from its own store path. The service sets
-  # this itself -- the session variable is for manual runs.
-  environment.sessionVariables.ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-npu.intel-npu-driver}/lib/libze_intel_npu.so";
+  # compiler it loads come from NixOS/nixpkgs#570230, which is not in
+  # nixos-unstable yet, so they are taken from nixos-unstable-small as
+  # `pkgs-small`; the stock driver cannot find the compiler, the patched one
+  # loads it from its own store path. The service sets this itself -- the
+  # session variable is for manual runs.
+  environment.sessionVariables.ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-small.intel-npu-driver}/lib/libze_intel_npu.so";
 
   # The daemons of the hosts that build here (modules/nixos/base/remote-builders.nix).
   # Their host keys have no passphrase, so they only get the daemon protocol, as

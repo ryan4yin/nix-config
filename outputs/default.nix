@@ -61,7 +61,7 @@ let
         # to use chrome, we need to allow the installation of non-free software
         config.allowUnfree = true;
       };
-      pkgs-npu = import inputs.nixpkgs-npu {
+      pkgs-small = import inputs.nixpkgs-small {
         inherit system;
         config.allowUnfree = true;
       };

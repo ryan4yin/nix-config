@@ -676,22 +676,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-npu": {
-      "locked": {
-        "lastModified": 1792250783,
-        "narHash": "sha256-J/gNk34hn774ccDrvJuSWW9EFLvIvyy3t4HnuTcN4tU=",
-        "owner": "ryan4yin",
-        "repo": "nixpkgs",
-        "rev": "2ddccb854d89eb027e09198368073fdb9cde4d1d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryan4yin",
-        "ref": "openvino-npu-compiler",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs-patched": {
       "locked": {
         "lastModified": 1793459509,
@@ -704,6 +688,22 @@
       "original": {
         "owner": "ryan4yin",
         "ref": "nixos-unstable-patched",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-small": {
+      "locked": {
+        "lastModified": 1794378162,
+        "narHash": "sha256-gJGP/BWdmF1pbjAzbuICPSeGkMncAiDt9PRe7L13664=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "c24da8b1d51f447e8faedcb5cb823b3f84346a60",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -896,8 +896,8 @@
         "nixpkgs-blender": "nixpkgs-blender",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-master": "nixpkgs-master",
-        "nixpkgs-npu": "nixpkgs-npu",
         "nixpkgs-patched": "nixpkgs-patched",
+        "nixpkgs-small": "nixpkgs-small",
         "nixpkgs-stable": "nixpkgs-stable",
         "nu_scripts": "nu_scripts",
         "nur-ryan4yin": "nur-ryan4yin",
