@@ -108,6 +108,12 @@ in
   networking.useNetworkd = true;
   systemd.network.enable = true;
 
+  # Rootless Podman's user units wait for the system network-online.target before
+  # starting containers. Nothing else starts that target on this networkd host
+  # since the LAN exporters moved to FreeBind sockets, so the user wait unit timed
+  # out after 90s and held llama-swap and magpie back on every boot.
+  systemd.targets.network-online.wantedBy = [ "multi-user.target" ];
+
   # Predictable names follow the PCIe topology, so match the `en*` prefix instead of
   # a name; one wired port, so one link.
   # `Name=` is not a valid [Match] key in systemd.link; systemd 262 ignores
