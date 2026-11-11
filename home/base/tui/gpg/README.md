@@ -411,6 +411,10 @@ ssb   ed25519 2024-01-09 [A] [expires: 2034-01-04]
 
 ### 4. Backup & Restore
 
+> The key pass uses is created and backed up by `scripts/gpg_canokey.py`; see
+> [hardware security keys](../../../../docs/security-keys.md#pass-openpgp). The commands below write
+> secret keys to files in the current directory, which reach the disk.
+
 Export Public Keys(Both Primary Key & Sub Keys):
 
 ```bash
