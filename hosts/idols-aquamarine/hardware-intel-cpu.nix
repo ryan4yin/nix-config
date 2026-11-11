@@ -1,8 +1,14 @@
 {
   pkgs,
+  pkgs-small,
   ...
 }:
 {
+  # The NPU serves ./asr.nix; the driver's compiler lookup is fixed by
+  # NixOS/nixpkgs#570230, which reached nixos-unstable-small first (WA-037).
+  hardware.cpu.intel.npu.enable = true;
+  nixpkgs.overlays = [ (_: _: { inherit (pkgs-small) intel-npu-driver; }) ];
+
   # Ad-hoc CPU idle-power diagnostics: package power, C-state residency and
   # wakeup attribution. Long-term RAPL export lives in the shared
   # modules/nixos/base/power-monitoring.nix module.
