@@ -90,9 +90,6 @@ in
       # Python block-buffers stdout when it is not a tty, which would hold the
       # request log lines back instead of putting them in the journal.
       PYTHONUNBUFFERED = "1";
-      # The stock driver cannot find the NPU compiler; the patched one loads it
-      # from its own store path.
-      ZE_ENABLE_ALT_DRIVERS = "${lib.getLib pkgs-small.intel-npu-driver}/lib/libze_intel_npu.so";
     };
 
     # Reads its model, writes its cache, uses the NPU and listens on the LAN.

@@ -32,9 +32,8 @@
     nixpkgs-patched.url = "github:ryan4yin/nixpkgs/nixos-unstable-patched";
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    # nixos-unstable-small already carries NixOS/nixpkgs#570230 (the Intel NPU
-    # compiler and the driver change that loads it). Only aquamarine consumes it,
-    # through `pkgs-small`; drop it once the PR reaches nixos-unstable.
+    # Ahead of nixos-unstable for aquamarine's NPU stack, through `pkgs-small`;
+    # removal condition in docs/WORKAROUNDS.md WA-037.
     nixpkgs-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     # NixOS MicroVMs -- run the VMs directly on the hosts, replacing the former KubeVirt
     microvm = {
