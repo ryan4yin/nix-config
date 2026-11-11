@@ -12,7 +12,7 @@ Manual BIOS and power-saving settings are recorded in
 | Part   | Model                                                 | Notes                                                   |
 | ------ | ----------------------------------------------------- | ------------------------------------------------------- |
 | Board  | Colorful CVN Z890 ARK FROZEN V20 (BIOS 1013)          | moved from `ai` on 2026-10-13, so its EFI vars come too |
-| CPU    | Intel Core Ultra 7 270K Plus                          | Arrow Lake; the NPU serves `whisper-asr` (./asr.nix)    |
+| CPU    | Intel Core Ultra 7 270K Plus                          | Arrow Lake; the NPU serves `whisper-asr` (./asr/)       |
 | Memory | 2x48G JUHOR (96G), 4800 MT/s                          | the 2x16G kit stayed with `ai`                          |
 | GPU    | 2x AMD Radeon AI PRO R9700, 32G each (RDNA4, gfx1201) | 64G of VRAM total                                       |
 | Root   | Fanxiang S790 2TB                                     | was `ai`'s `/data` disk until 2026-10-13                |

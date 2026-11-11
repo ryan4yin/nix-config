@@ -33,7 +33,7 @@ in
     ./secureboot.nix
 
     # services
-    ./asr.nix
+    ./asr
     ./idle-suspend.nix
   ];
 

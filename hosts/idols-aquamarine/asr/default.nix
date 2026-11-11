@@ -94,7 +94,7 @@ in
 
     # Reads its model, writes its cache, uses the NPU and listens on the LAN.
     serviceConfig = mylib.systemdHardening.service // {
-      ExecStart = "${pythonEnv}/bin/python ${./asr/server.py}";
+      ExecStart = "${pythonEnv}/bin/python ${./server.py}";
       CacheDirectory = "whisper-asr";
       DynamicUser = true;
       Restart = "on-failure";

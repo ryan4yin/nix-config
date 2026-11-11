@@ -4,7 +4,7 @@
   ...
 }:
 {
-  # The NPU serves ./asr.nix; the driver's compiler lookup is fixed by
+  # The NPU serves ./asr; the driver's compiler lookup is fixed by
   # NixOS/nixpkgs#570230, which reached nixos-unstable-small first (WA-037).
   hardware.cpu.intel.npu.enable = true;
   nixpkgs.overlays = [ (_: _: { inherit (pkgs-small) intel-npu-driver; }) ];
