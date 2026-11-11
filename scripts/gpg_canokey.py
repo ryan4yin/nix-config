@@ -564,8 +564,8 @@ def build_parser() -> argparse.ArgumentParser:
     store.add_argument("--backup", required=True, help="backup written by `generate`")
     store.add_argument(
         "--old-backup",
-        default="/etc/agenix/ryan4yin-gpg-subkeys.priv.age",
-        help="the retired key's subkeys",
+        required=True,
+        help="the retired key's age-encrypted secret subkeys",
     )
     store.add_argument(
         "--store",

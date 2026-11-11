@@ -312,10 +312,9 @@ is then retired.
 
 **Switch**, in one sitting:
 
-1. `python3 scripts/gpg_canokey.py pass --backup <drive>/gpg-<fingerprint>.tar.age`. It decrypts
-   every entry with the old key from `/etc/agenix/ryan4yin-gpg-subkeys.priv.age` before changing
-   anything, re-encrypts with `pass init`, then checks that every entry opens with the new key alone
-   and kept its content.
+1. `python3 scripts/gpg_canokey.py pass --backup <drive>/gpg-<fingerprint>.tar.age --old-backup <old-subkeys.age>`.
+   It decrypts every entry with the old key before changing anything, re-encrypts with `pass init`,
+   then checks that every entry opens with the new key alone and kept its content.
 2. Deploy the configuration change to every host that uses pass. Until a host is deployed it cannot
    read the store, and `pass insert` there still encrypts to the old key.
 3. On each host, with a CanoKey plugged in, point the daily keyring's stubs at it:

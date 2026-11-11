@@ -19,10 +19,6 @@ let
     || cfg.server.webserver.enable
     || cfg.server.storage.enable;
 
-  noaccess = {
-    mode = "0000";
-    owner = "root";
-  };
   high_security = {
     mode = "0500";
     owner = "root";
@@ -89,16 +85,6 @@ in
 
     (mkIf cfg.desktop.enable {
       age.secrets = {
-        # ---------------------------------------------
-        # No discretionary access; privileged root can still bypass file modes.
-        # ---------------------------------------------
-
-        # .age means the decrypted file is still encrypted by age(via a passphrase)
-        "ryan4yin-gpg-subkeys.priv.age" = {
-          file = "${mysecrets}/desktop/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
-        }
-        // noaccess;
-
         # Used only by NixOS Modules
 
         "rclone.conf" = {
@@ -132,11 +118,6 @@ in
           source = config.age.secrets."ssh-key-romantic".path;
           mode = "0600";
           user = myvars.username;
-        };
-
-        "agenix/ryan4yin-gpg-subkeys.priv.age" = {
-          source = config.age.secrets."ryan4yin-gpg-subkeys.priv.age".path;
-          mode = "0000";
         };
 
         # Used by a home-manager module, so it must be readable by the user.
