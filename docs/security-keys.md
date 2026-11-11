@@ -275,45 +275,62 @@ leaves its backup, with `[S]` and `[E]` subkeys that both CanoKeys hold. The sec
 on the cards and in age-encrypted backups, which also carry the revocation certificate.
 [gpg_canokey.py](../scripts/gpg_canokey.py) does each step in throwaway keyrings on tmpfs.
 
-Create the key once, with two backup drives mounted:
+A new key replaces the old one outright: the old key decrypts the store once, during the switch, and
+is then retired.
 
-```bash
-python3 scripts/gpg_canokey.py generate --uid '<name> (pass) <address>' \
-  --dest /run/media/$USER/<drive-1> --dest /run/media/$USER/<drive-2> \
-  --public-key ~/codes/nix-secrets/public/<name>.pub
-```
+**Prepare.** Nothing changes for pass yet.
 
-It asks for the backup passphrase twice, then once more to prove that the backup restores. Make the
-passphrase random and save it offline like the Admin PIN, never in pass.
+1. Turn on signature and decryption touch on every CanoKey in the phone app; `card` refuses a key
+   without them. Decryption touch matters most: browserpass gives browsers the GPG agent socket, and
+   without touch a compromised browser could decrypt the whole store silently after the first PIN.
+2. Create the key, with two backup drives mounted:
 
-Move the store onto it:
+   ```bash
+   python3 scripts/gpg_canokey.py generate --uid '<name> (pass) <address>' \
+     --dest /run/media/$USER/<drive-1> --dest /run/media/$USER/<drive-2> \
+     --public-key ~/codes/nix-secrets/public/<name>.pub
+   ```
 
-1. Point the configuration at the new key first, so nothing encrypts to the old one afterwards: add
-   the public key to `programs.gpg.publicKeys` in [gpg](../home/base/tui/gpg/default.nix), set
-   `PASSWORD_STORE_KEY` to the `[E]` fingerprint and `PASSWORD_STORE_SIGNING_KEY` to the primary
-   fingerprint (pass checks signatures only against full 40-digit fingerprints).
-2. `python3 scripts/gpg_canokey.py pass --backup <drive>/gpg-<fingerprint>.tar.age`. It decrypts
+   It asks for the backup passphrase twice, then once more to prove that the backup restores. Make
+   the passphrase random and save it offline like the Admin PIN, never in pass. Keep the drives
+   offline and apart.
+
+3. Load each CanoKey, with only that key plugged in:
+   `python3 scripts/gpg_canokey.py card --backup <drive>/gpg-<fingerprint>.tar.age`. It prints the
+   `gpg --edit-key` commands to type, then signs and decrypts once through the card. `keytocard` is
+   the only step that types the OpenPGP Admin PIN on a PC; change it again in the phone app
+   afterwards.
+4. Prepare, but do not deploy, the configuration change: add the public key to
+   `programs.gpg.publicKeys` in [gpg](../home/base/tui/gpg/default.nix), set `PASSWORD_STORE_KEY` to
+   the `[E]` fingerprint and `PASSWORD_STORE_SIGNING_KEY` to the primary fingerprint (pass checks
+   signatures only against full 40-digit fingerprints).
+
+**Switch**, in one sitting:
+
+1. `python3 scripts/gpg_canokey.py pass --backup <drive>/gpg-<fingerprint>.tar.age`. It decrypts
    every entry with the old key from `/etc/agenix/ryan4yin-gpg-subkeys.priv.age` before changing
    anything, re-encrypts with `pass init`, then checks that every entry opens with the new key alone
-   and kept its content. On failure it prints the `git reset` that undoes pass's commits.
-3. Deploy to every host that uses pass before pushing the store: until then a host cannot read it,
-   and `pass insert` there still encrypts to the old key. Keep the old agenix secret; the store's
-   git history stays encrypted to the old key.
+   and kept its content.
+2. Deploy the configuration change to every host that uses pass. Until a host is deployed it cannot
+   read the store, and `pass insert` there still encrypts to the old key.
+3. On each host, with a CanoKey plugged in, point the daily keyring's stubs at it:
+   `gpg-connect-agent "scd serialno" "learn --force" /bye`, then check `pass show <entry>` (PIN,
+   then touch). Push the store after that.
 
-Load each CanoKey, with only that key plugged in:
+Until the old key is retired, rolling back is `git -C <store> reset --hard <commit>` with the commit
+`pass` printed, then reverting the configuration change.
 
-1. Turn on signature and decryption touch in the phone app; `card` refuses a key without them.
-   Decryption touch matters most: browserpass gives browsers the GPG agent socket, and without touch
-   a compromised browser could decrypt the whole store silently after the first PIN.
-2. `python3 scripts/gpg_canokey.py card --backup <drive>/gpg-<fingerprint>.tar.age` prints the
-   `gpg --edit-key` commands to type, then signs and decrypts once through the card.
-3. In the daily keyring, point the stubs at the plugged-in key:
-   `gpg-connect-agent "scd serialno" "learn --force" /bye`. Check with `pass show <entry>` (PIN,
-   then touch).
+**Retire the old key** once every CanoKey passes `pass show` on every host:
 
-`keytocard` is the only step that types the OpenPGP Admin PIN on a PC; change it again in the phone
-app afterwards. To revoke the key:
-`age --decrypt <backup> | tar -xOf - revocation.asc | gpg --import`, then publish the public key.
+1. Delete its stubs from the daily keyring, `gpg --delete-secret-keys '<subkey-fingerprint>!'` for
+   each old subkey, then remove its public key from `programs.gpg.publicKeys`.
+2. Stop deploying its subkeys: remove `ryan4yin-gpg-subkeys.priv.age` from
+   [nixos.nix](../secrets/nixos.nix) and [darwin.nix](../secrets/darwin.nix), and move the
+   ciphertext in nix-secrets from `desktop/` to `backups/`. Keep it: the store's git history is
+   still encrypted to the old key.
+
+To revoke the current key: `age --decrypt <backup> | tar -xOf - revocation.asc | gpg --import`, then
+publish the public key.
 
 ## 3. Add a backup key
 

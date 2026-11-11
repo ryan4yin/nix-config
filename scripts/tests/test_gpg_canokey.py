@@ -25,7 +25,7 @@ NO_PASSPHRASE = ("--batch", "--pinentry-mode", "loopback", "--passphrase", "")
 
 
 @unittest.skipUnless(all(map(shutil.which, TOOLS)), f"needs {', '.join(TOOLS)}")
-class MigrationTest(unittest.TestCase):
+class SwitchTest(unittest.TestCase):
     def setUp(self) -> None:
         # tmpfs, like the script itself.
         self.root = Path(tempfile.mkdtemp(dir=os.environ.get("XDG_RUNTIME_DIR")))
@@ -102,7 +102,7 @@ class MigrationTest(unittest.TestCase):
         run(["git", "-C", str(self.store), "add", "-A"])
         run(["git", "-C", str(self.store), "commit", "--quiet", "-m", "old store"])
 
-    def migrate(self, backup: Path) -> int:
+    def switch(self, backup: Path) -> int:
         argv = ["pass", "--backup", str(backup), "--old-backup", str(self.old_backup)]
         return main([*argv, "--store", str(self.store)])
 
@@ -111,7 +111,7 @@ class MigrationTest(unittest.TestCase):
         plaintexts = {"alpha": b"secret one\n", "web/beta": b"secret two\nuser: x\n"}
         self.make_store(plaintexts)
 
-        self.assertEqual(self.migrate(backup), 0)
+        self.assertEqual(self.switch(backup), 0)
         with scratch_keyring() as only_new:
             secret, _ = unpack(self.age_decrypt(backup.read_bytes()))
             import_secret(only_new, secret)
@@ -119,8 +119,8 @@ class MigrationTest(unittest.TestCase):
                 entry = self.store / f"{name}.gpg"
                 self.assertEqual(only_new.gpg("--batch", "--decrypt", str(entry)), plaintext)
 
-        # A rerun, as after an interrupted migration, finds nothing left to do.
-        self.assertEqual(self.migrate(backup), 0)
+        # A rerun, as after an interrupted switch, finds nothing left to do.
+        self.assertEqual(self.switch(backup), 0)
 
     def test_unreadable_entry_stops_before_any_change(self) -> None:
         backup = self.generate()
@@ -130,7 +130,7 @@ class MigrationTest(unittest.TestCase):
         before = {entry: entry.read_bytes() for entry in store_entries(self.store)}
         head = run(["git", "-C", str(self.store), "rev-parse", "HEAD"])
 
-        self.assertEqual(self.migrate(backup), 1)
+        self.assertEqual(self.switch(backup), 1)
         self.assertEqual({entry: entry.read_bytes() for entry in before}, before)
         self.assertEqual(run(["git", "-C", str(self.store), "rev-parse", "HEAD"]), head)
 

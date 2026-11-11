@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Create the OpenPGP key that pass uses, move the password store onto it, and load the CanoKeys.
+"""Switch pass to a new hardware-backed OpenPGP key: create it, switch the store, load the CanoKeys.
 
 Steps, in order (docs/security-keys.md, "pass (OpenPGP)"):
 
     generate  create the key and write its age-encrypted backup to every --dest
-    pass      re-encrypt the password store to the new key
+    pass      re-encrypt the password store from the old key to the new one
     card      move the [S] and [E] subkeys onto the plugged-in CanoKey
 
 Each step builds throwaway keyrings on tmpfs ($XDG_RUNTIME_DIR) and deletes them on exit. `pass` and
@@ -294,7 +294,7 @@ def read_old_backup(path: Path) -> bytes:
 
 
 def check_store(store: Path, ring: Keyring, key: Key, digests: dict[Path, str]) -> list[str]:
-    """Problems with the migrated store, judged with a keyring that holds only the new key."""
+    """Problems with the re-encrypted store, judged with a keyring that holds only the new key."""
     problems = []
     entries = store_entries(store)
     if entries != sorted(digests):
@@ -369,7 +369,8 @@ def cmd_pass(args: argparse.Namespace) -> None:
             f"rerun to retry, or roll back with: git -C {store} reset --hard {head}"
         )
     say(f"all {len(entries)} entries open with the new key alone and match their old content")
-    say(f"pass committed the change; review with: git -C {store} log --stat {head}..")
+    say(f"pass committed the switch; review with: git -C {store} log --stat {head}..")
+    say(f"until the old key is retired, roll back with: git -C {store} reset --hard {head}")
 
 
 # --------------------------------------------------------------------------- #
