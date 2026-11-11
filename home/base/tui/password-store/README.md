@@ -15,4 +15,4 @@ that each entry opens with the new key alone and kept its content. The whole pro
 generating the key to retiring the old one, is in
 [hardware security keys](../../../../docs/security-keys.md#pass-openpgp).
 
-Keep the old key's backup after it is retired: the store's git history stays encrypted to it.
+Once the old key is deleted, older revisions in the store's git history can no longer be decrypted.

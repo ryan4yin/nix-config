@@ -328,9 +328,9 @@ Until the old key is retired, rolling back is `git -C <store> reset --hard <comm
 1. Delete its stubs from the daily keyring, `gpg --delete-secret-keys '<subkey-fingerprint>!'` for
    each old subkey, then remove its public key from `programs.gpg.publicKeys`.
 2. Stop deploying its subkeys: remove `ryan4yin-gpg-subkeys.priv.age` from
-   [nixos.nix](../secrets/nixos.nix) and [darwin.nix](../secrets/darwin.nix), and move the
-   ciphertext in nix-secrets from `desktop/` to `backups/`. Keep it: the store's git history is
-   still encrypted to the old key.
+   [nixos.nix](../secrets/nixos.nix) and [darwin.nix](../secrets/darwin.nix), then delete its
+   ciphertext and public key from nix-secrets. Older revisions in the store's git history stay
+   encrypted to the old key and become unreadable.
 
 To revoke the current key: `age --decrypt <backup> | tar -xOf - revocation.asc | gpg --import`, then
 publish the public key.
