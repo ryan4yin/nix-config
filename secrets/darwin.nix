@@ -28,10 +28,6 @@
 
   age.secrets =
     let
-      noaccess = {
-        mode = "0000";
-        owner = "root";
-      };
       high_security = {
         mode = "0500";
         owner = "root";
@@ -42,17 +38,6 @@
       };
     in
     {
-      # ---------------------------------------------
-      # No discretionary access; privileged root can still bypass file modes.
-      # ---------------------------------------------
-
-      # .age means the decrypted file is still encrypted by age(via a passphrase)
-      "ryan4yin-gpg-subkeys.priv.age" = {
-        file = "${mysecrets}/desktop/ryan4yin-gpg-subkeys-2024-01-27.priv.age.age";
-        path = "/etc/agenix/ryan4yin-gpg-subkeys.priv.age";
-      }
-      // noaccess;
-
       # ---------------------------------------------
       # only root can read this file.
       # ---------------------------------------------
