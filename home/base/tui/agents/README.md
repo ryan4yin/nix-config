@@ -13,10 +13,10 @@ Markdown with no Nix dependency; this module only wires it into place.
 - `skills.nix`: links the global skills into `~/.agents/skills/<name>`, from pinned flake inputs and
   from `agents/skills/`; the inventory is
   [agents/skills/README.md](../../../../agents/skills/README.md).
-- `packages.nix`: agent CLIs (`codex`, `opencode`, `qwen-code`, `pi`) from the `llm-agents` flake
-  input, dsh from `nur-ryan4yin`, `pkgs.ctx7` for the `find-docs` skill, and `pkgs.mcp-grafana` for
-  the Grafana MCP server. Profile patches live in `~/.dsh/profiles/<name>/cordis.patch.yml`. See
-  [dsh.md](./dsh.md) for the layer order and the settings that bite.
+- `packages.nix`: agent CLIs (`codex`, `opencode`, `pi`) from the `llm-agents` flake input, dsh from
+  `nur-ryan4yin`, `pkgs.ctx7` for the `find-docs` skill, and `pkgs.mcp-grafana` for the Grafana MCP
+  server. Profile patches live in `~/.dsh/profiles/<name>/cordis.patch.yml`. See [dsh.md](./dsh.md)
+  for the layer order and the settings that bite.
 - `env.nix`: telemetry and auto-update opt-outs for the agents.
 
 ## Deployed rule targets

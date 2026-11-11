@@ -2,7 +2,6 @@
 let
   common = {
     agentsFromHome = true;
-    qwenInstalled = true;
     devToolsFromHome = true;
     nushellSecrets = false;
     githubSshRewrite = false;

@@ -178,12 +178,6 @@ in
         ".codex"
         ".dsh" # DeepSeek Harness
         ".pi"
-        # Qwen Code keeps settings, credentials, history, sessions, and logs
-        # under ~/.qwen; keep the whole directory private and persistent.
-        {
-          directory = ".qwen";
-          mode = "0700";
-        }
         ".config/opencode"
         ".local/share/opencode"
         ".local/state/opencode"

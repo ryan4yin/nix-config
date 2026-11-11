@@ -19,5 +19,4 @@
   wivrnImportsOpenXRToSteam = true;
   wivrnStatePreserved = true;
   adbStatePreserved = true;
-  qwenStatePreserved = true;
 }
