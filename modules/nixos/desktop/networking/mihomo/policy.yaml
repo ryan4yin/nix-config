@@ -111,6 +111,9 @@ rules:
   - IP-ASN,32590,DIRECT,no-resolve
   - DOMAIN,launcher-webstatic.hoyoverse.com,DIRECT
 
+  # LinkedIn resolves to a CN IP; GEOIP,CN below would send it DIRECT (302 to linkedin.cn).
+  - GEOSITE,linkedin,PROXY
+
   # CN consumer services: proxied they fail in ways that look like app bugs --
   # WeChat pictures spin, JD and Taobao product images go blank. Much of it is
   # served over bare CDN IPs and IPv6, so pin the whole category DIRECT.

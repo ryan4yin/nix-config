@@ -150,6 +150,9 @@ and
   `policy.yaml` bypasses proxy only for that observed probe, not game CDNs or broad vendor domains.
   Verify future probes in `/connections` and add only confirmed hosts. Reference:
   [HoyoPlay API endpoints](https://gist.github.com/DynamiByte/0ad250bbe1930e2736a6d4e6e842bcb2).
+- LinkedIn resolves to a Azure China IP and redirect to `linkedin.cn`, so `policy.yaml` pins
+  `GEOSITE,linkedin` to `PROXY`; a `no-resolve`-less imported ipcidr rule-set shadows it, so such a
+  host overrides in `sources.yaml`.
 - Rule payloads are bare domains: `DOMAIN-SUFFIX,https://qlogo.cn` is invalid.
 - On a systemd-resolved host, sing-tun normally points resolved at the TUN DNS with `resolvectl`.
   The nixpkgs `DynamicUser` sandbox cannot make those privileged D-Bus changes, so resolved's own
