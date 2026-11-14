@@ -35,6 +35,8 @@ let
         binPath = "bin/steam";
       };
       flatpak = { inherit appId; };
+      # The SteamRT3 re-exec registers steam-runtime-launcher-service on this name.
+      dbus.policies."com.steampowered.PressureVessel.*" = "own";
     };
   };
   exe = lib.getExe wrapped.config.script;
