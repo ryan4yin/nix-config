@@ -35,8 +35,11 @@ let
         binPath = "bin/steam";
       };
       flatpak = { inherit appId; };
-      # The SteamRT3 re-exec registers steam-runtime-launcher-service on this name.
-      dbus.policies."com.steampowered.PressureVessel.*" = "own";
+      # Steam's SteamRT3 client runs pressure-vessel, which wraps a bus at any
+      # path other than $XDG_RUNTIME_DIR/bus in a second proxy; the
+      # launcher-service RPC deadlocks across that nesting. WA-051.
+      dbus.enable = false;
+      bubblewrap.bind.rw = [ "$XDG_RUNTIME_DIR/bus" ];
     };
   };
   exe = lib.getExe wrapped.config.script;

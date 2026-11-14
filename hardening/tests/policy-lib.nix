@@ -149,7 +149,12 @@ let
       sharedHome = lib.elem [ "$HOME/Gaming" "$HOME" ] rw;
       noXdgStorage = !app.xdgStorage.enable;
       writableScope = lib.all (
-        path: path == "$HOME/Gaming" || path == "$XDG_RUNTIME_DIR/nixpak-${app.flatpak.appId}-tmp"
+        path:
+        path == "$HOME/Gaming"
+        || path == "$XDG_RUNTIME_DIR/nixpak-${app.flatpak.appId}-tmp"
+        # Without the nixpak bus proxy the sandbox needs the session bus socket
+        # itself (WA-051).
+        || (!app.dbus.enable && path == "$XDG_RUNTIME_DIR/bus")
       ) (sources app.bubblewrap.bind.rw);
       noHostHomeReads =
         !lib.any (
@@ -185,7 +190,7 @@ let
       forbiddenMountFor = path: forbiddenMount path && !lib.elem path allowedVideoDevices;
       checks = {
         "${name}/clearEnv" = app.bubblewrap.clearEnv;
-        "${name}/dbus" = app.dbus.enable;
+        "${name}/dbus" = app.dbus.enable == (spec.dbus or true);
         "${name}/noRawPipewire" = !app.bubblewrap.sockets.pipewire || (spec.allowPipewire or false);
         "${name}/noForbiddenDbus" = !lib.any forbiddenDbus app.dbus.args;
         "${name}/noBroadKeyring" =
