@@ -30,6 +30,9 @@ in
     "nfs"
   ];
 
+  # Retries need no console: root LUKS unlocks through TPM2 alone (hosts/README.md).
+  boot.loader.systemd-boot.bootCounting.enable = true;
+
   # KVM for the microVMs and the libvirt domains. AMD-specific: an Intel VM host
   # would need kvm-intel instead (see hosts/idols-ai/hardware-intel.nix).
   boot.kernelModules = [ "kvm-amd" ];
