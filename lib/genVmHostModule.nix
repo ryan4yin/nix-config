@@ -9,6 +9,7 @@ let
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
 in
+{ config, lib, ... }:
 {
   # CPU policy belongs to physical hosts; guests do not control hardware frequency.
   imports = [
@@ -152,6 +153,22 @@ in
       linkConfig.RequiredForOnline = "no";
     };
   };
+
+  # `switch` refuses changes that only a reboot applies or that can drop br0 mid-flight; deploy
+  # those with `boot` (hosts/README.md). Guest tap units are left out so a new guest still switches.
+  system.switch.inhibitors = {
+    kernel = toString config.system.build.kernel;
+    kernel-params = toString config.boot.kernelParams;
+    kernel-modules = toString config.system.modulesTree;
+    initrd = toString config.system.build.initialRamdisk;
+    systemd = toString config.systemd.package;
+  }
+  // lib.genAttrs [
+    "systemd/networkd.conf"
+    "systemd/network/10-br0.netdev"
+    "systemd/network/10-br0.network"
+    "systemd/network/20-${iface}.network"
+  ] (name: toString config.environment.etc.${name}.source);
 
   # systemd-journal - cap disk usage, but keep plenty of history on the big
   # persistent disk (/var/log is preserved to /persistent).

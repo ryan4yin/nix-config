@@ -180,6 +180,13 @@ qemu-kvm path; there are none right now.
   settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.
 - Use `boot` + a serial reboot for anything that can drop the network mid-flight — `systemd.network`
   / `br0` changes, nixpkgs updates, or any broad rebuild.
+- `switch` enforces this through `system.switch.inhibitors` in
+  [genVmHostModule.nix](../lib/genVmHostModule.nix): when the kernel, its parameters or modules, the
+  initrd, systemd, `networkd.conf`, or the `br0` / uplink units change, `switch-to-configuration`
+  prints `There are changes to critical components of the system` and exits before installing the
+  boot loader, and Colmena reports the activation as failed. Colmena has already pointed the system
+  profile at the new generation, so rerun with `just <host> boot` and reboot, or switch anyway on
+  the host with `NIXOS_NO_CHECK=1 /nix/var/nix/profiles/system/bin/switch-to-configuration switch`.
 - If a host loses VM networking, check `br0` and the VM taps, or reboot the host.
 
 ## Boot Recovery on Physical Servers
