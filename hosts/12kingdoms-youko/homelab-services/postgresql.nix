@@ -57,7 +57,12 @@ in
 
       # logging
       log_connections = true;
-      log_statement = "all";
+      # Log slow statements instead of every statement; also lock waits longer
+      # than deadlock_timeout, every temp file, and slow autovacuum runs.
+      log_min_duration_statement = 1000; # ms
+      log_lock_waits = true;
+      log_temp_files = 0;
+      log_autovacuum_min_duration = 1000; # ms
       logging_collector = true;
       log_disconnections = true;
       log_destination = lib.mkForce "syslog";
@@ -117,6 +122,21 @@ in
     # initialScript =
     #   pkgs.writeText "backend-initScript" ''
     #   '';
+  };
+
+  # Logical dump of all databases and roles. The restic snapshot of the data
+  # directory is only crash-consistent; the dump restores cleanly. /var/lib is
+  # persisted, so the dump lands in the @persistent tree that restic backs up.
+  services.postgresqlBackup = {
+    enable = true;
+    location = "/var/lib/postgresql-backup";
+    compression = "zstd";
+    # no timer of its own: each restic run takes a fresh dump first
+    startAt = [ ];
+  };
+  systemd.services.restic-backups-homelab = {
+    wants = [ "postgresqlBackup.service" ];
+    after = [ "postgresqlBackup.service" ];
   };
 
   services.prometheus.exporters.postgres = {

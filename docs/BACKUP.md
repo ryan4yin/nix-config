@@ -25,7 +25,11 @@ How this fleet is backed up, where the data lives, and how to restore it.
    automatic retention it needs. A compromised desktop can still `forget --prune` its own repository
    through the REST API, so youko also snapshots `/data/backups` hourly into a read-only btrfs
    subvolume the desktop cannot reach (see
-   `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`).
+   `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`). The REST store has one
+   512 GiB quota (`--max-size`) shared by all repositories, so a runaway client cannot fill the HDD
+   pool it shares with `/data/apps` and `/data/fileshare`; at the quota, uploads fail with HTTP 507
+   and the client's backup-failure alert fires. youko's own repository (`/data/backups/restic`) is
+   written directly, outside the quota.
 3. **cloud copy** (planned). youko will copy the homelab repositories with `restic copy` (it holds
    that password). Desktops copy their own: youko does not hold the desktop password. This layer is
    what protects history against a compromised host, so the target should be immutable or versioned
@@ -60,13 +64,13 @@ Consequences worth remembering:
 Slots are assigned per host; the random delay only smooths load and must not be relied on to prevent
 collisions.
 
-| Time             | Job                                 |
-| ---------------- | ----------------------------------- |
-| 01:30 + 15m      | desktops push to youko              |
-| 02:30 + 15m      | youko backs itself up               |
-| hourly           | youko snapshots the REST store      |
-| 03:45:20 Tue/Sat | btrbk local snapshots               |
-| 06:00 (planned)  | youko copies homelab repos to cloud |
+| Time             | Job                                          |
+| ---------------- | -------------------------------------------- |
+| 01:30 + 15m      | desktops push to youko                       |
+| 02:30 + 15m      | youko dumps PostgreSQL, then backs itself up |
+| hourly           | youko snapshots the REST store               |
+| 03:45:20 Tue/Sat | btrbk local snapshots                        |
+| 06:00 (planned)  | youko copies homelab repos to cloud          |
 
 Set per host via `modules.restic-backup.onCalendar` and `randomizedDelaySec`.
 
@@ -129,6 +133,12 @@ Restoring a btrbk snapshot (offline; stop writers first):
 - Units: `systemctl status restic-backups-homelab`, `systemctl list-timers 'restic-backups*'`.
 - Repository integrity (where the password is): `restic check`, which runs after every backup via
   `modules.restic-backup.checkOpts` (a 5% data read, `1/20`, by default).
+- PostgreSQL on youko: `postgresqlBackup.service` runs before every `restic-backups-homelab` run and
+  writes `pg_dumpall` output to `/var/lib/postgresql-backup/all.sql.zstd` (the previous dump is kept
+  as `all.prev.sql.zstd`). Restore into an empty cluster with
+  `zstd -dc all.sql.zstd | sudo -u postgres psql -X postgres`. A failed dump does not block the
+  backup; it shows up as a failed unit.
+- REST store quota: `restic-rest-server` logs `Quota initialized, currently using N GiB` at start.
 - Server side, ciphertext only: repository directories under `/data/backups/rest-server/<user>/`,
   with no leftover files in `locks/` and no stale `.tmp` files.
 - `restic-rest-server`'s log must not print `Invalid htpasswd entry`: that means the client's REST
@@ -158,6 +168,7 @@ Restoring a btrbk snapshot (offline; stop writers first):
 | [`modules/nixos/base/btrbk.nix`](../modules/nixos/base/btrbk.nix)                 | local btrfs snapshots                                |
 | `hosts/12kingdoms-youko/default.nix`                                              | the REST server and youko's own backup               |
 | `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`             | hourly read-only snapshots of the REST store         |
+| `hosts/12kingdoms-youko/homelab-services/postgresql.nix`                          | the PostgreSQL dump taken before youko's backup      |
 | `hosts/12kingdoms-youko/homelab-services/caddy.nix`                               | the `restic.writefor.fun` vhost                      |
 | `secrets/nixos.nix`                                                               | which secret is defined on which host                |
 | `hosts/idols-ai/restic.nix`, `hosts/12kingdoms-youko/default.nix`                 | per-host backup configuration                        |
