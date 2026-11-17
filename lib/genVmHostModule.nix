@@ -62,7 +62,18 @@ in
 
   # zram itself is provided by modules/nixos/base/zram.nix (enabled by default).
   # Kill the greediest process before the host starts thrashing / gets OOM-killed.
-  services.earlyoom.enable = true;
+  services.earlyoom = {
+    enable = true;
+    # The MicroVMs' qemu and virtiofsd are the largest processes and would be
+    # killed first. Prefixes of /proc/PID/comm, which is cut to 15 characters
+    # (wrapped binaries start with a dot).
+    extraArgs = [
+      "--avoid"
+      "^(\\.qemu-system-x8|virtiofsd|\\.postgres-wrap|victoria-metric)"
+    ];
+  };
+  # Builds inherit the daemon's oom_score_adj, so earlyoom and the kernel kill them first.
+  systemd.services.nix-daemon.serviceConfig.OOMScoreAdjust = 500;
 
   environment.systemPackages = with pkgs; [
     # Validate Hardware Virtualization Support via:
