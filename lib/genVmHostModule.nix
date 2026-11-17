@@ -9,7 +9,12 @@ let
   inherit (networking.hostsAddr.${hostName}) iface ipv4;
   ipv4WithMask = "${ipv4}/24";
 in
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  myvars,
+  ...
+}:
 {
   # CPU policy belongs to physical hosts; guests do not control hardware frequency.
   imports = [
@@ -33,6 +38,9 @@ in
 
   # Retries need no console: root LUKS unlocks through TPM2 alone (hosts/README.md).
   boot.loader.systemd-boot.bootCounting.enable = true;
+
+  # A failed initrd drops to a root shell behind the root password (docs/SECURITY.md).
+  boot.initrd.systemd.emergencyAccess = myvars.initialHashedPassword;
 
   # KVM for the microVMs and the libvirt domains. AMD-specific: an Intel VM host
   # would need kvm-intel instead (see hosts/idols-ai/hardware-intel.nix).

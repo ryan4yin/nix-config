@@ -102,6 +102,12 @@ an advisory and affected kernel versions before adding CVE claims; search snippe
   key enrollment and actual Secure Boot state with `sbctl status`; do not assume all hosts have it.
 - Secure Boot, signed boot images, kernel lockdown and module signature enforcement are distinct
   controls. Test custom kernels and NVIDIA/out-of-tree modules before extending enforcement.
+- A failed initrd on the physical servers opens a root shell after the root password
+  (`boot.initrd.systemd.emergencyAccess`, the public hash in [vars](../vars/default.nix)). It adds
+  no protection on shoryu, shushou and youko: Secure Boot is off, the systemd-boot editor is on and
+  TPM2 unlocks LUKS on PCRs 0+7 alone, so console access already grants root through a kernel
+  command-line edit. aquamarine's Lanzaboote stub ignores command-line edits while Secure Boot is
+  on.
 - AppArmor is enabled, but the only explicit policy, sudo's, is in complain mode. Complain mode logs
   rather than blocks. Existing FHS-oriented abstractions need Nix store path review; this is not
   broad enforced application confinement.
