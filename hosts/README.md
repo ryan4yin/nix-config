@@ -182,6 +182,15 @@ qemu-kvm path; there are none right now.
   / `br0` changes, nixpkgs updates, or any broad rebuild.
 - If a host loses VM networking, check `br0` and the VM taps, or reboot the host.
 
+## Boot Recovery on Physical Servers
+
+`shoryu`, `shushou`, `youko` (systemd-boot) and `aquamarine` (Lanzaboote) write each new generation
+with a boot counter. After 3 boots that never reach `boot-complete.target` (ordered after
+`sysinit.target`), the entry is marked bad and the boot loader starts the newest good one. The root
+LUKS volume unlocks through TPM2 alone, so retries need no console. Failures later in boot, such as
+a broken `br0`, do not count, and a hung boot retries only after a reboot or power cycle.
+`bootctl list` shows each entry's remaining tries.
+
 ## Common Build Commands
 
 Use the Just recipes for host configuration checks and builds:
