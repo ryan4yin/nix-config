@@ -222,9 +222,9 @@ cannot go to a public cache.
 
 **Current:** static `nix.buildMachines` (`modules/nixos/base/remote-builders.nix`); the plain user
 is deliberately not a trusted user on the clients, though the builder host trusts its builder login;
-Nix 2.35 via `nixVersions.latest` (WA-023). `auto-allocate-uids` (with `cgroups`) is already enabled
-in `modules/nixos/base/nix.nix` for nixpkgs' nspawn-based tests, and the locked nixpkgs has no
-`nix-servd` module or package.
+Nix 2.35 from nixpkgs' default `nixVersions.stable`. `auto-allocate-uids` (with `cgroups`) is
+already enabled in `modules/nixos/base/nix.nix` for nixpkgs' nspawn-based tests, and the locked
+nixpkgs has no `nix-servd` module or package.
 
 **Proposed:** `nix-servd` for scheduling, plus the `local-overlay-store` experimental feature
 (`auto-allocate-uids` is already on, see Current).
@@ -548,6 +548,6 @@ header) should then be trimmed to **adopt** items only.
   `services/monitoring/prometheus/exporters.nix`.
 - NixOS 26.05 release notes; Nix manual, Experimental Features.
 - Repo context: `docs/SECURITY.md` (trust zones and control limits), `docs/WORKAROUNDS.md` (WA-001,
-  WA-008, WA-009, WA-023), `modules/nixos/base/networking/mdns.nix`,
+  WA-008, WA-009), `modules/nixos/base/networking/mdns.nix`,
   `hosts/12kingdoms-youko/homelab-services/caddy.nix`,
   `hosts/12kingdoms-youko/homelab-services/README.md`.
