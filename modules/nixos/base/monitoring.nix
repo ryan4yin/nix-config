@@ -163,6 +163,9 @@ in
       name: cfg:
       lib.nameValuePair "prometheus-${name}-exporter" {
         wantedBy = [ "sockets.target" ];
+        # nixpkgs also starts the service from multi-user.target; requiring the
+        # socket (which systemd orders first) keeps a switch from starting it bare.
+        requiredBy = [ "prometheus-${name}-exporter.service" ];
         listenStreams = [ "${cfg.listenAddress}:${toString cfg.port}" ];
         socketConfig.FreeBind = true;
       }
