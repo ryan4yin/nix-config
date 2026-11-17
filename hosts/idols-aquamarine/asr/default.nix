@@ -3,7 +3,6 @@
   mylib,
   myvars,
   pkgs,
-  pkgs-small,
   ...
 }:
 let
@@ -12,9 +11,9 @@ let
   port = aquamarineAsr;
 
   # OpenVINO publishes static IRs for Whisper only, and the NPU compiler accepts
-  # nothing less: any other ASR family keeps a dynamic time axis and aborts it
-  # (docs/WORKAROUNDS.md WA-037). Pinned by content because the NPU caches the
-  # compiled graph; a version bump should be deliberate.
+  # nothing less: any other ASR family keeps a dynamic time axis and aborts it.
+  # Pinned by content because the NPU caches the compiled graph; a version bump
+  # should be deliberate.
   modelFiles = {
     "added_tokens.json" = "sha256-PFH2bEwh+eEmlwB48RrnenjHSu6N9gbunauobkZxCOA=";
     "config.json" = "sha256-v9ksCXVHqxLLQquugAi+WlmpH9xas5rM4kSJ64o+ioY=";
@@ -51,10 +50,7 @@ let
     )}
   '';
 
-  # openvino-genai 2026.4.0.0 fails to compile against the OpenVINO headers in
-  # nixos-unstable (no matching constructor in continuous_batching); the
-  # service takes it from the same nixpkgs as the NPU stack.
-  pythonEnv = pkgs-small.python3.withPackages (ps: [
+  pythonEnv = pkgs.python3.withPackages (ps: [
     ps.fastapi
     ps.numpy
     ps.openvino-genai
