@@ -1,8 +1,14 @@
-{ lib, myvars, ... }:
+{
+  config,
+  lib,
+  myvars,
+  ...
+}:
 let
   inherit (myvars.networking) lanCidr;
   # The host that scrapes the exporters (VictoriaMetrics runs on youko).
   monitoringHost = myvars.networking.hostsAddr.youko.ipv4;
+  rasdaemonExporter = config.services.prometheus.exporters.rasdaemon;
 in
 {
   # Hosts bring their own firewall as defence in depth behind the router's
@@ -32,6 +38,14 @@ in
       # smartctl_exporter (drive/SSD SMART health) is scraped only by the
       # monitoring host.
       ip saddr != ${monitoringHost} tcp dport 9633 drop
+    ''
+    + lib.optionalString rasdaemonExporter.enable ''
+
+      # rasdaemon's exporter (physical servers), likewise; it also drops IPv6.
+      ip saddr != ${monitoringHost} tcp dport ${toString rasdaemonExporter.port} drop
+      meta nfproto ipv6 tcp dport ${toString rasdaemonExporter.port} drop
+    ''
+    + ''
 
       # Monitoring uses the stable IPv4 address above. Deny IPv6 exporter
       # connections before broad LAN/tailnet/container trust can accept them;

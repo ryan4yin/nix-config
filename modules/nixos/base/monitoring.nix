@@ -138,6 +138,28 @@ in
         extraFlags = [ "--web.systemd-socket" ];
       };
 
+  # MCE, AER and memory-controller error counts from rasdaemon's database, on
+  # hosts that run rasdaemon.
+  services.prometheus.exporters.rasdaemon =
+    lib.mkIf (lanAddr != null && config.hardware.rasdaemon.enable)
+      {
+        enable = true;
+        listenAddress = lanAddr;
+        port = 10029;
+        # No flags: each flag turns off one of the default aer/mce/mc collectors
+        # (WA-053 in docs/WORKAROUNDS.md).
+        enabledCollectors = [ ];
+      };
+  # This Python exporter cannot take a systemd socket, so it binds the LAN
+  # address itself and retries until the address exists and rasdaemon has
+  # created its database.
+  systemd.services.prometheus-rasdaemon-exporter =
+    lib.mkIf config.services.prometheus.exporters.rasdaemon.enable
+      {
+        after = [ "rasdaemon.service" ];
+        serviceConfig.RestartSec = "5s";
+      };
+
   # Socket activation with FreeBind: the LAN address may not exist yet at boot.
   systemd.sockets = lib.mkIf (lanAddr != null) (
     lib.mapAttrs' (

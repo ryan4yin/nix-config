@@ -73,6 +73,9 @@ in
   };
   systemd.timers."btrfs-scrub@".timerConfig.AccuracySec = lib.mkForce "1h";
 
+  # Machine-check, PCIe AER and memory errors, as on the VM hosts.
+  hardware.rasdaemon.enable = true;
+
   # smartd autodetects devices and logs to the journal; the smartctl exporter
   # (modules/nixos/base/monitoring.nix) is what feeds wear and media errors to
   # VictoriaMetrics.

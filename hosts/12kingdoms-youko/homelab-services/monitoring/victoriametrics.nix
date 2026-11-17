@@ -27,6 +27,10 @@ let
     "shushou"
     "youko"
   ];
+
+  # Physical servers run rasdaemon and its exporter on :10029 (hardware.rasdaemon
+  # in lib/genVmHostModule.nix and hosts/idols-aquamarine/default.nix).
+  rasdaemonHosts = lib.remove "ai" physicalHosts;
 in
 {
   # https://victoriametrics.io/docs/victoriametrics/latest/configuration/configuration/
@@ -263,7 +267,33 @@ in
             ];
           }
         ]
-      ) [ ] (lib.attrsets.filterAttrs (n: _: builtins.elem n physicalHosts) myvars.networking.hostsAddr));
+      ) [ ] (lib.attrsets.filterAttrs (n: _: builtins.elem n physicalHosts) myvars.networking.hostsAddr))
+      # --- MCE / PCIe AER / memory errors (physical servers only) --- #
+      ++ (lib.attrsets.foldlAttrs
+        (
+          acc: hostname: addr:
+          acc
+          ++ [
+            {
+              job_name = "rasdaemon-${hostname}";
+              scrape_interval = "60s";
+              metrics_path = "/metrics";
+              static_configs = [
+                {
+                  targets = [ "${addr.ipv4}:10029" ];
+                  labels.type = "rasdaemon";
+                  labels.app = "rasdaemon";
+                  labels.host = hostname;
+                  labels.env = "homelab";
+                  labels.cluster = "homelab";
+                }
+              ];
+            }
+          ]
+        )
+        [ ]
+        (lib.attrsets.filterAttrs (n: _: builtins.elem n rasdaemonHosts) myvars.networking.hostsAddr)
+      );
     };
   };
 }

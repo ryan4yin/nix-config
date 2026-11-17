@@ -97,6 +97,11 @@ in
   };
   systemd.timers."btrfs-scrub@".timerConfig.AccuracySec = pkgs.lib.mkForce "1h";
 
+  # Record machine-check, PCIe AER and memory errors; exported to VictoriaMetrics
+  # by modules/nixos/base/monitoring.nix. Its database lives in the preserved
+  # /var/lib.
+  hardware.rasdaemon.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Validate Hardware Virtualization Support via:
     #   virt-host-validate qemu
