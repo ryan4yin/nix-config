@@ -12,6 +12,7 @@ in
 {
   # CPU policy belongs to physical hosts; guests do not control hardware frequency.
   imports = [
+    ../modules/nixos/headless-recovery.nix
     ../modules/nixos/power.nix
     ../modules/nixos/watchdog.nix
   ];

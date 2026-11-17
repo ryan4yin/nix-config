@@ -19,6 +19,7 @@ in
 {
   imports = [
     disko.nixosModules.default
+    ../../modules/nixos/headless-recovery.nix
     ../../modules/nixos/power.nix
     ../../modules/nixos/watchdog.nix
     # disks
