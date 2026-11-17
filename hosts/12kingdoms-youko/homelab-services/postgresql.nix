@@ -124,6 +124,21 @@ in
     #   '';
   };
 
+  # Logical dump of all databases and roles. The restic snapshot of the data
+  # directory is only crash-consistent; the dump restores cleanly. /var/lib is
+  # persisted, so the dump lands in the @persistent tree that restic backs up.
+  services.postgresqlBackup = {
+    enable = true;
+    location = "/var/lib/postgresql-backup";
+    compression = "zstd";
+    # no timer of its own: each restic run takes a fresh dump first
+    startAt = [ ];
+  };
+  systemd.services.restic-backups-homelab = {
+    wants = [ "postgresqlBackup.service" ];
+    after = [ "postgresqlBackup.service" ];
+  };
+
   services.prometheus.exporters.postgres = {
     enable = true;
     # loopback only: scraped by VictoriaMetrics on the same host

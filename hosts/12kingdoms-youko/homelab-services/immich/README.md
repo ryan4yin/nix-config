@@ -63,14 +63,15 @@ document is the agreed design and the rationale.
 
 ## Backup and disaster recovery
 
-- **Database**: already covered by the existing youko restic backup, which snapshots
-  `/btr_pool/@persistent` (Postgres data lives there).
+- **Database**: covered by the youko restic backup, which snapshots `/btr_pool/@persistent`. Each
+  run first writes a `pg_dumpall` dump to `/var/lib/postgresql-backup` (see
+  [BACKUP.md](../../../../docs/BACKUP.md#verifying)); restore from that dump, since the raw data
+  directory in the snapshot is only crash-consistent.
 - **Media and existing photos**: both live on the HDD already. A local HDD->HDD backup adds no
   protection, so none is added here. This is deferred to the planned cloud copy, which will cover
   the photo library.
-- **Note for the cloud-copy work**: a raw btrfs snapshot of a running Postgres is only
-  crash-consistent; prefer a `pg_dump` into the cloud set for a clean restore. That set should
-  include `mediaLocation` and the external-library source.
+- **Note for the cloud-copy work**: that set should include `mediaLocation` and the external-library
+  source.
 - **One-time disruption**: adding the extensions and `shared_preload_libraries` restarts PostgreSQL
   (affects the `playground` DB only).
 
