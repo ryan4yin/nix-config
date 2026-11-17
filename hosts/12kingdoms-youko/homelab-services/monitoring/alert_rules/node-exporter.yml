@@ -550,11 +550,12 @@ groups:
             }}\n  LABELS = {{ $labels }}"
 
       # Watchdog and panic reboots (modules/nixos/watchdog.nix) recover a host
-      # without anyone noticing; warning, because info never notifies.
+      # without anyone noticing; warning, because info never notifies. Headless
+      # servers only: desktops boot daily and MicroVM guests restart on deploys.
       - alert: HostRebooted
         expr:
-          '(time() - node_boot_time_seconds < 600) * on(instance) group_left (nodename)
-          node_uname_info{nodename=~".+"}'
+          '(time() - node_boot_time_seconds{host=~"aquamarine|shoryu|shushou|youko"} < 600) *
+          on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
         labels:
           severity: warning
         annotations:
