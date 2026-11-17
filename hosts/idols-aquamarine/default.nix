@@ -1,5 +1,4 @@
 {
-  lib,
   disko,
   myvars,
   ...
@@ -20,6 +19,7 @@ in
 {
   imports = [
     disko.nixosModules.default
+    ../../modules/nixos/hardware-health.nix
     ../../modules/nixos/headless-recovery.nix
     ../../modules/nixos/power.nix
     ../../modules/nixos/watchdog.nix
@@ -65,16 +65,6 @@ in
   # NixOS state). Same layout as the other physical hosts; no off-host target.
   modules.btrbk.enable = true;
   modules.security.audit.enable = true;
-
-  # Same monthly scrub schedule as the VM hosts (lib/genVmHostModule.nix).
-  services.btrfs.autoScrub = {
-    enable = true;
-    interval = "*-*-01 04:00:00";
-  };
-  systemd.timers."btrfs-scrub@".timerConfig.AccuracySec = lib.mkForce "1h";
-
-  # Machine-check, PCIe AER and memory errors, as on the VM hosts.
-  hardware.rasdaemon.enable = true;
 
   # smartd autodetects devices and logs to the journal; the smartctl exporter
   # (modules/nixos/base/monitoring.nix) is what feeds wear and media errors to

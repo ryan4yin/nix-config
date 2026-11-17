@@ -18,6 +18,7 @@ in
 {
   # CPU policy belongs to physical hosts; guests do not control hardware frequency.
   imports = [
+    ../modules/nixos/hardware-health.nix
     ../modules/nixos/headless-recovery.nix
     ../modules/nixos/power.nix
     ../modules/nixos/watchdog.nix
@@ -86,21 +87,6 @@ in
   };
   # Builds inherit the daemon's oom_score_adj, so earlyoom and the kernel kill them first.
   systemd.services.nix-daemon.serviceConfig.OOMScoreAdjust = 500;
-
-  # Monthly scrub of every btrfs filesystem; errors show up in
-  # node_btrfs_device_errors_total. Start between 04:00 and 05:00, after the
-  # 01:30-03:45 backup window (docs/BACKUP.md): nixpkgs' AccuracySec of 1d
-  # could otherwise place it anywhere in the day.
-  services.btrfs.autoScrub = {
-    enable = true;
-    interval = "*-*-01 04:00:00";
-  };
-  systemd.timers."btrfs-scrub@".timerConfig.AccuracySec = pkgs.lib.mkForce "1h";
-
-  # Record machine-check, PCIe AER and memory errors; exported to VictoriaMetrics
-  # by modules/nixos/base/monitoring.nix. Its database lives in the preserved
-  # /var/lib.
-  hardware.rasdaemon.enable = true;
 
   environment.systemPackages = with pkgs; [
     # Validate Hardware Virtualization Support via:
