@@ -11,9 +11,9 @@ let
   port = aquamarineAsr;
 
   # OpenVINO publishes static IRs for Whisper only, and the NPU compiler accepts
-  # nothing less: any other ASR family keeps a dynamic time axis and aborts it
-  # (docs/WORKAROUNDS.md WA-037). Pinned by content because the NPU caches the
-  # compiled graph; a version bump should be deliberate.
+  # nothing less: any other ASR family keeps a dynamic time axis and aborts it.
+  # Pinned by content because the NPU caches the compiled graph; a version bump
+  # should be deliberate.
   modelFiles = {
     "added_tokens.json" = "sha256-PFH2bEwh+eEmlwB48RrnenjHSu6N9gbunauobkZxCOA=";
     "config.json" = "sha256-v9ksCXVHqxLLQquugAi+WlmpH9xas5rM4kSJ64o+ioY=";

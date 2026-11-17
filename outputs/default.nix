@@ -15,7 +15,7 @@ let
   nixpkgsConfig = {
     allowUnfree = true;
     # Only Huawei works here: npmmirror 404s on prefetch-npm-deps' doubled
-    # slash, and Tencent answers 567 to its concurrent fetches (WA-049).
+    # slash, and Tencent answers 567 to its concurrent fetches.
     npmRegistryOverrides = {
       "registry.npmjs.org" = "https://mirrors.huaweicloud.com/repository/npm";
     };
