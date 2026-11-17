@@ -1,6 +1,9 @@
 { mylib, ... }:
 {
-  imports = mylib.scanPaths ./. ++ [ ../power.nix ];
+  imports = mylib.scanPaths ./. ++ [
+    ../power.nix
+    ../watchdog.nix
+  ];
 
   # Power-supply reporting for the desktop shell: the laptop's battery, and
   # peripheral batteries on a desktop. UPower only reports state; unlike TuneD it

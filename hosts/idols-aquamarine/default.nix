@@ -20,6 +20,7 @@ in
   imports = [
     disko.nixosModules.default
     ../../modules/nixos/power.nix
+    ../../modules/nixos/watchdog.nix
     # disks
     ./disko-fs.nix
 
