@@ -94,7 +94,13 @@ in
     # expose /metrics for victoriametrics; unauthenticated is fine because the
     # server only listens on loopback
     prometheus = true;
-    extraFlags = [ "--prometheus-no-auth" ];
+    extraFlags = [
+      "--prometheus-no-auth"
+      # One quota for the whole store, all repositories together, so a runaway
+      # client cannot fill the HDD pool shared with /data/apps and /data/fileshare.
+      "--max-size"
+      (toString (512 * 1024 * 1024 * 1024)) # 512 GiB
+    ];
   };
 
   # repositories live on the HDD, which has to be mounted first

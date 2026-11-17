@@ -25,7 +25,11 @@ How this fleet is backed up, where the data lives, and how to restore it.
    automatic retention it needs. A compromised desktop can still `forget --prune` its own repository
    through the REST API, so youko also snapshots `/data/backups` hourly into a read-only btrfs
    subvolume the desktop cannot reach (see
-   `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`).
+   `hosts/12kingdoms-youko/homelab-services/restic-server-snapshots.nix`). The REST store has one
+   512 GiB quota (`--max-size`) shared by all repositories, so a runaway client cannot fill the HDD
+   pool it shares with `/data/apps` and `/data/fileshare`; at the quota, uploads fail with HTTP 507
+   and the client's backup-failure alert fires. youko's own repository (`/data/backups/restic`) is
+   written directly, outside the quota.
 3. **cloud copy** (planned). youko will copy the homelab repositories with `restic copy` (it holds
    that password). Desktops copy their own: youko does not hold the desktop password. This layer is
    what protects history against a compromised host, so the target should be immutable or versioned
@@ -134,6 +138,7 @@ Restoring a btrbk snapshot (offline; stop writers first):
   as `all.prev.sql.zstd`). Restore into an empty cluster with
   `zstd -dc all.sql.zstd | sudo -u postgres psql -X postgres`. A failed dump does not block the
   backup; it shows up as a failed unit.
+- REST store quota: `restic-rest-server` logs `Quota initialized, currently using N GiB` at start.
 - Server side, ciphertext only: repository directories under `/data/backups/rest-server/<user>/`,
   with no leftover files in `locks/` and no stale `.tmp` files.
 - `restic-rest-server`'s log must not print `Invalid htpasswd entry`: that means the client's REST
