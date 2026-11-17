@@ -11,7 +11,10 @@ let
 in
 {
   # CPU policy belongs to physical hosts; guests do not control hardware frequency.
-  imports = [ ../modules/nixos/power.nix ];
+  imports = [
+    ../modules/nixos/power.nix
+    ../modules/nixos/watchdog.nix
+  ];
 
   # supported file systems, so we can mount any removable disks with these filesystems
   boot.supportedFilesystems = [
