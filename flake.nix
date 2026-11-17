@@ -33,8 +33,9 @@
     # get some latest packages from the master branch
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     # NixOS MicroVMs -- run the VMs directly on the hosts, replacing the former KubeVirt
+    # Pinned to a reviewed commit: the newest tag (v0.5.0, 2024) is far behind main.
     microvm = {
-      url = "github:microvm-nix/microvm.nix";
+      url = "github:microvm-nix/microvm.nix/194a254693f49af939a2b53d04982bd4b276fdb3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -123,8 +124,9 @@
     # Blender/CUDA source rebuild; bump the rev deliberately when needed.
     nixpkgs-blender.url = "github:nixos/nixpkgs/4b8338e3113dc41bcf7695f56dc372107b7ff4c9";
 
+    # Pinned to a reviewed commit: release tags lag main by months.
     nixos-apple-silicon = {
-      url = "github:nix-community/nixos-apple-silicon";
+      url = "github:nix-community/nixos-apple-silicon/ce7d0925860cf29d686b24ea5798f3a02676b4f7";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
