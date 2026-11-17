@@ -1,4 +1,27 @@
-{ config, mylib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  mylib,
+  ...
+}:
+let
+  ruleGlobs = [
+    "alert_rules/*.yml"
+    "alert_rules/*.yaml"
+    "recording_rules/*.yml"
+    "recording_rules/*.yaml"
+  ];
+  # A rule vmalert cannot parse fails this build instead of the running service.
+  checkedRules =
+    pkgs.runCommand "vmalert-homelab-rules" { nativeBuildInputs = [ config.services.vmalert.package ]; }
+      ''
+        mkdir $out
+        cp -r ${./alert_rules} $out/alert_rules
+        cp -r ${./recording_rules} $out/recording_rules
+        vmalert -dryRun ${lib.concatMapStringsSep " " (glob: ''-rule="$out/${glob}"'') ruleGlobs}
+      '';
+in
 {
   # https://docs.victoriametrics.com/victoriametrics/vmalert/
   services.vmalert.instances."homelab" = {
@@ -18,12 +41,7 @@
       # from URLs in log messages or UI and exported metrics.
       "datasource.showURL" = false;
       # Path to the files with alerting and/or recording rules.
-      rule = [
-        "${./alert_rules}/*.yml"
-        "${./alert_rules}/*.yaml"
-        "${./recording_rules}/*.yml"
-        "${./recording_rules}/*.yaml"
-      ];
+      rule = map (glob: "${checkedRules}/${glob}") ruleGlobs;
       # https://docs.victoriametrics.com/victoriametrics/vmalert/#link-to-alert-source
       # Set this two args to generate the correct `.GeneratorURL`
       "external.url" = "https://grafana.writefor.fun";
