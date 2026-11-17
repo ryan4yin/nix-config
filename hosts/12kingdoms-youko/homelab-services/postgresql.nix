@@ -57,7 +57,12 @@ in
 
       # logging
       log_connections = true;
-      log_statement = "all";
+      # Log slow statements instead of every statement; also lock waits longer
+      # than deadlock_timeout, every temp file, and slow autovacuum runs.
+      log_min_duration_statement = 1000; # ms
+      log_lock_waits = true;
+      log_temp_files = 0;
+      log_autovacuum_min_duration = 1000; # ms
       logging_collector = true;
       log_disconnections = true;
       log_destination = lib.mkForce "syslog";
