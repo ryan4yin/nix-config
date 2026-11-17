@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   mylib,
   myvars,
   ...
@@ -28,6 +29,16 @@ let
   # off on VM guests).
   publishDeployState =
     config.services.prometheus.exporters.node.enable && config.modules.hardwareTools.enable;
+
+  # Leaves out `self`: its revision would rebuild every host on each commit.
+  flakeInputsProm = pkgs.writeText "flake-inputs.prom" ''
+    # HELP flake_input_last_modified Commit time of each flake input of the running generation.
+    # TYPE flake_input_last_modified gauge
+    ${lib.concatStrings (
+      lib.mapAttrsToList (name: input: ''
+        flake_input_last_modified{input="${name}",rev="${input.rev}"} ${toString input.lastModified}
+      '') (removeAttrs inputs [ "self" ])
+    )}'';
 in
 {
   # node_exporter on every host that has a static LAN IPv4 (see `lanAddr` above)
@@ -74,9 +85,10 @@ in
 
   # Created here so the textfile collector has somewhere to read from before
   # the first successful backup writes its metric.
-  systemd.tmpfiles.rules = lib.mkIf (lanAddr != null) [
-    "d ${textfileDir} 0755 root root - -"
-  ];
+  systemd.tmpfiles.rules = lib.mkIf (lanAddr != null) (
+    [ "d ${textfileDir} 0755 root root - -" ]
+    ++ lib.optional publishDeployState "L+ ${textfileDir}/flake-inputs.prom - - - - ${flakeInputsProm}"
+  );
 
   # node_reboot_required for the HostRequiresReboot alert. Compare against the
   # system profile, not /run/current-system: a `boot` deploy only moves the
