@@ -2,7 +2,7 @@ groups:
   - name: flake-inputs.rules
     rules:
       # modules/nixos/base/monitoring.nix publishes the commit time and revision
-      # of every flake input of the running generation (physical hosts only).
+      # of the running generation's nixpkgs (physical hosts only).
       - alert: NixpkgsOutOfDate
         expr: (time() - flake_input_last_modified{input="nixpkgs"}) / 86400 > 30
         for: 1h

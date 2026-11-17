@@ -30,15 +30,12 @@ let
   publishDeployState =
     config.services.prometheus.exporters.node.enable && config.modules.hardwareTools.enable;
 
-  # Leaves out `self`: its revision would rebuild every host on each commit.
+  # nixpkgs only: any other input would rebuild every host whenever it moves.
   flakeInputsProm = pkgs.writeText "flake-inputs.prom" ''
-    # HELP flake_input_last_modified Commit time of each flake input of the running generation.
+    # HELP flake_input_last_modified Commit time of a flake input of the running generation.
     # TYPE flake_input_last_modified gauge
-    ${lib.concatStrings (
-      lib.mapAttrsToList (name: input: ''
-        flake_input_last_modified{input="${name}",rev="${input.rev}"} ${toString input.lastModified}
-      '') (removeAttrs inputs [ "self" ])
-    )}'';
+    flake_input_last_modified{input="nixpkgs",rev="${inputs.nixpkgs.rev}"} ${toString inputs.nixpkgs.lastModified}
+  '';
 in
 {
   # node_exporter on every host that has a static LAN IPv4 (see `lanAddr` above)
