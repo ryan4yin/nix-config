@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  pkgs-stable,
-  ...
-}:
+{ lib, pkgs, ... }:
 {
   xdg.terminal-exec = {
     enable = true;
@@ -44,6 +39,7 @@
           "gnome"
         ];
       };
+      # niri's own ScreenCast offers only DMA-BUF, which Zoom rejects; wlr has SHM (WA-046).
       niri."org.freedesktop.impl.portal.ScreenCast" = "wlr";
     };
 
@@ -58,16 +54,9 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk # file picker and OpenURI
       xdg-desktop-portal-gnome # screenshot and remaining GNOME services
-      # xdg-desktop-portal-wlr 0.8.4 regresses Zoom; 0.8.2 works with niri.
-      pkgs-stable.xdg-desktop-portal-wlr
+      xdg-desktop-portal-wlr # ScreenCast on niri
     ];
   };
-  assertions = [
-    {
-      assertion = pkgs.xdg-desktop-portal-wlr.version == "0.8.4";
-      message = "nixpkgs moved xdg-desktop-portal-wlr past 0.8.4: retest Zoom with it and drop the 0.8.2 pin (WA-046)";
-    }
-  ];
 
   # The xdg-autostart-generator starts every autostart app (including nixpak
   # sandboxes like firefox/telegram) right at graphical-session.target, while
