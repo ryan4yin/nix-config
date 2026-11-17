@@ -549,6 +549,21 @@ groups:
             "Clock not synchronising. Ensure NTP is configured on this host.\n  VALUE = {{ $value
             }}\n  LABELS = {{ $labels }}"
 
+      # Watchdog and panic reboots (modules/nixos/watchdog.nix) recover a host
+      # without anyone noticing; warning, because info never notifies.
+      - alert: HostRebooted
+        expr:
+          '(time() - node_boot_time_seconds < 600) * on(instance) group_left (nodename)
+          node_uname_info{nodename=~".+"}'
+        labels:
+          severity: warning
+        annotations:
+          summary: Host rebooted (instance {{ $labels.instance }})
+          description:
+            "{{ $labels.instance }} booted {{ $value | humanizeDuration }} ago. If nobody rebooted
+            it, check `journalctl -b -1` there for a panic or watchdog reset.\n  LABELS = {{ $labels
+            }}"
+
       - alert: HostRequiresReboot
         expr:
           '(node_reboot_required > 0) * on(instance) group_left (nodename)
