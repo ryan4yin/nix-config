@@ -1,0 +1,27 @@
+groups:
+  - name: blackbox.rules
+    rules:
+      # Probes of every caddy vhost on youko (monitoring/blackbox.nix): the Let's
+      # Encrypt wildcard that security.acme renews, and the private ecc-ca server
+      # certificate that is rotated by hand.
+      - alert: CertificateExpiry
+        expr: probe_ssl_earliest_cert_expiry - time() < 14 * 86400
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: Certificate for {{ $labels.instance }} expires in {{ $value | humanizeDuration }}
+          description:
+            "Check `systemctl status acme-writefor.fun.service` on youko for the public wildcard, or
+            rotate certs/ecc-server.crt for the private one."
+
+      - alert: HttpsEndpointDown
+        expr: probe_success{job="blackbox-https"} == 0
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.instance }} is unreachable"
+          description:
+            "The HTTPS probe from youko fails (TLS, DNS or an unexpected status). Check caddy and
+            the backend service there."

@@ -1,0 +1,27 @@
+groups:
+  - name: rasdaemon.rules
+    rules:
+      # Counts per message from rasdaemon's database on the physical servers.
+      # Corrected errors need no action; uncorrected and deferred ones point at
+      # failing CPU, memory or PCIe hardware.
+      - alert: MachineCheckError
+        expr: increase(rasdaemon_mce_records_total{mce_msg!~"Corrected.*"}[1h]) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary: Machine check error on {{ $labels.host }}
+          description:
+            "{{ $labels.mce_msg }}. Inspect `ras-mc-ctl --errors` and `journalctl -k` on {{
+            $labels.host }}."
+
+      - alert: PcieUncorrectedError
+        expr: increase(rasdaemon_aer_events_total{aer_err_type!="Corrected"}[1h]) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary:
+            "{{ $labels.aer_err_type }} PCIe error on {{ $labels.host }} device {{
+            $labels.aer_dev_name }}"
+          description:
+            "{{ $labels.aer_err_msg }}. Inspect `ras-mc-ctl --errors` and `journalctl -k` on {{
+            $labels.host }}."

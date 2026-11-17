@@ -72,4 +72,9 @@ extend-ignore-re = [
   # "for"/"far"/"fps".
   "fpr",
   "FPR",
+
+  # PCIe Advanced Error Reporting (rasdaemon's `aer` collector and metrics); the
+  # dictionary wants "are".
+  "aer",
+  "AER",
 ]

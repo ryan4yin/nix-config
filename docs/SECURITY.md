@@ -45,7 +45,7 @@ small, reversible controls and narrow exceptions; benchmark before adopting expe
 | Security keys   | idols-ai/shoukei use a CanoKey for touch-based sudo (pam_u2f, password fallback; servers via pam_rssh and the forwarded agent), a resident `ed25519-sk` SSH key per CanoKey as the only user SSH keys for GitHub and all hosts, FIDO2 LUKS unlock on shoukei and on-card OpenPGP subkeys; key management happens only in the phone app ([setup](./security-keys.md)) | Touch-only sudo can be triggered by any same-user process, and on a server by root through the forwarded agent; losing both CanoKeys leaves only root logins with the `romantic` recovery key                                                                                                                                              |
 | Secrets         | agenix declarations here, encrypted data in the private nix-secrets repository                                                                                                                                                                                                                                                                                       | Recipients and plaintext file permissions must be reviewed; root on a recipient can read its decrypted secrets                                                                                                                                                                                                                             |
 | Supply chain    | Locked flake inputs; explicit binary-cache trust keys on NixOS; normal user is not a Nix trusted-user                                                                                                                                                                                                                                                                | A trusted cache or imported Nix module can supply code executed as root; a lock file is not a security audit                                                                                                                                                                                                                               |
-| Recovery        | NixOS generations, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                                                                                                                                                                                                                                      | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned                                                                                                                                                                                 |
+| Recovery        | NixOS generations with automatic boot fallback on the physical servers, btrbk/restic, hourly read-only snapshots of the REST store, and documented backup procedures                                                                                                                                                                                                 | A rollback does not undo compromised data or secrets; backup configuration alone does not prove restore works; the offsite immutable copy is still planned                                                                                                                                                                                 |
 
 Sources: [host layout](../hosts/README.md), [k3s deployment](../hosts/k8s/README.md),
 [firewall](../modules/nixos/base/networking/firewall.nix), [SSH](../modules/nixos/base/ssh.nix),
@@ -102,6 +102,12 @@ an advisory and affected kernel versions before adding CVE claims; search snippe
   key enrollment and actual Secure Boot state with `sbctl status`; do not assume all hosts have it.
 - Secure Boot, signed boot images, kernel lockdown and module signature enforcement are distinct
   controls. Test custom kernels and NVIDIA/out-of-tree modules before extending enforcement.
+- A failed initrd on the physical servers opens a root shell after the root password
+  (`boot.initrd.systemd.emergencyAccess`, the public hash in [vars](../vars/default.nix)). It adds
+  no protection on shoryu, shushou and youko: Secure Boot is off, the systemd-boot editor is on and
+  TPM2 unlocks LUKS on PCRs 0+7 alone, so console access already grants root through a kernel
+  command-line edit. aquamarine's Lanzaboote stub ignores command-line edits while Secure Boot is
+  on.
 - AppArmor is enabled, but the only explicit policy, sudo's, is in complain mode. Complain mode logs
   rather than blocks. Existing FHS-oriented abstractions need Nix store path review; this is not
   broad enforced application confinement.
@@ -400,6 +406,11 @@ compatibility, and a generation change that only affects the initrd, modules or 
 kernel path unchanged. Guest profiles and a runner staged only on a MicroVM's physical host require
 separate verification.
 
+Physical hosts run this comparison for the kernel, initrd and kernel modules every 15 minutes and
+export the result as `node_reboot_required`
+([monitoring.nix](../modules/nixos/base/monitoring.nix)); `HostRequiresReboot` warns when a reboot
+has been pending for a day.
+
 ## Remaining prioritized TODOs
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                                                           |
@@ -410,7 +421,7 @@ separate verification.
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                                                        |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                                                         |
 | P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts and recipient scope; Darwin per-file ownership is now explicit and needs a runtime check |
-| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; compare booted and selected kernel paths and recheck API/workloads after reboot; no automated metric is deployed                                                               |
+| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; physical hosts export `node_reboot_required` to `HostRequiresReboot`; guests still need the manual check; recheck API/workloads after reboot                                   |
 | P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                                                                 |
 | P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                                                                 |
 | P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                                                        |

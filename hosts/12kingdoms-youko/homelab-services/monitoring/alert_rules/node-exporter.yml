@@ -93,18 +93,22 @@ groups:
             "Disk is probably writing too much data (> 50 MB/s)\n  VALUE = {{ $value }}\n  LABELS =
             {{ $labels }}"
 
+      # The absolute floor keeps multi-TB disks from alerting with hundreds of GiB
+      # left; a fast fill is HostDiskWillFillIn24Hours' job.
       - alert: HostOutOfDiskSpace
         expr:
           '((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance,
-          device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename)
+          device, mountpoint) node_filesystem_avail_bytes < 100 * 1024^3 and ON (instance, device,
+          mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename)
           node_uname_info{nodename=~".+"}'
-        for: 2m
+        for: 30m
         labels:
           severity: warning
         annotations:
           summary: Host out of disk space (instance {{ $labels.instance }})
           description:
-            "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+            "Disk is almost full (< 10% and < 100 GiB left)\n  VALUE = {{ $value }}\n  LABELS = {{
+            $labels }}"
 
       - alert: HostDiskWillFillIn24Hours
         expr:
@@ -288,7 +292,8 @@ groups:
         expr:
           '(node_systemd_unit_state{state="failed"} == 1) * on(instance) group_left (nodename)
           node_uname_info{nodename=~".+"}'
-        for: 0m
+        # Skip failures that clear on their own (a retry, the next timer run).
+        for: 15m
         labels:
           severity: warning
         annotations:
@@ -544,15 +549,33 @@ groups:
             "Clock not synchronising. Ensure NTP is configured on this host.\n  VALUE = {{ $value
             }}\n  LABELS = {{ $labels }}"
 
+      # Watchdog and panic reboots (modules/nixos/watchdog.nix) recover a host
+      # without anyone noticing; warning, because info never notifies. Headless
+      # servers only: desktops boot daily and MicroVM guests restart on deploys.
+      - alert: HostRebooted
+        expr:
+          '(time() - node_boot_time_seconds{host=~"aquamarine|shoryu|shushou|youko"} < 600) *
+          on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+        labels:
+          severity: warning
+        annotations:
+          summary: Host rebooted (instance {{ $labels.instance }})
+          description:
+            "{{ $labels.instance }} booted {{ $value | humanizeDuration }} ago. If nobody rebooted
+            it, check `journalctl -b -1` there for a panic or watchdog reset.\n  LABELS = {{ $labels
+            }}"
+
+      # node_reboot_required comes from modules/nixos/base/monitoring.nix
+      # (physical hosts only). A day leaves room for a planned `boot` deploy.
       - alert: HostRequiresReboot
         expr:
           '(node_reboot_required > 0) * on(instance) group_left (nodename)
           node_uname_info{nodename=~".+"}'
-        for: 4h
+        for: 1d
         labels:
-          severity: info
+          severity: warning
         annotations:
           summary: Host requires reboot (instance {{ $labels.instance }})
           description:
-            "{{ $labels.instance }} requires a reboot.\n  VALUE = {{ $value }}\n  LABELS = {{
-            $labels }}"
+            "{{ $labels.instance }} has a system profile whose kernel, initrd or kernel modules
+            differ from the booted ones; reboot it to run them.\n  LABELS = {{ $labels }}"

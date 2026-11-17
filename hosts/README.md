@@ -180,7 +180,23 @@ qemu-kvm path; there are none right now.
   settings). Deploy serially (`-p 1`) and re-check VM reachability afterwards.
 - Use `boot` + a serial reboot for anything that can drop the network mid-flight — `systemd.network`
   / `br0` changes, nixpkgs updates, or any broad rebuild.
+- `switch` enforces this through `system.switch.inhibitors` in
+  [genVmHostModule.nix](../lib/genVmHostModule.nix): when the kernel, its parameters or modules, the
+  initrd, systemd, `networkd.conf`, or the `br0` / uplink units change, `switch-to-configuration`
+  prints `There are changes to critical components of the system` and exits before installing the
+  boot loader, and Colmena reports the activation as failed. Colmena has already pointed the system
+  profile at the new generation, so rerun with `just <host> boot` and reboot, or switch anyway on
+  the host with `NIXOS_NO_CHECK=1 /nix/var/nix/profiles/system/bin/switch-to-configuration switch`.
 - If a host loses VM networking, check `br0` and the VM taps, or reboot the host.
+
+## Boot Recovery on Physical Servers
+
+`shoryu`, `shushou`, `youko` (systemd-boot) and `aquamarine` (Lanzaboote) write each new generation
+with a boot counter. After 3 boots that never reach `boot-complete.target` (ordered after
+`sysinit.target`), the entry is marked bad and the boot loader starts the newest good one. The root
+LUKS volume unlocks through TPM2 alone, so retries need no console. Failures later in boot, such as
+a broken `br0`, do not count, and a hung boot retries only after a reboot or power cycle.
+`bootctl list` shows each entry's remaining tries.
 
 ## Common Build Commands
 

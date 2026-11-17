@@ -70,9 +70,11 @@ collisions.
 | 02:30 + 15m      | youko dumps PostgreSQL, then backs itself up |
 | hourly           | youko snapshots the REST store               |
 | 03:45:20 Tue/Sat | btrbk local snapshots                        |
+| 04:00-05:00, 1st | btrfs scrub on the physical servers          |
 | 06:00 (planned)  | youko copies homelab repos to cloud          |
 
-Set per host via `modules.restic-backup.onCalendar` and `randomizedDelaySec`.
+Set per host via `modules.restic-backup.onCalendar` and `randomizedDelaySec`. The scrub row is a
+start window: reading youko's HDDs (about 2.7 TiB used) takes hours, past the 06:00 slot.
 
 ## What is never backed up
 

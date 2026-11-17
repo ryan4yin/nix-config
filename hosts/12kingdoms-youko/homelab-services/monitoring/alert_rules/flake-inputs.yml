@@ -1,0 +1,30 @@
+groups:
+  - name: flake-inputs.rules
+    rules:
+      # modules/nixos/base/monitoring.nix publishes the commit time and revision
+      # of the running generation's nixpkgs (physical hosts only).
+      - alert: NixpkgsOutOfDate
+        expr: (time() - flake_input_last_modified{input="nixpkgs"}) / 86400 > 30
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: nixpkgs on {{ $labels.host }} is {{ $value | humanize }} days old
+          description:
+            "{{ $labels.host }} runs nixpkgs {{ $labels.rev }}. Update the flake lock and deploy it
+            to pick up security fixes."
+
+      # A host that the last deploys skipped.
+      - alert: NixpkgsBehindFleet
+        expr:
+          (scalar(max(flake_input_last_modified{input="nixpkgs"})) -
+          flake_input_last_modified{input="nixpkgs"}) / 86400 > 7
+        for: 1d
+        labels:
+          severity: warning
+        annotations:
+          summary:
+            nixpkgs on {{ $labels.host }} is {{ $value | humanize }} days behind the newest host
+          description:
+            "{{ $labels.host }} runs nixpkgs {{ $labels.rev }}, older than the newest nixpkgs
+            deployed to another host. Deploy it."

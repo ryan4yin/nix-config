@@ -26,5 +26,7 @@
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/etc/secureboot";
+    # Retries need no console: root LUKS unlocks through TPM2 alone (hosts/README.md).
+    bootCounting.initialTries = 3;
   };
 }

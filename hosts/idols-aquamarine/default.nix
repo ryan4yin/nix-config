@@ -19,6 +19,7 @@ in
 {
   imports = [
     disko.nixosModules.default
+    ../../modules/nixos/hardware-health.nix
     ../../modules/nixos/headless-recovery.nix
     ../../modules/nixos/power.nix
     ../../modules/nixos/watchdog.nix
@@ -38,6 +39,9 @@ in
     ./asr
     ./idle-suspend.nix
   ];
+
+  # A failed initrd drops to a root shell behind the root password (docs/SECURITY.md).
+  boot.initrd.systemd.emergencyAccess = myvars.initialHashedPassword;
 
   # Bind the board's NCT6798D SuperIO, otherwise fan RPM and board temperatures
   # are missing.
