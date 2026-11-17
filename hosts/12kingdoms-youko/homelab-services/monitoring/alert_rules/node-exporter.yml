@@ -564,15 +564,17 @@ groups:
             it, check `journalctl -b -1` there for a panic or watchdog reset.\n  LABELS = {{ $labels
             }}"
 
+      # node_reboot_required comes from modules/nixos/base/monitoring.nix
+      # (physical hosts only). A day leaves room for a planned `boot` deploy.
       - alert: HostRequiresReboot
         expr:
           '(node_reboot_required > 0) * on(instance) group_left (nodename)
           node_uname_info{nodename=~".+"}'
-        for: 4h
+        for: 1d
         labels:
-          severity: info
+          severity: warning
         annotations:
           summary: Host requires reboot (instance {{ $labels.instance }})
           description:
-            "{{ $labels.instance }} requires a reboot.\n  VALUE = {{ $value }}\n  LABELS = {{
-            $labels }}"
+            "{{ $labels.instance }} has a system profile whose kernel, initrd or kernel modules
+            differ from the booted ones; reboot it to run them.\n  LABELS = {{ $labels }}"

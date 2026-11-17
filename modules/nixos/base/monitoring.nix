@@ -1,6 +1,8 @@
 {
   config,
   lib,
+  pkgs,
+  mylib,
   myvars,
   ...
 }:
@@ -21,6 +23,11 @@ let
   lanExporters = lib.filterAttrs (_: cfg: cfg.enable) {
     inherit (config.services.prometheus.exporters) node smartctl nvidia-gpu;
   };
+
+  # Deploy-state metrics are published by physical hosts only (hardwareTools is
+  # off on VM guests).
+  publishDeployState =
+    config.services.prometheus.exporters.node.enable && config.modules.hardwareTools.enable;
 in
 {
   # node_exporter on every host that has a static LAN IPv4 (see `lanAddr` above)
@@ -70,6 +77,39 @@ in
   systemd.tmpfiles.rules = lib.mkIf (lanAddr != null) [
     "d ${textfileDir} 0755 root root - -"
   ];
+
+  # node_reboot_required for the HostRequiresReboot alert. Compare against the
+  # system profile, not /run/current-system: a `boot` deploy only moves the
+  # profile. Same comparison as nixpkgs' system.autoUpgrade.allowReboot.
+  systemd.services.node-reboot-required = lib.mkIf publishDeployState {
+    description = "Report whether the next boot changes the kernel, initrd or modules";
+    serviceConfig = mylib.systemdHardening.mkDefaults mylib.systemdHardening.service // {
+      Type = "oneshot";
+      ReadWritePaths = [ textfileDir ];
+    };
+    path = [ pkgs.coreutils ];
+    script = ''
+      booted="$(readlink /run/booted-system/{initrd,kernel,kernel-modules})"
+      built="$(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})"
+      required=0
+      if [ "$booted" != "$built" ]; then
+        required=1
+      fi
+      {
+        echo '# HELP node_reboot_required 1 if the system profile boots another kernel, initrd or kernel modules.'
+        echo '# TYPE node_reboot_required gauge'
+        echo "node_reboot_required $required"
+      } > ${textfileDir}/reboot-required.prom.tmp
+      mv -f ${textfileDir}/reboot-required.prom.tmp ${textfileDir}/reboot-required.prom
+    '';
+  };
+  systemd.timers.node-reboot-required = lib.mkIf publishDeployState {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "1min";
+      OnUnitActiveSec = "15min";
+    };
+  };
 
   # Drive SMART health (wear, spare, media errors, temperature, bytes written)
   # on physical hosts. node_exporter's nvme collector only exposes

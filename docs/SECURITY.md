@@ -406,6 +406,11 @@ compatibility, and a generation change that only affects the initrd, modules or 
 kernel path unchanged. Guest profiles and a runner staged only on a MicroVM's physical host require
 separate verification.
 
+Physical hosts run this comparison for the kernel, initrd and kernel modules every 15 minutes and
+export the result as `node_reboot_required`
+([monitoring.nix](../modules/nixos/base/monitoring.nix)); `HostRequiresReboot` warns when a reboot
+has been pending for a day.
+
 ## Remaining prioritized TODOs
 
 | Priority | Work                                                                             | Acceptance / constraints                                                                                                                                                                           |
@@ -416,7 +421,7 @@ separate verification.
 | P1       | Review router mappings and tailnet ACLs; narrow service exposure where warranted | Audit was limited to sampled host listeners; test intended and denied access without locking out deployment                                                                                        |
 | P1       | Review NFS client scope and root identity requirements                           | Restrict to required VM hosts/CSI nodes where practical; test provisioning, permissions and existing PVCs before changing squash semantics                                                         |
 | P1       | Narrow operator/secret access where justified; finish permission checks          | Selected effective probes and ai/youko modes audited; validate broad secret-reader needs, remaining hosts and recipient scope; Darwin per-file ownership is now explicit and needs a runtime check |
-| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; compare booted and selected kernel paths and recheck API/workloads after reboot; no automated metric is deployed                                                               |
+| P1       | Adopt the documented cadence and verify the booted kernel after rollouts         | Routine documented; physical hosts export `node_reboot_required` to `HostRequiresReboot`; guests still need the manual check; recheck API/workloads after reboot                                   |
 | P1       | Exercise backup restore and credential rotation                                  | Use an approved isolated restore target and recovery access; never overwrite live data for a drill                                                                                                 |
 | P2       | Promote selected AppArmor profiles to enforce; harden exposed systemd services   | Per-app positive/negative tests, store-path coverage, reviewed capabilities and reversible rollout                                                                                                 |
 | P2       | Maintain ai boot integrity and assess other host roles                           | Review sbctl configuration migration, recovery boot and signed custom/NVIDIA modules; ai Secure Boot state already verified                                                                        |
