@@ -63,7 +63,13 @@ in
       host:
       lib.nameValuePair (upstreamName host) {
         servers."${host}:443" = { };
-        extraConfig = "keepalive 16;";
+        # Several Nix clients open up to 25 connections each; keep them idle
+        # between bursts instead of handshaking again.
+        extraConfig = ''
+          keepalive 128;
+          keepalive_requests 2000;
+          keepalive_timeout 120s;
+        '';
       }
     );
 
