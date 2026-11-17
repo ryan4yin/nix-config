@@ -105,3 +105,19 @@ groups:
           summary:
             SATA SSD {{ $labels.device }} on {{ $labels.host }} wear indicator is low ({{ $value }})
           description: "Wear_Leveling_Count normalized value below 20 (100 = new)."
+
+      # btrfs keeps these per-device counters on disk across reboots; scrubs
+      # (services.btrfs.autoScrub) and normal I/O both raise them. The alert
+      # holds until the counters are reset after the cause is dealt with.
+      - alert: BtrfsDeviceErrors
+        expr: node_btrfs_device_errors_total > 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary:
+            btrfs on {{ $labels.host }} device {{ $labels.device }} has {{ $value }} {{ $labels.type
+            }} errors
+          description:
+            "Run `btrfs device stats` and check `journalctl -k` and the drive's SMART data on {{
+            $labels.host }}; after the cause is fixed, reset with `btrfs device stats --reset`."
