@@ -1,4 +1,4 @@
-{ myvars, ... }:
+{ lib, myvars, ... }:
 let
   cacheDir = "/data/apps/nix-cache-proxy";
   inherit (myvars.ports) youkoNixCacheProxy;
@@ -25,10 +25,23 @@ let
     add_header X-Cache-Status $upstream_cache_status always;
   '';
 
+  upstreamHosts = [
+    "cache.nixos.org"
+    "cache.numtide.com"
+    "ryan4yin.cachix.org"
+    "mirrors.ustc.edu.cn"
+  ];
+  upstreamName = host: builtins.replaceStrings [ "." ] [ "_" ] host;
+
+  # Reuse upstream TLS connections: Nix fetches hundreds of narinfos at once,
+  # and a fresh handshake per request gets reset under that burst.
   cacheLocation = upstream: subPath: {
-    proxyPass = "https://${upstream}${subPath}/";
+    proxyPass = "https://${upstreamName upstream}${subPath}/";
     extraConfig = ''
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
       proxy_set_header Host ${upstream};
+      proxy_ssl_name ${upstream};
       ${cacheConfig}
     '';
   };
@@ -45,6 +58,14 @@ in
         inactive=30d
         use_temp_path=off;
     '';
+
+    upstreams = lib.genAttrs' upstreamHosts (
+      host:
+      lib.nameValuePair (upstreamName host) {
+        servers."${host}:443" = { };
+        extraConfig = "keepalive 16;";
+      }
+    );
 
     virtualHosts."nix-cache-proxy" = {
       # Caddy owns the public listener and terminates HTTPS; nginx is internal.

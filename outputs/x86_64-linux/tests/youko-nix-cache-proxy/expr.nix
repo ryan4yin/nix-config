@@ -26,4 +26,5 @@ in
   cachixUpstream = nginx.virtualHosts."nix-cache-proxy".locations."/ryan4yin.cachix.org/".proxyPass;
   ustcUpstream =
     nginx.virtualHosts."nix-cache-proxy".locations."/mirrors.ustc.edu.cn/nix-channels/store/".proxyPass;
+  upstreamServers = lib.mapAttrs (_: upstream: builtins.attrNames upstream.servers) nginx.upstreams;
 }
