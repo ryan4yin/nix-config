@@ -3,17 +3,20 @@
 How the CanoKey (or a YubiKey) is set up and used on the desktops: initial setup, adding a backup
 key, and recovery. Commands here are the single source; the Nix files only point to this page.
 
-Scope: **idols-ai** and **shoukei** (`modules.desktop.canokey.enable`). frieren only shares the
-GnuPG `scdaemon` setting. Servers never see a key; they only ask the forwarded agent for sudo.
+Scope: **idols-ai** and **shoukei** (`modules.desktop.canokey.enable`). The macOS hosts share only
+the GnuPG `scdaemon` setting and commit signing. Servers never see a key; they only ask the
+forwarded agent for sudo.
 
 ## Principle
 
 Management and use happen on different devices.
 
-- **PCs only use the key:** WebAuthn/passkeys, sudo, SSH, LUKS unlock and OpenPGP (pass).
+- **PCs only use the key:** WebAuthn/passkeys, sudo, SSH, LUKS unlock and OpenPGP (pass, commit
+  signing).
 - **Management happens only in the phone app** (CanoKey Console on iOS/Android): every PIN change,
   touch policies, application and factory reset, device settings. The CanoKey Admin PIN is never
-  typed on a PC; the OpenPGP Admin PIN is typed once, for `keytocard`.
+  typed on a PC; the OpenPGP Admin PIN only while loading a card (`keytocard` and its public key
+  URL).
 - Sandboxed browsers see only the FIDO HID interface, never raw USB or CCID, so the WebUSB console
   is unreachable from them ([hardening](../hardening/README.md)). Unsandboxed software is trusted;
   if it is malicious, the PC is compromised regardless.
@@ -24,6 +27,7 @@ Management and use happen on different devices.
 | sudo, polkit | [canokey.nix](../modules/nixos/desktop/canokey.nix), registrations in [vars](../vars/default.nix) `canokeyU2fKeys`     | password                                                         |
 | sudo via SSH | [ssh-agent-sudo.nix](../modules/nixos/server/ssh-agent-sudo.nix), keys in [vars](../vars/default.nix) `canokeySshKeys` | password                                                         |
 | SSH          | [ssh.nix](../home/base/tui/ssh.nix), public keys in [vars](../vars/default.nix) `mainSshAuthorizedKeys`                | the other CanoKey; root also accepts the `romantic` recovery key |
+| Git signing  | [git-signing.nix](../home/base/gui/git-signing.nix)                                                                    | the other CanoKey; `git commit --no-gpg-sign`                    |
 | shoukei LUKS | [hardware-configuration.nix](../hosts/12kingdoms-shoukei/hardware-configuration.nix) `crypttabExtraOpts`               | passphrase (prompted after 10 s)                                 |
 | pass / GPG   | [gpg](../home/base/tui/gpg/default.nix) `scdaemonSettings.disable-ccid`                                                | the age-encrypted key backup                                     |
 
@@ -43,37 +47,38 @@ Who decides differs by application:
 Touch is enforced only over USB; over NFC nothing asks for one (section 1.2). Once section 2 is
 done:
 
-| Operation                                | PIN                                                            | Touch                | Decided by                                                                    |
-| ---------------------------------------- | -------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------- |
-| WebAuthn in browsers                     | FIDO2 PIN, unless the site discourages user verification       | every operation      | request: the site's `userVerification`; "preferred" asks for the PIN once set |
-| sudo, polkit (pam-u2f)                   | none                                                           | every prompt         | request: registration `+presence`, no `pinverification`                       |
-| sudo on a server (pam_rssh)              | none                                                           | every sudo           | request: same as SSH                                                          |
-| SSH login, git over SSH                  | none; FIDO2 PIN only for `ssh-keygen` creation and `-K` export | every new connection | request: key created without `-O verify-required`; details in [SSH](#ssh)     |
-| shoukei LUKS                             | FIDO2 PIN                                                      | every boot           | request: `systemd-cryptenroll` default                                        |
-| OpenPGP decrypt (pass, browserpass)      | OpenPGP PIN, once per plug-in                                  | every decryption     | key: DEC touch, cache time                                                    |
-| OpenPGP sign (`pass init`, `gpg --sign`) | OpenPGP PIN, **every signature**                               | every signature      | key: signature PIN, SIG touch, cache time                                     |
-| OpenPGP authenticate                     | OpenPGP PIN, once per plug-in                                  | every use            | key: AUT touch, cache time; unused, SSH uses the FIDO2 key                    |
+| Operation                           | PIN                                                            | Touch                | Decided by                                                                    |
+| ----------------------------------- | -------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------- |
+| WebAuthn in browsers                | FIDO2 PIN, unless the site discourages user verification       | every operation      | request: the site's `userVerification`; "preferred" asks for the PIN once set |
+| sudo, polkit (pam-u2f)              | none                                                           | every prompt         | request: registration `+presence`, no `pinverification`                       |
+| sudo on a server (pam_rssh)         | none                                                           | every sudo           | request: same as SSH                                                          |
+| SSH login, git over SSH             | none; FIDO2 PIN only for `ssh-keygen` creation and `-K` export | every new connection | request: key created without `-O verify-required`; details in [SSH](#ssh)     |
+| shoukei LUKS                        | FIDO2 PIN                                                      | every boot           | request: `systemd-cryptenroll` default                                        |
+| OpenPGP decrypt (pass, browserpass) | OpenPGP PIN, once per plug-in                                  | cached 30 s          | key: DEC touch, cache time                                                    |
+| OpenPGP sign (git commit, email)    | OpenPGP PIN, once per plug-in                                  | cached 30 s          | key: signature PIN, SIG touch, cache time                                     |
+| OpenPGP authenticate                | OpenPGP PIN, once per plug-in                                  | cached 30 s          | key: AUT touch, cache time; unused, SSH uses the FIDO2 key                    |
 
-Little here signs: git commit signing is off, and pass signs only `.gpg-id` on `pass init` (checking
-that signature uses the public key, not the card).
+The OpenPGP `[S]` subkey signs Git commits ([Commit signing](#commit-signing)), email and `.gpg-id`
+on `pass init` (checking that signature uses the public key, not the card).
 
 #### OpenPGP settings on the key
 
 Stored on the CanoKey, so they follow it to every machine and survive a gpg reinstall; an OpenPGP
 application reset returns them to the defaults.
 
-| Setting               | CanoKey default        | Set to | Effect                                                                                                                                | Change with                                                      |
-| --------------------- | ---------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| Signature PIN         | forced                 | forced | forced: PIN for every signature. Not forced: PIN for the first signature after plug-in                                                | `gpg --card-edit` → `admin` → `forcesig` (toggles)               |
-| Touch for SIG/DEC/AUT | off                    | on     | a touch for every operation with that key, unless cached                                                                              | `gpg --card-edit` → `admin` → `uif 1 on` (`2` DEC, `3` AUT)      |
-| Touch cache time      | 0 s (no cache)         | 0 s    | one value for all three keys, 0–255 s: after a touch, operations within that many seconds need none. 0: every operation needs a touch | phone app; gpg has no command for it                             |
-| PIN retries           | 3 (PIN, Admin PIN, RC) | 3      | see [1.1](#11-replace-every-default-secret-first)                                                                                     | firmware 3.1.0+ only (1–15), and it resets the PIN and Admin PIN |
-| PIN state             | —                      | —      | after one PIN entry, decrypt and authenticate need none until the key is unplugged                                                    | not configurable                                                 |
+| Setting               | CanoKey default        | Set to     | Effect                                                                                                                                | Change with                                                      |
+| --------------------- | ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Signature PIN         | forced                 | not forced | forced: PIN for every signature. Not forced: PIN for the first signature after plug-in                                                | phone app, or `gpg --card-edit` → `admin` → `forcesig` (toggles) |
+| Touch for SIG/DEC/AUT | off                    | on         | a touch for every operation with that key, unless cached                                                                              | `gpg --card-edit` → `admin` → `uif 1 on` (`2` DEC, `3` AUT)      |
+| Touch cache time      | 0 s (no cache)         | 30 s       | one value for all three keys, 0–255 s: after a touch, operations within that many seconds need none. 0: every operation needs a touch | phone app; gpg has no command for it                             |
+| PIN retries           | 3 (PIN, Admin PIN, RC) | 3          | see [1.1](#11-replace-every-default-secret-first)                                                                                     | firmware 3.1.0+ only (1–15), and it resets the PIN and Admin PIN |
+| PIN state             | —                      | —          | after one PIN entry, every operation needs none until the key is unplugged (signing only when the signature PIN is not forced)        | not configurable                                                 |
 
 - Use `uif N on`, never `permanent`: a permanent touch policy cannot be turned off again, only
   cleared by resetting the OpenPGP application.
-- A non-zero cache time lets anything holding the gpg-agent socket (browserpass included) decrypt
-  silently for that window after each touch; 0 keeps one touch per decryption.
+- The 30 s cache lets anything holding the gpg-agent socket (browserpass included) sign or decrypt
+  silently for 30 s after each touch. It buys one touch for a rebase or a burst of pass lookups; the
+  touch outside that window is what still stops silent use.
 - Check the key: `gpg --card-status` shows `Signature PIN` and `UIF setting`, but not the cache
   time.
 
@@ -235,9 +240,10 @@ How it works, and what the prompts mean:
 - **FIDO2 PIN:** asked only when creating the credential and when exporting it with `-K`, not for
   each login. Adding `-O verify-required` at creation would require the PIN for every login too.
 - **Touch:** required for every new connection, including each `git push`/`fetch`. Existing sessions
-  and reused connections need none: LAN hosts multiplex for 30 minutes (`ControlMaster` in
-  [ssh.nix](../home/base/tui/ssh.nix)). A deploy that opens one connection per host needs one touch
-  per host.
+  and reused connections need none: every host and GitHub multiplex for 30 s after the last session
+  closes, LAN hosts for 30 minutes (`ControlMaster` in [ssh.nix](../home/base/tui/ssh.nix)). Within
+  that window any process running as you can open a session over the master without a touch. A
+  deploy that opens one connection per host needs one touch per host.
 - **File passphrase:** leave it empty. Reading the file already takes your user session, and
   software running as you is trusted (see [Principle](#principle)); it could also capture the
   passphrase the next time you type it. A passphrase would cost one prompt per login, not per
@@ -277,18 +283,20 @@ its own GPG passphrase too: it stays protected in the tmpfs keyrings whenever a 
 and age's scrypt covers gpg's weaker S2K against offline guessing.
 [gpg_canokey.py](../scripts/gpg_canokey.py) does each step in throwaway keyrings on tmpfs.
 
-A new key replaces the old one outright: the old key decrypts the store once, during the switch, and
-is then retired.
+The key has no scheduled rotation: the subkeys cannot leave the cards, so a new key is made only
+when a card is lost or the key may be compromised. A new key replaces the old one outright: the old
+key decrypts the store once, during the switch, and is then retired.
 
 **Prepare.** Nothing changes for pass yet.
 
-1. Turn on signature and decryption touch on every CanoKey in the phone app; `card` refuses a key
-   without them. Decryption touch matters most: browserpass gives browsers the GPG agent socket, and
-   without touch a compromised browser could decrypt the whole store silently after the first PIN.
+1. On every CanoKey in the phone app, turn on signature and decryption touch, set the touch cache to
+   30 s and the signature PIN to not forced; `card` refuses a key without both touches. Decryption
+   touch matters most: browserpass gives browsers the GPG agent socket, and without touch a
+   compromised browser could decrypt the whole store silently after the first PIN.
 2. Create the key, with two backup drives mounted:
 
    ```bash
-   python3 scripts/gpg_canokey.py generate --uid '<name> (pass) <address>' \
+   python3 scripts/gpg_canokey.py generate --uid '<name> <address>' \
      --dest /run/media/$USER/<drive-1> --dest /run/media/$USER/<drive-2> \
      --public-key ~/codes/nix-secrets/public/<name>.pub
    ```
@@ -302,12 +310,14 @@ is then retired.
 
 3. Load each CanoKey, with only that key plugged in:
    `python3 scripts/gpg_canokey.py card --backup <drive>/gpg-<fingerprint>.tar.age`. It prints the
-   `gpg --edit-key` commands to type, then signs and decrypts once through the card. `keytocard` is
-   the only step that types the OpenPGP Admin PIN on a PC; change it again in the phone app
-   afterwards.
+   `gpg --edit-key` commands to type, then signs and decrypts once through the card. In the same
+   sitting, set the public key URL: `gpg --card-edit` → `admin` → `url` →
+   `https://github.com/ryan4yin.gpg`. These are the only steps that type the OpenPGP Admin PIN on a
+   PC; change it again in the phone app afterwards.
 4. Prepare, but do not deploy, the configuration change: add the public key to
    `programs.gpg.publicKeys` in [gpg](../home/base/tui/gpg/default.nix), set `PASSWORD_STORE_KEY` to
-   the `[E]` fingerprint and `PASSWORD_STORE_SIGNING_KEY` to the primary fingerprint (pass checks
+   the `[E]` fingerprint, and `PASSWORD_STORE_SIGNING_KEY` and `signing.key` in
+   [git-signing.nix](../home/base/gui/git-signing.nix) to the primary fingerprint (pass checks
    signatures only against full 40-digit fingerprints).
 
 **Switch**, in one sitting:
@@ -335,6 +345,54 @@ Until the old key is retired, rolling back is `git -C <store> reset --hard <comm
 
 To revoke the current key: `age --decrypt <backup> | tar -xOf - revocation.asc | gpg --import`, then
 publish the public key.
+
+#### Publish the public key
+
+The key also signs and encrypts email, so its public key is published. Published user IDs carry no
+comment: add one per mail address and revoke any that has one, with the primary key in a keyring on
+tmpfs (gpg asks for the GPG passphrase):
+
+```bash
+export GNUPGHOME=$(mktemp -d -p "$XDG_RUNTIME_DIR")
+age --decrypt <backup> | tar -xOf - secret.asc | gpg --import
+gpg --import ~/codes/nix-secrets/public/<public-key-file>   # user IDs added since the backup
+gpg --quick-add-uid <primary-fingerprint> '<name> <address>'
+gpg --quick-revoke-uid <primary-fingerprint> '<name> (<comment>) <address>'
+gpg --armor --export <primary-fingerprint> > ~/codes/nix-secrets/public/<public-key-file>
+gpgconf --kill all && rm -rf "$GNUPGHOME" && unset GNUPGHOME
+```
+
+The backups keep the original user IDs; the public key in nix-secrets is the copy that has the
+changes. Push nix-secrets, then run `just upp mysecrets` here. Then publish it:
+
+1. GitHub: `gh auth refresh -h github.com -s write:gpg_key`, then
+   `gh gpg-key add ~/codes/nix-secrets/public/<public-key-file>`.
+2. keys.openpgp.org: upload the file at <https://keys.openpgp.org/upload> and confirm every address
+   from its email. Until then it serves the key without user IDs, which gpg refuses to import.
+
+A card loaded before its URL was set gets one at its next `card`. A new key repeats these steps;
+remove the retired key from GitHub, since the card URL serves every key listed there. Commits it
+signed stay Verified: GitHub records verification at push time.
+
+#### Commit signing
+
+[git-signing.nix](../home/base/gui/git-signing.nix) signs every commit on the desktops with the
+`[S]` subkey, so either CanoKey signs; tags are signed only with `git tag -s`. A rebase or a burst
+of commits within 30 s takes one touch. Repositories under `~/work` are not signed: the key carries
+no work address. Servers have no card, so commits there stay unsigned.
+
+GitHub marks a commit Verified once the public key is on the account and has a user ID with the
+commit email, verified on the account.
+
+#### Android (OpenKeychain)
+
+OpenKeychain imports the public key and keeps stubs that send each operation to the CanoKey over NFC
+or USB, like the stubs in `~/.gnupg`:
+
+1. Manage my keys → Use Security Token, then hold the CanoKey to the phone or plug it in.
+2. OpenKeychain fetches the public key from the card's URL. Without one, choose to import the
+   exported public key file.
+3. Each operation asks for the OpenPGP PIN; over NFC no touch is needed (section 1.2).
 
 ## 3. Add a backup key
 
