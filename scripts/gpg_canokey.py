@@ -554,7 +554,7 @@ def build_parser() -> argparse.ArgumentParser:
         return command
 
     generate = add("generate", cmd_generate, "create the key and its backup")
-    generate.add_argument("--uid", required=True, help="such as 'Name (pass) <address>'")
+    generate.add_argument("--uid", required=True, help="such as 'Name <address>'")
     generate.add_argument(
         "--dest", action="append", required=True, help="directory for one backup copy; repeat it"
     )
