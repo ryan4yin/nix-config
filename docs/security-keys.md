@@ -235,9 +235,10 @@ How it works, and what the prompts mean:
 - **FIDO2 PIN:** asked only when creating the credential and when exporting it with `-K`, not for
   each login. Adding `-O verify-required` at creation would require the PIN for every login too.
 - **Touch:** required for every new connection, including each `git push`/`fetch`. Existing sessions
-  and reused connections need none: LAN hosts multiplex for 30 minutes (`ControlMaster` in
-  [ssh.nix](../home/base/tui/ssh.nix)). A deploy that opens one connection per host needs one touch
-  per host.
+  and reused connections need none: every host and GitHub multiplex for 30 s after the last session
+  closes, LAN hosts for 30 minutes (`ControlMaster` in [ssh.nix](../home/base/tui/ssh.nix)). Within
+  that window any process running as you can open a session over the master without a touch. A
+  deploy that opens one connection per host needs one touch per host.
 - **File passphrase:** leave it empty. Reading the file already takes your user session, and
   software running as you is trusted (see [Principle](#principle)); it could also capture the
   passphrase the next time you type it. A passphrase would cost one prompt per login, not per

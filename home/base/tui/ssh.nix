@@ -27,8 +27,8 @@ in
   home.file.".ssh/romantic.pub".source = "${mysecrets}/public/romantic.pub";
 
   # Each CanoKey holds a resident FIDO2 SSH key for GitHub and every host, its
-  # handle exported on each desktop to ~/.ssh/canokey-<name>; every use needs a
-  # touch, and ssh skips the handle of an unplugged key. Setup:
+  # handle exported on each desktop to ~/.ssh/canokey-<name>; every new
+  # connection needs a touch, and ssh skips the handle of an unplugged key. Setup:
   # docs/security-keys.md.
   programs.ssh = {
     enable = true;
@@ -53,9 +53,10 @@ in
         ServerAliveCountMax = 3;
         HashKnownHosts = false;
         UserKnownHostsFile = "~/.ssh/known_hosts";
-        ControlMaster = "no";
+        # A connection reused within 30 s needs no new touch.
+        ControlMaster = "auto";
         ControlPath = "~/.ssh/master-%r@%n:%p";
-        ControlPersist = "no";
+        ControlPersist = "30s";
       };
 
       "github.com" = {
