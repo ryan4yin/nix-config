@@ -286,9 +286,9 @@ Aquamarine joins a tailnet shared with friends so they can use llama-swap/Strata
 
 The shared firewall accepts everything on `tailscale0`, so what that tailnet reaches is decided by
 bind addresses: sockets on the LAN IPv4 (ASR, MagPie, the exporters) are unreachable from it, while
-wildcard sockets (SSH, LLMNR/mDNS) are reachable. llama-swap's Quadlet unit, which lives outside
-this repository, must therefore listen on `0.0.0.0:63081`. Friends cannot wake the host from idle
-suspend; Wake-on-LAN works only on the LAN.
+wildcard sockets (SSH, LLMNR/mDNS) are reachable. llama-swap's systemd user unit, which lives
+outside this repository, therefore listens on `0.0.0.0:63081`. Friends cannot wake the host from
+idle suspend; Wake-on-LAN works only on the LAN.
 
 ## Deploy
 
