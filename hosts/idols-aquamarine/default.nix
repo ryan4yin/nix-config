@@ -38,6 +38,7 @@ in
     # services
     ./asr
     ./idle-suspend.nix
+    ./tailscale.nix
   ];
 
   # A failed initrd drops to a root shell behind the root password (docs/SECURITY.md).

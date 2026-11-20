@@ -279,6 +279,17 @@ The builder's login user is `root`, which the daemon trusts by default, so this 
 host key, which is passphrase-free and root-readable; `hosts/idols-aquamarine/default.nix`
 authorizes those keys for root.
 
+## Friends' tailnet
+
+Aquamarine joins a tailnet shared with friends so they can use llama-swap/Strata. Log in once with
+`sudo tailscale login`; the node state stays in the persisted `/var/lib/tailscale`.
+
+The shared firewall accepts everything on `tailscale0`, so what that tailnet reaches is decided by
+bind addresses: sockets on the LAN IPv4 (ASR, MagPie, the exporters) are unreachable from it, while
+wildcard sockets (SSH, LLMNR/mDNS) are reachable. llama-swap's Quadlet unit, which lives outside
+this repository, must therefore listen on `0.0.0.0:63081`. Friends cannot wake the host from idle
+suspend; Wake-on-LAN works only on the LAN.
+
 ## Deploy
 
 ```bash
