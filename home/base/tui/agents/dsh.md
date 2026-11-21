@@ -16,7 +16,7 @@ profile patches remain machine-local runtime state, the place for private endpoi
 staging gateways) too. Nix installs plain `dsh` from `nur-ryan4yin`, with no package wrapper and no
 `--patch` overlay.
 
-Three behaviours that are easy to get wrong:
+Five behaviours that are easy to get wrong:
 
 - A patch row's `config` **replaces** the row's config object instead of deep-merging into it.
   Repeat every key you mean to keep; the shipped `agent-loop` row repeats `agents: []` for this
@@ -26,6 +26,17 @@ Three behaviours that are easy to get wrong:
   `contextWindow` and `maxTokens` instead.
 - `dsh-llm-pi-ai` registers its providers once, so mount only one instance: a second one fails with
   `provider "..." is already declared`.
+- A patch row matches its bundle row by `id` and must repeat that row's exact `name`. Pointing the
+  row at a local plugin file instead makes dsh skip the whole row with
+  `patch: name mismatch for "..."`, which silently drops everything the row configured: an
+  `llm-pi-ai` row lost this way takes every custom provider route out of the picker, leaving only
+  the `dsh-base` default model. To run a patched adapter, set `disabled: true` on the bundle row and
+  `insert` the replacement under a different id.
+- A provider route has no service-tier knob: `dsh-llm-pi-ai` through 0.2.2-rc.3 accepts no
+  `serviceTier` and offers no payload hook, even though the pi-ai it bundles sends `service_tier`.
+  Only a patched adapter can set it, and the `openai` / `openai-re` gateways then answer
+  `service_tier: priority` with `service_tier: default` while rejecting unknown values
+  (`Unsupported service_tier: flex`), so the tier is not something these routes can select.
 
 To see what your own patches actually change:
 
