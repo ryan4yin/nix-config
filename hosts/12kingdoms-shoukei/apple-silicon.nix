@@ -16,6 +16,9 @@
   # 16G machine: more compressed swap than the 50% default
   zramSwap.memoryPercent = 75;
 
+  # Laptop: do not depend on the LAN cache on youko.
+  modules.nix.lanCache.enable = false;
+
   nix.settings = {
     extra-substituters = [
       "https://nixos-apple-silicon.cachix.org"
