@@ -20,9 +20,6 @@ in
     agentPackages.codex
     opencode
     agentPackages.pi
-    # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
-    # (node-addon-require-builtin probe), this one shims it.
-    pkgs.dsh
 
     # Docs lookup CLI behind the find-docs skill (agents/skills/find-docs). The skill's flags are
     # written against this package, not against upstream's npx instructions.
@@ -30,5 +27,8 @@ in
 
     # MCP servers, configured project-scoped in opencode.jsonc / .codex/config.toml
     pkgs.mcp-grafana
-  ];
+  ]
+  # dsh from nur-packages: llm-agents.nix's dsh cannot boot on nixpkgs node
+  # (node-addon-require-builtin probe), this one shims it. macOS uses the desktop app.
+  ++ pkgs.lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.dsh;
 }
