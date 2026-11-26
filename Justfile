@@ -287,9 +287,14 @@ k3s-test mode="switch":
 # =================================================
 
 # Start the dsh web UI without opening a browser, proxied via mihomo's mixed port.
+# `just dsh-web lan` listens on this host's static IP from vars/networking.nix (plain HTTP).
 [group('agents')]
-dsh-web:
+dsh-web listen="local":
   #!/usr/bin/env nu
+  let host_args = if "{{listen}}" == "lan" {
+    let ip = (^nix eval --raw --impure --expr $"\(import ./vars/networking.nix { lib = \(builtins.getFlake \(toString ./.\)\).inputs.nixpkgs.lib; }\).hostsAddr.(hostname).ipv4")
+    [--host $ip]
+  } else { [] }
   # no_proxy keeps local endpoints out of the proxy; the proxy is here for fake-ip.
   # dsh's web fetch refuses a DNS answer it does not call public and fake-ip answers
   # with 198.18.0.0/15, so a proxied hop makes mihomo resolve the origin instead.
@@ -302,7 +307,7 @@ dsh-web:
     HTTP_PROXY: "http://127.0.0.1:7897"
     no_proxy: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.101,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
     NO_PROXY: "localhost,127.0.0.1,::1,[::1],192.168.5.100,192.168.5.101,192.168.5.178,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-  } { ^dsh --profile web --no-open }
+  } { ^dsh --profile web --no-open ...$host_args }
 
 # Render the mihomo config from this repo and validate it with the live core.
 [linux]
