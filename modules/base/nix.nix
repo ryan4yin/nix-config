@@ -1,10 +1,17 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }:
 {
-  nix.settings = {
+  options.modules.nix.lanCache.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "Prefer the LAN nix cache proxy on youko; disable on laptops that leave the home network.";
+  };
+
+  config.nix.settings = {
     # enable flakes globally
     experimental-features = [
       "nix-command"
@@ -24,26 +31,28 @@
     # which are then run as root at activation. Only add caches you fully trust.
     # The official https://cache.nixos.org is always trusted and is appended
     # automatically, so it does not need to be listed here.
-    substituters = [
-      # The LAN cache on youko first: one machine warms it over the WAN, then
-      # every other machine fetches the same paths over gigabit. A miss only
-      # costs one extra hop, since the cache fetches the path itself.
-      "https://nix-cache.writefor.fun/mirrors.ustc.edu.cn/nix-channels/store"
-      "https://nix-cache.writefor.fun/cache.nixos.org"
-      # numtide's cache (niks3), which serves the prebuilt packages of the
-      # numtide/llm-agents.nix flake input used for the AI agent CLIs.
-      "https://nix-cache.writefor.fun/cache.numtide.com"
-      # My own NUR cache, built by the ryan4yin/nur-packages CI. NUR's npm
-      # dep hashes assume no registry mirror, so take them from the cache.
-      "https://nix-cache.writefor.fun/ryan4yin.cachix.org"
-
-      # Direct fallbacks for when youko is down; every proxied cache above also
-      # exists in the clear, so losing the LAN cache costs speed, not builds.
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-      "https://cache.numtide.com"
-      "https://ryan4yin.cachix.org"
-    ];
+    substituters =
+      lib.optionals config.modules.nix.lanCache.enable [
+        # The LAN cache on youko first: one machine warms it over the WAN, then
+        # every other machine fetches the same paths over gigabit. A miss only
+        # costs one extra hop, since the cache fetches the path itself.
+        "https://nix-cache.writefor.fun/mirrors.ustc.edu.cn/nix-channels/store"
+        "https://nix-cache.writefor.fun/cache.nixos.org"
+        # numtide's cache (niks3), which serves the prebuilt packages of the
+        # numtide/llm-agents.nix flake input used for the AI agent CLIs.
+        "https://nix-cache.writefor.fun/cache.numtide.com"
+        # My own NUR cache, built by the ryan4yin/nur-packages CI. NUR's npm
+        # dep hashes assume no registry mirror, so take them from the cache.
+        "https://nix-cache.writefor.fun/ryan4yin.cachix.org"
+      ]
+      ++ [
+        # Direct fallbacks for when youko is down; every proxied cache above also
+        # exists in the clear, so losing the LAN cache costs speed, not builds.
+        "https://mirrors.ustc.edu.cn/nix-channels/store"
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+        "https://cache.numtide.com"
+        "https://ryan4yin.cachix.org"
+      ];
 
     # WARNING: every key here trusts *everything* that key signs. Add one only
     # for a cache you trust as much as the official one — a careless key hands
