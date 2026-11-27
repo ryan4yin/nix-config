@@ -287,14 +287,19 @@ k3s-test mode="switch":
 # =================================================
 
 # Start the dsh web UI without opening a browser, proxied via mihomo's mixed port.
-# `just dsh-web lan` listens on this host's static IP from vars/networking.nix (plain HTTP).
+# `just dsh-web lan` listens on this host's static IP from vars/networking.nix (plain HTTP);
+# `just dsh-web tailnet` listens on its Tailscale IPv4 address instead.
 [group('agents')]
 dsh-web listen="local":
   #!/usr/bin/env nu
-  let host_args = if "{{listen}}" == "lan" {
-    let ip = (^nix eval --raw --impure --expr $"\(import ./vars/networking.nix { lib = \(builtins.getFlake \(toString ./.\)\).inputs.nixpkgs.lib; }\).hostsAddr.(hostname).ipv4")
-    [--host $ip]
-  } else { [] }
+  let host_args = match "{{listen}}" {
+    "lan" => {
+      let ip = (^nix eval --raw --impure --expr $"\(import ./vars/networking.nix { lib = \(builtins.getFlake \(toString ./.\)\).inputs.nixpkgs.lib; }\).hostsAddr.(hostname).ipv4")
+      [--host $ip]
+    }
+    "tailnet" => [--host (^tailscale ip -4 | lines | first)]
+    _ => []
+  }
   # no_proxy keeps local endpoints out of the proxy; the proxy is here for fake-ip.
   # dsh's web fetch refuses a DNS answer it does not call public and fake-ip answers
   # with 198.18.0.0/15, so a proxied hop makes mihomo resolve the origin instead.
